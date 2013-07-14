@@ -5,6 +5,9 @@ import de.leanovate.jbj.exec.Context
 
 case class EchoStmt(parameters: List[Expr]) extends Stmt {
   override def exec(ctx: Context) {
-
+    parameters.foreach {
+      expr =>
+        expr.eval(ctx).toOutput(ctx.out)
+    }
   }
 }

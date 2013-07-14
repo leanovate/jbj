@@ -1,5 +1,14 @@
 package de.leanovate.jbj.ast.value
 
+import java.io.PrintStream
+
 case class FloatVal(value: Double) extends NumericVal {
+
+  def toOutput(out: PrintStream) {
+    out.print(value)
+  }
+
+  def toStr:StringVal = StringVal(value.toString)
+
   def toDouble: Double = value
 }

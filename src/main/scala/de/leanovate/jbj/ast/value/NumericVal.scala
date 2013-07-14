@@ -3,7 +3,7 @@ package de.leanovate.jbj.ast.value
 import de.leanovate.jbj.ast.Value
 
 trait NumericVal extends Value {
-  def toNumeric: NumericVal = this
+  def toNum: NumericVal = this
 
   def toDouble: Double
 }

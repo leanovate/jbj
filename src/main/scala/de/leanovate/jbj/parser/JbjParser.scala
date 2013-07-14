@@ -2,13 +2,16 @@ package de.leanovate.jbj.parser
 
 import scala.util.parsing.combinator.syntactical.StdTokenParsers
 import de.leanovate.jbj.ast._
-import de.leanovate.jbj.ast.expr.NegExpr
-import de.leanovate.jbj.ast.expr.MulExpr
-import de.leanovate.jbj.ast.expr.DivExpr
+import de.leanovate.jbj.ast.expr._
 import de.leanovate.jbj.ast.expr.AddExpr
+import de.leanovate.jbj.ast.expr.MulExpr
 import de.leanovate.jbj.ast.expr.SubExpr
-import de.leanovate.jbj.ast.stmt.{EchoStmt, InlineStmt}
+import scala.Some
+import de.leanovate.jbj.ast.stmt.InlineStmt
+import de.leanovate.jbj.ast.expr.NegExpr
 import de.leanovate.jbj.ast.value.IntegerVal
+import de.leanovate.jbj.ast.expr.DivExpr
+import de.leanovate.jbj.ast.stmt.EchoStmt
 
 object JbjParser extends StdTokenParsers {
   type Tokens = JbjTokens
@@ -18,7 +21,7 @@ object JbjParser extends StdTokenParsers {
   import lexical.{Inline, ScriptStart, ScriptStartEcho, ScriptEnd}
 
   lexical.reserved ++= List("echo")
-  lexical.delimiters ++= List("+", "-", "*", "/", "(", ")", ",", ":", "{", "}")
+  lexical.delimiters ++= List(".", "+", "-", "*", "/", "(", ")", ",", ":", ";", "{", "}")
 
   def value = numericLit ^^ (s => IntegerVal(s.toInt))
 
@@ -29,29 +32,30 @@ object JbjParser extends StdTokenParsers {
   def term = (value | parens | neg)
 
   def binaryOp(level: Int): Parser[((Expr, Expr) => Expr)] = {
-
     level match {
       case 1 =>
+        "." ^^^ {
+          (a: Expr, b: Expr) => DotExpr(a, b)
+        }
+      case 2 =>
         "+" ^^^ {
           (a: Expr, b: Expr) => AddExpr(a, b)
-        } |
-          "-" ^^^ {
-            (a: Expr, b: Expr) => SubExpr(a, b)
-          }
-      case 2 =>
+        } | "-" ^^^ {
+          (a: Expr, b: Expr) => SubExpr(a, b)
+        }
+      case 3 =>
         "*" ^^^ {
           (a: Expr, b: Expr) => MulExpr(a, b)
-        } |
-          "/" ^^^ {
-            (a: Expr, b: Expr) => DivExpr(a, b)
-          }
+        } | "/" ^^^ {
+          (a: Expr, b: Expr) => DivExpr(a, b)
+        }
       case _ => throw new RuntimeException("bad precedence level " + level)
     }
   }
 
   val minPrec = 1
 
-  val maxPrec = 2
+  val maxPrec = 3
 
   def binary(level: Int): Parser[Expr] =
     if (level > maxPrec) {
@@ -87,8 +91,8 @@ object JbjParser extends StdTokenParsers {
     elem("scriptEnd", _.isInstanceOf[ScriptEnd]) ^^ (_.chars)
 
   def script = (
-    scriptStart ~> stmt
-      | scriptStartEcho ~> params ^^ {
+    scriptStart ~> stmt <~ scriptEnd
+      | scriptStartEcho ~> params <~ scriptEnd ^^ {
       params => EchoStmt(params)
     }
     )
@@ -102,7 +106,6 @@ object JbjParser extends StdTokenParsers {
   }
 
   def apply(s: String): Node = {
-
     parse(s) match {
       case Success(tree, _) => tree
       case e: NoSuccess =>
@@ -112,7 +115,6 @@ object JbjParser extends StdTokenParsers {
 
   //Simplify testing
   def test(exprstr: String) = {
-
     parse(exprstr) match {
       case Success(tree, _) =>
         println("Tree: " + tree)
@@ -123,12 +125,12 @@ object JbjParser extends StdTokenParsers {
   //A main method for testing
   def main(args: Array[String]) = {
 
-    test("<?php echo 1+2")
-    test("<% echo 1+2*3")
-    test("<? echo 1*2+3")
-    test("<%= 1*2+3+4*5+6")
-    test("<?= 1*(2+3)")
-    test("<?php echo (1+2)*3")
+    test("<?php echo 1+2 ?>")
+    test("<% echo 1+2*3 %>")
+    test("<? echo 1*2+3 ?>")
+    test("<%= 1*2+3+4*5+6 ?>")
+    test("<?= 1*(2+3) ?>")
+    test("<?php echo (1+2)*3 ?>")
   }
 
 }

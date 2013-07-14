@@ -5,7 +5,7 @@ import de.leanovate.jbj.exec.Context
 import de.leanovate.jbj.ast.value.{FloatVal, NumericVal, IntegerVal}
 
 case class NegExpr(expr: Expr) extends Expr {
-  def eval(ctx: Context) = expr.eval(ctx).toNumeric match {
+  def eval(ctx: Context) = expr.eval(ctx).toNum match {
     case IntegerVal(value) => IntegerVal(-value)
     case NumericVal(value) => FloatVal(-value)
   }
