@@ -12,4 +12,8 @@ trait Value extends Expr {
   def toStr: StringVal
 
   def toNum: NumericVal
+
+  def isNull: Boolean
+
+  def isUndefined: Boolean
 }

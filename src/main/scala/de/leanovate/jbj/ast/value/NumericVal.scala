@@ -6,6 +6,10 @@ trait NumericVal extends Value {
   def toNum: NumericVal = this
 
   def toDouble: Double
+
+  def isNull = false
+
+  def isUndefined = false
 }
 
 object NumericVal {

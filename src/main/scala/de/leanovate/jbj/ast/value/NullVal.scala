@@ -10,4 +10,8 @@ object NullVal extends Value {
   def toStr = StringVal("")
 
   def toNum = IntegerVal(0)
+
+  def isNull = true
+
+  def isUndefined = false
 }

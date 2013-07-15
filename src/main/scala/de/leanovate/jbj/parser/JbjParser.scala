@@ -29,11 +29,15 @@ object JbjParser extends StdTokenParsers {
 
   def variableRef = variable ^^ (s => VariableExpr(s))
 
+  def functionCall: Parser[Expr] = ident ~ "(" ~ params <~ ")" ^^ {
+    case name ~ _ ~ params => CallExpr(name, params)
+  }
+
   def parens: Parser[Expr] = "(" ~> expr <~ ")"
 
   def neg: Parser[NegExpr] = "-" ~> term ^^ (term => NegExpr(term))
 
-  def term = (value | variableRef | parens | neg)
+  def term = (value | variableRef | functionCall | parens | neg)
 
   def binaryOp(level: Int): Parser[((Expr, Expr) => Expr)] = {
     level match {
@@ -154,7 +158,7 @@ object JbjParser extends StdTokenParsers {
     test("<%= 1*2+3+4*5+6 ?>")
     test("<?= 1*(2+3) ?>")
     test("<?php echo (1+2)*3 ?>")
-    test("<?php $a=2; echo $a ?>")
+    test( """<?php $a="2asasd"; echo strlen($a) ?>""")
   }
 
 }
