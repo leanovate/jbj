@@ -3,7 +3,7 @@ package de.leanovate.jbj.ast.value
 import de.leanovate.jbj.ast.Value
 import java.io.PrintStream
 
-object NullVal extends Value {
+object UndefinedVal extends Value {
   def toOutput(out: PrintStream) {
   }
 

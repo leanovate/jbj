@@ -1,7 +1,7 @@
 package de.leanovate.jbj.tests
 
 import java.io.{ByteArrayOutputStream, PrintStream}
-import de.leanovate.jbj.exec.Context
+import de.leanovate.jbj.exec.{GlobalContext, Context}
 import de.leanovate.jbj.parser.JbjParser
 import scala.util.Success
 
@@ -10,7 +10,7 @@ trait TestJbjExecutor {
     val prog = JbjParser(progStr)
     val bOut = new ByteArrayOutputStream()
     val out = new PrintStream(bOut, false, "UTF-8")
-    val context = new Context(out)
+    val context = GlobalContext(out)
 
     prog.exec(context)
 

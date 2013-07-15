@@ -1,7 +1,12 @@
 package de.leanovate.jbj.exec
 
 import java.io.PrintStream
+import de.leanovate.jbj.ast.Value
 
-case class Context(out: PrintStream) {
+trait Context {
+  def out: PrintStream
 
+  def getVariable(name: String): Value
+
+  def setVariable(name: String, value: Value)
 }

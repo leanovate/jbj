@@ -20,4 +20,9 @@ trait JbjTokens extends StdTokens {
     def chars = "?>"
   }
 
+  case class VarIdentifier(name: String) extends Token {
+    def chars = "$" + name
+
+    override def toString = "variable identifier " + name
+  }
 }

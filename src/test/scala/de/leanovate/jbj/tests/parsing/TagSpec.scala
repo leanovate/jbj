@@ -8,7 +8,7 @@ import org.scalatest.matchers.MustMatchers
 
 @RunWith(classOf[JUnitRunner])
 class TagSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Script Tags:" - {
+  "Script Tag" - {
     "<?php" in {
       resultOf(
         """Start <div><?php echo "Hello World"?></div> End"""

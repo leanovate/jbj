@@ -7,9 +7,10 @@ import scala.util.parsing.input.{CharArrayReader, Reader}
 
 class JbjLexer extends StdLexical with JbjTokens {
   override def token: Parser[Token] =
-    ('?' ~ '>' ^^^ (ScriptEnd())
-      | '%' ~ '>' ^^^ (ScriptEnd())
-      | '<' ~ '/' ~ 's' ~ 'c' ~ 'r' ~ 'i' ~ 'p' ~ 't' ~ '>' ^^^ (ScriptEnd())
+    ('?' ~ '>' ^^^ ScriptEnd()
+      | '%' ~ '>' ^^^ ScriptEnd()
+      | '<' ~ '/' ~ 's' ~ 'c' ~ 'r' ~ 'i' ~ 'p' ~ 't' ~ '>' ^^^ ScriptEnd()
+      | '$' ~> identChar ~ rep( identChar | digit ) ^^ { case first ~ rest => VarIdentifier(first :: rest mkString "") }
       | super.token
       )
 
@@ -23,7 +24,7 @@ class JbjLexer extends StdLexical with JbjTokens {
       | '<' ^^^ Inline("<")
       | EofCh ^^^ EOF
       | rep(chrExcept(EofCh, '<')) ^^ {
-      chars => Inline(chars.mkString)
+      chars => Inline(chars mkString "")
     })
 
   def inlineScriptStart = inlineScript ~ inlineOptWhitespace ~ inlineLanguage ~ inlineOptWhitespace ~ '=' ~

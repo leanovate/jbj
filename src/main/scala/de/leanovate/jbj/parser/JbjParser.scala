@@ -7,32 +7,33 @@ import de.leanovate.jbj.ast.expr.AddExpr
 import de.leanovate.jbj.ast.expr.MulExpr
 import de.leanovate.jbj.ast.expr.SubExpr
 import scala.Some
-import de.leanovate.jbj.ast.stmt.InlineStmt
+import de.leanovate.jbj.ast.stmt.{AssignStmt, InlineStmt, EchoStmt}
 import de.leanovate.jbj.ast.expr.NegExpr
 import de.leanovate.jbj.ast.value.{StringVal, IntegerVal}
 import de.leanovate.jbj.ast.expr.DivExpr
-import de.leanovate.jbj.ast.stmt.EchoStmt
-import de.leanovate.jbj.exec.Context
+import de.leanovate.jbj.exec.{GlobalContext, Context}
 
 object JbjParser extends StdTokenParsers {
   type Tokens = JbjTokens
 
   val lexical = new JbjLexer
 
-  import lexical.{Inline, ScriptStart, ScriptStartEcho, ScriptEnd}
+  import lexical.{Inline, ScriptStart, ScriptStartEcho, ScriptEnd, VarIdentifier}
 
   lexical.reserved ++= List("echo")
-  lexical.delimiters ++= List(".", "+", "-", "*", "/", "(", ")", ",", ":", ";", "{", "}")
+  lexical.delimiters ++= List(".", "+", "-", "*", "/", "(", ")", ",", ":", ";", "{", "}", "=")
 
   def value =
     (numericLit ^^ (s => IntegerVal(s.toInt))
       | stringLit ^^ (s => StringVal(s)))
 
+  def variableRef = variable ^^ (s => VariableExpr(s))
+
   def parens: Parser[Expr] = "(" ~> expr <~ ")"
 
   def neg: Parser[NegExpr] = "-" ~> term ^^ (term => NegExpr(term))
 
-  def term = (value | parens | neg)
+  def term = (value | variableRef | parens | neg)
 
   def binaryOp(level: Int): Parser[((Expr, Expr) => Expr)] = {
     level match {
@@ -76,26 +77,14 @@ object JbjParser extends StdTokenParsers {
   }
 
   def stmt =
-    "echo" ~> params ^^ (parms => EchoStmt(parms))
+    variable ~ "=" ~ expr ^^ {
+      case variable ~ _ ~ expr => AssignStmt(variable, expr)
+    } | "echo" ~> params ^^ (parms => EchoStmt(parms))
 
   def stmts = stmt ~ opt(rep(";" ~> stmt)) ^^ {
     case stmt ~ None => stmt :: Nil
     case stmt ~ Some(stmts) => stmt :: stmts
   }
-
-  def inline: Parser[InlineStmt] =
-    elem("inline", _.isInstanceOf[Inline]) ^^ {
-      t => InlineStmt(t.chars)
-    }
-
-  def scriptStart: Parser[String] =
-    elem("scriptStart", _.isInstanceOf[ScriptStart]) ^^ (_.chars)
-
-  def scriptStartEcho: Parser[String] =
-    elem("scriptStartEcho", _.isInstanceOf[ScriptStartEcho]) ^^ (_.chars)
-
-  def scriptEnd: Parser[String] =
-    elem("scriptEnd", _.isInstanceOf[ScriptEnd]) ^^ (_.chars)
 
   def script =
     scriptStart ~> stmts <~ scriptEnd |
@@ -112,6 +101,24 @@ object JbjParser extends StdTokenParsers {
     case None => Prog(List())
     case Some(stmts) => Prog(stmts.flatten)
   }
+
+
+  def inline: Parser[InlineStmt] =
+    elem("inline", _.isInstanceOf[Inline]) ^^ {
+      t => InlineStmt(t.chars)
+    }
+
+  def scriptStart: Parser[String] =
+    elem("scriptStart", _.isInstanceOf[ScriptStart]) ^^ (_.chars)
+
+  def scriptStartEcho: Parser[String] =
+    elem("scriptStartEcho", _.isInstanceOf[ScriptStartEcho]) ^^ (_.chars)
+
+  def scriptEnd: Parser[String] =
+    elem("scriptEnd", _.isInstanceOf[ScriptEnd]) ^^ (_.chars)
+
+  def variable: Parser[String] =
+    elem("variable", _.isInstanceOf[VarIdentifier]) ^^ (_.asInstanceOf[VarIdentifier].name)
 
   def parse(s: String): ParseResult[Prog] = {
     val tokens = new lexical.InitialScanner(s)
@@ -131,7 +138,7 @@ object JbjParser extends StdTokenParsers {
     parse(exprstr) match {
       case Success(tree, _) =>
         println("Tree: " + tree)
-        val context = new Context(System.out)
+        val context = GlobalContext(System.out)
         tree.exec(context)
       case e: NoSuccess => Console.err.println(e)
     }
@@ -147,6 +154,7 @@ object JbjParser extends StdTokenParsers {
     test("<%= 1*2+3+4*5+6 ?>")
     test("<?= 1*(2+3) ?>")
     test("<?php echo (1+2)*3 ?>")
+    test("<?php $a=2; echo $a ?>")
   }
 
 }
