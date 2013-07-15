@@ -9,6 +9,7 @@ class JbjLexer extends StdLexical with JbjTokens {
   override def token: Parser[Token] =
     ('?' ~ '>' ^^^ (ScriptEnd())
       | '%' ~ '>' ^^^ (ScriptEnd())
+      | '<' ~ '/' ~ 's' ~ 'c' ~ 'r' ~ 'i' ~ 'p' ~ 't' ~ '>' ^^^ (ScriptEnd())
       | super.token
       )
 

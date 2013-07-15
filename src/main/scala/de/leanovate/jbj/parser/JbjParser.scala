@@ -9,7 +9,7 @@ import de.leanovate.jbj.ast.expr.SubExpr
 import scala.Some
 import de.leanovate.jbj.ast.stmt.InlineStmt
 import de.leanovate.jbj.ast.expr.NegExpr
-import de.leanovate.jbj.ast.value.IntegerVal
+import de.leanovate.jbj.ast.value.{StringVal, IntegerVal}
 import de.leanovate.jbj.ast.expr.DivExpr
 import de.leanovate.jbj.ast.stmt.EchoStmt
 import de.leanovate.jbj.exec.Context
@@ -24,7 +24,9 @@ object JbjParser extends StdTokenParsers {
   lexical.reserved ++= List("echo")
   lexical.delimiters ++= List(".", "+", "-", "*", "/", "(", ")", ",", ":", ";", "{", "}")
 
-  def value = numericLit ^^ (s => IntegerVal(s.toInt))
+  def value =
+    (numericLit ^^ (s => IntegerVal(s.toInt))
+      | stringLit ^^ (s => StringVal(s)))
 
   def parens: Parser[Expr] = "(" ~> expr <~ ")"
 
@@ -116,11 +118,11 @@ object JbjParser extends StdTokenParsers {
     phrase(prog)(tokens)
   }
 
-  def apply(s: String): Node = {
+  def apply(s: String): Prog = {
     parse(s) match {
       case Success(tree, _) => tree
       case e: NoSuccess =>
-        throw new IllegalArgumentException("Bad syntax: " + s)
+        throw new IllegalArgumentException("Bad syntax: " + e)
     }
   }
 
@@ -138,6 +140,7 @@ object JbjParser extends StdTokenParsers {
   //A main method for testing
   def main(args: Array[String]) = {
 
+    test( """<?php echo "hurra" ?>""")
     test("Hurra <?php echo 1+2 ?>")
     test("<% echo 1+2*3 %>")
     test("<? echo 1*2+3 ?>")
