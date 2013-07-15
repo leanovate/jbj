@@ -13,17 +13,18 @@ case class FunctionContext(callerCtx: Context) extends Context {
 
   def getVariable(name: String) = localVariables.getOrElse(name, parentCtx.getVariable(name))
 
-  def setVariable(name: String, value: Value) {
+  def setVariable(name: String, value: Value, static: Boolean) {
     if (parentCtx.getVariable(name).isUndefined)
       localVariables.put(name, value)
     else
-      parentCtx.setVariable(name, value)
+      parentCtx.setVariable(name, value, static)
   }
 
   def findFunction(name: String) = parentCtx.findFunction(name)
 
   @tailrec
-  private def findNoFunctionParent(ctx: Context): Context =
-    if (ctx.isInstanceOf[FunctionContext]) findNoFunctionParent(ctx.asInstanceOf[FunctionContext].callerCtx) else ctx
-
+  private def findNoFunctionParent(ctx: Context): Context = ctx match {
+    case funcCtx: FunctionContext => findNoFunctionParent(funcCtx.callerCtx)
+    case nonFuncCtx => nonFuncCtx
+  }
 }

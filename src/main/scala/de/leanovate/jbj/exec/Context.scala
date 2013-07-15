@@ -8,7 +8,7 @@ trait Context {
 
   def getVariable(name: String): Value
 
-  def setVariable(name: String, value: Value)
+  def setVariable(name: String, value: Value, static: Boolean)
 
   def findFunction(name: String): Option[Function]
 }

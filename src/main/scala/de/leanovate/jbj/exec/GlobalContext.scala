@@ -11,7 +11,7 @@ case class GlobalContext(out: PrintStream) extends Context {
 
   def getVariable(name: String) = variables.getOrElse(name, UndefinedVal)
 
-  def setVariable(name: String, value: Value) {
+  def setVariable(name: String, value: Value, static: Boolean) {
     variables.put(name, value)
   }
 

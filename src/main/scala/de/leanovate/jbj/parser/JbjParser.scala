@@ -7,7 +7,7 @@ import de.leanovate.jbj.ast.expr.AddExpr
 import de.leanovate.jbj.ast.expr.MulExpr
 import de.leanovate.jbj.ast.expr.SubExpr
 import scala.Some
-import de.leanovate.jbj.ast.stmt.{AssignStmt, InlineStmt, EchoStmt}
+import de.leanovate.jbj.ast.stmt.{ReturnStmt, AssignStmt, InlineStmt, EchoStmt}
 import de.leanovate.jbj.ast.expr.NegExpr
 import de.leanovate.jbj.ast.value.{StringVal, IntegerVal}
 import de.leanovate.jbj.ast.expr.DivExpr
@@ -20,7 +20,7 @@ object JbjParser extends StdTokenParsers {
 
   import lexical.{Inline, ScriptStart, ScriptStartEcho, ScriptEnd, VarIdentifier}
 
-  lexical.reserved ++= List("echo")
+  lexical.reserved ++= List("echo", "static", "return")
   lexical.delimiters ++= List(".", "+", "-", "*", "/", "(", ")", ",", ":", ";", "{", "}", "=")
 
   def value =
@@ -81,9 +81,13 @@ object JbjParser extends StdTokenParsers {
   }
 
   def stmt =
-    variable ~ "=" ~ expr ^^ {
-      case variable ~ _ ~ expr => AssignStmt(variable, expr)
-    } | "echo" ~> params ^^ (parms => EchoStmt(parms))
+    opt("static") ~ variable ~ "=" ~ expr ^^ {
+      case static ~ variable ~ _ ~ expr => AssignStmt(variable, expr, static = static.isDefined)
+    } | "echo" ~> params ^^ {
+      parms => EchoStmt(parms)
+    } | "return" ~> expr ^^ {
+      expr => ReturnStmt(expr)
+    }
 
   def stmts = stmt ~ opt(rep(";" ~> stmt)) ^^ {
     case stmt ~ None => stmt :: Nil
