@@ -12,6 +12,7 @@ import de.leanovate.jbj.ast.expr.NegExpr
 import de.leanovate.jbj.ast.value.IntegerVal
 import de.leanovate.jbj.ast.expr.DivExpr
 import de.leanovate.jbj.ast.stmt.EchoStmt
+import de.leanovate.jbj.exec.Context
 
 object JbjParser extends StdTokenParsers {
   type Tokens = JbjTokens
@@ -65,16 +66,20 @@ object JbjParser extends StdTokenParsers {
       binary(level + 1) * binaryOp(level)
     }
 
-  def expr = (binary(minPrec) | term)
+  def expr = binary(minPrec) | term
 
   def params = expr ~ opt(rep("," ~> expr)) ^^ {
     case expr ~ None => expr :: Nil
     case expr ~ Some(exprs) => expr :: exprs
   }
 
-  def stmt = (
+  def stmt =
     "echo" ~> params ^^ (parms => EchoStmt(parms))
-    )
+
+  def stmts = stmt ~ opt(rep(";" ~> stmt)) ^^ {
+    case stmt ~ None => stmt :: Nil
+    case stmt ~ Some(stmts) => stmt :: stmts
+  }
 
   def inline: Parser[InlineStmt] =
     elem("inline", _.isInstanceOf[Inline]) ^^ {
@@ -90,17 +95,23 @@ object JbjParser extends StdTokenParsers {
   def scriptEnd: Parser[String] =
     elem("scriptEnd", _.isInstanceOf[ScriptEnd]) ^^ (_.chars)
 
-  def script = (
-    scriptStart ~> stmt <~ scriptEnd
-      | scriptStartEcho ~> params <~ scriptEnd ^^ {
-      params => EchoStmt(params)
-    }
-    )
+  def script =
+    scriptStart ~> stmts <~ scriptEnd |
+      scriptStartEcho ~> params ~ opt(rep(";" ~> stmt)) <~ scriptEnd ^^ {
+        case params ~ None => EchoStmt(params) :: Nil
+        case params ~ Some(stmts) => EchoStmt(params) :: stmts
+      }
 
-  def prog = opt(rep(inline)) ~> script
+  def inlineOrScript = inline ^^ {
+    inline => List(inline)
+  } | script
 
-  def parse(s: String): ParseResult[Node] = {
+  def prog = opt(rep(inlineOrScript)) ^^ {
+    case None => Prog(List())
+    case Some(stmts) => Prog(stmts.flatten)
+  }
 
+  def parse(s: String): ParseResult[Prog] = {
     val tokens = new lexical.InitialScanner(s)
     phrase(prog)(tokens)
   }
@@ -118,6 +129,8 @@ object JbjParser extends StdTokenParsers {
     parse(exprstr) match {
       case Success(tree, _) =>
         println("Tree: " + tree)
+        val context = new Context(System.out)
+        tree.exec(context)
       case e: NoSuccess => Console.err.println(e)
     }
   }
@@ -125,7 +138,7 @@ object JbjParser extends StdTokenParsers {
   //A main method for testing
   def main(args: Array[String]) = {
 
-    test("<?php echo 1+2 ?>")
+    test("Hurra <?php echo 1+2 ?>")
     test("<% echo 1+2*3 %>")
     test("<? echo 1*2+3 ?>")
     test("<%= 1*2+3+4*5+6 ?>")
