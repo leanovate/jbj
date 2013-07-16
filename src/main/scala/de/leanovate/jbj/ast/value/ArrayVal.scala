@@ -15,9 +15,15 @@ case class ArrayVal(keyValue: List[(Value, Value)]) extends Value {
     throw new FatalErrorException("Invalid conversion")
   }
 
+  def toBool = {
+    throw new FatalErrorException("Invalid conversion")
+  }
+
   def isNull = false
 
   def isUndefined = false
+
+  def isTrue = false
 
   def copy = ArrayVal(List(keyValue: _*))
 }

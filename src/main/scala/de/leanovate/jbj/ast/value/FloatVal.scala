@@ -8,7 +8,9 @@ case class FloatVal(value: Double) extends NumericVal {
     out.print(value)
   }
 
-  def toStr:StringVal = StringVal(value.toString)
+  def toStr: StringVal = StringVal(value.toString)
 
   def toDouble: Double = value
+
+  def toBool = BooleanVal(value != 0.0)
 }

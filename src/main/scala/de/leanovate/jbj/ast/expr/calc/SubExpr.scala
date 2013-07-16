@@ -1,4 +1,4 @@
-package de.leanovate.jbj.ast.expr
+package de.leanovate.jbj.ast.expr.calc
 
 import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.exec.Context

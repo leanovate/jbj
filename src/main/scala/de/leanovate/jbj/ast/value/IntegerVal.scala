@@ -10,4 +10,6 @@ case class IntegerVal(value: Int) extends NumericVal {
   def toStr: StringVal = StringVal(value.toString)
 
   def toDouble: Double = value
+
+  def toBool = BooleanVal(value != 0)
 }

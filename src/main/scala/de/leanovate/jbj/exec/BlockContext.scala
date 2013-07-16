@@ -5,7 +5,7 @@ import scala.collection.mutable
 import scala.annotation.tailrec
 import de.leanovate.jbj.ast.value.ValueRef
 
-case class BlockContext(functionName:String, callerCtx: Context) extends Context {
+case class BlockContext(identifier:String, callerCtx: Context) extends Context {
   val localVariables = mutable.Map.empty[String, ValueRef]
 
   val out = callerCtx.out

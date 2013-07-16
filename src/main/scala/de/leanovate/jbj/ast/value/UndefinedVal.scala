@@ -11,6 +11,8 @@ object UndefinedVal extends Value {
 
   def toNum = IntegerVal(0)
 
+  def toBool = BooleanVal(false)
+
   def isNull = false
 
   def isUndefined = true

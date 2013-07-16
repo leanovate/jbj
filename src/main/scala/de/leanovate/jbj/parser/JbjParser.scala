@@ -3,15 +3,53 @@ package de.leanovate.jbj.parser
 import scala.util.parsing.combinator.syntactical.StdTokenParsers
 import de.leanovate.jbj.ast._
 import de.leanovate.jbj.ast.expr._
-import de.leanovate.jbj.ast.expr.AddExpr
-import de.leanovate.jbj.ast.expr.MulExpr
-import de.leanovate.jbj.ast.expr.SubExpr
 import scala.Some
-import de.leanovate.jbj.ast.stmt.{ReturnStmt, AssignStmt, InlineStmt, EchoStmt}
+import de.leanovate.jbj.ast.stmt._
 import de.leanovate.jbj.ast.expr.NegExpr
 import de.leanovate.jbj.ast.value.{StringVal, IntegerVal}
-import de.leanovate.jbj.ast.expr.DivExpr
 import de.leanovate.jbj.exec.{GlobalContext, Context}
+import de.leanovate.jbj.ast.expr.calc.{SubExpr, MulExpr, DivExpr, AddExpr}
+import de.leanovate.jbj.ast.expr.comp._
+import de.leanovate.jbj.ast.expr.VariableExpr
+import de.leanovate.jbj.ast.expr.calc.AddExpr
+import de.leanovate.jbj.ast.expr.calc.MulExpr
+import de.leanovate.jbj.ast.expr.calc.SubExpr
+import de.leanovate.jbj.ast.expr.comp.LeExpr
+import scala.Some
+import de.leanovate.jbj.ast.value.StringVal
+import de.leanovate.jbj.exec.GlobalContext
+import de.leanovate.jbj.ast.expr.comp.LtExpr
+import de.leanovate.jbj.ast.expr.comp.GeExpr
+import de.leanovate.jbj.ast.Prog
+import de.leanovate.jbj.ast.expr.NegExpr
+import de.leanovate.jbj.ast.value.IntegerVal
+import de.leanovate.jbj.ast.expr.DotExpr
+import de.leanovate.jbj.ast.expr.CallExpr
+import de.leanovate.jbj.ast.expr.comp.GtExpr
+import de.leanovate.jbj.ast.expr.calc.DivExpr
+import de.leanovate.jbj.ast.expr.VariableExpr
+import de.leanovate.jbj.ast.expr.calc.AddExpr
+import de.leanovate.jbj.ast.expr.calc.MulExpr
+import de.leanovate.jbj.ast.stmt.AssignStmt
+import de.leanovate.jbj.ast.stmt.ReturnStmt
+import de.leanovate.jbj.ast.expr.calc.SubExpr
+import de.leanovate.jbj.ast.expr.comp.LeExpr
+import scala.Some
+import de.leanovate.jbj.ast.value.StringVal
+import de.leanovate.jbj.exec.GlobalContext
+import de.leanovate.jbj.ast.expr.comp.EqExpr
+import de.leanovate.jbj.ast.expr.comp.LtExpr
+import de.leanovate.jbj.ast.expr.comp.GeExpr
+import de.leanovate.jbj.ast.stmt.InlineStmt
+import de.leanovate.jbj.ast.Prog
+import de.leanovate.jbj.ast.expr.NegExpr
+import de.leanovate.jbj.ast.value.IntegerVal
+import de.leanovate.jbj.ast.expr.DotExpr
+import de.leanovate.jbj.ast.expr.CallExpr
+import de.leanovate.jbj.ast.expr.comp.GtExpr
+import de.leanovate.jbj.ast.expr.calc.DivExpr
+import de.leanovate.jbj.ast.stmt.EchoStmt
+import de.leanovate.jbj.ast.stmt.cond.IfStmt
 
 object JbjParser extends StdTokenParsers {
   type Tokens = JbjTokens
@@ -20,8 +58,8 @@ object JbjParser extends StdTokenParsers {
 
   import lexical.{Inline, ScriptStart, ScriptStartEcho, ScriptEnd, VarIdentifier}
 
-  lexical.reserved ++= List("echo", "static", "return")
-  lexical.delimiters ++= List(".", "+", "-", "*", "/", "(", ")", ",", ":", ";", "{", "}", "=")
+  lexical.reserved ++= List("echo", "static", "return", "if", "while", "for")
+  lexical.delimiters ++= List(".", "+", "-", "*", "/", "(", ")", ",", ":", ";", "{", "}", "=", ">", ">=", "<", "<=", "==")
 
   def value =
     (numericLit ^^ (s => IntegerVal(s.toInt))
@@ -42,16 +80,28 @@ object JbjParser extends StdTokenParsers {
   def binaryOp(level: Int): Parser[((Expr, Expr) => Expr)] = {
     level match {
       case 1 =>
+        ">" ^^^ {
+          (a: Expr, b: Expr) => GtExpr(a, b)
+        } | ">=" ^^^ {
+          (a: Expr, b: Expr) => GeExpr(a, b)
+        } | "<" ^^^ {
+          (a: Expr, b: Expr) => LtExpr(a, b)
+        } | "<=" ^^^ {
+          (a: Expr, b: Expr) => LeExpr(a, b)
+        } | "==" ^^^ {
+          (a: Expr, b: Expr) => EqExpr(a, b)
+        }
+      case 2 =>
         "." ^^^ {
           (a: Expr, b: Expr) => DotExpr(a, b)
         }
-      case 2 =>
+      case 3 =>
         "+" ^^^ {
           (a: Expr, b: Expr) => AddExpr(a, b)
         } | "-" ^^^ {
           (a: Expr, b: Expr) => SubExpr(a, b)
         }
-      case 3 =>
+      case 4 =>
         "*" ^^^ {
           (a: Expr, b: Expr) => MulExpr(a, b)
         } | "/" ^^^ {
@@ -63,7 +113,7 @@ object JbjParser extends StdTokenParsers {
 
   val minPrec = 1
 
-  val maxPrec = 3
+  val maxPrec = 4
 
   def binary(level: Int): Parser[Expr] =
     if (level > maxPrec) {
@@ -73,25 +123,37 @@ object JbjParser extends StdTokenParsers {
       binary(level + 1) * binaryOp(level)
     }
 
-  def expr = binary(minPrec) | term
+  def expr: Parser[Expr] = binary(minPrec) | term
 
-  def params = expr ~ opt(rep("," ~> expr)) ^^ {
+  def params: Parser[List[Expr]] = expr ~ opt(rep("," ~> expr)) ^^ {
     case expr ~ None => expr :: Nil
     case expr ~ Some(exprs) => expr :: exprs
   }
 
-  def stmt =
+  def stmt: Parser[Stmt] =
     opt("static") ~ variable ~ "=" ~ expr ^^ {
       case static ~ variable ~ _ ~ expr => AssignStmt(variable, expr, static = static.isDefined)
     } | "echo" ~> params ^^ {
       parms => EchoStmt(parms)
     } | "return" ~> expr ^^ {
       expr => ReturnStmt(expr)
+    } | ifStmt
+
+  def stmts: Parser[List[Stmt]] = stmt ~ rep(";" ~> opt(stmt)) ^^ {
+    case stmt ~ stmts => stmt :: stmts.flatten
+  }
+
+  def stmtsOrInline: Parser[List[Stmt]] = stmts |
+    scriptEnd ~> opt(rep(inline)) <~ scriptStart ^^ {
+      inline => inline.getOrElse(Nil)
     }
 
-  def stmts = stmt ~ opt(rep(";" ~> stmt)) ^^ {
-    case stmt ~ None => stmt :: Nil
-    case stmt ~ Some(stmts) => stmt :: stmts
+  def block: Parser[BlockStmt] = "{" ~> opt(rep(stmtsOrInline)) <~ "}" ^^ {
+    stmts => BlockStmt(stmts.map(_.flatten).getOrElse(Nil))
+  }
+
+  def ifStmt: Parser[IfStmt] = "if" ~> "(" ~> expr ~ ")" ~ block ^^ {
+    case expr ~ _ ~ block => IfStmt(expr, block)
   }
 
   def script =
@@ -101,11 +163,11 @@ object JbjParser extends StdTokenParsers {
         case params ~ Some(stmts) => EchoStmt(params) :: stmts
       }
 
-  def inlineOrScript = inline ^^ {
+  def inlineOrScript: Parser[List[Stmt]] = inline ^^ {
     inline => List(inline)
   } | script
 
-  def prog = opt(rep(inlineOrScript)) ^^ {
+  def prog: Parser[Prog] = opt(rep(inlineOrScript)) ^^ {
     case None => Prog(List())
     case Some(stmts) => Prog(stmts.flatten)
   }
@@ -155,14 +217,8 @@ object JbjParser extends StdTokenParsers {
   //A main method for testing
   def main(args: Array[String]) = {
 
-    test( """<?php echo "hurra" ?>""")
-    test("Hurra <?php echo 1+2 ?>")
-    test("<% echo 1+2*3 %>")
-    test("<? echo 1*2+3 ?>")
-    test("<%= 1*2+3+4*5+6 ?>")
-    test("<?= 1*(2+3) ?>")
-    test("<?php echo (1+2)*3 ?>")
-    test( """<?php $a="2asasd"; echo strlen($a) ?>""")
+    test( """<?php if (1 > 2) { echo "hurra" } ?>""")
+    test("Hurra <?php echo 1>2 ?>")
   }
 
 }

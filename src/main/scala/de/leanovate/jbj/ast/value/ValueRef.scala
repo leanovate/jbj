@@ -15,7 +15,9 @@ class ValueRef(private var current: Option[Value] = None) extends Value {
 
   def toNum = current.map(_.toNum).getOrElse(IntegerVal(0))
 
-  def isNull = current.map(_.isNull).getOrElse(false)
+  def toBool = current.map(_.toBool).getOrElse(BooleanVal(false))
+
+  def isNull = current.exists(_.isNull)
 
   def isUndefined = !current.isDefined
 

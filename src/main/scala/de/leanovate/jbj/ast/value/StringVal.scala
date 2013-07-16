@@ -12,6 +12,8 @@ case class StringVal(value: String) extends Value {
 
   def toNum: NumericVal = if (value.contains(".")) FloatVal(value.toDouble) else IntegerVal(value.toInt)
 
+  def toBool: BooleanVal = BooleanVal(!value.isEmpty)
+
   def isNull = false
 
   def isUndefined = false
