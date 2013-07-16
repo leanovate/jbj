@@ -15,4 +15,6 @@ case class StringVal(value: String) extends Value {
   def isNull = false
 
   def isUndefined = false
+
+  def copy = this
 }

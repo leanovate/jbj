@@ -10,6 +10,8 @@ trait NumericVal extends Value {
   def isNull = false
 
   def isUndefined = false
+
+  def copy = this
 }
 
 object NumericVal {

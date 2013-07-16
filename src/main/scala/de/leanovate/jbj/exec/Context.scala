@@ -2,13 +2,14 @@ package de.leanovate.jbj.exec
 
 import java.io.PrintStream
 import de.leanovate.jbj.ast.{Value, Function}
+import de.leanovate.jbj.ast.value.ValueRef
 
 trait Context {
   def out: PrintStream
 
-  def getVariable(name: String): Value
+  def findVariable(name: String): Option[ValueRef]
 
-  def setVariable(name: String, value: Value, static: Boolean)
+  def defineVariable(name: String, static: Boolean, value: Value)
 
   def findFunction(name: String): Option[Function]
 }

@@ -18,4 +18,6 @@ case class ArrayVal(keyValue: List[(Value, Value)]) extends Value {
   def isNull = false
 
   def isUndefined = false
+
+  def copy = ArrayVal(List(keyValue: _*))
 }

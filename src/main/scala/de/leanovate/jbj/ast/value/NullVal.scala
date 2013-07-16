@@ -14,4 +14,6 @@ object NullVal extends Value {
   def isNull = true
 
   def isUndefined = false
+
+  def copy = this
 }

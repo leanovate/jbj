@@ -16,4 +16,6 @@ trait Value extends Expr {
   def isNull: Boolean
 
   def isUndefined: Boolean
+
+  def copy:Value
 }
