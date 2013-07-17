@@ -4,47 +4,8 @@ import scala.util.parsing.combinator.syntactical.StdTokenParsers
 import de.leanovate.jbj.ast._
 import de.leanovate.jbj.ast.stmt._
 import de.leanovate.jbj.ast.expr._
-import de.leanovate.jbj.ast.expr.calc.AddExpr
-import de.leanovate.jbj.ast.expr.calc.MulExpr
-import de.leanovate.jbj.ast.stmt.AssignStmt
-import de.leanovate.jbj.ast.stmt.ReturnStmt
-import de.leanovate.jbj.ast.expr.calc.SubExpr
-import de.leanovate.jbj.ast.expr.comp.LeExpr
-import scala.Some
-import de.leanovate.jbj.ast.value.StringVal
-import de.leanovate.jbj.exec.GlobalContext
-import de.leanovate.jbj.ast.expr.comp.EqExpr
-import de.leanovate.jbj.ast.expr.comp.LtExpr
-import de.leanovate.jbj.ast.expr.comp.GeExpr
-import de.leanovate.jbj.ast.stmt.InlineStmt
-import de.leanovate.jbj.ast.Prog
-import de.leanovate.jbj.ast.value.IntegerVal
-import de.leanovate.jbj.ast.expr.comp.GtExpr
-import de.leanovate.jbj.ast.expr.calc.DivExpr
-import de.leanovate.jbj.ast.stmt.EchoStmt
 import de.leanovate.jbj.ast.stmt.cond._
-import de.leanovate.jbj.ast.expr.calc.AddExpr
-import de.leanovate.jbj.ast.stmt.cond.IfStmt
-import de.leanovate.jbj.ast.stmt.ReturnStmt
-import de.leanovate.jbj.ast.expr.calc.SubExpr
 import de.leanovate.jbj.ast.stmt.cond.SwitchStmt
-import scala.Some
-import de.leanovate.jbj.ast.value.StringVal
-import de.leanovate.jbj.ast.expr.comp.LtExpr
-import de.leanovate.jbj.ast.expr.comp.GeExpr
-import de.leanovate.jbj.ast.Prog
-import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
-import de.leanovate.jbj.ast.expr.calc.MulExpr
-import de.leanovate.jbj.ast.stmt.AssignStmt
-import de.leanovate.jbj.ast.expr.comp.LeExpr
-import de.leanovate.jbj.ast.stmt.cond.CaseBlock
-import de.leanovate.jbj.exec.GlobalContext
-import de.leanovate.jbj.ast.expr.comp.EqExpr
-import de.leanovate.jbj.ast.stmt.InlineStmt
-import de.leanovate.jbj.ast.value.IntegerVal
-import de.leanovate.jbj.ast.expr.comp.GtExpr
-import de.leanovate.jbj.ast.expr.calc.DivExpr
-import de.leanovate.jbj.ast.stmt.EchoStmt
 import de.leanovate.jbj.ast.stmt.loop.WhileStmt
 import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
 import de.leanovate.jbj.ast.expr.calc.AddExpr
@@ -159,7 +120,7 @@ object JbjParser extends StdTokenParsers {
     case expr ~ exprs => expr :: exprs
   }
 
-  def stmt: Parser[Stmt] =
+  def regularStmt: Parser[Stmt] =
     opt("static") ~ variable ~ "=" ~ expr ^^ {
       case static ~ variable ~ _ ~ expr => AssignStmt(variable, expr, static = static.isDefined)
     } | "echo" ~> params ^^ {
@@ -170,19 +131,25 @@ object JbjParser extends StdTokenParsers {
       BreakStmt
     } | "continue" ^^^ {
       ContinueStmt
-    } | ifStmt | switchStmt | whileStmt | expr ^^ {
+    } | expr ^^ {
       expr => ExprStmt(expr)
     }
 
-  def stmts: Parser[List[Stmt]] = stmt ~ rep(";" ~> opt(stmt)) ^^ {
-    case stmt ~ stmts => stmt :: stmts.flatten
+  def blockLikeStmt: Parser[Stmt] = ifStmt | switchStmt | whileStmt
+
+  def closedStmt: Parser[Stmt] = regularStmt <~ ";" | blockLikeStmt
+
+  def stmtsWithUnclose: Parser[List[Stmt]] = rep(closedStmt) ~ opt(regularStmt) ^^ {
+    case stmts ~ optUnclosed => stmts ++ optUnclosed
   }
 
-  def stmtsOrInline: Parser[List[Stmt]] = stmts |
-    scriptEnd ~> rep(inline) <~ scriptStart
+  def stmtsOrInline: Parser[List[Stmt]] = rep(rep1(closedStmt) |
+    scriptEnd ~> rep(inline) <~ scriptStart) ^^ {
+    stmts => stmts.flatten
+  }
 
-  def block: Parser[BlockStmt] = "{" ~> rep(stmtsOrInline) <~ "}" ^^ {
-    stmts => BlockStmt(stmts.flatten)
+  def block: Parser[BlockStmt] = "{" ~> stmtsOrInline <~ "}" ^^ {
+    stmts => BlockStmt(stmts)
   }
 
   def ifStmt: Parser[IfStmt] = "if" ~> "(" ~> expr ~ ")" ~ block ~ rep(elseIfBlock) ~ opt("else" ~> block) ^^ {
@@ -210,8 +177,8 @@ object JbjParser extends StdTokenParsers {
   }
 
   def script =
-    scriptStart ~> stmts <~ scriptEnd |
-      scriptStartEcho ~> params ~ opt(rep(";" ~> stmt)) <~ scriptEnd ^^ {
+    scriptStart ~> stmtsWithUnclose <~ scriptEnd |
+      scriptStartEcho ~> params ~ opt(";" ~> stmtsWithUnclose) <~ scriptEnd ^^ {
         case params ~ None => EchoStmt(params) :: Nil
         case params ~ Some(stmts) => EchoStmt(params) :: stmts
       }
@@ -268,7 +235,7 @@ object JbjParser extends StdTokenParsers {
   //A main method for testing
   def main(args: Array[String]) = {
 
-    test( """<?php if (1 > 2) { echo "hurra" } ?>""")
+    test( """<?php if (1 < 2) { echo "hurra"; } echo "bla" ?>""")
     test("Hurra <?php echo 1>2 ?>")
   }
 
