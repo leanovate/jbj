@@ -179,9 +179,7 @@ object JbjParser extends StdTokenParsers {
   }
 
   def stmtsOrInline: Parser[List[Stmt]] = stmts |
-    scriptEnd ~> opt(rep(inline)) <~ scriptStart ^^ {
-      inline => inline.getOrElse(Nil)
-    }
+    scriptEnd ~> rep(inline) <~ scriptStart
 
   def block: Parser[BlockStmt] = "{" ~> rep(stmtsOrInline) <~ "}" ^^ {
     stmts => BlockStmt(stmts.flatten)
@@ -222,11 +220,9 @@ object JbjParser extends StdTokenParsers {
     inline => List(inline)
   } | script
 
-  def prog: Parser[Prog] = opt(rep(inlineOrScript)) ^^ {
-    case None => Prog(List())
-    case Some(stmts) => Prog(stmts.flatten)
+  def prog: Parser[Prog] = rep(inlineOrScript) ^^ {
+    stmts => Prog(stmts.flatten)
   }
-
 
   def inline: Parser[InlineStmt] =
     elem("inline", _.isInstanceOf[Inline]) ^^ {
