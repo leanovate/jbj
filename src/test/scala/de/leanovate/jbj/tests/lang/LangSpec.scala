@@ -9,12 +9,33 @@ import org.scalatest.matchers.MustMatchers
 @RunWith(classOf[JUnitRunner])
 class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Language test" - {
-    "Simple If condition test" in { // lang/000
+    "Simple If condition test" in { // lang/001
       resultOf(
         """<?php $a=1; if($a>0) { echo "Yes"; } ?>"""
       ) must be(
         """Yes"""
       )
+    }
+
+    "Simple Switch Test" in { // lang/003
+      resultOf(
+        """<?php
+          |$a=1;
+          |switch($a) {
+          |	case 0:
+          |		echo "bad";
+          |		break;
+          |	case 1:
+          |		echo "good";
+          |		break;
+          |	default:
+          |		echo "bad";
+          |		break;
+          |}
+          |?>""".stripMargin
+      ) must be {
+        """good"""
+      }
     }
 
     "Simple If/Else Test" in { // lang/004

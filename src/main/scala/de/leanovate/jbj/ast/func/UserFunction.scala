@@ -16,8 +16,8 @@ case class UserFunction(name: String, stmts: List[Stmt]) extends Function {
   @tailrec
   private def execStmts(statements: List[Stmt], context: BlockContext): Value = statements match {
     case head :: tail => head.exec(context) match {
-      case SuccessExecResult() => execStmts(tail, context)
       case ReturnExecResult(returnVal) => returnVal
+      case _ => execStmts(tail, context)
     }
     case Nil => NullVal
   }
