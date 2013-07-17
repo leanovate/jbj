@@ -20,6 +20,10 @@ trait Value extends Expr {
   def isUndefined: Boolean
 
   def copy: Value
+
+  def incr: Value
+
+  def decr: Value
 }
 
 object Value {

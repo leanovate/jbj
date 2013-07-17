@@ -9,7 +9,7 @@ import org.scalatest.matchers.MustMatchers
 @RunWith(classOf[JUnitRunner])
 class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Language test" - {
-    "Simple If condition test" in { // lang/001
+    "Simple If condition test" in {      // lang/001
       resultOf(
         """<?php $a=1; if($a>0) { echo "Yes"; } ?>"""
       ) must be(
@@ -17,7 +17,20 @@ class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
       )
     }
 
-    "Simple Switch Test" in { // lang/003
+    "Simple While Loop Test" in { // lang/002
+      resultOf(
+        """<?php
+          |$a=1;
+          |while ($a<10) {
+          |	echo $a;
+          |	$a++;
+          |}
+          |?>""".stripMargin
+      ) must be(
+        """123456789"""
+      )
+    }
+    "Simple Switch Test" in {      // lang/003
       resultOf(
         """<?php
           |$a=1;
@@ -33,12 +46,12 @@ class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |		break;
           |}
           |?>""".stripMargin
-      ) must be {
+      ) must be(
         """good"""
-      }
+      )
     }
 
-    "Simple If/Else Test" in { // lang/004
+    "Simple If/Else Test" in {      // lang/004
       resultOf(
         """<?php
           |$a=1;
@@ -53,7 +66,7 @@ class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
       )
     }
 
-    "Simple If/ElseIf/Else Test" in { // lang/005
+    "Simple If/ElseIf/Else Test" in {      // lang/005
       resultOf(
         """<?php
           |$a=1;
@@ -71,7 +84,7 @@ class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
       )
     }
 
-    "Nested If/ElseIf/Else Test" in { // lang/006
+    "Nested If/ElseIf/Else Test" in {      // lang/006
       resultOf(
         """<?php
           |$a=1;

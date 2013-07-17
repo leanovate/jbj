@@ -19,4 +19,8 @@ case class BooleanVal(value: Boolean) extends Value {
   def isUndefined = false
 
   def copy = this
+
+  def incr = this
+
+  def decr = this
 }

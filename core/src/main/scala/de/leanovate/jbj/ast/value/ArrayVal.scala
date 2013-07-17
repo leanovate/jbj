@@ -26,4 +26,8 @@ case class ArrayVal(keyValue: List[(Value, Value)]) extends Value {
   def isTrue = false
 
   def copy = ArrayVal(List(keyValue: _*))
+
+  def incr = this
+
+  def decr = this
 }

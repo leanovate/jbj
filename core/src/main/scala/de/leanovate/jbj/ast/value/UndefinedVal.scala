@@ -18,4 +18,8 @@ object UndefinedVal extends Value {
   def isUndefined = true
 
   def copy = this
+
+  def incr = IntegerVal(1)
+
+  def decr = NullVal
 }

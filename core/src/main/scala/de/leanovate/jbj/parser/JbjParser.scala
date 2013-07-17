@@ -3,7 +3,7 @@ package de.leanovate.jbj.parser
 import scala.util.parsing.combinator.syntactical.StdTokenParsers
 import de.leanovate.jbj.ast._
 import de.leanovate.jbj.ast.stmt._
-import de.leanovate.jbj.ast.expr.VariableExpr
+import de.leanovate.jbj.ast.expr._
 import de.leanovate.jbj.ast.expr.calc.AddExpr
 import de.leanovate.jbj.ast.expr.calc.MulExpr
 import de.leanovate.jbj.ast.stmt.AssignStmt
@@ -18,20 +18,39 @@ import de.leanovate.jbj.ast.expr.comp.LtExpr
 import de.leanovate.jbj.ast.expr.comp.GeExpr
 import de.leanovate.jbj.ast.stmt.InlineStmt
 import de.leanovate.jbj.ast.Prog
-import de.leanovate.jbj.ast.expr.NegExpr
 import de.leanovate.jbj.ast.value.IntegerVal
-import de.leanovate.jbj.ast.expr.DotExpr
-import de.leanovate.jbj.ast.expr.CallExpr
 import de.leanovate.jbj.ast.expr.comp.GtExpr
 import de.leanovate.jbj.ast.expr.calc.DivExpr
 import de.leanovate.jbj.ast.stmt.EchoStmt
 import de.leanovate.jbj.ast.stmt.cond._
-import de.leanovate.jbj.ast.expr.VariableExpr
 import de.leanovate.jbj.ast.expr.calc.AddExpr
 import de.leanovate.jbj.ast.stmt.cond.IfStmt
 import de.leanovate.jbj.ast.stmt.ReturnStmt
 import de.leanovate.jbj.ast.expr.calc.SubExpr
 import de.leanovate.jbj.ast.stmt.cond.SwitchStmt
+import scala.Some
+import de.leanovate.jbj.ast.value.StringVal
+import de.leanovate.jbj.ast.expr.comp.LtExpr
+import de.leanovate.jbj.ast.expr.comp.GeExpr
+import de.leanovate.jbj.ast.Prog
+import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
+import de.leanovate.jbj.ast.expr.calc.MulExpr
+import de.leanovate.jbj.ast.stmt.AssignStmt
+import de.leanovate.jbj.ast.expr.comp.LeExpr
+import de.leanovate.jbj.ast.stmt.cond.CaseBlock
+import de.leanovate.jbj.exec.GlobalContext
+import de.leanovate.jbj.ast.expr.comp.EqExpr
+import de.leanovate.jbj.ast.stmt.InlineStmt
+import de.leanovate.jbj.ast.value.IntegerVal
+import de.leanovate.jbj.ast.expr.comp.GtExpr
+import de.leanovate.jbj.ast.expr.calc.DivExpr
+import de.leanovate.jbj.ast.stmt.EchoStmt
+import de.leanovate.jbj.ast.stmt.loop.WhileStmt
+import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
+import de.leanovate.jbj.ast.expr.calc.AddExpr
+import de.leanovate.jbj.ast.stmt.cond.IfStmt
+import de.leanovate.jbj.ast.stmt.ReturnStmt
+import de.leanovate.jbj.ast.expr.calc.SubExpr
 import scala.Some
 import de.leanovate.jbj.ast.value.StringVal
 import de.leanovate.jbj.ast.expr.comp.LtExpr
@@ -44,6 +63,7 @@ import de.leanovate.jbj.ast.expr.calc.MulExpr
 import de.leanovate.jbj.ast.stmt.AssignStmt
 import de.leanovate.jbj.ast.expr.comp.LeExpr
 import de.leanovate.jbj.ast.stmt.cond.CaseBlock
+import de.leanovate.jbj.ast.expr.VarGetExpr
 import de.leanovate.jbj.exec.GlobalContext
 import de.leanovate.jbj.ast.expr.comp.EqExpr
 import de.leanovate.jbj.ast.stmt.InlineStmt
@@ -71,7 +91,11 @@ object JbjParser extends StdTokenParsers {
     (numericLit ^^ (s => IntegerVal(s.toInt))
       | stringLit ^^ (s => StringVal(s)))
 
-  def variableRef = variable ^^ (s => VariableExpr(s))
+  def variableRef = variable <~ "+" <~ "+" ^^ {
+    s => VarGetAndIncrExpr(s)
+  } | variable ^^ {
+    s => VarGetExpr(s)
+  }
 
   def functionCall: Parser[Expr] = ident ~ "(" ~ params <~ ")" ^^ {
     case name ~ _ ~ params => CallExpr(name, params)
@@ -146,7 +170,9 @@ object JbjParser extends StdTokenParsers {
       BreakStmt
     } | "continue" ^^^ {
       ContinueStmt
-    } | ifStmt | switchStmt
+    } | ifStmt | switchStmt | whileStmt | expr ^^ {
+      expr => ExprStmt(expr)
+    }
 
   def stmts: Parser[List[Stmt]] = stmt ~ rep(";" ~> opt(stmt)) ^^ {
     case stmt ~ stmts => stmt :: stmts.flatten
@@ -180,6 +206,10 @@ object JbjParser extends StdTokenParsers {
       stmts => DefaultCaseBlock(stmts)
     }
   )
+
+  def whileStmt: Parser[WhileStmt] = "while" ~> "(" ~> expr ~ ")" ~ block ^^ {
+    case expr ~ _ ~ block => WhileStmt(expr, block)
+  }
 
   def script =
     scriptStart ~> stmts <~ scriptEnd |

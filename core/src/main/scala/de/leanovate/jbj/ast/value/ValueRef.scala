@@ -32,4 +32,8 @@ class ValueRef(private var current: Option[Value] = None) extends Value {
   }
 
   def copy = value.copy
+
+  def incr = value.incr
+
+  def decr = value.decr
 }
