@@ -45,7 +45,8 @@ object JbjParser extends StdTokenParsers {
     "echo",
     "return", "break", "continue",
     "if", "else", "elseif", "while", "for",
-    "switch", "case", "default")
+    "switch", "case", "default",
+    "function")
   lexical.delimiters ++= List(".", "+", "-", "*", "/", "(", ")", ",", ":", ";", "{", "}", "=", ">", ">=", "<", "<=", "==")
 
   def value =
@@ -135,16 +136,18 @@ object JbjParser extends StdTokenParsers {
       expr => ExprStmt(expr)
     }
 
-  def blockLikeStmt: Parser[Stmt] = ifStmt | switchStmt | whileStmt
+  def blockLikeStmt: Parser[Stmt] = ifStmt | switchStmt | whileStmt | functionDef
 
   def closedStmt: Parser[Stmt] = regularStmt <~ ";" | blockLikeStmt
 
-  def stmtsWithUnclose: Parser[List[Stmt]] = rep(closedStmt) ~ opt(regularStmt) ^^ {
+  def stmtsWithUnclosed: Parser[List[Stmt]] = rep(closedStmt) ~ opt(regularStmt) ^^ {
     case stmts ~ optUnclosed => stmts ++ optUnclosed
   }
 
   def stmtsOrInline: Parser[List[Stmt]] = rep(rep1(closedStmt) |
-    scriptEnd ~> rep(inline) <~ scriptStart) ^^ {
+    opt(regularStmt) ~ scriptEnd ~ rep(inline) <~ scriptStart ^^ {
+      case optUnclosed ~ _ ~ inline => optUnclosed.toList ++ inline
+    }) ^^ {
     stmts => stmts.flatten
   }
 
@@ -176,9 +179,13 @@ object JbjParser extends StdTokenParsers {
     case expr ~ _ ~ block => WhileStmt(expr, block)
   }
 
+  def functionDef: Parser[FunctionDefStmt] = "function" ~> ident ~ "(" ~ ")" ~ block ^^ {
+    case name ~ _ ~ _ ~ body => FunctionDefStmt(name, body)
+  }
+
   def script =
-    scriptStart ~> stmtsWithUnclose <~ scriptEnd |
-      scriptStartEcho ~> params ~ opt(";" ~> stmtsWithUnclose) <~ scriptEnd ^^ {
+    scriptStart ~> stmtsWithUnclosed <~ scriptEnd |
+      scriptStartEcho ~> params ~ opt(";" ~> stmtsWithUnclosed) <~ scriptEnd ^^ {
         case params ~ None => EchoStmt(params) :: Nil
         case params ~ Some(stmts) => EchoStmt(params) :: stmts
       }
@@ -238,5 +245,4 @@ object JbjParser extends StdTokenParsers {
     test( """<?php if (1 < 2) { echo "hurra"; } echo "bla" ?>""")
     test("Hurra <?php echo 1>2 ?>")
   }
-
 }
