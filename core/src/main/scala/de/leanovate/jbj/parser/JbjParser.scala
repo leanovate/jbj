@@ -59,7 +59,7 @@ object JbjParser extends StdTokenParsers {
     s => VarGetExpr(s)
   }
 
-  def functionCall: Parser[Expr] = ident ~ "(" ~ params <~ ")" ^^ {
+  def functionCall: Parser[Expr] = ident ~ "(" ~ repsep(expr, ",") <~ ")" ^^ {
     case name ~ _ ~ params => CallExpr(name, params)
   }
 
@@ -117,14 +117,10 @@ object JbjParser extends StdTokenParsers {
 
   def expr: Parser[Expr] = binary(minPrec) | term
 
-  def params: Parser[List[Expr]] = expr ~ rep("," ~> expr) ^^ {
-    case expr ~ exprs => expr :: exprs
-  }
-
   def regularStmt: Parser[Stmt] =
     opt("static") ~ variable ~ "=" ~ expr ^^ {
       case static ~ variable ~ _ ~ expr => AssignStmt(variable, expr, static = static.isDefined)
-    } | "echo" ~> params ^^ {
+    } | "echo" ~> rep1sep(expr, ",") ^^ {
       parms => EchoStmt(parms)
     } | "return" ~> expr ^^ {
       expr => ReturnStmt(expr)
@@ -179,13 +175,17 @@ object JbjParser extends StdTokenParsers {
     case expr ~ _ ~ block => WhileStmt(expr, block)
   }
 
-  def functionDef: Parser[FunctionDefStmt] = "function" ~> ident ~ "(" ~ ")" ~ block ^^ {
-    case name ~ _ ~ _ ~ body => FunctionDefStmt(name, body)
+  def functionDef: Parser[FunctionDefStmt] = "function" ~> ident ~ "(" ~ parameterDefs ~ ")" ~ block ^^ {
+    case name ~ _ ~ parameters ~ _ ~ body => FunctionDefStmt(name, parameters, body)
   }
+
+  def parameterDefs: Parser[List[ParameterDef]] = repsep(parameterDef, ",")
+
+  def parameterDef: Parser[ParameterDef] = variable ^^ (v => ParameterDef(v, byRef = false, default = None))
 
   def script =
     scriptStart ~> stmtsWithUnclosed <~ scriptEnd |
-      scriptStartEcho ~> params ~ opt(";" ~> stmtsWithUnclosed) <~ scriptEnd ^^ {
+      scriptStartEcho ~> rep1sep(expr, ",") ~ opt(";" ~> stmtsWithUnclosed) <~ scriptEnd ^^ {
         case params ~ None => EchoStmt(params) :: Nil
         case params ~ Some(stmts) => EchoStmt(params) :: stmts
       }
@@ -242,7 +242,13 @@ object JbjParser extends StdTokenParsers {
   //A main method for testing
   def main(args: Array[String]) = {
 
-    test( """<?php if (1 < 2) { echo "hurra"; } echo "bla" ?>""")
-    test("Hurra <?php echo 1>2 ?>")
+    test("""<?php
+           |function test ($b) {
+           |	$b++;
+           |	return($b);
+           |}
+           |$a = test(1);
+           |echo $a;
+           |?>""".stripMargin)
   }
 }

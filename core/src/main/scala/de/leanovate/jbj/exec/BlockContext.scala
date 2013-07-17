@@ -1,11 +1,11 @@
 package de.leanovate.jbj.exec
 
-import de.leanovate.jbj.ast.Value
+import de.leanovate.jbj.ast.{Function, Value}
 import scala.collection.mutable
 import scala.annotation.tailrec
 import de.leanovate.jbj.ast.value.ValueRef
 
-case class BlockContext(identifier:String, callerCtx: Context) extends Context {
+case class BlockContext(identifier: String, callerCtx: Context) extends Context {
   val localVariables = mutable.Map.empty[String, ValueRef]
 
   val out = callerCtx.out
@@ -16,10 +16,13 @@ case class BlockContext(identifier:String, callerCtx: Context) extends Context {
       case None => callerCtx.findVariable(name)
     }
 
-  def defineVariable(name: String, static: Boolean, value: Value) = value match {
-    case valueRef: ValueRef => localVariables.put(name, valueRef)
-    case v => localVariables.put(name, new ValueRef(v))
+  def defineVariable(name: String, static: Boolean, valueRef: ValueRef) {
+    localVariables.put(name, valueRef)
   }
 
   def findFunction(name: String) = callerCtx.findFunction(name)
+
+  def defineFunction(function: Function, static: Boolean) {
+    callerCtx.defineFunction(function, static)
+  }
 }

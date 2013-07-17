@@ -108,5 +108,53 @@ class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
         """good"""
       )
     }
+
+    "Testing function parameter passing" in { // lang/009
+      resultOf(
+        """<?php
+          |function test ($a,$b) {
+          |	echo $a+$b;
+          |}
+          |test(1,2);
+          |?>""".stripMargin
+      ) must be(
+        """3"""
+      )
+    }
+
+    "Testing function parameter passing with a return value" in { // lang/010
+      resultOf(
+        """<?php
+          |function test ($b) {
+          |	$b++;
+          |	return($b);
+          |}
+          |$a = test(1);
+          |echo $a;
+          |?>""".stripMargin
+      ) must be(
+        """2"""
+      )
+    }
+
+    "Testing stack after early function return" in { // lang/012
+      resultOf(
+        """<?php
+          |function F () {
+          |	if(1) {
+          |		return("Hello");
+          |	}
+          |}
+          |
+          |$i=0;
+          |while ($i<2) {
+          |	echo F();
+          |	$i++;
+          |}
+          |?>""".stripMargin
+      ) must be(
+        """HelloHello"""
+      )
+    }
   }
 }

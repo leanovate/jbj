@@ -3,10 +3,7 @@ package de.leanovate.jbj.ast.value
 import de.leanovate.jbj.ast.Value
 import java.io.PrintStream
 
-
 class ValueRef(private var current: Option[Value] = None) extends Value {
-  def this(v: Value) = this(Some(v))
-
   def toOutput(out: PrintStream) {
     current.foreach(_.toOutput(out))
   }
@@ -36,4 +33,8 @@ class ValueRef(private var current: Option[Value] = None) extends Value {
   def incr = value.incr
 
   def decr = value.decr
+}
+
+object ValueRef {
+  def apply(v: Value): ValueRef = new ValueRef(Some(v))
 }
