@@ -2,31 +2,7 @@ package de.leanovate.jbj.parser
 
 import scala.util.parsing.combinator.syntactical.StdTokenParsers
 import de.leanovate.jbj.ast._
-import de.leanovate.jbj.ast.expr._
-import scala.Some
 import de.leanovate.jbj.ast.stmt._
-import de.leanovate.jbj.ast.expr.NegExpr
-import de.leanovate.jbj.ast.value.{StringVal, IntegerVal}
-import de.leanovate.jbj.exec.{GlobalContext, Context}
-import de.leanovate.jbj.ast.expr.calc.{SubExpr, MulExpr, DivExpr, AddExpr}
-import de.leanovate.jbj.ast.expr.comp._
-import de.leanovate.jbj.ast.expr.VariableExpr
-import de.leanovate.jbj.ast.expr.calc.AddExpr
-import de.leanovate.jbj.ast.expr.calc.MulExpr
-import de.leanovate.jbj.ast.expr.calc.SubExpr
-import de.leanovate.jbj.ast.expr.comp.LeExpr
-import scala.Some
-import de.leanovate.jbj.ast.value.StringVal
-import de.leanovate.jbj.exec.GlobalContext
-import de.leanovate.jbj.ast.expr.comp.LtExpr
-import de.leanovate.jbj.ast.expr.comp.GeExpr
-import de.leanovate.jbj.ast.Prog
-import de.leanovate.jbj.ast.expr.NegExpr
-import de.leanovate.jbj.ast.value.IntegerVal
-import de.leanovate.jbj.ast.expr.DotExpr
-import de.leanovate.jbj.ast.expr.CallExpr
-import de.leanovate.jbj.ast.expr.comp.GtExpr
-import de.leanovate.jbj.ast.expr.calc.DivExpr
 import de.leanovate.jbj.ast.expr.VariableExpr
 import de.leanovate.jbj.ast.expr.calc.AddExpr
 import de.leanovate.jbj.ast.expr.calc.MulExpr
@@ -49,7 +25,7 @@ import de.leanovate.jbj.ast.expr.CallExpr
 import de.leanovate.jbj.ast.expr.comp.GtExpr
 import de.leanovate.jbj.ast.expr.calc.DivExpr
 import de.leanovate.jbj.ast.stmt.EchoStmt
-import de.leanovate.jbj.ast.stmt.cond.IfStmt
+import de.leanovate.jbj.ast.stmt.cond.{ElseIfBlock, IfStmt}
 
 object JbjParser extends StdTokenParsers {
   type Tokens = JbjTokens
@@ -58,7 +34,7 @@ object JbjParser extends StdTokenParsers {
 
   import lexical.{Inline, ScriptStart, ScriptStartEcho, ScriptEnd, VarIdentifier}
 
-  lexical.reserved ++= List("echo", "static", "return", "if", "while", "for")
+  lexical.reserved ++= List("echo", "static", "return", "if", "else", "elseif", "while", "for")
   lexical.delimiters ++= List(".", "+", "-", "*", "/", "(", ")", ",", ":", ";", "{", "}", "=", ">", ">=", "<", "<=", "==")
 
   def value =
@@ -75,7 +51,7 @@ object JbjParser extends StdTokenParsers {
 
   def neg: Parser[NegExpr] = "-" ~> term ^^ (term => NegExpr(term))
 
-  def term = (value | variableRef | functionCall | parens | neg)
+  def term = value | variableRef | functionCall | parens | neg
 
   def binaryOp(level: Int): Parser[((Expr, Expr) => Expr)] = {
     level match {
@@ -125,9 +101,8 @@ object JbjParser extends StdTokenParsers {
 
   def expr: Parser[Expr] = binary(minPrec) | term
 
-  def params: Parser[List[Expr]] = expr ~ opt(rep("," ~> expr)) ^^ {
-    case expr ~ None => expr :: Nil
-    case expr ~ Some(exprs) => expr :: exprs
+  def params: Parser[List[Expr]] = expr ~ rep("," ~> expr) ^^ {
+    case expr ~ exprs => expr :: exprs
   }
 
   def stmt: Parser[Stmt] =
@@ -148,12 +123,16 @@ object JbjParser extends StdTokenParsers {
       inline => inline.getOrElse(Nil)
     }
 
-  def block: Parser[BlockStmt] = "{" ~> opt(rep(stmtsOrInline)) <~ "}" ^^ {
-    stmts => BlockStmt(stmts.map(_.flatten).getOrElse(Nil))
+  def block: Parser[BlockStmt] = "{" ~> rep(stmtsOrInline) <~ "}" ^^ {
+    stmts => BlockStmt(stmts.flatten)
   }
 
-  def ifStmt: Parser[IfStmt] = "if" ~> "(" ~> expr ~ ")" ~ block ^^ {
-    case expr ~ _ ~ block => IfStmt(expr, block)
+  def ifStmt: Parser[IfStmt] = "if" ~> "(" ~> expr ~ ")" ~ block ~ rep(elseIfBlock) ~ opt("else" ~> block) ^^ {
+    case cond ~ _ ~ then ~ elseIfs ~ optElse => IfStmt(cond, then, elseIfs, optElse)
+  }
+
+  def elseIfBlock: Parser[ElseIfBlock] = "elseif" ~> "(" ~> expr ~ ")" ~ block ^^ {
+    case cond ~ _ ~ then => ElseIfBlock(cond, then)
   }
 
   def script =

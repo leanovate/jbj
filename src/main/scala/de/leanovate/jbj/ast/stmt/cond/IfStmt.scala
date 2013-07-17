@@ -4,12 +4,18 @@ import de.leanovate.jbj.ast.{Stmt, Expr}
 import de.leanovate.jbj.exec.{SuccessExecResult, Context}
 import de.leanovate.jbj.ast.stmt.BlockStmt
 
-case class IfStmt(condition: Expr, then: BlockStmt) extends Stmt {
+case class IfStmt(condition: Expr, thenBlock: BlockStmt, elseIfs: List[ElseIfBlock], elseBlock: Option[BlockStmt])
+  extends Stmt {
+
   def exec(ctx: Context) = {
     if (condition.eval(ctx).toBool.value) {
-      then.exec(ctx)
+      thenBlock.exec(ctx)
     } else {
-      SuccessExecResult()
+      elseIfs.find(_.condition.eval(ctx).toBool.value).map {
+        elseIf => elseIf.thenBlock.exec(ctx)
+      }.getOrElse {
+        elseBlock.map(_.exec(ctx)).getOrElse(SuccessExecResult())
+      }
     }
   }
 }
