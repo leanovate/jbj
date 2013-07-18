@@ -8,9 +8,11 @@ import de.leanovate.jbj.ast.stmt.loop.WhileStmt
 import scala.collection.mutable
 import scala.util.parsing.combinator.Parsers
 import de.leanovate.jbj.parser.JbjTokens._
+import de.leanovate.jbj.ast.expr.comp._
 import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
 import de.leanovate.jbj.ast.expr.calc.AddExpr
 import de.leanovate.jbj.ast.stmt.cond.IfStmt
+import de.leanovate.jbj.parser.JbjTokens.NumericLit
 import de.leanovate.jbj.ast.stmt.ReturnStmt
 import de.leanovate.jbj.ast.expr.calc.SubExpr
 import scala.Some
@@ -31,6 +33,7 @@ import de.leanovate.jbj.ast.expr.value.IntegerConstExpr
 import de.leanovate.jbj.ast.stmt.AssignStmt
 import de.leanovate.jbj.ast.stmt.FunctionDefStmt
 import de.leanovate.jbj.ast.stmt.Assignment
+import de.leanovate.jbj.parser.JbjTokens.Identifier
 import de.leanovate.jbj.ast.expr.comp.LeExpr
 import de.leanovate.jbj.ast.stmt.cond.CaseBlock
 import de.leanovate.jbj.ast.expr.VarGetExpr
@@ -38,7 +41,10 @@ import de.leanovate.jbj.runtime.GlobalContext
 import de.leanovate.jbj.ast.expr.comp.EqExpr
 import de.leanovate.jbj.ast.stmt.InlineStmt
 import de.leanovate.jbj.ast.expr.VarGetAndIncrExpr
+import de.leanovate.jbj.parser.JbjTokens.Keyword
 import de.leanovate.jbj.ast.expr.value.StringConstExpr
+import de.leanovate.jbj.parser.JbjTokens.StringLit
+import de.leanovate.jbj.parser.JbjTokens.VarIdentifier
 import de.leanovate.jbj.ast.expr.CallExpr
 import de.leanovate.jbj.ast.expr.comp.GtExpr
 import de.leanovate.jbj.parser.JbjTokens.ScriptStartEcho
@@ -48,29 +54,7 @@ import de.leanovate.jbj.ast.stmt.EchoStmt
 object JbjParser extends Parsers {
   type Elem = JbjTokens.Token
 
-  protected val keywordCache = mutable.HashMap[String, Parser[String]]()
-
-  /** A parser which matches a single keyword token.
-    *
-    * @param chars    The character string making up the matched keyword.
-    * @return a `Parser` that matches the given string
-    */
-  //  implicit def keyword(chars: String): Parser[String] = accept(Keyword(chars)) ^^ (_.chars)
-  implicit def keyword(chars: String): Parser[String] =
-    keywordCache.getOrElseUpdate(chars, accept(Keyword(chars)) ^^ (_.chars))
-
-  /** A parser which matches a numeric literal */
-  def numericLit: Parser[String] =
-    elem("number", _.isInstanceOf[NumericLit]) ^^ (_.chars)
-
-  /** A parser which matches a string literal */
-  def stringLit: Parser[String] =
-    elem("string literal", _.isInstanceOf[StringLit]) ^^ (_.chars)
-
-  /** A parser which matches an identifier */
-  def ident: Parser[String] =
-    elem("identifier", _.isInstanceOf[Identifier]) ^^ (_.chars)
-
+  private val keywordCache = mutable.HashMap[String, Parser[String]]()
 
   def value: Parser[Expr] =
     (numericLit ^^ (s => IntegerConstExpr(s.toInt))
@@ -97,6 +81,12 @@ object JbjParser extends Parsers {
   def binaryOp(level: Int): Parser[((Expr, Expr) => Expr)] = {
     level match {
       case 1 =>
+        "||" ^^^ {
+          (a: Expr, b: Expr) => BoolOrExpr(a, b)
+        } | "&&" ^^^ {
+          (a: Expr, b: Expr) => BoolAndExpr(a, b)
+        }
+      case 2 =>
         ">" ^^^ {
           (a: Expr, b: Expr) => GtExpr(a, b)
         } | ">=" ^^^ {
@@ -108,17 +98,17 @@ object JbjParser extends Parsers {
         } | "==" ^^^ {
           (a: Expr, b: Expr) => EqExpr(a, b)
         }
-      case 2 =>
+      case 3 =>
         "." ^^^ {
           (a: Expr, b: Expr) => DotExpr(a, b)
         }
-      case 3 =>
+      case 4 =>
         "+" ^^^ {
           (a: Expr, b: Expr) => AddExpr(a, b)
         } | "-" ^^^ {
           (a: Expr, b: Expr) => SubExpr(a, b)
         }
-      case 4 =>
+      case 5 =>
         "*" ^^^ {
           (a: Expr, b: Expr) => MulExpr(a, b)
         } | "/" ^^^ {
@@ -130,7 +120,7 @@ object JbjParser extends Parsers {
 
   val minPrec = 1
 
-  val maxPrec = 4
+  val maxPrec = 5
 
   def binary(level: Int): Parser[Expr] =
     if (level > maxPrec) {
@@ -212,18 +202,19 @@ object JbjParser extends Parsers {
 
   def parameterDef: Parser[ParameterDef] = variable ^^ (v => ParameterDef(v, byRef = false, default = None))
 
-  def script =
-    scriptStart ~> stmtsWithUnclosed <~ scriptEnd |
-      scriptStartEcho ~> rep1sep(expr, ",") ~ opt(";" ~> stmtsWithUnclosed) <~ scriptEnd ^^ {
+  def script: Parser[List[Stmt]] =
+    scriptStart ~> stmtsWithUnclosed |
+      scriptStartEcho ~> rep1sep(expr, ",") ~ opt(";" ~> stmtsWithUnclosed) ^^ {
         case params ~ None => EchoStmt(params) :: Nil
         case params ~ Some(stmts) => EchoStmt(params) :: stmts
       }
 
-  def inlineOrScript: Parser[List[Stmt]] = inline ^^ {
-    inline => List(inline)
-  } | script
+  def inlineAndScript: Parser[List[Stmt]] = rep(inline) ~ opt(script) ^^ {
+    case inline ~ None => inline
+    case inline ~ Some(script) => inline ++ script
+  }
 
-  def prog: Parser[Prog] = rep(inlineOrScript) ^^ {
+  def prog: Parser[Prog] = repsep(inlineAndScript, scriptEnd) ^^ {
     stmts => Prog(stmts.flatten)
   }
 
@@ -240,6 +231,27 @@ object JbjParser extends Parsers {
 
   def scriptEnd: Parser[String] =
     elem("scriptEnd", _.isInstanceOf[ScriptEnd]) ^^ (_.chars)
+
+  /** A parser which matches a single keyword token.
+    *
+    * @param chars    The character string making up the matched keyword.
+    * @return a `Parser` that matches the given string
+    */
+  //  implicit def keyword(chars: String): Parser[String] = accept(Keyword(chars)) ^^ (_.chars)
+  implicit def keyword(chars: String): Parser[String] =
+    keywordCache.getOrElseUpdate(chars, accept(Keyword(chars)) ^^ (_.chars))
+
+  /** A parser which matches a numeric literal */
+  def numericLit: Parser[String] =
+    elem("number", _.isInstanceOf[NumericLit]) ^^ (_.chars)
+
+  /** A parser which matches a string literal */
+  def stringLit: Parser[String] =
+    elem("string literal", _.isInstanceOf[StringLit]) ^^ (_.chars)
+
+  /** A parser which matches an identifier */
+  def ident: Parser[String] =
+    elem("identifier", _.isInstanceOf[Identifier]) ^^ (_.chars)
 
   def variable: Parser[String] =
     elem("variable", _.isInstanceOf[VarIdentifier]) ^^ (_.asInstanceOf[VarIdentifier].name)

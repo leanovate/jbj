@@ -41,7 +41,7 @@ class JbjScriptLexer(in: Reader[Char]) extends Reader[Token] with Parsers {
     case _ => false
   })
 
-  def token: Parser[Token] =
+  private def token: Parser[Token] =
     ('?' ~ '>' ^^^ ScriptEnd()
       | '%' ~ '>' ^^^ ScriptEnd()
       | '<' ~ '/' ~ 's' ~ 'c' ~ 'r' ~ 'i' ~ 'p' ~ 't' ~ '>' ^^^ ScriptEnd()
@@ -54,11 +54,11 @@ class JbjScriptLexer(in: Reader[Char]) extends Reader[Token] with Parsers {
       | digit ~ rep(digit) ^^ {
       case first ~ rest => NumericLit(first :: rest mkString "")
     }
-      | '\'' ~ rep(chrExcept('\'', '\n', EofCh)) ~ '\'' ^^ {
-      case '\'' ~ chars ~ '\'' => StringLit(chars mkString "")
+      | '\'' ~ notInterpolatedStr ~ '\'' ^^ {
+      case '\'' ~ str ~ '\'' => StringLit(str)
     }
-      | '\"' ~ rep(chrExcept('\"', '\n', EofCh)) ~ '\"' ^^ {
-      case '\"' ~ chars ~ '\"' => StringLit(chars mkString "")
+      | '\"' ~ interpolatedStr ~ '\"' ^^ {
+      case '\"' ~ str ~ '\"' => StringLit(str)
     }
       | EofCh ^^^ EOF
       | '\'' ~> failure("unclosed string literal")
@@ -67,11 +67,28 @@ class JbjScriptLexer(in: Reader[Char]) extends Reader[Token] with Parsers {
       | failure("illegal character")
       )
 
+  private def strCharCommonReplacements: Parser[Char] = '\\' ~> (
+    '\\' ^^^ ('\\')
+      | 'n' ^^^ ('\n')
+      | 'r' ^^^ ('\r')
+      | 't' ^^^ ('\t')
+    )
+
+  private def strChar(quote: Char): Parser[Char] = strCharCommonReplacements | chrExcept(quote, EofCh)
+
+  private def notInterpolatedStr: Parser[String] = rep(strChar('\'')) ^^ {
+    chars => chars.mkString("")
+  }
+
+  private def interpolatedStr: Parser[String] = rep(strChar('\"')) ^^ {
+    chars => chars.mkString("")
+  }
+
   /** Returns the legal identifier chars, except digits. */
-  def identChar = letter | elem('_')
+  private def identChar = letter | elem('_')
 
   // see `whitespace in `Scanners`
-  def whitespace: Parser[Any] = rep(
+  private def whitespace: Parser[Any] = rep(
     whitespaceChar
       | '/' ~ '*' ~ comment
       | '/' ~ '/' ~ rep(chrExcept(EofCh, '\n'))
@@ -79,16 +96,16 @@ class JbjScriptLexer(in: Reader[Char]) extends Reader[Token] with Parsers {
   )
 
   /** A character-parser that matches a letter (and returns it). */
-  def letter = elem("letter", _.isLetter)
+  private def letter = elem("letter", _.isLetter)
 
   /** A character-parser that matches a digit (and returns it). */
-  def digit = elem("digit", _.isDigit)
+  private def digit = elem("digit", _.isDigit)
 
   /** A character-parser that matches any character except the ones given in `cs` (and returns it). */
-  def chrExcept(cs: Char*) = elem("", ch => (cs forall (ch != _)))
+  private def chrExcept(cs: Char*) = elem("", ch => (cs forall (ch != _)))
 
   /** A character-parser that matches a white-space character (and returns it). */
-  def whitespaceChar = elem("space char", ch => ch <= ' ' && ch != EofCh)
+  private def whitespaceChar = elem("space char", ch => ch <= ' ' && ch != EofCh)
 
   protected def comment: Parser[Any] = (
     '*' ~ '/' ^^ {
@@ -114,7 +131,7 @@ class JbjScriptLexer(in: Reader[Char]) extends Reader[Token] with Parsers {
     (d.toList map parseDelim).foldRight(failure("no matching delimiter"): Parser[Token])((x, y) => y | x)
   }
 
-  protected def delim: Parser[Token] = _delim
+  private def delim: Parser[Token] = _delim
 }
 
 object JbjScriptLexer {
@@ -127,5 +144,8 @@ object JbjScriptLexer {
     "function")
 
   /** The set of delimiters (ordering does not matter). */
-  val delimiters = Set(".", "+", "-", "*", "/", "(", ")", ",", ":", ";", "{", "}", "=", ">", ">=", "<", "<=", "==")
+  val delimiters = Set(",", ":", ";", "{", "}",
+    ".", "+", "-", "*", "/", "(", ")",
+    "=", ">", ">=", "<", "<=", "==",
+    "|", "||", "&", "&&")
 }

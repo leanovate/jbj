@@ -16,5 +16,29 @@ class FuncSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
         """6"""
       )
     }
+
+    "Static variables in functions" - {
+      resultOf(
+        """<?php
+          |function blah()
+          |{
+          |  static $hey=0,$yo=0;
+          |
+          |  echo "hey=".$hey++.", ",$yo--."\n";
+          |}
+          |
+          |blah();
+          |blah();
+          |blah();
+          |if (isset($hey) || isset($yo)) {
+          |  echo "Local variables became global :(\n";
+          |}""".stripMargin
+      ) must be(
+        """hey=0, 0
+          |hey=1, -1
+          |hey=2, -2
+          |""".stripMargin
+      )
+    }
   }
 }
