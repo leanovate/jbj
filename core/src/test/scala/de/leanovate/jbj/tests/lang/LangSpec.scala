@@ -109,6 +109,35 @@ class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
       )
     }
 
+    "Function call with global and static variables" in { // lang/007
+      resultOf(
+        """<?php
+          |error_reporting(0);
+          |$a = 10;
+          |
+          |function Test()
+          |{
+          |	static $a=1;
+          |	global $b;
+          |	$c = 1;
+          |	$b = 5;
+          |	echo "$a $b ";
+          |	$a++;
+          |	$c++;
+          |	echo "$a $c ";
+          |}
+          |
+          |Test();
+          |echo "$a $b $c ";
+          |Test();
+          |echo "$a $b $c ";
+          |Test();
+          |?>""".stripMargin
+      ) must be(
+        """1 5 2 2 10 5  2 5 3 2 10 5  3 5 4 2 """
+      )
+    }
+
     "Testing function parameter passing" in { // lang/009
       resultOf(
         """<?php
@@ -137,7 +166,6 @@ class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
       )
     }
 
-/*
     "Testing nested functions" in { // lang/011
       resultOf(
         """<?php
@@ -162,7 +190,7 @@ class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
         """4 Hello 4"""
       )
     }
-*/
+
     "Testing stack after early function return" in { // lang/012
       resultOf(
         """<?php
@@ -182,5 +210,26 @@ class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
         """HelloHello"""
       )
     }
+
+    "Testing user-defined function falling out of an If into another" in { // lang/017
+      resultOf(
+        """<?php
+          |$a = 1;
+          |function Test ($a) {
+          |	if ($a<3) {
+          |		return(3);
+          |	}
+          |}
+          |
+          |if ($a < Test($a)) {
+          |	echo "$a\n";
+          |	$a++;
+          |}
+          |?>""".stripMargin
+      ) must be(
+        """1
+          |""".stripMargin
+      )
+     }
   }
 }

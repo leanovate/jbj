@@ -11,6 +11,84 @@ import de.leanovate.jbj.ast.expr.comp._
 import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
 import de.leanovate.jbj.ast.expr.calc.AddExpr
 import de.leanovate.jbj.ast.stmt.cond.IfStmt
+import de.leanovate.jbj.parser.JbjTokens._
+import de.leanovate.jbj.ast.stmt.ReturnStmt
+import de.leanovate.jbj.ast.expr.calc.SubExpr
+import scala.Some
+import de.leanovate.jbj.ast.expr.comp.LtExpr
+import de.leanovate.jbj.ast.expr.comp.GeExpr
+import de.leanovate.jbj.ast.Prog
+import de.leanovate.jbj.ast.stmt.ExprStmt
+import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
+import de.leanovate.jbj.ast.expr.NegExpr
+import de.leanovate.jbj.ast.stmt.ParameterDef
+import de.leanovate.jbj.ast.expr.DotExpr
+import de.leanovate.jbj.ast.expr.VarGetAndDecrExpr
+import de.leanovate.jbj.ast.expr.calc.MulExpr
+import de.leanovate.jbj.ast.expr.value._
+import de.leanovate.jbj.ast.stmt.AssignStmt
+import de.leanovate.jbj.ast.stmt.FunctionDefStmt
+import de.leanovate.jbj.ast.stmt.Assignment
+import de.leanovate.jbj.ast.expr.comp.LeExpr
+import de.leanovate.jbj.ast.stmt.cond.CaseBlock
+import de.leanovate.jbj.ast.expr.VarGetExpr
+import de.leanovate.jbj.ast.expr.comp.EqExpr
+import de.leanovate.jbj.ast.stmt.InlineStmt
+import de.leanovate.jbj.ast.expr.VarGetAndIncrExpr
+import de.leanovate.jbj.ast.expr.CallExpr
+import de.leanovate.jbj.ast.expr.comp.GtExpr
+import de.leanovate.jbj.ast.expr.calc.DivExpr
+import de.leanovate.jbj.ast.stmt.EchoStmt
+import scala.language.implicitConversions
+import de.leanovate.jbj.runtime.context.GlobalContext
+import de.leanovate.jbj.ast.stmt.GlobalAssignStmt
+import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
+import de.leanovate.jbj.ast.expr.calc.AddExpr
+import de.leanovate.jbj.ast.expr.comp.BoolAndExpr
+import de.leanovate.jbj.ast.stmt.cond.IfStmt
+import de.leanovate.jbj.parser.JbjTokens.NumericLit
+import de.leanovate.jbj.ast.stmt.ReturnStmt
+import de.leanovate.jbj.ast.expr.calc.SubExpr
+import scala.Some
+import de.leanovate.jbj.parser.JbjTokens.Inline
+import de.leanovate.jbj.ast.expr.comp.LtExpr
+import de.leanovate.jbj.ast.expr.comp.GeExpr
+import de.leanovate.jbj.ast.Prog
+import de.leanovate.jbj.ast.stmt.ExprStmt
+import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
+import de.leanovate.jbj.ast.expr.NegExpr
+import de.leanovate.jbj.ast.stmt.ParameterDef
+import de.leanovate.jbj.ast.expr.DotExpr
+import de.leanovate.jbj.parser.JbjTokens.ScriptEnd
+import de.leanovate.jbj.parser.JbjTokens.ScriptStart
+import de.leanovate.jbj.ast.expr.VarGetAndDecrExpr
+import de.leanovate.jbj.ast.expr.calc.MulExpr
+import de.leanovate.jbj.ast.stmt.StaticAssignStmt
+import de.leanovate.jbj.ast.stmt.AssignStmt
+import de.leanovate.jbj.ast.stmt.FunctionDefStmt
+import de.leanovate.jbj.ast.stmt.Assignment
+import de.leanovate.jbj.parser.JbjTokens.Identifier
+import de.leanovate.jbj.ast.expr.comp.LeExpr
+import de.leanovate.jbj.ast.stmt.cond.CaseBlock
+import de.leanovate.jbj.ast.expr.VarGetExpr
+import de.leanovate.jbj.runtime.context.GlobalContext
+import de.leanovate.jbj.ast.expr.comp.EqExpr
+import de.leanovate.jbj.ast.stmt.InlineStmt
+import de.leanovate.jbj.ast.expr.VarGetAndIncrExpr
+import de.leanovate.jbj.ast.expr.comp.BoolOrExpr
+import de.leanovate.jbj.parser.JbjTokens.Keyword
+import de.leanovate.jbj.parser.JbjTokens.StringLit
+import de.leanovate.jbj.parser.JbjTokens.VarIdentifier
+import de.leanovate.jbj.ast.expr.CallExpr
+import de.leanovate.jbj.ast.expr.comp.GtExpr
+import de.leanovate.jbj.parser.JbjTokens.ScriptStartEcho
+import de.leanovate.jbj.ast.expr.calc.DivExpr
+import de.leanovate.jbj.ast.stmt.EchoStmt
+import de.leanovate.jbj.ast.stmt.GlobalAssignStmt
+import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
+import de.leanovate.jbj.ast.expr.calc.AddExpr
+import de.leanovate.jbj.ast.expr.comp.BoolAndExpr
+import de.leanovate.jbj.ast.stmt.cond.IfStmt
 import de.leanovate.jbj.parser.JbjTokens.NumericLit
 import de.leanovate.jbj.ast.stmt.ReturnStmt
 import de.leanovate.jbj.ast.expr.calc.SubExpr
@@ -29,6 +107,8 @@ import de.leanovate.jbj.parser.JbjTokens.ScriptStart
 import de.leanovate.jbj.ast.expr.VarGetAndDecrExpr
 import de.leanovate.jbj.ast.expr.calc.MulExpr
 import de.leanovate.jbj.ast.expr.value.IntegerConstExpr
+import de.leanovate.jbj.ast.stmt.StaticAssignStmt
+import de.leanovate.jbj.parser.JbjTokens.InterpolatedStringLit
 import de.leanovate.jbj.ast.stmt.AssignStmt
 import de.leanovate.jbj.ast.stmt.FunctionDefStmt
 import de.leanovate.jbj.ast.stmt.Assignment
@@ -36,9 +116,11 @@ import de.leanovate.jbj.parser.JbjTokens.Identifier
 import de.leanovate.jbj.ast.expr.comp.LeExpr
 import de.leanovate.jbj.ast.stmt.cond.CaseBlock
 import de.leanovate.jbj.ast.expr.VarGetExpr
+import de.leanovate.jbj.runtime.context.GlobalContext
 import de.leanovate.jbj.ast.expr.comp.EqExpr
 import de.leanovate.jbj.ast.stmt.InlineStmt
 import de.leanovate.jbj.ast.expr.VarGetAndIncrExpr
+import de.leanovate.jbj.ast.expr.comp.BoolOrExpr
 import de.leanovate.jbj.parser.JbjTokens.Keyword
 import de.leanovate.jbj.ast.expr.value.StringConstExpr
 import de.leanovate.jbj.parser.JbjTokens.StringLit
@@ -48,8 +130,6 @@ import de.leanovate.jbj.ast.expr.comp.GtExpr
 import de.leanovate.jbj.parser.JbjTokens.ScriptStartEcho
 import de.leanovate.jbj.ast.expr.calc.DivExpr
 import de.leanovate.jbj.ast.stmt.EchoStmt
-import scala.language.implicitConversions
-import de.leanovate.jbj.runtime.context.GlobalContext
 
 object JbjParser extends Parsers {
   type Elem = JbjTokens.Token
@@ -58,7 +138,9 @@ object JbjParser extends Parsers {
 
   def value: Parser[Expr] =
     (numericLit ^^ (s => IntegerConstExpr(s.toInt))
-      | stringLit ^^ (s => StringConstExpr(s)))
+      | stringLit ^^ (s => StringConstExpr(s))
+      | interpolatedStringLit ^^ (s => InterpolatedStringExpr(s))
+      )
 
   def variableRef: Parser[Expr] = variable <~ "+" <~ "+" ^^ {
     s => VarGetAndIncrExpr(s)
@@ -257,6 +339,11 @@ object JbjParser extends Parsers {
   def stringLit: Parser[String] =
     elem("string literal", _.isInstanceOf[StringLit]) ^^ (_.chars)
 
+  def interpolatedStringLit: Parser[List[Either[Char, String]]] =
+    elem("interpolated string literal", _.isInstanceOf[InterpolatedStringLit]) ^^ {
+      case t: InterpolatedStringLit => t.charOrInterpolations
+    }
+
   /** A parser which matches an identifier */
   def ident: Parser[String] =
     elem("identifier", _.isInstanceOf[Identifier]) ^^ (_.chars)
@@ -267,6 +354,15 @@ object JbjParser extends Parsers {
   def parse(s: String): ParseResult[Prog] = {
     val tokens = new JbjInitialLexer(s)
     phrase(prog)(tokens)
+  }
+
+  def parseExpr(s: String): Expr = {
+    val tokens = new JbjScriptLexer(s)
+    phrase(expr)(tokens) match {
+      case Success(expr, _) => expr
+      case e: NoSuccess =>
+        throw new IllegalArgumentException("Bad syntax: " + e)
+    }
   }
 
   def apply(s: String): Prog = {
@@ -292,26 +388,7 @@ object JbjParser extends Parsers {
   def main(args: Array[String]) = {
 
     test( """<?php
-            |error_reporting(0);
-            |$a = 10;
-            |
-            |function Test()
-            |{
-            |	static $a=1;
-            |	global $b;
-            |	$c = 1;
-            |	$b = 5;
-            |	echo $a . " " . $b . " ";
-            |	$a++;
-            |	$c++;
-            |	echo $a . " " . $c . " ";
-            |}
-            |
-            |Test();
-            |echo $a . " " . $b . " " . $c . " ";
-            |Test();
-            |echo $a . " " . $b . " " . $c . " ";
-            |Test();
+            |echo "Bla $a $name[0] Hurra";
             |?>""".stripMargin)
   }
 }

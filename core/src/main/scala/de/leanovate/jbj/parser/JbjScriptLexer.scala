@@ -1,7 +1,7 @@
 package de.leanovate.jbj.parser
 
 import scala.util.parsing.input.{CharArrayReader, Reader}
-import JbjTokens.{Token, ScriptEnd, VarIdentifier, NumericLit, StringLit, EOF, Keyword, Identifier, errorToken}
+import JbjTokens.{Token, ScriptEnd, VarIdentifier, NumericLit, StringLit, InterpolatedStringLit, EOF, Keyword, Identifier, errorToken}
 import scala.util.parsing.input.CharArrayReader.EofCh
 import scala.util.parsing.combinator.Parsers
 
@@ -58,7 +58,7 @@ class JbjScriptLexer(in: Reader[Char]) extends Reader[Token] with Parsers {
       case '\'' ~ str ~ '\'' => StringLit(str)
     }
       | '\"' ~ interpolatedStr ~ '\"' ^^ {
-      case '\"' ~ str ~ '\"' => StringLit(str)
+      case '\"' ~ str ~ '\"' => InterpolatedStringLit(str)
     }
       | EofCh ^^^ EOF
       | '\'' ~> failure("unclosed string literal")
@@ -67,22 +67,44 @@ class JbjScriptLexer(in: Reader[Char]) extends Reader[Token] with Parsers {
       | failure("illegal character")
       )
 
-  private def strCharCommonReplacements: Parser[Char] = '\\' ~> (
-    '\\' ^^^ ('\\')
-      | 'n' ^^^ ('\n')
-      | 'r' ^^^ ('\r')
-      | 't' ^^^ ('\t')
+  private def interpolatedCharReplacements: Parser[Char] = '\\' ~> (
+    '\\' ^^^ '\\' | '\"' ^^^ '\"' | '$' ^^^ '$' |
+      'n' ^^^ '\n' | 'r' ^^^ '\r' | 't' ^^^ '\t' | 'v' ^^^ '\13' | 'f' ^^^ '\f' |
+      digit ~ opt(digit) ~ opt(digit) ^^ {
+        case d1 ~ optD2 ~ optD3 =>
+          var d = Character.digit(d1, 8)
+          optD2.foreach(d2 => d = 8 * d + Character.digit(d2, 8))
+          optD3.foreach(d3 => d = 8 * d + Character.digit(d3, 8))
+          d.toChar
+      } |
+      'x' ~> hexDigit ~ opt(hexDigit) ^^ {
+        case d1 ~ optD2 =>
+          var d = Character.digit(d1, 16)
+          optD2.foreach(d2 => d = 16 * d + Character.digit(d2, 16))
+          d.toChar
+      }
     )
 
-  private def strChar(quote: Char): Parser[Char] = strCharCommonReplacements | chrExcept(quote, EofCh)
+  private def strInterpolation: Parser[String] =
+    '$' ~> '{' ~> rep(chrExcept('\"', '}', EofCh)) <~ '}' ^^ {
+      chars => '$' :: chars mkString ""
+    } | '{' ~> '$' ~> rep(chrExcept('\"', '}', EofCh)) <~ '}' ^^ {
+      chars => '$' :: chars mkString ""
+    } | '$' ~ identChar ~ rep(identChar | digit) ^^ {
+      case start ~ first ~ rest => start :: first :: rest mkString ""
+    }
 
-  private def notInterpolatedStr: Parser[String] = rep(strChar('\'')) ^^ {
+  private def interpolatedChar: Parser[Either[Char, String]] = interpolatedCharReplacements ^^ (ch => Left(ch)) |
+    strInterpolation ^^ (s => Right(s)) |
+    chrExcept('\"', EofCh) ^^ (ch => Left(ch))
+
+  private def notInterpolatedChar: Parser[Char] = '\\' ~> ('\\' ^^^ '\\' | '\'' ^^^ '\'') | chrExcept('\'', EofCh)
+
+  private def notInterpolatedStr: Parser[String] = rep(notInterpolatedChar) ^^ {
     chars => chars.mkString("")
   }
 
-  private def interpolatedStr: Parser[String] = rep(strChar('\"')) ^^ {
-    chars => chars.mkString("")
-  }
+  private def interpolatedStr: Parser[List[Either[Char, String]]] = rep(interpolatedChar)
 
   /** Returns the legal identifier chars, except digits. */
   private def identChar = letter | elem('_')
@@ -101,18 +123,18 @@ class JbjScriptLexer(in: Reader[Char]) extends Reader[Token] with Parsers {
   /** A character-parser that matches a digit (and returns it). */
   private def digit = elem("digit", _.isDigit)
 
+  private def hexDigit = elem("hexDigt", ch => ch.isDigit || (ch >= 'a' && ch <= 'f') || (ch >= 'A' && ch <= 'F'))
+
   /** A character-parser that matches any character except the ones given in `cs` (and returns it). */
-  private def chrExcept(cs: Char*) = elem("", ch => (cs forall (ch != _)))
+  private def chrExcept(cs: Char*) = elem("", ch => cs.forall(ch != _))
 
   /** A character-parser that matches a white-space character (and returns it). */
   private def whitespaceChar = elem("space char", ch => ch <= ' ' && ch != EofCh)
 
-  protected def comment: Parser[Any] = (
+  protected def comment: Parser[Any] =
     '*' ~ '/' ^^ {
       case _ => ' '
-    }
-      | chrExcept(EofCh) ~ comment
-    )
+    } | chrExcept(EofCh) ~ comment
 
   protected def processIdent(name: String) =
     if (reserved contains name) Keyword(name) else Identifier(name)
@@ -136,10 +158,10 @@ class JbjScriptLexer(in: Reader[Char]) extends Reader[Token] with Parsers {
 
 object JbjScriptLexer {
   /** The set of reserved identifiers: these will be returned as `Keyword`s. */
-  val reserved = Set("static", "global", "private", "class",
+  val reserved = Set("static", "global", "public", "private", "class", "var",
     "echo",
     "return", "break", "continue",
-    "if", "else", "elseif", "while", "for",
+    "if", "else", "elseif", "while", "for", "foreach",
     "switch", "case", "default",
     "function")
 
