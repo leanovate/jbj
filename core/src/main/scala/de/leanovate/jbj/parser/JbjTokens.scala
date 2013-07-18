@@ -1,9 +1,26 @@
 package de.leanovate.jbj.parser
 
-import scala.util.parsing.combinator.token.Tokens
+object JbjTokens {
 
-trait JbjTokens extends Tokens {
+  /** Objects of this type are produced by a lexical parser or ``scanner'', and consumed by a parser.
+    *
+    *  @see [[scala.util.parsing.combinator.syntactical.TokenParsers]]
+    */
+  abstract class Token {
+    def chars: String
+  }
 
+  /** A class of error tokens. Error tokens are used to communicate
+    *  errors detected during lexical analysis
+    */
+  case class ErrorToken(msg: String) extends Token {
+    def chars = "*** error: "+msg
+  }
+
+  /** A class for end-of-file tokens */
+  case object EOF extends Token {
+    def chars = "<eof>"
+  }
 
   case class Keyword(chars: String) extends Token {
     override def toString = "`"+chars+"'"
@@ -42,4 +59,7 @@ trait JbjTokens extends Tokens {
 
     override def toString = "variable identifier " + name
   }
+
+  /** This token is produced by a scanner `Scanner` when scanning failed. */
+  def errorToken(msg: String): Token = new ErrorToken(msg)
 }

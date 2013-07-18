@@ -1,45 +1,52 @@
 package de.leanovate.jbj.parser
 
-import scala.util.parsing.combinator.syntactical.TokenParsers
 import de.leanovate.jbj.ast._
 import de.leanovate.jbj.ast.stmt._
-import de.leanovate.jbj.ast.expr._
 import de.leanovate.jbj.ast.stmt.cond._
 import de.leanovate.jbj.ast.stmt.cond.SwitchStmt
 import de.leanovate.jbj.ast.stmt.loop.WhileStmt
+import scala.collection.mutable
+import scala.util.parsing.combinator.Parsers
+import de.leanovate.jbj.parser.JbjTokens._
 import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
 import de.leanovate.jbj.ast.expr.calc.AddExpr
 import de.leanovate.jbj.ast.stmt.cond.IfStmt
 import de.leanovate.jbj.ast.stmt.ReturnStmt
 import de.leanovate.jbj.ast.expr.calc.SubExpr
 import scala.Some
+import de.leanovate.jbj.parser.JbjTokens.Inline
 import de.leanovate.jbj.ast.expr.comp.LtExpr
 import de.leanovate.jbj.ast.expr.comp.GeExpr
 import de.leanovate.jbj.ast.Prog
+import de.leanovate.jbj.ast.stmt.ExprStmt
 import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
 import de.leanovate.jbj.ast.expr.NegExpr
+import de.leanovate.jbj.ast.stmt.ParameterDef
 import de.leanovate.jbj.ast.expr.DotExpr
+import de.leanovate.jbj.parser.JbjTokens.ScriptEnd
+import de.leanovate.jbj.parser.JbjTokens.ScriptStart
+import de.leanovate.jbj.ast.expr.VarGetAndDecrExpr
 import de.leanovate.jbj.ast.expr.calc.MulExpr
+import de.leanovate.jbj.ast.expr.value.IntegerConstExpr
 import de.leanovate.jbj.ast.stmt.AssignStmt
+import de.leanovate.jbj.ast.stmt.FunctionDefStmt
+import de.leanovate.jbj.ast.stmt.Assignment
 import de.leanovate.jbj.ast.expr.comp.LeExpr
 import de.leanovate.jbj.ast.stmt.cond.CaseBlock
 import de.leanovate.jbj.ast.expr.VarGetExpr
 import de.leanovate.jbj.runtime.GlobalContext
 import de.leanovate.jbj.ast.expr.comp.EqExpr
 import de.leanovate.jbj.ast.stmt.InlineStmt
+import de.leanovate.jbj.ast.expr.VarGetAndIncrExpr
+import de.leanovate.jbj.ast.expr.value.StringConstExpr
 import de.leanovate.jbj.ast.expr.CallExpr
 import de.leanovate.jbj.ast.expr.comp.GtExpr
+import de.leanovate.jbj.parser.JbjTokens.ScriptStartEcho
 import de.leanovate.jbj.ast.expr.calc.DivExpr
 import de.leanovate.jbj.ast.stmt.EchoStmt
-import de.leanovate.jbj.ast.expr.value.{IntegerConstExpr, StringConstExpr}
-import scala.collection.mutable
 
-object JbjParser extends TokenParsers {
-  type Tokens = JbjTokens
-
-  val lexical = new JbjLexer
-
-  import lexical.{Keyword, NumericLit, StringLit, Identifier, Inline, ScriptStart, ScriptStartEcho, ScriptEnd, VarIdentifier}
+object JbjParser extends Parsers {
+  type Elem = JbjTokens.Token
 
   protected val keywordCache = mutable.HashMap[String, Parser[String]]()
 
@@ -238,7 +245,7 @@ object JbjParser extends TokenParsers {
     elem("variable", _.isInstanceOf[VarIdentifier]) ^^ (_.asInstanceOf[VarIdentifier].name)
 
   def parse(s: String): ParseResult[Prog] = {
-    val tokens = new lexical.InitialScanner(s)
+    val tokens = new JbjInitialLexer(s)
     phrase(prog)(tokens)
   }
 
