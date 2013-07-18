@@ -5,7 +5,7 @@ import de.leanovate.jbj.runtime._
 import java.util.concurrent.atomic.AtomicLong
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.SuccessExecResult
-import de.leanovate.jbj.runtime.BlockContext
+import de.leanovate.jbj.runtime.context.BlockContext
 
 case class BlockStmt(identifier: String, stmts: List[Stmt]) extends Stmt {
   override def exec(ctx: Context) = {

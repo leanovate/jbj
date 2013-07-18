@@ -36,7 +36,6 @@ import de.leanovate.jbj.parser.JbjTokens.Identifier
 import de.leanovate.jbj.ast.expr.comp.LeExpr
 import de.leanovate.jbj.ast.stmt.cond.CaseBlock
 import de.leanovate.jbj.ast.expr.VarGetExpr
-import de.leanovate.jbj.runtime.GlobalContext
 import de.leanovate.jbj.ast.expr.comp.EqExpr
 import de.leanovate.jbj.ast.stmt.InlineStmt
 import de.leanovate.jbj.ast.expr.VarGetAndIncrExpr
@@ -50,6 +49,7 @@ import de.leanovate.jbj.parser.JbjTokens.ScriptStartEcho
 import de.leanovate.jbj.ast.expr.calc.DivExpr
 import de.leanovate.jbj.ast.stmt.EchoStmt
 import scala.language.implicitConversions
+import de.leanovate.jbj.runtime.context.GlobalContext
 
 object JbjParser extends Parsers {
   type Elem = JbjTokens.Token
@@ -292,15 +292,26 @@ object JbjParser extends Parsers {
   def main(args: Array[String]) = {
 
     test( """<?php
-            |function blah()
-            |{
-            |  static $hey=0, $yo=0;
+            |error_reporting(0);
+            |$a = 10;
             |
-            |  echo "hey=".$hey++.", ",$yo--."\n";
+            |function Test()
+            |{
+            |	static $a=1;
+            |	global $b;
+            |	$c = 1;
+            |	$b = 5;
+            |	echo $a . " " . $b . " ";
+            |	$a++;
+            |	$c++;
+            |	echo $a . " " . $c . " ";
             |}
             |
-            |blah();
-            |blah();
-            |blah(); ?>""".stripMargin)
+            |Test();
+            |echo $a . " " . $b . " " . $c . " ";
+            |Test();
+            |echo $a . " " . $b . " " . $c . " ";
+            |Test();
+            |?>""".stripMargin)
   }
 }

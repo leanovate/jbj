@@ -12,7 +12,7 @@ case class VarGetAndDecrExpr (variableName: String) extends Expr {
         valueRef.value = result.decr
         result
       case None =>
-        ctx.defineVariable(variableName, static = false, ValueRef(IntegerVal(1)))
+        ctx.defineVariable(variableName, ValueRef(IntegerVal(1)))
         IntegerVal(0)
     }
   }

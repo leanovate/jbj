@@ -6,7 +6,7 @@ import de.leanovate.jbj.runtime._
 import java.util.concurrent.atomic.AtomicLong
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.SuccessExecResult
-import de.leanovate.jbj.runtime.BlockContext
+import de.leanovate.jbj.runtime.context.BlockContext
 
 case class WhileStmt(identifier: String, expr: Expr, whileBlock: BlockStmt) extends Stmt {
   def exec(ctx: Context): ExecResult = {

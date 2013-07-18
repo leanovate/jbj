@@ -10,7 +10,7 @@ case class GlobalAssignStmt(assignments: List[Assignment]) extends Stmt {
       assignment =>
         val value = assignment.expr.map(_.eval(ctx)).getOrElse(UndefinedVal)
         ctx.global.findVariable(assignment.variableName) match {
-          case None => ctx.global.defineVariable(assignment.variableName, static = false, ValueRef(value.copy))
+          case None => ctx.global.defineVariable(assignment.variableName, ValueRef(value.copy))
           case _ =>
         }
     }

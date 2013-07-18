@@ -9,8 +9,8 @@ case class StaticAssignStmt(assignments: List[Assignment]) extends Stmt {
     assignments.foreach {
       assignment =>
         val value = assignment.expr.map(_.eval(ctx)).getOrElse(UndefinedVal)
-        ctx.findVariable(assignment.variableName) match {
-          case None => ctx.defineVariable(assignment.variableName, static = true, ValueRef(value.copy))
+        ctx.static.findVariable(assignment.variableName) match {
+          case None => ctx.static.defineVariable(assignment.variableName, ValueRef(value.copy))
           case _ =>
         }
     }

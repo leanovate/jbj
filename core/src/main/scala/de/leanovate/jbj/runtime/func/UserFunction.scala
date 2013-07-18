@@ -6,7 +6,7 @@ import de.leanovate.jbj.runtime.value.{ValueRef, NullVal}
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.ReturnExecResult
 import de.leanovate.jbj.ast.stmt.ParameterDef
-import de.leanovate.jbj.runtime.BlockContext
+import de.leanovate.jbj.runtime.context.BlockContext
 
 case class UserFunction(name: String, parameterDefs: List[ParameterDef], stmts: List[Stmt]) extends Function {
 
@@ -16,7 +16,7 @@ case class UserFunction(name: String, parameterDefs: List[ParameterDef], stmts: 
     parameterDefs.zipWithIndex.foreach {
       case (parameterDef, idx) =>
         val value = parameters.drop(idx).headOption.getOrElse(parameterDef.defaultVal(ctx))
-        funcCtx.defineVariable(parameterDef.variableName, static = false, ValueRef(value.copy))
+        funcCtx.defineVariable(parameterDef.variableName, ValueRef(value.copy))
     }
     execStmts(stmts, funcCtx)
   }

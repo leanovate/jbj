@@ -11,7 +11,7 @@ case class AssignStmt(assignments: List[Assignment]) extends Stmt {
         val value = assignment.expr.map(_.eval(ctx)).getOrElse(UndefinedVal)
         ctx.findVariable(assignment.variableName) match {
           case Some(valueRef) => valueRef.value = value.copy
-          case None => ctx.defineVariable(assignment.variableName, static = false, ValueRef(value.copy))
+          case None => ctx.defineVariable(assignment.variableName, ValueRef(value.copy))
           case _ =>
         }
     }
