@@ -2,8 +2,10 @@ package de.leanovate.jbj.ast.expr.value
 
 import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.runtime.Context
-import de.leanovate.jbj.ast.value.StringVal
+import de.leanovate.jbj.runtime.value.StringVal
 
 case class StringConstExpr(value:String) extends Expr {
-  def eval(ctx: Context) = StringVal(value)
+  lazy val _value = StringVal(value)
+
+  def eval(ctx: Context) = _value
 }

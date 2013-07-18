@@ -1,4 +1,4 @@
-package de.leanovate.jbj.ast.value
+package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.Value
 

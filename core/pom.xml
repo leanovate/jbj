@@ -51,6 +51,9 @@
                         <phase>test-compile</phase>
                     </execution>
                 </executions>
+                <configuration>
+                    <verbose>true</verbose>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

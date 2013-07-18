@@ -7,7 +7,6 @@ import de.leanovate.jbj.ast.stmt.cond.SwitchStmt
 import de.leanovate.jbj.ast.stmt.loop.WhileStmt
 import scala.collection.mutable
 import scala.util.parsing.combinator.Parsers
-import de.leanovate.jbj.parser.JbjTokens._
 import de.leanovate.jbj.ast.expr.comp._
 import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
 import de.leanovate.jbj.ast.expr.calc.AddExpr
@@ -50,6 +49,7 @@ import de.leanovate.jbj.ast.expr.comp.GtExpr
 import de.leanovate.jbj.parser.JbjTokens.ScriptStartEcho
 import de.leanovate.jbj.ast.expr.calc.DivExpr
 import de.leanovate.jbj.ast.stmt.EchoStmt
+import scala.language.implicitConversions
 
 object JbjParser extends Parsers {
   type Elem = JbjTokens.Token
@@ -171,11 +171,11 @@ object JbjParser extends Parsers {
   }
 
   def ifStmt: Parser[IfStmt] = "if" ~> "(" ~> expr ~ ")" ~ block ~ rep(elseIfBlock) ~ opt("else" ~> block) ^^ {
-    case cond ~ _ ~ then ~ elseIfs ~ optElse => IfStmt(cond, then, elseIfs, optElse)
+    case cond ~ _ ~ thenBlock ~ elseIfs ~ optElse => IfStmt(cond, thenBlock, elseIfs, optElse)
   }
 
   def elseIfBlock: Parser[ElseIfBlock] = "elseif" ~> "(" ~> expr ~ ")" ~ block ^^ {
-    case cond ~ _ ~ then => ElseIfBlock(cond, then)
+    case cond ~ _ ~ thenBlock => ElseIfBlock(cond, thenBlock)
   }
 
   def switchStmt: Parser[SwitchStmt] = "switch" ~> "(" ~> expr ~ ")" ~ "{" ~ switchCases ~ "}" ^^ {

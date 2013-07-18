@@ -1,8 +1,8 @@
-package de.leanovate.jbj.ast.func
+package de.leanovate.jbj.runtime.func
 
 import de.leanovate.jbj.ast.Stmt
 import de.leanovate.jbj.runtime._
-import de.leanovate.jbj.ast.value.{ValueRef, NullVal}
+import de.leanovate.jbj.runtime.value.{ValueRef, NullVal}
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.ReturnExecResult
 import de.leanovate.jbj.ast.stmt.ParameterDef

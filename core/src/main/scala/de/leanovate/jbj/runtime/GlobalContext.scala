@@ -2,7 +2,7 @@ package de.leanovate.jbj.runtime
 
 import java.io.PrintStream
 import scala.collection.mutable
-import de.leanovate.jbj.ast.value.ValueRef
+import de.leanovate.jbj.runtime.value.ValueRef
 
 case class GlobalContext(out: PrintStream) extends Context {
   private val variables = mutable.Map.empty[String, ValueRef]

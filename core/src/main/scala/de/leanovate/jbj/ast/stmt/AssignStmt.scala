@@ -2,7 +2,7 @@ package de.leanovate.jbj.ast.stmt
 
 import de.leanovate.jbj.ast.Stmt
 import de.leanovate.jbj.runtime.{SuccessExecResult, Context}
-import de.leanovate.jbj.ast.value.ValueRef
+import de.leanovate.jbj.runtime.value.ValueRef
 
 case class AssignStmt(assignments: List[Assignment], static: Boolean) extends Stmt {
   override def exec(ctx: Context) = {

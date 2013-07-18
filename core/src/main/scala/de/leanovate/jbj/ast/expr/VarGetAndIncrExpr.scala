@@ -2,7 +2,7 @@ package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.runtime.Context
-import de.leanovate.jbj.ast.value.{ValueRef, IntegerVal}
+import de.leanovate.jbj.runtime.value.{ValueRef, IntegerVal}
 
 case class VarGetAndIncrExpr(variableName: String) extends Expr {
   def eval(ctx: Context) = {

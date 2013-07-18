@@ -1,7 +1,7 @@
 package de.leanovate.jbj.runtime
 
 import scala.collection.mutable
-import de.leanovate.jbj.ast.value.ValueRef
+import de.leanovate.jbj.runtime.value.ValueRef
 
 case class BlockContext(identifier: String, callerCtx: Context) extends Context {
   private val localVariables = mutable.Map.empty[String, ValueRef]

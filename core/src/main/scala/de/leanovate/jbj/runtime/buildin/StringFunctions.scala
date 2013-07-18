@@ -1,6 +1,6 @@
 package de.leanovate.jbj.runtime.buildin
 
-import de.leanovate.jbj.ast.value.IntegerVal
+import de.leanovate.jbj.runtime.value.IntegerVal
 
 object StringFunctions {
   val strlen = BuildinFunction1("strlen", {

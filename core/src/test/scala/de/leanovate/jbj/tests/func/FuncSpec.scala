@@ -17,7 +17,7 @@ class FuncSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
       )
     }
 
-    "Static variables in functions" - {
+    "Static variables in functions" - { // func/002
       resultOf(
         """<?php
           |function blah()

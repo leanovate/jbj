@@ -1,4 +1,4 @@
-package de.leanovate.jbj.ast.value
+package de.leanovate.jbj.runtime.value
 
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.Value
@@ -12,7 +12,7 @@ class ValueRef(private var current: Option[Value] = None) extends Value {
 
   def toNum = current.map(_.toNum).getOrElse(IntegerVal(0))
 
-  def toBool = current.map(_.toBool).getOrElse(BooleanVal(false))
+  def toBool = current.map(_.toBool).getOrElse(BooleanVal.FALSE)
 
   def isNull = current.exists(_.isNull)
 
