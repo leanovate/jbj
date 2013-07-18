@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.Expr
-import de.leanovate.jbj.exec.Context
+import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.ast.value.UndefinedVal
 
 case class VarGetExpr(variableName: String) extends Expr {

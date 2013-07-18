@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.value
 
-import de.leanovate.jbj.ast.Value
 import java.io.PrintStream
+import de.leanovate.jbj.runtime.Value
 
 class ValueRef(private var current: Option[Value] = None) extends Value {
   def toOutput(out: PrintStream) {

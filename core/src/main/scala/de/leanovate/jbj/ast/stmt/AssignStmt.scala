@@ -1,8 +1,7 @@
 package de.leanovate.jbj.ast.stmt
 
 import de.leanovate.jbj.ast.Stmt
-import de.leanovate.jbj.ast.Expr
-import de.leanovate.jbj.exec.{SuccessExecResult, Context}
+import de.leanovate.jbj.runtime.{SuccessExecResult, Context}
 import de.leanovate.jbj.ast.value.ValueRef
 
 case class AssignStmt(assignments: List[Assignment], static: Boolean) extends Stmt {

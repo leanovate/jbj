@@ -1,11 +1,11 @@
 package de.leanovate.jbj.ast.stmt.cond
 
 import de.leanovate.jbj.ast.{Expr, Stmt}
-import de.leanovate.jbj.exec._
+import de.leanovate.jbj.runtime._
 import java.util.concurrent.atomic.AtomicLong
 import scala.annotation.tailrec
-import de.leanovate.jbj.exec.SuccessExecResult
-import de.leanovate.jbj.exec.BlockContext
+import de.leanovate.jbj.runtime.SuccessExecResult
+import de.leanovate.jbj.runtime.BlockContext
 
 case class SwitchStmt(identifier: String, expr: Expr, cases: List[SwitchCase]) extends Stmt {
   def exec(ctx: Context) = {

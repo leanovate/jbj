@@ -1,6 +1,6 @@
 package de.leanovate.jbj.ast.value
 
-import de.leanovate.jbj.ast.Value
+import de.leanovate.jbj.runtime.Value
 
 trait NumericVal extends Value {
   def toNum: NumericVal = this

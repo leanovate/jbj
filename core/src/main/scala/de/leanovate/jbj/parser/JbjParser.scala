@@ -25,7 +25,7 @@ import de.leanovate.jbj.ast.stmt.AssignStmt
 import de.leanovate.jbj.ast.expr.comp.LeExpr
 import de.leanovate.jbj.ast.stmt.cond.CaseBlock
 import de.leanovate.jbj.ast.expr.VarGetExpr
-import de.leanovate.jbj.exec.GlobalContext
+import de.leanovate.jbj.runtime.GlobalContext
 import de.leanovate.jbj.ast.expr.comp.EqExpr
 import de.leanovate.jbj.ast.stmt.InlineStmt
 import de.leanovate.jbj.ast.value.IntegerVal

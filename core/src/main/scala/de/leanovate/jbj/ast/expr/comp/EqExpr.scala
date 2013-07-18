@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.expr.comp
 
-import de.leanovate.jbj.ast.{Value, Expr}
-import de.leanovate.jbj.exec.Context
+import de.leanovate.jbj.ast.Expr
+import de.leanovate.jbj.runtime.{Value, Context}
 import de.leanovate.jbj.ast.value.BooleanVal
 
 case class EqExpr(left: Expr, right: Expr) extends Expr {

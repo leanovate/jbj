@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.Expr
-import de.leanovate.jbj.exec.Context
+import de.leanovate.jbj.runtime.Context
 
 case class CallExpr(functionName: String, parameters: List[Expr]) extends Expr {
   def eval(ctx: Context) = ctx.findFunction(functionName).map {

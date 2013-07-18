@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.value
 
-import de.leanovate.jbj.ast.Value
 import java.io.PrintStream
+import de.leanovate.jbj.runtime.Value
 
 case class BooleanVal(value: Boolean) extends Value {
   def toOutput(out: PrintStream) {

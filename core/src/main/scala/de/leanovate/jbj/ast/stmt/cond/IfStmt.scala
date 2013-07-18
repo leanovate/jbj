@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.stmt.cond
 
 import de.leanovate.jbj.ast.{Stmt, Expr}
-import de.leanovate.jbj.exec.{SuccessExecResult, Context}
+import de.leanovate.jbj.runtime.{SuccessExecResult, Context}
 import de.leanovate.jbj.ast.stmt.BlockStmt
 
 case class IfStmt(condition: Expr, thenBlock: BlockStmt, elseIfs: List[ElseIfBlock], elseBlock: Option[BlockStmt])

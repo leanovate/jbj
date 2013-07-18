@@ -1,6 +1,5 @@
-package de.leanovate.jbj.ast
+package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.exec.Context
 
 trait Function {
   def name: String

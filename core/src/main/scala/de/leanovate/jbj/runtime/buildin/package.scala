@@ -1,4 +1,4 @@
-package de.leanovate.jbj.ast
+package de.leanovate.jbj.runtime
 
 package object buildin {
   val buildinFunctions = Seq(

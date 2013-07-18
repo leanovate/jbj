@@ -1,9 +1,9 @@
 package de.leanovate.jbj.ast.value
 
-import de.leanovate.jbj.ast.Value
 import java.io.PrintStream
+import de.leanovate.jbj.runtime.Value
 
-object NullVal extends Value {
+object UndefinedVal extends Value {
   def toOutput(out: PrintStream) {
   }
 
@@ -13,9 +13,9 @@ object NullVal extends Value {
 
   def toBool = BooleanVal(false)
 
-  def isNull = true
+  def isNull = false
 
-  def isUndefined = false
+  def isUndefined = true
 
   def copy = this
 

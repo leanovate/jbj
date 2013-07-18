@@ -1,8 +1,8 @@
-package de.leanovate.jbj.ast
+package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.ast.value.{IntegerVal, BooleanVal, StringVal, NumericVal}
-import de.leanovate.jbj.exec.Context
 import java.io.PrintStream
+import de.leanovate.jbj.ast.Expr
 
 trait Value extends Expr {
   def eval(ctx: Context): Value = this

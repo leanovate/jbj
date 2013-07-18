@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.stmt.cond
 
-import de.leanovate.jbj.ast.{Stmt, Value}
-import de.leanovate.jbj.exec.Context
+import de.leanovate.jbj.ast.Stmt
+import de.leanovate.jbj.runtime.{Value, Context}
 
 trait SwitchCase {
   def stmts:List[Stmt]

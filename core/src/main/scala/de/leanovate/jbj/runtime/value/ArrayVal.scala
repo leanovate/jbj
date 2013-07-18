@@ -1,8 +1,8 @@
 package de.leanovate.jbj.ast.value
 
-import de.leanovate.jbj.ast.Value
 import java.io.PrintStream
 import de.leanovate.jbj.exception.FatalErrorException
+import de.leanovate.jbj.runtime.Value
 
 case class ArrayVal(keyValue: List[(Value, Value)]) extends Value {
   def toOutput(out: PrintStream) {

@@ -2,12 +2,11 @@ package de.leanovate.jbj.ast.stmt.loop
 
 import de.leanovate.jbj.ast.{Stmt, Expr}
 import de.leanovate.jbj.ast.stmt.BlockStmt
-import de.leanovate.jbj.exec._
+import de.leanovate.jbj.runtime._
 import java.util.concurrent.atomic.AtomicLong
-import de.leanovate.jbj.ast.stmt.cond.{SwitchStmt, SwitchCase}
 import scala.annotation.tailrec
-import de.leanovate.jbj.exec.SuccessExecResult
-import de.leanovate.jbj.exec.BlockContext
+import de.leanovate.jbj.runtime.SuccessExecResult
+import de.leanovate.jbj.runtime.BlockContext
 
 case class WhileStmt(identifier: String, expr: Expr, whileBlock: BlockStmt) extends Stmt {
   def exec(ctx: Context): ExecResult = {
