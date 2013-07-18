@@ -7,9 +7,10 @@ import de.leanovate.jbj.tests.TestJbjExecutor
 import org.scalatest.matchers.MustMatchers
 
 @RunWith(classOf[JUnitRunner])
-class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Language test" - {
-    "Simple If condition test" in {      // lang/001
+class Lang1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
+  "Language test 1" - {
+    "Simple If condition test" in {
+      // lang/001
       resultOf(
         """<?php $a=1; if($a>0) { echo "Yes"; } ?>"""
       ) must be(
@@ -17,7 +18,8 @@ class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
       )
     }
 
-    "Simple While Loop Test" in { // lang/002
+    "Simple While Loop Test" in {
+      // lang/002
       resultOf(
         """<?php
           |$a=1;
@@ -30,7 +32,8 @@ class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
         """123456789"""
       )
     }
-    "Simple Switch Test" in {      // lang/003
+    "Simple Switch Test" in {
+      // lang/003
       resultOf(
         """<?php
           |$a=1;
@@ -51,7 +54,8 @@ class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
       )
     }
 
-    "Simple If/Else Test" in {      // lang/004
+    "Simple If/Else Test" in {
+      // lang/004
       resultOf(
         """<?php
           |$a=1;
@@ -66,7 +70,8 @@ class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
       )
     }
 
-    "Simple If/ElseIf/Else Test" in {      // lang/005
+    "Simple If/ElseIf/Else Test" in {
+      // lang/005
       resultOf(
         """<?php
           |$a=1;
@@ -84,7 +89,8 @@ class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
       )
     }
 
-    "Nested If/ElseIf/Else Test" in {      // lang/006
+    "Nested If/ElseIf/Else Test" in {
+      // lang/006
       resultOf(
         """<?php
           |$a=1;
@@ -109,7 +115,8 @@ class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
       )
     }
 
-    "Function call with global and static variables" in { // lang/007
+    "Function call with global and static variables" in {
+      // lang/007
       resultOf(
         """<?php
           |error_reporting(0);
@@ -138,7 +145,8 @@ class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
       )
     }
 
-    "Testing function parameter passing" in { // lang/009
+    "Testing function parameter passing" in {
+      // lang/009
       resultOf(
         """<?php
           |function test ($a,$b) {
@@ -150,86 +158,5 @@ class LangSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
         """3"""
       )
     }
-
-    "Testing function parameter passing with a return value" in { // lang/010
-      resultOf(
-        """<?php
-          |function test ($b) {
-          |	$b++;
-          |	return($b);
-          |}
-          |$a = test(1);
-          |echo $a;
-          |?>""".stripMargin
-      ) must be(
-        """2"""
-      )
-    }
-
-    "Testing nested functions" in { // lang/011
-      resultOf(
-        """<?php
-          |function F()
-          |{
-          |	$a = "Hello ";
-          |	return($a);
-          |}
-          |
-          |function G()
-          |{
-          |  static $myvar = 4;
-          |
-          |  echo "$myvar ";
-          |  echo F();
-          |  echo "$myvar";
-          |}
-          |
-          |G();
-          |?>""".stripMargin
-      ) must be(
-        """4 Hello 4"""
-      )
-    }
-
-    "Testing stack after early function return" in { // lang/012
-      resultOf(
-        """<?php
-          |function F () {
-          |	if(1) {
-          |		return("Hello");
-          |	}
-          |}
-          |
-          |$i=0;
-          |while ($i<2) {
-          |	echo F();
-          |	$i++;
-          |}
-          |?>""".stripMargin
-      ) must be(
-        """HelloHello"""
-      )
-    }
-
-    "Testing user-defined function falling out of an If into another" in { // lang/017
-      resultOf(
-        """<?php
-          |$a = 1;
-          |function Test ($a) {
-          |	if ($a<3) {
-          |		return(3);
-          |	}
-          |}
-          |
-          |if ($a < Test($a)) {
-          |	echo "$a\n";
-          |	$a++;
-          |}
-          |?>""".stripMargin
-      ) must be(
-        """1
-          |""".stripMargin
-      )
-     }
   }
 }

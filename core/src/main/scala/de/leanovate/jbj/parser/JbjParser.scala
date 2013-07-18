@@ -4,7 +4,7 @@ import de.leanovate.jbj.ast._
 import de.leanovate.jbj.ast.stmt._
 import de.leanovate.jbj.ast.stmt.cond._
 import de.leanovate.jbj.ast.stmt.cond.SwitchStmt
-import de.leanovate.jbj.ast.stmt.loop.WhileStmt
+import de.leanovate.jbj.ast.stmt.loop.{ForStmt, WhileStmt}
 import scala.collection.mutable
 import scala.util.parsing.combinator.Parsers
 import de.leanovate.jbj.ast.expr.comp._
@@ -241,7 +241,7 @@ object JbjParser extends Parsers {
     case variable ~ _ ~ expr => Assignment(variable, Some(expr))
   }
 
-  def blockLikeStmt: Parser[Stmt] = ifStmt | switchStmt | whileStmt | functionDef
+  def blockLikeStmt: Parser[Stmt] = ifStmt | switchStmt | whileStmt | forStmt | functionDef
 
   def closedStmt: Parser[Stmt] = regularStmt <~ ";" | blockLikeStmt
 
@@ -282,6 +282,10 @@ object JbjParser extends Parsers {
 
   def whileStmt: Parser[WhileStmt] = "while" ~> "(" ~> expr ~ ")" ~ block ^^ {
     case expr ~ _ ~ block => WhileStmt(expr, block)
+  }
+
+  def forStmt: Parser[ForStmt] = "for" ~> "(" ~> regularStmt ~ ";" ~ expr ~ ";" ~ regularStmt ~ ")" ~ block ^^ {
+    case beforeStmt ~ _ ~ condition ~ _ ~ afterStmt ~ _ ~ block => ForStmt(beforeStmt, condition, afterStmt, block)
   }
 
   def functionDef: Parser[FunctionDefStmt] = "function" ~> ident ~ "(" ~ parameterDefs ~ ")" ~ block ^^ {
@@ -386,9 +390,37 @@ object JbjParser extends Parsers {
 
   //A main method for testing
   def main(args: Array[String]) = {
-
-    test( """<?php
-            |echo "Bla $a $name[0] Hurra";
-            |?>""".stripMargin)
+    test("""<?php
+           |
+           |echo "Before function declaration...\n";
+           |
+           |function print_something_multiple_times($something,$times)
+           |{
+           |  echo "----\nIn function, printing the string \"$something\" $times times\n";
+           |  for ($i=0; $i<$times; $i++) {
+           |    echo "$i) $something\n";
+           |  }
+           |  echo "Done with function...\n-----\n";
+           |}
+           |
+           |function some_other_function()
+           |{
+           |  echo "This is some other function, to ensure more than just one function works fine...\n";
+           |}
+           |
+           |
+           |echo "After function declaration...\n";
+           |
+           |echo "Calling function for the first time...\n";
+           |print_something_multiple_times("This works!",10);
+           |echo "Returned from function call...\n";
+           |
+           |echo "Calling the function for the second time...\n";
+           |print_something_multiple_times("This like, really works and stuff...",3);
+           |echo "Returned from function call...\n";
+           |
+           |some_other_function();
+           |
+           |?>""".stripMargin)
   }
 }
