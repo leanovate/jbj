@@ -133,8 +133,12 @@ object JbjParser extends Parsers {
   def expr: Parser[Expr] = binary(minPrec) | term
 
   def regularStmt: Parser[Stmt] =
-    opt("static") ~ rep1sep(assignment, ",") ^^ {
-      case static ~ assignments => AssignStmt(assignments, static = static.isDefined)
+    "static" ~> rep1sep(assignment, ",") ^^ {
+      assignments => StaticAssignStmt(assignments)
+    } | "global" ~> rep1sep(assignment, ",") ^^ {
+      assignments => GlobalAssignStmt(assignments)
+    } | rep1sep(assignmentWithExpr, ",") ^^ {
+      assignments => AssignStmt(assignments)
     } | "echo" ~> rep1sep(expr, ",") ^^ {
       parms => EchoStmt(parms)
     } | "return" ~> expr ^^ {
@@ -147,8 +151,12 @@ object JbjParser extends Parsers {
       expr => ExprStmt(expr)
     }
 
-  def assignment: Parser[Assignment] = variable ~ "=" ~ expr ^^ {
-    case variable ~ _ ~ expr => Assignment(variable, expr)
+  def assignment: Parser[Assignment] = assignmentWithExpr | variable ^^ {
+    variable => Assignment(variable, None)
+  }
+
+  def assignmentWithExpr: Parser[Assignment] = variable ~ "=" ~ expr ^^ {
+    case variable ~ _ ~ expr => Assignment(variable, Some(expr))
   }
 
   def blockLikeStmt: Parser[Stmt] = ifStmt | switchStmt | whileStmt | functionDef

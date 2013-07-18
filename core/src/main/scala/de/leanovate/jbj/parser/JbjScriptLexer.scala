@@ -136,7 +136,7 @@ class JbjScriptLexer(in: Reader[Char]) extends Reader[Token] with Parsers {
 
 object JbjScriptLexer {
   /** The set of reserved identifiers: these will be returned as `Keyword`s. */
-  val reserved = Set("static", "private", "class",
+  val reserved = Set("static", "global", "private", "class",
     "echo",
     "return", "break", "continue",
     "if", "else", "elseif", "while", "for",
