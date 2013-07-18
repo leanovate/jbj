@@ -1,6 +1,6 @@
 package de.leanovate.jbj.parser
 
-import scala.util.parsing.combinator.syntactical.StdTokenParsers
+import scala.util.parsing.combinator.syntactical.TokenParsers
 import de.leanovate.jbj.ast._
 import de.leanovate.jbj.ast.stmt._
 import de.leanovate.jbj.ast.expr._
@@ -13,7 +13,6 @@ import de.leanovate.jbj.ast.stmt.cond.IfStmt
 import de.leanovate.jbj.ast.stmt.ReturnStmt
 import de.leanovate.jbj.ast.expr.calc.SubExpr
 import scala.Some
-import de.leanovate.jbj.ast.value.StringVal
 import de.leanovate.jbj.ast.expr.comp.LtExpr
 import de.leanovate.jbj.ast.expr.comp.GeExpr
 import de.leanovate.jbj.ast.Prog
@@ -28,27 +27,43 @@ import de.leanovate.jbj.ast.expr.VarGetExpr
 import de.leanovate.jbj.runtime.GlobalContext
 import de.leanovate.jbj.ast.expr.comp.EqExpr
 import de.leanovate.jbj.ast.stmt.InlineStmt
-import de.leanovate.jbj.ast.value.IntegerVal
 import de.leanovate.jbj.ast.expr.CallExpr
 import de.leanovate.jbj.ast.expr.comp.GtExpr
 import de.leanovate.jbj.ast.expr.calc.DivExpr
 import de.leanovate.jbj.ast.stmt.EchoStmt
 import de.leanovate.jbj.ast.expr.value.{IntegerConstExpr, StringConstExpr}
+import scala.collection.mutable
 
-object JbjParser extends StdTokenParsers {
+object JbjParser extends TokenParsers {
   type Tokens = JbjTokens
 
   val lexical = new JbjLexer
 
-  import lexical.{Inline, ScriptStart, ScriptStartEcho, ScriptEnd, VarIdentifier}
+  import lexical.{Keyword, NumericLit, StringLit, Identifier, Inline, ScriptStart, ScriptStartEcho, ScriptEnd, VarIdentifier}
 
-  lexical.reserved ++= List("static", "private", "class",
-    "echo",
-    "return", "break", "continue",
-    "if", "else", "elseif", "while", "for",
-    "switch", "case", "default",
-    "function")
-  lexical.delimiters ++= List(".", "+", "-", "*", "/", "(", ")", ",", ":", ";", "{", "}", "=", ">", ">=", "<", "<=", "==")
+  protected val keywordCache = mutable.HashMap[String, Parser[String]]()
+
+  /** A parser which matches a single keyword token.
+    *
+    * @param chars    The character string making up the matched keyword.
+    * @return a `Parser` that matches the given string
+    */
+  //  implicit def keyword(chars: String): Parser[String] = accept(Keyword(chars)) ^^ (_.chars)
+  implicit def keyword(chars: String): Parser[String] =
+    keywordCache.getOrElseUpdate(chars, accept(Keyword(chars)) ^^ (_.chars))
+
+  /** A parser which matches a numeric literal */
+  def numericLit: Parser[String] =
+    elem("number", _.isInstanceOf[NumericLit]) ^^ (_.chars)
+
+  /** A parser which matches a string literal */
+  def stringLit: Parser[String] =
+    elem("string literal", _.isInstanceOf[StringLit]) ^^ (_.chars)
+
+  /** A parser which matches an identifier */
+  def ident: Parser[String] =
+    elem("identifier", _.isInstanceOf[Identifier]) ^^ (_.chars)
+
 
   def value: Parser[Expr] =
     (numericLit ^^ (s => IntegerConstExpr(s.toInt))
