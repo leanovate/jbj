@@ -55,6 +55,8 @@ object JbjParser extends StdTokenParsers {
 
   def variableRef = variable <~ "+" <~ "+" ^^ {
     s => VarGetAndIncrExpr(s)
+  } | variable <~ "-" <~ "-" ^^ {
+    s => VarGetAndDecrExpr(s)
   } | variable ^^ {
     s => VarGetExpr(s)
   }
@@ -118,8 +120,8 @@ object JbjParser extends StdTokenParsers {
   def expr: Parser[Expr] = binary(minPrec) | term
 
   def regularStmt: Parser[Stmt] =
-    opt("static") ~ variable ~ "=" ~ expr ^^ {
-      case static ~ variable ~ _ ~ expr => AssignStmt(variable, expr, static = static.isDefined)
+    opt("static") ~ rep1sep(assignment, ",") ^^ {
+      case static ~ assignments => AssignStmt(assignments, static = static.isDefined)
     } | "echo" ~> rep1sep(expr, ",") ^^ {
       parms => EchoStmt(parms)
     } | "return" ~> expr ^^ {
@@ -131,6 +133,10 @@ object JbjParser extends StdTokenParsers {
     } | expr ^^ {
       expr => ExprStmt(expr)
     }
+
+  def assignment: Parser[Assignment] = variable ~ "=" ~ expr ^^ {
+    case variable ~ _ ~ expr => Assignment(variable, expr)
+  }
 
   def blockLikeStmt: Parser[Stmt] = ifStmt | switchStmt | whileStmt | functionDef
 
@@ -242,13 +248,16 @@ object JbjParser extends StdTokenParsers {
   //A main method for testing
   def main(args: Array[String]) = {
 
-    test("""<?php
-           |function test ($b) {
-           |	$b++;
-           |	return($b);
-           |}
-           |$a = test(1);
-           |echo $a;
-           |?>""".stripMargin)
+    test( """<?php
+            |function blah()
+            |{
+            |  static $hey=0, $yo=0;
+            |
+            |  echo "hey=".$hey++.", ",$yo--."\n";
+            |}
+            |
+            |blah();
+            |blah();
+            |blah(); ?>""".stripMargin)
   }
 }

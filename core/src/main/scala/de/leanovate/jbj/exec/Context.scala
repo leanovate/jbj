@@ -5,6 +5,8 @@ import de.leanovate.jbj.ast.{Value, Function}
 import de.leanovate.jbj.ast.value.ValueRef
 
 trait Context {
+  def global: GlobalContext
+
   def out: PrintStream
 
   def findVariable(name: String): Option[ValueRef]
