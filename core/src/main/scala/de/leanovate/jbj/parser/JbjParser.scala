@@ -33,6 +33,7 @@ import de.leanovate.jbj.ast.expr.CallExpr
 import de.leanovate.jbj.ast.expr.comp.GtExpr
 import de.leanovate.jbj.ast.expr.calc.DivExpr
 import de.leanovate.jbj.ast.stmt.EchoStmt
+import de.leanovate.jbj.ast.expr.value.{IntegerConstExpr, StringConstExpr}
 
 object JbjParser extends StdTokenParsers {
   type Tokens = JbjTokens
@@ -49,11 +50,11 @@ object JbjParser extends StdTokenParsers {
     "function")
   lexical.delimiters ++= List(".", "+", "-", "*", "/", "(", ")", ",", ":", ";", "{", "}", "=", ">", ">=", "<", "<=", "==")
 
-  def value =
-    (numericLit ^^ (s => IntegerVal(s.toInt))
-      | stringLit ^^ (s => StringVal(s)))
+  def value: Parser[Expr] =
+    (numericLit ^^ (s => IntegerConstExpr(s.toInt))
+      | stringLit ^^ (s => StringConstExpr(s)))
 
-  def variableRef = variable <~ "+" <~ "+" ^^ {
+  def variableRef: Parser[Expr] = variable <~ "+" <~ "+" ^^ {
     s => VarGetAndIncrExpr(s)
   } | variable <~ "-" <~ "-" ^^ {
     s => VarGetAndDecrExpr(s)
@@ -69,7 +70,7 @@ object JbjParser extends StdTokenParsers {
 
   def neg: Parser[NegExpr] = "-" ~> term ^^ (term => NegExpr(term))
 
-  def term = value | variableRef | functionCall | parens | neg
+  def term: Parser[Expr] = value | variableRef | functionCall | parens | neg
 
   def binaryOp(level: Int): Parser[((Expr, Expr) => Expr)] = {
     level match {

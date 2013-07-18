@@ -4,9 +4,7 @@ import de.leanovate.jbj.ast.value.{IntegerVal, BooleanVal, StringVal, NumericVal
 import java.io.PrintStream
 import de.leanovate.jbj.ast.Expr
 
-trait Value extends Expr {
-  def eval(ctx: Context): Value = this
-
+trait Value {
   def toOutput(out: PrintStream)
 
   def toStr: StringVal
@@ -27,7 +25,7 @@ trait Value extends Expr {
 }
 
 object Value {
-  def compare(left:Value, right:Value ) :Int = (left, right) match {
+  def compare(left: Value, right: Value): Int = (left, right) match {
     case (StringVal(leftVal), StringVal(rightVal)) => leftVal.compare(rightVal)
     case (IntegerVal(leftVal), IntegerVal(rightVal)) => leftVal.compare(rightVal)
     case (anyLeft, anyRight) => anyLeft.toNum.toDouble.compare(anyRight.toNum.toDouble)
