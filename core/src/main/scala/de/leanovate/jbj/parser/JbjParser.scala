@@ -7,83 +7,8 @@ import de.leanovate.jbj.ast.stmt.cond.SwitchStmt
 import de.leanovate.jbj.ast.stmt.loop.{ForStmt, WhileStmt}
 import scala.collection.mutable
 import scala.util.parsing.combinator.Parsers
-import de.leanovate.jbj.ast.expr.comp._
-import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
-import de.leanovate.jbj.ast.expr.calc.AddExpr
-import de.leanovate.jbj.ast.stmt.cond.IfStmt
-import de.leanovate.jbj.parser.JbjTokens._
-import de.leanovate.jbj.ast.stmt.ReturnStmt
-import de.leanovate.jbj.ast.expr.calc.SubExpr
-import scala.Some
-import de.leanovate.jbj.ast.expr.comp.LtExpr
-import de.leanovate.jbj.ast.expr.comp.GeExpr
-import de.leanovate.jbj.ast.Prog
-import de.leanovate.jbj.ast.stmt.ExprStmt
-import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
-import de.leanovate.jbj.ast.expr.NegExpr
-import de.leanovate.jbj.ast.stmt.ParameterDef
-import de.leanovate.jbj.ast.expr.DotExpr
-import de.leanovate.jbj.ast.expr.VarGetAndDecrExpr
-import de.leanovate.jbj.ast.expr.calc.MulExpr
 import de.leanovate.jbj.ast.expr.value._
-import de.leanovate.jbj.ast.stmt.AssignStmt
-import de.leanovate.jbj.ast.stmt.FunctionDefStmt
-import de.leanovate.jbj.ast.stmt.Assignment
-import de.leanovate.jbj.ast.expr.comp.LeExpr
-import de.leanovate.jbj.ast.stmt.cond.CaseBlock
-import de.leanovate.jbj.ast.expr.VarGetExpr
-import de.leanovate.jbj.ast.expr.comp.EqExpr
-import de.leanovate.jbj.ast.stmt.InlineStmt
-import de.leanovate.jbj.ast.expr.VarGetAndIncrExpr
-import de.leanovate.jbj.ast.expr.CallExpr
-import de.leanovate.jbj.ast.expr.comp.GtExpr
-import de.leanovate.jbj.ast.expr.calc.DivExpr
-import de.leanovate.jbj.ast.stmt.EchoStmt
 import scala.language.implicitConversions
-import de.leanovate.jbj.runtime.context.GlobalContext
-import de.leanovate.jbj.ast.stmt.GlobalAssignStmt
-import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
-import de.leanovate.jbj.ast.expr.calc.AddExpr
-import de.leanovate.jbj.ast.expr.comp.BoolAndExpr
-import de.leanovate.jbj.ast.stmt.cond.IfStmt
-import de.leanovate.jbj.parser.JbjTokens.NumericLit
-import de.leanovate.jbj.ast.stmt.ReturnStmt
-import de.leanovate.jbj.ast.expr.calc.SubExpr
-import scala.Some
-import de.leanovate.jbj.parser.JbjTokens.Inline
-import de.leanovate.jbj.ast.expr.comp.LtExpr
-import de.leanovate.jbj.ast.expr.comp.GeExpr
-import de.leanovate.jbj.ast.Prog
-import de.leanovate.jbj.ast.stmt.ExprStmt
-import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
-import de.leanovate.jbj.ast.expr.NegExpr
-import de.leanovate.jbj.ast.stmt.ParameterDef
-import de.leanovate.jbj.ast.expr.DotExpr
-import de.leanovate.jbj.parser.JbjTokens.ScriptEnd
-import de.leanovate.jbj.parser.JbjTokens.ScriptStart
-import de.leanovate.jbj.ast.expr.VarGetAndDecrExpr
-import de.leanovate.jbj.ast.expr.calc.MulExpr
-import de.leanovate.jbj.ast.stmt.StaticAssignStmt
-import de.leanovate.jbj.ast.stmt.AssignStmt
-import de.leanovate.jbj.ast.stmt.FunctionDefStmt
-import de.leanovate.jbj.ast.stmt.Assignment
-import de.leanovate.jbj.parser.JbjTokens.Identifier
-import de.leanovate.jbj.ast.expr.comp.LeExpr
-import de.leanovate.jbj.ast.stmt.cond.CaseBlock
-import de.leanovate.jbj.ast.expr.VarGetExpr
-import de.leanovate.jbj.runtime.context.GlobalContext
-import de.leanovate.jbj.ast.expr.comp.EqExpr
-import de.leanovate.jbj.ast.stmt.InlineStmt
-import de.leanovate.jbj.ast.expr.VarGetAndIncrExpr
-import de.leanovate.jbj.ast.expr.comp.BoolOrExpr
-import de.leanovate.jbj.parser.JbjTokens.Keyword
-import de.leanovate.jbj.parser.JbjTokens.StringLit
-import de.leanovate.jbj.parser.JbjTokens.VarIdentifier
-import de.leanovate.jbj.ast.expr.CallExpr
-import de.leanovate.jbj.ast.expr.comp.GtExpr
-import de.leanovate.jbj.parser.JbjTokens.ScriptStartEcho
-import de.leanovate.jbj.ast.expr.calc.DivExpr
-import de.leanovate.jbj.ast.stmt.EchoStmt
 import de.leanovate.jbj.ast.stmt.GlobalAssignStmt
 import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
 import de.leanovate.jbj.ast.expr.calc.AddExpr
@@ -146,6 +71,8 @@ object JbjParser extends Parsers {
     s => VarGetAndIncrExpr(s)
   } | variable <~ "-" <~ "-" ^^ {
     s => VarGetAndDecrExpr(s)
+  } | "+" ~> "+" ~> variable ^^ {
+    s => VarGetAndIncrExpr(s)
   } | variable ^^ {
     s => VarGetExpr(s)
   }
@@ -241,7 +168,7 @@ object JbjParser extends Parsers {
     case variable ~ _ ~ expr => Assignment(variable, Some(expr))
   }
 
-  def blockLikeStmt: Parser[Stmt] = ifStmt | switchStmt | whileStmt | forStmt | functionDef
+  def blockLikeStmt: Parser[Stmt] = ifStmt | switchStmt | whileStmt | forStmt | functionDef | block
 
   def closedStmt: Parser[Stmt] = regularStmt <~ ";" | blockLikeStmt
 
@@ -260,11 +187,11 @@ object JbjParser extends Parsers {
     stmts => BlockStmt(stmts)
   }
 
-  def ifStmt: Parser[IfStmt] = "if" ~> "(" ~> expr ~ ")" ~ block ~ rep(elseIfBlock) ~ opt("else" ~> block) ^^ {
+  def ifStmt: Parser[IfStmt] = "if" ~> "(" ~> expr ~ ")" ~ closedStmt ~ rep(elseIfBlock) ~ opt("else" ~> closedStmt) ^^ {
     case cond ~ _ ~ thenBlock ~ elseIfs ~ optElse => IfStmt(cond, thenBlock, elseIfs, optElse)
   }
 
-  def elseIfBlock: Parser[ElseIfBlock] = "elseif" ~> "(" ~> expr ~ ")" ~ block ^^ {
+  def elseIfBlock: Parser[ElseIfBlock] = "elseif" ~> "(" ~> expr ~ ")" ~ closedStmt ^^ {
     case cond ~ _ ~ thenBlock => ElseIfBlock(cond, thenBlock)
   }
 
@@ -280,12 +207,13 @@ object JbjParser extends Parsers {
     }
   )
 
-  def whileStmt: Parser[WhileStmt] = "while" ~> "(" ~> expr ~ ")" ~ block ^^ {
-    case expr ~ _ ~ block => WhileStmt(expr, block)
+  def whileStmt: Parser[WhileStmt] = "while" ~> "(" ~> expr ~ ")" ~ closedStmt ^^ {
+    case expr ~ _ ~ stmt => WhileStmt(expr, stmt)
   }
 
-  def forStmt: Parser[ForStmt] = "for" ~> "(" ~> regularStmt ~ ";" ~ expr ~ ";" ~ regularStmt ~ ")" ~ block ^^ {
-    case beforeStmt ~ _ ~ condition ~ _ ~ afterStmt ~ _ ~ block => ForStmt(beforeStmt, condition, afterStmt, block)
+  def forStmt: Parser[ForStmt] = "for" ~> "(" ~> regularStmt ~ ";" ~ expr ~ ";" ~ regularStmt ~ ")" ~ closedStmt ^^ {
+    case beforeStmt ~ _ ~ condition ~ _ ~ afterStmt ~ _ ~ stmt =>
+      ForStmt(beforeStmt, condition, afterStmt, stmt)
   }
 
   def functionDef: Parser[FunctionDefStmt] = "function" ~> ident ~ "(" ~ parameterDefs ~ ")" ~ block ^^ {
@@ -390,37 +318,9 @@ object JbjParser extends Parsers {
 
   //A main method for testing
   def main(args: Array[String]) = {
-    test("""<?php
-           |
-           |echo "Before function declaration...\n";
-           |
-           |function print_something_multiple_times($something,$times)
-           |{
-           |  echo "----\nIn function, printing the string \"$something\" $times times\n";
-           |  for ($i=0; $i<$times; $i++) {
-           |    echo "$i) $something\n";
-           |  }
-           |  echo "Done with function...\n-----\n";
-           |}
-           |
-           |function some_other_function()
-           |{
-           |  echo "This is some other function, to ensure more than just one function works fine...\n";
-           |}
-           |
-           |
-           |echo "After function declaration...\n";
-           |
-           |echo "Calling function for the first time...\n";
-           |print_something_multiple_times("This works!",10);
-           |echo "Returned from function call...\n";
-           |
-           |echo "Calling the function for the second time...\n";
-           |print_something_multiple_times("This like, really works and stuff...",3);
-           |echo "Returned from function call...\n";
-           |
-           |some_other_function();
-           |
-           |?>""".stripMargin)
+    test( """<?php
+            |$a=1;
+            |if($a < 2) echo "Hallo";
+            |?>""".stripMargin)
   }
 }

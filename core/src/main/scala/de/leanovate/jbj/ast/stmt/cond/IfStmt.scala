@@ -4,7 +4,7 @@ import de.leanovate.jbj.ast.{Stmt, Expr}
 import de.leanovate.jbj.runtime.{SuccessExecResult, Context}
 import de.leanovate.jbj.ast.stmt.BlockStmt
 
-case class IfStmt(condition: Expr, thenBlock: BlockStmt, elseIfs: List[ElseIfBlock], elseBlock: Option[BlockStmt])
+case class IfStmt(condition: Expr, thenBlock: Stmt, elseIfs: List[ElseIfBlock], elseBlock: Option[Stmt])
   extends Stmt {
 
   def exec(ctx: Context) = {

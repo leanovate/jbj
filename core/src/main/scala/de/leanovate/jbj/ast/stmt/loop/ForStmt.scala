@@ -9,7 +9,7 @@ import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.runtime.context.BlockContext
 import scala.annotation.tailrec
 
-case class ForStmt(identifier: String, beforeStmt: Stmt, condition: Expr, afterStmt: Stmt, forBlock: BlockStmt)
+case class ForStmt(identifier: String, beforeStmt: Stmt, condition: Expr, afterStmt: Stmt, forBlock: List[Stmt])
   extends Stmt {
 
   def exec(ctx: Context): ExecResult = {
@@ -17,7 +17,7 @@ case class ForStmt(identifier: String, beforeStmt: Stmt, condition: Expr, afterS
 
     beforeStmt.exec(blockCtx)
     while (condition.eval(blockCtx).toBool.value) {
-      execStmts(forBlock.stmts, blockCtx) match {
+      execStmts(forBlock, blockCtx) match {
         case BreakExecResult() => return SuccessExecResult()
         case result: ReturnExecResult => return result
         case _ =>
@@ -41,8 +41,10 @@ case class ForStmt(identifier: String, beforeStmt: Stmt, condition: Expr, afterS
 object ForStmt {
   private val forCount = new AtomicLong()
 
-  def apply(beforeStmt: Stmt, condition: Expr, afterStmt: Stmt, forBlock: BlockStmt): ForStmt =
-    ForStmt(nextIdentifier(), beforeStmt, condition, afterStmt, forBlock)
+  def apply(beforeStmt: Stmt, condition: Expr, afterStmt: Stmt, forBlock: Stmt): ForStmt = forBlock match {
+    case block: BlockStmt => ForStmt(nextIdentifier(), beforeStmt, condition, afterStmt, block.stmts)
+    case stmt => ForStmt(nextIdentifier(), beforeStmt, condition, afterStmt, stmt :: Nil)
+  }
 
   private def nextIdentifier(): String = "for_" + forCount.incrementAndGet()
 }
