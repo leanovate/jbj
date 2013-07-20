@@ -6,10 +6,10 @@ import de.leanovate.jbj.runtime.Value
 object StringFunctions {
   val functions = Seq(
     BuildinFunction1("strlen", {
-      str => IntegerVal(str.toStr.value.length)
+      case Some(str) => IntegerVal(str.toStr.value.length)
     }),
     BuildinFunction3("strstr", {
-      (haystack: Value, needle: Value, beforeNeedle: Value) =>
+      case (Some(haystack), Some(needle), beforeNeedle) =>
         val needleStr = needle match {
           case str: StringVal => str.value
           case int: IntegerVal => int.value.toChar.toString
@@ -17,17 +17,17 @@ object StringFunctions {
         val idx = haystack.toStr.value.indexOf(needleStr)
         if (idx < 0) {
           BooleanVal.FALSE
-        } else if (beforeNeedle.toBool.value) {
+        } else if (beforeNeedle.map(_.toBool.value).getOrElse(false)) {
           StringVal(haystack.toStr.value.substring(0, idx))
         } else {
           StringVal(haystack.toStr.value.substring(idx))
         }
     }),
     BuildinFunction1("strtolower", {
-      str => StringVal(str.toStr.value.toLowerCase)
+      case Some(str) => StringVal(str.toStr.value.toLowerCase)
     }),
     BuildinFunction1("strtoupper", {
-      str => StringVal(str.toStr.value.toUpperCase)
+      case Some(str) => StringVal(str.toStr.value.toUpperCase)
     })
   )
 }

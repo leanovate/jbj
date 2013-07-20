@@ -5,6 +5,6 @@ import de.leanovate.jbj.runtime.value.UndefinedVal
 object RuntimeFunctions {
   val functions = Seq(
     BuildinFunction1("error_reporting", {
-      value => UndefinedVal
+      case _ => UndefinedVal
     }))
 }
