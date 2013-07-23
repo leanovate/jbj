@@ -3,9 +3,12 @@ package de.leanovate.jbj.runtime.value
 import java.io.PrintStream
 
 case class FloatVal(value: Double) extends NumericVal {
-
   def toOutput(out: PrintStream) {
     out.print(value)
+  }
+
+  def toDump(out: PrintStream, ident: String = "") {
+    out.println( """%sfloat(%f)""".format(ident, value))
   }
 
   def toStr: StringVal = StringVal(value.toString)

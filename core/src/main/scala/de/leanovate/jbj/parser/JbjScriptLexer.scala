@@ -163,10 +163,10 @@ object JbjScriptLexer {
     "return", "break", "continue",
     "if", "else", "elseif", "while", "for", "foreach",
     "switch", "case", "default",
-    "function")
+    "function", "array")
 
   /** The set of delimiters (ordering does not matter). */
-  val delimiters = Set(",", ":", ";", "{", "}",
+  val delimiters = Set(",", ":", ";", "{", "}", "=>",
     ".", "+", "-", "*", "/", "(", ")",
     "=", ">", ">=", "<", "<=", "==",
     "|", "||", "&", "&&")

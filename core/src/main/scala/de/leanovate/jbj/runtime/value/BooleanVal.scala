@@ -27,6 +27,10 @@ object BooleanVal {
       out.print("1")
     }
 
+    def toDump(out:PrintStream, ident: String = "") {
+      out.println("%sbool(true)".format(ident))
+    }
+
     val toNum = IntegerVal(1)
 
     val toStr = StringVal("1")
@@ -36,6 +40,10 @@ object BooleanVal {
     val value = false
 
     def toOutput(out: PrintStream) {}
+
+    def toDump(out:PrintStream, ident: String = "") {
+      out.println("%sbool(false)".format(ident))
+    }
 
     val toNum = IntegerVal(0)
 

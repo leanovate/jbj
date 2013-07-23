@@ -8,6 +8,10 @@ case class StringVal(value: String) extends Value {
     out.print(value)
   }
 
+  def toDump(out: PrintStream, ident: String = "") {
+    out.println( """%sstring(%s) "%s"""".format(ident, value.length, value))
+  }
+
   def toStr: StringVal = this
 
   def toNum: NumericVal = if (value.contains(".")) FloatVal(value.toDouble) else IntegerVal(value.toInt)

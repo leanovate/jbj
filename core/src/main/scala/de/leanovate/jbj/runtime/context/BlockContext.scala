@@ -13,6 +13,8 @@ case class BlockContext(identifier: String, callerCtx: Context) extends Context 
 
   val out = callerCtx.out
 
+  val err = callerCtx.err
+
   def findVariable(name: String): Option[ValueRef] =
     localVariables.get(name) match {
       case None => static.findVariable(name) match {

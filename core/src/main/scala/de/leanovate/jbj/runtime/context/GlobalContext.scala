@@ -6,7 +6,7 @@ import de.leanovate.jbj.runtime.value.ValueRef
 import de.leanovate.jbj.runtime.{buildin, Function, Context}
 import de.leanovate.jbj.runtime.Function
 
-case class GlobalContext(out: PrintStream) extends Context {
+case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
   private val variables = mutable.Map.empty[String, ValueRef]
 
   private val functions = mutable.Map.empty[String, Function]

@@ -8,6 +8,12 @@ class ValueRef(private var current: Option[Value] = None) extends Value {
     current.foreach(_.toOutput(out))
   }
 
+  def toDump(out: PrintStream, ident: String = "") {
+    current.map(_.toDump(out)).getOrElse {
+      out.println("%sNULL".format(ident))
+    }
+  }
+
   def toStr = current.map(_.toStr).getOrElse(StringVal(""))
 
   def toNum = current.map(_.toNum).getOrElse(IntegerVal(0))

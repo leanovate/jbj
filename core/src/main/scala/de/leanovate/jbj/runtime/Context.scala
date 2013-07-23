@@ -11,6 +11,10 @@ trait Context {
 
   def out: PrintStream
 
+  def err: PrintStream
+
+  lazy val log: Log = new Log(out, err)
+
   def findVariable(name: String): Option[ValueRef]
 
   def defineVariable(name: String, valueRef: ValueRef)

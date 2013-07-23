@@ -9,6 +9,7 @@ import scala.collection.mutable
 import scala.util.parsing.combinator.Parsers
 import de.leanovate.jbj.ast.expr.value._
 import scala.language.implicitConversions
+import de.leanovate.jbj.ast.expr._
 import de.leanovate.jbj.ast.stmt.GlobalAssignStmt
 import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
 import de.leanovate.jbj.ast.expr.calc.AddExpr
@@ -75,6 +76,14 @@ object JbjParser extends Parsers {
     s => VarGetAndIncrExpr(s)
   } | variable ^^ {
     s => VarGetExpr(s)
+  } | "array" ~> "(" ~> repsep(arrayValues, ",") <~ ")" ^^ {
+    arrayValues => ArrayCreateExpr(arrayValues)
+  }
+
+  def arrayValues: Parser[(Option[Expr], Expr)] = expr ~ "=>" ~ expr ^^ {
+    case indexExpr ~ _ ~ valueExpr => (Some(indexExpr), valueExpr)
+  } | expr ^^ {
+    valueExpr => (None, valueExpr)
   }
 
   def functionCall: Parser[Expr] = ident ~ "(" ~ repsep(expr, ",") <~ ")" ^^ {
@@ -310,7 +319,7 @@ object JbjParser extends Parsers {
     parse(exprstr) match {
       case Success(tree, _) =>
         println("Tree: " + tree)
-        val context = GlobalContext(System.out)
+        val context = GlobalContext(System.out, System.err)
         tree.exec(context)
       case e: NoSuccess => Console.err.println(e)
     }
@@ -319,8 +328,8 @@ object JbjParser extends Parsers {
   //A main method for testing
   def main(args: Array[String]) = {
     test( """<?php
-            |$a=1;
-            |if($a < 2) echo "Hallo";
+            |$a=array(1, "a" => 12);
+            |var_dump($a);
             |?>""".stripMargin)
   }
 }

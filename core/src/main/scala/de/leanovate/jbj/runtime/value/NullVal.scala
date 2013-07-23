@@ -7,6 +7,10 @@ object NullVal extends Value {
   def toOutput(out: PrintStream) {
   }
 
+  def toDump(out: PrintStream, ident: String = "") {
+    out.println("%sNULL".format(ident))
+  }
+
   def toStr = StringVal("")
 
   def toNum = IntegerVal(0)

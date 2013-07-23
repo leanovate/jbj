@@ -11,6 +11,8 @@ class StaticContext(var global: GlobalContext) extends Context {
 
   def out = global.out
 
+  def err = global.err
+
   def findVariable(name: String) = variables.get(name)
 
   def defineVariable(name: String, valueRef: ValueRef) {

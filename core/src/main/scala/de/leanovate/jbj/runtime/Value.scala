@@ -7,6 +7,8 @@ import de.leanovate.jbj.ast.Expr
 trait Value {
   def toOutput(out: PrintStream)
 
+  def toDump(out: PrintStream, ident: String = "")
+
   def toStr: StringVal
 
   def toNum: NumericVal

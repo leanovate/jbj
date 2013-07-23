@@ -10,8 +10,10 @@ trait TestJbjExecutor {
   def resultOf(progStr: String): String = {
     val prog = JbjParser(progStr)
     val bOut = new ByteArrayOutputStream()
+    val bErr = new ByteArrayOutputStream()
     val out = new PrintStream(bOut, false, "UTF-8")
-    val context = GlobalContext(out)
+    val err = new PrintStream(bErr, false, "UTF-8")
+    val context = GlobalContext(out, err)
 
     prog.exec(context)
 

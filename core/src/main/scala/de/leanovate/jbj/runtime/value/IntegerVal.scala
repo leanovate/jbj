@@ -7,6 +7,10 @@ case class IntegerVal(value: Int) extends NumericVal {
     out.print(value)
   }
 
+  def toDump(out: PrintStream, ident: String = "") {
+    out.println( """%sint(%d)""".format(ident, value))
+  }
+
   def toStr: StringVal = StringVal(value.toString)
 
   def toDouble: Double = value
