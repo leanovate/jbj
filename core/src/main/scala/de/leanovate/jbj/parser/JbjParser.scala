@@ -328,8 +328,19 @@ object JbjParser extends Parsers {
   //A main method for testing
   def main(args: Array[String]) = {
     test( """<?php
-            |$a=array(1, "a" => 12);
-            |var_dump($a);
+            |function RekTest ($nr) {
+            |	echo " $nr ";
+            |	$j=$nr+1;
+            |	while ($j < 10) {
+            |	  echo " a ";
+            |	  RekTest($j);
+            |	  $j++;
+            |	  echo " b $j ";
+            |	}
+            |	echo "\n";
+            |}
+            |
+            |RekTest(0);
             |?>""".stripMargin)
   }
 }
