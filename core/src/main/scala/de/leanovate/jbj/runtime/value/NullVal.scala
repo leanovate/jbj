@@ -21,6 +21,8 @@ object NullVal extends Value {
 
   def isUndefined = false
 
+  def unref = this
+
   def copy = this
 
   def incr = IntegerVal(1)

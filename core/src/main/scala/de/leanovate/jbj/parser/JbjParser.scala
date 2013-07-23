@@ -161,10 +161,10 @@ object JbjParser extends Parsers {
       parms => EchoStmt(parms)
     } | "return" ~> expr ^^ {
       expr => ReturnStmt(expr)
-    } | "break" ^^^ {
-      BreakStmt
-    } | "continue" ^^^ {
-      ContinueStmt
+    } | "break" ~> opt(numericLit) ^^ {
+      depth => BreakStmt(depth.map(_.toInt).getOrElse(1))
+    } | "continue" ~> opt(numericLit) ^^ {
+      depth => ContinueStmt(depth.map(_.toInt).getOrElse(1))
     } | expr ^^ {
       expr => ExprStmt(expr)
     }
@@ -328,19 +328,46 @@ object JbjParser extends Parsers {
   //A main method for testing
   def main(args: Array[String]) = {
     test( """<?php
-            |function RekTest ($nr) {
-            |	echo " $nr ";
-            |	$j=$nr+1;
-            |	while ($j < 10) {
-            |	  echo " a ";
-            |	  RekTest($j);
-            |	  $j++;
-            |	  echo " b $j ";
-            |	}
-            |	echo "\n";
-            |}
             |
-            |RekTest(0);
+            |$i="abc";
+            |
+            |for ($j=0; $j<10; $j++) {
+            |switch (1) {
+            |  case 1:
+            |  	echo "In branch 1\n";
+            |  	switch ($i) {
+            |  		case "ab":
+            |  			echo "This doesn't work... :(\n";
+            |  			break;
+            |  		case "abcd":
+            |  			echo "This works!\n";
+            |  			break;
+            |  		case "blah":
+            |  			echo "Hmmm, no worki\n";
+            |  			break;
+            |  		default:
+            |  			echo "Inner default...\n";
+            |  	}
+            |  	for ($blah=0; $blah<200; $blah++) {
+            |  	  if ($blah==100) {
+            |  	    echo "blah=$blah\n";
+            |  	  }
+            |  	}
+            |  	break;
+            |  case 2:
+            |  	echo "In branch 2\n";
+            |  	break;
+            |  case $i:
+            |  	echo "In branch \$i\n";
+            |  	break;
+            |  case 4:
+            |  	echo "In branch 4\n";
+            |  	break;
+            |  default:
+            |  	echo "Hi, I'm default\n";
+            |  	break;
+            | }
+            |}
             |?>""".stripMargin)
   }
 }

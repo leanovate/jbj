@@ -9,6 +9,198 @@ import org.scalatest.matchers.MustMatchers
 @RunWith(classOf[JUnitRunner])
 class Lang3Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Language test 3" - {
+    "Switch test 1" in {
+      // func/020
+      resultOf(
+        """<?php
+          |
+          |$i="abc";
+          |
+          |for ($j=0; $j<10; $j++) {
+          |switch (1) {
+          |  case 1:
+          |  	echo "In branch 1\n";
+          |  	switch ($i) {
+          |  		case "ab":
+          |  			echo "This doesn't work... :(\n";
+          |  			break;
+          |  		case "abcd":
+          |  			echo "This works!\n";
+          |  			break;
+          |  		case "blah":
+          |  			echo "Hmmm, no worki\n";
+          |  			break;
+          |  		default:
+          |  			echo "Inner default...\n";
+          |  	}
+          |  	for ($blah=0; $blah<200; $blah++) {
+          |  	  if ($blah==100) {
+          |  	    echo "blah=$blah\n";
+          |  	  }
+          |  	}
+          |  	break;
+          |  case 2:
+          |  	echo "In branch 2\n";
+          |  	break;
+          |  case $i:
+          |  	echo "In branch \$i\n";
+          |  	break;
+          |  case 4:
+          |  	echo "In branch 4\n";
+          |  	break;
+          |  default:
+          |  	echo "Hi, I'm default\n";
+          |  	break;
+          | }
+          |}
+          |?>""".stripMargin
+      ) must be(
+        """In branch 1
+          |Inner default...
+          |blah=100
+          |In branch 1
+          |Inner default...
+          |blah=100
+          |In branch 1
+          |Inner default...
+          |blah=100
+          |In branch 1
+          |Inner default...
+          |blah=100
+          |In branch 1
+          |Inner default...
+          |blah=100
+          |In branch 1
+          |Inner default...
+          |blah=100
+          |In branch 1
+          |Inner default...
+          |blah=100
+          |In branch 1
+          |Inner default...
+          |blah=100
+          |In branch 1
+          |Inner default...
+          |blah=100
+          |In branch 1
+          |Inner default...
+          |blah=100
+          |""".stripMargin
+      )
+    }
+
+    "Switch test 2" in {
+      // func/021
+      resultOf(
+        """<?php
+          |
+          |for ($i=0; $i<=5; $i++)
+          |{
+          |  echo "i=$i\n";
+          |
+          |  switch($i) {
+          |    case 0:
+          |      echo "In branch 0\n";
+          |      break;
+          |    case 1:
+          |      echo "In branch 1\n";
+          |      break;
+          |    case 2:
+          |      echo "In branch 2\n";
+          |      break;
+          |    case 3:
+          |      echo "In branch 3\n";
+          |      break 2;
+          |    case 4:
+          |      echo "In branch 4\n";
+          |      break;
+          |    default:
+          |      echo "In default\n";
+          |      break;
+          |  }
+          |}
+          |echo "hi\n";
+          |?>""".stripMargin
+      ) must be(
+        """i=0
+          |In branch 0
+          |i=1
+          |In branch 1
+          |i=2
+          |In branch 2
+          |i=3
+          |In branch 3
+          |hi
+          |""".stripMargin
+      )
+    }
+
+    "Switch test 3" in {
+      resultOf(
+        """<?php
+          |
+          |function switchtest ($i, $j)
+          |{
+          |	switch ($i) {
+          |		case 0:
+          |				switch($j) {
+          |					case 0:
+          |						echo "zero";
+          |						break;
+          |					case 1:
+          |						echo "one";
+          |						break;
+          |					default:
+          |						echo $j;
+          |						break;
+          |				}
+          |				echo "\n";
+          |				break;
+          |		default:
+          |				echo "Default taken\n";
+          |	}
+          |}
+          |for ($i=0; $i<3; $i++) {
+          |  for ($k=0; $k<10; $k++) {
+          |    switchtest (0,$k);
+          |  }
+          |}
+          |?>""".stripMargin
+      ) must be(
+        """zero
+          |one
+          |2
+          |3
+          |4
+          |5
+          |6
+          |7
+          |8
+          |9
+          |zero
+          |one
+          |2
+          |3
+          |4
+          |5
+          |6
+          |7
+          |8
+          |9
+          |zero
+          |one
+          |2
+          |3
+          |4
+          |5
+          |6
+          |7
+          |8
+          |9
+          |""".stripMargin
+      )
+    }
+
     "Mean recursion test" in {
       // func/025
       resultOf(

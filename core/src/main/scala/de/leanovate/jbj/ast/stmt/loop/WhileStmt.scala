@@ -14,7 +14,8 @@ case class WhileStmt(identifier: String, condition: Expr, whileBlock: List[Stmt]
 
     while (condition.eval(blockCtx).toBool.value) {
       execStmts(whileBlock, blockCtx) match {
-        case BreakExecResult() => return SuccessExecResult()
+        case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth -1)
+        case BreakExecResult(_) => return SuccessExecResult()
         case result: ReturnExecResult => return result
         case _ =>
       }

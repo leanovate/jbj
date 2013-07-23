@@ -18,7 +18,8 @@ case class ForStmt(identifier: String, beforeStmt: Stmt, condition: Expr, afterS
     beforeStmt.exec(blockCtx)
     while (condition.eval(blockCtx).toBool.value) {
       execStmts(forBlock, blockCtx) match {
-        case BreakExecResult() => return SuccessExecResult()
+        case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth -1)
+        case BreakExecResult(_) => return SuccessExecResult()
         case result: ReturnExecResult => return result
         case _ =>
       }

@@ -12,6 +12,8 @@ abstract class BooleanVal extends Value {
 
   def isUndefined = false
 
+  def unref = this
+
   def copy = this
 
   def incr = this

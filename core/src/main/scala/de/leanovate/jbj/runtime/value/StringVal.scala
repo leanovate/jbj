@@ -22,6 +22,8 @@ case class StringVal(value: String) extends Value {
 
   def isUndefined = false
 
+  def unref = this
+
   def copy = this
 
   def incr = this

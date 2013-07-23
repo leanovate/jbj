@@ -34,6 +34,8 @@ class ValueRef(private var current: Option[Value] = None) extends Value {
     current = None
   }
 
+  def unref = value
+
   def copy = value.copy
 
   def incr = value.incr

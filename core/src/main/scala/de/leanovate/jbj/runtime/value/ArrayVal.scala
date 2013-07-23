@@ -39,6 +39,8 @@ case class ArrayVal(keyValues: List[(Value, Value)]) extends Value {
 
   def isTrue = false
 
+  def unref = this
+
   def copy = ArrayVal(List(keyValues: _*))
 
   def incr = this

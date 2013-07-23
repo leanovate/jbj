@@ -19,7 +19,8 @@ case class SwitchStmt(identifier: String, expr: Expr, cases: List[SwitchCase]) e
   private def execStmts(statements: List[Stmt], context: BlockContext): ExecResult = statements match {
     case head :: tail => head.exec(context) match {
       case SuccessExecResult() => execStmts(tail, context)
-      case BreakExecResult() => SuccessExecResult()
+      case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth -1)
+      case BreakExecResult(_) => SuccessExecResult()
       case result => result
     }
     case Nil => SuccessExecResult()
