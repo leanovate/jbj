@@ -15,6 +15,8 @@ trait NumericVal extends Value {
   def unref = this
 
   def copy = this
+
+  def getAt(index: Value) = UndefinedVal
 }
 
 object NumericVal {
@@ -23,6 +25,7 @@ object NumericVal {
   def unapply(numeric: Value) = numeric.unref match {
     case IntegerVal(value) => Some(value.toDouble)
     case FloatVal(value) => Some(value)
+    case BooleanVal(value) => Some(if (value) 1.0 else 0.0)
     case StringVal(value) if numericPattern.matcher(value).matches() => Some(value.toDouble)
     case _ => None
   }

@@ -166,7 +166,7 @@ object JbjScriptLexer {
     "function", "array")
 
   /** The set of delimiters (ordering does not matter). */
-  val delimiters = Set(",", ":", ";", "{", "}", "=>",
+  val delimiters = Set(",", ":", ";", "{", "}", "[", "]","=>",
     ".", "+", "-", "*", "/", "(", ")",
     "=", ">", ">=", "<", "<=", "==",
     "|", "||", "&", "&&")

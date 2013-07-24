@@ -26,6 +26,8 @@ trait Value {
   def incr: Value
 
   def decr: Value
+
+  def getAt(index: Value): Value
 }
 
 object Value {

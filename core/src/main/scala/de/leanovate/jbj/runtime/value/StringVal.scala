@@ -29,4 +29,10 @@ case class StringVal(value: String) extends Value {
   def incr = this
 
   def decr = this
+
+  def getAt(index: Value) = index.unref match {
+    case IntegerVal(idx) => StringVal(value(idx).toString)
+    case NumericVal(idx) => StringVal(value(idx.toInt).toString)
+    case _ => UndefinedVal
+  }
 }

@@ -41,6 +41,8 @@ class ValueRef(private var current: Option[Value] = None) extends Value {
   def incr = value.incr
 
   def decr = value.decr
+
+  def getAt(index:Value) = value.getAt(index)
 }
 
 object ValueRef {

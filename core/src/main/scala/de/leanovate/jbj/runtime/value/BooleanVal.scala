@@ -19,6 +19,8 @@ abstract class BooleanVal extends Value {
   def incr = this
 
   def decr = this
+
+  def getAt(index: Value) = UndefinedVal
 }
 
 object BooleanVal {
@@ -29,7 +31,7 @@ object BooleanVal {
       out.print("1")
     }
 
-    def toDump(out:PrintStream, ident: String = "") {
+    def toDump(out: PrintStream, ident: String = "") {
       out.println("%sbool(true)".format(ident))
     }
 
@@ -43,7 +45,7 @@ object BooleanVal {
 
     def toOutput(out: PrintStream) {}
 
-    def toDump(out:PrintStream, ident: String = "") {
+    def toDump(out: PrintStream, ident: String = "") {
       out.println("%sbool(false)".format(ident))
     }
 
@@ -54,5 +56,5 @@ object BooleanVal {
 
   def apply(value: Boolean): BooleanVal = if (value) TRUE else FALSE
 
-
+  def unapply(value: BooleanVal) = Some(value.value)
 }

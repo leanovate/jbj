@@ -74,11 +74,15 @@ object JbjParser extends Parsers {
     s => VarGetAndDecrExpr(s)
   } | "+" ~> "+" ~> variable ^^ {
     s => VarGetAndIncrExpr(s)
+  } | variable ~ rep1(indexExpr) ^^ {
+    case s ~ indices => ArrayGetExpr(s, indices)
   } | variable ^^ {
     s => VarGetExpr(s)
   } | "array" ~> "(" ~> repsep(arrayValues, ",") <~ ")" ^^ {
     arrayValues => ArrayCreateExpr(arrayValues)
   }
+
+  def indexExpr: Parser[Expr] = "[" ~> expr <~ "]"
 
   def arrayValues: Parser[(Option[Expr], Expr)] = expr ~ "=>" ~ expr ^^ {
     case indexExpr ~ _ ~ valueExpr => (Some(indexExpr), valueExpr)
@@ -329,45 +333,13 @@ object JbjParser extends Parsers {
   def main(args: Array[String]) = {
     test( """<?php
             |
-            |$i="abc";
+            |$a = array(3,2,1);
             |
-            |for ($j=0; $j<10; $j++) {
-            |switch (1) {
-            |  case 1:
-            |  	echo "In branch 1\n";
-            |  	switch ($i) {
-            |  		case "ab":
-            |  			echo "This doesn't work... :(\n";
-            |  			break;
-            |  		case "abcd":
-            |  			echo "This works!\n";
-            |  			break;
-            |  		case "blah":
-            |  			echo "Hmmm, no worki\n";
-            |  			break;
-            |  		default:
-            |  			echo "Inner default...\n";
-            |  	}
-            |  	for ($blah=0; $blah<200; $blah++) {
-            |  	  if ($blah==100) {
-            |  	    echo "blah=$blah\n";
-            |  	  }
-            |  	}
-            |  	break;
-            |  case 2:
-            |  	echo "In branch 2\n";
-            |  	break;
-            |  case $i:
-            |  	echo "In branch \$i\n";
-            |  	break;
-            |  case 4:
-            |  	echo "In branch 4\n";
-            |  	break;
-            |  default:
-            |  	echo "Hi, I'm default\n";
-            |  	break;
-            | }
-            |}
-            |?>""".stripMargin)
+            |var_dump($a[0]);
+            |var_dump($a[1]);
+            |var_dump($a[2]);
+            |
+            |?>
+            | """.stripMargin)
   }
 }

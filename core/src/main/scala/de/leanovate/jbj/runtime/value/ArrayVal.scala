@@ -3,8 +3,11 @@ package de.leanovate.jbj.runtime.value
 import java.io.PrintStream
 import de.leanovate.jbj.exception.FatalErrorException
 import de.leanovate.jbj.runtime.Value
+import ArrayVal.{ArrayKey, StringArrayKey, IntArrayKey}
 
-case class ArrayVal(keyValues: List[(Value, Value)]) extends Value {
+class ArrayVal(keyValues: List[(ArrayKey, Value)]) extends Value {
+  private lazy val keyValueMap = keyValues.toMap
+
   def toOutput(out: PrintStream) {
     out.print("Array")
   }
@@ -13,11 +16,11 @@ case class ArrayVal(keyValues: List[(Value, Value)]) extends Value {
     val nextIdent = ident + "  "
     out.println("%sarray(%d) {".format(ident, keyValues.length))
     keyValues.foreach {
-      case (IntegerVal(key), value) =>
+      case (IntArrayKey(key), value) =>
         out.println("%s[%d]=>".format(nextIdent, key))
         value.toDump(out, ident + "  ")
-      case (key, value) =>
-        out.println( """%s["%s"]=>""".format(nextIdent, key.toStr.value))
+      case (StringArrayKey(key), value) =>
+        out.println( """%s["%s"]=>""".format(nextIdent, key))
         value.toDump(out, ident + "  ")
     }
     out.println("%s}".format(ident))
@@ -41,9 +44,52 @@ case class ArrayVal(keyValues: List[(Value, Value)]) extends Value {
 
   def unref = this
 
-  def copy = ArrayVal(List(keyValues: _*))
+  def copy = new ArrayVal(List(keyValues: _*))
 
   def incr = this
 
   def decr = this
+
+  def getAt(index: Value) = index.unref match {
+    case IntegerVal(idx) => keyValueMap.getOrElse(IntArrayKey(idx), UndefinedVal)
+    case NumericVal(idx) => keyValueMap.getOrElse(IntArrayKey(idx.toInt), UndefinedVal)
+    case StringVal(idx) => keyValueMap.getOrElse(StringArrayKey(idx), UndefinedVal)
+    case _ => UndefinedVal
+  }
+}
+
+object ArrayVal {
+
+  sealed trait ArrayKey
+
+  case class StringArrayKey(key: String) extends ArrayKey
+
+  case class IntArrayKey(key: Int) extends ArrayKey
+
+  def apply(keyValues: List[(Option[Value], Value)]): ArrayVal = {
+    var nextIndex: Int = -1
+
+    new ArrayVal(keyValues.map {
+      keyValue =>
+        val key = keyValue._1.map {
+          k => k.unref match {
+            case IntegerVal(value) =>
+              if (value > nextIndex)
+                nextIndex = value
+              IntArrayKey(value)
+            case NumericVal(value) =>
+              if (value > nextIndex)
+                nextIndex = value.toInt
+              IntArrayKey(value.toInt)
+            case value =>
+              StringArrayKey(value.toStr.value)
+          }
+        }.getOrElse {
+          nextIndex += 1
+          IntArrayKey(nextIndex)
+        }
+
+        (key, keyValue._2)
+    })
+  }
 }

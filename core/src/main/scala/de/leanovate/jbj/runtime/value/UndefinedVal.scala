@@ -28,4 +28,6 @@ object UndefinedVal extends Value {
   def incr = IntegerVal(1)
 
   def decr = NullVal
+
+  def getAt(index: Value) = this
 }
