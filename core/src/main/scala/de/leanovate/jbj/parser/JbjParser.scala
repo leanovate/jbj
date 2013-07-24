@@ -346,7 +346,8 @@ object JbjParser extends Parsers {
             |
             |foreach ($strVals as $strVal) {
             |   echo "--- testing: '$strVal' ---\n";
-            |   var_dump(-$strVal);
+            |   $strVal++;
+            |   var_dump($strVal);
             |}
             |
             |?>""".stripMargin)
