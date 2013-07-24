@@ -20,13 +20,15 @@ trait NumericVal extends Value {
 }
 
 object NumericVal {
-  private val numericPattern = Pattern.compile( """[0-9]*(\.[0-9]*)?([eE][0-9]+)?""")
+  val intPattern = Pattern.compile( """(\-)?[0-9]*""")
+
+  val floatPattern = Pattern.compile( """(\-)?[0-9]*(\.[0-9]*)?([eE][0-9]+)?""")
 
   def unapply(numeric: Value) = numeric.unref match {
     case IntegerVal(value) => Some(value.toDouble)
     case FloatVal(value) => Some(value)
     case BooleanVal(value) => Some(if (value) 1.0 else 0.0)
-    case StringVal(value) if numericPattern.matcher(value).matches() => Some(value.toDouble)
+    case StringVal(value) if floatPattern.matcher(value).matches() => Some(value.toDouble)
     case _ => None
   }
 

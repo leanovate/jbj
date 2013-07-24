@@ -8,7 +8,7 @@ case class FloatVal(value: Double) extends NumericVal {
   }
 
   def toDump(out: PrintStream, ident: String = "") {
-    out.println( """%sfloat(%f)""".format(ident, value))
+    out.println( """%sfloat(%s)""".format(ident, value.toString))
   }
 
   def toStr: StringVal = StringVal(value.toString)

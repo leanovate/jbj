@@ -161,7 +161,7 @@ object JbjScriptLexer {
   val reserved = Set("static", "global", "public", "private", "class", "var",
     "echo",
     "return", "break", "continue",
-    "if", "else", "elseif", "while", "for", "foreach",
+    "if", "else", "elseif", "while", "for", "foreach", "as",
     "switch", "case", "default",
     "function", "array")
 

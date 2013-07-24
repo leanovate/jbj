@@ -5,7 +5,7 @@ import de.leanovate.jbj.exception.FatalErrorException
 import de.leanovate.jbj.runtime.Value
 import ArrayVal.{ArrayKey, StringArrayKey, IntArrayKey}
 
-class ArrayVal(keyValues: List[(ArrayKey, Value)]) extends Value {
+class ArrayVal(val keyValues: List[(ArrayKey, Value)]) extends Value {
   private lazy val keyValueMap = keyValues.toMap
 
   def toOutput(out: PrintStream) {
@@ -60,11 +60,17 @@ class ArrayVal(keyValues: List[(ArrayKey, Value)]) extends Value {
 
 object ArrayVal {
 
-  sealed trait ArrayKey
+  sealed trait ArrayKey {
+    def value: Value
+  }
 
-  case class StringArrayKey(key: String) extends ArrayKey
+  case class StringArrayKey(key: String) extends ArrayKey {
+    def value = StringVal(key)
+  }
 
-  case class IntArrayKey(key: Int) extends ArrayKey
+  case class IntArrayKey(key: Int) extends ArrayKey {
+    def value = IntegerVal(key)
+  }
 
   def apply(keyValues: List[(Option[Value], Value)]): ArrayVal = {
     var nextIndex: Int = -1

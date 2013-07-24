@@ -4,7 +4,7 @@ import de.leanovate.jbj.ast._
 import de.leanovate.jbj.ast.stmt._
 import de.leanovate.jbj.ast.stmt.cond._
 import de.leanovate.jbj.ast.stmt.cond.SwitchStmt
-import de.leanovate.jbj.ast.stmt.loop.{ForStmt, WhileStmt}
+import de.leanovate.jbj.ast.stmt.loop.{ForeachKeyValueStmt, ForeachValueStmt, ForStmt, WhileStmt}
 import scala.collection.mutable
 import scala.util.parsing.combinator.Parsers
 import de.leanovate.jbj.ast.expr.value._
@@ -181,7 +181,7 @@ object JbjParser extends Parsers {
     case variable ~ _ ~ expr => Assignment(variable, Some(expr))
   }
 
-  def blockLikeStmt: Parser[Stmt] = ifStmt | switchStmt | whileStmt | forStmt | functionDef | block
+  def blockLikeStmt: Parser[Stmt] = ifStmt | switchStmt | whileStmt | forStmt | foreachStmt | functionDef | block
 
   def closedStmt: Parser[Stmt] = regularStmt <~ ";" | blockLikeStmt
 
@@ -227,6 +227,11 @@ object JbjParser extends Parsers {
   def forStmt: Parser[ForStmt] = "for" ~> "(" ~> regularStmt ~ ";" ~ expr ~ ";" ~ regularStmt ~ ")" ~ closedStmt ^^ {
     case beforeStmt ~ _ ~ condition ~ _ ~ afterStmt ~ _ ~ stmt =>
       ForStmt(beforeStmt, condition, afterStmt, stmt)
+  }
+
+  def foreachStmt: Parser[Stmt] = "foreach" ~> "(" ~> expr ~ "as" ~ variable ~ opt("=>" ~> variable) ~ ")" ~ closedStmt ^^ {
+    case arrayExpr ~ _ ~ valueName ~ None ~ _ ~ stmt => ForeachValueStmt(arrayExpr, valueName, stmt)
+    case arrayExpr ~ _ ~ keyName ~ Some(valueName) ~ _ ~ stmt => ForeachKeyValueStmt(arrayExpr, keyName, valueName, stmt)
   }
 
   def functionDef: Parser[FunctionDefStmt] = "function" ~> ident ~ "(" ~ parameterDefs ~ ")" ~ block ^^ {
@@ -333,13 +338,17 @@ object JbjParser extends Parsers {
   def main(args: Array[String]) = {
     test( """<?php
             |
-            |$a = array(3,2,1);
+            |$strVals = array(
+            |   "0","65","-44", "1.2", "-7.7", "abc", "123abc", "123e5", "123e5xyz", " 123abc", "123 abc", "123abc ", "3.4a",
+            |   "a5.9"
+            |);
             |
-            |var_dump($a[0]);
-            |var_dump($a[1]);
-            |var_dump($a[2]);
             |
-            |?>
-            | """.stripMargin)
+            |foreach ($strVals as $strVal) {
+            |   echo "--- testing: '$strVal' ---\n";
+            |   var_dump(-$strVal);
+            |}
+            |
+            |?>""".stripMargin)
   }
 }
