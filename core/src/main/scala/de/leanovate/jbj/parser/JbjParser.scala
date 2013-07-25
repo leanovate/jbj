@@ -60,26 +60,26 @@ import de.leanovate.jbj.ast.stmt.EchoStmt
 object JbjParser extends Parsers {
   type Elem = JbjTokens.Token
 
-  private val keywordCache = mutable.HashMap[String, Parser[String]]()
+  private val keywordCache = mutable.HashMap[String, Parser[Keyword]]()
 
   def value: Parser[Expr] =
-    (numericLit ^^ (s => IntegerConstExpr(s.toInt))
-      | stringLit ^^ (s => StringConstExpr(s))
-      | interpolatedStringLit ^^ (s => InterpolatedStringExpr(s))
+    (numericLit ^^ (s => IntegerConstExpr(s.position, s.chars.toInt))
+      | stringLit ^^ (s => StringConstExpr(s.position, s.chars))
+      | interpolatedStringLit ^^ (s => InterpolatedStringExpr(s.position, s.charOrInterpolations))
       )
 
   def variableRef: Parser[Expr] = variable <~ "+" <~ "+" ^^ {
-    s => VarGetAndIncrExpr(s)
+    s => VarGetAndIncrExpr(s.position, s.name)
   } | variable <~ "-" <~ "-" ^^ {
-    s => VarGetAndDecrExpr(s)
+    s => VarGetAndDecrExpr(s.position, s.name)
   } | "+" ~> "+" ~> variable ^^ {
-    s => VarGetAndIncrExpr(s)
+    s => VarGetAndIncrExpr(s.position, s.name)
   } | variable ~ rep1(indexExpr) ^^ {
-    case s ~ indices => ArrayGetExpr(s, indices)
+    case s ~ indices => ArrayGetExpr(s.position, s.name, indices)
   } | variable ^^ {
-    s => VarGetExpr(s)
-  } | "array" ~> "(" ~> repsep(arrayValues, ",") <~ ")" ^^ {
-    arrayValues => ArrayCreateExpr(arrayValues)
+    s => VarGetExpr(s.position, s.name)
+  } | "array" ~ "(" ~ repsep(arrayValues, ",") <~ ")" ^^ {
+    case array ~ _ ~ arrayValues => ArrayCreateExpr(array.position, arrayValues)
   }
 
   def indexExpr: Parser[Expr] = "[" ~> expr <~ "]"
@@ -91,12 +91,14 @@ object JbjParser extends Parsers {
   }
 
   def functionCall: Parser[Expr] = ident ~ "(" ~ repsep(expr, ",") <~ ")" ^^ {
-    case name ~ _ ~ params => CallExpr(name, params)
+    case name ~ _ ~ params => CallExpr(name.position, name.chars, params)
   }
 
   def parens: Parser[Expr] = "(" ~> expr <~ ")"
 
-  def neg: Parser[NegExpr] = "-" ~> term ^^ (term => NegExpr(term))
+  def neg: Parser[NegExpr] = "-" ~ term ^^ {
+    case sign ~ term => NegExpr(sign.position, term)
+  }
 
   def term: Parser[Expr] = value | variableRef | functionCall | parens | neg
 
@@ -155,33 +157,34 @@ object JbjParser extends Parsers {
   def expr: Parser[Expr] = binary(minPrec) | term
 
   def regularStmt: Parser[Stmt] =
-    "static" ~> rep1sep(assignment, ",") ^^ {
-      assignments => StaticAssignStmt(assignments)
-    } | "global" ~> rep1sep(assignment, ",") ^^ {
-      assignments => GlobalAssignStmt(assignments)
+    "static" ~ rep1sep(assignment, ",") ^^ {
+      case static ~ assignments => StaticAssignStmt(static.position, assignments)
+    } | "global" ~ rep1sep(assignment, ",") ^^ {
+      case global ~ assignments => GlobalAssignStmt(global.position, assignments)
     } | rep1sep(assignmentWithExpr, ",") ^^ {
-      assignments => AssignStmt(assignments)
-    } | "echo" ~> rep1sep(expr, ",") ^^ {
-      parms => EchoStmt(parms)
-    } | "return" ~> expr ^^ {
-      expr => ReturnStmt(expr)
-    } | "break" ~> opt(numericLit) ^^ {
-      depth => BreakStmt(depth.map(_.toInt).getOrElse(1))
-    } | "continue" ~> opt(numericLit) ^^ {
-      depth => ContinueStmt(depth.map(_.toInt).getOrElse(1))
+      assignments => AssignStmt(assignments.head.position, assignments)
+    } | "echo" ~ rep1sep(expr, ",") ^^ {
+      case echo ~ params => EchoStmt(echo.position, params)
+    } | "return" ~ expr ^^ {
+      case ret ~ expr => ReturnStmt(ret.position, expr)
+    } | "break" ~ opt(numericLit) ^^ {
+      case br ~ depth => BreakStmt(br.position, depth.map(_.chars.toInt).getOrElse(1))
+    } | "continue" ~ opt(numericLit) ^^ {
+      case con ~ depth => ContinueStmt(con.position, depth.map(_.chars.toInt).getOrElse(1))
     } | expr ^^ {
       expr => ExprStmt(expr)
     }
 
   def assignment: Parser[Assignment] = assignmentWithExpr | variable ^^ {
-    variable => Assignment(variable, None)
+    variable => Assignment(variable.position, variable.name, None)
   }
 
   def assignmentWithExpr: Parser[Assignment] = variable ~ "=" ~ expr ^^ {
-    case variable ~ _ ~ expr => Assignment(variable, Some(expr))
+    case variable ~ _ ~ expr => Assignment(variable.position, variable.name, Some(expr))
   }
 
-  def blockLikeStmt: Parser[Stmt] = ifStmt | switchStmt | whileStmt | forStmt | foreachStmt | functionDef | block
+  def blockLikeStmt: Parser[Stmt] =
+    ifStmt | switchStmt | whileStmt | forStmt | foreachStmt | functionDef | classDef | block
 
   def closedStmt: Parser[Stmt] = regularStmt <~ ";" | blockLikeStmt
 
@@ -196,20 +199,20 @@ object JbjParser extends Parsers {
     stmts => stmts.flatten
   }
 
-  def block: Parser[BlockStmt] = "{" ~> stmtsOrInline <~ "}" ^^ {
-    stmts => BlockStmt(stmts)
+  def block: Parser[BlockStmt] = "{" ~ stmtsOrInline <~ "}" ^^ {
+    case paren ~ stmts => BlockStmt(paren.position, stmts)
   }
 
-  def ifStmt: Parser[IfStmt] = "if" ~> "(" ~> expr ~ ")" ~ closedStmt ~ rep(elseIfBlock) ~ opt("else" ~> closedStmt) ^^ {
-    case cond ~ _ ~ thenBlock ~ elseIfs ~ optElse => IfStmt(cond, thenBlock, elseIfs, optElse)
+  def ifStmt: Parser[IfStmt] = "if" ~ "(" ~ expr ~ ")" ~ closedStmt ~ rep(elseIfBlock) ~ opt("else" ~> closedStmt) ^^ {
+    case ifT ~ _ ~ cond ~ _ ~ thenBlock ~ elseIfs ~ optElse => IfStmt(ifT.position, cond, thenBlock, elseIfs, optElse)
   }
 
   def elseIfBlock: Parser[ElseIfBlock] = "elseif" ~> "(" ~> expr ~ ")" ~ closedStmt ^^ {
     case cond ~ _ ~ thenBlock => ElseIfBlock(cond, thenBlock)
   }
 
-  def switchStmt: Parser[SwitchStmt] = "switch" ~> "(" ~> expr ~ ")" ~ "{" ~ switchCases ~ "}" ^^ {
-    case expr ~ _ ~ _ ~ cases ~ _ => SwitchStmt(expr, cases)
+  def switchStmt: Parser[SwitchStmt] = "switch" ~ "(" ~ expr ~ ")" ~ "{" ~ switchCases ~ "}" ^^ {
+    case switchT ~ _ ~ expr ~ _ ~ _ ~ cases ~ _ => SwitchStmt(switchT.position, expr, cases)
   }
 
   def switchCases: Parser[List[SwitchCase]] = rep(
@@ -220,33 +223,40 @@ object JbjParser extends Parsers {
     }
   )
 
-  def whileStmt: Parser[WhileStmt] = "while" ~> "(" ~> expr ~ ")" ~ closedStmt ^^ {
-    case expr ~ _ ~ stmt => WhileStmt(expr, stmt)
+  def whileStmt: Parser[WhileStmt] = "while" ~ "(" ~ expr ~ ")" ~ closedStmt ^^ {
+    case wh ~ _ ~ expr ~ _ ~ stmt => WhileStmt(wh.position, expr, stmt)
   }
 
-  def forStmt: Parser[ForStmt] = "for" ~> "(" ~> regularStmt ~ ";" ~ expr ~ ";" ~ regularStmt ~ ")" ~ closedStmt ^^ {
-    case beforeStmt ~ _ ~ condition ~ _ ~ afterStmt ~ _ ~ stmt =>
-      ForStmt(beforeStmt, condition, afterStmt, stmt)
+  def forStmt: Parser[ForStmt] = "for" ~ "(" ~ regularStmt ~ ";" ~ expr ~ ";" ~ regularStmt ~ ")" ~ closedStmt ^^ {
+    case fo ~ _ ~ beforeStmt ~ _ ~ condition ~ _ ~ afterStmt ~ _ ~ stmt =>
+      ForStmt(fo.position, beforeStmt, condition, afterStmt, stmt)
   }
 
-  def foreachStmt: Parser[Stmt] = "foreach" ~> "(" ~> expr ~ "as" ~ variable ~ opt("=>" ~> variable) ~ ")" ~ closedStmt ^^ {
-    case arrayExpr ~ _ ~ valueName ~ None ~ _ ~ stmt => ForeachValueStmt(arrayExpr, valueName, stmt)
-    case arrayExpr ~ _ ~ keyName ~ Some(valueName) ~ _ ~ stmt => ForeachKeyValueStmt(arrayExpr, keyName, valueName, stmt)
+  def foreachStmt: Parser[Stmt] = "foreach" ~ "(" ~ expr ~ "as" ~ variable ~ opt("=>" ~> variable) ~ ")" ~ closedStmt ^^ {
+    case fo ~ _ ~ arrayExpr ~ _ ~ valueName ~ None ~ _ ~ stmt =>
+      ForeachValueStmt(fo.position, arrayExpr, valueName.name, stmt)
+    case fo ~ _ ~ arrayExpr ~ _ ~ keyName ~ Some(valueName) ~ _ ~ stmt =>
+      ForeachKeyValueStmt(fo.position, arrayExpr, keyName.name, valueName.name, stmt)
   }
 
-  def functionDef: Parser[FunctionDefStmt] = "function" ~> ident ~ "(" ~ parameterDefs ~ ")" ~ block ^^ {
-    case name ~ _ ~ parameters ~ _ ~ body => FunctionDefStmt(name, parameters, body)
+  def functionDef: Parser[FunctionDefStmt] = "function" ~ ident ~ "(" ~ parameterDefs ~ ")" ~ block ^^ {
+    case func ~ name ~ _ ~ parameters ~ _ ~ body => FunctionDefStmt(func.position, name.chars, parameters, body)
+  }
+
+  def classDef: Parser[ClassDefStmt] = "class" ~ ident ~ opt("extends" ~> ident) ~ block ^^ {
+    case cls ~ className ~ superClassName ~ body =>
+      ClassDefStmt(cls.position, className.chars, superClassName.map(_.chars), body)
   }
 
   def parameterDefs: Parser[List[ParameterDef]] = repsep(parameterDef, ",")
 
-  def parameterDef: Parser[ParameterDef] = variable ^^ (v => ParameterDef(v, byRef = false, default = None))
+  def parameterDef: Parser[ParameterDef] = variable ^^ (v => ParameterDef(v.name, byRef = false, default = None))
 
   def script: Parser[List[Stmt]] =
     scriptStart ~> stmtsWithUnclosed |
-      scriptStartEcho ~> rep1sep(expr, ",") ~ opt(";" ~> stmtsWithUnclosed) ^^ {
-        case params ~ None => EchoStmt(params) :: Nil
-        case params ~ Some(stmts) => EchoStmt(params) :: stmts
+      scriptStartEcho ~ rep1sep(expr, ",") ~ opt(";" ~> stmtsWithUnclosed) ^^ {
+        case start ~ params ~ None => EchoStmt(start.position, params) :: Nil
+        case start ~ params ~ Some(stmts) => EchoStmt(start.position, params) :: stmts
       }
 
   def inlineAndScript: Parser[List[Stmt]] = rep(inline) ~ opt(script) ^^ {
@@ -255,19 +265,19 @@ object JbjParser extends Parsers {
   }
 
   def prog: Parser[Prog] = repsep(inlineAndScript, scriptEnd) ^^ {
-    stmts => Prog(stmts.flatten)
+    stmts => Prog(FilePosition("-", 0), stmts.flatten)
   }
 
   def inline: Parser[InlineStmt] =
     elem("inline", _.isInstanceOf[Inline]) ^^ {
-      t => InlineStmt(t.chars)
+      t => InlineStmt(t.position, t.chars)
     }
 
   def scriptStart: Parser[String] =
     elem("scriptStart", _.isInstanceOf[ScriptStart]) ^^ (_.chars)
 
-  def scriptStartEcho: Parser[String] =
-    elem("scriptStartEcho", _.isInstanceOf[ScriptStartEcho]) ^^ (_.chars)
+  def scriptStartEcho: Parser[ScriptStartEcho] =
+    elem("scriptStartEcho", _.isInstanceOf[ScriptStartEcho]) ^^ (_.asInstanceOf[ScriptStartEcho])
 
   def scriptEnd: Parser[String] =
     elem("scriptEnd", _.isInstanceOf[ScriptEnd]) ^^ (_.chars)
@@ -278,28 +288,28 @@ object JbjParser extends Parsers {
     * @return a `Parser` that matches the given string
     */
   //  implicit def keyword(chars: String): Parser[String] = accept(Keyword(chars)) ^^ (_.chars)
-  implicit def keyword(chars: String): Parser[String] =
-    keywordCache.getOrElseUpdate(chars, accept(Keyword(chars)) ^^ (_.chars))
+  implicit def keyword(chars: String): Parser[Keyword] =
+    keywordCache.getOrElseUpdate(chars, elem("keyword " + chars, {
+      t => t.chars == chars && t.isInstanceOf[Keyword]
+    }) ^^ (_.asInstanceOf[Keyword]))
 
   /** A parser which matches a numeric literal */
-  def numericLit: Parser[String] =
-    elem("number", _.isInstanceOf[NumericLit]) ^^ (_.chars)
+  def numericLit: Parser[NumericLit] =
+    elem("number", _.isInstanceOf[NumericLit]) ^^ (_.asInstanceOf[NumericLit])
 
   /** A parser which matches a string literal */
-  def stringLit: Parser[String] =
-    elem("string literal", _.isInstanceOf[StringLit]) ^^ (_.chars)
+  def stringLit: Parser[StringLit] =
+    elem("string literal", _.isInstanceOf[StringLit]) ^^ (_.asInstanceOf[StringLit])
 
-  def interpolatedStringLit: Parser[List[Either[Char, String]]] =
-    elem("interpolated string literal", _.isInstanceOf[InterpolatedStringLit]) ^^ {
-      case t: InterpolatedStringLit => t.charOrInterpolations
-    }
+  def interpolatedStringLit: Parser[InterpolatedStringLit] =
+    elem("interpolated string literal", _.isInstanceOf[InterpolatedStringLit]) ^^ (_.asInstanceOf[InterpolatedStringLit])
 
   /** A parser which matches an identifier */
-  def ident: Parser[String] =
-    elem("identifier", _.isInstanceOf[Identifier]) ^^ (_.chars)
+  def ident: Parser[Identifier] =
+    elem("identifier", _.isInstanceOf[Identifier]) ^^ (_.asInstanceOf[Identifier])
 
-  def variable: Parser[String] =
-    elem("variable", _.isInstanceOf[VarIdentifier]) ^^ (_.asInstanceOf[VarIdentifier].name)
+  def variable: Parser[VarIdentifier] =
+    elem("variable", _.isInstanceOf[VarIdentifier]) ^^ (_.asInstanceOf[VarIdentifier])
 
   def parse(s: String): ParseResult[Prog] = {
     val tokens = new JbjInitialLexer(s)
@@ -337,6 +347,8 @@ object JbjParser extends Parsers {
   //A main method for testing
   def main(args: Array[String]) = {
     test( """<?php
+            |
+            |var_dump();
             |
             |$strVals = array(
             |   "0","65","-44", "1.2", "-7.7", "abc", "123abc", "123e5", "123e5xyz", " 123abc", "123 abc", "123abc ", "3.4a",

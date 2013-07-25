@@ -1,13 +1,13 @@
 package de.leanovate.jbj.ast.stmt
 
-import de.leanovate.jbj.ast.Stmt
+import de.leanovate.jbj.ast.{FilePosition, Stmt}
 import de.leanovate.jbj.runtime._
 import java.util.concurrent.atomic.AtomicLong
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.runtime.context.BlockContext
 
-case class BlockStmt(identifier: String, stmts: List[Stmt]) extends Stmt {
+case class BlockStmt(position: FilePosition, identifier: String, stmts: List[Stmt]) extends Stmt {
   override def exec(ctx: Context) = {
     val blockCtx = BlockContext(identifier, ctx)
     execStmts(stmts, blockCtx)
@@ -26,8 +26,8 @@ case class BlockStmt(identifier: String, stmts: List[Stmt]) extends Stmt {
 object BlockStmt {
   private val blockCount = new AtomicLong()
 
-  def apply(stmts: List[Stmt]): BlockStmt = {
-    BlockStmt(nextIdentifier(), stmts)
+  def apply(position: FilePosition, stmts: List[Stmt]): BlockStmt = {
+    BlockStmt(position, nextIdentifier(), stmts)
   }
 
   private def nextIdentifier(): String = "block_" + blockCount.incrementAndGet()

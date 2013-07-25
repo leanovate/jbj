@@ -4,21 +4,25 @@ import scala.util.parsing.input.{CharArrayReader, Reader}
 import JbjTokens.{Token, ScriptEnd, VarIdentifier, NumericLit, StringLit, InterpolatedStringLit, EOF, Keyword, Identifier, errorToken}
 import scala.util.parsing.input.CharArrayReader.EofCh
 import scala.util.parsing.combinator.Parsers
+import de.leanovate.jbj.ast.FilePosition
 
-class JbjScriptLexer(in: Reader[Char]) extends Reader[Token] with Parsers {
+class JbjScriptLexer(fileName:String, in: Reader[Char]) extends Reader[Token] with Parsers {
   type Elem = Char
 
   import JbjScriptLexer.{delimiters, reserved}
 
-  def this(in: String) = this(new CharArrayReader(in.toCharArray()))
+  def this(in: String) = this("-", new CharArrayReader(in.toCharArray))
+
+  private var position = FilePosition(fileName, in.pos.line)
 
   private val (tok, rest1, rest2) = whitespace(in) match {
     case Success(_, in1) =>
+      position = FilePosition(fileName, in1.pos.line)
       token(in1) match {
-        case Success(tok, in2) => (tok, in1, in2)
-        case ns: NoSuccess => (errorToken(ns.msg), ns.next, skip(ns.next))
+        case Success(token, in2) => (token, in1, in2)
+        case ns: NoSuccess => (errorToken(position, ns.msg), ns.next, skip(ns.next))
       }
-    case ns: NoSuccess => (errorToken(ns.msg), ns.next, skip(ns.next))
+    case ns: NoSuccess => (errorToken(position, ns.msg), ns.next, skip(ns.next))
   }
 
   private def skip(in: Reader[Char]) = if (in.atEnd) in else in.rest
@@ -30,8 +34,8 @@ class JbjScriptLexer(in: Reader[Char]) extends Reader[Token] with Parsers {
   def first = tok
 
   def rest = tok match {
-    case ScriptEnd() => new JbjInitialLexer(rest2)
-    case _ => new JbjScriptLexer(rest2)
+    case ScriptEnd(_) => new JbjInitialLexer(fileName, rest2)
+    case _ => new JbjScriptLexer(fileName, rest2)
   }
 
   def pos = rest1.pos
@@ -42,25 +46,25 @@ class JbjScriptLexer(in: Reader[Char]) extends Reader[Token] with Parsers {
   })
 
   private def token: Parser[Token] =
-    ('?' ~ '>' ^^^ ScriptEnd()
-      | '%' ~ '>' ^^^ ScriptEnd()
-      | '<' ~ '/' ~ 's' ~ 'c' ~ 'r' ~ 'i' ~ 'p' ~ 't' ~ '>' ^^^ ScriptEnd()
+    ('?' ~ '>' ^^^ ScriptEnd(position)
+      | '%' ~ '>' ^^^ ScriptEnd(position)
+      | '<' ~ '/' ~ 's' ~ 'c' ~ 'r' ~ 'i' ~ 'p' ~ 't' ~ '>' ^^^ ScriptEnd(position)
       | '$' ~> identChar ~ rep(identChar | digit) ^^ {
-      case first ~ rest => VarIdentifier(first :: rest mkString "")
+      case first ~ rest => VarIdentifier(position, first :: rest mkString "")
     }
       | identChar ~ rep(identChar | digit) ^^ {
       case first ~ rest => processIdent(first :: rest mkString "")
     }
       | digit ~ rep(digit) ^^ {
-      case first ~ rest => NumericLit(first :: rest mkString "")
+      case first ~ rest => NumericLit(position, first :: rest mkString "")
     }
       | '\'' ~ notInterpolatedStr ~ '\'' ^^ {
-      case '\'' ~ str ~ '\'' => StringLit(str)
+      case '\'' ~ str ~ '\'' => StringLit(position, str)
     }
       | '\"' ~ interpolatedStr ~ '\"' ^^ {
-      case '\"' ~ str ~ '\"' => InterpolatedStringLit(str)
+      case '\"' ~ str ~ '\"' => InterpolatedStringLit(position, str)
     }
-      | EofCh ^^^ EOF
+      | EofCh ^^^ EOF(position)
       | '\'' ~> failure("unclosed string literal")
       | '\"' ~> failure("unclosed string literal")
       | delim
@@ -137,14 +141,14 @@ class JbjScriptLexer(in: Reader[Char]) extends Reader[Token] with Parsers {
     } | chrExcept(EofCh) ~ comment
 
   protected def processIdent(name: String) =
-    if (reserved contains name) Keyword(name) else Identifier(name)
+    if (reserved contains name) Keyword(position, name) else Identifier(position, name)
 
   private lazy val _delim: Parser[Token] = {
     // construct parser for delimiters by |'ing together the parsers for the individual delimiters,
     // starting with the longest one -- otherwise a delimiter D will never be matched if there is
     // another delimiter that is a prefix of D
     def parseDelim(s: String): Parser[Token] = accept(s.toList) ^^ {
-      x => Keyword(s)
+      x => Keyword(position, s)
     }
 
     val d = new Array[String](delimiters.size)
@@ -158,7 +162,7 @@ class JbjScriptLexer(in: Reader[Char]) extends Reader[Token] with Parsers {
 
 object JbjScriptLexer {
   /** The set of reserved identifiers: these will be returned as `Keyword`s. */
-  val reserved = Set("static", "global", "public", "private", "class", "var",
+  val reserved = Set("static", "global", "public", "protected", "private", "class", "var", "extends",
     "echo",
     "return", "break", "continue",
     "if", "else", "elseif", "while", "for", "foreach", "as",
@@ -166,7 +170,7 @@ object JbjScriptLexer {
     "function", "array")
 
   /** The set of delimiters (ordering does not matter). */
-  val delimiters = Set(",", ":", ";", "{", "}", "[", "]","=>",
+  val delimiters = Set(",", ":", ";", "{", "}", "[", "]", "=>",
     ".", "+", "-", "*", "/", "(", ")",
     "=", ">", ">=", "<", "<=", "==",
     "|", "||", "&", "&&")

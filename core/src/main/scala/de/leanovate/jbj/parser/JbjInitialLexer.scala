@@ -4,23 +4,26 @@ import scala.util.parsing.input.{CharArrayReader, Reader}
 import de.leanovate.jbj.parser.JbjTokens.{Token, Inline, ScriptStart, ScriptStartEcho, EOF, errorToken}
 import scala.util.parsing.combinator.Parsers
 import scala.util.parsing.input.CharArrayReader.EofCh
+import de.leanovate.jbj.ast.FilePosition
 
-class JbjInitialLexer(in: Reader[Char]) extends Reader[Token] with Parsers {
+class JbjInitialLexer(fileName: String, in: Reader[Char]) extends Reader[Token] with Parsers {
   type Elem = Char
 
-  def this(in: String) = this(new CharArrayReader(in.toCharArray))
+  def this(in: String) = this("-", new CharArrayReader(in.toCharArray))
+
+  private val position = FilePosition(fileName, in.pos.line)
 
   private val (tok, rest1) = inline(in) match {
     case Success(tok, in) => (tok, in)
-    case ns: NoSuccess => (errorToken(ns.msg), ns.next)
+    case ns: NoSuccess => (errorToken(position, ns.msg), ns.next)
   }
 
   def first = tok
 
   def rest = tok match {
-    case ScriptStart() => new JbjScriptLexer(rest1)
-    case ScriptStartEcho() => new JbjScriptLexer(rest1)
-    case _ => new JbjInitialLexer(rest1)
+    case ScriptStart(_) => new JbjScriptLexer(fileName, rest1)
+    case ScriptStartEcho(_) => new JbjScriptLexer(fileName, rest1)
+    case _ => new JbjInitialLexer(fileName, rest1)
   }
 
   def pos = rest1.pos
@@ -28,16 +31,16 @@ class JbjInitialLexer(in: Reader[Char]) extends Reader[Token] with Parsers {
   def atEnd = in.atEnd
 
   private def inline: Parser[Token] =
-    (scriptStart ^^^ ScriptStart()
-      | '<' ~ '?' ~ php ~ witespaceChar ^^^ ScriptStart()
-      | '<' ~ '?' ~ '=' ~ witespaceChar ^^^ ScriptStartEcho()
-      | '<' ~ '?' ^^^ ScriptStart()
-      | '<' ~ '%' ~ '=' ^^^ ScriptStartEcho()
-      | '<' ~ '%' ^^^ ScriptStart()
-      | '<' ^^^ Inline("<")
-      | EofCh ^^^ EOF
+    (scriptStart ^^^ ScriptStart(position)
+      | '<' ~ '?' ~ php ~ witespaceChar ^^^ ScriptStart(position)
+      | '<' ~ '?' ~ '=' ~ witespaceChar ^^^ ScriptStartEcho(position)
+      | '<' ~ '?' ^^^ ScriptStart(position)
+      | '<' ~ '%' ~ '=' ^^^ ScriptStartEcho(position)
+      | '<' ~ '%' ^^^ ScriptStart(position)
+      | '<' ^^^ Inline(position, "<")
+      | EofCh ^^^ EOF(position)
       | rep(chrExcept(EofCh, '<')) ^^ {
-      chars => Inline(chars mkString "")
+      chars => Inline(position, chars mkString "")
     })
 
   private def scriptStart = script ~ optWhitespace ~ language ~ optWhitespace ~ '=' ~

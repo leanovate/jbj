@@ -1,10 +1,10 @@
 package de.leanovate.jbj.ast.expr
 
-import de.leanovate.jbj.ast.Expr
+import de.leanovate.jbj.ast.{FilePosition, Expr}
 import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.value.{ValueRef, IntegerVal}
 
-case class VarGetAndIncrExpr(variableName: String) extends Expr {
+case class VarGetAndIncrExpr(position:FilePosition, variableName: String) extends Expr {
   def eval(ctx: Context) = {
     ctx.findVariable(variableName) match {
       case Some(valueRef) =>

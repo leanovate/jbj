@@ -1,19 +1,17 @@
 package de.leanovate.jbj.ast.stmt.loop
 
-import de.leanovate.jbj.ast.{Stmt, Expr}
+import de.leanovate.jbj.ast.{FilePosition, Stmt, Expr}
 import de.leanovate.jbj.runtime._
 import java.util.concurrent.atomic.AtomicLong
 import de.leanovate.jbj.ast.stmt.BlockStmt
 import scala.annotation.tailrec
-import de.leanovate.jbj.runtime.context.BlockContext
 import de.leanovate.jbj.runtime.value.{ArrayVal, ValueRef}
-import de.leanovate.jbj.runtime.context.BlockContext
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.runtime.context.BlockContext
 import de.leanovate.jbj.runtime.value.ArrayVal.ArrayKey
 
-case class ForeachKeyValueStmt(identifier: String, arrayExpr: Expr, keyName: String, valueName: String,
+case class ForeachKeyValueStmt(position:FilePosition,identifier: String, arrayExpr: Expr, keyName: String, valueName: String,
                                stmts: List[Stmt]) extends Stmt {
   def exec(ctx: Context) = {
     val blockCtx = BlockContext(identifier, ctx)
@@ -53,9 +51,9 @@ case class ForeachKeyValueStmt(identifier: String, arrayExpr: Expr, keyName: Str
 object ForeachKeyValueStmt {
   private val forCount = new AtomicLong()
 
-  def apply(arrayExpr: Expr, keyName: String, valueName: String, forBlock: Stmt): ForeachKeyValueStmt = forBlock match {
-    case block: BlockStmt => ForeachKeyValueStmt(nextIdentifier(), arrayExpr, keyName, valueName, block.stmts)
-    case stmt => ForeachKeyValueStmt(nextIdentifier(), arrayExpr, keyName, valueName, stmt :: Nil)
+  def apply(position: FilePosition,arrayExpr: Expr, keyName: String, valueName: String, forBlock: Stmt): ForeachKeyValueStmt = forBlock match {
+    case block: BlockStmt => ForeachKeyValueStmt(position,nextIdentifier(), arrayExpr, keyName, valueName, block.stmts)
+    case stmt => ForeachKeyValueStmt(position,nextIdentifier(), arrayExpr, keyName, valueName, stmt :: Nil)
   }
 
   private def nextIdentifier(): String = "foreachkeyvalue_" + forCount.incrementAndGet()

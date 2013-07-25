@@ -1,6 +1,6 @@
 package de.leanovate.jbj.runtime.func
 
-import de.leanovate.jbj.ast.Stmt
+import de.leanovate.jbj.ast.{FilePosition, Stmt}
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.value.{ValueRef, NullVal}
 import scala.annotation.tailrec
@@ -10,7 +10,7 @@ import de.leanovate.jbj.runtime.context.BlockContext
 
 case class UserFunction(name: String, parameterDefs: List[ParameterDef], stmts: List[Stmt]) extends Function {
 
-  def call(ctx: Context, parameters: List[Value]) = {
+  def call(ctx: Context, callerPosition:FilePosition, parameters: List[Value]) = {
     val funcCtx = BlockContext(name, ctx)
 
     parameterDefs.zipWithIndex.foreach {
