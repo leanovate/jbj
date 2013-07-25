@@ -15,6 +15,10 @@ trait Context {
 
   lazy val log: Log = new Log(out, err)
 
+  def findConstant(name: String): Option[Value]
+
+  def defineConstant(name: String, value: Value, caseInsensitive:Boolean)
+
   def findVariable(name: String): Option[ValueRef]
 
   def defineVariable(name: String, valueRef: ValueRef)

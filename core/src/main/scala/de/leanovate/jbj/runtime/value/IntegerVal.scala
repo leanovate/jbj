@@ -2,7 +2,7 @@ package de.leanovate.jbj.runtime.value
 
 import java.io.PrintStream
 
-case class IntegerVal(value: Int) extends NumericVal {
+case class IntegerVal(value: Long) extends NumericVal {
   def toOutput(out: PrintStream) {
     out.print(value)
   }

@@ -63,7 +63,7 @@ object JbjParser extends Parsers {
   private val keywordCache = mutable.HashMap[String, Parser[Keyword]]()
 
   def value: Parser[Expr] =
-    (numericLit ^^ (s => IntegerConstExpr(s.position, s.chars.toInt))
+    (numericLit ^^ (s => IntegerConstExpr(s.position, s.chars.toLong))
       | stringLit ^^ (s => StringConstExpr(s.position, s.chars))
       | interpolatedStringLit ^^ (s => InterpolatedStringExpr(s.position, s.charOrInterpolations))
       )
@@ -100,7 +100,11 @@ object JbjParser extends Parsers {
     case sign ~ term => NegExpr(sign.position, term)
   }
 
-  def term: Parser[Expr] = value | variableRef | functionCall | parens | neg
+  def constant: Parser[Expr] = ident ^^ {
+    name => ConstGetExpr(name.position, name.chars)
+  }
+
+  def term: Parser[Expr] = value | variableRef | functionCall | constant | parens | neg
 
   def binaryOp(level: Int): Parser[((Expr, Expr) => Expr)] = {
     level match {
@@ -348,18 +352,21 @@ object JbjParser extends Parsers {
   def main(args: Array[String]) = {
     test( """<?php
             |
-            |var_dump();
+            |define("MAX_64Bit", 9223372036854775807);
+            |define("MAX_32Bit", 2147483647);
+            |define("MIN_64Bit", -9223372036854775807 - 1);
+            |define("MIN_32Bit", -2147483647 - 1);
             |
-            |$strVals = array(
-            |   "0","65","-44", "1.2", "-7.7", "abc", "123abc", "123e5", "123e5xyz", " 123abc", "123 abc", "123abc ", "3.4a",
-            |   "a5.9"
+            |$longVals = array(
+            |    MAX_64Bit, MIN_64Bit, MAX_32Bit, MIN_32Bit, MAX_64Bit - MAX_32Bit, MIN_64Bit - MIN_32Bit,
+            |    MAX_32Bit + 1, MIN_32Bit - 1, MAX_32Bit * 2, (MAX_32Bit * 2) + 1, (MAX_32Bit * 2) - 1,
+            |    MAX_64Bit -1, MAX_64Bit + 1, MIN_64Bit + 1, MIN_64Bit - 1
             |);
             |
             |
-            |foreach ($strVals as $strVal) {
-            |   echo "--- testing: '$strVal' ---\n";
-            |   $strVal++;
-            |   var_dump($strVal);
+            |foreach ($longVals as $longVal) {
+            |   echo "--- testing: $longVal ---\n";
+            |   var_dump(-$longVal);
             |}
             |
             |?>""".stripMargin)

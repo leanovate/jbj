@@ -51,7 +51,7 @@ class ArrayVal(val keyValues: List[(ArrayKey, Value)]) extends Value {
   def decr = this
 
   def getAt(index: Value) = index.unref match {
-    case IntegerVal(idx) => keyValueMap.getOrElse(IntArrayKey(idx), UndefinedVal)
+    case IntegerVal(idx) => keyValueMap.getOrElse(IntArrayKey(idx.toInt), UndefinedVal)
     case NumericVal(idx) => keyValueMap.getOrElse(IntArrayKey(idx.toInt), UndefinedVal)
     case StringVal(idx) => keyValueMap.getOrElse(StringArrayKey(idx), UndefinedVal)
     case _ => UndefinedVal
@@ -68,12 +68,12 @@ object ArrayVal {
     def value = StringVal(key)
   }
 
-  case class IntArrayKey(key: Int) extends ArrayKey {
+  case class IntArrayKey(key: Long) extends ArrayKey {
     def value = IntegerVal(key)
   }
 
   def apply(keyValues: List[(Option[Value], Value)]): ArrayVal = {
-    var nextIndex: Int = -1
+    var nextIndex: Long = -1
 
     new ArrayVal(keyValues.map {
       keyValue =>
