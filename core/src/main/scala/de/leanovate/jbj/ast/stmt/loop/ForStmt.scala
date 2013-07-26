@@ -42,9 +42,9 @@ case class ForStmt(position: FilePosition, identifier: String, beforeStmt: Stmt,
 object ForStmt {
   private val forCount = new AtomicLong()
 
-  def apply(position: FilePosition,beforeStmt: Stmt, condition: Expr, afterStmt: Stmt, forBlock: Stmt): ForStmt = forBlock match {
-    case block: BlockStmt => ForStmt(position,nextIdentifier(), beforeStmt, condition, afterStmt, block.stmts)
-    case stmt => ForStmt(position,nextIdentifier(), beforeStmt, condition, afterStmt, stmt :: Nil)
+  def apply(position: FilePosition, beforeStmt: Stmt, condition: Expr, afterStmt: Stmt, forBlock: Stmt): ForStmt = forBlock match {
+    case block: BlockStmt => ForStmt(position, nextIdentifier(), beforeStmt, condition, afterStmt, block.stmts)
+    case stmt => ForStmt(position, nextIdentifier(), beforeStmt, condition, afterStmt, stmt :: Nil)
   }
 
   private def nextIdentifier(): String = "for_" + forCount.incrementAndGet()

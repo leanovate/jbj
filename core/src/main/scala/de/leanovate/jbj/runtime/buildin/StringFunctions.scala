@@ -1,7 +1,6 @@
 package de.leanovate.jbj.runtime.buildin
 
 import de.leanovate.jbj.runtime.value.{BooleanVal, StringVal, IntegerVal}
-import de.leanovate.jbj.runtime.Value
 
 object StringFunctions {
   val functions = Seq(

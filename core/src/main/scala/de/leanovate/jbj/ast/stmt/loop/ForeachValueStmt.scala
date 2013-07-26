@@ -48,9 +48,9 @@ case class ForeachValueStmt(position: FilePosition, identifier: String, arrayExp
 object ForeachValueStmt {
   private val forCount = new AtomicLong()
 
-  def apply(position: FilePosition,arrayExpr: Expr, valueName: String, forBlock: Stmt): ForeachValueStmt = forBlock match {
-    case block: BlockStmt => ForeachValueStmt(position,nextIdentifier(), arrayExpr, valueName, block.stmts)
-    case stmt => ForeachValueStmt(position,nextIdentifier(), arrayExpr, valueName, stmt :: Nil)
+  def apply(position: FilePosition, arrayExpr: Expr, valueName: String, forBlock: Stmt): ForeachValueStmt = forBlock match {
+    case block: BlockStmt => ForeachValueStmt(position, nextIdentifier(), arrayExpr, valueName, block.stmts)
+    case stmt => ForeachValueStmt(position, nextIdentifier(), arrayExpr, valueName, stmt :: Nil)
   }
 
   private def nextIdentifier(): String = "foreachvalue_" + forCount.incrementAndGet()

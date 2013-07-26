@@ -6,7 +6,7 @@ import scala.util.parsing.input.CharArrayReader.EofCh
 import scala.util.parsing.combinator.Parsers
 import de.leanovate.jbj.ast.FilePosition
 
-class JbjScriptLexer(fileName:String, in: Reader[Char]) extends Reader[Token] with Parsers {
+class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] with Parsers {
   type Elem = Char
 
   import JbjScriptLexer.{delimiters, reserved}

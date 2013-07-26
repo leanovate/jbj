@@ -8,17 +8,23 @@ import de.leanovate.jbj.runtime.buildin
 import scala.Some
 
 case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
+  private val classes = mutable.Map.empty[String, ClassContext]
+
   private val constants = mutable.Map.empty[ConstantKey, Value]
 
   private val variables = mutable.Map.empty[String, ValueRef]
 
-  private val functions = mutable.Map.empty[String, Function]
+  private val functions = mutable.Map.empty[String, PFunction]
 
   private val staticContexts = mutable.Map.empty[String, StaticContext]
 
   def global = this
 
   def static = this
+
+  def findClass(name: String): Option[ClassContext] = classes.get(name)
+
+  def defineClass(name: String): ClassContext = classes.getOrElse(name, new ClassContext(name, this))
 
   def findConstant(name: String): Option[Value] =
     buildin.buildinConstants.get(name.toLowerCase()).map(Some(_)).getOrElse {
@@ -42,7 +48,7 @@ case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
 
   def findFunction(name: String) = buildin.buildinFunctions.get(name).map(Some(_)).getOrElse(functions.get(name))
 
-  def defineFunction(function: Function) {
+  def defineFunction(function: PFunction) {
     functions.put(function.name, function)
   }
 

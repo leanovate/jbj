@@ -2,7 +2,7 @@ package de.leanovate.jbj.runtime.context
 
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.value.ValueRef
-import de.leanovate.jbj.runtime.{Value, Function, Context}
+import de.leanovate.jbj.runtime.{Value, PFunction, Context}
 
 case class BlockContext(identifier: String, callerCtx: Context) extends Context {
   private val localVariables = mutable.Map.empty[String, ValueRef]
@@ -15,9 +15,13 @@ case class BlockContext(identifier: String, callerCtx: Context) extends Context 
 
   val err = callerCtx.err
 
+  def findClass(name: String): Option[ClassContext] = global.findClass(name)
+
+  def defineClass(name: String): ClassContext = global.defineClass(name)
+
   def findConstant(name: String): Option[Value] = global.findConstant(name)
 
-  def defineConstant(name: String, value: Value, caseInsensitive:Boolean) {
+  def defineConstant(name: String, value: Value, caseInsensitive: Boolean) {
     global.defineConstant(name, value, caseInsensitive)
   }
 
@@ -36,7 +40,7 @@ case class BlockContext(identifier: String, callerCtx: Context) extends Context 
 
   def findFunction(name: String) = callerCtx.findFunction(name)
 
-  def defineFunction(function: Function) {
+  def defineFunction(function: PFunction) {
     callerCtx.defineFunction(function)
   }
 }

@@ -5,7 +5,7 @@ import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.parser.JbjParser
 
-case class InterpolatedStringExpr(position: FilePosition,format: String, interpolations: List[Expr]) extends Expr {
+case class InterpolatedStringExpr(position: FilePosition, format: String, interpolations: List[Expr]) extends Expr {
   def eval(ctx: Context) = {
     val values = interpolations.map(_.eval(ctx).toStr.value)
     StringVal(format.format(values: _*))
@@ -13,7 +13,7 @@ case class InterpolatedStringExpr(position: FilePosition,format: String, interpo
 }
 
 object InterpolatedStringExpr {
-  def apply(position: FilePosition,charOrInterpolations: List[Either[Char, String]]): Expr = {
+  def apply(position: FilePosition, charOrInterpolations: List[Either[Char, String]]): Expr = {
     val str = charOrInterpolations.foldLeft(StringBuilder.newBuilder) {
       case (b, Left(ch)) =>
         b += ch

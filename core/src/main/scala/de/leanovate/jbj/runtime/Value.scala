@@ -2,7 +2,6 @@ package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.runtime.value.{IntegerVal, BooleanVal, StringVal, NumericVal}
 import java.io.PrintStream
-import de.leanovate.jbj.ast.Expr
 
 trait Value {
   def toOutput(out: PrintStream)

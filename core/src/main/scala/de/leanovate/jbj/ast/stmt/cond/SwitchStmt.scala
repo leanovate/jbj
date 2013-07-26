@@ -30,7 +30,7 @@ case class SwitchStmt(position: FilePosition, identifier: String, expr: Expr, ca
 object SwitchStmt {
   private val switchCount = new AtomicLong()
 
-  def apply(position:FilePosition,expr: Expr, cases: List[SwitchCase]): SwitchStmt =
+  def apply(position: FilePosition, expr: Expr, cases: List[SwitchCase]): SwitchStmt =
     SwitchStmt(position, nextIdentifier(), expr, cases)
 
   private def nextIdentifier(): String = "switch_" + switchCount.incrementAndGet()

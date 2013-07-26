@@ -1,7 +1,7 @@
 package de.leanovate.jbj.runtime.buildin
 
 import de.leanovate.jbj.runtime.value.UndefinedVal
-import de.leanovate.jbj.runtime.{Value, Context, Function}
+import de.leanovate.jbj.runtime.{Value, Context, PFunction}
 import de.leanovate.jbj.ast.FilePosition
 
 object RuntimeFunctions {
@@ -9,7 +9,7 @@ object RuntimeFunctions {
     BuildinFunction1("error_reporting", {
       case _ => UndefinedVal
     }),
-    new Function() {
+    new PFunction() {
       def name = "define"
 
       def call(ctx: Context, callerPosition: FilePosition, parameters: List[Value]) = {

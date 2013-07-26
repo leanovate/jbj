@@ -8,9 +8,9 @@ import de.leanovate.jbj.runtime.ReturnExecResult
 import de.leanovate.jbj.ast.stmt.ParameterDef
 import de.leanovate.jbj.runtime.context.BlockContext
 
-case class UserFunction(name: String, parameterDefs: List[ParameterDef], stmts: List[Stmt]) extends Function {
+case class UserFunction(name: String, parameterDefs: List[ParameterDef], stmts: List[Stmt]) extends PFunction {
 
-  def call(ctx: Context, callerPosition:FilePosition, parameters: List[Value]) = {
+  def call(ctx: Context, callerPosition: FilePosition, parameters: List[Value]) = {
     val funcCtx = BlockContext(name, ctx)
 
     parameterDefs.zipWithIndex.foreach {

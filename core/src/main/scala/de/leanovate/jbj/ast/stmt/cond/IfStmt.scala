@@ -2,9 +2,8 @@ package de.leanovate.jbj.ast.stmt.cond
 
 import de.leanovate.jbj.ast.{FilePosition, Stmt, Expr}
 import de.leanovate.jbj.runtime.{SuccessExecResult, Context}
-import de.leanovate.jbj.ast.stmt.BlockStmt
 
-case class IfStmt(position:FilePosition, condition: Expr, thenBlock: Stmt, elseIfs: List[ElseIfBlock], elseBlock: Option[Stmt])
+case class IfStmt(position: FilePosition, condition: Expr, thenBlock: Stmt, elseIfs: List[ElseIfBlock], elseBlock: Option[Stmt])
   extends Stmt {
 
   def exec(ctx: Context) = {

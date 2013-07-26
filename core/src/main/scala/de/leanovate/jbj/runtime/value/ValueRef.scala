@@ -42,7 +42,7 @@ class ValueRef(private var current: Option[Value] = None) extends Value {
 
   def decr = value.decr
 
-  def getAt(index:Value) = value.getAt(index)
+  def getAt(index: Value) = value.getAt(index)
 }
 
 object ValueRef {

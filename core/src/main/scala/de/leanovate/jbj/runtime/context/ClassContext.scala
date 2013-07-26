@@ -1,13 +1,13 @@
 package de.leanovate.jbj.runtime.context
 
+import de.leanovate.jbj.runtime.{Value, Context, PFunction}
 import scala.collection.mutable
-import de.leanovate.jbj.runtime.{Value, PFunction, Context}
 import de.leanovate.jbj.runtime.value.ValueRef
 
-class StaticContext(var global: GlobalContext) extends Context {
+class ClassContext(var className: String, var global: GlobalContext) extends Context {
   private val variables = mutable.Map.empty[String, ValueRef]
 
-  def static = this
+  lazy val static = global.staticContext("Class_" + className)
 
   def out = global.out
 
@@ -23,7 +23,13 @@ class StaticContext(var global: GlobalContext) extends Context {
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  def findVariable(name: String) = variables.get(name)
+  def findVariable(name: String) = variables.get(name) match {
+    case None => static.findVariable(name) match {
+      case None => global.findVariable(name)
+      case staticVar => staticVar
+    }
+    case localVar => localVar
+  }
 
   def defineVariable(name: String, valueRef: ValueRef) {
     variables.put(name, valueRef)
