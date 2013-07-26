@@ -162,15 +162,15 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
 
 object JbjScriptLexer {
   /** The set of reserved identifiers: these will be returned as `Keyword`s. */
-  val reserved = Set("static", "global", "public", "protected", "private", "class", "var", "extends",
-    "echo",
+  val reserved = Set("static", "global", "public", "protected", "private", "class", "var", "extends", "use",
+    "echo", "print", "new",
     "return", "break", "continue",
     "if", "else", "elseif", "while", "for", "foreach", "as",
     "switch", "case", "default",
     "function", "array")
 
   /** The set of delimiters (ordering does not matter). */
-  val delimiters = Set(",", ":", ";", "{", "}", "[", "]", "=>",
+  val delimiters = Set(",", ":", ";", "{", "}", "[", "]", "=>", "->",
     ".", "+", "-", "*", "/", "(", ")",
     "=", ">", ">=", "<", "<=", "==",
     "|", "||", "&", "&&")

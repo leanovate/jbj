@@ -10,7 +10,6 @@ import scala.util.parsing.combinator.Parsers
 import de.leanovate.jbj.ast.expr.value._
 import scala.language.implicitConversions
 import de.leanovate.jbj.ast.expr._
-import de.leanovate.jbj.ast.stmt.GlobalAssignStmt
 import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
 import de.leanovate.jbj.ast.expr.calc.AddExpr
 import de.leanovate.jbj.ast.expr.comp.BoolAndExpr
@@ -33,7 +32,6 @@ import de.leanovate.jbj.parser.JbjTokens.ScriptStart
 import de.leanovate.jbj.ast.expr.VarGetAndDecrExpr
 import de.leanovate.jbj.ast.expr.calc.MulExpr
 import de.leanovate.jbj.ast.expr.value.IntegerConstExpr
-import de.leanovate.jbj.ast.stmt.StaticAssignStmt
 import de.leanovate.jbj.parser.JbjTokens.InterpolatedStringLit
 import de.leanovate.jbj.ast.stmt.AssignStmt
 import de.leanovate.jbj.ast.stmt.FunctionDefStmt
@@ -51,7 +49,7 @@ import de.leanovate.jbj.parser.JbjTokens.Keyword
 import de.leanovate.jbj.ast.expr.value.StringConstExpr
 import de.leanovate.jbj.parser.JbjTokens.StringLit
 import de.leanovate.jbj.parser.JbjTokens.VarIdentifier
-import de.leanovate.jbj.ast.expr.CallExpr
+import de.leanovate.jbj.ast.expr.CallFunctionExpr
 import de.leanovate.jbj.ast.expr.comp.GtExpr
 import de.leanovate.jbj.parser.JbjTokens.ScriptStartEcho
 import de.leanovate.jbj.ast.expr.calc.DivExpr
@@ -69,15 +67,19 @@ object JbjParser extends Parsers {
       )
 
   def variableRef: Parser[Expr] = variable <~ "+" <~ "+" ^^ {
-    s => VarGetAndIncrExpr(s.position, s.name)
+    variable => VarGetAndIncrExpr(variable.position, variable.name)
   } | variable <~ "-" <~ "-" ^^ {
-    s => VarGetAndDecrExpr(s.position, s.name)
+    variable => VarGetAndDecrExpr(variable.position, variable.name)
   } | "+" ~> "+" ~> variable ^^ {
-    s => VarGetAndIncrExpr(s.position, s.name)
+    variable => VarGetAndIncrExpr(variable.position, variable.name)
   } | variable ~ rep1(indexExpr) ^^ {
-    case s ~ indices => ArrayGetExpr(s.position, s.name, indices)
+    case variable ~ indices => ArrayGetExpr(variable.position, variable.name, indices)
+  } | variable ~ "->" ~ ident ~ "(" ~ repsep(expr, ",") <~ ")" ^^ {
+    case variable ~ _ ~ method ~ _ ~ params => CallMethodExpr(variable.position, variable.name, method.chars, params)
+  } | variable ~ "->" ~ ident ^^ {
+    case variable ~ _ ~ property => PropertyGetExpr(variable.position, variable.name, property.chars)
   } | variable ^^ {
-    s => VarGetExpr(s.position, s.name)
+    variable => VarGetExpr(variable.position, variable.name)
   } | "array" ~ "(" ~ repsep(arrayValues, ",") <~ ")" ^^ {
     case array ~ _ ~ arrayValues => ArrayCreateExpr(array.position, arrayValues)
   }
@@ -91,7 +93,7 @@ object JbjParser extends Parsers {
   }
 
   def functionCall: Parser[Expr] = ident ~ "(" ~ repsep(expr, ",") <~ ")" ^^ {
-    case name ~ _ ~ params => CallExpr(name.position, name.chars, params)
+    case name ~ _ ~ params => CallFunctionExpr(name.position, name.chars, params)
   }
 
   def parens: Parser[Expr] = "(" ~> expr <~ ")"
@@ -161,12 +163,15 @@ object JbjParser extends Parsers {
   def expr: Parser[Expr] = binary(minPrec) | term
 
   def regularStmt: Parser[Stmt] =
-    "static" ~ rep1sep(assignment, ",") ^^ {
-      case static ~ assignments => StaticAssignStmt(static.position, assignments)
-    } | "global" ~ rep1sep(assignment, ",") ^^ {
-      case global ~ assignments => GlobalAssignStmt(global.position, assignments)
+    modifiers ~ rep1sep(assignment, ",") ^^ {
+      case modifiers ~ assignments if modifiers.contains(Modifier.STATIC) =>
+        StaticAssignStmt(assignments.head.position, modifiers, assignments)
+      case modifiers ~ assignments if modifiers.contains(Modifier.GLOBAL) =>
+        GlobalAssignStmt(assignments.head.position, modifiers, assignments)
+      case modifiers ~ assignments =>
+        AssignStmt(assignments.head.position, modifiers, assignments)
     } | rep1sep(assignmentWithExpr, ",") ^^ {
-      assignments => AssignStmt(assignments.head.position, assignments)
+      assignments => AssignStmt(assignments.head.position, Set.empty[Modifier.Type], assignments)
     } | "echo" ~ rep1sep(expr, ",") ^^ {
       case echo ~ params => EchoStmt(echo.position, params)
     } | "return" ~ expr ^^ {
@@ -178,6 +183,11 @@ object JbjParser extends Parsers {
     } | expr ^^ {
       expr => ExprStmt(expr)
     }
+
+  def modifiers: Parser[Set[Modifier.Type]] = rep1(modifier) ^^ (_.toSet)
+
+  def modifier: Parser[Modifier.Type] = "static" ^^^ Modifier.STATIC | "global" ^^^ Modifier.GLOBAL |
+    "public" ^^^ Modifier.PUBLIC | "protected" ^^^ Modifier.PROTECTED | "private" ^^^ Modifier.PRIVATE
 
   def assignment: Parser[Assignment] = assignmentWithExpr | variable ^^ {
     variable => Assignment(variable.position, variable.name, None)
@@ -352,22 +362,48 @@ object JbjParser extends Parsers {
   def main(args: Array[String]) = {
     test( """<?php
             |
-            |define("MAX_64Bit", 9223372036854775807);
-            |define("MAX_32Bit", 2147483647);
-            |define("MIN_64Bit", -9223372036854775807 - 1);
-            |define("MIN_32Bit", -2147483647 - 1);
+            |/* pretty nifty object oriented code! */
             |
-            |$longVals = array(
-            |    MAX_64Bit, MIN_64Bit, MAX_32Bit, MIN_32Bit, MAX_64Bit - MAX_32Bit, MIN_64Bit - MIN_32Bit,
-            |    MAX_32Bit + 1, MIN_32Bit - 1, MAX_32Bit * 2, (MAX_32Bit * 2) + 1, (MAX_32Bit * 2) - 1,
-            |    MAX_64Bit -1, MAX_64Bit + 1, MIN_64Bit + 1, MIN_64Bit - 1
-            |);
+            |class user {
+            |  public $first_name,$family_name,$address,$phone_num;
+            |  function display()
+            |  {
+            |    echo "User information\n";
+            |    echo "----------------\n\n";
+            |    echo "First name:\t  ".$this->first_name."\n";
+            |    echo "Family name:\t  ".$this->family_name."\n";
+            |    echo "Address:\t  ".$this->address."\n";
+            |    echo "Phone:\t\t  ".$this->phone_num."\n";
+            |    echo "\n\n";
+            |  }
+            |  function initialize($first_name,$family_name,$address,$phone_num)
+            |  {
+            |    $this->first_name = $first_name;
+            |    $this->family_name = $family_name;
+            |    $this->address = $address;
+            |    $this->phone_num = $phone_num;
+            |  }
+            |};
             |
             |
-            |foreach ($longVals as $longVal) {
-            |   echo "--- testing: $longVal ---\n";
-            |   var_dump(-$longVal);
+            |function test($u)
+            |{  /* one can pass classes as arguments */
+            |  $u->display();
+            |  $t = $u;
+            |  $t->address = "New address...";
+            |  return $t;  /* and also return them as return values */
             |}
+            |
+            |$user1 = new user;
+            |$user2 = new user;
+            |
+            |$user1->initialize("Zeev","Suraski","Ben Gourion 3, Kiryat Bialik, Israel","+972-4-8713139");
+            |$user2->initialize("Andi","Gutmans","Haifa, Israel","+972-4-8231621");
+            |$user1->display();
+            |$user2->display();
+            |
+            |$tmp = test($user2);
+            |$tmp->display();
             |
             |?>""".stripMargin)
   }
