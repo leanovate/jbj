@@ -67,12 +67,6 @@ object JbjTokens {
     def chars = "?>"
   }
 
-  case class VarIdentifier(position: FilePosition, name: String) extends Token {
-    def chars = "$" + name
-
-    override def toString = "variable identifier " + name
-  }
-
   /** This token is produced by a scanner `Scanner` when scanning failed. */
   def errorToken(position: FilePosition, msg: String): Token = new ErrorToken(position, msg)
 }

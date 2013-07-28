@@ -29,7 +29,7 @@ import de.leanovate.jbj.ast.stmt.ParameterDef
 import de.leanovate.jbj.ast.expr.DotExpr
 import de.leanovate.jbj.parser.JbjTokens.ScriptEnd
 import de.leanovate.jbj.parser.JbjTokens.ScriptStart
-import de.leanovate.jbj.ast.expr.VarGetAndDecrExpr
+import de.leanovate.jbj.ast.expr.GetAndDecrExpr
 import de.leanovate.jbj.ast.expr.calc.MulExpr
 import de.leanovate.jbj.ast.expr.value.IntegerConstExpr
 import de.leanovate.jbj.parser.JbjTokens.InterpolatedStringLit
@@ -39,16 +39,14 @@ import de.leanovate.jbj.ast.stmt.Assignment
 import de.leanovate.jbj.parser.JbjTokens.Identifier
 import de.leanovate.jbj.ast.expr.comp.LeExpr
 import de.leanovate.jbj.ast.stmt.cond.CaseBlock
-import de.leanovate.jbj.ast.expr.VarGetExpr
 import de.leanovate.jbj.runtime.context.GlobalContext
 import de.leanovate.jbj.ast.expr.comp.EqExpr
 import de.leanovate.jbj.ast.stmt.InlineStmt
-import de.leanovate.jbj.ast.expr.VarGetAndIncrExpr
+import de.leanovate.jbj.ast.expr.GetAndIncrExpr
 import de.leanovate.jbj.ast.expr.comp.BoolOrExpr
 import de.leanovate.jbj.parser.JbjTokens.Keyword
 import de.leanovate.jbj.ast.expr.value.StringConstExpr
 import de.leanovate.jbj.parser.JbjTokens.StringLit
-import de.leanovate.jbj.parser.JbjTokens.VarIdentifier
 import de.leanovate.jbj.ast.expr.CallFunctionExpr
 import de.leanovate.jbj.ast.expr.comp.GtExpr
 import de.leanovate.jbj.parser.JbjTokens.ScriptStartEcho
@@ -66,21 +64,24 @@ object JbjParser extends Parsers {
       | interpolatedStringLit ^^ (s => InterpolatedStringExpr(s.position, s.charOrInterpolations))
       )
 
+  def variable: Parser[VariableReference] = "$" ~ ident ^^{
+    case v ~ name => VariableReference(v.position, name.chars)
+  }
+
   def variableRef: Parser[Expr] = variable <~ "+" <~ "+" ^^ {
-    variable => VarGetAndIncrExpr(variable.position, variable.name)
+    variable => GetAndIncrExpr(variable.position, variable)
   } | variable <~ "-" <~ "-" ^^ {
-    variable => VarGetAndDecrExpr(variable.position, variable.name)
+    variable => GetAndDecrExpr(variable.position, variable)
   } | "+" ~> "+" ~> variable ^^ {
-    variable => VarGetAndIncrExpr(variable.position, variable.name)
+    variable => GetAndIncrExpr(variable.position, variable)
   } | variable ~ rep1(indexExpr) ^^ {
-    case variable ~ indices => ArrayGetExpr(variable.position, variable.name, indices)
+    case variable ~ indices => ArrayGetExpr(variable.position, variable, indices)
   } | variable ~ "->" ~ ident ~ "(" ~ repsep(expr, ",") <~ ")" ^^ {
-    case variable ~ _ ~ method ~ _ ~ params => CallMethodExpr(variable.position, variable.name, method.chars, params)
+    case variable ~ _ ~ method ~ _ ~ params => CallMethodExpr(variable.position, variable, method.chars, params)
   } | variable ~ "->" ~ ident ^^ {
-    case variable ~ _ ~ property => PropertyGetExpr(variable.position, variable.name, property.chars)
-  } | variable ^^ {
-    variable => VarGetExpr(variable.position, variable.name)
-  } | "array" ~ "(" ~ repsep(arrayValues, ",") <~ ")" ^^ {
+    case variable ~ _ ~ property => PropertyGetExpr(variable.position, variable, property.chars)
+  } | variable |
+    "array" ~ "(" ~ repsep(arrayValues, ",") <~ ")" ^^ {
     case array ~ _ ~ arrayValues => ArrayCreateExpr(array.position, arrayValues)
   }
 
@@ -190,11 +191,11 @@ object JbjParser extends Parsers {
     "public" ^^^ Modifier.PUBLIC | "protected" ^^^ Modifier.PROTECTED | "private" ^^^ Modifier.PRIVATE
 
   def assignment: Parser[Assignment] = assignmentWithExpr | variable ^^ {
-    variable => Assignment(variable.position, variable.name, None)
+    variable => Assignment(variable.position, variable, None)
   }
 
   def assignmentWithExpr: Parser[Assignment] = variable ~ "=" ~ expr ^^ {
-    case variable ~ _ ~ expr => Assignment(variable.position, variable.name, Some(expr))
+    case variable ~ _ ~ expr => Assignment(variable.position, variable, Some(expr))
   }
 
   def blockLikeStmt: Parser[Stmt] =
@@ -247,10 +248,10 @@ object JbjParser extends Parsers {
   }
 
   def foreachStmt: Parser[Stmt] = "foreach" ~ "(" ~ expr ~ "as" ~ variable ~ opt("=>" ~> variable) ~ ")" ~ closedStmt ^^ {
-    case fo ~ _ ~ arrayExpr ~ _ ~ valueName ~ None ~ _ ~ stmt =>
-      ForeachValueStmt(fo.position, arrayExpr, valueName.name, stmt)
-    case fo ~ _ ~ arrayExpr ~ _ ~ keyName ~ Some(valueName) ~ _ ~ stmt =>
-      ForeachKeyValueStmt(fo.position, arrayExpr, keyName.name, valueName.name, stmt)
+    case fo ~ _ ~ arrayExpr ~ _ ~ valueVar ~ None ~ _ ~ stmt =>
+      ForeachValueStmt(fo.position, arrayExpr, valueVar.variableName, stmt)
+    case fo ~ _ ~ arrayExpr ~ _ ~ keyVar ~ Some(valueVar) ~ _ ~ stmt =>
+      ForeachKeyValueStmt(fo.position, arrayExpr, keyVar.variableName, valueVar.variableName, stmt)
   }
 
   def functionDef: Parser[FunctionDefStmt] = "function" ~ ident ~ "(" ~ parameterDefs ~ ")" ~ block ^^ {
@@ -264,7 +265,7 @@ object JbjParser extends Parsers {
 
   def parameterDefs: Parser[List[ParameterDef]] = repsep(parameterDef, ",")
 
-  def parameterDef: Parser[ParameterDef] = variable ^^ (v => ParameterDef(v.name, byRef = false, default = None))
+  def parameterDef: Parser[ParameterDef] = variable ^^ (v => ParameterDef(v.variableName, byRef = false, default = None))
 
   def script: Parser[List[Stmt]] =
     scriptStart ~> stmtsWithUnclosed |
@@ -321,9 +322,6 @@ object JbjParser extends Parsers {
   /** A parser which matches an identifier */
   def ident: Parser[Identifier] =
     elem("identifier", _.isInstanceOf[Identifier]) ^^ (_.asInstanceOf[Identifier])
-
-  def variable: Parser[VarIdentifier] =
-    elem("variable", _.isInstanceOf[VarIdentifier]) ^^ (_.asInstanceOf[VarIdentifier])
 
   def parse(s: String): ParseResult[Prog] = {
     val tokens = new JbjInitialLexer(s)

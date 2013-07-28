@@ -9,10 +9,7 @@ case class GlobalAssignStmt(position: FilePosition, modifiers: Set[Modifier.Type
     assignments.foreach {
       assignment =>
         val value = assignment.expr.map(_.eval(ctx)).getOrElse(UndefinedVal)
-        ctx.global.findVariable(assignment.variableName) match {
-          case None => ctx.global.defineVariable(assignment.variableName, ValueRef(value.copy))
-          case _ =>
-        }
+        assignment.reference.assignInitial(ctx.global, value)
     }
     SuccessExecResult()
   }

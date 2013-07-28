@@ -1,7 +1,7 @@
 package de.leanovate.jbj.parser
 
 import scala.util.parsing.input.{CharArrayReader, Reader}
-import JbjTokens.{Token, ScriptEnd, VarIdentifier, NumericLit, StringLit, InterpolatedStringLit, EOF, Keyword, Identifier, errorToken}
+import JbjTokens.{Token, ScriptEnd, NumericLit, StringLit, InterpolatedStringLit, EOF, Keyword, Identifier, errorToken}
 import scala.util.parsing.input.CharArrayReader.EofCh
 import scala.util.parsing.combinator.Parsers
 import de.leanovate.jbj.ast.FilePosition
@@ -49,9 +49,6 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
     ('?' ~ '>' ^^^ ScriptEnd(position)
       | '%' ~ '>' ^^^ ScriptEnd(position)
       | '<' ~ '/' ~ 's' ~ 'c' ~ 'r' ~ 'i' ~ 'p' ~ 't' ~ '>' ^^^ ScriptEnd(position)
-      | '$' ~> identChar ~ rep(identChar | digit) ^^ {
-      case first ~ rest => VarIdentifier(position, first :: rest mkString "")
-    }
       | identChar ~ rep(identChar | digit) ^^ {
       case first ~ rest => processIdent(first :: rest mkString "")
     }
@@ -170,7 +167,7 @@ object JbjScriptLexer {
     "function", "array")
 
   /** The set of delimiters (ordering does not matter). */
-  val delimiters = Set(",", ":", ";", "{", "}", "[", "]", "=>", "->",
+  val delimiters = Set("$", ",", ":", ";", "{", "}", "[", "]", "=>", "->",
     ".", "+", "-", "*", "/", "(", ")",
     "=", ">", ">=", "<", "<=", "==",
     "|", "||", "&", "&&")
