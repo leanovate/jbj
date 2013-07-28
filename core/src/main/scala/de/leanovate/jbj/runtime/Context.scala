@@ -1,7 +1,6 @@
 package de.leanovate.jbj.runtime
 
 import java.io.PrintStream
-import de.leanovate.jbj.runtime.value.ValueRef
 import de.leanovate.jbj.runtime.context.{ClassContext, GlobalContext}
 
 trait Context {

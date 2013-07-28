@@ -1,8 +1,7 @@
 package de.leanovate.jbj.runtime.context
 
-import de.leanovate.jbj.runtime.{Value, Context, PFunction}
+import de.leanovate.jbj.runtime.{ValueRef, Value, Context, PFunction}
 import scala.collection.mutable
-import de.leanovate.jbj.runtime.value.ValueRef
 
 class ClassContext(var className: String, var global: GlobalContext) extends Context {
   private val variables = mutable.Map.empty[String, ValueRef]

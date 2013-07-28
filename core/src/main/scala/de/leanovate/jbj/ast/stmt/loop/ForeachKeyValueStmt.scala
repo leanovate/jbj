@@ -5,7 +5,7 @@ import de.leanovate.jbj.runtime._
 import java.util.concurrent.atomic.AtomicLong
 import de.leanovate.jbj.ast.stmt.BlockStmt
 import scala.annotation.tailrec
-import de.leanovate.jbj.runtime.value.{ArrayVal, ValueRef}
+import de.leanovate.jbj.runtime.value.{ArrayVal}
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.runtime.context.BlockContext

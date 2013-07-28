@@ -2,7 +2,7 @@ package de.leanovate.jbj.runtime.func
 
 import de.leanovate.jbj.ast.{FilePosition, Stmt}
 import de.leanovate.jbj.runtime._
-import de.leanovate.jbj.runtime.value.{ValueRef, NullVal}
+import de.leanovate.jbj.runtime.value.{NullVal}
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.ReturnExecResult
 import de.leanovate.jbj.ast.stmt.ParameterDef
