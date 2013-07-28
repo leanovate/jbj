@@ -51,17 +51,13 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
       | '<' ~ '/' ~ 's' ~ 'c' ~ 'r' ~ 'i' ~ 'p' ~ 't' ~ '>' ^^^ ScriptEnd(position)
       | identChar ~ rep(identChar | digit) ^^ {
       case first ~ rest => processIdent(first :: rest mkString "")
-    }
-      | digit ~ rep(digit) ^^ {
+    } | digit ~ rep(digit) ^^ {
       case first ~ rest => NumericLit(position, first :: rest mkString "")
-    }
-      | '\'' ~ notInterpolatedStr ~ '\'' ^^ {
+    } | '\'' ~ notInterpolatedStr ~ '\'' ^^ {
       case '\'' ~ str ~ '\'' => StringLit(position, str)
-    }
-      | '\"' ~ interpolatedStr ~ '\"' ^^ {
+    } | '\"' ~ interpolatedStr ~ '\"' ^^ {
       case '\"' ~ str ~ '\"' => InterpolatedStringLit(position, str)
-    }
-      | EofCh ^^^ EOF(position)
+    } | EofCh ^^^ EOF(position)
       | '\'' ~> failure("unclosed string literal")
       | '\"' ~> failure("unclosed string literal")
       | delim
@@ -170,5 +166,5 @@ object JbjScriptLexer {
   val delimiters = Set("$", ",", ":", ";", "{", "}", "[", "]", "=>", "->",
     ".", "+", "-", "*", "/", "(", ")",
     "=", ">", ">=", "<", "<=", "==",
-    "|", "||", "&", "&&")
+    "|", "||", "&", "&&", "^", "or", "and", "xor")
 }

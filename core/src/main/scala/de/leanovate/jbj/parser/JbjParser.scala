@@ -9,7 +9,9 @@ import scala.collection.mutable
 import scala.util.parsing.combinator.Parsers
 import de.leanovate.jbj.ast.expr.value._
 import scala.language.implicitConversions
-import de.leanovate.jbj.ast.expr._
+import de.leanovate.jbj.ast.expr.calc._
+import de.leanovate.jbj.ast.stmt.GlobalAssignStmt
+import de.leanovate.jbj.ast.expr.VariableReference
 import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
 import de.leanovate.jbj.ast.expr.calc.AddExpr
 import de.leanovate.jbj.ast.expr.comp.BoolAndExpr
@@ -17,8 +19,13 @@ import de.leanovate.jbj.ast.stmt.cond.IfStmt
 import de.leanovate.jbj.parser.JbjTokens.NumericLit
 import de.leanovate.jbj.ast.stmt.ReturnStmt
 import de.leanovate.jbj.ast.expr.calc.SubExpr
+import de.leanovate.jbj.ast.stmt.ClassDefStmt
 import scala.Some
+import de.leanovate.jbj.ast.expr.AssignExpr
+import de.leanovate.jbj.ast.expr.value.ConstGetExpr
+import de.leanovate.jbj.ast.expr.IndexReference
 import de.leanovate.jbj.parser.JbjTokens.Inline
+import de.leanovate.jbj.ast.stmt.BreakStmt
 import de.leanovate.jbj.ast.expr.comp.LtExpr
 import de.leanovate.jbj.ast.expr.comp.GeExpr
 import de.leanovate.jbj.ast.Prog
@@ -29,26 +36,34 @@ import de.leanovate.jbj.ast.stmt.ParameterDef
 import de.leanovate.jbj.ast.expr.DotExpr
 import de.leanovate.jbj.parser.JbjTokens.ScriptEnd
 import de.leanovate.jbj.parser.JbjTokens.ScriptStart
-import de.leanovate.jbj.ast.expr.GetAndDecrExpr
 import de.leanovate.jbj.ast.expr.calc.MulExpr
 import de.leanovate.jbj.ast.expr.value.IntegerConstExpr
+import de.leanovate.jbj.ast.stmt.StaticAssignStmt
 import de.leanovate.jbj.parser.JbjTokens.InterpolatedStringLit
 import de.leanovate.jbj.ast.stmt.AssignStmt
 import de.leanovate.jbj.ast.stmt.FunctionDefStmt
 import de.leanovate.jbj.ast.stmt.Assignment
+import de.leanovate.jbj.ast.expr.PropertyReference
 import de.leanovate.jbj.parser.JbjTokens.Identifier
 import de.leanovate.jbj.ast.expr.comp.LeExpr
+import de.leanovate.jbj.ast.expr.GetAndDecrExpr
 import de.leanovate.jbj.ast.stmt.cond.CaseBlock
+import de.leanovate.jbj.ast.stmt.ContinueStmt
+import de.leanovate.jbj.ast.expr.IncrAndGetExpr
+import de.leanovate.jbj.ast.expr.CallFunctionExpr
 import de.leanovate.jbj.runtime.context.GlobalContext
 import de.leanovate.jbj.ast.expr.comp.EqExpr
+import de.leanovate.jbj.ast.expr.MethodCallReference
+import de.leanovate.jbj.ast.expr.ArrayCreateExpr
 import de.leanovate.jbj.ast.stmt.InlineStmt
-import de.leanovate.jbj.ast.expr.GetAndIncrExpr
 import de.leanovate.jbj.ast.expr.comp.BoolOrExpr
 import de.leanovate.jbj.parser.JbjTokens.Keyword
 import de.leanovate.jbj.ast.expr.value.StringConstExpr
 import de.leanovate.jbj.parser.JbjTokens.StringLit
-import de.leanovate.jbj.ast.expr.CallFunctionExpr
+import de.leanovate.jbj.ast.expr.comp.BoolXorExpr
+import de.leanovate.jbj.ast.FilePosition
 import de.leanovate.jbj.ast.expr.comp.GtExpr
+import de.leanovate.jbj.ast.expr.GetAndIncrExpr
 import de.leanovate.jbj.parser.JbjTokens.ScriptStartEcho
 import de.leanovate.jbj.ast.expr.calc.DivExpr
 import de.leanovate.jbj.ast.stmt.EchoStmt
@@ -64,28 +79,36 @@ object JbjParser extends Parsers {
       | interpolatedStringLit ^^ (s => InterpolatedStringExpr(s.position, s.charOrInterpolations))
       )
 
-  def variable: Parser[VariableReference] = "$" ~ ident ^^{
+  def variable: Parser[VariableReference] = "$" ~ ident ^^ {
     case v ~ name => VariableReference(v.position, name.chars)
   }
 
-  def variableRef: Parser[Expr] = variable <~ "+" <~ "+" ^^ {
-    variable => GetAndIncrExpr(variable.position, variable)
-  } | variable <~ "-" <~ "-" ^^ {
-    variable => GetAndDecrExpr(variable.position, variable)
-  } | "+" ~> "+" ~> variable ^^ {
-    variable => GetAndIncrExpr(variable.position, variable)
-  } | variable ~ rep1(indexExpr) ^^ {
-    case variable ~ indices => ArrayGetExpr(variable.position, variable, indices)
-  } | variable ~ "->" ~ ident ~ "(" ~ repsep(expr, ",") <~ ")" ^^ {
-    case variable ~ _ ~ method ~ _ ~ params => CallMethodExpr(variable.position, variable, method.chars, params)
-  } | variable ~ "->" ~ ident ^^ {
-    case variable ~ _ ~ property => PropertyGetExpr(variable.position, variable, property.chars)
-  } | variable |
-    "array" ~ "(" ~ repsep(arrayValues, ",") <~ ")" ^^ {
-    case array ~ _ ~ arrayValues => ArrayCreateExpr(array.position, arrayValues)
+  def reference: Parser[Reference] = variable ~ rep(refAccess) ^^ {
+    case variable ~ refAccesses => refAccesses.foldLeft(variable.asInstanceOf[Reference]) {
+      (ref, refAccess) => refAccess(ref)
+    }
   }
 
-  def indexExpr: Parser[Expr] = "[" ~> expr <~ "]"
+  def refAccess: Parser[Reference => Reference] = "[" ~> expr <~ "]" ^^ {
+    expr => IndexReference(_: Reference, expr)
+  } | "->" ~> ident ~ "(" ~ repsep(expr, ",") <~ ")" ^^ {
+    case method ~ _ ~ params => MethodCallReference(_: Reference, method.chars, params)
+  } | "->" ~> ident ^^ {
+    property => PropertyReference(_: Reference, property.chars)
+  }
+
+  def referenceExpr: Parser[Expr] = reference <~ "+" <~ "+" ^^ {
+    ref => GetAndIncrExpr(ref)
+  } | reference <~ "-" <~ "-" ^^ {
+    ref => GetAndDecrExpr(ref)
+  } | "+" ~> "+" ~> reference ^^ {
+    ref => GetAndIncrExpr(ref)
+  } | "-" ~> "-" ~> reference ^^ {
+    ref => IncrAndGetExpr(ref)
+  } | reference |
+    "array" ~ "(" ~ repsep(arrayValues, ",") <~ ")" ^^ {
+      case array ~ _ ~ arrayValues => ArrayCreateExpr(array.position, arrayValues)
+    }
 
   def arrayValues: Parser[(Option[Expr], Expr)] = expr ~ "=>" ~ expr ^^ {
     case indexExpr ~ _ ~ valueExpr => (Some(indexExpr), valueExpr)
@@ -107,51 +130,43 @@ object JbjParser extends Parsers {
     name => ConstGetExpr(name.position, name.chars)
   }
 
-  def term: Parser[Expr] = value | variableRef | functionCall | constant | parens | neg
+  def term: Parser[Expr] = value | referenceExpr | functionCall | constant | parens | neg
 
   def binaryOp(level: Int): Parser[((Expr, Expr) => Expr)] = {
     level match {
-      case 1 =>
-        "||" ^^^ {
-          (a: Expr, b: Expr) => BoolOrExpr(a, b)
-        } | "&&" ^^^ {
-          (a: Expr, b: Expr) => BoolAndExpr(a, b)
+      case 1 => "or" ^^^ ((a: Expr, b: Expr) => BoolOrExpr(a, b))
+      case 2 => "xor" ^^^ ((a: Expr, b: Expr) => BoolXorExpr(a, b))
+      case 3 => "and" ^^^ ((a: Expr, b: Expr) => BoolAndExpr(a, b))
+      case 4 => "=" ^^^ {
+        (a: Expr, b: Expr) => (a, b) match {
+          case (a: Reference, b: Expr) => AssignExpr(a, b)
         }
-      case 2 =>
-        ">" ^^^ {
-          (a: Expr, b: Expr) => GtExpr(a, b)
-        } | ">=" ^^^ {
-          (a: Expr, b: Expr) => GeExpr(a, b)
-        } | "<" ^^^ {
-          (a: Expr, b: Expr) => LtExpr(a, b)
-        } | "<=" ^^^ {
-          (a: Expr, b: Expr) => LeExpr(a, b)
-        } | "==" ^^^ {
-          (a: Expr, b: Expr) => EqExpr(a, b)
-        }
-      case 3 =>
-        "." ^^^ {
-          (a: Expr, b: Expr) => DotExpr(a, b)
-        }
-      case 4 =>
-        "+" ^^^ {
-          (a: Expr, b: Expr) => AddExpr(a, b)
-        } | "-" ^^^ {
-          (a: Expr, b: Expr) => SubExpr(a, b)
-        }
-      case 5 =>
-        "*" ^^^ {
-          (a: Expr, b: Expr) => MulExpr(a, b)
-        } | "/" ^^^ {
-          (a: Expr, b: Expr) => DivExpr(a, b)
-        }
+      }
+      case 5 => "||" ^^^ ((a: Expr, b: Expr) => BoolOrExpr(a, b))
+      case 6 => "&&" ^^^ ((a: Expr, b: Expr) => BoolAndExpr(a, b))
+      case 7 => "|" ^^^ ((a: Expr, b: Expr) => BitOrExpr(a, b))
+      case 8 => "" ^^^ ((a: Expr, b: Expr) => BitXorExpr(a, b))
+      case 9 => "&" ^^^ ((a: Expr, b: Expr) => BitAndExpr(a, b))
+      case 10 => "==" ^^^ ((a: Expr, b: Expr) => EqExpr(a, b))
+      case 11 =>
+        ">" ^^^ ((a: Expr, b: Expr) => GtExpr(a, b)) |
+          ">=" ^^^ ((a: Expr, b: Expr) => GeExpr(a, b)) |
+          "<" ^^^ ((a: Expr, b: Expr) => LtExpr(a, b)) |
+          "<=" ^^^ ((a: Expr, b: Expr) => LeExpr(a, b))
+      case 12 =>
+        "." ^^^ ((a: Expr, b: Expr) => DotExpr(a, b)) |
+          "+" ^^^ ((a: Expr, b: Expr) => AddExpr(a, b)) |
+          "-" ^^^ ((a: Expr, b: Expr) => SubExpr(a, b))
+      case 13 =>
+        "*" ^^^ ((a: Expr, b: Expr) => MulExpr(a, b)) |
+          "/" ^^^ ((a: Expr, b: Expr) => DivExpr(a, b))
       case _ => throw new RuntimeException("bad precedence level " + level)
     }
   }
 
   val minPrec = 1
 
-  val maxPrec = 5
+  val maxPrec = 13
 
   def binary(level: Int): Parser[Expr] =
     if (level > maxPrec) {
@@ -360,48 +375,20 @@ object JbjParser extends Parsers {
   def main(args: Array[String]) = {
     test( """<?php
             |
-            |/* pretty nifty object oriented code! */
+            |$strVals = array(
+            |   "0","65","-44", "1.2", "-7.7", "abc", "123abc", "123e5", "123e5xyz", " 123abc", "123 abc", "123abc ", "3.4a",
+            |   "a5.9"
+            |);
             |
-            |class user {
-            |  public $first_name,$family_name,$address,$phone_num;
-            |  function display()
-            |  {
-            |    echo "User information\n";
-            |    echo "----------------\n\n";
-            |    echo "First name:\t  ".$this->first_name."\n";
-            |    echo "Family name:\t  ".$this->family_name."\n";
-            |    echo "Address:\t  ".$this->address."\n";
-            |    echo "Phone:\t\t  ".$this->phone_num."\n";
-            |    echo "\n\n";
-            |  }
-            |  function initialize($first_name,$family_name,$address,$phone_num)
-            |  {
-            |    $this->first_name = $first_name;
-            |    $this->family_name = $family_name;
-            |    $this->address = $address;
-            |    $this->phone_num = $phone_num;
-            |  }
-            |};
+            |error_reporting(E_ERROR);
             |
-            |
-            |function test($u)
-            |{  /* one can pass classes as arguments */
-            |  $u->display();
-            |  $t = $u;
-            |  $t->address = "New address...";
-            |  return $t;  /* and also return them as return values */
+            |foreach ($strVals as $strVal) {
+            |   foreach($strVals as $otherVal) {
+            |	   echo "--- testing: '$strVal' + '$otherVal' ---\n";
+            |      var_dump($strVal+$otherVal);
+            |   }
             |}
             |
-            |$user1 = new user;
-            |$user2 = new user;
-            |
-            |$user1->initialize("Zeev","Suraski","Ben Gourion 3, Kiryat Bialik, Israel","+972-4-8713139");
-            |$user2->initialize("Andi","Gutmans","Haifa, Israel","+972-4-8231621");
-            |$user1->display();
-            |$user2->display();
-            |
-            |$tmp = test($user2);
-            |$tmp->display();
             |
             |?>""".stripMargin)
   }

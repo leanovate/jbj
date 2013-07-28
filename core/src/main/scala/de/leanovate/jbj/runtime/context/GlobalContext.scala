@@ -26,7 +26,7 @@ case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
   def defineClass(name: String): ClassContext = classes.getOrElse(name, new ClassContext(name, this))
 
   def findConstant(name: String): Option[Value] =
-    buildin.buildinConstants.get(name.toLowerCase()).map(Some(_)).getOrElse {
+    buildin.buildinConstants.get(name.toUpperCase).map(Some(_)).getOrElse {
       constants.get(CaseSensitiveConstantKey(name)).map(Some(_)).getOrElse {
         constants.get(CaseInsensitiveConstantKey(name.toLowerCase))
       }
