@@ -1,23 +1,22 @@
 package de.leanovate.jbj.ast.stmt.loop
 
-import de.leanovate.jbj.ast.{FilePosition, Stmt, Expr}
-import de.leanovate.jbj.ast.stmt.BlockStmt
+import de.leanovate.jbj.ast.{Stmt, Expr}
 import de.leanovate.jbj.runtime._
-import java.util.concurrent.atomic.AtomicLong
 import scala.annotation.tailrec
+import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.SuccessExecResult
-import de.leanovate.jbj.runtime.context.BlockContext
+import de.leanovate.jbj.ast.FilePosition
 
-case class WhileStmt(position: FilePosition, condition: Expr, stmts: List[Stmt]) extends Stmt {
+case class DoWhileStmt(position: FilePosition, stmts: List[Stmt], condition: Expr) extends Stmt {
   def exec(ctx: Context): ExecResult = {
-    while (condition.eval(ctx).toBool.value) {
+    do {
       execStmts(stmts, ctx) match {
         case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
         case BreakExecResult(_) => return SuccessExecResult()
         case result: ReturnExecResult => return result
         case _ =>
       }
-    }
+    } while (condition.eval(ctx).toBool.value)
     SuccessExecResult()
   }
 

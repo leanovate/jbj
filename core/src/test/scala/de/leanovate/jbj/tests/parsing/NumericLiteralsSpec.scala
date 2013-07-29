@@ -7,7 +7,7 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class NumericLiterals extends FreeSpec with MustMatchers with TestJbjExecutor{
+class NumericLiteralsSpec extends FreeSpec with MustMatchers with TestJbjExecutor{
   "Numeric literals" - {
     "Integer and float" in {
       resultOf(
