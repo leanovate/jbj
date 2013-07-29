@@ -4,7 +4,7 @@ import de.leanovate.jbj.ast.{StaticInitializer, FilePosition, Stmt}
 import de.leanovate.jbj.runtime.{ValueRef, SuccessExecResult, Context}
 import de.leanovate.jbj.runtime.value.UndefinedVal
 
-case class StaticAssignStmt(position: FilePosition, assignments: List[StaticAssignment])
+case class StaticVarDeclStmt(position: FilePosition, assignments: List[StaticAssignment])
   extends Stmt with StaticInitializer {
 
   override def exec(ctx: Context) = {

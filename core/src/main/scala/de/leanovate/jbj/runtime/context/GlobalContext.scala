@@ -5,9 +5,10 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.buildin
 import scala.Some
+import de.leanovate.jbj.ast.NamespaceName
 
 case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
-  private val classes = mutable.Map.empty[String, ClassContext]
+  private val classes = mutable.Map.empty[NamespaceName, ClassContext]
 
   private val constants = mutable.Map.empty[ConstantKey, Value]
 
@@ -21,9 +22,9 @@ case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
 
   def static = staticContext("global")
 
-  def findClass(name: String): Option[ClassContext] = classes.get(name)
+  def findClass(name: NamespaceName): Option[ClassContext] = classes.get(name)
 
-  def defineClass(name: String): ClassContext = classes.getOrElse(name, new ClassContext(name, this))
+  def defineClass(name: String): ClassContext = classes.getOrElse(NamespaceName(name), new ClassContext(name, this))
 
   def findConstant(name: String): Option[Value] =
     buildin.buildinConstants.get(name.toUpperCase).map(Some(_)).getOrElse {

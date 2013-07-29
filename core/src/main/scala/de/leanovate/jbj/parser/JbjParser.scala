@@ -7,69 +7,75 @@ import scala.util.parsing.combinator.Parsers
 import de.leanovate.jbj.ast.expr.value._
 import scala.language.implicitConversions
 import de.leanovate.jbj.parser.JbjTokens._
-import de.leanovate.jbj.ast.expr._
-import de.leanovate.jbj.ast.stmt.GlobalAssignStmt
+import de.leanovate.jbj.ast.stmt._
+import de.leanovate.jbj.runtime.value.UndefinedVal
+import de.leanovate.jbj.ast.stmt.GlobalVarDeclAssignStmt
 import de.leanovate.jbj.ast.expr.VariableReference
-import de.leanovate.jbj.ast.stmt.loop.ForStmt
 import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
 import de.leanovate.jbj.ast.expr.calc.AddExpr
-import de.leanovate.jbj.ast.expr.comp.BoolAndExpr
-import de.leanovate.jbj.ast.stmt.cond.IfStmt
-import de.leanovate.jbj.ast.stmt.FunctionDeclStmt
 import de.leanovate.jbj.ast.stmt.ReturnStmt
 import de.leanovate.jbj.ast.expr.calc.SubExpr
 import de.leanovate.jbj.ast.stmt.cond.SwitchStmt
 import scala.Some
 import de.leanovate.jbj.ast.expr.AssignExpr
-import de.leanovate.jbj.ast.expr.value.ConstGetExpr
-import de.leanovate.jbj.ast.stmt.BlockStmt
 import de.leanovate.jbj.ast.expr.IndexReference
 import de.leanovate.jbj.parser.JbjTokens.Inline
+import de.leanovate.jbj.runtime.value.FloatVal
+import de.leanovate.jbj.ast.expr.calc.BitAndExpr
+import de.leanovate.jbj.ast.Prog
+import de.leanovate.jbj.ast.stmt.ExprStmt
+import de.leanovate.jbj.ast.expr.calc.NegExpr
+import de.leanovate.jbj.ast.stmt.ParameterDef
+import de.leanovate.jbj.ast.expr.DotExpr
+import de.leanovate.jbj.ast.expr.calc.MulExpr
+import de.leanovate.jbj.parser.JbjTokens.InterpolatedStringLit
+import de.leanovate.jbj.ast.expr.PropertyReference
+import de.leanovate.jbj.parser.JbjTokens.Identifier
+import de.leanovate.jbj.ast.stmt.loop.ForeachValueStmt
+import de.leanovate.jbj.ast.expr.comp.LeExpr
+import de.leanovate.jbj.parser.JbjTokens.LongNumLit
+import de.leanovate.jbj.ast.expr.CallFunctionExpr
+import de.leanovate.jbj.runtime.context.GlobalContext
+import de.leanovate.jbj.ast.expr.comp.EqExpr
+import de.leanovate.jbj.ast.expr.MethodCallReference
+import de.leanovate.jbj.ast.stmt.loop.ForeachKeyValueStmt
+import de.leanovate.jbj.ast.expr.comp.BoolOrExpr
+import de.leanovate.jbj.ast.FilePosition
+import de.leanovate.jbj.runtime.value.IntegerVal
+import de.leanovate.jbj.ast.expr.comp.GtExpr
+import de.leanovate.jbj.ast.stmt.EchoStmt
+import de.leanovate.jbj.ast.expr.calc.DivExpr
+import de.leanovate.jbj.ast.stmt.loop.ForStmt
+import de.leanovate.jbj.ast.expr.comp.BoolAndExpr
+import de.leanovate.jbj.ast.stmt.cond.IfStmt
+import de.leanovate.jbj.ast.stmt.FunctionDeclStmt
+import de.leanovate.jbj.ast.expr.value.ConstGetExpr
+import de.leanovate.jbj.ast.stmt.BlockStmt
+import de.leanovate.jbj.runtime.value.StringVal
+import de.leanovate.jbj.parser.JbjTokens.Variable
 import de.leanovate.jbj.ast.stmt.BreakStmt
 import de.leanovate.jbj.ast.expr.comp.LtExpr
 import de.leanovate.jbj.ast.stmt.loop.DoWhileStmt
 import de.leanovate.jbj.ast.expr.comp.GeExpr
 import de.leanovate.jbj.ast.stmt.loop.WhileStmt
-import de.leanovate.jbj.ast.expr.calc.BitAndExpr
-import de.leanovate.jbj.ast.Prog
-import de.leanovate.jbj.ast.stmt.ExprStmt
 import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
-import de.leanovate.jbj.ast.expr.calc.NegExpr
-import de.leanovate.jbj.ast.stmt.ParameterDef
-import de.leanovate.jbj.ast.expr.DotExpr
-import de.leanovate.jbj.ast.expr.calc.MulExpr
-import de.leanovate.jbj.ast.stmt.StaticAssignStmt
-import de.leanovate.jbj.parser.JbjTokens.InterpolatedStringLit
+import de.leanovate.jbj.ast.expr.ScalarExpr
+import de.leanovate.jbj.ast.stmt.StaticVarDeclStmt
 import de.leanovate.jbj.ast.stmt.LabelStmt
 import de.leanovate.jbj.ast.stmt.StaticAssignment
-import de.leanovate.jbj.ast.expr.PropertyReference
-import de.leanovate.jbj.parser.JbjTokens.Identifier
-import de.leanovate.jbj.ast.stmt.loop.ForeachValueStmt
-import de.leanovate.jbj.ast.expr.comp.LeExpr
 import de.leanovate.jbj.ast.expr.calc.BitOrExpr
 import de.leanovate.jbj.ast.stmt.cond.CaseBlock
 import de.leanovate.jbj.ast.expr.GetAndDecrExpr
 import de.leanovate.jbj.ast.stmt.ContinueStmt
-import de.leanovate.jbj.parser.JbjTokens.LongNumLit
 import de.leanovate.jbj.ast.expr.calc.BitXorExpr
 import de.leanovate.jbj.ast.expr.IncrAndGetExpr
-import de.leanovate.jbj.ast.expr.CallFunctionExpr
-import de.leanovate.jbj.runtime.context.GlobalContext
-import de.leanovate.jbj.ast.expr.comp.EqExpr
-import de.leanovate.jbj.ast.expr.MethodCallReference
+import de.leanovate.jbj.ast.expr.DecrAndGetExpr
 import de.leanovate.jbj.ast.expr.ArrayCreateExpr
 import de.leanovate.jbj.ast.stmt.InlineStmt
-import de.leanovate.jbj.ast.stmt.loop.ForeachKeyValueStmt
-import de.leanovate.jbj.ast.expr.comp.BoolOrExpr
 import de.leanovate.jbj.parser.JbjTokens.Keyword
 import de.leanovate.jbj.parser.JbjTokens.StringLit
 import de.leanovate.jbj.ast.expr.comp.BoolXorExpr
-import de.leanovate.jbj.ast.FilePosition
-import de.leanovate.jbj.ast.expr.comp.GtExpr
 import de.leanovate.jbj.ast.expr.GetAndIncrExpr
-import de.leanovate.jbj.ast.stmt.EchoStmt
-import de.leanovate.jbj.ast.expr.calc.DivExpr
-import de.leanovate.jbj.runtime.value.{UndefinedVal, StringVal, FloatVal, IntegerVal}
 
 object JbjParser extends Parsers {
   type Elem = JbjTokens.Token
@@ -104,9 +110,13 @@ object JbjParser extends Parsers {
 
   private def topStatementList: Parser[List[Stmt]] = rep(topStatement)
 
-  private def topStatement: Parser[Stmt] = statement | functionDeclarationStatement
+  private def topStatement: Parser[Stmt] = statement | functionDeclarationStatement | classDeclarationStatement
 
   private def innerStatementList: Parser[List[Stmt]] = rep(innerStatement)
+
+  private def namespaceName: Parser[NamespaceName] = rep1sep(identLit, "\\") ^^ {
+    path => NamespaceName(path.map(_.chars): _*)
+  }
 
   private def innerStatement: Parser[Stmt] = statement
 
@@ -138,9 +148,9 @@ object JbjParser extends Parsers {
     } | "return" ~ opt(expr) <~ ";" ^^ {
       case ret ~ expr => ReturnStmt(ret.position, expr)
     } | "global" ~ globalVarList ^^ {
-      case globalT ~ vars => GlobalAssignStmt(globalT.position, vars)
+      case globalT ~ vars => GlobalVarDeclAssignStmt(globalT.position, vars)
     } | "static" ~ staticVarList ^^ {
-      case staticT ~ vars => StaticAssignStmt(staticT.position, vars)
+      case staticT ~ vars => StaticVarDeclStmt(staticT.position, vars)
     } | "echo" ~ echoExprList <~ ";" ^^ {
       case echo ~ params => EchoStmt(echo.position, params)
     } | inlineHtml | expr <~ ";" ^^ {
@@ -154,10 +164,30 @@ object JbjParser extends Parsers {
 
   private def functionDeclarationStatement: Parser[FunctionDeclStmt] = untickedFunctionDeclarationStatement <~ rep(";")
 
+  private def classDeclarationStatement: Parser[ClassDeclStmt] = untickedClassDeclarationStatement <~ rep(";")
+
   private def untickedFunctionDeclarationStatement: Parser[FunctionDeclStmt] =
     "function" ~ opt("&") ~ identLit ~ "(" ~ parameterList ~ ")" ~ "{" ~ innerStatementList <~ "}" ^^ {
       case func ~ isRef ~ name ~ _ ~ params ~ _ ~ _ ~ body => FunctionDeclStmt(func.position, name.chars, params, body)
     }
+
+  private def untickedClassDeclarationStatement: Parser[ClassDeclStmt] =
+    classEntryType ~ identLit ~ extendsFrom ~ implementsList ~ "{" ~ classStatementList <~ "}" ^^ {
+      case classEntry ~ name ~ extendsFrom ~ implementsList ~ _ ~ stmts =>
+        ClassDeclStmt(name.position, classEntry, name.chars, extendsFrom, implementsList, stmts)
+    }
+
+  private def classEntryType: Parser[ClassEntry.Type] =
+    "class" ^^^ ClassEntry.CLASS | "abstract" ~ "class" ^^^ ClassEntry.ABSTRACT_CLASS |
+      "final" ~ "class" ^^^ ClassEntry.FINAL_CLASS | "trait" ^^^ ClassEntry.TRAIT
+
+  private def extendsFrom: Parser[Option[NamespaceName]] = opt("extends" ~> fullyQualifiedClassName)
+
+  private def implementsList: Parser[List[NamespaceName]] = opt("implements" ~> interfaceList) ^^ {
+    optInterfaces => optInterfaces.getOrElse(Nil)
+  }
+
+  private def interfaceList: Parser[List[NamespaceName]] = rep1sep(fullyQualifiedClassName, ",")
 
   private def foreachOptionalArg: Parser[Option[VariableReference]] = opt("=>" ~> variable)
 
@@ -207,6 +237,21 @@ object JbjParser extends Parsers {
     case v ~ optScalar => StaticAssignment(v.position, v.name, optScalar.map(_.value).getOrElse(UndefinedVal))
   }, ",")
 
+  private def classStatementList: Parser[List[Stmt]] = rep(classStatement)
+
+  private def classStatement: Parser[Stmt] = "function" ^^^ BreakStmt(null, None)
+
+  private def methodBody: Parser[List[Stmt]] = ";" ^^^ Nil | "{" ~> innerStatementList <~ "}"
+
+  private def variableModifiers: Parser[Set[MemberModifier.Type]] = nonEmptyMemberModifiers |
+    "var" ^^^ Set.empty[MemberModifier.Type]
+
+  private def nonEmptyMemberModifiers: Parser[Set[MemberModifier.Type]] = rep1(memberModifier) ^^ (_.toSet)
+
+  private def memberModifier: Parser[MemberModifier.Type] = "public" ^^^ MemberModifier.PUBLIC | "protected" ^^^ MemberModifier.PROTECTED |
+    "private" ^^^ MemberModifier.PRIVATE | "static" ^^^ MemberModifier.STATIC | "final" ^^^ MemberModifier.FINAL |
+    "abstract" ^^^ MemberModifier.ABSTRACT
+
   private def echoExprList: Parser[List[Expr]] = rep1sep(expr, ",")
 
   private def forExpr: Parser[List[Expr]] = repsep(expr, ",")
@@ -214,6 +259,8 @@ object JbjParser extends Parsers {
   private def exprWithoutVariable: Parser[Expr] = expr
 
   private def parenthesisExpr: Parser[Expr] = "(" ~> expr <~ ")"
+
+  private def fullyQualifiedClassName: Parser[NamespaceName] = namespaceName
 
   private def commonScalar: Parser[ScalarExpr] =
     longNumLit ^^ {

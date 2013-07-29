@@ -2,6 +2,7 @@ package de.leanovate.jbj.runtime.context
 
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.{ValueRef, Value, PFunction, Context}
+import de.leanovate.jbj.ast.NamespaceName
 
 case class FunctionContext(identifier: String, callerCtx: Context) extends Context {
   private val localVariables = mutable.Map.empty[String, ValueRef]
@@ -14,7 +15,7 @@ case class FunctionContext(identifier: String, callerCtx: Context) extends Conte
 
   val err = callerCtx.err
 
-  def findClass(name: String): Option[ClassContext] = global.findClass(name)
+  def findClass(name: NamespaceName): Option[ClassContext] = global.findClass(name)
 
   def defineClass(name: String): ClassContext = global.defineClass(name)
 

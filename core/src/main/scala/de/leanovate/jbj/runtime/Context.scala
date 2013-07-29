@@ -2,6 +2,7 @@ package de.leanovate.jbj.runtime
 
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.context.{StaticContext, ClassContext, GlobalContext}
+import de.leanovate.jbj.ast.NamespaceName
 
 trait Context {
   def global: GlobalContext
@@ -14,7 +15,7 @@ trait Context {
 
   lazy val log: Log = new Log(out, err)
 
-  def findClass(name: String): Option[ClassContext]
+  def findClass(name: NamespaceName): Option[ClassContext]
 
   def defineClass(name: String): ClassContext
 

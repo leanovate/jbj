@@ -2,6 +2,7 @@ package de.leanovate.jbj.runtime.context
 
 import de.leanovate.jbj.runtime.{ValueRef, Value, Context, PFunction}
 import scala.collection.mutable
+import de.leanovate.jbj.ast.NamespaceName
 
 class ClassContext(var className: String, var global: GlobalContext) extends Context {
   private val variables = mutable.Map.empty[String, ValueRef]
@@ -12,7 +13,7 @@ class ClassContext(var className: String, var global: GlobalContext) extends Con
 
   def err = global.err
 
-  def findClass(name: String): Option[ClassContext] = global.findClass(name)
+  def findClass(name: NamespaceName): Option[ClassContext] = global.findClass(name)
 
   def defineClass(name: String): ClassContext = global.defineClass(name)
 
