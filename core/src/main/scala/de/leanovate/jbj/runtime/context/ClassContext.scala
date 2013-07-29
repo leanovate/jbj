@@ -34,6 +34,10 @@ class ClassContext(var className: String, var global: GlobalContext) extends Con
     variables.put(name, valueRef)
   }
 
+  def undefineVariable(name: String) {
+    variables.remove(name)
+  }
+
   def findFunction(name: String) = global.findFunction(name)
 
   def defineFunction(function: PFunction) {

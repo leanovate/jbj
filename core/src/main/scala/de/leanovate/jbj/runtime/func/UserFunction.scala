@@ -6,12 +6,12 @@ import de.leanovate.jbj.runtime.value.{NullVal}
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.ReturnExecResult
 import de.leanovate.jbj.ast.stmt.ParameterDef
-import de.leanovate.jbj.runtime.context.BlockContext
+import de.leanovate.jbj.runtime.context.FunctionContext
 
 case class UserFunction(name: String, parameterDefs: List[ParameterDef], stmts: List[Stmt]) extends PFunction {
 
   def call(ctx: Context, callerPosition: FilePosition, parameters: List[Value]) = {
-    val funcCtx = BlockContext(name, ctx)
+    val funcCtx = FunctionContext(name, ctx)
 
     parameterDefs.zipWithIndex.foreach {
       case (parameterDef, idx) =>
@@ -22,7 +22,7 @@ case class UserFunction(name: String, parameterDefs: List[ParameterDef], stmts: 
   }
 
   @tailrec
-  private def execStmts(statements: List[Stmt], context: BlockContext): Value = statements match {
+  private def execStmts(statements: List[Stmt], context: FunctionContext): Value = statements match {
     case head :: tail => head.exec(context) match {
       case ReturnExecResult(returnVal) => returnVal
       case _ => execStmts(tail, context)

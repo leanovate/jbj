@@ -10,33 +10,27 @@ import de.leanovate.jbj.ast.expr.value._
 import scala.language.implicitConversions
 import de.leanovate.jbj.parser.JbjTokens._
 import de.leanovate.jbj.ast.stmt.GlobalAssignStmt
-import de.leanovate.jbj.ast.expr.VariableReference
+import de.leanovate.jbj.ast.expr._
 import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
 import de.leanovate.jbj.ast.expr.calc.AddExpr
 import de.leanovate.jbj.ast.stmt.ReturnStmt
 import de.leanovate.jbj.ast.expr.calc.SubExpr
 import scala.Some
 import de.leanovate.jbj.ast.expr.value.FloatConstExpr
-import de.leanovate.jbj.ast.expr.AssignExpr
-import de.leanovate.jbj.ast.expr.IndexReference
 import de.leanovate.jbj.parser.JbjTokens.Inline
 import de.leanovate.jbj.ast.expr.calc.BitAndExpr
 import de.leanovate.jbj.ast.Prog
 import de.leanovate.jbj.ast.stmt.ExprStmt
 import de.leanovate.jbj.ast.expr.calc.NegExpr
 import de.leanovate.jbj.ast.stmt.ParameterDef
-import de.leanovate.jbj.ast.expr.DotExpr
 import de.leanovate.jbj.ast.expr.calc.MulExpr
 import de.leanovate.jbj.ast.expr.value.IntegerConstExpr
 import de.leanovate.jbj.parser.JbjTokens.InterpolatedStringLit
-import de.leanovate.jbj.ast.expr.PropertyReference
 import de.leanovate.jbj.parser.JbjTokens.Identifier
 import de.leanovate.jbj.ast.expr.comp.LeExpr
 import de.leanovate.jbj.parser.JbjTokens.LongNumLit
-import de.leanovate.jbj.ast.expr.CallFunctionExpr
 import de.leanovate.jbj.runtime.context.GlobalContext
 import de.leanovate.jbj.ast.expr.comp.EqExpr
-import de.leanovate.jbj.ast.expr.MethodCallReference
 import de.leanovate.jbj.ast.expr.comp.BoolOrExpr
 import de.leanovate.jbj.ast.expr.value.StringConstExpr
 import de.leanovate.jbj.ast.FilePosition
@@ -57,17 +51,77 @@ import de.leanovate.jbj.ast.stmt.StaticAssignStmt
 import de.leanovate.jbj.ast.stmt.LabelStmt
 import de.leanovate.jbj.ast.stmt.Assignment
 import de.leanovate.jbj.ast.expr.calc.BitOrExpr
-import de.leanovate.jbj.ast.expr.GetAndDecrExpr
 import de.leanovate.jbj.ast.stmt.cond.CaseBlock
 import de.leanovate.jbj.ast.stmt.ContinueStmt
 import de.leanovate.jbj.ast.expr.calc.BitXorExpr
-import de.leanovate.jbj.ast.expr.IncrAndGetExpr
-import de.leanovate.jbj.ast.expr.ArrayCreateExpr
 import de.leanovate.jbj.ast.stmt.InlineStmt
 import de.leanovate.jbj.parser.JbjTokens.Keyword
 import de.leanovate.jbj.parser.JbjTokens.StringLit
 import de.leanovate.jbj.ast.expr.comp.BoolXorExpr
+import de.leanovate.jbj.ast.stmt.GlobalAssignStmt
+import de.leanovate.jbj.ast.expr.VariableReference
+import de.leanovate.jbj.ast.stmt.loop.ForStmt
+import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
+import de.leanovate.jbj.ast.expr.calc.AddExpr
+import de.leanovate.jbj.ast.expr.comp.BoolAndExpr
+import de.leanovate.jbj.ast.stmt.cond.IfStmt
+import de.leanovate.jbj.ast.stmt.FunctionDeclStmt
+import de.leanovate.jbj.ast.stmt.ReturnStmt
+import de.leanovate.jbj.ast.expr.calc.SubExpr
+import de.leanovate.jbj.ast.stmt.cond.SwitchStmt
+import scala.Some
+import de.leanovate.jbj.ast.expr.value.FloatConstExpr
+import de.leanovate.jbj.ast.expr.AssignExpr
+import de.leanovate.jbj.ast.expr.value.ConstGetExpr
+import de.leanovate.jbj.ast.stmt.BlockStmt
+import de.leanovate.jbj.ast.expr.IndexReference
+import de.leanovate.jbj.parser.JbjTokens.Inline
+import de.leanovate.jbj.ast.stmt.BreakStmt
+import de.leanovate.jbj.ast.expr.comp.LtExpr
+import de.leanovate.jbj.ast.stmt.loop.DoWhileStmt
+import de.leanovate.jbj.ast.expr.comp.GeExpr
+import de.leanovate.jbj.ast.stmt.loop.WhileStmt
+import de.leanovate.jbj.ast.expr.calc.BitAndExpr
+import de.leanovate.jbj.ast.Prog
+import de.leanovate.jbj.ast.stmt.ExprStmt
+import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
+import de.leanovate.jbj.ast.expr.calc.NegExpr
+import de.leanovate.jbj.ast.stmt.ParameterDef
+import de.leanovate.jbj.ast.expr.DotExpr
+import de.leanovate.jbj.ast.expr.calc.MulExpr
+import de.leanovate.jbj.ast.expr.value.IntegerConstExpr
+import de.leanovate.jbj.ast.stmt.StaticAssignStmt
+import de.leanovate.jbj.parser.JbjTokens.InterpolatedStringLit
+import de.leanovate.jbj.ast.stmt.LabelStmt
+import de.leanovate.jbj.ast.stmt.Assignment
+import de.leanovate.jbj.ast.expr.PropertyReference
+import de.leanovate.jbj.parser.JbjTokens.Identifier
+import de.leanovate.jbj.ast.stmt.loop.ForeachValueStmt
+import de.leanovate.jbj.ast.expr.comp.LeExpr
+import de.leanovate.jbj.ast.expr.calc.BitOrExpr
+import de.leanovate.jbj.ast.stmt.cond.CaseBlock
+import de.leanovate.jbj.ast.expr.GetAndDecrExpr
+import de.leanovate.jbj.ast.stmt.ContinueStmt
+import de.leanovate.jbj.parser.JbjTokens.LongNumLit
+import de.leanovate.jbj.ast.expr.calc.BitXorExpr
+import de.leanovate.jbj.ast.expr.IncrAndGetExpr
+import de.leanovate.jbj.ast.expr.CallFunctionExpr
+import de.leanovate.jbj.runtime.context.GlobalContext
+import de.leanovate.jbj.ast.expr.comp.EqExpr
+import de.leanovate.jbj.ast.expr.MethodCallReference
+import de.leanovate.jbj.ast.expr.ArrayCreateExpr
+import de.leanovate.jbj.ast.stmt.InlineStmt
+import de.leanovate.jbj.ast.stmt.loop.ForeachKeyValueStmt
+import de.leanovate.jbj.ast.expr.comp.BoolOrExpr
+import de.leanovate.jbj.parser.JbjTokens.Keyword
+import de.leanovate.jbj.ast.expr.value.StringConstExpr
+import de.leanovate.jbj.parser.JbjTokens.StringLit
+import de.leanovate.jbj.ast.expr.comp.BoolXorExpr
+import de.leanovate.jbj.ast.FilePosition
+import de.leanovate.jbj.ast.expr.comp.GtExpr
 import de.leanovate.jbj.ast.expr.GetAndIncrExpr
+import de.leanovate.jbj.ast.stmt.EchoStmt
+import de.leanovate.jbj.ast.expr.calc.DivExpr
 
 object JbjParser extends Parsers {
   type Elem = JbjTokens.Token
@@ -243,9 +297,9 @@ object JbjParser extends Parsers {
   } | reference <~ "--" ^^ {
     ref => GetAndDecrExpr(ref)
   } | "++" ~> reference ^^ {
-    ref => GetAndIncrExpr(ref)
-  } | "--" ~> reference ^^ {
     ref => IncrAndGetExpr(ref)
+  } | "--" ~> reference ^^ {
+    ref => DecrAndGetExpr(ref)
   } | reference |
     "array" ~ "(" ~ repsep(arrayValues, ",") <~ ")" ^^ {
       case array ~ _ ~ arrayValues => ArrayCreateExpr(array.position, arrayValues)
@@ -371,45 +425,48 @@ object JbjParser extends Parsers {
   //A main method for testing
   def main(args: Array[String]) = {
     test( """<?php
-            | var_dump (1234);
-            | var_dump (+456);
-            | var_dump (-123);
-            | var_dump (0x4d2);
-            | var_dump (+0x1C8);
-            | var_dump (-0x76);
-            | var_dump (02322);
-            | var_dump (+0710);
-            | var_dump (-0173);
-            | var_dump (0b10011010010);
-            | var_dump (+0b111001000);
-            | var_dump (-0b1111011);
             |
-            | var_dump (.123);
-            | var_dump (+.123);
-            | var_dump (-.123);
-            | var_dump (123.);
-            | var_dump (+123.);
-            | var_dump (-123.);
-            | var_dump (123.4);
-            | var_dump (+123.4);
-            | var_dump (-123.4);
+            |echo "\nSame variable used as static and non static.\n";
+            |function staticNonStatic() {
+            |	echo "---------\n";
+            |	$a=0;
+            |	echo "$a\n";
+            |	static $a=10;
+            |	echo "$a\n";
+            |	$a++;
+            |}
+            |staticNonStatic();
+            |staticNonStatic();
+            |staticNonStatic();
             |
-            | var_dump (.123E5);
-            | var_dump (.123E+5);
-            | var_dump (.123e-5);
-            | var_dump (123.E5);
-            | var_dump (123e5);
+            |echo "\nLots of initialisations in the same statement.\n";
+            |function manyInits() {
+            |	static $counter=0;
+            |	echo "------------- Call $counter --------------\n";
+            |	static $a, $b=10, $c=20, $d, $e=30;
+            |	echo "Unitialised      : $a\n";
+            |	echo "Initialised to 10: $b\n";
+            |	echo "Initialised to 20: $c\n";
+            |	echo "Unitialised      : $d\n";
+            |	echo "Initialised to 30: $e\n";
+            |	$a++;
+            |	$b++;
+            |	$c++;
+            |	$d++;
+            |	$e++;
+            |	$counter++;
+            |}
+            |manyInits();
+            |manyInits();
+            |manyInits();
             |
-            | $large_number = 9223372036854775807;
-            | var_dump ($large_number); // int(9223372036854775807)
-            |
-            | $large_number = 9223372036854775808;
-            | var_dump ($large_number); // float(9.2233720368548E+18)
-            |
-            | $million = 1000000;
-            | $large_number = 50000000000000 * $million;
-            | var_dump ($large_number); // float(5.0E+19)
-            |?>
-            | """.stripMargin)
+            |echo "\nUsing static keyword at global scope\n";
+            |for ($i=0; $i<3; $i++) {
+            |   static $s, $k=10;
+            |   echo "$s $k\n";
+            |   $s++;
+            |   $k++;
+            |}
+            |?>""".stripMargin)
   }
 }

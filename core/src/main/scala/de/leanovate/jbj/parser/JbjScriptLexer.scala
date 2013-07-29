@@ -18,16 +18,17 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
 
   def this(in: String) = this("-", new CharArrayReader(in.toCharArray))
 
+  private var position = FilePosition(fileName, in.pos.line)
+
   private val (tok, scriptEnd, rest1, rest2) = whitespace(in) match {
     case Success(_, in1) =>
+      position = FilePosition(fileName, in1.pos.line)
       token(in1) match {
         case Success((token, script), in2) => (token, script, in1, in2)
-        case ns: NoSuccess => (errorToken(FilePosition(fileName, in1.pos.line), ns.msg), false, ns.next, skip(ns.next))
+        case ns: NoSuccess => (errorToken(position, ns.msg), false, ns.next, skip(ns.next))
       }
-    case ns: NoSuccess => (errorToken(FilePosition(fileName, in.pos.line), ns.msg), false, ns.next, skip(ns.next))
+    case ns: NoSuccess => (errorToken(position, ns.msg), false, ns.next, skip(ns.next))
   }
-
-  private val position = FilePosition(fileName, rest1.pos.line)
 
   private def skip(in: Reader[Char]) = if (in.atEnd) in else in.rest
 
@@ -49,7 +50,7 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
   private def token: Parser[(Token, Boolean)] =
     (str("?>") ^^^ Keyword(position, ";") -> true
       | str("%>") ^^^ Keyword(position, ";") -> true
-      | str("</script>") ^^^ Keyword(position, ";") -> true
+      | str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(position, ";") -> true
       | identChar ~ rep(identChar | digit) ^^ {
       case first ~ rest => processIdent(first :: rest mkString "") -> false
     } | rep(digit) ~ '.' ~ rep1(digit) ~ opt(exponent) ^^ {
@@ -78,8 +79,7 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
       | '\"' ~> failure("unclosed string literal")
       | delim ^^ {
       d => d -> false
-    }
-      | failure("illegal character")
+    } | failure("illegal character")
       )
 
   private def exponent: Parser[List[Elem]] = exponentMarker ~ opt(sign) ~ rep1(digit) ^^ {
@@ -133,6 +133,7 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
     whitespaceChar
       | '/' ~ '*' ~ comment
       | '/' ~ '/' ~ rep(chrExcept(EofCh, '\n'))
+      | '#' ~rep(chrExcept(EofCh, '\n'))
       | '/' ~ '*' ~ failure("unclosed comment")
   )
 

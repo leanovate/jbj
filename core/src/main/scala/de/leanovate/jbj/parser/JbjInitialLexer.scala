@@ -41,12 +41,8 @@ class JbjInitialLexer(fileName: String, in: Reader[Char]) extends Reader[Token] 
       chars => Inline(position, chars mkString "") -> false
     })
 
-  private def scriptStart = script ~ optWhitespace ~ language ~ optWhitespace ~ '=' ~
-    optWhitespace ~ opt(quote) ~ php ~ opt(quote) ~ optWhitespace ~ '>'
-
-  private def script = '<' ~ 's' ~ 'c' ~ 'r' ~ 'i' ~ 'p' ~ 't'
-
-  private def language = 'l' ~ 'a' ~ 'n' ~ 'g' ~ 'u' ~ 'a' ~ 'g' ~ 'e'
+  private def scriptStart = str("<script") ~ optWhitespace ~ str("language") ~ optWhitespace ~ '=' ~
+    optWhitespace ~ opt(quote) ~ str("php") ~ opt(quote) ~ optWhitespace ~ '>'
 
   private def witespaceChar = elem("whitespace char", ch => ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n')
 

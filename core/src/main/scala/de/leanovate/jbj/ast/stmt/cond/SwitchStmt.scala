@@ -2,10 +2,8 @@ package de.leanovate.jbj.ast.stmt.cond
 
 import de.leanovate.jbj.ast.{FilePosition, Expr, Stmt}
 import de.leanovate.jbj.runtime._
-import java.util.concurrent.atomic.AtomicLong
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.SuccessExecResult
-import de.leanovate.jbj.runtime.context.BlockContext
 
 case class SwitchStmt(position: FilePosition, expr: Expr, cases: List[SwitchCase]) extends Stmt {
   def exec(ctx: Context) = {

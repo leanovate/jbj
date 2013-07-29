@@ -63,6 +63,12 @@ object JbjTokens {
     override def toString = "\"" + chars + "\""
   }
 
+  case class Variable(position:FilePosition, name:String) extends Token {
+    override def chars = "$" + name
+
+    override def toString = chars
+  }
+
   /** This token is produced by a scanner `Scanner` when scanning failed. */
   def errorToken(position: FilePosition, msg: String): Token = new ErrorToken(position, msg)
 }

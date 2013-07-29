@@ -45,6 +45,10 @@ case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
     variables.put(name, valueRef)
   }
 
+  def undefineVariable(name: String) {
+    variables.remove(name)
+  }
+
   def findFunction(name: String) = buildin.buildinFunctions.get(name).map(Some(_)).getOrElse(functions.get(name))
 
   def defineFunction(function: PFunction) {

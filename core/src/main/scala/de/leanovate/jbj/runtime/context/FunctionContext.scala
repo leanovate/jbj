@@ -3,7 +3,7 @@ package de.leanovate.jbj.runtime.context
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.{ValueRef, Value, PFunction, Context}
 
-case class BlockContext(identifier: String, callerCtx: Context) extends Context {
+case class FunctionContext(identifier: String, callerCtx: Context) extends Context {
   private val localVariables = mutable.Map.empty[String, ValueRef]
 
   lazy val global = callerCtx.global
@@ -35,6 +35,10 @@ case class BlockContext(identifier: String, callerCtx: Context) extends Context 
 
   def defineVariable(name: String, valueRef: ValueRef) {
     localVariables.put(name, valueRef)
+  }
+
+  def undefineVariable(name: String) {
+    localVariables.remove(name)
   }
 
   def findFunction(name: String) = callerCtx.findFunction(name)
