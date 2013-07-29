@@ -35,7 +35,6 @@ import de.leanovate.jbj.ast.stmt.ExprStmt
 import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
 import de.leanovate.jbj.ast.stmt.ParameterDef
 import de.leanovate.jbj.ast.expr.DotExpr
-import de.leanovate.jbj.parser.JbjTokens.ScriptEnd
 import de.leanovate.jbj.ast.expr.calc.MulExpr
 import de.leanovate.jbj.ast.expr.value.IntegerConstExpr
 import de.leanovate.jbj.ast.stmt.StaticAssignStmt
@@ -217,22 +216,11 @@ object JbjParser extends Parsers {
   }
 
   def blockLikeStmt: Parser[Stmt] =
-    ifStmt | switchStmt | whileStmt | forStmt | foreachStmt | functionDef | classDef | block
+    inline | ifStmt | switchStmt | whileStmt | forStmt | foreachStmt | functionDef | classDef | block
 
-  def closedStmt: Parser[Stmt] = regularStmt <~ ";" | blockLikeStmt
+  def closedStmt: Parser[Stmt] = regularStmt <~ rep1(";") | blockLikeStmt <~ rep(";")
 
-  def stmtsWithUnclosed: Parser[List[Stmt]] = rep(closedStmt) ~ opt(regularStmt) ^^ {
-    case stmts ~ optUnclosed => stmts ++ optUnclosed
-  }
-
-  def stmtsOrInline: Parser[List[Stmt]] = rep(rep1(closedStmt) |
-    opt(regularStmt) ~ scriptEnd ~ rep(inline) ^^ {
-      case optUnclosed ~ _ ~ inline => optUnclosed.toList ++ inline
-    }) ^^ {
-    stmts => stmts.flatten
-  }
-
-  def block: Parser[BlockStmt] = "{" ~ stmtsOrInline <~ "}" ^^ {
+  def block: Parser[BlockStmt] = "{" ~ rep(closedStmt) <~ "}" ^^ {
     case paren ~ stmts => BlockStmt(paren.position, stmts)
   }
 
@@ -249,9 +237,9 @@ object JbjParser extends Parsers {
   }
 
   def switchCases: Parser[List[SwitchCase]] = rep(
-    "case" ~> expr ~ ":" ~ stmtsOrInline ^^ {
+    "case" ~> expr ~ ":" ~ rep(closedStmt) ^^ {
       case expr ~ _ ~ stmts => CaseBlock(expr, stmts)
-    } | "default" ~> ":" ~> stmtsOrInline ^^ {
+    } | "default" ~> ":" ~> rep(closedStmt) ^^ {
       stmts => DefaultCaseBlock(stmts)
     }
   )
@@ -285,24 +273,14 @@ object JbjParser extends Parsers {
 
   def parameterDef: Parser[ParameterDef] = variable ^^ (v => ParameterDef(v.variableName, byRef = false, default = None))
 
-  def script: Parser[List[Stmt]] = stmtsWithUnclosed
-
-  def inlineAndScript: Parser[List[Stmt]] = rep(inline) ~ opt(script) ^^ {
-    case inline ~ None => inline
-    case inline ~ Some(script) => inline ++ script
-  }
-
-  def prog: Parser[Prog] = repsep(inlineAndScript, scriptEnd) ^^ {
-    stmts => Prog(FilePosition("-", 0), stmts.flatten)
+  def prog: Parser[Prog] = rep(closedStmt) ^^ {
+    stmts => Prog(FilePosition("-", 0), stmts)
   }
 
   def inline: Parser[InlineStmt] =
     elem("inline", _.isInstanceOf[Inline]) ^^ {
       t => InlineStmt(t.position, t.chars)
     }
-
-  def scriptEnd: Parser[String] =
-    elem("scriptEnd", _.isInstanceOf[ScriptEnd]) ^^ (_.chars)
 
   /** A parser which matches a single keyword token.
     *

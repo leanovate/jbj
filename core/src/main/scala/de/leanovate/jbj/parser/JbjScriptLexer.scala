@@ -10,7 +10,6 @@ import de.leanovate.jbj.parser.JbjTokens.EOF
 import de.leanovate.jbj.parser.JbjTokens.Keyword
 import de.leanovate.jbj.parser.JbjTokens.StringLit
 import de.leanovate.jbj.ast.FilePosition
-import de.leanovate.jbj.parser.JbjTokens.ScriptEnd
 
 class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] with Parsers {
   type Elem = Char
@@ -19,17 +18,16 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
 
   def this(in: String) = this("-", new CharArrayReader(in.toCharArray))
 
-  private var position = FilePosition(fileName, in.pos.line)
-
-  private val (tok, rest1, rest2) = whitespace(in) match {
+  private val (tok, scriptEnd, rest1, rest2) = whitespace(in) match {
     case Success(_, in1) =>
-      position = FilePosition(fileName, in1.pos.line)
       token(in1) match {
-        case Success(token, in2) => (token, in1, in2)
-        case ns: NoSuccess => (errorToken(position, ns.msg), ns.next, skip(ns.next))
+        case Success((token, script), in2) => (token, script, in1, in2)
+        case ns: NoSuccess => (errorToken(FilePosition(fileName, in1.pos.line), ns.msg), false, ns.next, skip(ns.next))
       }
-    case ns: NoSuccess => (errorToken(position, ns.msg), ns.next, skip(ns.next))
+    case ns: NoSuccess => (errorToken(FilePosition(fileName, in.pos.line), ns.msg), false, ns.next, skip(ns.next))
   }
+
+  private val position = FilePosition(fileName, rest1.pos.line)
 
   private def skip(in: Reader[Char]) = if (in.atEnd) in else in.rest
 
@@ -39,10 +37,7 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
 
   def first = tok
 
-  def rest = tok match {
-    case ScriptEnd(_) => new JbjInitialLexer(fileName, rest2)
-    case _ => new JbjScriptLexer(fileName, rest2)
-  }
+  def rest = if (scriptEnd) new JbjInitialLexer(fileName, rest2) else new JbjScriptLexer(fileName, rest2)
 
   def pos = rest1.pos
 
@@ -51,37 +46,39 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
     case _ => false
   })
 
-  private def token: Parser[Token] =
-    (str("?>") ^^^ ScriptEnd(position)
-      | str("%>") ^^^ ScriptEnd(position)
-      | str("</script>") ^^^ ScriptEnd(position)
+  private def token: Parser[(Token, Boolean)] =
+    (str("?>") ^^^ Keyword(position, ";") -> true
+      | str("%>") ^^^ Keyword(position, ";") -> true
+      | str("</script>") ^^^ Keyword(position, ";") -> true
       | identChar ~ rep(identChar | digit) ^^ {
-      case first ~ rest => processIdent(first :: rest mkString "")
+      case first ~ rest => processIdent(first :: rest mkString "") -> false
     } | rep(digit) ~ '.' ~ rep1(digit) ~ opt(exponent) ^^ {
       case first ~ dot ~ rest ~ exponent =>
-        DoubleNumLit(position, first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "")
+        DoubleNumLit(position, first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "") -> false
     } | rep1(digit) ~ '.' ~ rep(digit) ~ opt(exponent) ^^ {
       case first ~ dot ~ rest ~ exponent =>
-        DoubleNumLit(position, first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "")
+        DoubleNumLit(position, first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "") -> false
     } | digit ~ rep(digit) ~ exponent ^^ {
       case first ~ rest ~ exponent =>
-        DoubleNumLit(position, (first :: rest) ++ exponent mkString "")
+        DoubleNumLit(position, (first :: rest) ++ exponent mkString "") -> false
     } | '0' ~ rep1(octDigit) ^^ {
-      case first ~ rest => convertNum(position, first :: rest mkString "", 8)
+      case first ~ rest => convertNum(position, first :: rest mkString "", 8) -> false
     } | '0' ~ 'b' ~ rep(binDigit) ^^ {
-      case _ ~ _ ~ binary => convertNum(position, binary mkString "", 2)
+      case _ ~ _ ~ binary => convertNum(position, binary mkString "", 2) -> false
     } | '0' ~ 'x' ~ rep(hexDigit) ^^ {
-      case _ ~ _ ~ hex => convertNum(position, hex mkString "", 16)
+      case _ ~ _ ~ hex => convertNum(position, hex mkString "", 16) -> false
     } | digit ~ rep(digit) ^^ {
-      case first ~ rest => convertNum(position, first :: rest mkString "", 10)
+      case first ~ rest => convertNum(position, first :: rest mkString "", 10) -> false
     } | '\'' ~ notInterpolatedStr ~ '\'' ^^ {
-      case '\'' ~ str ~ '\'' => StringLit(position, str)
+      case '\'' ~ str ~ '\'' => StringLit(position, str) -> false
     } | '\"' ~ interpolatedStr ~ '\"' ^^ {
-      case '\"' ~ str ~ '\"' => InterpolatedStringLit(position, str)
-    } | EofCh ^^^ EOF(position)
+      case '\"' ~ str ~ '\"' => InterpolatedStringLit(position, str) -> false
+    } | EofCh ^^^ EOF(position) -> false
       | '\'' ~> failure("unclosed string literal")
       | '\"' ~> failure("unclosed string literal")
-      | delim
+      | delim ^^ {
+      d => d -> false
+    }
       | failure("illegal character")
       )
 
