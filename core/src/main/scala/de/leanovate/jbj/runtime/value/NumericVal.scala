@@ -19,6 +19,8 @@ trait NumericVal extends Value {
 
   def copy = this
 
+  def neg: NumericVal
+
   def getAt(index: Value) = UndefinedVal
 }
 

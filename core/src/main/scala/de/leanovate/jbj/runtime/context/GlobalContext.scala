@@ -19,7 +19,7 @@ case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
 
   def global = this
 
-  def static = this
+  def static = staticContext("global")
 
   def findClass(name: String): Option[ClassContext] = classes.get(name)
 

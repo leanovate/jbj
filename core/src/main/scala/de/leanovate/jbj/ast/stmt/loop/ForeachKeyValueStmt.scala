@@ -1,6 +1,6 @@
 package de.leanovate.jbj.ast.stmt.loop
 
-import de.leanovate.jbj.ast.{FilePosition, Stmt, Expr}
+import de.leanovate.jbj.ast.{StaticInitializer, FilePosition, Stmt, Expr}
 import de.leanovate.jbj.runtime._
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.value.ArrayVal
@@ -9,7 +9,9 @@ import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.runtime.value.ArrayVal.ArrayKey
 
 case class ForeachKeyValueStmt(position: FilePosition, arrayExpr: Expr, keyName: String, valueName: String,
-                               stmts: List[Stmt]) extends Stmt {
+                               stmts: List[Stmt]) extends Stmt with StaticInitializer {
+  private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
+
   def exec(ctx: Context) = {
     arrayExpr.eval(ctx).unref match {
       case array: ArrayVal =>
@@ -17,6 +19,10 @@ case class ForeachKeyValueStmt(position: FilePosition, arrayExpr: Expr, keyName:
       case _ =>
     }
     SuccessExecResult()
+  }
+
+  override def initializeStatic(ctx: Context) {
+    staticInitializers.foreach(_.initializeStatic(ctx))
   }
 
   @tailrec

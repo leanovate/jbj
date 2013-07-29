@@ -96,6 +96,36 @@ class StaticSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |""".stripMargin
       )
     }
-  }
 
+    "Multiple declarations of the same static variable" in {
+      resultOf(
+        """<?php
+          |
+          |$a = 5;
+          |
+          |var_dump($a);
+          |
+          |static $a = 10;
+          |static $a = 11;
+          |
+          |var_dump($a);
+          |
+          |function foo() {
+          |	static $a = 13;
+          |	static $a = 14;
+          |
+          |	var_dump($a);
+          |}
+          |
+          |foo();
+          |
+          |?>""".stripMargin
+      ) must be (
+        """int(5)
+          |int(11)
+          |int(14)
+          |""".stripMargin
+      )
+    }
+  }
 }

@@ -21,6 +21,8 @@ case class FloatVal(value: Double) extends NumericVal {
 
   def toBool = BooleanVal(value != 0.0)
 
+  def neg = FloatVal(-value)
+
   def incr = FloatVal(value + 1)
 
   def decr = FloatVal(value - 1)

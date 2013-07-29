@@ -4,6 +4,7 @@ import de.leanovate.jbj.ast.{FilePosition, Expr}
 import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.parser.JbjParser
+import de.leanovate.jbj.ast.expr.ScalarExpr
 
 case class InterpolatedStringExpr(position: FilePosition, format: String, interpolations: List[Expr]) extends Expr {
   def eval(ctx: Context) = {
@@ -25,7 +26,7 @@ object InterpolatedStringExpr {
     }
 
     if (interpolations.isEmpty)
-      StringConstExpr(position, str)
+      ScalarExpr(position, StringVal(str))
     else
       InterpolatedStringExpr(position, str, interpolations)
   }

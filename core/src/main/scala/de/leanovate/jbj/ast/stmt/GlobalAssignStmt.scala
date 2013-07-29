@@ -4,19 +4,18 @@ import de.leanovate.jbj.ast.{Name, Modifier, FilePosition, Stmt}
 import de.leanovate.jbj.runtime.{ValueRef, SuccessExecResult, Context}
 import de.leanovate.jbj.runtime.value.{UndefinedVal}
 
-case class GlobalAssignStmt(position: FilePosition, variableNames: List[Name]) extends Stmt {
+case class GlobalAssignStmt(position: FilePosition, variableNames: List[String]) extends Stmt {
   override def exec(ctx: Context) = {
     variableNames.foreach {
       variableName =>
-        val name = variableName.evalName(ctx)
-        val valueRef = ctx.global.findVariable(name) match {
+        val valueRef = ctx.global.findVariable(variableName) match {
           case Some(ref) => ref
           case None =>
             val initial = ValueRef()
-            ctx.global.defineVariable(name, initial)
+            ctx.global.defineVariable(variableName, initial)
             initial
         }
-        ctx.defineVariable(name, valueRef)
+        ctx.defineVariable(variableName, valueRef)
     }
     SuccessExecResult()
   }

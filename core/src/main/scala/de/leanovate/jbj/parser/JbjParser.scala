@@ -20,7 +20,6 @@ import de.leanovate.jbj.ast.stmt.ReturnStmt
 import de.leanovate.jbj.ast.expr.calc.SubExpr
 import de.leanovate.jbj.ast.stmt.cond.SwitchStmt
 import scala.Some
-import de.leanovate.jbj.ast.expr.value.FloatConstExpr
 import de.leanovate.jbj.ast.expr.AssignExpr
 import de.leanovate.jbj.ast.expr.value.ConstGetExpr
 import de.leanovate.jbj.ast.stmt.BlockStmt
@@ -39,11 +38,10 @@ import de.leanovate.jbj.ast.expr.calc.NegExpr
 import de.leanovate.jbj.ast.stmt.ParameterDef
 import de.leanovate.jbj.ast.expr.DotExpr
 import de.leanovate.jbj.ast.expr.calc.MulExpr
-import de.leanovate.jbj.ast.expr.value.IntegerConstExpr
 import de.leanovate.jbj.ast.stmt.StaticAssignStmt
 import de.leanovate.jbj.parser.JbjTokens.InterpolatedStringLit
 import de.leanovate.jbj.ast.stmt.LabelStmt
-import de.leanovate.jbj.ast.stmt.Assignment
+import de.leanovate.jbj.ast.stmt.StaticAssignment
 import de.leanovate.jbj.ast.expr.PropertyReference
 import de.leanovate.jbj.parser.JbjTokens.Identifier
 import de.leanovate.jbj.ast.stmt.loop.ForeachValueStmt
@@ -64,7 +62,6 @@ import de.leanovate.jbj.ast.stmt.InlineStmt
 import de.leanovate.jbj.ast.stmt.loop.ForeachKeyValueStmt
 import de.leanovate.jbj.ast.expr.comp.BoolOrExpr
 import de.leanovate.jbj.parser.JbjTokens.Keyword
-import de.leanovate.jbj.ast.expr.value.StringConstExpr
 import de.leanovate.jbj.parser.JbjTokens.StringLit
 import de.leanovate.jbj.ast.expr.comp.BoolXorExpr
 import de.leanovate.jbj.ast.FilePosition
@@ -72,7 +69,7 @@ import de.leanovate.jbj.ast.expr.comp.GtExpr
 import de.leanovate.jbj.ast.expr.GetAndIncrExpr
 import de.leanovate.jbj.ast.stmt.EchoStmt
 import de.leanovate.jbj.ast.expr.calc.DivExpr
-import de.leanovate.jbj.ast.name.DirectName
+import de.leanovate.jbj.runtime.value.{UndefinedVal, StringVal, FloatVal, IntegerVal}
 
 object JbjParser extends Parsers {
   type Elem = JbjTokens.Token
@@ -202,12 +199,12 @@ object JbjParser extends Parsers {
 
   private def parameterList: Parser[List[ParameterDef]] = repsep(parameterDef, ",")
 
-  private def globalVarList: Parser[List[Name]] = rep1sep(variableLit ^^ {
-    v => DirectName(v.name)
+  private def globalVarList: Parser[List[String]] = rep1sep(variableLit ^^ {
+    v => v.name
   }, ",")
 
-  private def staticVarList: Parser[List[Assignment]] = rep1sep(variableLit ~ opt("=" ~> expr) ^^ {
-    case v ~ expr => Assignment(v.position, DirectName(v.name), expr)
+  private def staticVarList: Parser[List[StaticAssignment]] = rep1sep(variableLit ~ opt("=" ~> staticScalar) ^^ {
+    case v ~ optScalar => StaticAssignment(v.position, v.name, optScalar.map(_.value).getOrElse(UndefinedVal))
   }, ",")
 
   private def echoExprList: Parser[List[Expr]] = rep1sep(expr, ",")
@@ -218,15 +215,29 @@ object JbjParser extends Parsers {
 
   private def parenthesisExpr: Parser[Expr] = "(" ~> expr <~ ")"
 
+  private def commonScalar: Parser[ScalarExpr] =
+    longNumLit ^^ {
+      s => ScalarExpr(s.position, IntegerVal(s.value))
+    } | doubleNumLit ^^ {
+      s => ScalarExpr(s.position, FloatVal(s.value))
+    } | stringLit ^^ {
+      s => ScalarExpr(s.position, StringVal(s.chars))
+    }
+
+  private def staticScalar: Parser[ScalarExpr] =
+    commonScalar | "+" ~> staticScalar ^^ {
+      s => ScalarExpr(s.position, s.value.toNum)
+    } | "-" ~> staticScalar ^^ {
+      s => ScalarExpr(s.position, s.value.toNum.neg)
+    }
+
   private def value: Parser[Expr] =
-    (opt("+") ~> longNumLit ^^ (s => IntegerConstExpr(s.position, s.value))
-      | opt("+") ~> doubleNumLit ^^ (s => FloatConstExpr(s.position, s.value))
-      | stringLit ^^ (s => StringConstExpr(s.position, s.chars))
+    (staticScalar
       | interpolatedStringLit ^^ (s => InterpolatedStringExpr(s.position, s.charOrInterpolations))
       )
 
   private def variable: Parser[VariableReference] = variableLit ^^ {
-    case v  => VariableReference(v.position, v.name)
+    case v => VariableReference(v.position, v.name)
   }
 
   private def reference: Parser[Reference] = variable ~ rep(refAccess) ^^ {
@@ -384,7 +395,7 @@ object JbjParser extends Parsers {
             |
             |var_dump($a);
             |
-            |static $a = 10;
+            |static $a = "aa";
             |static $a = 11;
             |
             |var_dump($a);

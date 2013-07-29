@@ -1,8 +1,8 @@
 package de.leanovate.jbj.runtime.func
 
-import de.leanovate.jbj.ast.{FilePosition, Stmt}
+import de.leanovate.jbj.ast.{StaticInitializer, FilePosition, Stmt}
 import de.leanovate.jbj.runtime._
-import de.leanovate.jbj.runtime.value.{NullVal}
+import de.leanovate.jbj.runtime.value.NullVal
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.ReturnExecResult
 import de.leanovate.jbj.ast.stmt.ParameterDef
@@ -10,8 +10,15 @@ import de.leanovate.jbj.runtime.context.FunctionContext
 
 case class UserFunction(name: String, parameterDefs: List[ParameterDef], stmts: List[Stmt]) extends PFunction {
 
+  val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
+
   def call(ctx: Context, callerPosition: FilePosition, parameters: List[Value]) = {
     val funcCtx = FunctionContext(name, ctx)
+
+    if (!funcCtx.static.initialized) {
+      staticInitializers.foreach(_.initializeStatic(funcCtx))
+      funcCtx.static.initialized = true
+    }
 
     parameterDefs.zipWithIndex.foreach {
       case (parameterDef, idx) =>

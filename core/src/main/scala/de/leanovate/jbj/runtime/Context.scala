@@ -1,12 +1,12 @@
 package de.leanovate.jbj.runtime
 
 import java.io.PrintStream
-import de.leanovate.jbj.runtime.context.{ClassContext, GlobalContext}
+import de.leanovate.jbj.runtime.context.{StaticContext, ClassContext, GlobalContext}
 
 trait Context {
   def global: GlobalContext
 
-  def static: Context
+  def static: StaticContext
 
   def out: PrintStream
 

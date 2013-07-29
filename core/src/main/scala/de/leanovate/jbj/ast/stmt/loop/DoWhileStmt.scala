@@ -1,14 +1,15 @@
 package de.leanovate.jbj.ast.stmt.loop
 
-import de.leanovate.jbj.ast.{Stmt, Expr}
+import de.leanovate.jbj.ast.{StaticInitializer, Stmt, Expr, FilePosition}
 import de.leanovate.jbj.runtime._
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.SuccessExecResult
-import de.leanovate.jbj.ast.FilePosition
 
-case class DoWhileStmt(position: FilePosition, stmts: List[Stmt], condition: Expr) extends Stmt {
-  def exec(ctx: Context): ExecResult = {
+case class DoWhileStmt(position: FilePosition, stmts: List[Stmt], condition: Expr) extends Stmt with StaticInitializer {
+  private  val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
+
+  override def exec(ctx: Context): ExecResult = {
     do {
       execStmts(stmts, ctx) match {
         case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
@@ -18,6 +19,10 @@ case class DoWhileStmt(position: FilePosition, stmts: List[Stmt], condition: Exp
       }
     } while (condition.eval(ctx).toBool.value)
     SuccessExecResult()
+  }
+
+  override def initializeStatic(ctx: Context) {
+    staticInitializers.foreach(_.initializeStatic(ctx))
   }
 
   @tailrec

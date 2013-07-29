@@ -75,7 +75,8 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
     } | '\'' ~ notInterpolatedStr ~ '\'' ^^ {
       case '\'' ~ str ~ '\'' => StringLit(position, str) -> false
     } | '\"' ~ interpolatedStr ~ '\"' ^^ {
-      case '\"' ~ str ~ '\"' => InterpolatedStringLit(position, str) -> false
+      case '\"' ~ str ~ '\"' if str.exists(_.isRight) => InterpolatedStringLit(position, str) -> false
+      case '\"' ~ str ~ '\"' => StringLit(position, str.map(_.left.get) mkString "") -> false
     } | EofCh ^^^ EOF(position) -> false
       | '\'' ~> failure("unclosed string literal")
       | '\"' ~> failure("unclosed string literal")

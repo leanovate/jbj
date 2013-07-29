@@ -1,13 +1,19 @@
 package de.leanovate.jbj.ast.stmt.cond
 
-import de.leanovate.jbj.ast.{FilePosition, Stmt, Expr}
+import de.leanovate.jbj.ast.{StaticInitializer, FilePosition, Stmt, Expr}
 import de.leanovate.jbj.runtime.{ExecResult, SuccessExecResult, Context}
 import scala.annotation.tailrec
 
 case class IfStmt(position: FilePosition, condition: Expr, thenStmts: List[Stmt], elseIfs: List[ElseIfBlock], elseStmts: List[Stmt])
-  extends Stmt {
+  extends Stmt with StaticInitializer {
 
-  def exec(ctx: Context) = {
+  private val staticInitializers =
+    thenStmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer]) ++
+      elseIfs.map(_.themStmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])).flatten ++
+      elseStmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
+
+
+  override def exec(ctx: Context) = {
     if (condition.eval(ctx).toBool.value) {
       execStmts(thenStmts, ctx)
     } else {
@@ -17,6 +23,10 @@ case class IfStmt(position: FilePosition, condition: Expr, thenStmts: List[Stmt]
         execStmts(elseStmts, ctx)
       }
     }
+  }
+
+  override def initializeStatic(ctx: Context) {
+    staticInitializers.foreach(_.initializeStatic(ctx))
   }
 
   @tailrec

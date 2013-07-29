@@ -6,6 +6,8 @@ import de.leanovate.jbj.runtime.{ValueRef, Value, PFunction, Context}
 class StaticContext(var global: GlobalContext) extends Context {
   private val variables = mutable.Map.empty[String, ValueRef]
 
+  var initialized = false
+
   def static = this
 
   def out = global.out
