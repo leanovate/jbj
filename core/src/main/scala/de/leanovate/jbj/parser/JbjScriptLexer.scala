@@ -70,6 +70,8 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
       case _ ~ _ ~ hex => convertNum(position, hex mkString "", 16) -> false
     } | digit ~ rep(digit) ^^ {
       case first ~ rest => convertNum(position, first :: rest mkString "", 10) -> false
+    } | '$' ~>  identChar ~ rep(identChar | digit) ^^ {
+      case first ~ rest => Variable(position, first :: rest mkString "") -> false
     } | '\'' ~ notInterpolatedStr ~ '\'' ^^ {
       case '\'' ~ str ~ '\'' => StringLit(position, str) -> false
     } | '\"' ~ interpolatedStr ~ '\"' ^^ {

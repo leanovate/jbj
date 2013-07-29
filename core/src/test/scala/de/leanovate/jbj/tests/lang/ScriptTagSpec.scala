@@ -10,6 +10,7 @@ import org.scalatest.matchers.MustMatchers
 class ScriptTagSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Script Tag" - {
     "<script> tag" in {
+      // lang/script_tag
       resultOf(
         """<script language=php> echo "ola\n";</script>
           |<script language="php"> echo "ola2\n";</script>

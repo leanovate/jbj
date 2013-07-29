@@ -24,14 +24,7 @@ case class FunctionContext(identifier: String, callerCtx: Context) extends Conte
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  def findVariable(name: String): Option[ValueRef] =
-    localVariables.get(name) match {
-      case None => static.findVariable(name) match {
-        case None => callerCtx.findVariable(name)
-        case staticVar => staticVar
-      }
-      case localVar => localVar
-    }
+  def findVariable(name: String): Option[ValueRef] = localVariables.get(name)
 
   def defineVariable(name: String, valueRef: ValueRef) {
     localVariables.put(name, valueRef)

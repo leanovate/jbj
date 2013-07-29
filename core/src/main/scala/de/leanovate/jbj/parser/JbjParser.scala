@@ -2,62 +2,12 @@ package de.leanovate.jbj.parser
 
 import de.leanovate.jbj.ast._
 import de.leanovate.jbj.ast.stmt.cond._
-import de.leanovate.jbj.ast.stmt.cond.SwitchStmt
-import de.leanovate.jbj.ast.stmt.loop._
 import scala.collection.mutable
 import scala.util.parsing.combinator.Parsers
 import de.leanovate.jbj.ast.expr.value._
 import scala.language.implicitConversions
 import de.leanovate.jbj.parser.JbjTokens._
-import de.leanovate.jbj.ast.stmt.GlobalAssignStmt
 import de.leanovate.jbj.ast.expr._
-import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
-import de.leanovate.jbj.ast.expr.calc.AddExpr
-import de.leanovate.jbj.ast.stmt.ReturnStmt
-import de.leanovate.jbj.ast.expr.calc.SubExpr
-import scala.Some
-import de.leanovate.jbj.ast.expr.value.FloatConstExpr
-import de.leanovate.jbj.parser.JbjTokens.Inline
-import de.leanovate.jbj.ast.expr.calc.BitAndExpr
-import de.leanovate.jbj.ast.Prog
-import de.leanovate.jbj.ast.stmt.ExprStmt
-import de.leanovate.jbj.ast.expr.calc.NegExpr
-import de.leanovate.jbj.ast.stmt.ParameterDef
-import de.leanovate.jbj.ast.expr.calc.MulExpr
-import de.leanovate.jbj.ast.expr.value.IntegerConstExpr
-import de.leanovate.jbj.parser.JbjTokens.InterpolatedStringLit
-import de.leanovate.jbj.parser.JbjTokens.Identifier
-import de.leanovate.jbj.ast.expr.comp.LeExpr
-import de.leanovate.jbj.parser.JbjTokens.LongNumLit
-import de.leanovate.jbj.runtime.context.GlobalContext
-import de.leanovate.jbj.ast.expr.comp.EqExpr
-import de.leanovate.jbj.ast.expr.comp.BoolOrExpr
-import de.leanovate.jbj.ast.expr.value.StringConstExpr
-import de.leanovate.jbj.ast.FilePosition
-import de.leanovate.jbj.ast.expr.comp.GtExpr
-import de.leanovate.jbj.ast.stmt.EchoStmt
-import de.leanovate.jbj.ast.expr.calc.DivExpr
-import de.leanovate.jbj.ast.expr.comp.BoolAndExpr
-import de.leanovate.jbj.ast.stmt.cond.IfStmt
-import de.leanovate.jbj.ast.stmt.FunctionDeclStmt
-import de.leanovate.jbj.ast.expr.value.ConstGetExpr
-import de.leanovate.jbj.ast.stmt.BlockStmt
-import de.leanovate.jbj.ast.stmt.BreakStmt
-import de.leanovate.jbj.ast.expr.comp.LtExpr
-import de.leanovate.jbj.ast.expr.comp.GeExpr
-import de.leanovate.jbj.ast.stmt.loop.WhileStmt
-import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
-import de.leanovate.jbj.ast.stmt.StaticAssignStmt
-import de.leanovate.jbj.ast.stmt.LabelStmt
-import de.leanovate.jbj.ast.stmt.Assignment
-import de.leanovate.jbj.ast.expr.calc.BitOrExpr
-import de.leanovate.jbj.ast.stmt.cond.CaseBlock
-import de.leanovate.jbj.ast.stmt.ContinueStmt
-import de.leanovate.jbj.ast.expr.calc.BitXorExpr
-import de.leanovate.jbj.ast.stmt.InlineStmt
-import de.leanovate.jbj.parser.JbjTokens.Keyword
-import de.leanovate.jbj.parser.JbjTokens.StringLit
-import de.leanovate.jbj.ast.expr.comp.BoolXorExpr
 import de.leanovate.jbj.ast.stmt.GlobalAssignStmt
 import de.leanovate.jbj.ast.expr.VariableReference
 import de.leanovate.jbj.ast.stmt.loop.ForStmt
@@ -122,6 +72,7 @@ import de.leanovate.jbj.ast.expr.comp.GtExpr
 import de.leanovate.jbj.ast.expr.GetAndIncrExpr
 import de.leanovate.jbj.ast.stmt.EchoStmt
 import de.leanovate.jbj.ast.expr.calc.DivExpr
+import de.leanovate.jbj.ast.name.DirectName
 
 object JbjParser extends Parsers {
   type Elem = JbjTokens.Token
@@ -162,7 +113,7 @@ object JbjParser extends Parsers {
 
   private def innerStatement: Parser[Stmt] = statement
 
-  private def statement: Parser[Stmt] = ident <~ ":" ^^ {
+  private def statement: Parser[Stmt] = identLit <~ ":" ^^ {
     label => LabelStmt(label.position, label.chars)
   } | untickedStatement <~ rep(";")
 
@@ -190,9 +141,9 @@ object JbjParser extends Parsers {
     } | "return" ~ opt(expr) <~ ";" ^^ {
       case ret ~ expr => ReturnStmt(ret.position, expr)
     } | "global" ~ globalVarList ^^ {
-      case globalT ~ vars => GlobalAssignStmt(globalT.position, Set.empty[Modifier.Type], vars)
+      case globalT ~ vars => GlobalAssignStmt(globalT.position, vars)
     } | "static" ~ staticVarList ^^ {
-      case staticT ~ vars => StaticAssignStmt(staticT.position, Set.empty[Modifier.Type], vars)
+      case staticT ~ vars => StaticAssignStmt(staticT.position, vars)
     } | "echo" ~ echoExprList <~ ";" ^^ {
       case echo ~ params => EchoStmt(echo.position, params)
     } | inlineHtml | expr <~ ";" ^^ {
@@ -207,7 +158,7 @@ object JbjParser extends Parsers {
   private def functionDeclarationStatement: Parser[FunctionDeclStmt] = untickedFunctionDeclarationStatement <~ rep(";")
 
   private def untickedFunctionDeclarationStatement: Parser[FunctionDeclStmt] =
-    "function" ~ opt("&") ~ ident ~ "(" ~ parameterList ~ ")" ~ "{" ~ innerStatementList <~ "}" ^^ {
+    "function" ~ opt("&") ~ identLit ~ "(" ~ parameterList ~ ")" ~ "{" ~ innerStatementList <~ "}" ^^ {
       case func ~ isRef ~ name ~ _ ~ params ~ _ ~ _ ~ body => FunctionDeclStmt(func.position, name.chars, params, body)
     }
 
@@ -251,12 +202,12 @@ object JbjParser extends Parsers {
 
   private def parameterList: Parser[List[ParameterDef]] = repsep(parameterDef, ",")
 
-  private def globalVarList: Parser[List[Assignment]] = rep1sep(variable ^^ {
-    v => Assignment(v.position, v, None)
+  private def globalVarList: Parser[List[Name]] = rep1sep(variableLit ^^ {
+    v => DirectName(v.name)
   }, ",")
 
-  private def staticVarList: Parser[List[Assignment]] = rep1sep(variable ~ opt("=" ~> expr) ^^ {
-    case v ~ expr => Assignment(v.position, v, expr)
+  private def staticVarList: Parser[List[Assignment]] = rep1sep(variableLit ~ opt("=" ~> expr) ^^ {
+    case v ~ expr => Assignment(v.position, DirectName(v.name), expr)
   }, ",")
 
   private def echoExprList: Parser[List[Expr]] = rep1sep(expr, ",")
@@ -274,8 +225,8 @@ object JbjParser extends Parsers {
       | interpolatedStringLit ^^ (s => InterpolatedStringExpr(s.position, s.charOrInterpolations))
       )
 
-  private def variable: Parser[VariableReference] = "$" ~ ident ^^ {
-    case v ~ name => VariableReference(v.position, name.chars)
+  private def variable: Parser[VariableReference] = variableLit ^^ {
+    case v  => VariableReference(v.position, v.name)
   }
 
   private def reference: Parser[Reference] = variable ~ rep(refAccess) ^^ {
@@ -286,9 +237,9 @@ object JbjParser extends Parsers {
 
   private def refAccess: Parser[Reference => Reference] = "[" ~> expr <~ "]" ^^ {
     expr => IndexReference(_: Reference, expr)
-  } | "->" ~> ident ~ "(" ~ repsep(expr, ",") <~ ")" ^^ {
+  } | "->" ~> identLit ~ "(" ~ repsep(expr, ",") <~ ")" ^^ {
     case method ~ _ ~ params => MethodCallReference(_: Reference, method.chars, params)
-  } | "->" ~> ident ^^ {
+  } | "->" ~> identLit ^^ {
     property => PropertyReference(_: Reference, property.chars)
   }
 
@@ -311,7 +262,7 @@ object JbjParser extends Parsers {
     valueExpr => (None, valueExpr)
   }
 
-  private def functionCall: Parser[Expr] = ident ~ "(" ~ repsep(expr, ",") <~ ")" ^^ {
+  private def functionCall: Parser[Expr] = identLit ~ "(" ~ repsep(expr, ",") <~ ")" ^^ {
     case name ~ _ ~ params => CallFunctionExpr(name.position, name.chars, params)
   }
 
@@ -321,7 +272,7 @@ object JbjParser extends Parsers {
     case sign ~ term => NegExpr(sign.position, term)
   }
 
-  private def constant: Parser[Expr] = ident ^^ {
+  private def constant: Parser[Expr] = identLit ^^ {
     name => ConstGetExpr(name.position, name.chars)
   }
 
@@ -407,8 +358,11 @@ object JbjParser extends Parsers {
     elem("interpolated string literal", _.isInstanceOf[InterpolatedStringLit]) ^^ (_.asInstanceOf[InterpolatedStringLit])
 
   /** A parser which matches an identifier */
-  private def ident: Parser[Identifier] =
+  private def identLit: Parser[Identifier] =
     elem("identifier", _.isInstanceOf[Identifier]) ^^ (_.asInstanceOf[Identifier])
+
+  private def variableLit: Parser[Variable] =
+    elem("variable", _.isInstanceOf[Variable]) ^^ (_.asInstanceOf[Variable])
 
 
   //Simplify testing
@@ -426,47 +380,24 @@ object JbjParser extends Parsers {
   def main(args: Array[String]) = {
     test( """<?php
             |
-            |echo "\nSame variable used as static and non static.\n";
-            |function staticNonStatic() {
-            |	echo "---------\n";
-            |	$a=0;
-            |	echo "$a\n";
-            |	static $a=10;
-            |	echo "$a\n";
-            |	$a++;
-            |}
-            |staticNonStatic();
-            |staticNonStatic();
-            |staticNonStatic();
+            |$a = 5;
             |
-            |echo "\nLots of initialisations in the same statement.\n";
-            |function manyInits() {
-            |	static $counter=0;
-            |	echo "------------- Call $counter --------------\n";
-            |	static $a, $b=10, $c=20, $d, $e=30;
-            |	echo "Unitialised      : $a\n";
-            |	echo "Initialised to 10: $b\n";
-            |	echo "Initialised to 20: $c\n";
-            |	echo "Unitialised      : $d\n";
-            |	echo "Initialised to 30: $e\n";
-            |	$a++;
-            |	$b++;
-            |	$c++;
-            |	$d++;
-            |	$e++;
-            |	$counter++;
-            |}
-            |manyInits();
-            |manyInits();
-            |manyInits();
+            |var_dump($a);
             |
-            |echo "\nUsing static keyword at global scope\n";
-            |for ($i=0; $i<3; $i++) {
-            |   static $s, $k=10;
-            |   echo "$s $k\n";
-            |   $s++;
-            |   $k++;
+            |static $a = 10;
+            |static $a = 11;
+            |
+            |var_dump($a);
+            |
+            |function foo() {
+            |	static $a = 13;
+            |	static $a = 14;
+            |
+            |	var_dump($a);
             |}
+            |
+            |foo();
+            |
             |?>""".stripMargin)
   }
 }
