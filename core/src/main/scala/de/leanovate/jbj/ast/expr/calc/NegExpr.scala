@@ -1,4 +1,4 @@
-package de.leanovate.jbj.ast.expr
+package de.leanovate.jbj.ast.expr.calc
 
 import de.leanovate.jbj.ast.{FilePosition, Expr}
 import de.leanovate.jbj.runtime.Context

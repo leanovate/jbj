@@ -9,6 +9,7 @@ import scala.collection.mutable
 import scala.util.parsing.combinator.Parsers
 import de.leanovate.jbj.ast.expr.value._
 import scala.language.implicitConversions
+import de.leanovate.jbj.parser.JbjTokens._
 import de.leanovate.jbj.ast.expr.calc._
 import de.leanovate.jbj.ast.stmt.GlobalAssignStmt
 import de.leanovate.jbj.ast.expr.VariableReference
@@ -16,11 +17,11 @@ import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
 import de.leanovate.jbj.ast.expr.calc.AddExpr
 import de.leanovate.jbj.ast.expr.comp.BoolAndExpr
 import de.leanovate.jbj.ast.stmt.cond.IfStmt
-import de.leanovate.jbj.parser.JbjTokens.NumericLit
 import de.leanovate.jbj.ast.stmt.ReturnStmt
 import de.leanovate.jbj.ast.expr.calc.SubExpr
 import de.leanovate.jbj.ast.stmt.ClassDefStmt
 import scala.Some
+import de.leanovate.jbj.ast.expr.value.FloatConstExpr
 import de.leanovate.jbj.ast.expr.AssignExpr
 import de.leanovate.jbj.ast.expr.value.ConstGetExpr
 import de.leanovate.jbj.ast.expr.IndexReference
@@ -28,10 +29,10 @@ import de.leanovate.jbj.parser.JbjTokens.Inline
 import de.leanovate.jbj.ast.stmt.BreakStmt
 import de.leanovate.jbj.ast.expr.comp.LtExpr
 import de.leanovate.jbj.ast.expr.comp.GeExpr
+import de.leanovate.jbj.ast.expr.calc.BitAndExpr
 import de.leanovate.jbj.ast.Prog
 import de.leanovate.jbj.ast.stmt.ExprStmt
 import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
-import de.leanovate.jbj.ast.expr.NegExpr
 import de.leanovate.jbj.ast.stmt.ParameterDef
 import de.leanovate.jbj.ast.expr.DotExpr
 import de.leanovate.jbj.parser.JbjTokens.ScriptEnd
@@ -46,9 +47,12 @@ import de.leanovate.jbj.ast.stmt.Assignment
 import de.leanovate.jbj.ast.expr.PropertyReference
 import de.leanovate.jbj.parser.JbjTokens.Identifier
 import de.leanovate.jbj.ast.expr.comp.LeExpr
+import de.leanovate.jbj.ast.expr.calc.BitOrExpr
 import de.leanovate.jbj.ast.expr.GetAndDecrExpr
 import de.leanovate.jbj.ast.stmt.cond.CaseBlock
 import de.leanovate.jbj.ast.stmt.ContinueStmt
+import de.leanovate.jbj.parser.JbjTokens.LongNumLit
+import de.leanovate.jbj.ast.expr.calc.BitXorExpr
 import de.leanovate.jbj.ast.expr.IncrAndGetExpr
 import de.leanovate.jbj.ast.expr.CallFunctionExpr
 import de.leanovate.jbj.runtime.context.GlobalContext
@@ -74,7 +78,8 @@ object JbjParser extends Parsers {
   private val keywordCache = mutable.HashMap[String, Parser[Keyword]]()
 
   def value: Parser[Expr] =
-    (numericLit ^^ (s => IntegerConstExpr(s.position, s.chars.toLong))
+    (opt("+") ~> longNumLit ^^ (s => IntegerConstExpr(s.position, s.value))
+      | opt("+") ~> doubleNumLit ^^ (s => FloatConstExpr(s.position, s.value))
       | stringLit ^^ (s => StringConstExpr(s.position, s.chars))
       | interpolatedStringLit ^^ (s => InterpolatedStringExpr(s.position, s.charOrInterpolations))
       )
@@ -97,13 +102,13 @@ object JbjParser extends Parsers {
     property => PropertyReference(_: Reference, property.chars)
   }
 
-  def referenceExpr: Parser[Expr] = reference <~ "+" <~ "+" ^^ {
+  def referenceExpr: Parser[Expr] = reference <~ "++" ^^ {
     ref => GetAndIncrExpr(ref)
-  } | reference <~ "-" <~ "-" ^^ {
+  } | reference <~ "--" ^^ {
     ref => GetAndDecrExpr(ref)
-  } | "+" ~> "+" ~> reference ^^ {
+  } | "++" ~> reference ^^ {
     ref => GetAndIncrExpr(ref)
-  } | "-" ~> "-" ~> reference ^^ {
+  } | "--" ~> reference ^^ {
     ref => IncrAndGetExpr(ref)
   } | reference |
     "array" ~ "(" ~ repsep(arrayValues, ",") <~ ")" ^^ {
@@ -192,10 +197,10 @@ object JbjParser extends Parsers {
       case echo ~ params => EchoStmt(echo.position, params)
     } | "return" ~ expr ^^ {
       case ret ~ expr => ReturnStmt(ret.position, expr)
-    } | "break" ~ opt(numericLit) ^^ {
-      case br ~ depth => BreakStmt(br.position, depth.map(_.chars.toInt).getOrElse(1))
-    } | "continue" ~ opt(numericLit) ^^ {
-      case con ~ depth => ContinueStmt(con.position, depth.map(_.chars.toInt).getOrElse(1))
+    } | "break" ~ opt(longNumLit) ^^ {
+      case br ~ depth => BreakStmt(br.position, depth.map(_.value).getOrElse(1))
+    } | "continue" ~ opt(longNumLit) ^^ {
+      case con ~ depth => ContinueStmt(con.position, depth.map(_.value).getOrElse(1))
     } | expr ^^ {
       expr => ExprStmt(expr)
     }
@@ -324,8 +329,12 @@ object JbjParser extends Parsers {
     }) ^^ (_.asInstanceOf[Keyword]))
 
   /** A parser which matches a numeric literal */
-  def numericLit: Parser[NumericLit] =
-    elem("number", _.isInstanceOf[NumericLit]) ^^ (_.asInstanceOf[NumericLit])
+  def longNumLit: Parser[LongNumLit] =
+    elem("long number", _.isInstanceOf[LongNumLit]) ^^ (_.asInstanceOf[LongNumLit])
+
+  /** A parser which matches a numeric literal */
+  def doubleNumLit: Parser[DoubleNumLit] =
+    elem("double number", _.isInstanceOf[DoubleNumLit]) ^^ (_.asInstanceOf[DoubleNumLit])
 
   /** A parser which matches a string literal */
   def stringLit: Parser[StringLit] =
@@ -373,23 +382,47 @@ object JbjParser extends Parsers {
 
   //A main method for testing
   def main(args: Array[String]) = {
-    test( """<?php
+    test( """
+            |<?php
+            |var_dump(1234);
+            |var_dump(+456);
+            |var_dump(-123);
+            |var_dump(0x4d2);
+            |var_dump(+0x1C8);
+            |var_dump(-0x76);
+            |var_dump(02322);
+            |var_dump(+0710);
+            |var_dump(-0173);
+            |var_dump(0b10011010010);
+            |var_dump(+0b111001000);
+            |var_dump(-0b1111011);
             |
-            |$strVals = array(
-            |   "0","65","-44", "1.2", "-7.7", "abc", "123abc", "123e5", "123e5xyz", " 123abc", "123 abc", "123abc ", "3.4a",
-            |   "a5.9"
-            |);
+            |var_dump(.123);
+            |var_dump(+.123);
+            |var_dump(-.123);
+            |var_dump(123.);
+            |var_dump(+123.);
+            |var_dump(-123.);
+            |var_dump(123.4);
+            |var_dump(+123.4);
+            |var_dump(-123.4);
             |
-            |error_reporting(E_ERROR);
+            |var_dump(.123E5);
+            |var_dump(.123E+5);
+            |var_dump(.123e-5);
+            |var_dump(123.E5);
+            |var_dump(123e5);
             |
-            |foreach ($strVals as $strVal) {
-            |   foreach($strVals as $otherVal) {
-            |	   echo "--- testing: '$strVal' + '$otherVal' ---\n";
-            |      var_dump($strVal+$otherVal);
-            |   }
-            |}
+            |$large_number = 9223372036854775807;
+            |var_dump($large_number);                     // int(9223372036854775807)
             |
+            |$large_number = 9223372036854775808;
+            |var_dump($large_number);                     // float(9.2233720368548E+18)
             |
-            |?>""".stripMargin)
+            |$million = 1000000;
+            |$large_number =  50000000000000 * $million;
+            |var_dump($large_number);                     // float(5.0E+19)
+            |?>
+            |""".stripMargin)
   }
 }

@@ -30,8 +30,16 @@ object JbjTokens {
     override def toString = "`" + chars + "'"
   }
 
-  case class NumericLit(position: FilePosition, chars: String) extends Token {
+  case class LongNumLit(position: FilePosition, chars: String, value: Long) extends Token {
     override def toString = chars
+  }
+
+  case class DoubleNumLit(position: FilePosition, chars: String, value: Double) extends Token {
+    override def toString = chars
+  }
+
+  object DoubleNumLit {
+    def apply(position: FilePosition, chars: String): DoubleNumLit = DoubleNumLit(position, chars, chars.toDouble)
   }
 
   case class StringLit(position: FilePosition, chars: String) extends Token {

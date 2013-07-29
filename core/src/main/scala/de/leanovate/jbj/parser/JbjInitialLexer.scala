@@ -13,14 +13,14 @@ class JbjInitialLexer(fileName: String, in: Reader[Char]) extends Reader[Token] 
 
   private val position = FilePosition(fileName, in.pos.line)
 
-  private val (tok, rest1) = inline(in) match {
-    case Success(tok, in) => (tok, in)
+  private val (token, rest1) = inline(in) match {
+    case Success(tok, i) => (tok, i)
     case ns: NoSuccess => (errorToken(position, ns.msg), ns.next)
   }
 
-  def first = tok
+  def first = token
 
-  def rest = tok match {
+  def rest = token match {
     case ScriptStart(_) => new JbjScriptLexer(fileName, rest1)
     case ScriptStartEcho(_) => new JbjScriptLexer(fileName, rest1)
     case _ => new JbjInitialLexer(fileName, rest1)
@@ -32,11 +32,11 @@ class JbjInitialLexer(fileName: String, in: Reader[Char]) extends Reader[Token] 
 
   private def inline: Parser[Token] =
     (scriptStart ^^^ ScriptStart(position)
-      | '<' ~ '?' ~ php ~ witespaceChar ^^^ ScriptStart(position)
-      | '<' ~ '?' ~ '=' ~ witespaceChar ^^^ ScriptStartEcho(position)
-      | '<' ~ '?' ^^^ ScriptStart(position)
-      | '<' ~ '%' ~ '=' ^^^ ScriptStartEcho(position)
-      | '<' ~ '%' ^^^ ScriptStart(position)
+      | str("<?php") ~ witespaceChar ^^^ ScriptStart(position)
+      | str("<?=") ^^^ ScriptStartEcho(position)
+      | str("<?") ^^^ ScriptStart(position)
+      | str("<%=") ^^^ ScriptStartEcho(position)
+      | str("<%") ^^^ ScriptStart(position)
       | '<' ^^^ Inline(position, "<")
       | EofCh ^^^ EOF(position)
       | rep(chrExcept(EofCh, '<')) ^^ {
@@ -59,5 +59,7 @@ class JbjInitialLexer(fileName: String, in: Reader[Char]) extends Reader[Token] 
   private def php = 'p' ~ 'h' ~ 'p'
 
   /** A character-parser that matches any character except the ones given in `cs` (and returns it). */
-  private def chrExcept(cs: Char*) = elem("", ch => (cs forall (ch != _)))
+  private def chrExcept(cs: Char*) = elem("", ch => cs.forall(ch.!=))
+
+  private def str(str: String): Parser[Any] = accept(str.toList)
 }
