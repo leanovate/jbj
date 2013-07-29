@@ -19,7 +19,7 @@ import de.leanovate.jbj.ast.expr.comp.BoolAndExpr
 import de.leanovate.jbj.ast.stmt.cond.IfStmt
 import de.leanovate.jbj.ast.stmt.ReturnStmt
 import de.leanovate.jbj.ast.expr.calc.SubExpr
-import de.leanovate.jbj.ast.stmt.ClassDefStmt
+import de.leanovate.jbj.ast.stmt.ClassDeclStmt
 import scala.Some
 import de.leanovate.jbj.ast.expr.value.FloatConstExpr
 import de.leanovate.jbj.ast.expr.AssignExpr
@@ -40,7 +40,7 @@ import de.leanovate.jbj.ast.expr.value.IntegerConstExpr
 import de.leanovate.jbj.ast.stmt.StaticAssignStmt
 import de.leanovate.jbj.parser.JbjTokens.InterpolatedStringLit
 import de.leanovate.jbj.ast.stmt.AssignStmt
-import de.leanovate.jbj.ast.stmt.FunctionDefStmt
+import de.leanovate.jbj.ast.stmt.FunctionDeclStmt
 import de.leanovate.jbj.ast.stmt.Assignment
 import de.leanovate.jbj.ast.expr.PropertyReference
 import de.leanovate.jbj.parser.JbjTokens.Identifier
@@ -73,6 +73,68 @@ object JbjParser extends Parsers {
   type Elem = JbjTokens.Token
 
   private val keywordCache = mutable.HashMap[String, Parser[Keyword]]()
+
+  def start: Parser[Prog] = rep(closedStmt) ^^ {
+    stmts => Prog(FilePosition("-", 0), stmts)
+  }
+
+  def topStatementList: Parser[List[Stmt]] = rep(topStatement)
+
+  def topStatement: Parser[Stmt] = statement | functionDeclarationStatement
+
+  def innerStatementList: Parser[List[Stmt]] = rep(innerStatement)
+
+  def innerStatement: Parser[Stmt] = statement
+
+  def statement: Parser[Stmt] = ident <~ ":" ^^ {
+    label => LabelStmt(label.position, label.chars)
+  } | untickedStatement <~ rep(";")
+
+  def untickedStatement: Parser[Stmt] =
+    "{" ~ innerStatementList <~ "}" ^^ {
+      case paren ~ stmts => BlockStmt(paren.position, stmts)
+    } | "if" ~ parenthesisExpr ~ statement ~ elseIfList ~ elseSingle ^^ {
+      case ifT ~ cond ~ thenStmt ~ elseIfs ~ elseStmt =>
+        IfStmt(ifT.position, cond, thenStmt :: Nil, elseIfs, elseStmt)
+    } | "if" ~ parenthesisExpr ~ ":" ~ innerStatementList ~ newElseIfList ~ newElseSingle <~ "endif" ^^ {
+      case ifT ~ cond ~ _ ~ thenStmts ~ elseIfs ~ elseStmts =>
+        IfStmt(ifT.position, cond, thenStmts, elseIfs, elseStmts)
+    } | "break" ~ opt(expr) ^^ {
+      case br ~ depth => BreakStmt(br.position, depth)
+    } | "continue" ~ opt(expr) ^^ {
+      case con ~ depth => ContinueStmt(con.position, depth)
+    } | "return" ~ opt(expr) <~ ";" ^^ {
+      case ret ~ expr => ReturnStmt(ret.position, expr)
+    } | "echo" ~ echoExprList <~ ";" ^^ {
+      case echo ~ params => EchoStmt(echo.position, params)
+    } | inlineHtml | expr <~ ";" ^^ {
+      expr => ExprStmt(expr)
+    }
+
+  def functionDeclarationStatement: Parser[FunctionDeclStmt] = untickedFunctionDeclarationStatement <~ rep(";")
+
+  def untickedFunctionDeclarationStatement: Parser[FunctionDeclStmt] =
+    "function" ~ opt("&") ~ ident ~ "(" ~ parameterList ~ ")" ~ "{" ~ innerStatementList <~ "}" ^^ {
+      case func ~ isRef ~ name ~ _ ~ params ~ _ ~ _ ~ body => FunctionDeclStmt(func.position, name.chars, params, body)
+    }
+
+  def elseIfList: Parser[List[ElseIfBlock]] = rep("elseif" ~> parenthesisExpr ~ statement ^^ {
+    case cond ~ stmt => ElseIfBlock(cond, stmt :: Nil)
+  })
+
+  def newElseIfList: Parser[List[ElseIfBlock]] = rep("elseif" ~> parenthesisExpr ~ ":" ~ innerStatementList ^^ {
+    case cond ~ _ ~ stmts => ElseIfBlock(cond, stmts)
+  })
+
+  def elseSingle: Parser[List[Stmt]] = opt("else" ~> statement) ^^ (_.toList)
+
+  def newElseSingle: Parser[List[Stmt]] = opt("else" ~> ":" ~> innerStatementList) ^^ (_.toList.flatten)
+
+  def parameterList: Parser[List[ParameterDef]] = rep(parameterDef)
+
+  def echoExprList: Parser[List[Expr]] = rep1sep(expr, ",")
+
+  def parenthesisExpr: Parser[Expr] = "(" ~> expr <~ ")"
 
   def value: Parser[Expr] =
     (opt("+") ~> longNumLit ^^ (s => IntegerConstExpr(s.position, s.value))
@@ -192,12 +254,12 @@ object JbjParser extends Parsers {
       assignments => AssignStmt(assignments.head.position, Set.empty[Modifier.Type], assignments)
     } | "echo" ~ rep1sep(expr, ",") ^^ {
       case echo ~ params => EchoStmt(echo.position, params)
-    } | "return" ~ expr ^^ {
+    } | "return" ~ opt(expr) ^^ {
       case ret ~ expr => ReturnStmt(ret.position, expr)
-    } | "break" ~ opt(longNumLit) ^^ {
-      case br ~ depth => BreakStmt(br.position, depth.map(_.value).getOrElse(1))
-    } | "continue" ~ opt(longNumLit) ^^ {
-      case con ~ depth => ContinueStmt(con.position, depth.map(_.value).getOrElse(1))
+    } | "break" ~ opt(expr) ^^ {
+      case br ~ depth => BreakStmt(br.position, depth)
+    } | "continue" ~ opt(expr) ^^ {
+      case con ~ depth => ContinueStmt(con.position, depth)
     } | expr ^^ {
       expr => ExprStmt(expr)
     }
@@ -216,7 +278,7 @@ object JbjParser extends Parsers {
   }
 
   def blockLikeStmt: Parser[Stmt] =
-    inline | ifStmt | switchStmt | whileStmt | forStmt | foreachStmt | functionDef | classDef | block
+    inlineHtml | ifStmt | switchStmt | whileStmt | forStmt | foreachStmt | functionDef | classDef | block
 
   def closedStmt: Parser[Stmt] = regularStmt <~ rep1(";") | blockLikeStmt <~ rep(";")
 
@@ -225,11 +287,11 @@ object JbjParser extends Parsers {
   }
 
   def ifStmt: Parser[IfStmt] = "if" ~ "(" ~ expr ~ ")" ~ closedStmt ~ rep(elseIfBlock) ~ opt("else" ~> closedStmt) ^^ {
-    case ifT ~ _ ~ cond ~ _ ~ thenBlock ~ elseIfs ~ optElse => IfStmt(ifT.position, cond, thenBlock, elseIfs, optElse)
+    case ifT ~ _ ~ cond ~ _ ~ thenStmt ~ elseIfs ~ optElse => IfStmt(ifT.position, cond, thenStmt :: Nil, elseIfs, optElse.toList)
   }
 
   def elseIfBlock: Parser[ElseIfBlock] = "elseif" ~> "(" ~> expr ~ ")" ~ closedStmt ^^ {
-    case cond ~ _ ~ thenBlock => ElseIfBlock(cond, thenBlock)
+    case cond ~ _ ~ thenBlock => ElseIfBlock(cond, thenBlock :: Nil)
   }
 
   def switchStmt: Parser[SwitchStmt] = "switch" ~ "(" ~ expr ~ ")" ~ "{" ~ switchCases ~ "}" ^^ {
@@ -260,24 +322,20 @@ object JbjParser extends Parsers {
       ForeachKeyValueStmt(fo.position, arrayExpr, keyVar.variableName, valueVar.variableName, stmt)
   }
 
-  def functionDef: Parser[FunctionDefStmt] = "function" ~ ident ~ "(" ~ parameterDefs ~ ")" ~ block ^^ {
-    case func ~ name ~ _ ~ parameters ~ _ ~ body => FunctionDefStmt(func.position, name.chars, parameters, body)
+  def functionDef: Parser[FunctionDeclStmt] = "function" ~ ident ~ "(" ~ parameterDefs ~ ")" ~ block ^^ {
+    case func ~ name ~ _ ~ parameters ~ _ ~ body => FunctionDeclStmt(func.position, name.chars, parameters, body.stmts)
   }
 
-  def classDef: Parser[ClassDefStmt] = "class" ~ ident ~ opt("extends" ~> ident) ~ block ^^ {
+  def classDef: Parser[ClassDeclStmt] = "class" ~ ident ~ opt("extends" ~> ident) ~ block ^^ {
     case cls ~ className ~ superClassName ~ body =>
-      ClassDefStmt(cls.position, className.chars, superClassName.map(_.chars), body)
+      ClassDeclStmt(cls.position, className.chars, superClassName.map(_.chars), body)
   }
 
   def parameterDefs: Parser[List[ParameterDef]] = repsep(parameterDef, ",")
 
   def parameterDef: Parser[ParameterDef] = variable ^^ (v => ParameterDef(v.variableName, byRef = false, default = None))
 
-  def prog: Parser[Prog] = rep(closedStmt) ^^ {
-    stmts => Prog(FilePosition("-", 0), stmts)
-  }
-
-  def inline: Parser[InlineStmt] =
+  def inlineHtml: Parser[InlineStmt] =
     elem("inline", _.isInstanceOf[Inline]) ^^ {
       t => InlineStmt(t.position, t.chars)
     }
@@ -314,7 +372,7 @@ object JbjParser extends Parsers {
 
   def parse(s: String): ParseResult[Prog] = {
     val tokens = new JbjInitialLexer(s)
-    phrase(prog)(tokens)
+    phrase(start)(tokens)
   }
 
   def parseExpr(s: String): Expr = {
@@ -347,46 +405,45 @@ object JbjParser extends Parsers {
 
   //A main method for testing
   def main(args: Array[String]) = {
-    test( """
-            |<?php
-            |var_dump(1234);
-            |var_dump(+456);
-            |var_dump(-123);
-            |var_dump(0x4d2);
-            |var_dump(+0x1C8);
-            |var_dump(-0x76);
-            |var_dump(02322);
-            |var_dump(+0710);
-            |var_dump(-0173);
-            |var_dump(0b10011010010);
-            |var_dump(+0b111001000);
-            |var_dump(-0b1111011);
+    test( """<?php
+            | var_dump (1234);
+            | var_dump (+456);
+            | var_dump (-123);
+            | var_dump (0x4d2);
+            | var_dump (+0x1C8);
+            | var_dump (-0x76);
+            | var_dump (02322);
+            | var_dump (+0710);
+            | var_dump (-0173);
+            | var_dump (0b10011010010);
+            | var_dump (+0b111001000);
+            | var_dump (-0b1111011);
             |
-            |var_dump(.123);
-            |var_dump(+.123);
-            |var_dump(-.123);
-            |var_dump(123.);
-            |var_dump(+123.);
-            |var_dump(-123.);
-            |var_dump(123.4);
-            |var_dump(+123.4);
-            |var_dump(-123.4);
+            | var_dump (.123);
+            | var_dump (+.123);
+            | var_dump (-.123);
+            | var_dump (123.);
+            | var_dump (+123.);
+            | var_dump (-123.);
+            | var_dump (123.4);
+            | var_dump (+123.4);
+            | var_dump (-123.4);
             |
-            |var_dump(.123E5);
-            |var_dump(.123E+5);
-            |var_dump(.123e-5);
-            |var_dump(123.E5);
-            |var_dump(123e5);
+            | var_dump (.123E5);
+            | var_dump (.123E+5);
+            | var_dump (.123e-5);
+            | var_dump (123.E5);
+            | var_dump (123e5);
             |
-            |$large_number = 9223372036854775807;
-            |var_dump($large_number);                     // int(9223372036854775807)
+            | $large_number = 9223372036854775807;
+            | var_dump ($large_number); // int(9223372036854775807)
             |
-            |$large_number = 9223372036854775808;
-            |var_dump($large_number);                     // float(9.2233720368548E+18)
+            | $large_number = 9223372036854775808;
+            | var_dump ($large_number); // float(9.2233720368548E+18)
             |
-            |$million = 1000000;
-            |$large_number =  50000000000000 * $million;
-            |var_dump($large_number);                     // float(5.0E+19)
+            | $million = 1000000;
+            | $large_number = 50000000000000 * $million;
+            | var_dump ($large_number); // float(5.0E+19)
             |?>
             | """.stripMargin)
   }

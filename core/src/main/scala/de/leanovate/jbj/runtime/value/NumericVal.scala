@@ -7,6 +7,10 @@ trait NumericVal extends Value {
 
   def toDouble: Double
 
+  def toLong: Long
+
+  def toInt: Int
+
   def isNull = false
 
   def isUndefined = false

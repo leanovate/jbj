@@ -15,6 +15,10 @@ case class IntegerVal(value: Long) extends NumericVal {
 
   def toDouble: Double = value
 
+  def toLong = value
+
+  def toInt: Int = value.toInt
+
   def toBool = BooleanVal(value != 0)
 
   def incr = IntegerVal(value + 1)

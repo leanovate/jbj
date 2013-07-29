@@ -15,6 +15,10 @@ case class FloatVal(value: Double) extends NumericVal {
 
   def toDouble: Double = value
 
+  def toLong = value.toLong
+
+  def toInt = value.toInt
+
   def toBool = BooleanVal(value != 0.0)
 
   def incr = FloatVal(value + 1)

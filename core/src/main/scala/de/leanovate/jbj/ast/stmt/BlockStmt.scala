@@ -9,12 +9,11 @@ import de.leanovate.jbj.runtime.context.BlockContext
 
 case class BlockStmt(position: FilePosition, identifier: String, stmts: List[Stmt]) extends Stmt {
   override def exec(ctx: Context) = {
-    val blockCtx = BlockContext(identifier, ctx)
-    execStmts(stmts, blockCtx)
+    execStmts(stmts, ctx)
   }
 
   @tailrec
-  private def execStmts(statements: List[Stmt], context: BlockContext): ExecResult = statements match {
+  private def execStmts(statements: List[Stmt], context: Context): ExecResult = statements match {
     case head :: tail => head.exec(context) match {
       case SuccessExecResult() => execStmts(tail, context)
       case result => result

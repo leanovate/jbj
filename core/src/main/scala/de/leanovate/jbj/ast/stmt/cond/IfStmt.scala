@@ -1,20 +1,30 @@
 package de.leanovate.jbj.ast.stmt.cond
 
 import de.leanovate.jbj.ast.{FilePosition, Stmt, Expr}
-import de.leanovate.jbj.runtime.{SuccessExecResult, Context}
+import de.leanovate.jbj.runtime.{ExecResult, SuccessExecResult, Context}
+import scala.annotation.tailrec
 
-case class IfStmt(position: FilePosition, condition: Expr, thenBlock: Stmt, elseIfs: List[ElseIfBlock], elseBlock: Option[Stmt])
+case class IfStmt(position: FilePosition, condition: Expr, thenStmts: List[Stmt], elseIfs: List[ElseIfBlock], elseStmts: List[Stmt])
   extends Stmt {
 
   def exec(ctx: Context) = {
     if (condition.eval(ctx).toBool.value) {
-      thenBlock.exec(ctx)
+      execStmts(thenStmts, ctx)
     } else {
       elseIfs.find(_.condition.eval(ctx).toBool.value).map {
-        elseIf => elseIf.thenBlock.exec(ctx)
+        elseIf => execStmts(elseIf.themStmts, ctx)
       }.getOrElse {
-        elseBlock.map(_.exec(ctx)).getOrElse(SuccessExecResult())
+        execStmts(elseStmts, ctx)
       }
     }
+  }
+
+  @tailrec
+  private def execStmts(statements: List[Stmt], context: Context): ExecResult = statements match {
+    case head :: tail => head.exec(context) match {
+      case SuccessExecResult() => execStmts(tail, context)
+      case result => result
+    }
+    case Nil => SuccessExecResult()
   }
 }
