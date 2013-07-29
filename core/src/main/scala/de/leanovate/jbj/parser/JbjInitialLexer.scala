@@ -1,9 +1,11 @@
 package de.leanovate.jbj.parser
 
 import scala.util.parsing.input.{CharArrayReader, Reader}
-import de.leanovate.jbj.parser.JbjTokens.{Token, Inline, ScriptStart, ScriptStartEcho, EOF, errorToken}
+import de.leanovate.jbj.parser.JbjTokens._
 import scala.util.parsing.combinator.Parsers
 import scala.util.parsing.input.CharArrayReader.EofCh
+import de.leanovate.jbj.parser.JbjTokens.Inline
+import de.leanovate.jbj.parser.JbjTokens.EOF
 import de.leanovate.jbj.ast.FilePosition
 
 class JbjInitialLexer(fileName: String, in: Reader[Char]) extends Reader[Token] with Parsers {
@@ -13,34 +15,30 @@ class JbjInitialLexer(fileName: String, in: Reader[Char]) extends Reader[Token] 
 
   private val position = FilePosition(fileName, in.pos.line)
 
-  private val (token, rest1) = inline(in) match {
-    case Success(tok, i) => (tok, i)
-    case ns: NoSuccess => (errorToken(position, ns.msg), ns.next)
+  private val (token, startScript, rest1) = inline(in) match {
+    case Success((tok, script), i) => (tok, script, i)
+    case ns: NoSuccess => (errorToken(position, ns.msg), false, ns.next)
   }
 
   def first = token
 
-  def rest = token match {
-    case ScriptStart(_) => new JbjScriptLexer(fileName, rest1)
-    case ScriptStartEcho(_) => new JbjScriptLexer(fileName, rest1)
-    case _ => new JbjInitialLexer(fileName, rest1)
-  }
+  def rest = if (startScript) new JbjScriptLexer(fileName, rest1) else new JbjInitialLexer(fileName, rest1)
 
   def pos = rest1.pos
 
   def atEnd = in.atEnd
 
-  private def inline: Parser[Token] =
-    (scriptStart ^^^ ScriptStart(position)
-      | str("<?php") ~ witespaceChar ^^^ ScriptStart(position)
-      | str("<?=") ^^^ ScriptStartEcho(position)
-      | str("<?") ^^^ ScriptStart(position)
-      | str("<%=") ^^^ ScriptStartEcho(position)
-      | str("<%") ^^^ ScriptStart(position)
-      | '<' ^^^ Inline(position, "<")
-      | EofCh ^^^ EOF(position)
+  private def inline: Parser[(Token, Boolean)] =
+    (scriptStart ^^^ Inline(position, "") -> true
+      | str("<?php") ~ witespaceChar ^^^ Inline(position, "") -> true
+      | str("<?=") ^^^ Keyword(position, "echo") -> true
+      | str("<?") ^^^ Inline(position, "") -> true
+      | str("<%=") ^^^ Keyword(position, "echo") -> true
+      | str("<%") ^^^ Inline(position, "") -> true
+      | '<' ^^^ Inline(position, "<") -> false
+      | EofCh ^^^ EOF(position) -> false
       | rep(chrExcept(EofCh, '<')) ^^ {
-      chars => Inline(position, chars mkString "")
+      chars => Inline(position, chars mkString "") -> false
     })
 
   private def scriptStart = script ~ optWhitespace ~ language ~ optWhitespace ~ '=' ~

@@ -63,14 +63,6 @@ object JbjTokens {
     override def toString = "\"" + chars + "\""
   }
 
-  case class ScriptStart(position: FilePosition) extends Token {
-    def chars = "<?php>"
-  }
-
-  case class ScriptStartEcho(position: FilePosition) extends Token {
-    def chars = "<?="
-  }
-
   case class ScriptEnd(position: FilePosition) extends Token {
     def chars = "?>"
   }

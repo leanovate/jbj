@@ -36,7 +36,6 @@ import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
 import de.leanovate.jbj.ast.stmt.ParameterDef
 import de.leanovate.jbj.ast.expr.DotExpr
 import de.leanovate.jbj.parser.JbjTokens.ScriptEnd
-import de.leanovate.jbj.parser.JbjTokens.ScriptStart
 import de.leanovate.jbj.ast.expr.calc.MulExpr
 import de.leanovate.jbj.ast.expr.value.IntegerConstExpr
 import de.leanovate.jbj.ast.stmt.StaticAssignStmt
@@ -68,7 +67,6 @@ import de.leanovate.jbj.ast.expr.comp.BoolXorExpr
 import de.leanovate.jbj.ast.FilePosition
 import de.leanovate.jbj.ast.expr.comp.GtExpr
 import de.leanovate.jbj.ast.expr.GetAndIncrExpr
-import de.leanovate.jbj.parser.JbjTokens.ScriptStartEcho
 import de.leanovate.jbj.ast.expr.calc.DivExpr
 import de.leanovate.jbj.ast.stmt.EchoStmt
 
@@ -228,7 +226,7 @@ object JbjParser extends Parsers {
   }
 
   def stmtsOrInline: Parser[List[Stmt]] = rep(rep1(closedStmt) |
-    opt(regularStmt) ~ scriptEnd ~ rep(inline) <~ scriptStart ^^ {
+    opt(regularStmt) ~ scriptEnd ~ rep(inline) ^^ {
       case optUnclosed ~ _ ~ inline => optUnclosed.toList ++ inline
     }) ^^ {
     stmts => stmts.flatten
@@ -287,12 +285,7 @@ object JbjParser extends Parsers {
 
   def parameterDef: Parser[ParameterDef] = variable ^^ (v => ParameterDef(v.variableName, byRef = false, default = None))
 
-  def script: Parser[List[Stmt]] =
-    scriptStart ~> stmtsWithUnclosed |
-      scriptStartEcho ~ rep1sep(expr, ",") ~ opt(";" ~> stmtsWithUnclosed) ^^ {
-        case start ~ params ~ None => EchoStmt(start.position, params) :: Nil
-        case start ~ params ~ Some(stmts) => EchoStmt(start.position, params) :: stmts
-      }
+  def script: Parser[List[Stmt]] = stmtsWithUnclosed
 
   def inlineAndScript: Parser[List[Stmt]] = rep(inline) ~ opt(script) ^^ {
     case inline ~ None => inline
@@ -307,12 +300,6 @@ object JbjParser extends Parsers {
     elem("inline", _.isInstanceOf[Inline]) ^^ {
       t => InlineStmt(t.position, t.chars)
     }
-
-  def scriptStart: Parser[String] =
-    elem("scriptStart", _.isInstanceOf[ScriptStart]) ^^ (_.chars)
-
-  def scriptStartEcho: Parser[ScriptStartEcho] =
-    elem("scriptStartEcho", _.isInstanceOf[ScriptStartEcho]) ^^ (_.asInstanceOf[ScriptStartEcho])
 
   def scriptEnd: Parser[String] =
     elem("scriptEnd", _.isInstanceOf[ScriptEnd]) ^^ (_.chars)
@@ -423,6 +410,6 @@ object JbjParser extends Parsers {
             |$large_number =  50000000000000 * $million;
             |var_dump($large_number);                     // float(5.0E+19)
             |?>
-            |""".stripMargin)
+            | """.stripMargin)
   }
 }
