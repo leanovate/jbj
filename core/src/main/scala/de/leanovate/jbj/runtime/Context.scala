@@ -27,7 +27,7 @@ trait Context {
 
   def defineVariable(name: String, valueRef: ValueRef)
 
-  def undefineVariable(name:String)
+  def undefineVariable(name: String)
 
   def findFunction(name: String): Option[PFunction]
 

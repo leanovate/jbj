@@ -1,6 +1,6 @@
 package de.leanovate.jbj.ast.stmt.cond
 
-import de.leanovate.jbj.ast.{StaticInitializer, NodePosition, Stmt, Expr}
+import de.leanovate.jbj.ast.{StaticInitializer, Stmt, Expr}
 import de.leanovate.jbj.runtime.{ExecResult, SuccessExecResult, Context}
 import scala.annotation.tailrec
 

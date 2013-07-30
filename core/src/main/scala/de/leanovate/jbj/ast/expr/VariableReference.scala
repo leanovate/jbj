@@ -1,6 +1,6 @@
 package de.leanovate.jbj.ast.expr
 
-import de.leanovate.jbj.ast.{Reference, NodePosition}
+import de.leanovate.jbj.ast.Reference
 import de.leanovate.jbj.runtime.{ValueRef, Value, Context}
 import de.leanovate.jbj.runtime.value.UndefinedVal
 

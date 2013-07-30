@@ -1,12 +1,12 @@
 package de.leanovate.jbj.ast.expr.value
 
-import de.leanovate.jbj.ast.{NodePosition, Expr}
+import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.value.StringVal
-import de.leanovate.jbj.parser.JbjParser
+import de.leanovate.jbj.parser.{ParseContext, JbjParser}
 import de.leanovate.jbj.ast.expr.ScalarExpr
 
-case class InterpolatedStringExpr( format: String, interpolations: List[Expr]) extends Expr {
+case class InterpolatedStringExpr(format: String, interpolations: List[Expr]) extends Expr {
   def eval(ctx: Context) = {
     val values = interpolations.map(_.eval(ctx).toStr.value)
     StringVal(format.format(values: _*))
@@ -14,7 +14,7 @@ case class InterpolatedStringExpr( format: String, interpolations: List[Expr]) e
 }
 
 object InterpolatedStringExpr {
-  def apply(fileName:String, charOrInterpolations: List[Either[Char, String]]): Expr = {
+  def apply(parseCtx: ParseContext, charOrInterpolations: List[Either[Char, String]]): Expr = {
     val str = charOrInterpolations.foldLeft(StringBuilder.newBuilder) {
       case (b, Left(ch)) =>
         b += ch
@@ -22,7 +22,7 @@ object InterpolatedStringExpr {
         b ++= "%s"
     }.result()
     val interpolations = charOrInterpolations.filter(_.isRight).map {
-      s => new JbjParser(fileName).parseExpr(s.right.get)
+      s => new JbjParser(parseCtx).parseExpr(s.right.get)
     }
 
     if (interpolations.isEmpty)

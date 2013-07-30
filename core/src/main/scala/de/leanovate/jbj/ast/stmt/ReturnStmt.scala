@@ -1,6 +1,6 @@
 package de.leanovate.jbj.ast.stmt
 
-import de.leanovate.jbj.ast.{NodePosition, Stmt, Expr}
+import de.leanovate.jbj.ast.{Stmt, Expr}
 import de.leanovate.jbj.runtime.{ReturnExecResult, Context}
 import de.leanovate.jbj.runtime.value.UndefinedVal
 

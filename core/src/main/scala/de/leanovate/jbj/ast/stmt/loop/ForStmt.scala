@@ -1,12 +1,12 @@
 package de.leanovate.jbj.ast.stmt.loop
 
-import de.leanovate.jbj.ast.{StaticInitializer, NodePosition, Expr, Stmt}
+import de.leanovate.jbj.ast.{StaticInitializer, Expr, Stmt}
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.SuccessExecResult
 import scala.annotation.tailrec
 
-case class ForStmt( befores: List[Expr], conditions: List[Expr], afters: List[Expr], stmts: List[Stmt])
+case class ForStmt(befores: List[Expr], conditions: List[Expr], afters: List[Expr], stmts: List[Stmt])
   extends Stmt with StaticInitializer {
 
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])

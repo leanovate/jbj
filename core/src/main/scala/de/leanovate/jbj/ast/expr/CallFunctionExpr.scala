@@ -1,6 +1,6 @@
 package de.leanovate.jbj.ast.expr
 
-import de.leanovate.jbj.ast.{NodePosition, Expr}
+import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.runtime.Context
 
 case class CallFunctionExpr(functionName: String, parameters: List[Expr]) extends Expr {

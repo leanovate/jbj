@@ -1,6 +1,6 @@
 package de.leanovate.jbj.ast.stmt.loop
 
-import de.leanovate.jbj.ast.{StaticInitializer, NodePosition, Stmt, Expr}
+import de.leanovate.jbj.ast.{StaticInitializer, Stmt, Expr}
 import de.leanovate.jbj.runtime._
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.value.ArrayVal
@@ -8,7 +8,7 @@ import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.runtime.value.ArrayVal.ArrayKey
 
-case class ForeachKeyValueStmt( arrayExpr: Expr, keyName: String, valueName: String,
+case class ForeachKeyValueStmt(arrayExpr: Expr, keyName: String, valueName: String,
                                stmts: List[Stmt]) extends Stmt with StaticInitializer {
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 

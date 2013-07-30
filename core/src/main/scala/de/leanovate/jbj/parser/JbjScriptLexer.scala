@@ -66,7 +66,7 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
       case _ ~ _ ~ hex => convertNum(hex mkString "", 16) -> false
     } | digit ~ rep(digit) ^^ {
       case first ~ rest => convertNum(first :: rest mkString "", 10) -> false
-    } | '$' ~>  identChar ~ rep(identChar | digit) ^^ {
+    } | '$' ~> identChar ~ rep(identChar | digit) ^^ {
       case first ~ rest => Variable(first :: rest mkString "") -> false
     } | '\'' ~ notInterpolatedStr ~ '\'' ^^ {
       case '\'' ~ str ~ '\'' => StringLit(str) -> false
@@ -132,7 +132,7 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
     whitespaceChar
       | '/' ~ '*' ~ comment
       | '/' ~ '/' ~ rep(chrExcept(EofCh, '\n'))
-      | '#' ~rep(chrExcept(EofCh, '\n'))
+      | '#' ~ rep(chrExcept(EofCh, '\n'))
       | '/' ~ '*' ~ failure("unclosed comment")
   )
 

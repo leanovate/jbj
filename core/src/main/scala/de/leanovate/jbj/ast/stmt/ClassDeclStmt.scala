@@ -1,9 +1,9 @@
 package de.leanovate.jbj.ast.stmt
 
-import de.leanovate.jbj.ast.{NamespaceName, ClassEntry, NodePosition, Stmt}
+import de.leanovate.jbj.ast.{NamespaceName, ClassEntry, Stmt}
 import de.leanovate.jbj.runtime.{SuccessExecResult, Context}
 
-case class ClassDeclStmt( classEntry: ClassEntry.Type, className: String,
+case class ClassDeclStmt(classEntry: ClassEntry.Type, className: String,
                          superClassName: Option[NamespaceName], implements: List[NamespaceName], stmts: List[Stmt])
   extends Stmt {
 
