@@ -239,18 +239,39 @@ object JbjParser extends Parsers {
 
   private def classStatementList: Parser[List[Stmt]] = rep(classStatement)
 
-  private def classStatement: Parser[Stmt] = "function" ^^^ BreakStmt(null, None)
+  private def classStatement: Parser[Stmt] = variableModifiers ~ classVariableDeclaration <~ ";" ^^ {
+    case (modifiers, position) ~ assignments => ClassVarDeclStmt(position, modifiers, assignments)
+  } | classConstantDeclaration ^^ {
+    case (assignments, position) => ClassConstDeclStmt(position, assignments)
+  }
 
   private def methodBody: Parser[List[Stmt]] = ";" ^^^ Nil | "{" ~> innerStatementList <~ "}"
 
-  private def variableModifiers: Parser[Set[MemberModifier.Type]] = nonEmptyMemberModifiers |
-    "var" ^^^ Set.empty[MemberModifier.Type]
+  private def variableModifiers: Parser[(Set[MemberModifier.Type], FilePosition)] = nonEmptyMemberModifiers |
+    "var" ^^ (Set.empty[MemberModifier.Type] -> _.position)
 
-  private def nonEmptyMemberModifiers: Parser[Set[MemberModifier.Type]] = rep1(memberModifier) ^^ (_.toSet)
+  private def methodModifiers: Parser[Option[(Set[MemberModifier.Type], FilePosition)]] = opt(nonEmptyMemberModifiers)
 
-  private def memberModifier: Parser[MemberModifier.Type] = "public" ^^^ MemberModifier.PUBLIC | "protected" ^^^ MemberModifier.PROTECTED |
-    "private" ^^^ MemberModifier.PRIVATE | "static" ^^^ MemberModifier.STATIC | "final" ^^^ MemberModifier.FINAL |
-    "abstract" ^^^ MemberModifier.ABSTRACT
+  private def nonEmptyMemberModifiers: Parser[(Set[MemberModifier.Type], FilePosition)] =
+    rep1(memberModifier) ^^ (mods => mods.map(_._1).toSet -> mods.head._2)
+
+  private def memberModifier: Parser[(MemberModifier.Type, FilePosition)] =
+    "public" ^^ (MemberModifier.PUBLIC -> _.position) | "protected" ^^ (MemberModifier.PROTECTED -> _.position) |
+      "private" ^^ (MemberModifier.PRIVATE -> _.position) | "static" ^^ (MemberModifier.STATIC -> _.position) |
+      "final" ^^ (MemberModifier.FINAL -> _.position) | "abstract" ^^ (MemberModifier.ABSTRACT -> _.position)
+
+  private def classVariableDeclaration: Parser[List[StaticAssignment]] =
+    rep1sep(variableLit ~ opt("=" ~> staticScalar) ^^ {
+      case variable ~ optScalar =>
+        StaticAssignment(variable.position, variable.name, optScalar.map(_.value).getOrElse(UndefinedVal))
+    }, ",")
+
+  private def classConstantDeclaration: Parser[(List[StaticAssignment], FilePosition)] =
+    "const" ~ rep1sep(identLit ~ "=" ~ staticScalar ^^ {
+      case name ~ _ ~ scalar => StaticAssignment(name.position, name.chars, scalar.value)
+    }, ",") ^^ {
+      case constT ~ assignments => assignments -> constT.position
+    }
 
   private def echoExprList: Parser[List[Expr]] = rep1sep(expr, ",")
 
