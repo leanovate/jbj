@@ -1,6 +1,6 @@
 package de.leanovate.jbj.ast.stmt.loop
 
-import de.leanovate.jbj.ast.{StaticInitializer, Stmt, Expr}
+import de.leanovate.jbj.ast.{Reference, StaticInitializer, Stmt, Expr}
 import de.leanovate.jbj.runtime._
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.value.ArrayVal
@@ -8,7 +8,7 @@ import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.runtime.value.ArrayVal.ArrayKey
 
-case class ForeachKeyValueStmt(arrayExpr: Expr, keyName: String, valueName: String,
+case class ForeachKeyValueStmt(arrayExpr: Expr, keyVar: Reference, valueVar: Reference,
                                stmts: List[Stmt]) extends Stmt with StaticInitializer {
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
@@ -28,8 +28,8 @@ case class ForeachKeyValueStmt(arrayExpr: Expr, keyName: String, valueName: Stri
   @tailrec
   private def execValues(keyValues: List[(ArrayKey, Value)], context: Context): ExecResult = keyValues match {
     case head :: tail =>
-      context.defineVariable(keyName, ValueRef(head._1.value))
-      context.defineVariable(valueName, ValueRef(head._2))
+      keyVar.assign(context, head._1.value)
+      valueVar.assign(context, head._2)
       execStmts(stmts, context) match {
         case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
         case BreakExecResult(_) => SuccessExecResult()

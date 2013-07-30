@@ -9,7 +9,7 @@ import scala.language.implicitConversions
 import de.leanovate.jbj.parser.JbjTokens._
 import de.leanovate.jbj.ast.stmt._
 import de.leanovate.jbj.runtime.value.UndefinedVal
-import de.leanovate.jbj.ast.stmt.GlobalVarDeclAssignStmt
+import de.leanovate.jbj.ast.expr._
 import de.leanovate.jbj.ast.expr.VariableReference
 import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
 import de.leanovate.jbj.ast.expr.calc.AddExpr
@@ -17,15 +17,17 @@ import de.leanovate.jbj.ast.stmt.ReturnStmt
 import de.leanovate.jbj.ast.expr.calc.SubExpr
 import de.leanovate.jbj.ast.stmt.cond.SwitchStmt
 import scala.Some
+import de.leanovate.jbj.ast.stmt.ClassTypeHint
 import de.leanovate.jbj.ast.expr.AssignExpr
 import de.leanovate.jbj.ast.expr.IndexReference
 import de.leanovate.jbj.parser.JbjTokens.Inline
 import de.leanovate.jbj.runtime.value.FloatVal
+import de.leanovate.jbj.ast.stmt.StaticVarDeclStmt
 import de.leanovate.jbj.ast.expr.calc.BitAndExpr
 import de.leanovate.jbj.ast.Prog
 import de.leanovate.jbj.ast.stmt.ExprStmt
+import de.leanovate.jbj.ast.stmt.CatchBlock
 import de.leanovate.jbj.ast.expr.calc.NegExpr
-import de.leanovate.jbj.ast.stmt.ParameterDecl
 import de.leanovate.jbj.ast.expr.DotExpr
 import de.leanovate.jbj.ast.expr.calc.MulExpr
 import de.leanovate.jbj.parser.JbjTokens.InterpolatedStringLit
@@ -37,31 +39,41 @@ import de.leanovate.jbj.parser.JbjTokens.LongNumLit
 import de.leanovate.jbj.ast.expr.CallFunctionExpr
 import de.leanovate.jbj.runtime.context.GlobalContext
 import de.leanovate.jbj.ast.expr.comp.EqExpr
+import de.leanovate.jbj.ast.stmt.TraitUseStmt
 import de.leanovate.jbj.ast.expr.MethodCallReference
 import de.leanovate.jbj.ast.stmt.loop.ForeachKeyValueStmt
 import de.leanovate.jbj.ast.expr.comp.BoolOrExpr
-import de.leanovate.jbj.ast.FileNodePosition
+import de.leanovate.jbj.ast.stmt.GlobalVarDeclAssignStmt
 import de.leanovate.jbj.runtime.value.IntegerVal
+import de.leanovate.jbj.ast.stmt.ClassVarDeclStmt
 import de.leanovate.jbj.ast.expr.comp.GtExpr
 import de.leanovate.jbj.ast.stmt.EchoStmt
 import de.leanovate.jbj.ast.expr.calc.DivExpr
 import de.leanovate.jbj.ast.stmt.loop.ForStmt
+import de.leanovate.jbj.ast.FileNodePosition
+import de.leanovate.jbj.ast.stmt.ParameterDecl
+import de.leanovate.jbj.ast.stmt.ConstDeclStmt
 import de.leanovate.jbj.ast.expr.comp.BoolAndExpr
 import de.leanovate.jbj.ast.stmt.cond.IfStmt
 import de.leanovate.jbj.ast.stmt.FunctionDeclStmt
+import de.leanovate.jbj.ast.stmt.ClassMethodDeclStmt
+import de.leanovate.jbj.ast.stmt.TryCatchStmt
 import de.leanovate.jbj.ast.expr.value.ConstGetExpr
 import de.leanovate.jbj.ast.stmt.BlockStmt
 import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.parser.JbjTokens.Variable
+import de.leanovate.jbj.ast.stmt.ClassDeclStmt
 import de.leanovate.jbj.ast.stmt.BreakStmt
 import de.leanovate.jbj.ast.expr.comp.LtExpr
 import de.leanovate.jbj.ast.stmt.loop.DoWhileStmt
 import de.leanovate.jbj.ast.expr.comp.GeExpr
 import de.leanovate.jbj.ast.stmt.loop.WhileStmt
 import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
+import de.leanovate.jbj.ast.stmt.ClassConstDeclStmt
 import de.leanovate.jbj.ast.expr.ScalarExpr
-import de.leanovate.jbj.ast.stmt.StaticVarDeclStmt
+import de.leanovate.jbj.ast.stmt.ThrowStmt
 import de.leanovate.jbj.ast.stmt.LabelStmt
+import de.leanovate.jbj.ast.NamespaceName
 import de.leanovate.jbj.ast.stmt.StaticAssignment
 import de.leanovate.jbj.ast.expr.calc.BitOrExpr
 import de.leanovate.jbj.ast.stmt.cond.CaseBlock
@@ -72,10 +84,11 @@ import de.leanovate.jbj.ast.expr.IncrAndGetExpr
 import de.leanovate.jbj.ast.expr.DecrAndGetExpr
 import de.leanovate.jbj.ast.expr.ArrayCreateExpr
 import de.leanovate.jbj.ast.stmt.InlineStmt
+import de.leanovate.jbj.parser.JbjTokens.Keyword
 import de.leanovate.jbj.parser.JbjTokens.StringLit
 import de.leanovate.jbj.ast.expr.comp.BoolXorExpr
 import de.leanovate.jbj.ast.expr.GetAndIncrExpr
-import de.leanovate.jbj.parser.JbjTokens.Keyword
+import de.leanovate.jbj.ast.name.{DynamicName, StaticName}
 
 class JbjParser(parseCtx: ParseContext) extends Parsers {
   type Elem = JbjTokens.Token
@@ -160,9 +173,9 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
       expr => ExprStmt(expr)
     } | "foreach" ~> "(" ~> exprWithoutVariable ~ "as" ~ foreachVariable ~ foreachOptionalArg ~ ")" ~ foreachStatement ^^ {
       case array ~ _ ~ valueVar ~ None ~ _ ~ stmts =>
-        ForeachValueStmt(array, valueVar.variableName, stmts)
+        ForeachValueStmt(array, valueVar, stmts)
       case array ~ _ ~ keyVar ~ Some(valueVar) ~ _ ~ stmts =>
-        ForeachKeyValueStmt(array, keyVar.variableName, valueVar.variableName, stmts)
+        ForeachKeyValueStmt(array, keyVar, valueVar, stmts)
     } | "try" ~> "{" ~> innerStatementList ~ "}" ~ catchStatement ~ finallyStatement ^^ {
       case tryStmts ~ _ ~ catchBlocks ~ finallyStmts => TryCatchStmt(tryStmts, catchBlocks, finallyStmts)
     } | "throw" ~> expr ^^ {
@@ -305,11 +318,26 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
 
   private def forExpr: Parser[List[Expr]] = repsep(expr, ",")
 
-  private def exprWithoutVariable: Parser[Expr] = expr
+  private def newExpr: Parser[NewExpr] = "new" ~> classNameReference ^^ {
+    className => NewExpr(className)
+  }
+
+  private def exprWithoutVariable: Parser[Expr] =
+    variable ~ "=" ~ expr ^^ {
+      case variable ~ _ ~ expr => AssignExpr(variable, expr)
+    } | binary(minPrec) | term
+
+  private def expr: Parser[Expr] = exprWithoutVariable | rVariable
 
   private def parenthesisExpr: Parser[Expr] = "(" ~> expr <~ ")"
 
+  private def rVariable: Parser[VariableReference] = variable
+
+  private def className: Parser[NamespaceName] = namespaceName
+
   private def fullyQualifiedClassName: Parser[NamespaceName] = namespaceName
+
+  private def classNameReference: Parser[NamespaceName] = className
 
   private def commonScalar: Parser[ScalarExpr] =
     longNumLit ^^ {
@@ -327,13 +355,28 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
       s => ScalarExpr(s.value.toNum.neg)
     }
 
+
+  private def compoundVariable: Parser[VariableReference] = variableLit ^^ {
+    v => VariableReference(StaticName(v))
+  } | "$" ~> "{" ~> expr <~ "}" ^^ {
+    expr => VariableReference(DynamicName(expr))
+  }
+
+  private def dimOffset: Parser[Option[Expr]] = opt(expr)
+
+
+
+
+
+
+
   private def value: Parser[Expr] =
     (staticScalar
       | interpolatedStringLit ^^ (s => InterpolatedStringExpr(parseCtx, s.charOrInterpolations))
       )
 
   private def variable: Parser[VariableReference] = variableLit ^^ {
-    case v => VariableReference(v)
+    v => VariableReference(StaticName(v))
   }
 
   private def reference: Parser[Reference] = variable ~ rep(refAccess) ^^ {
@@ -373,8 +416,6 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
     case name ~ _ ~ params => CallFunctionExpr(name, params)
   }
 
-  private def parens: Parser[Expr] = "(" ~> expr <~ ")"
-
   private def neg: Parser[NegExpr] = "-" ~ term ^^ {
     case sign ~ term => NegExpr(term)
   }
@@ -383,34 +424,29 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
     name => ConstGetExpr(name)
   }
 
-  private def term: Parser[Expr] = value | referenceExpr | functionCall | constant | parens | neg
+  private def term: Parser[Expr] = value | referenceExpr | functionCall | constant | parenthesisExpr | neg
 
   private def binaryOp(level: Int): Parser[((Expr, Expr) => Expr)] = {
     level match {
       case 1 => "or" ^^^ ((a: Expr, b: Expr) => BoolOrExpr(a, b))
       case 2 => "xor" ^^^ ((a: Expr, b: Expr) => BoolXorExpr(a, b))
       case 3 => "and" ^^^ ((a: Expr, b: Expr) => BoolAndExpr(a, b))
-      case 4 => "=" ^^^ {
-        (a: Expr, b: Expr) => (a, b) match {
-          case (a: Reference, b: Expr) => AssignExpr(a, b)
-        }
-      }
-      case 5 => "||" ^^^ ((a: Expr, b: Expr) => BoolOrExpr(a, b))
-      case 6 => "&&" ^^^ ((a: Expr, b: Expr) => BoolAndExpr(a, b))
-      case 7 => "|" ^^^ ((a: Expr, b: Expr) => BitOrExpr(a, b))
-      case 8 => "" ^^^ ((a: Expr, b: Expr) => BitXorExpr(a, b))
-      case 9 => "&" ^^^ ((a: Expr, b: Expr) => BitAndExpr(a, b))
-      case 10 => "==" ^^^ ((a: Expr, b: Expr) => EqExpr(a, b))
-      case 11 =>
+      case 4 => "||" ^^^ ((a: Expr, b: Expr) => BoolOrExpr(a, b))
+      case 5 => "&&" ^^^ ((a: Expr, b: Expr) => BoolAndExpr(a, b))
+      case 6 => "|" ^^^ ((a: Expr, b: Expr) => BitOrExpr(a, b))
+      case 7 => "" ^^^ ((a: Expr, b: Expr) => BitXorExpr(a, b))
+      case 8 => "&" ^^^ ((a: Expr, b: Expr) => BitAndExpr(a, b))
+      case 9 => "==" ^^^ ((a: Expr, b: Expr) => EqExpr(a, b))
+      case 10 =>
         ">" ^^^ ((a: Expr, b: Expr) => GtExpr(a, b)) |
           ">=" ^^^ ((a: Expr, b: Expr) => GeExpr(a, b)) |
           "<" ^^^ ((a: Expr, b: Expr) => LtExpr(a, b)) |
           "<=" ^^^ ((a: Expr, b: Expr) => LeExpr(a, b))
-      case 12 =>
+      case 11 =>
         "." ^^^ ((a: Expr, b: Expr) => DotExpr(a, b)) |
           "+" ^^^ ((a: Expr, b: Expr) => AddExpr(a, b)) |
           "-" ^^^ ((a: Expr, b: Expr) => SubExpr(a, b))
-      case 13 =>
+      case 12 =>
         "*" ^^^ ((a: Expr, b: Expr) => MulExpr(a, b)) |
           "/" ^^^ ((a: Expr, b: Expr) => DivExpr(a, b))
       case _ => throw new RuntimeException("bad precedence level " + level)
@@ -419,7 +455,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
 
   val minPrec = 1
 
-  val maxPrec = 13
+  val maxPrec = 12
 
   def binary(level: Int): Parser[Expr] =
     if (level > maxPrec) {
@@ -429,7 +465,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
       binary(level + 1) * binaryOp(level)
     }
 
-  def expr: Parser[Expr] = binary(minPrec) | term
+  def expr1: Parser[Expr] = binary(minPrec) | term
 
   private def inlineHtml: Parser[InlineStmt] =
     elem("inline", _.isInstanceOf[Inline]) ^^ {
@@ -499,25 +535,7 @@ object JbjParser {
   //A main method for testing
   def main(args: Array[String]) = {
     test( """<?php
-            |
-            |$a = 5;
-            |
-            |var_dump($a);
-            |
-            |static $a = "aa";
-            |static $a = 11;
-            |
-            |var_dump($a);
-            |
-            |function foo() {
-            |	static $a = 13;
-            |	static $a = 14;
-            |
-            |	var_dump($a);
-            |}
-            |
-            |foo();
-            |
+            |$a=0;
             |?>""".stripMargin)
   }
 }

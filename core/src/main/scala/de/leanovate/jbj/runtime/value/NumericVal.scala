@@ -22,6 +22,33 @@ trait NumericVal extends Value {
   def neg: NumericVal
 
   def getAt(index: Value) = UndefinedVal
+
+  def +(other: Value): Value = (this, other) match {
+    case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal > 0 && leftVal <= Long.MaxValue - rightVal =>
+      IntegerVal(leftVal + rightVal)
+    case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal <= 0 && leftVal >= Long.MinValue - rightVal =>
+      IntegerVal(leftVal + rightVal)
+    case (NumericVal(leftVal), NumericVal(rightVal)) => FloatVal(leftVal + rightVal)
+  }
+
+  def -(other: Value): Value = (this, other) match {
+    case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal > 0 && leftVal >= Long.MinValue + rightVal =>
+      IntegerVal(leftVal - rightVal)
+    case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal <= 0 && leftVal <= Long.MaxValue + rightVal =>
+      IntegerVal(leftVal - rightVal)
+    case (NumericVal(leftVal), NumericVal(rightVal)) => FloatVal(leftVal - rightVal)
+  }
+
+  def *(other:Value):Value = (this, other) match {
+    case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal == 0 => IntegerVal(0)
+    case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal > 0 && leftVal <= Long.MaxValue / rightVal && leftVal >= Long.MinValue / rightVal => IntegerVal(leftVal * rightVal)
+    case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal < 0 && leftVal <= Long.MinValue / rightVal && leftVal >= Long.MaxValue / rightVal => IntegerVal(leftVal * rightVal)
+    case (NumericVal(leftVal), NumericVal(rightVal)) => FloatVal(leftVal * rightVal)
+  }
+
+  def /(other:Value) :Value = (this, other) match {
+    case (NumericVal(leftVal), NumericVal(rightVal)) => FloatVal(leftVal / rightVal)
+  }
 }
 
 object NumericVal {
