@@ -44,12 +44,12 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
   })
 
   private def token: Parser[(Token, Boolean)] =
-    (str("?>") ^^^ Keyword(";") -> true
-      | str("%>") ^^^ Keyword(";") -> true
-      | str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> true
-      | identChar ~ rep(identChar | digit) ^^ {
-      case first ~ rest => processIdent(first :: rest mkString "") -> false
-    } | rep(digit) ~ '.' ~ rep1(digit) ~ opt(exponent) ^^ {
+    str("?>") ^^^ Keyword(";") -> true |
+      str("%>") ^^^ Keyword(";") -> true |
+      str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> true |
+      identChar ~ rep(identChar | digit) ^^ {
+        case first ~ rest => processIdent(first :: rest mkString "") -> false
+      } | rep(digit) ~ '.' ~ rep1(digit) ~ opt(exponent) ^^ {
       case first ~ dot ~ rest ~ exponent =>
         DoubleNumLit(first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "") -> false
     } | rep1(digit) ~ '.' ~ rep(digit) ~ opt(exponent) ^^ {
@@ -73,13 +73,12 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
     } | '\"' ~ interpolatedStr ~ '\"' ^^ {
       case '\"' ~ str ~ '\"' if str.exists(_.isRight) => InterpolatedStringLit(str) -> false
       case '\"' ~ str ~ '\"' => StringLit(str.map(_.left.get) mkString "") -> false
-    } | EofCh ^^^ EOF -> false
-      | '\'' ~> failure("unclosed string literal")
-      | '\"' ~> failure("unclosed string literal")
-      | delim ^^ {
-      d => d -> false
-    } | failure("illegal character")
-      )
+    } | EofCh ^^^ EOF -> false |
+      '\'' ~> failure("unclosed string literal") |
+      '\"' ~> failure("unclosed string literal") |
+      delim ^^ {
+        d => d -> false
+      } | failure("illegal character")
 
   private def exponent: Parser[List[Elem]] = exponentMarker ~ opt(sign) ~ rep1(digit) ^^ {
     case first ~ sign ~ exponent => first :: (sign.toList ++ exponent)

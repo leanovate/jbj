@@ -6,7 +6,7 @@ trait NodePosition {
   def line: Int
 }
 
-case class FilePosition(fileName: String, line: Int) extends NodePosition
+case class FileNodePosition(fileName: String, line: Int) extends NodePosition
 
 object NoNodePosition extends NodePosition {
   val fileName = ""

@@ -25,7 +25,7 @@ import de.leanovate.jbj.ast.expr.calc.BitAndExpr
 import de.leanovate.jbj.ast.Prog
 import de.leanovate.jbj.ast.stmt.ExprStmt
 import de.leanovate.jbj.ast.expr.calc.NegExpr
-import de.leanovate.jbj.ast.stmt.ParameterDef
+import de.leanovate.jbj.ast.stmt.ParameterDecl
 import de.leanovate.jbj.ast.expr.DotExpr
 import de.leanovate.jbj.ast.expr.calc.MulExpr
 import de.leanovate.jbj.parser.JbjTokens.InterpolatedStringLit
@@ -40,7 +40,7 @@ import de.leanovate.jbj.ast.expr.comp.EqExpr
 import de.leanovate.jbj.ast.expr.MethodCallReference
 import de.leanovate.jbj.ast.stmt.loop.ForeachKeyValueStmt
 import de.leanovate.jbj.ast.expr.comp.BoolOrExpr
-import de.leanovate.jbj.ast.FilePosition
+import de.leanovate.jbj.ast.FileNodePosition
 import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.ast.expr.comp.GtExpr
 import de.leanovate.jbj.ast.stmt.EchoStmt
@@ -106,13 +106,20 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
 
   private def topStatementList: Parser[List[Stmt]] = rep(topStatement)
 
-  private def topStatement: Parser[Stmt] = withPos(statement | functionDeclarationStatement | classDeclarationStatement)
-
-  private def innerStatementList: Parser[List[Stmt]] = rep(innerStatement)
-
   private def namespaceName: Parser[NamespaceName] = rep1sep(identLit, "\\") ^^ {
     path => NamespaceName(path: _*)
   }
+
+  private def topStatement: Parser[Stmt] = withPos(statement | functionDeclarationStatement |
+    classDeclarationStatement | constantDeclaration)
+
+  private def constantDeclaration: Parser[Stmt] = "const" ~> rep1(identLit ~ "=" ~ staticScalar ^^ {
+    case name ~ _ ~ scalar => StaticAssignment(name, scalar.value)
+  }) ^^ {
+    assignments => ConstDeclStmt(assignments)
+  }
+
+  private def innerStatementList: Parser[List[Stmt]] = rep(innerStatement)
 
   private def innerStatement: Parser[Stmt] = withPos(statement)
 
@@ -216,8 +223,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
       case expr ~ _ ~ stmts => CaseBlock(expr, stmts)
     } | "default" ~> caseSeparator ~> innerStatementList ^^ {
       case stmts => DefaultCaseBlock(stmts)
-    }
-  )
+    })
 
   private def caseSeparator: Parser[Any] = ":" | ";"
 
@@ -235,7 +241,14 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
 
   private def newElseSingle: Parser[List[Stmt]] = opt("else" ~> ":" ~> innerStatementList) ^^ (_.toList.flatten)
 
-  private def parameterList: Parser[List[ParameterDef]] = repsep(parameterDef, ",")
+  private def parameterList: Parser[List[ParameterDecl]] = repsep(
+    optionalClassType ~ opt("&") ~ variableLit ~ opt("=" ~> staticScalar) ^^ {
+      case typeHint ~ optRef ~ variable ~ optDefault =>
+        ParameterDecl(typeHint, variable, optRef.isDefined, optDefault.map(_.value))
+    }, ",")
+
+  private def optionalClassType: Parser[Option[TypeHint]] = opt("array" ^^^ ArrayTypeHint |
+    "callable" ^^^ CallableTypeHint | fullyQualifiedClassName ^^ (name => ClassTypeHint(name)))
 
   private def globalVarList: Parser[List[String]] = rep1sep(variableLit, ",")
 
@@ -249,14 +262,25 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
     case modifiers ~ assignments => ClassVarDeclStmt(modifiers, assignments)
   } | classConstantDeclaration ^^ {
     assignments => ClassConstDeclStmt(assignments)
+  } | traitUseStatement |
+    methodModifiers ~ "function" ~ opt("&") ~ identLit ~ "(" ~ parameterList ~ ")" ~ methodBody ^^ {
+      case modifiers ~ _ ~ optRef ~ name ~ _ ~ params ~ _ ~ stmts => ClassMethodDeclStmt(modifiers, name, params, stmts)
+    }
+
+  private def traitUseStatement: Parser[TraitUseStmt] = "use" ~> traitList <~ ";" ^^ {
+    traits => TraitUseStmt(traits)
   }
+
+  private def traitList: Parser[List[NamespaceName]] = rep1(fullyQualifiedClassName)
 
   private def methodBody: Parser[List[Stmt]] = ";" ^^^ Nil | "{" ~> innerStatementList <~ "}"
 
   private def variableModifiers: Parser[Set[MemberModifier.Type]] = nonEmptyMemberModifiers |
     "var" ^^^ Set.empty[MemberModifier.Type]
 
-  private def methodModifiers: Parser[Option[Set[MemberModifier.Type]]] = opt(nonEmptyMemberModifiers)
+  private def methodModifiers: Parser[Set[MemberModifier.Type]] = opt(nonEmptyMemberModifiers) ^^ {
+    optModifiers => optModifiers.getOrElse(Set.empty[MemberModifier.Type])
+  }
 
   private def nonEmptyMemberModifiers: Parser[Set[MemberModifier.Type]] =
     rep1(memberModifier) ^^ (_.toSet)
@@ -273,11 +297,9 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
     }, ",")
 
   private def classConstantDeclaration: Parser[List[StaticAssignment]] =
-    "const" ~ rep1sep(identLit ~ "=" ~ staticScalar ^^ {
+    "const" ~> rep1sep(identLit ~ "=" ~ staticScalar ^^ {
       case name ~ _ ~ scalar => StaticAssignment(name, scalar.value)
-    }, ",") ^^ {
-      case constT ~ assignments => assignments
-    }
+    }, ",")
 
   private def echoExprList: Parser[List[Expr]] = rep1sep(expr, ",")
 
@@ -409,8 +431,6 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
 
   def expr: Parser[Expr] = binary(minPrec) | term
 
-  private def parameterDef: Parser[ParameterDef] = variable ^^ (v => ParameterDef(v.variableName, byRef = false, default = None))
-
   private def inlineHtml: Parser[InlineStmt] =
     elem("inline", _.isInstanceOf[Inline]) ^^ {
       t => InlineStmt(t.chars)
@@ -451,7 +471,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
     in =>
       parser(in) match {
         case Success(n, in1) =>
-          n.position = FilePosition(parseCtx.fileName, in.pos.line)
+          n.position = FileNodePosition(parseCtx.fileName, in.pos.line)
           Success(n, in1)
         case ns: NoSuccess => ns
       }

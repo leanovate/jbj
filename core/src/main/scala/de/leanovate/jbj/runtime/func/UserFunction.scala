@@ -5,10 +5,10 @@ import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.value.NullVal
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.ReturnExecResult
-import de.leanovate.jbj.ast.stmt.ParameterDef
+import de.leanovate.jbj.ast.stmt.ParameterDecl
 import de.leanovate.jbj.runtime.context.FunctionContext
 
-case class UserFunction(name: String, parameterDefs: List[ParameterDef], stmts: List[Stmt]) extends PFunction {
+case class UserFunction(name: String, parameterDefs: List[ParameterDecl], stmts: List[Stmt]) extends PFunction {
 
   val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
