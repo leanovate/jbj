@@ -4,9 +4,7 @@ import de.leanovate.jbj.ast.{Expr, Reference}
 import de.leanovate.jbj.runtime.{Value, Context}
 
 case class MethodCallReference(reference: Reference, methodName: String, parameters: List[Expr]) extends Reference {
-  def position = reference.position
-
-  def eval(ctx: Context) = ???
+  override def eval(ctx: Context) = ???
 
   def assignInitial(ctx: Context, value: Value) {}
 

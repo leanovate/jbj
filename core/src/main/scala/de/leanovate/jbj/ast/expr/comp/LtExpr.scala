@@ -5,7 +5,5 @@ import de.leanovate.jbj.runtime.{Value, Context}
 import de.leanovate.jbj.runtime.value.BooleanVal
 
 case class LtExpr(left: Expr, right: Expr) extends Expr {
-  def position = left.position
-
-  def eval(ctx: Context) = BooleanVal(Value.compare(left.eval(ctx), right.eval(ctx)) < 0)
+  override def eval(ctx: Context) = BooleanVal(Value.compare(left.eval(ctx), right.eval(ctx)) < 0)
 }

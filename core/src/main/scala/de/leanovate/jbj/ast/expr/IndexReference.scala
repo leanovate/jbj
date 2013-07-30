@@ -4,9 +4,7 @@ import de.leanovate.jbj.ast.{Expr, Reference}
 import de.leanovate.jbj.runtime.{Value, Context}
 
 case class IndexReference(reference: Reference, indexExpr: Expr) extends Reference {
-  def position = reference.position
-
-  def eval(ctx: Context) = {
+  override def eval(ctx: Context) = {
     val array = reference.eval(ctx)
 
     array.getAt(indexExpr.eval(ctx))

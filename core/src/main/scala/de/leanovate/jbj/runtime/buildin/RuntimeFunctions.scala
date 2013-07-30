@@ -2,7 +2,7 @@ package de.leanovate.jbj.runtime.buildin
 
 import de.leanovate.jbj.runtime.value.UndefinedVal
 import de.leanovate.jbj.runtime.{Value, Context, PFunction}
-import de.leanovate.jbj.ast.FilePosition
+import de.leanovate.jbj.ast.NodePosition
 
 object RuntimeFunctions {
   val functions = Seq(
@@ -12,7 +12,7 @@ object RuntimeFunctions {
     new PFunction() {
       def name = "define"
 
-      def call(ctx: Context, callerPosition: FilePosition, parameters: List[Value]) = {
+      def call(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) = {
         parameters match {
           case name :: value :: Nil =>
             ctx.defineConstant(name.toStr.value, value, caseInsensitive = false)

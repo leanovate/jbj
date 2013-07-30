@@ -1,10 +1,10 @@
 package de.leanovate.jbj.ast.stmt.cond
 
-import de.leanovate.jbj.ast.{StaticInitializer, FilePosition, Stmt, Expr}
+import de.leanovate.jbj.ast.{StaticInitializer, NodePosition, Stmt, Expr}
 import de.leanovate.jbj.runtime.{ExecResult, SuccessExecResult, Context}
 import scala.annotation.tailrec
 
-case class IfStmt(position: FilePosition, condition: Expr, thenStmts: List[Stmt], elseIfs: List[ElseIfBlock], elseStmts: List[Stmt])
+case class IfStmt(condition: Expr, thenStmts: List[Stmt], elseIfs: List[ElseIfBlock], elseStmts: List[Stmt])
   extends Stmt with StaticInitializer {
 
   private val staticInitializers =

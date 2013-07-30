@@ -1,10 +1,10 @@
 package de.leanovate.jbj.ast.expr
 
-import de.leanovate.jbj.ast.{Reference, FilePosition}
+import de.leanovate.jbj.ast.{Reference, NodePosition}
 import de.leanovate.jbj.runtime.{ValueRef, Value, Context}
 import de.leanovate.jbj.runtime.value.UndefinedVal
 
-case class VariableReference(position: FilePosition, variableName: String) extends Reference {
+case class VariableReference(variableName: String) extends Reference {
   def eval(ctx: Context) = ctx.findVariable(variableName).map(_.value).getOrElse(UndefinedVal)
 
   def assignInitial(ctx: Context, value: Value) {

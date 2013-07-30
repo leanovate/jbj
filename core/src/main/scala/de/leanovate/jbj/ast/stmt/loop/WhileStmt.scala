@@ -1,11 +1,11 @@
 package de.leanovate.jbj.ast.stmt.loop
 
-import de.leanovate.jbj.ast.{StaticInitializer, FilePosition, Stmt, Expr}
+import de.leanovate.jbj.ast.{StaticInitializer, NodePosition, Stmt, Expr}
 import de.leanovate.jbj.runtime._
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.SuccessExecResult
 
-case class WhileStmt(position: FilePosition, condition: Expr, stmts: List[Stmt]) extends Stmt with StaticInitializer {
+case class WhileStmt( condition: Expr, stmts: List[Stmt]) extends Stmt with StaticInitializer {
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
   override def exec(ctx: Context): ExecResult = {

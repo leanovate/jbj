@@ -1,9 +1,9 @@
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.ast.FilePosition
+import de.leanovate.jbj.ast.NodePosition
 
 trait PFunction {
   def name: String
 
-  def call(ctx: Context, callerPosition: FilePosition, parameters: List[Value]): Value
+  def call(ctx: Context, callerPosition: NodePosition, parameters: List[Value]): Value
 }

@@ -1,6 +1,6 @@
 package de.leanovate.jbj.runtime.func
 
-import de.leanovate.jbj.ast.{StaticInitializer, FilePosition, Stmt}
+import de.leanovate.jbj.ast.{StaticInitializer, NodePosition, Stmt}
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.value.NullVal
 import scala.annotation.tailrec
@@ -12,7 +12,7 @@ case class UserFunction(name: String, parameterDefs: List[ParameterDef], stmts: 
 
   val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
-  def call(ctx: Context, callerPosition: FilePosition, parameters: List[Value]) = {
+  def call(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) = {
     val funcCtx = FunctionContext(name, ctx)
 
     if (!funcCtx.static.initialized) {

@@ -1,8 +1,9 @@
 package de.leanovate.jbj.ast
 
 import de.leanovate.jbj.runtime.Context
+import java.io.PrintStream
 
-case class Prog(position: FilePosition, stmts: Seq[Stmt]) extends Node {
+case class Prog(stmts: Seq[Stmt]) extends Node {
   val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
   def exec(ctx: Context) {
@@ -12,5 +13,10 @@ case class Prog(position: FilePosition, stmts: Seq[Stmt]) extends Node {
     }
 
     stmts.foreach(_.exec(ctx))
+  }
+
+  override def dump(out: PrintStream, ident: String) {
+    super.dump(out, ident)
+    stmts.foreach(_.dump(out, ident + "  "))
   }
 }

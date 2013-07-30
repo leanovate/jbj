@@ -6,39 +6,36 @@ import scala.util.parsing.combinator.Parsers
 import scala.util.parsing.input.CharArrayReader.EofCh
 import de.leanovate.jbj.parser.JbjTokens.Inline
 import de.leanovate.jbj.parser.JbjTokens.EOF
-import de.leanovate.jbj.ast.FilePosition
 
 class JbjInitialLexer(fileName: String, in: Reader[Char]) extends Reader[Token] with Parsers {
   type Elem = Char
 
   def this(in: String) = this("-", new CharArrayReader(in.toCharArray))
 
-  private val position = FilePosition(fileName, in.pos.line)
-
   private val (token, startScript, rest1) = inline(in) match {
     case Success((tok, script), i) => (tok, script, i)
-    case ns: NoSuccess => (errorToken(position, ns.msg), false, ns.next)
+    case ns: NoSuccess => (errorToken(ns.msg), false, ns.next)
   }
 
   def first = token
 
   def rest = if (startScript) new JbjScriptLexer(fileName, rest1) else new JbjInitialLexer(fileName, rest1)
 
-  def pos = rest1.pos
+  def pos = in.pos
 
   def atEnd = in.atEnd
 
   private def inline: Parser[(Token, Boolean)] =
-    (scriptStart ^^^ Inline(position, "") -> true
-      | str("<?php") ~ witespaceChar ^^^ Inline(position, "") -> true
-      | str("<?=") ^^^ Keyword(position, "echo") -> true
-      | str("<?") ^^^ Inline(position, "") -> true
-      | str("<%=") ^^^ Keyword(position, "echo") -> true
-      | str("<%") ^^^ Inline(position, "") -> true
-      | '<' ^^^ Inline(position, "<") -> false
-      | EofCh ^^^ EOF(position) -> false
+    (scriptStart ^^^ Inline("") -> true
+      | str("<?php") ~ witespaceChar ^^^ Inline("") -> true
+      | str("<?=") ^^^ Keyword("echo") -> true
+      | str("<?") ^^^ Inline("") -> true
+      | str("<%=") ^^^ Keyword("echo") -> true
+      | str("<%") ^^^ Inline("") -> true
+      | '<' ^^^ Inline("<") -> false
+      | EofCh ^^^ EOF -> false
       | rep(chrExcept(EofCh, '<')) ^^ {
-      chars => Inline(position, chars mkString "") -> false
+      chars => Inline(chars mkString "") -> false
     })
 
   private def scriptStart = str("<script") ~ optWhitespace ~ str("language") ~ optWhitespace ~ '=' ~

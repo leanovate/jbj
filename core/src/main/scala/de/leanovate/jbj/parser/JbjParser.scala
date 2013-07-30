@@ -77,14 +77,18 @@ import de.leanovate.jbj.parser.JbjTokens.StringLit
 import de.leanovate.jbj.ast.expr.comp.BoolXorExpr
 import de.leanovate.jbj.ast.expr.GetAndIncrExpr
 
-object JbjParser extends Parsers {
+class JbjParser(fileName: String) extends Parsers {
   type Elem = JbjTokens.Token
 
   private val keywordCache = mutable.HashMap[String, Parser[Keyword]]()
 
-  def parse(s: String): ParseResult[Prog] = {
+  def parse(s: String): Prog = {
     val tokens = new JbjInitialLexer(s)
-    phrase(start)(tokens)
+    phrase(start)(tokens) match {
+      case Success(tree, _) => tree
+      case e: NoSuccess =>
+        throw new IllegalArgumentException("Bad syntax: " + e)
+    }
   }
 
   def parseExpr(s: String): Expr = {
@@ -96,21 +100,13 @@ object JbjParser extends Parsers {
     }
   }
 
-  def apply(s: String): Prog = {
-    parse(s) match {
-      case Success(tree, _) => tree
-      case e: NoSuccess =>
-        throw new IllegalArgumentException("Bad syntax: " + e)
-    }
-  }
-
-  private def start: Parser[Prog] = topStatementList ^^ {
-    stmts => Prog(FilePosition("-", 0), stmts)
-  }
+  private def start: Parser[Prog] = withPos(topStatementList ^^ {
+    stmts => Prog(stmts)
+  })
 
   private def topStatementList: Parser[List[Stmt]] = rep(topStatement)
 
-  private def topStatement: Parser[Stmt] = statement | functionDeclarationStatement | classDeclarationStatement
+  private def topStatement: Parser[Stmt] = withPos(statement | functionDeclarationStatement | classDeclarationStatement)
 
   private def innerStatementList: Parser[List[Stmt]] = rep(innerStatement)
 
@@ -118,48 +114,48 @@ object JbjParser extends Parsers {
     path => NamespaceName(path.map(_.chars): _*)
   }
 
-  private def innerStatement: Parser[Stmt] = statement
+  private def innerStatement: Parser[Stmt] = withPos(statement)
 
   private def statement: Parser[Stmt] = identLit <~ ":" ^^ {
-    label => LabelStmt(label.position, label.chars)
+    label => LabelStmt(label.chars)
   } | untickedStatement <~ rep(";")
 
   private def untickedStatement: Parser[Stmt] =
     "{" ~ innerStatementList <~ "}" ^^ {
-      case paren ~ stmts => BlockStmt(paren.position, stmts)
+      case paren ~ stmts => BlockStmt(stmts)
     } | "if" ~ parenthesisExpr ~ statement ~ elseIfList ~ elseSingle ^^ {
       case ifT ~ cond ~ thenStmt ~ elseIfs ~ elseStmt =>
-        IfStmt(ifT.position, cond, thenStmt :: Nil, elseIfs, elseStmt)
+        IfStmt(cond, thenStmt :: Nil, elseIfs, elseStmt)
     } | "if" ~ parenthesisExpr ~ ":" ~ innerStatementList ~ newElseIfList ~ newElseSingle <~ "endif" <~ ";" ^^ {
       case ifT ~ cond ~ _ ~ thenStmts ~ elseIfs ~ elseStmts =>
-        IfStmt(ifT.position, cond, thenStmts, elseIfs, elseStmts)
+        IfStmt(cond, thenStmts, elseIfs, elseStmts)
     } | "while" ~ parenthesisExpr ~ whileStatement ^^ {
-      case whileT ~ cond ~ stmts => WhileStmt(whileT.position, cond, stmts)
+      case whileT ~ cond ~ stmts => WhileStmt(cond, stmts)
     } | "do" ~ statement ~ "while" ~ parenthesisExpr <~ ";" ^^ {
-      case doT ~ stmt ~ _ ~ cond => DoWhileStmt(doT.position, stmt :: Nil, cond)
+      case doT ~ stmt ~ _ ~ cond => DoWhileStmt(stmt :: Nil, cond)
     } | "for" ~ "(" ~ forExpr ~ ";" ~ forExpr ~ ";" ~ forExpr ~ ")" ~ forStatement ^^ {
-      case forT ~ _ ~ befores ~ _ ~ conds ~ _ ~ afters ~ _ ~ stmts => ForStmt(forT.position, befores, conds, afters, stmts)
+      case forT ~ _ ~ befores ~ _ ~ conds ~ _ ~ afters ~ _ ~ stmts => ForStmt(befores, conds, afters, stmts)
     } | "switch" ~ parenthesisExpr ~ switchCaseList ^^ {
-      case switchT ~ expr ~ cases => SwitchStmt(switchT.position, expr, cases)
+      case switchT ~ expr ~ cases => SwitchStmt(expr, cases)
     } | "break" ~ opt(expr) ^^ {
-      case br ~ depth => BreakStmt(br.position, depth)
+      case br ~ depth => BreakStmt(depth)
     } | "continue" ~ opt(expr) ^^ {
-      case con ~ depth => ContinueStmt(con.position, depth)
+      case con ~ depth => ContinueStmt(depth)
     } | "return" ~ opt(expr) <~ ";" ^^ {
-      case ret ~ expr => ReturnStmt(ret.position, expr)
+      case ret ~ expr => ReturnStmt(expr)
     } | "global" ~ globalVarList ^^ {
-      case globalT ~ vars => GlobalVarDeclAssignStmt(globalT.position, vars)
+      case globalT ~ vars => GlobalVarDeclAssignStmt(vars)
     } | "static" ~ staticVarList ^^ {
-      case staticT ~ vars => StaticVarDeclStmt(staticT.position, vars)
+      case staticT ~ vars => StaticVarDeclStmt(vars)
     } | "echo" ~ echoExprList <~ ";" ^^ {
-      case echo ~ params => EchoStmt(echo.position, params)
+      case echo ~ params => EchoStmt(params)
     } | inlineHtml | expr <~ ";" ^^ {
       expr => ExprStmt(expr)
     } | "foreach" ~ "(" ~ exprWithoutVariable ~ "as" ~ foreachVariable ~ foreachOptionalArg ~ ")" ~ foreachStatement ^^ {
       case foreachT ~ _ ~ array ~ _ ~ valueVar ~ None ~ _ ~ stmts =>
-        ForeachValueStmt(foreachT.position, array, valueVar.variableName, stmts)
+        ForeachValueStmt(array, valueVar.variableName, stmts)
       case foreachT ~ _ ~ array ~ _ ~ keyVar ~ Some(valueVar) ~ _ ~ stmts =>
-        ForeachKeyValueStmt(foreachT.position, array, keyVar.variableName, valueVar.variableName, stmts)
+        ForeachKeyValueStmt(array, keyVar.variableName, valueVar.variableName, stmts)
     }
 
   private def functionDeclarationStatement: Parser[FunctionDeclStmt] = untickedFunctionDeclarationStatement <~ rep(";")
@@ -168,13 +164,13 @@ object JbjParser extends Parsers {
 
   private def untickedFunctionDeclarationStatement: Parser[FunctionDeclStmt] =
     "function" ~ opt("&") ~ identLit ~ "(" ~ parameterList ~ ")" ~ "{" ~ innerStatementList <~ "}" ^^ {
-      case func ~ isRef ~ name ~ _ ~ params ~ _ ~ _ ~ body => FunctionDeclStmt(func.position, name.chars, params, body)
+      case func ~ isRef ~ name ~ _ ~ params ~ _ ~ _ ~ body => FunctionDeclStmt(name.chars, params, body)
     }
 
   private def untickedClassDeclarationStatement: Parser[ClassDeclStmt] =
     classEntryType ~ identLit ~ extendsFrom ~ implementsList ~ "{" ~ classStatementList <~ "}" ^^ {
       case classEntry ~ name ~ extendsFrom ~ implementsList ~ _ ~ stmts =>
-        ClassDeclStmt(name.position, classEntry, name.chars, extendsFrom, implementsList, stmts)
+        ClassDeclStmt(classEntry, name.chars, extendsFrom, implementsList, stmts)
     }
 
   private def classEntryType: Parser[ClassEntry.Type] =
@@ -234,43 +230,43 @@ object JbjParser extends Parsers {
   }, ",")
 
   private def staticVarList: Parser[List[StaticAssignment]] = rep1sep(variableLit ~ opt("=" ~> staticScalar) ^^ {
-    case v ~ optScalar => StaticAssignment(v.position, v.name, optScalar.map(_.value).getOrElse(UndefinedVal))
+    case v ~ optScalar => StaticAssignment(v.name, optScalar.map(_.value).getOrElse(UndefinedVal))
   }, ",")
 
   private def classStatementList: Parser[List[Stmt]] = rep(classStatement)
 
   private def classStatement: Parser[Stmt] = variableModifiers ~ classVariableDeclaration <~ ";" ^^ {
-    case (modifiers, position) ~ assignments => ClassVarDeclStmt(position, modifiers, assignments)
+    case modifiers ~ assignments => ClassVarDeclStmt(modifiers, assignments)
   } | classConstantDeclaration ^^ {
-    case (assignments, position) => ClassConstDeclStmt(position, assignments)
+    assignments => ClassConstDeclStmt(assignments)
   }
 
   private def methodBody: Parser[List[Stmt]] = ";" ^^^ Nil | "{" ~> innerStatementList <~ "}"
 
-  private def variableModifiers: Parser[(Set[MemberModifier.Type], FilePosition)] = nonEmptyMemberModifiers |
-    "var" ^^ (Set.empty[MemberModifier.Type] -> _.position)
+  private def variableModifiers: Parser[Set[MemberModifier.Type]] = nonEmptyMemberModifiers |
+    "var" ^^^ Set.empty[MemberModifier.Type]
 
-  private def methodModifiers: Parser[Option[(Set[MemberModifier.Type], FilePosition)]] = opt(nonEmptyMemberModifiers)
+  private def methodModifiers: Parser[Option[Set[MemberModifier.Type]]] = opt(nonEmptyMemberModifiers)
 
-  private def nonEmptyMemberModifiers: Parser[(Set[MemberModifier.Type], FilePosition)] =
-    rep1(memberModifier) ^^ (mods => mods.map(_._1).toSet -> mods.head._2)
+  private def nonEmptyMemberModifiers: Parser[Set[MemberModifier.Type]] =
+    rep1(memberModifier) ^^ (_.toSet)
 
-  private def memberModifier: Parser[(MemberModifier.Type, FilePosition)] =
-    "public" ^^ (MemberModifier.PUBLIC -> _.position) | "protected" ^^ (MemberModifier.PROTECTED -> _.position) |
-      "private" ^^ (MemberModifier.PRIVATE -> _.position) | "static" ^^ (MemberModifier.STATIC -> _.position) |
-      "final" ^^ (MemberModifier.FINAL -> _.position) | "abstract" ^^ (MemberModifier.ABSTRACT -> _.position)
+  private def memberModifier: Parser[MemberModifier.Type] =
+    "public" ^^^ MemberModifier.PUBLIC  | "protected" ^^^ MemberModifier.PROTECTED  |
+      "private" ^^^ MemberModifier.PRIVATE  | "static" ^^^ MemberModifier.STATIC  |
+      "final" ^^^ MemberModifier.FINAL  | "abstract" ^^^ MemberModifier.ABSTRACT
 
   private def classVariableDeclaration: Parser[List[StaticAssignment]] =
     rep1sep(variableLit ~ opt("=" ~> staticScalar) ^^ {
       case variable ~ optScalar =>
-        StaticAssignment(variable.position, variable.name, optScalar.map(_.value).getOrElse(UndefinedVal))
+        StaticAssignment( variable.name, optScalar.map(_.value).getOrElse(UndefinedVal))
     }, ",")
 
-  private def classConstantDeclaration: Parser[(List[StaticAssignment], FilePosition)] =
+  private def classConstantDeclaration: Parser[List[StaticAssignment]] =
     "const" ~ rep1sep(identLit ~ "=" ~ staticScalar ^^ {
-      case name ~ _ ~ scalar => StaticAssignment(name.position, name.chars, scalar.value)
+      case name ~ _ ~ scalar => StaticAssignment(name.chars, scalar.value)
     }, ",") ^^ {
-      case constT ~ assignments => assignments -> constT.position
+      case constT ~ assignments => assignments
     }
 
   private def echoExprList: Parser[List[Expr]] = rep1sep(expr, ",")
@@ -285,27 +281,27 @@ object JbjParser extends Parsers {
 
   private def commonScalar: Parser[ScalarExpr] =
     longNumLit ^^ {
-      s => ScalarExpr(s.position, IntegerVal(s.value))
+      s => ScalarExpr(IntegerVal(s.value))
     } | doubleNumLit ^^ {
-      s => ScalarExpr(s.position, FloatVal(s.value))
+      s => ScalarExpr(FloatVal(s.value))
     } | stringLit ^^ {
-      s => ScalarExpr(s.position, StringVal(s.chars))
+      s => ScalarExpr(StringVal(s.chars))
     }
 
   private def staticScalar: Parser[ScalarExpr] =
     commonScalar | "+" ~> staticScalar ^^ {
-      s => ScalarExpr(s.position, s.value.toNum)
+      s => ScalarExpr(s.value.toNum)
     } | "-" ~> staticScalar ^^ {
-      s => ScalarExpr(s.position, s.value.toNum.neg)
+      s => ScalarExpr(s.value.toNum.neg)
     }
 
   private def value: Parser[Expr] =
     (staticScalar
-      | interpolatedStringLit ^^ (s => InterpolatedStringExpr(s.position, s.charOrInterpolations))
+      | interpolatedStringLit ^^ (s => InterpolatedStringExpr(fileName, s.charOrInterpolations))
       )
 
   private def variable: Parser[VariableReference] = variableLit ^^ {
-    case v => VariableReference(v.position, v.name)
+    case v => VariableReference(v.name)
   }
 
   private def reference: Parser[Reference] = variable ~ rep(refAccess) ^^ {
@@ -332,7 +328,7 @@ object JbjParser extends Parsers {
     ref => DecrAndGetExpr(ref)
   } | reference |
     "array" ~ "(" ~ repsep(arrayValues, ",") <~ ")" ^^ {
-      case array ~ _ ~ arrayValues => ArrayCreateExpr(array.position, arrayValues)
+      case array ~ _ ~ arrayValues => ArrayCreateExpr(arrayValues)
     }
 
   private def arrayValues: Parser[(Option[Expr], Expr)] = expr ~ "=>" ~ expr ^^ {
@@ -342,17 +338,17 @@ object JbjParser extends Parsers {
   }
 
   private def functionCall: Parser[Expr] = identLit ~ "(" ~ repsep(expr, ",") <~ ")" ^^ {
-    case name ~ _ ~ params => CallFunctionExpr(name.position, name.chars, params)
+    case name ~ _ ~ params => CallFunctionExpr(name.chars, params)
   }
 
   private def parens: Parser[Expr] = "(" ~> expr <~ ")"
 
   private def neg: Parser[NegExpr] = "-" ~ term ^^ {
-    case sign ~ term => NegExpr(sign.position, term)
+    case sign ~ term => NegExpr(term)
   }
 
   private def constant: Parser[Expr] = identLit ^^ {
-    name => ConstGetExpr(name.position, name.chars)
+    name => ConstGetExpr(name.chars)
   }
 
   private def term: Parser[Expr] = value | referenceExpr | functionCall | constant | parens | neg
@@ -407,7 +403,7 @@ object JbjParser extends Parsers {
 
   private def inlineHtml: Parser[InlineStmt] =
     elem("inline", _.isInstanceOf[Inline]) ^^ {
-      t => InlineStmt(t.position, t.chars)
+      t => InlineStmt(t.chars)
     }
 
   /** A parser which matches a single keyword token.
@@ -443,16 +439,33 @@ object JbjParser extends Parsers {
   private def variableLit: Parser[Variable] =
     elem("variable", _.isInstanceOf[Variable]) ^^ (_.asInstanceOf[Variable])
 
+  private def withPos[T <: Node](parser: Parser[T]) = Parser {
+    in =>
+      parser(in) match {
+        case Success(n, in1) =>
+          n.position = FilePosition(fileName, in.pos.line)
+          Success(n, in1)
+        case ns: NoSuccess => ns
+      }
+  }
+}
+
+object JbjParser {
+  def apply(s: String): Prog = {
+    val parser = new JbjParser("-")
+    parser.parse(s)
+  }
+
 
   //Simplify testing
   def test(exprstr: String) = {
-    parse(exprstr) match {
-      case Success(tree, _) =>
-        println("Tree: " + tree)
-        val context = GlobalContext(System.out, System.err)
-        tree.exec(context)
-      case e: NoSuccess => Console.err.println(e)
-    }
+    val parser = new JbjParser("-")
+    val tree = parser.parse(exprstr)
+
+    tree.dump(System.out, "")
+
+    val context = GlobalContext(System.out, System.err)
+    tree.exec(context)
   }
 
   //A main method for testing

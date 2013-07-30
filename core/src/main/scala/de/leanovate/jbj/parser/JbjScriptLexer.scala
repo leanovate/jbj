@@ -9,7 +9,6 @@ import de.leanovate.jbj.parser.JbjTokens.Identifier
 import de.leanovate.jbj.parser.JbjTokens.EOF
 import de.leanovate.jbj.parser.JbjTokens.Keyword
 import de.leanovate.jbj.parser.JbjTokens.StringLit
-import de.leanovate.jbj.ast.FilePosition
 
 class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] with Parsers {
   type Elem = Char
@@ -18,16 +17,13 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
 
   def this(in: String) = this("-", new CharArrayReader(in.toCharArray))
 
-  private var position = FilePosition(fileName, in.pos.line)
-
   private val (tok, scriptEnd, rest1, rest2) = whitespace(in) match {
     case Success(_, in1) =>
-      position = FilePosition(fileName, in1.pos.line)
       token(in1) match {
         case Success((token, script), in2) => (token, script, in1, in2)
-        case ns: NoSuccess => (errorToken(position, ns.msg), false, ns.next, skip(ns.next))
+        case ns: NoSuccess => (errorToken(ns.msg), false, ns.next, skip(ns.next))
       }
-    case ns: NoSuccess => (errorToken(position, ns.msg), false, ns.next, skip(ns.next))
+    case ns: NoSuccess => (errorToken(ns.msg), false, ns.next, skip(ns.next))
   }
 
   private def skip(in: Reader[Char]) = if (in.atEnd) in else in.rest
@@ -48,36 +44,36 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
   })
 
   private def token: Parser[(Token, Boolean)] =
-    (str("?>") ^^^ Keyword(position, ";") -> true
-      | str("%>") ^^^ Keyword(position, ";") -> true
-      | str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(position, ";") -> true
+    (str("?>") ^^^ Keyword(";") -> true
+      | str("%>") ^^^ Keyword(";") -> true
+      | str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> true
       | identChar ~ rep(identChar | digit) ^^ {
       case first ~ rest => processIdent(first :: rest mkString "") -> false
     } | rep(digit) ~ '.' ~ rep1(digit) ~ opt(exponent) ^^ {
       case first ~ dot ~ rest ~ exponent =>
-        DoubleNumLit(position, first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "") -> false
+        DoubleNumLit(first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "") -> false
     } | rep1(digit) ~ '.' ~ rep(digit) ~ opt(exponent) ^^ {
       case first ~ dot ~ rest ~ exponent =>
-        DoubleNumLit(position, first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "") -> false
+        DoubleNumLit(first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "") -> false
     } | digit ~ rep(digit) ~ exponent ^^ {
       case first ~ rest ~ exponent =>
-        DoubleNumLit(position, (first :: rest) ++ exponent mkString "") -> false
+        DoubleNumLit((first :: rest) ++ exponent mkString "") -> false
     } | '0' ~ rep1(octDigit) ^^ {
-      case first ~ rest => convertNum(position, first :: rest mkString "", 8) -> false
+      case first ~ rest => convertNum(first :: rest mkString "", 8) -> false
     } | '0' ~ 'b' ~ rep(binDigit) ^^ {
-      case _ ~ _ ~ binary => convertNum(position, binary mkString "", 2) -> false
+      case _ ~ _ ~ binary => convertNum(binary mkString "", 2) -> false
     } | '0' ~ 'x' ~ rep(hexDigit) ^^ {
-      case _ ~ _ ~ hex => convertNum(position, hex mkString "", 16) -> false
+      case _ ~ _ ~ hex => convertNum(hex mkString "", 16) -> false
     } | digit ~ rep(digit) ^^ {
-      case first ~ rest => convertNum(position, first :: rest mkString "", 10) -> false
+      case first ~ rest => convertNum(first :: rest mkString "", 10) -> false
     } | '$' ~>  identChar ~ rep(identChar | digit) ^^ {
-      case first ~ rest => Variable(position, first :: rest mkString "") -> false
+      case first ~ rest => Variable(first :: rest mkString "") -> false
     } | '\'' ~ notInterpolatedStr ~ '\'' ^^ {
-      case '\'' ~ str ~ '\'' => StringLit(position, str) -> false
+      case '\'' ~ str ~ '\'' => StringLit(str) -> false
     } | '\"' ~ interpolatedStr ~ '\"' ^^ {
-      case '\"' ~ str ~ '\"' if str.exists(_.isRight) => InterpolatedStringLit(position, str) -> false
-      case '\"' ~ str ~ '\"' => StringLit(position, str.map(_.left.get) mkString "") -> false
-    } | EofCh ^^^ EOF(position) -> false
+      case '\"' ~ str ~ '\"' if str.exists(_.isRight) => InterpolatedStringLit(str) -> false
+      case '\"' ~ str ~ '\"' => StringLit(str.map(_.left.get) mkString "") -> false
+    } | EofCh ^^^ EOF -> false
       | '\'' ~> failure("unclosed string literal")
       | '\"' ~> failure("unclosed string literal")
       | delim ^^ {
@@ -168,14 +164,14 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
     } | chrExcept(EofCh) ~ comment
 
   protected def processIdent(name: String) =
-    if (reserved contains name) Keyword(position, name) else Identifier(position, name)
+    if (reserved contains name) Keyword(name) else Identifier(name)
 
   private lazy val _delim: Parser[Token] = {
     // construct parser for delimiters by |'ing together the parsers for the individual delimiters,
     // starting with the longest one -- otherwise a delimiter D will never be matched if there is
     // another delimiter that is a prefix of D
     def parseDelim(s: String): Parser[Token] = accept(s.toList) ^^ {
-      x => Keyword(position, s)
+      x => Keyword(s)
     }
 
     val d = new Array[String](delimiters.size)
@@ -188,13 +184,13 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
 
   private def str(str: String): Parser[Any] = accept(str.toList)
 
-  private def convertNum(position: FilePosition, chars: String, radix: Int): Token = {
+  private def convertNum(chars: String, radix: Int): Token = {
     try {
-      LongNumLit(position, chars, java.lang.Long.valueOf(chars, radix))
+      LongNumLit(chars, java.lang.Long.valueOf(chars, radix))
     } catch {
       case _: NumberFormatException =>
         val bInt = BigInt(chars, radix)
-        DoubleNumLit(position, chars, bInt.toDouble)
+        DoubleNumLit(chars, bInt.toDouble)
     }
   }
 }

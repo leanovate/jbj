@@ -1,13 +1,13 @@
 package de.leanovate.jbj.ast.stmt.loop
 
-import de.leanovate.jbj.ast.{StaticInitializer, FilePosition, Stmt, Expr}
+import de.leanovate.jbj.ast.{StaticInitializer, NodePosition, Stmt, Expr}
 import de.leanovate.jbj.runtime._
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.value.ArrayVal
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.SuccessExecResult
 
-case class ForeachValueStmt(position: FilePosition, arrayExpr: Expr, valueName: String, stmts: List[Stmt])
+case class ForeachValueStmt( arrayExpr: Expr, valueName: String, stmts: List[Stmt])
   extends Stmt with StaticInitializer {
 
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
