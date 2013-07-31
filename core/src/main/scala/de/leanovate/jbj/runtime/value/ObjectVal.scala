@@ -40,15 +40,13 @@ class ObjectVal(val keyValues: List[(ArrayKey, Value)]) extends Value {
 
   def isUndefined = false
 
-  def unref = this
-
   def copy = this
 
   def incr = this
 
   def decr = this
 
-  def getAt(index: Value) = index.unref match {
+  def getAt(index: Value) = index match {
     case IntegerVal(idx) => keyValueMap.getOrElse(IntArrayKey(idx.toInt), UndefinedVal)
     case NumericVal(idx) => keyValueMap.getOrElse(IntArrayKey(idx.toInt), UndefinedVal)
     case StringVal(idx) => keyValueMap.getOrElse(StringArrayKey(idx), UndefinedVal)
@@ -63,18 +61,16 @@ object ObjectVal {
     new ObjectVal(keyValues.map {
       keyValue =>
         val key = keyValue._1.map {
-          k => k.unref match {
-            case IntegerVal(value) =>
-              if (value > nextIndex)
-                nextIndex = value
-              IntArrayKey(value)
-            case NumericVal(value) =>
-              if (value > nextIndex)
-                nextIndex = value.toInt
-              IntArrayKey(value.toInt)
-            case value =>
-              StringArrayKey(value.toStr.value)
-          }
+          case IntegerVal(value) =>
+            if (value > nextIndex)
+              nextIndex = value
+            IntArrayKey(value)
+          case NumericVal(value) =>
+            if (value > nextIndex)
+              nextIndex = value.toInt
+            IntArrayKey(value.toInt)
+          case value =>
+            StringArrayKey(value.toStr.value)
         }.getOrElse {
           nextIndex += 1
           IntArrayKey(nextIndex)

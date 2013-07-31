@@ -3,7 +3,8 @@ package de.leanovate.jbj.runtime
 import de.leanovate.jbj.runtime.value.{IntegerVal, NullVal, BooleanVal}
 
 package object buildin {
-  val buildinFunctions = (StringFunctions.functions ++ VariableFunctions.functions ++ RuntimeFunctions.functions).map {
+  val buildinFunctions = (ArrayFunctions.functions ++   StringFunctions.functions ++
+    VariableFunctions.functions ++ RuntimeFunctions.functions).map {
     function => function.name -> function
   }.toMap
 

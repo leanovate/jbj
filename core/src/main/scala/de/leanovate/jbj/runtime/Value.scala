@@ -20,8 +20,6 @@ trait Value {
 
   def isUndefined: Boolean
 
-  def unref: Value
-
   def copy: Value
 
   def incr: Value
@@ -32,10 +30,11 @@ trait Value {
 }
 
 object Value {
-  def compare(left: Value, right: Value): Int = (left.unref, right.unref) match {
+  def compare(left: Value, right: Value): Int = (left, right) match {
     case (StringVal(leftVal), StringVal(rightVal)) => leftVal.compare(rightVal)
     case (IntegerVal(leftVal), IntegerVal(rightVal)) => leftVal.compare(rightVal)
     case (NumericVal(leftVal), NumericVal(rightVal)) => leftVal.compare(rightVal)
+    case (BooleanVal(leftVal), BooleanVal(rightVal)) => leftVal.compare(rightVal)
     case (anyLeft, anyRight) => anyLeft.toStr.value.compare(anyRight.toStr.value)
   }
 }

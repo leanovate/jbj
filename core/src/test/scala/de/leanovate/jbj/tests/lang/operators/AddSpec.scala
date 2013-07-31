@@ -8,7 +8,7 @@ import org.scalatest.matchers.MustMatchers
 
 @RunWith(classOf[JUnitRunner])
 class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Add" - {
+  "Add operator" - {
     "Test + operator : various numbers as strings" in {
       // lang/operators/add_variationStr
       resultOf(

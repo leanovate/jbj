@@ -37,18 +37,26 @@ class NumericValSpec extends FreeSpec with MustMatchers {
       numericMatch(".0123e4abcd") must be(Some(".0123e4"))
       numericMatch("ab123") must be(None)
     }
-  }
 
-  private def intMatch(str: String) = {
-    str match {
-      case NumericVal.numericPattern(num, null, null) if !num.isEmpty => Some(num)
-      case _ => None
+    "string conversion" in {
+      convert("679") must be(Some(679.0))
+      convert("679abc") must be(Some(679.0))
+      convert(" 679") must be(Some(679.0))
+      convert("679  ") must be(Some(679.0))
+      convert("- 67835") must be(None)
     }
   }
 
   private def numericMatch(str: String) = {
     str match {
       case NumericVal.numericPattern(num, _, _) if !num.isEmpty => Some(num)
+      case _ => None
+    }
+  }
+
+  private def convert(str:String) = {
+    StringVal(str) match {
+      case NumericVal(v) => Some(v)
       case _ => None
     }
   }

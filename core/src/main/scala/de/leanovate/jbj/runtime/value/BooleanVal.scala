@@ -12,8 +12,6 @@ abstract class BooleanVal extends Value {
 
   def isUndefined = false
 
-  def unref = this
-
   def copy = this
 
   def incr = this
@@ -56,5 +54,5 @@ object BooleanVal {
 
   def apply(value: Boolean): BooleanVal = if (value) TRUE else FALSE
 
-  def unapply(value: BooleanVal) = Some(value.value)
+  def unapply(boolean: BooleanVal) = Some(boolean.value)
 }

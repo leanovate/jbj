@@ -26,17 +26,17 @@ case class StringVal(value: String) extends Value {
 
   def isUndefined = false
 
-  def unref = this
-
   def copy = this
 
   def incr = this
 
   def decr = this
 
-  def getAt(index: Value) = index.unref match {
+  def getAt(index: Value) = index match {
     case IntegerVal(idx) => StringVal(value(idx.toInt).toString)
     case NumericVal(idx) => StringVal(value(idx.toInt).toString)
     case _ => UndefinedVal
   }
+
+  def dot(other: Value): Value = StringVal(value + other.toStr.value)
 }

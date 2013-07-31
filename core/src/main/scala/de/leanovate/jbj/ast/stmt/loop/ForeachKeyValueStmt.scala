@@ -13,7 +13,7 @@ case class ForeachKeyValueStmt(arrayExpr: Expr, keyVar: Reference, valueVar: Ref
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
   def exec(ctx: Context) = {
-    arrayExpr.eval(ctx).unref match {
+    arrayExpr.eval(ctx) match {
       case array: ArrayVal =>
         execValues(array.keyValues, ctx)
       case _ =>
