@@ -144,9 +144,9 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
 
   private def interfaceList: Parser[List[NamespaceName]] = rep1sep(fullyQualifiedClassName, ",")
 
-  private def foreachOptionalArg: Parser[Option[VariableReference]] = opt("=>" ~> variable)
+  private def foreachOptionalArg: Parser[Option[Reference]] = opt("=>" ~> variable)
 
-  private def foreachVariable: Parser[VariableReference] = variable
+  private def foreachVariable: Parser[Reference] = variable
 
   private def forStatement: Parser[List[Stmt]] =
     ":" ~> innerStatementList <~ "endfor" <~ ";" | statement ^^ (_ :: Nil)
@@ -308,24 +308,26 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
       binary(level + 1) * binaryOp(level)
     }
 
-  private def termWithoutVariable: Parser[Expr] = scalar | referenceExpr | functionCall | constant | parenthesisExpr | "-" ~> term ^^ {
-    expr => NegExpr(expr)
-  } | "+" ~> term
+  private def termWithoutVariable: Parser[Expr] =
+    rwVariable <~ "++" ^^ {
+      ref => GetAndIncrExpr(ref)
+    } | rwVariable <~ "--" ^^ {
+      ref => GetAndDecrExpr(ref)
+    } | "++" ~> rwVariable ^^ {
+      ref => IncrAndGetExpr(ref)
+    } | "--" ~> rwVariable ^^ {
+      ref => DecrAndGetExpr(ref)
+    } | scalar | combinedScalar | constant | parenthesisExpr | "-" ~> term ^^ {
+      expr => NegExpr(expr)
+    } | "+" ~> term
 
-  private def expr: Parser[Expr] = exprWithoutVariable | rVariable
-
-  private def term: Parser[Expr] = termWithoutVariable | rVariable
-
-  private def parenthesisExpr: Parser[Expr] = "(" ~> expr <~ ")"
-
-  private def rVariable: Parser[VariableReference] = variable
-
-  private def rwVariable: Parser[VariableReference] = variable
+  private def combinedScalar: Parser[Expr] = "array" ~> "(" ~> arrayPairList <~ ")" ^^ {
+    keyValues => ArrayCreateExpr(keyValues)
+  }
 
   private def functionCall: Parser[Reference] = namespaceName ~ functionCallParameterList ^^ {
     case name ~ params => CallFunctionReference(name, params)
   }
-
 
   private def className: Parser[NamespaceName] = namespaceName
 
@@ -353,6 +355,18 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
 
   private def scalar: Parser[Expr] = commonScalar | interpolatedStringLit ^^ (s => InterpolatedStringExpr(parseCtx, s.charOrInterpolations))
 
+  private def expr: Parser[Expr] = exprWithoutVariable ||| rVariable
+
+  private def term: Parser[Expr] = termWithoutVariable ||| rVariable
+
+  private def parenthesisExpr: Parser[Expr] = "(" ~> expr <~ ")"
+
+  private def rVariable: Parser[Reference] = variable
+
+  private def rwVariable: Parser[Reference] = variable
+
+  private def variable: Parser[Reference] = baseVariableWithFunctionCalls
+
   private def baseVariableWithFunctionCalls: Parser[Reference] = baseVariable | functionCall
 
   private def baseVariable: Parser[Reference] = referenceVariable
@@ -373,15 +387,12 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
 
   private def dimOffset: Parser[Option[Expr]] = opt(expr)
 
+  private def arrayPairList: Parser[List[(Option[Expr], Expr)]] = repsep(
+    expr ~ opt("=>" ~> expr) ^^ {
+      case keyExpr ~ Some(valueExpr) => Some(keyExpr) -> valueExpr
+      case valueExpr ~ None => None -> valueExpr
+    }, ",") <~ opt(",")
 
-  private def value: Parser[Expr] =
-    (staticScalar
-      | interpolatedStringLit ^^ (s => InterpolatedStringExpr(parseCtx, s.charOrInterpolations))
-      )
-
-  private def variable: Parser[VariableReference] = variableLit ^^ {
-    v => VariableReference(StaticName(v))
-  }
 
   private def reference: Parser[Reference] = variable ~ rep(refAccess) ^^ {
     case variable ~ refAccesses => refAccesses.foldLeft(variable.asInstanceOf[Reference]) {
@@ -397,18 +408,19 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
     property => PropertyReference(_: Reference, property)
   }
 
-  private def referenceExpr: Parser[Expr] = reference <~ "++" ^^ {
-    ref => GetAndIncrExpr(ref)
-  } | reference <~ "--" ^^ {
-    ref => GetAndDecrExpr(ref)
-  } | "++" ~> reference ^^ {
-    ref => IncrAndGetExpr(ref)
-  } | "--" ~> reference ^^ {
-    ref => DecrAndGetExpr(ref)
-  } | reference |
-    "array" ~ "(" ~ repsep(arrayValues, ",") <~ opt(",") <~ ")" ^^ {
-      case array ~ _ ~ arrayValues => ArrayCreateExpr(arrayValues)
-    }
+  private def referenceExpr: Parser[Expr] =
+    reference <~ "++" ^^ {
+      ref => GetAndIncrExpr(ref)
+    } | reference <~ "--" ^^ {
+      ref => GetAndDecrExpr(ref)
+    } | "++" ~> reference ^^ {
+      ref => IncrAndGetExpr(ref)
+    } | "--" ~> reference ^^ {
+      ref => DecrAndGetExpr(ref)
+    } | reference |
+      "array" ~ "(" ~ repsep(arrayValues, ",") <~ opt(",") <~ ")" ^^ {
+        case array ~ _ ~ arrayValues => ArrayCreateExpr(arrayValues)
+      }
 
   private def arrayValues: Parser[(Option[Expr], Expr)] = expr ~ "=>" ~ expr ^^ {
     case indexExpr ~ _ ~ valueExpr => (Some(indexExpr), valueExpr)
