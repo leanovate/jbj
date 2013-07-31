@@ -17,9 +17,9 @@ trait NumericVal extends Value {
 
   def copy = this
 
-  def neg: NumericVal
-
   def getAt(index: Value) = UndefinedVal
+
+  def unary_- : NumericVal
 
   def +(other: Value): Value = (this, other) match {
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal > 0 && leftVal <= Long.MaxValue - rightVal =>

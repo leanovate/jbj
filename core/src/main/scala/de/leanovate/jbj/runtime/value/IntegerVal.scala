@@ -21,9 +21,9 @@ case class IntegerVal(value: Long) extends NumericVal {
 
   def toBool = BooleanVal(value != 0)
 
-  def neg = if (value > Long.MinValue) IntegerVal(-value) else FloatVal(-value.toDouble)
-
   def incr = IntegerVal(value + 1)
 
   def decr = IntegerVal(value - 1)
+
+  def unary_- = if (value > Long.MinValue) IntegerVal(-value) else FloatVal(-value.toDouble)
 }
