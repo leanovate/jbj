@@ -190,11 +190,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
   private def optionalClassType: Parser[Option[TypeHint]] = opt("array" ^^^ ArrayTypeHint |
     "callable" ^^^ CallableTypeHint | fullyQualifiedClassName ^^ (name => ClassTypeHint(name)))
 
-  private def functionCallParameterList: Parser[List[Expr]] = "(" ~> opt(nonEmptyFunctionCallParameterList) <~ ")" ^^ {
-    optParameters => optParameters.getOrElse(Nil)
-  }
-
-  private def nonEmptyFunctionCallParameterList: Parser[List[Expr]] = rep(exprWithoutVariable | variable)
+  private def functionCallParameterList: Parser[List[Expr]] = "(" ~> repsep(exprWithoutVariable | variable, ",") <~ ")"
 
   private def globalVarList: Parser[List[String]] = rep1sep(variableLit, ",")
 
@@ -268,51 +264,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
       case variable ~ _ ~ expr => DivByExpr(variable, expr)
     } | variable ~ ".=" ~ expr ^^ {
       case variable ~ _ ~ expr => ConcatWithExpr(variable, expr)
-    } | newExpr | binary(minPrec) | term
-
-  private def expr: Parser[Expr] = exprWithoutVariable | rVariable
-
-  private def parenthesisExpr: Parser[Expr] = "(" ~> expr <~ ")"
-
-  private def rVariable: Parser[VariableReference] = variable
-
-  private def rwVariable: Parser[VariableReference] = variable
-
-  private def className: Parser[NamespaceName] = namespaceName
-
-  private def fullyQualifiedClassName: Parser[NamespaceName] = namespaceName
-
-  private def classNameReference: Parser[NamespaceName] = className
-
-  private def ctorArguments: Parser[List[Expr]] = functionCallParameterList
-
-  private def commonScalar: Parser[ScalarExpr] =
-    longNumLit ^^ {
-      s => ScalarExpr(IntegerVal(s))
-    } | doubleNumLit ^^ {
-      s => ScalarExpr(FloatVal(s))
-    } | stringLit ^^ {
-      s => ScalarExpr(StringVal(s))
-    }
-
-  private def staticScalar: Parser[ScalarExpr] =
-    commonScalar | "+" ~> staticScalar ^^ {
-      s => ScalarExpr(s.value.toNum)
-    } | "-" ~> staticScalar ^^ {
-      s => ScalarExpr(-s.value.toNum)
-    }
-
-  private def scalar: Parser[Expr] = commonScalar | interpolatedStringLit ^^ (s => InterpolatedStringExpr(parseCtx, s.charOrInterpolations))
-
-
-  private def compoundVariable: Parser[VariableReference] = variableLit ^^ {
-    v => VariableReference(StaticName(v))
-  } | "$" ~> "{" ~> expr <~ "}" ^^ {
-    expr => VariableReference(DynamicName(expr))
-  }
-
-  private def dimOffset: Parser[Option[Expr]] = opt(expr)
-
+    } | newExpr | binary(minPrec) | termWithoutVariable
 
   private def binaryOp(level: Int): Parser[((Expr, Expr) => Expr)] = {
     level match {
@@ -356,9 +308,70 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
       binary(level + 1) * binaryOp(level)
     }
 
-  private def term: Parser[Expr] = scalar | referenceExpr | functionCall | constant | parenthesisExpr | "-" ~> term ^^ {
+  private def termWithoutVariable: Parser[Expr] = scalar | referenceExpr | functionCall | constant | parenthesisExpr | "-" ~> term ^^ {
     expr => NegExpr(expr)
   } | "+" ~> term
+
+  private def expr: Parser[Expr] = exprWithoutVariable | rVariable
+
+  private def term: Parser[Expr] = termWithoutVariable | rVariable
+
+  private def parenthesisExpr: Parser[Expr] = "(" ~> expr <~ ")"
+
+  private def rVariable: Parser[VariableReference] = variable
+
+  private def rwVariable: Parser[VariableReference] = variable
+
+  private def functionCall: Parser[Reference] = namespaceName ~ functionCallParameterList ^^ {
+    case name ~ params => CallFunctionReference(name, params)
+  }
+
+
+  private def className: Parser[NamespaceName] = namespaceName
+
+  private def fullyQualifiedClassName: Parser[NamespaceName] = namespaceName
+
+  private def classNameReference: Parser[NamespaceName] = className
+
+  private def ctorArguments: Parser[List[Expr]] = functionCallParameterList
+
+  private def commonScalar: Parser[ScalarExpr] =
+    longNumLit ^^ {
+      s => ScalarExpr(IntegerVal(s))
+    } | doubleNumLit ^^ {
+      s => ScalarExpr(FloatVal(s))
+    } | stringLit ^^ {
+      s => ScalarExpr(StringVal(s))
+    }
+
+  private def staticScalar: Parser[ScalarExpr] =
+    commonScalar | "+" ~> staticScalar ^^ {
+      s => ScalarExpr(s.value.toNum)
+    } | "-" ~> staticScalar ^^ {
+      s => ScalarExpr(-s.value.toNum)
+    }
+
+  private def scalar: Parser[Expr] = commonScalar | interpolatedStringLit ^^ (s => InterpolatedStringExpr(parseCtx, s.charOrInterpolations))
+
+  private def baseVariableWithFunctionCalls: Parser[Reference] = baseVariable | functionCall
+
+  private def baseVariable: Parser[Reference] = referenceVariable
+
+  private def referenceVariable: Parser[Reference] = compoundVariable ~ rep(
+    "[" ~> dimOffset <~ "]" | "{" ~> expr <~ "}" ^^ (Some(_))
+  ) ^^ {
+    case v ~ dims => dims.foldLeft(v.asInstanceOf[Reference]) {
+      (ref, dim) => IndexReference(ref, dim)
+    }
+  }
+
+  private def compoundVariable: Parser[Reference] = variableLit ^^ {
+    v => VariableReference(StaticName(v))
+  } | "$" ~> "{" ~> expr <~ "}" ^^ {
+    expr => VariableReference(DynamicName(expr))
+  }
+
+  private def dimOffset: Parser[Option[Expr]] = opt(expr)
 
 
   private def value: Parser[Expr] =
@@ -377,7 +390,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
   }
 
   private def refAccess: Parser[Reference => Reference] = "[" ~> expr <~ "]" ^^ {
-    expr => IndexReference(_: Reference, expr)
+    expr => IndexReference(_: Reference, Some(expr))
   } | "->" ~> identLit ~ "(" ~ repsep(expr, ",") <~ ")" ^^ {
     case method ~ _ ~ params => MethodCallReference(_: Reference, method, params)
   } | "->" ~> identLit ^^ {
@@ -401,14 +414,6 @@ class JbjParser(parseCtx: ParseContext) extends Parsers {
     case indexExpr ~ _ ~ valueExpr => (Some(indexExpr), valueExpr)
   } | expr ^^ {
     valueExpr => (None, valueExpr)
-  }
-
-  private def functionCall: Parser[Expr] = identLit ~ "(" ~ repsep(expr, ",") <~ ")" ^^ {
-    case name ~ _ ~ params => CallFunctionExpr(name, params)
-  }
-
-  private def neg: Parser[NegExpr] = "-" ~ term ^^ {
-    case sign ~ term => NegExpr(term)
   }
 
   private def constant: Parser[Expr] = identLit ^^ {

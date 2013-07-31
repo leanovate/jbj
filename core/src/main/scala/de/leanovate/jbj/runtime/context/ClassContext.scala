@@ -39,7 +39,7 @@ class ClassContext(var className: String, var global: GlobalContext) extends Con
     variables.remove(name)
   }
 
-  def findFunction(name: String) = global.findFunction(name)
+  def findFunction(name: NamespaceName) = global.findFunction(name)
 
   def defineFunction(function: PFunction) {
     global.defineFunction(function)

@@ -29,7 +29,7 @@ trait Context {
 
   def undefineVariable(name: String)
 
-  def findFunction(name: String): Option[PFunction]
+  def findFunction(name: NamespaceName): Option[PFunction]
 
   def defineFunction(function: PFunction)
 }

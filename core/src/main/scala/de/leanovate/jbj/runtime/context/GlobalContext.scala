@@ -14,7 +14,7 @@ case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
 
   private val variables = mutable.Map.empty[String, ValueRef]
 
-  private val functions = mutable.Map.empty[String, PFunction]
+  private val functions = mutable.Map.empty[NamespaceName, PFunction]
 
   private val staticContexts = mutable.Map.empty[String, StaticContext]
 
@@ -50,10 +50,14 @@ case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
     variables.remove(name)
   }
 
-  def findFunction(name: String) = buildin.buildinFunctions.get(name).map(Some(_)).getOrElse(functions.get(name))
+  def findFunction(name: NamespaceName) =
+    if (name.path.size == 1)
+      buildin.buildinFunctions.get(name.path.head).map(Some(_)).getOrElse(functions.get(name))
+    else
+      functions.get(name)
 
   def defineFunction(function: PFunction) {
-    functions.put(function.name, function)
+    functions.put(NamespaceName(function.name), function)
   }
 
   def staticContext(identifier: String): StaticContext =

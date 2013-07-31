@@ -35,7 +35,7 @@ case class FunctionContext(identifier: String, callerCtx: Context) extends Conte
     localVariables.remove(name)
   }
 
-  def findFunction(name: String) = callerCtx.findFunction(name)
+  def findFunction(name: NamespaceName) = callerCtx.findFunction(name)
 
   def defineFunction(function: PFunction) {
     callerCtx.defineFunction(function)
