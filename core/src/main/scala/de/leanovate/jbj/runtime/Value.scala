@@ -14,6 +14,8 @@ trait Value {
 
   def toNum: NumericVal
 
+  def toInteger: IntegerVal
+
   def toBool: BooleanVal
 
   def isNull: Boolean

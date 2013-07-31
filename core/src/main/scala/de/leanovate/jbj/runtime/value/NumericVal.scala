@@ -5,12 +5,6 @@ import de.leanovate.jbj.runtime.Value
 trait NumericVal extends Value {
   def toNum: NumericVal = this
 
-  def toDouble: Double
-
-  def toLong: Long
-
-  def toInt: Int
-
   def isNull = false
 
   def isUndefined = false
@@ -50,6 +44,7 @@ trait NumericVal extends Value {
 }
 
 object NumericVal {
+  val integerPattern = """[ ]*([\+\-]?[0-9]+).*""".r
   val numericPattern = """[ ]*([\+\-]?[0-9]*(\.[0-9]*)?([eE][0-9]+)?).*""".r
   val truePattern = "[tT][rR][uU][eE]".r
   val falsePattern = "[fF][aA][lL][sS][eE]".r

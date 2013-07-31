@@ -13,7 +13,9 @@ object NullVal extends Value {
 
   def toStr = StringVal("")
 
-  def toNum = IntegerVal(0)
+  def toNum = toInteger
+
+  def toInteger = IntegerVal(0)
 
   def toBool = BooleanVal(false)
 

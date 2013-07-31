@@ -248,8 +248,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val forExpr: PackratParser[List[Expr]] = repsep(expr, ",")
 
-  lazy val newExpr: PackratParser[NewExpr] = "new" ~> classNameReference ^^ {
-    className => NewExpr(className)
+  lazy val newExpr: PackratParser[NewExpr] = "new" ~> classNameReference ~ ctorArguments ^^ {
+    case name ~ args => NewExpr(name)
   }
 
   lazy val exprWithoutVariable: PackratParser[Expr] =
@@ -265,7 +265,9 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       case v ~ _ ~ e => DivByExpr(v, e)
     } | variable ~ ".=" ~ expr ^^ {
       case v ~ _ ~ e => ConcatWithExpr(v, e)
-    } | newExpr | binary(minPrec) | termWithoutVariable
+    } | expr ~ "?" ~ expr ~ ":" ~ expr ^^ {
+      case cond ~ _ ~ tExpr ~ _ ~ fExpr => TernaryExpr(cond, tExpr, fExpr)
+    } | binary(minPrec) | termWithoutVariable
 
   def binaryOp(level: Int): Parser[((Expr, Expr) => Expr)] = {
     level match {
@@ -292,7 +294,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
           "-" ^^^ ((a: Expr, b: Expr) => SubExpr(a, b))
       case 12 =>
         "*" ^^^ ((a: Expr, b: Expr) => MulExpr(a, b)) |
-          "/" ^^^ ((a: Expr, b: Expr) => DivExpr(a, b))
+          "/" ^^^ ((a: Expr, b: Expr) => DivExpr(a, b)) |
+          "%" ^^^ ((a: Expr, b: Expr) => ModExpr (a, b))
       case _ => throw new RuntimeException("bad precedence level " + level)
     }
   }
@@ -310,19 +313,28 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     }
 
   lazy val termWithoutVariable: PackratParser[Expr] =
-    rwVariable <~ "++" ^^ {
-      ref => GetAndIncrExpr(ref)
-    } | rwVariable <~ "--" ^^ {
+    newExpr |
+      rwVariable <~ "++" ^^ {
+        ref => GetAndIncrExpr(ref)
+      } | rwVariable <~ "--" ^^ {
       ref => GetAndDecrExpr(ref)
     } | "++" ~> rwVariable ^^ {
       ref => IncrAndGetExpr(ref)
     } | "--" ~> rwVariable ^^ {
       ref => DecrAndGetExpr(ref)
-    } | scalar | combinedScalar | constant | parenthesisExpr | "-" ~> term ^^ {
+    } | scalar | combinedScalarOffset | constant | parenthesisExpr | "-" ~> term ^^ {
       expr => NegExpr(expr)
     } | "+" ~> term
 
+  lazy val combinedScalarOffset: PackratParser[Expr] = combinedScalar ~ rep("[" ~> dimOffset <~ "]") ^^ {
+    case s ~ dims => dims.foldLeft(s) {
+      (e, dim) => IndexGetExpr(e, dim)
+    }
+  }
+
   lazy val combinedScalar: PackratParser[Expr] = "array" ~> "(" ~> arrayPairList <~ ")" ^^ {
+    keyValues => ArrayCreateExpr(keyValues)
+  } | "[" ~> arrayPairList <~ "]" ^^ {
     keyValues => ArrayCreateExpr(keyValues)
   }
 
@@ -468,62 +480,22 @@ object JbjParser {
   //A main method for testing
   def main(args: Array[String]) = {
     test( """<?php
-            |$valid_true = array(1, "1", "true", 1.0, array(1));
-            |$valid_false = array(0, "", 0.0, array(), NULL);
             |
-            |$int1 = 679;
-            |$int2 = -67835;
-            |$valid_int1 = array("678", "678abc", " 678", "678  ", 678.0, 6.789E2, "+678", +678);
-            |$valid_int2 = array("-67836", "-67836abc", " -67836", "-67836  ", -67835.0001, -6.78351E4);
-            |$invalid_int1 = array(679, "679");
-            |$invalid_int2 = array(-67835, "-67835");
-            |
-            |$float1 = 57385.45835;
-            |$float2 = -67345.76567;
-            |$valid_float1 = array("57385.45834",  "57385.45834aaa", "  57385.45834", 5.738545834e4);
-            |$valid_float2 = array("-67345.76568", "-67345.76568aaa", "  -67345.76568", -6.734576568E4);
-            |$invalid_float1 = array(57385.45835, 5.738545835e4);
-            |$invalid_float2 = array(-67345.76567, -6.734576567E4);
-            |
-            |
-            |$toCompare = array(
-            |// boolean test will result in both sides being converted to boolean so !0 = true and true is not > true for example
-            |// also note that a string of "0" is converted to false but a string of "0.0" is converted to true
-            |// false cannot be tested as 0 can never be > 0 or 1
-            |  true, $valid_false, $valid_true,
-            |  $int1, $valid_int1, $invalid_int1,
-            |  $int2, $valid_int2, $invalid_int2,
-            |  $float1, $valid_float1, $invalid_float1,
-            |  $float2, $valid_float2, $invalid_float2
+            |$strVals = array(
+            |   "0","65","-44", "1.2", "-7.7", "abc", "123abc", "123e5", "123e5xyz", " 123abc", "123 abc", "123abc ", "3.4a",
+            |   "a5.9"
             |);
             |
-            |$failed = false;
-            |for ($i = 0; $i < count($toCompare); $i +=3) {
-            |   $typeToTest = $toCompare[$i];
-            |   $valid_compares = $toCompare[$i + 1];
-            |   $invalid_compares = $toCompare[$i + 2];
+            |error_reporting(E_ERROR);
             |
-            |   foreach($valid_compares as $compareVal) {
-            |      if ($typeToTest > $compareVal) {
-            |         // do nothing
-            |      }
-            |      else {
-            |         echo "FAILED: '$typeToTest' <= '$compareVal'\n";
-            |         $failed = true;
-            |      }
+            |foreach ($strVals as $strVal) {
+            |   foreach($strVals as $otherVal) {
+            |	   echo "--- testing: '$strVal' % '$otherVal' ---\n";
+            |      var_dump($strVal%$otherVal);
             |   }
-            |
-            |   foreach($invalid_compares as $compareVal) {
-            |      if ($typeToTest > $compareVal) {
-            |         echo "FAILED: '$typeToTest' > '$compareVal'\n";
-            |         $failed = true;
-            |      }
-            |   }
-            |
             |}
-            |if ($failed == false) {
-            |   echo "Test Passed\n";
-            |}
+            |
+            |
             |?>""".stripMargin)
   }
 }

@@ -8,6 +8,8 @@ abstract class BooleanVal extends Value {
 
   def toBool = this
 
+  def toNum = toInteger
+
   def isNull = false
 
   def isUndefined = false
@@ -33,7 +35,7 @@ object BooleanVal {
       out.println("%sbool(true)".format(ident))
     }
 
-    val toNum = IntegerVal(1)
+    val toInteger = IntegerVal(1)
 
     val toStr = StringVal("1")
   }
@@ -47,7 +49,7 @@ object BooleanVal {
       out.println("%sbool(false)".format(ident))
     }
 
-    val toNum = IntegerVal(0)
+    val toInteger = IntegerVal(0)
 
     val toStr = StringVal("")
   }

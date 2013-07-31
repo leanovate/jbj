@@ -28,9 +28,9 @@ class ArrayVal(val keyValues: List[(ArrayKey, Value)]) extends Value {
 
   def toStr = StringVal("Array")
 
-  def toNum = {
-    throw new FatalErrorException("Invalid conversion")
-  }
+  def toNum = toInteger
+
+  def toInteger = IntegerVal(0)
 
   def toBool = {
     throw new FatalErrorException("Invalid conversion")

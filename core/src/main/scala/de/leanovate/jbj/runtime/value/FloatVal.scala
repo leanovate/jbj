@@ -13,11 +13,7 @@ case class FloatVal(value: Double) extends NumericVal {
 
   def toStr: StringVal = StringVal(value.toString)
 
-  def toDouble: Double = value
-
-  def toLong = value.toLong
-
-  def toInt = value.toInt
+  def toInteger: IntegerVal = IntegerVal(value.toLong)
 
   def toBool = BooleanVal(value != 0.0)
 

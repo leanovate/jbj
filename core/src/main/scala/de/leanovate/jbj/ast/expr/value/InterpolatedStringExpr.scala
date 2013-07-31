@@ -16,6 +16,8 @@ case class InterpolatedStringExpr(format: String, interpolations: List[Expr]) ex
 object InterpolatedStringExpr {
   def apply(parseCtx: ParseContext, charOrInterpolations: List[Either[Char, String]]): Expr = {
     val str = charOrInterpolations.foldLeft(StringBuilder.newBuilder) {
+      case (b, Left('%')) =>
+        b ++= "%%"
       case (b, Left(ch)) =>
         b += ch
       case (b, Right(_)) =>

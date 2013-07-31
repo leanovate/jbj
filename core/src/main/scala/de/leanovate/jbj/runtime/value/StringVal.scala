@@ -15,8 +15,13 @@ case class StringVal(value: String) extends Value {
   def toStr: StringVal = this
 
   def toNum: NumericVal = value match {
-    case NumericVal.numericPattern(num, null, null) if !num.isEmpty => IntegerVal(num.toInt)
+    case NumericVal.numericPattern(num, null, null) if !num.isEmpty => IntegerVal(num.toLong)
     case NumericVal.numericPattern(num, _, _) if !num.isEmpty => FloatVal(num.toDouble)
+    case _ => IntegerVal(0)
+  }
+
+  def toInteger: IntegerVal = value match {
+    case NumericVal.integerPattern(num) => IntegerVal(num.toLong)
     case _ => IntegerVal(0)
   }
 
