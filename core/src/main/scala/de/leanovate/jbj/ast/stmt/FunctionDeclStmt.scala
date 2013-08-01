@@ -1,6 +1,6 @@
 package de.leanovate.jbj.ast.stmt
 
-import de.leanovate.jbj.ast.{NamespaceName, NodePosition, StaticInitializer, Stmt}
+import de.leanovate.jbj.ast.{NodePosition, NamespaceName, StaticInitializer, Stmt}
 import de.leanovate.jbj.runtime._
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.context.FunctionContext
@@ -16,9 +16,8 @@ case class FunctionDeclStmt(name: NamespaceName, parameterDecls: List[ParameterD
     SuccessExecResult()
   }
 
-
   def call(ctx: Context, callerPosition: NodePosition, parameters: List[Value]): Either[Value, ValueRef] = {
-    val funcCtx = FunctionContext(name, ctx)
+    val funcCtx = FunctionContext(name, callerPosition, ctx)
 
     if (!funcCtx.static.initialized) {
       staticInitializers.foreach(_.initializeStatic(funcCtx))
@@ -34,7 +33,7 @@ case class FunctionDeclStmt(name: NamespaceName, parameterDecls: List[ParameterD
   }
 
   @tailrec
-  private def execStmts(statements: List[Stmt], context: FunctionContext): Value = statements match {
+  private def execStmts(statements: List[Stmt], context: Context): Value = statements match {
     case head :: tail => head.exec(context) match {
       case ReturnExecResult(returnVal) => returnVal
       case _ => execStmts(tail, context)

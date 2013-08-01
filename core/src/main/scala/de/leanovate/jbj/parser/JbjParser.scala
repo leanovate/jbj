@@ -249,7 +249,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val forExpr: PackratParser[List[Expr]] = repsep(expr, ",")
 
   lazy val newExpr: PackratParser[NewExpr] = "new" ~> classNameReference ~ ctorArguments ^^ {
-    case name ~ args => NewExpr(name)
+    case name ~ args => NewExpr(name, args)
   }
 
   lazy val exprWithoutVariable: PackratParser[Expr] =

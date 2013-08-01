@@ -5,7 +5,8 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.buildin
 import scala.Some
-import de.leanovate.jbj.ast.NamespaceName
+import de.leanovate.jbj.ast.{NodePosition, NamespaceName}
+import scala.collection.immutable.Stack
 
 case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
   private val classes = mutable.Map.empty[NamespaceName, PClass]
@@ -21,6 +22,8 @@ case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
   def global = this
 
   def static = staticContext("global")
+
+  def stack: Stack[NodePosition] = Stack.empty[NodePosition]
 
   def findClass(name: NamespaceName): Option[PClass] = classes.get(name)
 

@@ -6,7 +6,7 @@ import de.leanovate.jbj.exception.FatalErrorException
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.IntArrayKey
 
-class ObjectVal(pClass: PClass, var keyValues: mutable.LinkedHashMap[ArrayKey, Value]) extends Value {
+class ObjectVal(var pClass: PClass, var keyValues: mutable.LinkedHashMap[ArrayKey, Value]) extends Value {
   override def toOutput(out: PrintStream) {
     out.print("Array")
   }

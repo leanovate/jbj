@@ -2,7 +2,9 @@ package de.leanovate.jbj.runtime
 
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.context.{StaticContext, GlobalContext}
-import de.leanovate.jbj.ast.NamespaceName
+import de.leanovate.jbj.ast.{NodePosition, NamespaceName}
+import scala.collection.mutable
+import scala.collection.immutable.Stack
 
 trait Context {
   def global: GlobalContext
@@ -14,6 +16,8 @@ trait Context {
   def err: PrintStream
 
   lazy val log: Log = new Log(out, err)
+
+  def stack: Stack[NodePosition]
 
   def findClass(name: NamespaceName): Option[PClass]
 

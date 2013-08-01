@@ -1,14 +1,16 @@
 package de.leanovate.jbj.runtime.context
 
-import scala.collection.mutable
+import de.leanovate.jbj.ast.NodePosition
 import de.leanovate.jbj.runtime._
-import de.leanovate.jbj.ast.{NodePosition, NamespaceName}
+import scala.collection.mutable
 import scala.collection.immutable.Stack
+import de.leanovate.jbj.ast.NamespaceName
+import de.leanovate.jbj.runtime.value.ObjectVal
 
-case class FunctionContext(functionName: NamespaceName, callerPosition: NodePosition, callerCtx: Context) extends Context {
+case class MethodContext(instance: ObjectVal, methodName: String, callerPosition: NodePosition, callerCtx: Context) extends Context {
   private val localVariables = mutable.Map.empty[String, ValueRef]
 
-  private val identifier = "Function_" + functionName.toString
+  private val identifier = "Method_" + instance.pClass.name.toString + "::" + methodName
 
   lazy val global = callerCtx.global
 
@@ -32,7 +34,8 @@ case class FunctionContext(functionName: NamespaceName, callerPosition: NodePosi
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  def findVariable(name: String): Option[ValueRef] = localVariables.get(name)
+  def findVariable(name: String): Option[ValueRef] =
+    if (name == "this") Some(ValueRef(instance)) else localVariables.get(name)
 
   def defineVariable(name: String, valueRef: ValueRef) {
     localVariables.put(name, valueRef)
@@ -42,9 +45,10 @@ case class FunctionContext(functionName: NamespaceName, callerPosition: NodePosi
     localVariables.remove(name)
   }
 
-  def findFunction(name: NamespaceName) = global.findFunction(name)
+  def findFunction(name: NamespaceName) = callerCtx.findFunction(name)
 
   def defineFunction(function: PFunction) {
-    global.defineFunction(function)
+    callerCtx.defineFunction(function)
   }
 }
+
