@@ -1,17 +1,19 @@
 package de.leanovate.jbj.runtime.value
 
-import de.leanovate.jbj.runtime.Value
+import de.leanovate.jbj.runtime.{ArrayKey, Value}
 
 trait NumericVal extends Value {
-  def toNum: NumericVal = this
+  override def toNum: NumericVal = this
 
-  def isNull = false
+  override def isNull = false
 
-  def isUndefined = false
+  override def isUndefined = false
 
-  def copy = this
+  override def copy = this
 
-  def getAt(index: Value) = UndefinedVal
+  override def getAt(index: ArrayKey) = UndefinedVal
+
+  override def setAt(index: ArrayKey, value: Value) {}
 
   def unary_- : NumericVal
 

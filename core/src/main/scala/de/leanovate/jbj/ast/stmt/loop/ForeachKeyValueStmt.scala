@@ -6,7 +6,6 @@ import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.value.ArrayVal
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.SuccessExecResult
-import de.leanovate.jbj.runtime.value.ArrayVal.ArrayKey
 
 case class ForeachKeyValueStmt(arrayExpr: Expr, keyVar: Reference, valueVar: Reference,
                                stmts: List[Stmt]) extends Stmt with StaticInitializer {
@@ -15,7 +14,7 @@ case class ForeachKeyValueStmt(arrayExpr: Expr, keyVar: Reference, valueVar: Ref
   def exec(ctx: Context) = {
     arrayExpr.eval(ctx) match {
       case array: ArrayVal =>
-        execValues(array.keyValues, ctx)
+        execValues(array.keyValues.toList, ctx)
       case _ =>
     }
     SuccessExecResult()

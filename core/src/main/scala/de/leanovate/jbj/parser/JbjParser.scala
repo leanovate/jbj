@@ -40,18 +40,18 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     }
   }
 
-  lazy val start: Parser[Prog] = withPos(topStatementList ^^ {
+  lazy val start: PackratParser[Prog] = topStatementList ^^ {
     stmts => Prog(stmts)
-  })
+  }
 
-  lazy val topStatementList: Parser[List[Stmt]] = rep(topStatement)
+  lazy val topStatementList: PackratParser[List[Stmt]] = rep(topStatement)
 
-  lazy val namespaceName: Parser[NamespaceName] = rep1sep(identLit, "\\") ^^ {
+  lazy val namespaceName: PackratParser[NamespaceName] = rep1sep(identLit, "\\") ^^ {
     path => NamespaceName(path: _*)
   }
 
-  lazy val topStatement: Parser[Stmt] = withPos(statement | functionDeclarationStatement |
-    classDeclarationStatement | constantDeclaration)
+  lazy val topStatement: PackratParser[Stmt] = statement | functionDeclarationStatement |
+    classDeclarationStatement | constantDeclaration
 
   lazy val constantDeclaration: PackratParser[Stmt] = "const" ~> rep1(identLit ~ "=" ~ staticScalar ^^ {
     case name ~ _ ~ s => StaticAssignment(name, s.value)
@@ -61,7 +61,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val innerStatementList: PackratParser[List[Stmt]] = rep(innerStatement)
 
-  lazy val innerStatement: PackratParser[Stmt] = withPos(statement)
+  lazy val innerStatement: PackratParser[Stmt] = statement
 
   lazy val statement: PackratParser[Stmt] = identLit <~ ":" ^^ {
     label => LabelStmt(label)
@@ -477,14 +477,16 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val variableLit: PackratParser[String] =
     elem("variable", _.isInstanceOf[Variable]) ^^ (_.chars)
 
-  private def withPos[T <: Node](parser: Parser[T]) = Parser {
-    in =>
-      parser(in) match {
+  implicit def parser2packrat1[T <: Node](p: => super.Parser[T]): PackratParser[T] = {
+    lazy val q = p
+    memo(super.Parser {
+      in => q(in) match {
         case Success(n, in1) =>
           n.position = FileNodePosition(parseCtx.fileName, in.pos.line)
           Success(n, in1)
         case ns: NoSuccess => ns
       }
+    })
   }
 }
 

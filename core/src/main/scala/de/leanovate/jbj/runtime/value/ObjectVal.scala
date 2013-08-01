@@ -1,24 +1,20 @@
 package de.leanovate.jbj.runtime.value
 
-import de.leanovate.jbj.runtime.{PClass, Value}
+import de.leanovate.jbj.runtime._
 import java.io.PrintStream
-import de.leanovate.jbj.runtime.value.ArrayVal.{ArrayKey, StringArrayKey, IntArrayKey}
 import de.leanovate.jbj.exception.FatalErrorException
 import scala.collection.mutable
+import de.leanovate.jbj.runtime.IntArrayKey
 
-class ObjectVal(pClass: PClass, _keyValues: mutable.Seq[(ArrayKey, Value)]) extends Value {
-  private lazy val keyValueMap = _keyValues.toMap
-
-  def keyValues: List[(ArrayKey, Value)] = _keyValues.toList
-
-  def toOutput(out: PrintStream) {
+class ObjectVal(pClass: PClass, var keyValues: mutable.LinkedHashMap[ArrayKey, Value]) extends Value {
+  override def toOutput(out: PrintStream) {
     out.print("Array")
   }
 
-  def toDump(out: PrintStream, ident: String = "") {
+  override def toDump(out: PrintStream, ident: String = "") {
     val nextIdent = ident + "  "
-    out.println("%sarray(%d) {".format(ident, _keyValues.length))
-    _keyValues.foreach {
+    out.println("%sarray(%d) {".format(ident, keyValues.size))
+    keyValues.foreach {
       case (IntArrayKey(key), value) =>
         out.println("%s[%d]=>".format(nextIdent, key))
         value.toDump(out, ident + "  ")
@@ -29,31 +25,30 @@ class ObjectVal(pClass: PClass, _keyValues: mutable.Seq[(ArrayKey, Value)]) exte
     out.println("%s}".format(ident))
   }
 
-  def toStr = StringVal("object")
+  override def toStr = StringVal("object")
 
-  def toNum = toInteger
+  override def toNum = toInteger
 
-  def toInteger = IntegerVal(0)
+  override def toInteger = IntegerVal(0)
 
-  def toBool = {
+  override def toBool = {
     throw new FatalErrorException("Invalid conversion")
   }
 
-  def isNull = false
+  override def isNull = false
 
-  def isUndefined = false
+  override def isUndefined = false
 
-  def copy = ObjectVal(pClass, _keyValues)
+  override def copy = new ObjectVal(pClass, keyValues.clone())
 
-  def incr = this
+  override def incr = this
 
-  def decr = this
+  override def decr = this
 
-  def getAt(index: Value) = index match {
-    case IntegerVal(idx) => keyValueMap.getOrElse(IntArrayKey(idx.toInt), UndefinedVal)
-    case NumericVal(idx) => keyValueMap.getOrElse(IntArrayKey(idx.toInt), UndefinedVal)
-    case StringVal(idx) => keyValueMap.getOrElse(StringArrayKey(idx), UndefinedVal)
-    case _ => UndefinedVal
+  override def getAt(index: ArrayKey) = keyValues.getOrElse(index, UndefinedVal)
+
+  override def setAt(index: ArrayKey, value: Value) {
+    keyValues.put(index, value)
   }
 }
 
@@ -61,7 +56,7 @@ object ObjectVal {
   def apply(pClass: PClass, keyValues: List[(Option[Value], Value)]): ObjectVal = {
     var nextIndex: Long = -1
 
-    new ObjectVal(pClass, keyValues.foldLeft(mutable.Seq.newBuilder[(ArrayKey, Value)]) {
+    new ObjectVal(pClass, keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[ArrayKey, Value]) {
       (builder, keyValue) =>
         val key = keyValue._1.map {
           case IntegerVal(value) =>
@@ -81,11 +76,5 @@ object ObjectVal {
 
         builder += (key -> keyValue._2)
     }.result())
-  }
-
-  def apply(pClass: PClass, keyValues: Seq[(ArrayKey, Value)]): ObjectVal = {
-    val copyKeyValues = mutable.Seq.newBuilder[(ArrayKey, Value)]
-    copyKeyValues ++= keyValues
-    new ObjectVal(pClass, copyKeyValues.result())
   }
 }

@@ -1,6 +1,5 @@
 package de.leanovate.jbj.ast.stmt
 
-import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.runtime.{Value, Context}
 import de.leanovate.jbj.runtime.value.UndefinedVal
 

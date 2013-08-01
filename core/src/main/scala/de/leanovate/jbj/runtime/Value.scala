@@ -28,7 +28,9 @@ trait Value {
 
   def decr: Value
 
-  def getAt(index: Value): Value
+  def getAt(index: ArrayKey): Value
+
+  def setAt(index: ArrayKey, value: Value)
 }
 
 object Value {

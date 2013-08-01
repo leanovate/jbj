@@ -15,7 +15,7 @@ case class ForeachValueStmt(arrayExpr: Expr, valueVar:Reference, stmts: List[Stm
   def exec(ctx: Context) = {
     arrayExpr.eval(ctx) match {
       case array: ArrayVal =>
-        execValues(array.keyValues.map(_._2), ctx)
+        execValues(array.keyValues.toList.map(_._2), ctx)
       case _ =>
     }
     SuccessExecResult()

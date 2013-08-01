@@ -1,9 +1,13 @@
 package de.leanovate.jbj.runtime.buildin
 
-import de.leanovate.jbj.runtime.value.{ArrayVal, UndefinedVal, IntegerVal}
-import de.leanovate.jbj.runtime.{Value, Context, PFunction}
-import de.leanovate.jbj.ast.{NamespaceName, NodePosition}
-import de.leanovate.jbj.runtime.value.ArrayVal.IntArrayKey
+import de.leanovate.jbj.runtime.value.{ArrayVal, UndefinedVal}
+import de.leanovate.jbj.runtime._
+import de.leanovate.jbj.ast.NodePosition
+import scala.collection.mutable
+import de.leanovate.jbj.runtime.IntArrayKey
+import de.leanovate.jbj.ast.NamespaceName
+import scala.Some
+import de.leanovate.jbj.runtime.value.IntegerVal
 
 object ArrayFunctions {
   val functions = Seq(
@@ -18,15 +22,18 @@ object ArrayFunctions {
         parameters match {
           case params if !params.isEmpty =>
             var count: Long = -1
-            Left(ArrayVal(params.map {
+            var builder = mutable.LinkedHashMap.newBuilder[ArrayKey, Value]
+            params.foreach {
               case array: ArrayVal =>
                 array.keyValues.map {
                   case (IntArrayKey(_), value) =>
                     count += 1
-                    IntArrayKey(count) -> value
-                  case (key, value) => key -> value
+                    builder += IntArrayKey(count) -> value
+                  case (key, value) =>
+                    builder += key -> value
                 }
-            }.flatten))
+            }
+            Left(new ArrayVal(builder.result()))
           case _ =>
             ctx.log.warn(callerPosition, "array_merge() expects at least 1 parameter, 0 given")
             Left(UndefinedVal)

@@ -1,33 +1,35 @@
 package de.leanovate.jbj.runtime.value
 
 import java.io.PrintStream
-import de.leanovate.jbj.runtime.Value
+import de.leanovate.jbj.runtime.{ArrayKey, Value}
 
 object UndefinedVal extends Value {
-  def toOutput(out: PrintStream) {
+  override def toOutput(out: PrintStream) {
   }
 
-  def toDump(out: PrintStream, ident: String = "") {
+  override def toDump(out: PrintStream, ident: String = "") {
     out.println("%sNULL".format(ident))
   }
 
-  def toStr = StringVal("")
+  override def toStr = StringVal("")
 
-  def toNum = toInteger
+  override def toNum = toInteger
 
-  def toInteger = IntegerVal(0)
+  override def toInteger = IntegerVal(0)
 
-  def toBool = BooleanVal(false)
+  override def toBool = BooleanVal(false)
 
-  def isNull = false
+  override def isNull = false
 
-  def isUndefined = true
+  override def isUndefined = true
 
-  def copy = this
+  override def copy = this
 
-  def incr = IntegerVal(1)
+  override def incr = IntegerVal(1)
 
-  def decr = NullVal
+  override def decr = NullVal
 
-  def getAt(index: Value) = this
+  override def getAt(index: ArrayKey) = this
+
+  override def setAt(index: ArrayKey, value: Value) {}
 }

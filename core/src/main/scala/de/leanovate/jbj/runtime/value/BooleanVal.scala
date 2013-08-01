@@ -1,57 +1,59 @@
 package de.leanovate.jbj.runtime.value
 
 import java.io.PrintStream
-import de.leanovate.jbj.runtime.Value
+import de.leanovate.jbj.runtime.{ArrayKey, Value}
 
 abstract class BooleanVal extends Value {
   def value: Boolean
 
-  def toBool = this
+  override def toBool = this
 
-  def toNum = toInteger
+  override def toNum = toInteger
 
-  def isNull = false
+  override def isNull = false
 
-  def isUndefined = false
+  override def isUndefined = false
 
-  def copy = this
+  override def copy = this
 
-  def incr = this
+  override def incr = this
 
-  def decr = this
+  override def decr = this
 
-  def getAt(index: Value) = UndefinedVal
+  override def getAt(index: ArrayKey) = UndefinedVal
+
+  override def setAt(index: ArrayKey, value: Value) {}
 }
 
 object BooleanVal {
   val TRUE = new BooleanVal {
     val value = true
 
-    def toOutput(out: PrintStream) {
+    override def toOutput(out: PrintStream) {
       out.print("1")
     }
 
-    def toDump(out: PrintStream, ident: String = "") {
+    override def toDump(out: PrintStream, ident: String = "") {
       out.println("%sbool(true)".format(ident))
     }
 
-    val toInteger = IntegerVal(1)
+    override val toInteger = IntegerVal(1)
 
-    val toStr = StringVal("1")
+    override val toStr = StringVal("1")
   }
 
   val FALSE = new BooleanVal {
     val value = false
 
-    def toOutput(out: PrintStream) {}
+    override def toOutput(out: PrintStream) {}
 
-    def toDump(out: PrintStream, ident: String = "") {
+    override def toDump(out: PrintStream, ident: String = "") {
       out.println("%sbool(false)".format(ident))
     }
 
-    val toInteger = IntegerVal(0)
+    override val toInteger = IntegerVal(0)
 
-    val toStr = StringVal("")
+    override val toStr = StringVal("")
   }
 
   def apply(value: Boolean): BooleanVal = if (value) TRUE else FALSE
