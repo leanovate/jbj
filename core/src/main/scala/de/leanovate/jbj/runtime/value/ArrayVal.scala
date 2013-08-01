@@ -4,9 +4,12 @@ import java.io.PrintStream
 import de.leanovate.jbj.exception.FatalErrorException
 import de.leanovate.jbj.runtime.Value
 import ArrayVal.{ArrayKey, StringArrayKey, IntArrayKey}
+import scala.collection.mutable
 
-class ArrayVal(val keyValues: List[(ArrayKey, Value)]) extends Value {
-  private lazy val keyValueMap = keyValues.toMap
+class ArrayVal(_keyValues: mutable.Seq[(ArrayKey, Value)]) extends Value {
+  private lazy val keyValueMap = _keyValues.toMap
+
+  def keyValues: List[(ArrayKey, Value)] = _keyValues.toList
 
   def toOutput(out: PrintStream) {
     out.print("Array")
@@ -14,8 +17,8 @@ class ArrayVal(val keyValues: List[(ArrayKey, Value)]) extends Value {
 
   def toDump(out: PrintStream, ident: String = "") {
     val nextIdent = ident + "  "
-    out.println("%sarray(%d) {".format(ident, keyValues.length))
-    keyValues.foreach {
+    out.println("%sarray(%d) {".format(ident, _keyValues.length))
+    _keyValues.foreach {
       case (IntArrayKey(key), value) =>
         out.println("%s[%d]=>".format(nextIdent, key))
         value.toDump(out, ident + "  ")
@@ -42,9 +45,9 @@ class ArrayVal(val keyValues: List[(ArrayKey, Value)]) extends Value {
 
   def isTrue = false
 
-  def isEmpty = keyValues.isEmpty
+  def isEmpty = _keyValues.isEmpty
 
-  def copy = new ArrayVal(List(keyValues: _*))
+  def copy = ArrayVal(_keyValues)
 
   def incr = this
 
@@ -57,7 +60,7 @@ class ArrayVal(val keyValues: List[(ArrayKey, Value)]) extends Value {
     case _ => UndefinedVal
   }
 
-  def count: IntegerVal = IntegerVal(keyValues.size)
+  def count: IntegerVal = IntegerVal(_keyValues.size)
 }
 
 object ArrayVal {
@@ -77,8 +80,8 @@ object ArrayVal {
   def apply(keyValues: List[(Option[Value], Value)]): ArrayVal = {
     var nextIndex: Long = -1
 
-    new ArrayVal(keyValues.map {
-      keyValue =>
+    new ArrayVal(keyValues.foldLeft(mutable.Seq.newBuilder[(ArrayKey, Value)]) {
+      (builder, keyValue) =>
         val key = keyValue._1.map {
           case IntegerVal(value) =>
             if (value > nextIndex)
@@ -95,7 +98,13 @@ object ArrayVal {
           IntArrayKey(nextIndex)
         }
 
-        (key, keyValue._2)
-    })
+        builder += key -> keyValue._2
+    }.result())
+  }
+
+  def apply(keyValues: Seq[(ArrayKey, Value)]): ArrayVal = {
+    val copyKeyValues = mutable.Seq.newBuilder[(ArrayKey, Value)]
+    copyKeyValues ++= keyValues
+    new ArrayVal(copyKeyValues.result())
   }
 }

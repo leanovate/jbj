@@ -2,7 +2,7 @@ package de.leanovate.jbj.runtime.buildin
 
 import de.leanovate.jbj.runtime.value.{UndefinedVal, BooleanVal}
 import de.leanovate.jbj.runtime.{Value, Context, PFunction}
-import de.leanovate.jbj.ast.NodePosition
+import de.leanovate.jbj.ast.{NamespaceName, NodePosition}
 
 object VariableFunctions {
   val functions = Seq(
@@ -10,7 +10,7 @@ object VariableFunctions {
       case Some(value) => BooleanVal(!value.isUndefined)
     }),
     new PFunction() {
-      def name = "var_dump"
+      def name = NamespaceName("var_dump")
 
       def call(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) = {
         parameters match {

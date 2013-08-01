@@ -1,9 +1,9 @@
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.ast.NodePosition
+import de.leanovate.jbj.ast.{NamespaceName, NodePosition}
 
 trait PFunction {
-  def name: String
+  def name: NamespaceName
 
   def call(ctx: Context, callerPosition: NodePosition, parameters: List[Value]): Either[Value, ValueRef]
 }

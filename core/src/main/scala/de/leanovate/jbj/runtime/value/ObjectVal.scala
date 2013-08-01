@@ -1,12 +1,15 @@
 package de.leanovate.jbj.runtime.value
 
-import de.leanovate.jbj.runtime.Value
+import de.leanovate.jbj.runtime.{PClass, Value}
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.value.ArrayVal.{ArrayKey, StringArrayKey, IntArrayKey}
 import de.leanovate.jbj.exception.FatalErrorException
+import scala.collection.mutable
 
-class ObjectVal(val keyValues: List[(ArrayKey, Value)]) extends Value {
-  private lazy val keyValueMap = keyValues.toMap
+class ObjectVal(pClass: PClass, _keyValues: mutable.Seq[(ArrayKey, Value)]) extends Value {
+  private lazy val keyValueMap = _keyValues.toMap
+
+  def keyValues: List[(ArrayKey, Value)] = _keyValues.toList
 
   def toOutput(out: PrintStream) {
     out.print("Array")
@@ -14,8 +17,8 @@ class ObjectVal(val keyValues: List[(ArrayKey, Value)]) extends Value {
 
   def toDump(out: PrintStream, ident: String = "") {
     val nextIdent = ident + "  "
-    out.println("%sarray(%d) {".format(ident, keyValues.length))
-    keyValues.foreach {
+    out.println("%sarray(%d) {".format(ident, _keyValues.length))
+    _keyValues.foreach {
       case (IntArrayKey(key), value) =>
         out.println("%s[%d]=>".format(nextIdent, key))
         value.toDump(out, ident + "  ")
@@ -40,7 +43,7 @@ class ObjectVal(val keyValues: List[(ArrayKey, Value)]) extends Value {
 
   def isUndefined = false
 
-  def copy = this
+  def copy = ObjectVal(pClass, _keyValues)
 
   def incr = this
 
@@ -55,11 +58,11 @@ class ObjectVal(val keyValues: List[(ArrayKey, Value)]) extends Value {
 }
 
 object ObjectVal {
-  def apply(keyValues: List[(Option[Value], Value)]): ObjectVal = {
+  def apply(pClass: PClass, keyValues: List[(Option[Value], Value)]): ObjectVal = {
     var nextIndex: Long = -1
 
-    new ObjectVal(keyValues.map {
-      keyValue =>
+    new ObjectVal(pClass, keyValues.foldLeft(mutable.Seq.newBuilder[(ArrayKey, Value)]) {
+      (builder, keyValue) =>
         val key = keyValue._1.map {
           case IntegerVal(value) =>
             if (value > nextIndex)
@@ -76,8 +79,13 @@ object ObjectVal {
           IntArrayKey(nextIndex)
         }
 
-        (key, keyValue._2)
-    })
+        builder += (key -> keyValue._2)
+    }.result())
   }
 
+  def apply(pClass: PClass, keyValues: Seq[(ArrayKey, Value)]): ObjectVal = {
+    val copyKeyValues = mutable.Seq.newBuilder[(ArrayKey, Value)]
+    copyKeyValues ++= keyValues
+    new ObjectVal(pClass, copyKeyValues.result())
+  }
 }

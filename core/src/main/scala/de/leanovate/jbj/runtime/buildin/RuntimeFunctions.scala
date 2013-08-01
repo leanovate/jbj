@@ -2,7 +2,7 @@ package de.leanovate.jbj.runtime.buildin
 
 import de.leanovate.jbj.runtime.value.UndefinedVal
 import de.leanovate.jbj.runtime.{Value, Context, PFunction}
-import de.leanovate.jbj.ast.NodePosition
+import de.leanovate.jbj.ast.{NamespaceName, NodePosition}
 
 object RuntimeFunctions {
   val functions = Seq(
@@ -10,7 +10,7 @@ object RuntimeFunctions {
       case _ => UndefinedVal
     }),
     new PFunction() {
-      def name = "define"
+      def name = NamespaceName("define")
 
       def call(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) = {
         parameters match {

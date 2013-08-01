@@ -4,8 +4,10 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.ast.NamespaceName
 
-case class FunctionContext(identifier: String, callerCtx: Context) extends Context {
+case class FunctionContext(functionName: NamespaceName, callerCtx: Context) extends Context {
   private val localVariables = mutable.Map.empty[String, ValueRef]
+
+  private val identifier = functionName.toString
 
   lazy val global = callerCtx.global
 

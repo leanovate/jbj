@@ -7,7 +7,7 @@ import de.leanovate.jbj.ast.expr._
 import de.leanovate.jbj.ast.expr.value._
 import de.leanovate.jbj.ast.expr.calc._
 import de.leanovate.jbj.ast.expr.comp._
-import de.leanovate.jbj.ast.name.{StaticName, DynamicName}
+import de.leanovate.jbj.ast.name.{StaticNamespaceName, StaticName, DynamicName}
 import de.leanovate.jbj.parser.JbjTokens._
 import de.leanovate.jbj.ast.stmt._
 import de.leanovate.jbj.runtime.value._
@@ -123,7 +123,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val untickedFunctionDeclarationStatement: PackratParser[FunctionDeclStmt] =
     "function" ~ opt("&") ~ identLit ~ "(" ~ parameterList ~ ")" ~ "{" ~ innerStatementList <~ "}" ^^ {
-      case func ~ isRef ~ name ~ _ ~ params ~ _ ~ _ ~ body => FunctionDeclStmt(name, params, body)
+      case func ~ isRef ~ name ~ _ ~ params ~ _ ~ _ ~ body => FunctionDeclStmt(NamespaceName(name), params, body)
     }
 
   lazy val untickedClassDeclarationStatement: PackratParser[ClassDeclStmt] =
@@ -339,7 +339,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   }
 
   lazy val functionCall: PackratParser[Reference] = namespaceName ~ functionCallParameterList ^^ {
-    case name ~ params => CallFunctionReference(name, params)
+    case name ~ params => CallFunctionReference(StaticNamespaceName(name), params)
   }
 
   lazy val className: PackratParser[NamespaceName] = namespaceName
@@ -387,6 +387,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
         params =>
           ref match {
             case PropertyReference(instance, name) => CallMethodReference(instance, name, params)
+            case nameExpr => CallFunctionReference(DynamicName(nameExpr), params)
           }
       }.getOrElse(ref)
   }

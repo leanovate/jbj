@@ -1,13 +1,13 @@
 package de.leanovate.jbj.ast.stmt
 
-import de.leanovate.jbj.ast.{NodePosition, StaticInitializer, Stmt}
+import de.leanovate.jbj.ast.{NamespaceName, NodePosition, StaticInitializer, Stmt}
 import de.leanovate.jbj.runtime._
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.context.FunctionContext
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.runtime.value.NullVal
 
-case class FunctionDeclStmt(name: String, parameterDecls: List[ParameterDecl], stmts: List[Stmt])
+case class FunctionDeclStmt(name: NamespaceName, parameterDecls: List[ParameterDecl], stmts: List[Stmt])
   extends Stmt with PFunction {
   private lazy val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
