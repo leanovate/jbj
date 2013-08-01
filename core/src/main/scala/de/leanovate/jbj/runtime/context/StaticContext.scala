@@ -1,7 +1,7 @@
 package de.leanovate.jbj.runtime.context
 
 import scala.collection.mutable
-import de.leanovate.jbj.runtime.{ValueRef, Value, PFunction, Context}
+import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.ast.NamespaceName
 
 class StaticContext(var global: GlobalContext) extends Context {
@@ -14,10 +14,6 @@ class StaticContext(var global: GlobalContext) extends Context {
   def out = global.out
 
   def err = global.err
-
-  def findClass(name: NamespaceName): Option[ClassContext] = global.findClass(name)
-
-  def defineClass(name: String): ClassContext = global.defineClass(name)
 
   def findConstant(name: String): Option[Value] = global.findConstant(name)
 
@@ -39,5 +35,10 @@ class StaticContext(var global: GlobalContext) extends Context {
 
   def defineFunction(function: PFunction) {
     global.defineFunction(function)
+  }
+  def findClass(name: NamespaceName): Option[PClass] = global.findClass(name)
+
+  def defineClass(pClass: PClass) {
+    global.defineClass(pClass)
   }
 }

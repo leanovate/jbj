@@ -129,7 +129,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val untickedClassDeclarationStatement: PackratParser[ClassDeclStmt] =
     classEntryType ~ identLit ~ extendsFrom ~ implementsList ~ "{" ~ classStatementList <~ "}" ^^ {
       case entry ~ name ~ exts ~ impls ~ _ ~ stmts =>
-        ClassDeclStmt(entry, name, exts, impls, stmts)
+        ClassDeclStmt(entry, NamespaceName(name), exts, impls, stmts)
     }
 
   lazy val classEntryType: PackratParser[ClassEntry.Type] =
@@ -295,7 +295,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       case 12 =>
         "*" ^^^ ((a: Expr, b: Expr) => MulExpr(a, b)) |
           "/" ^^^ ((a: Expr, b: Expr) => DivExpr(a, b)) |
-          "%" ^^^ ((a: Expr, b: Expr) => ModExpr (a, b))
+          "%" ^^^ ((a: Expr, b: Expr) => ModExpr(a, b))
       case _ => throw new RuntimeException("bad precedence level " + level)
     }
   }
@@ -348,7 +348,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val classNameReference: PackratParser[NamespaceName] = className
 
-  lazy val ctorArguments: PackratParser[List[Expr]] = functionCallParameterList
+  lazy val ctorArguments: PackratParser[List[Expr]] = opt(functionCallParameterList) ^^ (_.getOrElse(Nil))
 
   lazy val commonScalar: PackratParser[ScalarExpr] =
     longNumLit ^^ {
@@ -378,7 +378,22 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val rwVariable: PackratParser[Reference] = variable
 
-  lazy val variable: PackratParser[Reference] = baseVariableWithFunctionCalls
+  lazy val variable: PackratParser[Reference] = baseVariableWithFunctionCalls ~ rep("->" ~> objectProperty) ~ methodOrNot ^^ {
+    case v ~ refMaps ~ optMethod =>
+      val ref = refMaps.flatten.foldLeft(v) {
+        (v, refMap) => refMap(v)
+      }
+      optMethod.map {
+        params =>
+          ref match {
+            case PropertyReference(instance, name) => CallMethodReference(instance, name, params)
+          }
+      }.getOrElse(ref)
+  }
+
+  lazy val mathod: PackratParser[List[Expr]] = functionCallParameterList
+
+  lazy val methodOrNot: PackratParser[Option[List[Expr]]] = opt(mathod)
 
   lazy val baseVariableWithFunctionCalls: PackratParser[Reference] = baseVariable | functionCall
 
@@ -399,6 +414,19 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   }
 
   lazy val dimOffset: PackratParser[Option[Expr]] = opt(expr)
+
+  lazy val objectProperty: PackratParser[List[Reference => Reference]] =
+    variableName ~ rep(
+      "[" ~> dimOffset <~ "]" | "{" ~> expr <~ "}" ^^ Some.apply
+    ) ^^ {
+      case name ~ dims => {
+        ref: Reference => PropertyReference(ref, name)
+      } :: dims.map(d => {
+        ref: Reference => IndexReference(ref, d)
+      })
+    }
+
+  lazy val variableName: Parser[Name] = identLit ^^ StaticName.apply | "{" ~> expr <~ "}" ^^ DynamicName.apply
 
   lazy val arrayPairList: PackratParser[List[(Option[Expr], Expr)]] = repsep(
     expr ~ opt("=>" ~> expr) ^^ {
@@ -481,20 +509,48 @@ object JbjParser {
   def main(args: Array[String]) = {
     test( """<?php
             |
-            |$strVals = array(
-            |   "0","65","-44", "1.2", "-7.7", "abc", "123abc", "123e5", "123e5xyz", " 123abc", "123 abc", "123abc ", "3.4a",
-            |   "a5.9"
-            |);
+            |/* pretty nifty object oriented code! */
             |
-            |error_reporting(E_ERROR);
+            |class user {
+            |  public $first_name,$family_name,$address,$phone_num;
+            |  function display()
+            |  {
+            |    echo "User information\n";
+            |    echo "----------------\n\n";
+            |    echo "First name:\t  ".$this->first_name."\n";
+            |    echo "Family name:\t  ".$this->family_name."\n";
+            |    echo "Address:\t  ".$this->address."\n";
+            |    echo "Phone:\t\t  ".$this->phone_num."\n";
+            |    echo "\n\n";
+            |  }
+            |  function initialize($first_name,$family_name,$address,$phone_num)
+            |  {
+            |    $this->first_name = $first_name;
+            |    $this->family_name = $family_name;
+            |    $this->address = $address;
+            |    $this->phone_num = $phone_num;
+            |  }
+            |};
             |
-            |foreach ($strVals as $strVal) {
-            |   foreach($strVals as $otherVal) {
-            |	   echo "--- testing: '$strVal' % '$otherVal' ---\n";
-            |      var_dump($strVal%$otherVal);
-            |   }
+            |
+            |function test($u)
+            |{  /* one can pass classes as arguments */
+            |  $u->display();
+            |  $t = $u;
+            |  $t->address = "New address...";
+            |  return $t;  /* and also return them as return values */
             |}
             |
+            |$user1 = new user;
+            |$user2 = new user;
+            |
+            |$user1->initialize("Zeev","Suraski","Ben Gourion 3, Kiryat Bialik, Israel","+972-4-8713139");
+            |$user2->initialize("Andi","Gutmans","Haifa, Israel","+972-4-8231621");
+            |$user1->display();
+            |$user2->display();
+            |
+            |$tmp = test($user2);
+            |$tmp->display();
             |
             |?>""".stripMargin)
   }

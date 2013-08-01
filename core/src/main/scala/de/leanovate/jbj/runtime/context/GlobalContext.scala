@@ -8,7 +8,7 @@ import scala.Some
 import de.leanovate.jbj.ast.NamespaceName
 
 case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
-  private val classes = mutable.Map.empty[NamespaceName, ClassContext]
+  private val classes = mutable.Map.empty[NamespaceName, PClass]
 
   private val constants = mutable.Map.empty[ConstantKey, Value]
 
@@ -22,9 +22,11 @@ case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
 
   def static = staticContext("global")
 
-  def findClass(name: NamespaceName): Option[ClassContext] = classes.get(name)
+  def findClass(name: NamespaceName): Option[PClass] = classes.get(name)
 
-  def defineClass(name: String): ClassContext = classes.getOrElse(NamespaceName(name), new ClassContext(name, this))
+  def defineClass(pClass: PClass) {
+    classes.put(pClass.name, pClass)
+  }
 
   def findConstant(name: String): Option[Value] =
     buildin.buildinConstants.get(name.toUpperCase).map(Some(_)).getOrElse {

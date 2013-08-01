@@ -5,19 +5,17 @@ import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.ast.NamespaceName
 
-case class ClassDeclStmt(classEntry: ClassEntry.Type, className: String,
+case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
                          superClassName: Option[NamespaceName], implements: List[NamespaceName], stmts: List[Stmt])
   extends Stmt with PClass {
 
   override def exec(ctx: Context) = {
-    if (ctx.findClass(NamespaceName(className)).isDefined)
-      ctx.log.fatal(position, "Cannot redeclare class %s".format(className))
+    if (ctx.findClass(name).isDefined)
+      ctx.log.fatal(position, "Cannot redeclare class %s".format(name))
     else if (superClassName.flatMap(ctx.findClass).isDefined)
       ctx.log.fatal(position, "Class '%s' not found".format(superClassName))
     else {
-      def classCtx = ctx.defineClass(className)
-
-      stmts.foreach(_.exec(classCtx))
+      ctx.defineClass(this)
     }
     SuccessExecResult()
   }

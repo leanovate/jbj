@@ -15,6 +15,7 @@ case class CallFunctionReference(functionName: NamespaceName, parameters: List[E
     ctx.findFunction(functionName).map {
       func => func.call(ctx.global, position, parameters.map(_.eval(ctx))) match {
         case Right(valueRef) => valueRef.value = value
+        case Left(_) => throw new RuntimeException("Function does not have reference result")
       }
     }.getOrElse(throw new IllegalArgumentException("No such function: " + functionName))
   }

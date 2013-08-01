@@ -1,9 +1,7 @@
 package de.leanovate.jbj.tests
 
 import java.io.{ByteArrayOutputStream, PrintStream}
-import de.leanovate.jbj.runtime.{Context}
 import de.leanovate.jbj.parser.JbjParser
-import scala.util.Success
 import de.leanovate.jbj.runtime.context.GlobalContext
 
 trait TestJbjExecutor {
