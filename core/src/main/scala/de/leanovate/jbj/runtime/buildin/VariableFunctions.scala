@@ -17,7 +17,7 @@ object VariableFunctions {
           case params if !params.isEmpty => params.foreach(_.toDump(ctx.out))
           case _ => ctx.log.warn(callerPosition, "var_dump() expects at least 1 parameter, 0 given")
         }
-        UndefinedVal
+        Left(UndefinedVal)
       }
     }
   )

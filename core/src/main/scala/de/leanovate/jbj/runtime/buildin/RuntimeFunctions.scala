@@ -20,7 +20,7 @@ object RuntimeFunctions {
             ctx.defineConstant(name.toStr.value, value, caseInensitive.toBool.value)
           case _ => ctx.log.warn(callerPosition, "var_dump() expects at least 2 parameter, %d given".format(parameters.length))
         }
-        UndefinedVal
+        Left(UndefinedVal)
       }
     }
   )

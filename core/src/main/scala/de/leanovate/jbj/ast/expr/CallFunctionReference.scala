@@ -5,8 +5,17 @@ import de.leanovate.jbj.runtime.{Value, Context}
 
 case class CallFunctionReference(functionName: NamespaceName, parameters: List[Expr]) extends Reference {
   override def eval(ctx: Context) = ctx.findFunction(functionName).map {
-    func => func.call(ctx.global, position, parameters.map(_.eval(ctx)))
+    func => func.call(ctx.global, position, parameters.map(_.eval(ctx))) match {
+      case Left(value) => value
+      case Right(valueRef) => valueRef.value
+    }
   }.getOrElse(throw new IllegalArgumentException("No such function: " + functionName))
 
-  override def assign(ctx: Context, value: Value) {}
+  override def assign(ctx: Context, value: Value) {
+    ctx.findFunction(functionName).map {
+      func => func.call(ctx.global, position, parameters.map(_.eval(ctx))) match {
+        case Right(valueRef) => valueRef.value = value
+      }
+    }.getOrElse(throw new IllegalArgumentException("No such function: " + functionName))
+  }
 }

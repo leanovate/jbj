@@ -18,7 +18,7 @@ object ArrayFunctions {
         parameters match {
           case params if !params.isEmpty =>
             var count: Long = -1
-            new ArrayVal(params.map {
+            Left(new ArrayVal(params.map {
               case array: ArrayVal =>
                 array.keyValues.map {
                   case (IntArrayKey(_), value) =>
@@ -26,11 +26,10 @@ object ArrayFunctions {
                     IntArrayKey(count) -> value
                   case (key, value) => key -> value
                 }
-            }.flatten)
+            }.flatten))
           case _ =>
             ctx.log.warn(callerPosition, "array_merge() expects at least 1 parameter, 0 given")
-            UndefinedVal
+            Left(UndefinedVal)
         }
-
     })
 }
