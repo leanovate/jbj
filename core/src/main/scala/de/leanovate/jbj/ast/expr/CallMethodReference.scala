@@ -3,6 +3,7 @@ package de.leanovate.jbj.ast.expr
 import de.leanovate.jbj.ast.{Name, Reference, Expr}
 import de.leanovate.jbj.runtime.{Value, Context}
 import de.leanovate.jbj.runtime.value.{UndefinedVal, ObjectVal}
+import java.io.PrintStream
 
 case class CallMethodReference(instanceExpr: Expr, methodName: Name, parameters: List[Expr]) extends Reference {
   override def eval(ctx: Context) = instanceExpr.eval(ctx) match {
@@ -17,4 +18,13 @@ case class CallMethodReference(instanceExpr: Expr, methodName: Name, parameters:
   }
 
   override def assign(ctx: Context, value: Value) {}
+
+  override def dump(out: PrintStream, ident: String) {
+    out.println(ident + getClass.getSimpleName + " " + methodName + " " + position)
+    instanceExpr.dump(out, ident + "  ")
+    parameters.foreach {
+      parameter =>
+        parameter.dump(out, ident + "  ")
+    }
+  }
 }

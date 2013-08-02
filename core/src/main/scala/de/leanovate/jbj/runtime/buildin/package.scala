@@ -47,6 +47,8 @@ package object buildin {
         ctx.log.fatal(callerPosition, "Call to undefined method %s::%s()".format(name.toString, methodName))
         Left(UndefinedVal)
       }
+
+      def findMethod(methodName: String): Option[PMethod] = None
     }
   ).map {
     c =>

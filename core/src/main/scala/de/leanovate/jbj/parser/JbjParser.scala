@@ -378,18 +378,39 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val rwVariable: PackratParser[Reference] = variable
 
-  lazy val variable: PackratParser[Reference] = baseVariableWithFunctionCalls ~ rep("->" ~> objectProperty) ~ methodOrNot ^^ {
-    case v ~ refMaps ~ optMethod =>
-      val ref = refMaps.flatten.foldLeft(v) {
-        (v, refMap) => refMap(v)
-      }
-      optMethod.map {
-        params =>
-          ref match {
-            case PropertyReference(instance, name) => CallMethodReference(instance, name, params)
-            case nameExpr => CallFunctionReference(DynamicName(nameExpr), params)
-          }
-      }.getOrElse(ref)
+  lazy val variable: PackratParser[Reference] =
+    baseVariableWithFunctionCalls ~ rep("->" ~> objectProperty) ~ methodOrNot ~ variableProperties ^^ {
+      case v ~ refMaps ~ optMethod ~ varProps =>
+        val ref = refMaps.flatten.foldLeft(v) {
+          (v, refMap) => refMap(v)
+        }
+        val methodRef = optMethod.map {
+          params =>
+            ref match {
+              case PropertyReference(instance, name) => CallMethodReference(instance, name, params)
+              case nameExpr => CallFunctionReference(DynamicName(nameExpr), params)
+            }
+        }.getOrElse(ref)
+        varProps.foldLeft(methodRef) {
+          (v, refMap) => refMap(v)
+        }
+    }
+
+  lazy val variableProperties: Parser[List[Reference => Reference]] = rep(variableProperty)
+
+  lazy val variableProperty: Parser[Reference => Reference] = "->" ~> objectProperty ~ methodOrNot ^^ {
+    case refMaps ~ optMethod =>
+      v: Reference =>
+        val ref = refMaps.foldLeft(v) {
+          (v, refMap) => refMap(v)
+        }
+        optMethod.map {
+          params =>
+            ref match {
+              case PropertyReference(instance, name) => CallMethodReference(instance, name, params)
+              case nameExpr => CallFunctionReference(DynamicName(nameExpr), params)
+            }
+        }.getOrElse(ref)
   }
 
   lazy val mathod: PackratParser[List[Expr]] = functionCallParameterList
@@ -512,18 +533,31 @@ object JbjParser {
   def main(args: Array[String]) = {
     test( """<?php
             |
-            |final class base {
-            |	function show() {
-            |		echo "base\n";
+            |class Name {
+            |	function Name($_name) {
+            |		$this->name = $_name;
+            |	}
+            |
+            |	function display() {
+            |		echo $this->name . "\n";
             |	}
             |}
             |
-            |$t = new base();
+            |class Person {
+            |	private $name;
             |
-            |class derived extends base {
+            |	function person($_name, $_address) {
+            |		$this->name = new Name($_name);
+            |	}
+            |
+            |	function getName() {
+            |		return $this->name;
+            |	}
             |}
             |
-            |echo "Done\n"; // shouldn't be displayed
+            |$person = new Person("John", "New York");
+            |$person->getName()->display();
+            |
             |?>""".stripMargin)
   }
 }

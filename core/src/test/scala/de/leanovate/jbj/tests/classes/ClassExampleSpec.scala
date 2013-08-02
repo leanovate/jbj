@@ -10,6 +10,36 @@ import de.leanovate.jbj.runtime.exception.{JbjException, FatalErrorJbjException}
 @RunWith(classOf[JUnitRunner])
 class ClassExampleSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Class examples" - {
+    "ZE2 An abstract class cannot be instanciated" in {
+      // class/class_abstract
+      script(
+        """<?php
+          |
+          |abstract class base {
+          |	function show() {
+          |		echo "base\n";
+          |	}
+          |}
+          |
+          |class derived extends base {
+          |}
+          |
+          |$t = new derived();
+          |$t->show();
+          |
+          |$t = new base();
+          |$t->show();
+          |
+          |echo "Done\n"; // shouldn't be displayed
+          |?>""".stripMargin
+      ) must haveOutput(
+        """base
+          |
+          |Fatal error: Cannot instantiate abstract class base in - on line 15
+          |""".stripMargin
+      )
+    }
+
     "Classes general test" in {
       // class/class_example
       script(
@@ -118,7 +148,8 @@ class ClassExampleSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |echo "Done\n"; // shouldn't be displayed
           |?>""".stripMargin
       ) must (haveOutput(
-        """Fatal error: Class derived may not inherit from final class (base) in - on line 11
+        """
+          |Fatal error: Class derived may not inherit from final class (base) in - on line 11
           |""".stripMargin
       ) and haveThrown(classOf[FatalErrorJbjException]))
     }
