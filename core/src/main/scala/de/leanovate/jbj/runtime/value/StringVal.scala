@@ -16,7 +16,7 @@ case class StringVal(value: String) extends Value {
 
   override def toNum: NumericVal = value match {
     case NumericVal.numericPattern(num, null, null) if !num.isEmpty => IntegerVal(num.toLong)
-    case NumericVal.numericPattern(num, _, _) if !num.isEmpty => FloatVal(num.toDouble)
+    case NumericVal.numericPattern(num, _, _) if !num.isEmpty => DoubleVal(num.toDouble)
     case _ => IntegerVal(0)
   }
 

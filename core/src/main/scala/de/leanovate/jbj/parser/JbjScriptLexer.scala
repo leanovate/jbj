@@ -17,13 +17,13 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
 
   def this(in: String) = this("-", new CharArrayReader(in.toCharArray))
 
-  private val (tok, scriptEnd, rest1, rest2) = whitespace(in) match {
+  private val (tok, mode, rest1, rest2) = whitespace(in) match {
     case Success(_, in1) =>
       token(in1) match {
-        case Success((token, script), in2) => (token, script, in1, in2)
-        case ns: NoSuccess => (errorToken(ns.msg), false, ns.next, skip(ns.next))
+        case Success((token, m), in2) => (token, m, in1, in2)
+        case ns: NoSuccess => (errorToken(ns.msg), JbjLexerMode.ERROR, ns.next, skip(ns.next))
       }
-    case ns: NoSuccess => (errorToken(ns.msg), false, ns.next, skip(ns.next))
+    case ns: NoSuccess => (errorToken(ns.msg), JbjLexerMode.ERROR, ns.next, skip(ns.next))
   }
 
   private def skip(in: Reader[Char]) = if (in.atEnd) in else in.rest
@@ -34,7 +34,7 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
 
   def first = tok
 
-  def rest = if (scriptEnd) new JbjInitialLexer(fileName, rest2) else new JbjScriptLexer(fileName, rest2)
+  def rest = mode.newLexer(fileName, rest2)
 
   def pos = rest1.pos
 
@@ -43,41 +43,53 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
     case _ => false
   })
 
-  private def token: Parser[(Token, Boolean)] =
-    str("?>") ^^^ Keyword(";") -> true |
-      str("%>") ^^^ Keyword(";") -> true |
-      str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> true |
+  private def token: Parser[(Token, JbjLexerMode)] =
+    str("?>") ^^^ Keyword(";") -> JbjLexerMode.INITIAL |
+      str("%>") ^^^ Keyword(";") -> JbjLexerMode.INITIAL |
+      str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> JbjLexerMode.INITIAL |
       identChar ~ rep(identChar | digit) ^^ {
-        case first ~ rest => processIdent(first :: rest mkString "") -> false
+        case first ~ rest => processIdent(first :: rest mkString "") -> JbjLexerMode.IN_SCRIPTING
       } | rep(digit) ~ '.' ~ rep1(digit) ~ opt(exponent) ^^ {
       case first ~ dot ~ rest ~ exponent =>
-        DoubleNumLit(first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "") -> false
+        DoubleNumLit(first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "") -> JbjLexerMode.IN_SCRIPTING
     } | rep1(digit) ~ '.' ~ rep(digit) ~ opt(exponent) ^^ {
       case first ~ dot ~ rest ~ exponent =>
-        DoubleNumLit(first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "") -> false
+        DoubleNumLit(first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "") -> JbjLexerMode.IN_SCRIPTING
     } | digit ~ rep(digit) ~ exponent ^^ {
       case first ~ rest ~ exponent =>
-        DoubleNumLit((first :: rest) ++ exponent mkString "") -> false
+        DoubleNumLit((first :: rest) ++ exponent mkString "") -> JbjLexerMode.IN_SCRIPTING
     } | '0' ~ rep1(octDigit) ^^ {
-      case first ~ rest => convertNum(first :: rest mkString "", 8) -> false
+      case first ~ rest => convertNum(first :: rest mkString "", 8) -> JbjLexerMode.IN_SCRIPTING
     } | '0' ~ 'b' ~ rep(binDigit) ^^ {
-      case _ ~ _ ~ binary => convertNum(binary mkString "", 2) -> false
+      case _ ~ _ ~ binary => convertNum(binary mkString "", 2) -> JbjLexerMode.IN_SCRIPTING
     } | '0' ~ 'x' ~ rep(hexDigit) ^^ {
-      case _ ~ _ ~ hex => convertNum(hex mkString "", 16) -> false
+      case _ ~ _ ~ hex => convertNum(hex mkString "", 16) -> JbjLexerMode.IN_SCRIPTING
     } | digit ~ rep(digit) ^^ {
-      case first ~ rest => convertNum(first :: rest mkString "", 10) -> false
+      case first ~ rest => convertNum(first :: rest mkString "", 10) -> JbjLexerMode.IN_SCRIPTING
     } | '$' ~> identChar ~ rep(identChar | digit) ^^ {
-      case first ~ rest => Variable(first :: rest mkString "") -> false
+      case first ~ rest => Variable(first :: rest mkString "") -> JbjLexerMode.IN_SCRIPTING
     } | '\'' ~ notInterpolatedStr ~ '\'' ^^ {
-      case '\'' ~ str ~ '\'' => StringLit(str) -> false
+      case '\'' ~ str ~ '\'' => StringLit(str) -> JbjLexerMode.IN_SCRIPTING
     } | '\"' ~ interpolatedStr ~ '\"' ^^ {
-      case '\"' ~ str ~ '\"' if str.exists(_.isRight) => InterpolatedStringLit(str) -> false
-      case '\"' ~ str ~ '\"' => StringLit(str.map(_.left.get) mkString "") -> false
-    } | EofCh ^^^ EOF -> false |
+      case '\"' ~ str ~ '\"' if str.exists(_.isRight) => InterpolatedStringLit(str) -> JbjLexerMode.IN_SCRIPTING
+      case '\"' ~ str ~ '\"' => StringLit(str.map(_.left.get) mkString "") -> JbjLexerMode.IN_SCRIPTING
+    } | '(' ~> tabsOrSpaces ~> (str("int") | str("integer")) <~ tabsOrSpaces <~ ')' ^^ {
+      s => IntegerCast(s) -> JbjLexerMode.IN_SCRIPTING
+    } | '(' ~> tabsOrSpaces ~> (str("real") | str("double") | str("float")) <~ tabsOrSpaces <~ ')' ^^ {
+      s => DoubleCast(s) -> JbjLexerMode.IN_SCRIPTING
+    } | '(' ~> tabsOrSpaces ~> (str("string") | str("binary")) <~ tabsOrSpaces <~ ')' ^^ {
+      s => StringCast(s) -> JbjLexerMode.IN_SCRIPTING
+    } | '(' ~> tabsOrSpaces ~> str("array") <~ tabsOrSpaces <~ ')' ^^ {
+      s => ArrayCast(s) -> JbjLexerMode.IN_SCRIPTING
+    } | '(' ~> tabsOrSpaces ~> (str("bool") | str("boolean")) <~ tabsOrSpaces <~ ')' ^^ {
+      s => BooleanCast(s) -> JbjLexerMode.IN_SCRIPTING
+    } | '(' ~> tabsOrSpaces ~> str("unset") <~ tabsOrSpaces <~ ')' ^^ {
+      s => UnsetCast(s) -> JbjLexerMode.IN_SCRIPTING
+    } | EofCh ^^^ EOF -> JbjLexerMode.IN_SCRIPTING |
       '\'' ~> failure("unclosed string literal") |
       '\"' ~> failure("unclosed string literal") |
       delim ^^ {
-        d => d -> false
+        d => d -> JbjLexerMode.IN_SCRIPTING
       } | failure("illegal character")
 
   private def exponent: Parser[List[Elem]] = exponentMarker ~ opt(sign) ~ rep1(digit) ^^ {
@@ -135,6 +147,8 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
       | '/' ~ '*' ~ failure("unclosed comment")
   )
 
+  private def tabsOrSpaces: Parser[Any] = rep(elem("space char", ch => ch == ' ' || ch == '\t'))
+
   /** A character-parser that matches a letter (and returns it). */
   private def letter = elem("letter", _.isLetter)
 
@@ -181,7 +195,7 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
 
   private def delim: Parser[Token] = _delim
 
-  private def str(str: String): Parser[Any] = accept(str.toList)
+  private def str(str: String): Parser[String] = accept(str.toList) ^^ (_ mkString "")
 
   private def convertNum(chars: String, radix: Int): Token = {
     try {
@@ -199,7 +213,7 @@ object JbjScriptLexer {
   val reserved = Set("static", "global", "public", "protected", "private", "var", "const",
     "class", "extends", "use", "interface", "trait", "implements", "abstract", "final",
     "exit", "die", "eval", "include", "include_once", "require", "require_once", "namespace",
-    "echo", "print", "new", "clone",
+    "echo", "print", "new", "clone", "eval",
     "return", "break", "continue", "goto", "yield",
     "try", "catch", "finally", "throw",
     "if", "else", "elseif", "endif", "while", "endwhile", "for", "endfor", "foreach", "as", "endforeach",

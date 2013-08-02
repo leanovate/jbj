@@ -22,7 +22,7 @@ case class IntegerVal(value: Long) extends NumericVal {
 
   def decr = IntegerVal(value - 1)
 
-  def unary_- = if (value > Long.MinValue) IntegerVal(-value) else FloatVal(-value.toDouble)
+  def unary_- = if (value > Long.MinValue) IntegerVal(-value) else DoubleVal(-value.toDouble)
 
   def %(other: Value): Value = (this, other) match {
     case (_, IntegerVal(0)) => BooleanVal.FALSE

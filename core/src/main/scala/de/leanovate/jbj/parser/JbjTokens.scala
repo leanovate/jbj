@@ -65,6 +65,34 @@ object JbjTokens {
     override def toString = chars
   }
 
+  case class EncapsAndWhitespace(chars: String) extends Token {
+    override def toString = chars
+  }
+
+  case class IntegerCast(chars: String) extends Token {
+    override def toString = "(" + chars + ")"
+  }
+
+  case class DoubleCast(chars: String) extends Token {
+    override def toString = "(" + chars + ")"
+  }
+
+  case class StringCast(chars: String) extends Token {
+    override def toString = "(" + chars + ")"
+  }
+
+  case class ArrayCast(chars: String) extends Token {
+    override def toString = "(" + chars + ")"
+  }
+
+  case class BooleanCast(chars: String) extends Token {
+    override def toString = "(" + chars + ")"
+  }
+
+  case class UnsetCast(chars: String) extends Token {
+    override def toString = "(" + chars + ")"
+  }
+
   /** This token is produced by a scanner `Scanner` when scanning failed. */
   def errorToken(msg: String): Token = new ErrorToken(msg)
 }

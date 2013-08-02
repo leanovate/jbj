@@ -2,7 +2,7 @@ package de.leanovate.jbj.runtime.value
 
 import java.io.PrintStream
 
-case class FloatVal(value: Double) extends NumericVal {
+case class DoubleVal(value: Double) extends NumericVal {
   def toOutput(out: PrintStream) {
     out.print(value)
   }
@@ -17,9 +17,9 @@ case class FloatVal(value: Double) extends NumericVal {
 
   def toBool = BooleanVal(value != 0.0)
 
-  def incr = FloatVal(value + 1)
+  def incr = DoubleVal(value + 1)
 
-  def decr = FloatVal(value - 1)
+  def decr = DoubleVal(value - 1)
 
-  def unary_- = FloatVal(-value)
+  def unary_- = DoubleVal(-value)
 }

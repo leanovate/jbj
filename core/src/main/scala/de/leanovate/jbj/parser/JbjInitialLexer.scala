@@ -12,30 +12,30 @@ class JbjInitialLexer(fileName: String, in: Reader[Char]) extends Reader[Token] 
 
   def this(in: String) = this("-", new CharArrayReader(in.toCharArray))
 
-  private val (token, startScript, rest1) = inline(in) match {
-    case Success((tok, script), i) => (tok, script, i)
-    case ns: NoSuccess => (errorToken(ns.msg), false, ns.next)
+  private val (tok, mode, rest1) = token(in) match {
+    case Success((tok, m), i) => (tok, m, i)
+    case ns: NoSuccess => (errorToken(ns.msg), JbjLexerMode.ERROR, ns.next)
   }
 
-  def first = token
+  def first = tok
 
-  def rest = if (startScript) new JbjScriptLexer(fileName, rest1) else new JbjInitialLexer(fileName, rest1)
+  def rest = mode.newLexer(fileName, rest1)
 
   def pos = in.pos
 
   def atEnd = in.atEnd
 
-  private def inline: Parser[(Token, Boolean)] =
-    (scriptStart ^^^ Inline("") -> true
-      | str("<?php") ~ witespaceChar ^^^ Inline("") -> true
-      | str("<?=") ^^^ Keyword("echo") -> true
-      | str("<?") ^^^ Inline("") -> true
-      | str("<%=") ^^^ Keyword("echo") -> true
-      | str("<%") ^^^ Inline("") -> true
-      | '<' ^^^ Inline("<") -> false
-      | EofCh ^^^ EOF -> false
+  private def token: Parser[(Token, JbjLexerMode)] =
+    (scriptStart ^^^ Inline("") -> JbjLexerMode.IN_SCRIPTING
+      | str("<?php") ~ witespaceChar ^^^ Inline("") -> JbjLexerMode.IN_SCRIPTING
+      | str("<?=") ^^^ Keyword("echo") -> JbjLexerMode.IN_SCRIPTING
+      | str("<?") ^^^ Inline("") -> JbjLexerMode.IN_SCRIPTING
+      | str("<%=") ^^^ Keyword("echo") -> JbjLexerMode.IN_SCRIPTING
+      | str("<%") ^^^ Inline("") -> JbjLexerMode.IN_SCRIPTING
+      | '<' ^^^ Inline("<") -> JbjLexerMode.INITIAL
+      | EofCh ^^^ EOF -> JbjLexerMode.INITIAL
       | rep(chrExcept(EofCh, '<')) ^^ {
-      chars => Inline(chars mkString "") -> false
+      chars => Inline(chars mkString "") -> JbjLexerMode.INITIAL
     })
 
   private def scriptStart = str("<script") ~ optWhitespace ~ str("language") ~ optWhitespace ~ '=' ~

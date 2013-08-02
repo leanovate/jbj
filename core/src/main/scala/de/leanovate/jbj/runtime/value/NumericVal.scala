@@ -22,7 +22,7 @@ trait NumericVal extends Value {
       IntegerVal(leftVal + rightVal)
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal <= 0 && leftVal >= Long.MinValue - rightVal =>
       IntegerVal(leftVal + rightVal)
-    case (NumericVal(leftVal), NumericVal(rightVal)) => FloatVal(leftVal + rightVal)
+    case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal + rightVal)
   }
 
   def -(other: Value): Value = (this, other) match {
@@ -30,18 +30,18 @@ trait NumericVal extends Value {
       IntegerVal(leftVal - rightVal)
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal <= 0 && leftVal <= Long.MaxValue + rightVal =>
       IntegerVal(leftVal - rightVal)
-    case (NumericVal(leftVal), NumericVal(rightVal)) => FloatVal(leftVal - rightVal)
+    case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal - rightVal)
   }
 
   def *(other: Value): Value = (this, other) match {
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal == 0 => IntegerVal(0)
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal > 0 && leftVal <= Long.MaxValue / rightVal && leftVal >= Long.MinValue / rightVal => IntegerVal(leftVal * rightVal)
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal < 0 && leftVal <= Long.MinValue / rightVal && leftVal >= Long.MaxValue / rightVal => IntegerVal(leftVal * rightVal)
-    case (NumericVal(leftVal), NumericVal(rightVal)) => FloatVal(leftVal * rightVal)
+    case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal * rightVal)
   }
 
   def /(other: Value): Value = (this, other) match {
-    case (NumericVal(leftVal), NumericVal(rightVal)) => FloatVal(leftVal / rightVal)
+    case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal / rightVal)
   }
 }
 
@@ -53,7 +53,7 @@ object NumericVal {
 
   def unapply(numeric: Value): Option[Double] = numeric match {
     case IntegerVal(value) => Some(value.toDouble)
-    case FloatVal(value) => Some(value)
+    case DoubleVal(value) => Some(value)
     case BooleanVal(value) => Some(if (value) 1.0 else 0.0)
     case StringVal(numericPattern(num, _, _)) if !num.isEmpty && num != "-" => Some(num.toDouble)
     case StringVal(truePattern()) => Some(1.0)

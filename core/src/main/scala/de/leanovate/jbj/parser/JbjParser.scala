@@ -357,7 +357,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     longNumLit ^^ {
       s => ScalarExpr(IntegerVal(s))
     } | doubleNumLit ^^ {
-      s => ScalarExpr(FloatVal(s))
+      s => ScalarExpr(DoubleVal(s))
     } | stringLit ^^ {
       s => ScalarExpr(StringVal(s))
     }
