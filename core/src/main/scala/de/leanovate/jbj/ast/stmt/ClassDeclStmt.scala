@@ -7,10 +7,13 @@ import de.leanovate.jbj.ast.NamespaceName
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.value.{UndefinedVal, ObjectVal}
 import java.io.PrintStream
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
                          superClassName: Option[NamespaceName], implements: List[NamespaceName], stmts: List[Stmt])
   extends Stmt with PClass {
+
+  private var superClass: Option[PClass] = None
 
   private lazy val methodMap = stmts.filter(_.isInstanceOf[PMethod]).map(_.asInstanceOf[PMethod]).map {
     m =>
@@ -20,9 +23,14 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   override def exec(ctx: Context) = {
     if (ctx.findClass(name).isDefined)
       ctx.log.fatal(position, "Cannot redeclare class %s".format(name))
-    else if (superClassName.flatMap(ctx.findClass).isDefined)
-      ctx.log.fatal(position, "Class '%s' not found".format(superClassName))
     else {
+      if (superClassName.isDefined) {
+        superClass = ctx.findClass(superClassName.get)
+        if (!superClass.isDefined)
+          throw new FatalErrorJbjException(ctx, position, "Class '%s' not found".format(superClassName))
+        else if (superClass.get.classEntry == ClassEntry.FINAL_CLASS)
+          throw new FatalErrorJbjException(ctx, position, "Class %s may not inherit from final class (%s)".format(name.toString, superClassName.get.toString))
+      }
       ctx.defineClass(this)
     }
     SuccessExecResult()

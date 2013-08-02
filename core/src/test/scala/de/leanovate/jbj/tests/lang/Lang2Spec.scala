@@ -11,7 +11,7 @@ class Lang2Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Language test 2" - {
     "Testing function parameter passing with a return value" in {
       // lang/010
-      resultOf(
+      script(
         """<?php
           |function test ($b) {
           |	$b++;
@@ -20,14 +20,14 @@ class Lang2Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |$a = test(1);
           |echo $a;
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """2"""
       )
     }
 
     "Testing nested functions" in {
       // lang/011
-      resultOf(
+      script(
         """<?php
           |function F()
           |{
@@ -46,14 +46,14 @@ class Lang2Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |
           |G();
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """4 Hello 4"""
       )
     }
 
     "Testing stack after early function return" in {
       // lang/012
-      resultOf(
+      script(
         """<?php
           |function F () {
           |	if(1) {
@@ -67,14 +67,14 @@ class Lang2Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |	$i++;
           |}
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """HelloHello"""
       )
     }
 
     "Testing user-defined function falling out of an If into another" in {
       // lang/017
-      resultOf(
+      script(
         """<?php
           |$a = 1;
           |function Test ($a) {
@@ -88,7 +88,7 @@ class Lang2Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |	$a++;
           |}
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """1
           |""".stripMargin
       )

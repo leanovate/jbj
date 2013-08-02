@@ -5,13 +5,14 @@ import org.scalatest.junit.JUnitRunner
 import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
 import org.scalatest.matchers.MustMatchers
+import de.leanovate.jbj.runtime.exception.{JbjException, FatalErrorJbjException}
 
 @RunWith(classOf[JUnitRunner])
 class ClassExampleSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Class examples" - {
     "Classes general test" in {
       // class/class_example
-      resultOf(
+      script(
         """<?php
           |
           |/* pretty nifty object oriented code! */
@@ -58,7 +59,7 @@ class ClassExampleSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |$tmp->display();
           |
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """User information
           |----------------
           |
@@ -99,9 +100,32 @@ class ClassExampleSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
       )
     }
 
+    "ZE2 A final class cannot be inherited" in {
+      script(
+        """<?php
+          |
+          |final class base {
+          |	function show() {
+          |		echo "base\n";
+          |	}
+          |}
+          |
+          |$t = new base();
+          |
+          |class derived extends base {
+          |}
+          |
+          |echo "Done\n"; // shouldn't be displayed
+          |?>""".stripMargin
+      ) must (haveOutput(
+        """Fatal error: Class derived may not inherit from final class (base) in - on line 11
+          |""".stripMargin
+      ) and haveThrown(classOf[FatalErrorJbjException]))
+    }
+
     "Instantiate stdClass" in {
       // lang/class_stdclass
-      resultOf(
+      script(
         """<?php
           |
           |$obj = new stdClass;
@@ -110,7 +134,7 @@ class ClassExampleSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |
           |echo "Done\n";
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """stdClass
           |Done
           |""".stripMargin

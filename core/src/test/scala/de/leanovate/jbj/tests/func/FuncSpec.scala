@@ -11,16 +11,16 @@ class FuncSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Function test" - {
     "Strlen() function test" in {
       // func/001
-      resultOf(
+      script(
         """<?php echo strlen("abcdef")?>"""
-      ) must be(
+      ) must haveOutput(
         """6"""
       )
     }
 
     "Static variables in functions" in {
       // func/002
-      resultOf(
+      script(
         """<?php
           |function blah()
           |{
@@ -35,7 +35,7 @@ class FuncSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |if (isset($hey) || isset($yo)) {
           |  echo "Local variables became global :(\n";
           |}""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """hey=0, 0
           |hey=1, -1
           |hey=2, -2
@@ -45,7 +45,7 @@ class FuncSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
 
     "General function test" in {
       // func/003
-      resultOf(
+      script(
         """<?php
           |
           |function a()
@@ -141,7 +141,7 @@ class FuncSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |}
           |
           |andi (3,10);""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """hey
           |blah
           |hey
@@ -339,7 +339,7 @@ class FuncSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
 
     "General function test 2" in {
       // func/004
-      resultOf(
+      script(
         """<?php
           |
           |echo "Before function declaration...\n";
@@ -372,7 +372,7 @@ class FuncSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |some_other_function();
           |
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """Before function declaration...
           |After function declaration...
           |Calling function for the first time...

@@ -11,7 +11,7 @@ class ScriptTagSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Script Tag" - {
     "<script> tag" in {
       // lang/script_tag
-      resultOf(
+      script(
         """<script language=php> echo "ola\n";</script>
           |<script language="php"> echo "ola2\n";</script>
           |<script language='php'> echo "ola3\n";</script>
@@ -21,7 +21,7 @@ class ScriptTagSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |echo "oi\n"; //ignore here
           |# 2nd comment
           |""".stripMargin
-      ) must be (
+      ) must haveOutput (
         """ola
           |ola2
           |ola3

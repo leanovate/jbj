@@ -11,16 +11,16 @@ class Lang1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Language test 1" - {
     "Simple If condition test" in {
       // lang/001
-      resultOf(
+      script(
         """<?php $a=1; if($a>0) { echo "Yes"; } ?>"""
-      ) must be(
+      ) must haveOutput(
         """Yes"""
       )
     }
 
     "Simple While Loop Test" in {
       // lang/002
-      resultOf(
+      script(
         """<?php
           |$a=1;
           |while ($a<10) {
@@ -28,13 +28,13 @@ class Lang1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |	$a++;
           |}
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """123456789"""
       )
     }
     "Simple Switch Test" in {
       // lang/003
-      resultOf(
+      script(
         """<?php
           |$a=1;
           |switch($a) {
@@ -49,14 +49,14 @@ class Lang1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |		break;
           |}
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """good"""
       )
     }
 
     "Simple If/Else Test" in {
       // lang/004
-      resultOf(
+      script(
         """<?php
           |$a=1;
           |if($a==0) {
@@ -65,14 +65,14 @@ class Lang1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |	echo "good";
           |}
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """good"""
       )
     }
 
     "Simple If/ElseIf/Else Test" in {
       // lang/005
-      resultOf(
+      script(
         """<?php
           |$a=1;
           |
@@ -84,14 +84,14 @@ class Lang1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |	echo "good";
           |}
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """good"""
       )
     }
 
     "Nested If/ElseIf/Else Test" in {
       // lang/006
-      resultOf(
+      script(
         """<?php
           |$a=1;
           |$b=2;
@@ -110,14 +110,14 @@ class Lang1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |	}
           |}
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """good"""
       )
     }
 
     "Function call with global and static variables" in {
       // lang/007
-      resultOf(
+      script(
         """<?php
           |error_reporting(0);
           |$a = 10;
@@ -140,21 +140,21 @@ class Lang1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |echo "$a $b $c ";
           |Test();
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """1 5 2 2 10 5  2 5 3 2 10 5  3 5 4 2 """
       )
     }
 
     "Testing function parameter passing" in {
       // lang/009
-      resultOf(
+      script(
         """<?php
           |function test ($a,$b) {
           |	echo $a+$b;
           |}
           |test(1,2);
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """3"""
       )
     }

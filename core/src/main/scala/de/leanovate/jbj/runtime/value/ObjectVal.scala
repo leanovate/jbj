@@ -2,7 +2,6 @@ package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime._
 import java.io.PrintStream
-import de.leanovate.jbj.exception.FatalErrorException
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.IntArrayKey
 
@@ -31,9 +30,7 @@ class ObjectVal(var pClass: PClass, var keyValues: mutable.LinkedHashMap[ArrayKe
 
   override def toInteger = IntegerVal(0)
 
-  override def toBool = {
-    throw new FatalErrorException("Invalid conversion")
-  }
+  override def toBool = BooleanVal.FALSE
 
   override def isNull = false
 

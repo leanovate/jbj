@@ -1,7 +1,6 @@
 package de.leanovate.jbj.runtime.value
 
 import java.io.PrintStream
-import de.leanovate.jbj.exception.FatalErrorException
 import de.leanovate.jbj.runtime.{ArrayKey, StringArrayKey, IntArrayKey, Value}
 import scala.collection.mutable
 
@@ -31,9 +30,7 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, Value]) extends Va
 
   override def toInteger = IntegerVal(0)
 
-  override def toBool = {
-    throw new FatalErrorException("Invalid conversion")
-  }
+  override def toBool = BooleanVal.FALSE
 
   override def isNull = false
 

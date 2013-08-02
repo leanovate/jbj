@@ -10,7 +10,7 @@ import de.leanovate.jbj.tests.TestJbjExecutor
 class PrecedenceSpec extends FreeSpec with MustMatchers with TestJbjExecutor {
   "Precedence test" - {
     "mul/div befor add/sub" in {
-      resultOf(
+      script(
         """<?php
           |
           |var_dump(3*4+5*6);
@@ -18,7 +18,7 @@ class PrecedenceSpec extends FreeSpec with MustMatchers with TestJbjExecutor {
           |var_dump(3*(1+2)+8/5);
           |
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """int(42)
           |float(23.2)
           |float(10.6)

@@ -11,47 +11,49 @@ class BasicSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Basic test" - {
     "Trivial \"Hello World\" test" in {
       // basic/001
-      resultOf(
+      script(
         """<?php echo "Hello World"?>"""
-      ) must be(
+      ) must haveOutput(
         """Hello World"""
       )
     }
 
     "Add 3 variables together and print result" in {
       // basic/006
-      resultOf(
+      script(
         """<?php $a=1; $b=2; $c=3; $d=$a+$b+$c; echo $d?>"""
-      ) must be(
+      ) must haveOutput(
         """6"""
       )
     }
 
     "Multiply 3 variables and print result" in {
       // basic/007
-      resultOf(
+      script(
         """<?php $a=2; $b=4; $c=8; $d=$a*$b*$c; echo $d?>"""
-      ) must be(
+      ) must haveOutput(
         """64"""
       )
     }
 
     "Divide 3 variables and print result" in {
       // basic/008
-      resultOf(
+      script(
         """<?php $a=27; $b=3; $c=3; $d=$a/$b/$c; echo $d?>"""
-      ) must be(
+      ) must haveOutput(
         """3.0"""
       )
     }
 
     "Subtract 3 variables and print result" in {
       // basic/009
-      resultOf(
+      script(
         """<?php $a=27; $b=7; $c=10; $d=$a-$b-$c; echo $d?>"""
-      ) must be(
+      ) must haveOutput(
         """10"""
       )
     }
+
+
   }
 }

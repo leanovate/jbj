@@ -2,6 +2,7 @@ package de.leanovate.jbj.ast
 
 import de.leanovate.jbj.runtime.Context
 import java.io.PrintStream
+import de.leanovate.jbj.runtime.exception.JbjException
 
 case class Prog(stmts: Seq[Stmt]) extends Node {
   val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])

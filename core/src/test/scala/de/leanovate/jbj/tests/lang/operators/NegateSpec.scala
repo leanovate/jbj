@@ -11,7 +11,7 @@ class NegateSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Negate" - {
     "Test -N operator : 64bit long tests" in {
       // lang/operators/negate_basiclong_64bit
-      resultOf(
+      script(
         """<?php
           |
           |define("MAX_64Bit", 9223372036854775807);
@@ -32,7 +32,7 @@ class NegateSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |}
           |
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """--- testing: 9223372036854775807 ---
           |int(-9223372036854775807)
           |--- testing: -9223372036854775808 ---
@@ -69,7 +69,7 @@ class NegateSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
 
     "Test -N operator : various numbers as strings" in {
       // lang/operators/negate_variationStr
-      resultOf(
+      script(
         """<?php
           |
           |$strVals = array(
@@ -84,7 +84,7 @@ class NegateSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |}
           |
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """--- testing: '0' ---
           |int(0)
           |--- testing: '65' ---

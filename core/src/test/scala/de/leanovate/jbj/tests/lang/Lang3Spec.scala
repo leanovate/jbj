@@ -11,7 +11,7 @@ class Lang3Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Language test 3" - {
     "Switch test 1" in {
       // func/020
-      resultOf(
+      script(
         """<?php
           |
           |$i="abc";
@@ -54,7 +54,7 @@ class Lang3Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           | }
           |}
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """In branch 1
           |Inner default...
           |blah=100
@@ -91,7 +91,7 @@ class Lang3Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
 
     "Switch test 2" in {
       // func/021
-      resultOf(
+      script(
         """<?php
           |
           |for ($i=0; $i<=5; $i++)
@@ -121,7 +121,7 @@ class Lang3Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |}
           |echo "hi\n";
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """i=0
           |In branch 0
           |i=1
@@ -136,7 +136,7 @@ class Lang3Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
     }
 
     "Switch test 3" in {
-      resultOf(
+      script(
         """<?php
           |
           |function switchtest ($i, $j)
@@ -166,7 +166,7 @@ class Lang3Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |  }
           |}
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """zero
           |one
           |2
@@ -203,7 +203,7 @@ class Lang3Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
 
     "Mean recursion test" in {
       // func/025
-      resultOf(
+      script(
         """<?php
           |function RekTest ($nr) {
           |	echo " $nr ";
@@ -219,7 +219,7 @@ class Lang3Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |
           |RekTest(0);
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         " 0  a  1  a  2  a  3  a  4  a  5  a  6  a  7  a  8  a  9 \n b 10 \n b 9  a  9 \n b 10 \n" +
           " b 8  a  8  a  9 \n b 10 \n b 9  a  9 \n b 10 \n b 7  a  7  a  8  a  9 \n b 10 \n b 9  a  9 \n b 10 \n" +
           " b 8  a  8  a  9 \n b 10 \n b 9  a  9 \n b 10 \n b 6  a  6  a  7  a  8  a  9 \n b 10 \n b 9  a  9 \n" +
@@ -295,9 +295,9 @@ class Lang3Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
 
     "Testing string scanner confirmance" in {
       // func/026
-      resultOf(
+      script(
         """<?php echo "\"\t\\'" . '\n\\\'a\\\b\\' ?>"""
-      ) must be(
+      ) must haveOutput(
         """"	\'\n\'a\\b\"""
       )
     }

@@ -11,7 +11,7 @@ class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Add operator" - {
     "Test + operator : various numbers as strings" in {
       // lang/operators/add_variationStr
-      resultOf(
+      script(
         """<?php
           |
           |$strVals = array(
@@ -30,7 +30,7 @@ class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |
           |
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """--- testing: '0' + '0' ---
           |int(0)
           |--- testing: '0' + '65' ---

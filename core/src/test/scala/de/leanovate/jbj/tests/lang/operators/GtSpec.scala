@@ -11,7 +11,7 @@ class GtSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Gt operator" - {
     "Test > operator : different types" in {
       // lang/operators/operator_gt_basic
-      resultOf(
+      script(
         """<?php
           |$valid_true = array(1, "1", "true", 1.0, array(1));
           |$valid_false = array(0, "", 0.0, array(), NULL);
@@ -70,14 +70,14 @@ class GtSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |   echo "Test Passed\n";
           |}
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """Test Passed
           |""".stripMargin
       )
     }
 
     "Test > operator : max int 64bit range" in {
-      resultOf(
+      script(
         // lang/operations/operation_gt_variation_64bit
         """<?php
           |
@@ -130,7 +130,7 @@ class GtSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |}
           |
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """Test Passed
           |""".stripMargin
       )

@@ -11,7 +11,7 @@ class NotEqualsSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "NotEquals operator" - {
     "Test != operator : different types" in {
       // lang/operators/operator_notequals_basic
-      resultOf(
+      script(
         """<?php
           |
           |$valid_true = array(1, "1", "true", 1.0, array(1));
@@ -70,7 +70,7 @@ class NotEqualsSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |}
           |
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """Test Passed
           |""".stripMargin
       )
@@ -78,7 +78,7 @@ class NotEqualsSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
 
     "Test != operator : max int 64bit range" in {
       // lang/operators/operator_notequals_variation_64bit
-      resultOf(
+      script(
         """<?php
           |
           |define("MAX_64Bit", 9223372036854775807);
@@ -133,7 +133,7 @@ class NotEqualsSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |}
           |
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """Test Passed
           |""".stripMargin
       )

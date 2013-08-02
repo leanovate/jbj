@@ -10,49 +10,49 @@ import org.scalatest.matchers.MustMatchers
 class TagSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Script Tag" - {
     "<?php" in {
-      resultOf(
+      script(
         """Start <div><?php echo "Hello World"?></div> End"""
-      ) must be(
+      ) must haveOutput(
         """Start <div>Hello World</div> End"""
       )
     }
 
     "<?" in {
-      resultOf(
+      script(
         """Start <div><? echo "Hello World"?></div> End"""
-      ) must be(
+      ) must haveOutput(
         """Start <div>Hello World</div> End"""
       )
     }
 
     "<?=" in {
-      resultOf(
+      script(
         """Start <div><?= "Hello World"?></div> End"""
-      ) must be(
+      ) must haveOutput(
         """Start <div>Hello World</div> End"""
       )
     }
 
     "<%" in {
-      resultOf(
+      script(
         """Start <div><% echo "Hello World"%></div> End"""
-      ) must be(
+      ) must haveOutput(
         """Start <div>Hello World</div> End"""
       )
     }
 
     "<%=" in {
-      resultOf(
+      script(
         """Start <div><%= "Hello World"%></div> End"""
-      ) must be(
+      ) must haveOutput(
         """Start <div>Hello World</div> End"""
       )
     }
 
     """<script language="php">""" in {
-      resultOf(
+      script(
         """Start <div><script language="php">echo "Hello World"</script></div> End"""
-      ) must be(
+      ) must haveOutput(
         """Start <div>Hello World</div> End"""
       )
     }

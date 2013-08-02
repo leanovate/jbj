@@ -11,7 +11,7 @@ class ModulusSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Modulus operator" - {
     "Test % operator : various numbers as strings" in {
       // lang/operators/modulus_verationStr
-      resultOf(
+      script(
         """<?php
           |
           |$strVals = array(
@@ -30,7 +30,7 @@ class ModulusSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |
           |
           |?>""".stripMargin
-      ) must be (
+      ) must haveOutput (
         """--- testing: '0' % '0' ---
           |bool(false)
           |--- testing: '0' % '65' ---

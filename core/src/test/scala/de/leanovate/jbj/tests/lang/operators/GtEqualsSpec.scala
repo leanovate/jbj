@@ -11,7 +11,7 @@ class GtEqualsSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "GtOrEquals operator" - {
     "Test >= operator : different types" in {
       // lang/operators/operator_gt_or_equal_basic
-      resultOf(
+      script(
         """<?php
           |$valid_true = array(1, "1", "true", 1.0, array(1));
           |$valid_false = array(0, "", 0.0, array(), NULL);
@@ -70,7 +70,7 @@ class GtEqualsSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |   echo "Test Passed\n";
           |}
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """Test Passed
           |""".stripMargin
       )
@@ -78,7 +78,7 @@ class GtEqualsSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
 
     "Test >= operator : max int 64bit range" in {
       // lang/operators/operator_gt_or_equals_variation_64bit
-      resultOf(
+      script(
         """<?php
           |
           |define("MAX_64Bit", 9223372036854775807);
@@ -131,7 +131,7 @@ class GtEqualsSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |}
           |
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """Test Passed
           |""".stripMargin
       )

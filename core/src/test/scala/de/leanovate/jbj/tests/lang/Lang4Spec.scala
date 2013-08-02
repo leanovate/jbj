@@ -11,7 +11,7 @@ class Lang4Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Language test 4" - {
     "Alternative syntaxes test" in {
       // lang/033
-      resultOf(
+      script(
         """<?php
           |$a = 1;
           |
@@ -48,7 +48,7 @@ class Lang4Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |		break;
           |endswitch;
           |?>""".stripMargin
-      ) must be (
+      ) must haveOutput (
         """If: 11
           |While: 12346789
           |For: 0123401234

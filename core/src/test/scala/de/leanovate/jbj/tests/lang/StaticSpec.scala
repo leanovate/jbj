@@ -11,7 +11,7 @@ class StaticSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Static tests" - {
     "Static keyword - basic tests" in {
       // lang/static_basic_001
-      resultOf(
+      script(
         """<?php
           |
           |echo "\nSame variable used as static and non static.\n";
@@ -56,7 +56,7 @@ class StaticSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |   $k++;
           |}
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """
           |Same variable used as static and non static.
           |---------
@@ -98,7 +98,7 @@ class StaticSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
     }
 
     "Multiple declarations of the same static variable" in {
-      resultOf(
+      script(
         """<?php
           |
           |$a = 5;
@@ -120,7 +120,7 @@ class StaticSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |foo();
           |
           |?>""".stripMargin
-      ) must be (
+      ) must haveOutput (
         """int(5)
           |int(11)
           |int(14)

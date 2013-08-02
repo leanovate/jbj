@@ -1,10 +1,9 @@
 package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.runtime.value._
-import de.leanovate.jbj.ast.{NamespaceName, NodePosition}
+import de.leanovate.jbj.ast.{ClassEntry, NamespaceName, NodePosition}
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.value.IntegerVal
-import de.leanovate.jbj.ast.NamespaceName
 
 package object buildin {
   val buildinFunctions = (ArrayFunctions.functions ++ ClassFunctions.functions ++ StringFunctions.functions ++
@@ -36,6 +35,8 @@ package object buildin {
 
   val buildinClasses = Seq(
     new PClass {
+      def classEntry = ClassEntry.CLASS
+
       def name = NamespaceName("stdClass")
 
       def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) =

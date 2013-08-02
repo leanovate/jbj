@@ -10,25 +10,25 @@ import org.scalatest.matchers.MustMatchers
 class StmtDelimSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Stmt delimiter tests" - {
     "No ; after block" in {
-      resultOf(
+      script(
         """<?php $a=1; if ($a < 2) { echo "Hurra"; } echo "bla" ?>"""
-      ) must be(
+      ) must haveOutput(
         """Hurrabla"""
       )
     }
 
     "No ; at end of script" in {
-      resultOf(
+      script(
         """<?php echo "Hurra"; ?><?php echo "bla" ?>"""
-      ) must be(
+      ) must haveOutput(
         """Hurrabla"""
       )
     }
 
     "Conditional inline" in {
-      resultOf(
+      script(
         """Begin <?php $a=1; if($a>2) { echo "true" ?>true<?php } else { echo "fa"; ?>lse<?php } ?> End"""
-      ) must be(
+      ) must haveOutput(
         """Begin false End"""
       )
 

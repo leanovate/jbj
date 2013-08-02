@@ -11,7 +11,7 @@ class EqualsSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Equals operator" - {
     "Test == operator : different types" in {
       // lang/operators/operator_equals_basic
-      resultOf(
+      script(
         """<?php
           |
           |$valid_true = array(1, "1", "true", 1.0, array(1));
@@ -70,14 +70,14 @@ class EqualsSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |}
           |
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """Test Passed
           |""".stripMargin
       )
     }
 
     "Test == operator : max int 64bit range" in {
-      resultOf(
+      script(
         // lang/operators/operator_equals_variation_64bit
         """<?php
           |
@@ -133,7 +133,7 @@ class EqualsSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |}
           |
           |?>""".stripMargin
-      ) must be(
+      ) must haveOutput(
         """Test Passed
           |""".stripMargin
       )

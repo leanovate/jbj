@@ -512,11 +512,18 @@ object JbjParser {
   def main(args: Array[String]) = {
     test( """<?php
             |
-            |$obj = new stdClass;
+            |final class base {
+            |	function show() {
+            |		echo "base\n";
+            |	}
+            |}
             |
-            |echo get_class($obj)."\n";
+            |$t = new base();
             |
-            |echo "Done\n";
+            |class derived extends base {
+            |}
+            |
+            |echo "Done\n"; // shouldn't be displayed
             |?>""".stripMargin)
   }
 }
