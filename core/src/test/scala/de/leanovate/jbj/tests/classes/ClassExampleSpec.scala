@@ -98,5 +98,23 @@ class ClassExampleSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |""".stripMargin
       )
     }
+
+    "Instantiate stdClass" in {
+      // lang/class_stdclass
+      resultOf(
+        """<?php
+          |
+          |$obj = new stdClass;
+          |
+          |echo get_class($obj)."\n";
+          |
+          |echo "Done\n";
+          |?>""".stripMargin
+      ) must be(
+        """stdClass
+          |Done
+          |""".stripMargin
+      )
+    }
   }
 }

@@ -25,15 +25,16 @@ case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
 
   def stack: Stack[NodePosition] = Stack.empty[NodePosition]
 
-  def findClass(name: NamespaceName): Option[PClass] = classes.get(name)
+  def findClass(name: NamespaceName): Option[PClass] =
+    buildin.buildinClasses.get(name).map(Some.apply).getOrElse(classes.get(name))
 
   def defineClass(pClass: PClass) {
     classes.put(pClass.name, pClass)
   }
 
   def findConstant(name: String): Option[Value] =
-    buildin.buildinConstants.get(name.toUpperCase).map(Some(_)).getOrElse {
-      constants.get(CaseSensitiveConstantKey(name)).map(Some(_)).getOrElse {
+    buildin.buildinConstants.get(name.toUpperCase).map(Some.apply).getOrElse {
+      constants.get(CaseSensitiveConstantKey(name)).map(Some.apply).getOrElse {
         constants.get(CaseInsensitiveConstantKey(name.toLowerCase))
       }
     }
@@ -56,7 +57,7 @@ case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
   }
 
   def findFunction(name: NamespaceName) =
-    buildin.buildinFunctions.get(name).map(Some(_)).getOrElse(functions.get(name))
+    buildin.buildinFunctions.get(name).map(Some.apply).getOrElse(functions.get(name))
 
   def defineFunction(function: PFunction) {
     functions.put(function.name, function)

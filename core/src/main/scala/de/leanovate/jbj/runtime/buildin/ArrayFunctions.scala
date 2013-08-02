@@ -12,8 +12,8 @@ import de.leanovate.jbj.runtime.value.IntegerVal
 object ArrayFunctions {
   val functions = Seq(
     BuildinFunction1("count", {
-      case Some(array: ArrayVal) => array.count
-      case Some(_) => IntegerVal(1)
+      case (_, _, Some(array: ArrayVal)) => array.count
+      case (_, _, Some(_)) => IntegerVal(1)
     }),
     new PFunction() {
       def name = NamespaceName("array_merge")

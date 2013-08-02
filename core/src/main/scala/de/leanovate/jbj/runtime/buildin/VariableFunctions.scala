@@ -7,7 +7,7 @@ import de.leanovate.jbj.ast.{NamespaceName, NodePosition}
 object VariableFunctions {
   val functions = Seq(
     BuildinFunction1("isset", {
-      case Some(value) => BooleanVal(!value.isUndefined)
+      case (_, _, Some(value)) => BooleanVal(!value.isUndefined)
     }),
     new PFunction() {
       def name = NamespaceName("var_dump")

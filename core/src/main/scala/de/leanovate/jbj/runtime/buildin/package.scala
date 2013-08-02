@@ -1,9 +1,13 @@
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.runtime.value.{IntegerVal, NullVal, BooleanVal}
+import de.leanovate.jbj.runtime.value._
+import de.leanovate.jbj.ast.{NamespaceName, NodePosition}
+import scala.collection.mutable
+import de.leanovate.jbj.runtime.value.IntegerVal
+import de.leanovate.jbj.ast.NamespaceName
 
 package object buildin {
-  val buildinFunctions = (ArrayFunctions.functions ++   StringFunctions.functions ++
+  val buildinFunctions = (ArrayFunctions.functions ++ ClassFunctions.functions ++ StringFunctions.functions ++
     VariableFunctions.functions ++ RuntimeFunctions.functions).map {
     function => function.name -> function
   }.toMap
@@ -29,4 +33,22 @@ package object buildin {
     "E_USER_DEPRECATED" -> IntegerVal(16384),
     "E_ALL" -> IntegerVal(32767)
   ).toMap
+
+  val buildinClasses = Seq(
+    new PClass {
+      def name = NamespaceName("stdClass")
+
+      def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) =
+        new ObjectVal(this, mutable.LinkedHashMap.empty[ArrayKey, Value])
+
+      def invokeMethod(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, methodName: String,
+                       parameters: List[Value]) = {
+        ctx.log.fatal(callerPosition, "Call to undefined method %s::%s()".format(name.toString, methodName))
+        Left(UndefinedVal)
+      }
+    }
+  ).map {
+    c =>
+      c.name -> c
+  }.toMap
 }
