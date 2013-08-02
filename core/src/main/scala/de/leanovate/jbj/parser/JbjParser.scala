@@ -536,29 +536,21 @@ object JbjParser {
   def main(args: Array[String]) = {
     test( """<?php
             |
-            |class Circle {
-            |	function draw() {
-            |		echo "Circle\n";
+            |class Foo {
+            |	public $name;
+            |
+            |	function Foo() {
+            |		$this->name = "I'm Foo!\n";
             |	}
             |}
             |
-            |class Square {
-            |	function draw() {
-            |		print "Square\n";
-            |	}
-            |}
+            |$foo = new Foo;
+            |echo $foo->name;
+            |$bar = $foo;
+            |$bar->name = "I'm Bar!\n";
             |
-            |function ShapeFactoryMethod($shape) {
-            |	switch ($shape) {
-            |		case "Circle":
-            |			return new Circle();
-            |		case "Square":
-            |			return new Square();
-            |	}
-            |}
-            |
-            |ShapeFactoryMethod("Circle")->draw();
-            |ShapeFactoryMethod("Square")->draw();
+            |// In ZE1, we would expect "I'm Foo!"
+            |echo $foo->name;
             |
             |?>""".stripMargin)
   }
