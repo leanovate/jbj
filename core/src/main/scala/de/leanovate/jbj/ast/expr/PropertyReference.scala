@@ -3,6 +3,7 @@ package de.leanovate.jbj.ast.expr
 import de.leanovate.jbj.ast.{Name, Reference}
 import de.leanovate.jbj.runtime.{StringArrayKey, Value, Context}
 import de.leanovate.jbj.runtime.value.{StringVal, ObjectVal, UndefinedVal}
+import java.io.PrintStream
 
 case class PropertyReference(reference: Reference, propertyName: Name) extends Reference {
   override def eval(ctx: Context) = {
@@ -22,5 +23,11 @@ case class PropertyReference(reference: Reference, propertyName: Name) extends R
       case _ =>
         ctx.log.warn(position, "Attempt to assign property of non-object")
     }
+  }
+
+  override def dump(out: PrintStream, ident: String) {
+    super.dump(out, ident)
+    reference.dump(out, ident + "  ")
+    propertyName.dump(out, ident + "  ")
   }
 }

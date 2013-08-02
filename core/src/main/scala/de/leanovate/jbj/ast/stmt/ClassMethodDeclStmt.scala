@@ -6,6 +6,7 @@ import de.leanovate.jbj.runtime.value.{NullVal, ObjectVal}
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.context.MethodContext
 import de.leanovate.jbj.runtime.ReturnExecResult
+import java.io.PrintStream
 
 case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: String, parameterDecls: List[ParameterDecl],
                                stmts: List[Stmt]) extends Stmt with PMethod {
@@ -38,5 +39,13 @@ case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: Strin
       case _ => execStmts(tail, context)
     }
     case Nil => NullVal
+  }
+
+  override def dump(out: PrintStream, ident: String) {
+    out.println(ident + getClass.getSimpleName + " " + name.toString + " " + position)
+    stmts.foreach {
+      stmt =>
+        stmt.dump(out, ident + "  ")
+    }
   }
 }

@@ -2,7 +2,13 @@ package de.leanovate.jbj.ast.name
 
 import de.leanovate.jbj.ast.{Name, Expr}
 import de.leanovate.jbj.runtime.Context
+import java.io.PrintStream
 
 case class DynamicName(expr: Expr) extends Name {
-  def evalName(ctx: Context) = expr.eval(ctx).toStr.value
+  override def evalName(ctx: Context) = expr.eval(ctx).toStr.value
+
+  override def dump(out: PrintStream, ident: String) {
+    super.dump(out, ident)
+    expr.dump(out, ident + "  ")
+  }
 }

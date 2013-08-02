@@ -6,6 +6,7 @@ import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.ast.NamespaceName
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.value.{UndefinedVal, ObjectVal}
+import java.io.PrintStream
 
 case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
                          superClassName: Option[NamespaceName], implements: List[NamespaceName], stmts: List[Stmt])
@@ -33,5 +34,14 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
 
   override def invokeMethod(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, methodName: String, parameters: List[Value]) = {
     methodMap.get(methodName).map(_.call(ctx, callerPosition, instance, parameters)).getOrElse(Left(UndefinedVal))
+  }
+
+  override def dump(out: PrintStream, ident: String) {
+    out.println(ident + getClass.getSimpleName + " " + name.toString + " " + position)
+    out.println(ident + "  " + name.toString)
+    stmts.foreach {
+      stmt =>
+        stmt.dump(out, ident + "  ")
+    }
   }
 }

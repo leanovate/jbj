@@ -3,6 +3,7 @@ package de.leanovate.jbj.ast.expr
 import de.leanovate.jbj.ast.{Name, Reference}
 import de.leanovate.jbj.runtime.{ValueRef, Value, Context}
 import de.leanovate.jbj.runtime.value.UndefinedVal
+import java.io.PrintStream
 
 case class VariableReference(variableName: Name) extends Reference {
   override def eval(ctx: Context) = ctx.findVariable(variableName.evalName(ctx)).map(_.value).getOrElse(UndefinedVal)
@@ -14,5 +15,10 @@ case class VariableReference(variableName: Name) extends Reference {
       case None => ctx.defineVariable(name, ValueRef(value))
       case _ =>
     }
+  }
+
+  override def dump(out: PrintStream, ident: String) {
+    super.dump(out, ident)
+    variableName.dump(out, ident + "  ")
   }
 }

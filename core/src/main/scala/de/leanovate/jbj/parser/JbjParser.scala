@@ -475,7 +475,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     elem("identifier", _.isInstanceOf[Identifier]) ^^ (_.chars)
 
   lazy val variableLit: PackratParser[String] =
-    elem("variable", _.isInstanceOf[Variable]) ^^ (_.chars)
+    elem("variable", _.isInstanceOf[Variable]) ^^ (_.asInstanceOf[Variable].name)
 
   implicit def parser2packrat1[T <: Node](p: => super.Parser[T]): PackratParser[T] = {
     lazy val q = p
