@@ -322,7 +322,10 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       ref => IncrAndGetExpr(ref)
     } | "--" ~> rwVariable ^^ {
       ref => DecrAndGetExpr(ref)
-    } | scalar | combinedScalarOffset | constant | parenthesisExpr | "-" ~> term ^^ {
+    } | scalar | combinedScalarOffset |
+      "print" ~> expr ^^ {
+        e => PrintExpr(e)
+      } | constant | parenthesisExpr | "-" ~> term ^^ {
       expr => NegExpr(expr)
     } | "+" ~> term
 
@@ -533,30 +536,29 @@ object JbjParser {
   def main(args: Array[String]) = {
     test( """<?php
             |
-            |class Name {
-            |	function Name($_name) {
-            |		$this->name = $_name;
-            |	}
-            |
-            |	function display() {
-            |		echo $this->name . "\n";
+            |class Circle {
+            |	function draw() {
+            |		echo "Circle\n";
             |	}
             |}
             |
-            |class Person {
-            |	private $name;
-            |
-            |	function person($_name, $_address) {
-            |		$this->name = new Name($_name);
-            |	}
-            |
-            |	function getName() {
-            |		return $this->name;
+            |class Square {
+            |	function draw() {
+            |		print "Square\n";
             |	}
             |}
             |
-            |$person = new Person("John", "New York");
-            |$person->getName()->display();
+            |function ShapeFactoryMethod($shape) {
+            |	switch ($shape) {
+            |		case "Circle":
+            |			return new Circle();
+            |		case "Square":
+            |			return new Square();
+            |	}
+            |}
+            |
+            |ShapeFactoryMethod("Circle")->draw();
+            |ShapeFactoryMethod("Square")->draw();
             |
             |?>""".stripMargin)
   }
