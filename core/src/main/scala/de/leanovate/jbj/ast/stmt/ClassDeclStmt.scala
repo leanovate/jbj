@@ -20,7 +20,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
       m.name.toLowerCase -> m
   }.toMap
 
-  override def exec(ctx: Context) = {
+  override def exec(implicit ctx: Context) = {
     if (ctx.findClass(name).isDefined)
       ctx.log.fatal(position, "Cannot redeclare class %s".format(name))
     else {

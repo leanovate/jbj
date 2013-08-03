@@ -6,20 +6,20 @@ import de.leanovate.jbj.runtime.value.{StringVal, ObjectVal, UndefinedVal}
 import java.io.PrintStream
 
 case class PropertyReference(reference: Reference, propertyName: Name) extends Reference {
-  override def eval(ctx: Context) = {
-    reference.eval(ctx) match {
+  override def eval(implicit ctx: Context) = {
+    reference.eval match {
       case obj: ObjectVal =>
-        obj.getAt(StringArrayKey(propertyName.evalName(ctx)))
+        obj.getAt(StringArrayKey(propertyName.evalName))
       case _ =>
         ctx.log.notice(position, "Trying to get property of non-object")
         UndefinedVal
     }
   }
 
-  override def assign(ctx: Context, value: Value) {
-    reference.eval(ctx) match {
+  override def assign(value: Value)(implicit ctx: Context) {
+    reference.eval match {
       case obj: ObjectVal =>
-        obj.setAt(StringArrayKey(propertyName.evalName(ctx)), value)
+        obj.setAt(Some(StringArrayKey(propertyName.evalName)), value)
       case _ =>
         ctx.log.warn(position, "Attempt to assign property of non-object")
     }

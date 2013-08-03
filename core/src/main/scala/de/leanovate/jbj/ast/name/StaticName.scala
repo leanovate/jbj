@@ -5,7 +5,7 @@ import de.leanovate.jbj.runtime.Context
 import java.io.PrintStream
 
 case class StaticName(name: String) extends Name {
-  override def evalName(ctx: Context) = name
+  override def evalName(implicit ctx: Context) = name
 
   override def dump(out: PrintStream, ident: String) {
     super.dump(out, ident)

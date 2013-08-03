@@ -1,6 +1,7 @@
 package de.leanovate.jbj.runtime.value
 
-import de.leanovate.jbj.runtime.{ArrayKey, Value}
+import de.leanovate.jbj.runtime.{Context, ArrayKey, Value}
+import de.leanovate.jbj.ast.NodePosition
 
 trait NumericVal extends Value {
   override def toNum: NumericVal = this
@@ -13,7 +14,7 @@ trait NumericVal extends Value {
 
   override def getAt(index: ArrayKey) = UndefinedVal
 
-  override def setAt(index: ArrayKey, value: Value) {}
+  override def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition) {}
 
   def unary_- : NumericVal
 

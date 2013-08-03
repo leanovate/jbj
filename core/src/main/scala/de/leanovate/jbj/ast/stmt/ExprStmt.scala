@@ -5,8 +5,8 @@ import de.leanovate.jbj.runtime.{SuccessExecResult, Context}
 import java.io.PrintStream
 
 case class ExprStmt(expr: Expr) extends Stmt {
-  override def exec(ctx: Context) = {
-    expr.eval(ctx)
+  override def exec(implicit ctx: Context) = {
+    expr.eval
     SuccessExecResult()
   }
 

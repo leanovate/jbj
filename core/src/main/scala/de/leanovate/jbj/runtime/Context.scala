@@ -29,7 +29,7 @@ trait Context {
 
   def findVariable(name: String): Option[ValueRef]
 
-  def defineVariable(name: String, valueRef: ValueRef)
+  def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition)
 
   def undefineVariable(name: String)
 

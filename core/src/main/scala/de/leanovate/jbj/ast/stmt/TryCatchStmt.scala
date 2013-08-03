@@ -9,7 +9,7 @@ case class TryCatchStmt(tryStmts: List[Stmt], catchBlocks: List[CatchBlock], fin
       catchBlocks.map(_.stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])).flatten ++
       finallyStmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
-  override def exec(ctx: Context) = ???
+  override def exec(implicit ctx: Context) = ???
 
   override def initializeStatic(ctx: Context) {
     staticInitializers.foreach(_.initializeStatic(ctx))

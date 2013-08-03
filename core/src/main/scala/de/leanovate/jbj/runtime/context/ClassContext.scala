@@ -36,8 +36,8 @@ case class ClassContext(instance: ObjectVal, callerPosition: NodePosition, calle
     case v => Some(ValueRef(v))
   }
 
-  def defineVariable(name: String, valueRef: ValueRef) {
-    instance.setAt(StringArrayKey(name), valueRef.value)
+  def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition) {
+    instance.setAt(Some(StringArrayKey(name)), valueRef.value)(this, position)
   }
 
   def undefineVariable(name: String) {

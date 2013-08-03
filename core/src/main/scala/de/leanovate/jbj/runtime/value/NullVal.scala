@@ -1,7 +1,8 @@
 package de.leanovate.jbj.runtime.value
 
 import java.io.PrintStream
-import de.leanovate.jbj.runtime.{ArrayKey, Value}
+import de.leanovate.jbj.runtime.{Context, ArrayKey, Value}
+import de.leanovate.jbj.ast.NodePosition
 
 object NullVal extends Value {
   override def toOutput(out: PrintStream) {
@@ -31,5 +32,5 @@ object NullVal extends Value {
 
   override def getAt(index: ArrayKey) = UndefinedVal
 
-  override def setAt(index: ArrayKey, value: Value) {}
+  override def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition) {}
 }

@@ -13,14 +13,14 @@ case class IfStmt(condition: Expr, thenStmts: List[Stmt], elseIfs: List[ElseIfBl
       elseStmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
 
-  override def exec(ctx: Context) = {
-    if (condition.eval(ctx).toBool.value) {
-      execStmts(thenStmts, ctx)
+  override def exec(implicit ctx: Context) = {
+    if (condition.eval.toBool.value) {
+      execStmts(thenStmts)
     } else {
-      elseIfs.find(_.condition.eval(ctx).toBool.value).map {
-        elseIf => execStmts(elseIf.themStmts, ctx)
+      elseIfs.find(_.condition.eval.toBool.value).map {
+        elseIf => execStmts(elseIf.themStmts)
       }.getOrElse {
-        execStmts(elseStmts, ctx)
+        execStmts(elseStmts)
       }
     }
   }
@@ -30,9 +30,9 @@ case class IfStmt(condition: Expr, thenStmts: List[Stmt], elseIfs: List[ElseIfBl
   }
 
   @tailrec
-  private def execStmts(statements: List[Stmt], context: Context): ExecResult = statements match {
-    case head :: tail => head.exec(context) match {
-      case SuccessExecResult() => execStmts(tail, context)
+  private def execStmts(statements: List[Stmt])(implicit context: Context): ExecResult = statements match {
+    case head :: tail => head.exec match {
+      case SuccessExecResult() => execStmts(tail)
       case result => result
     }
     case Nil => SuccessExecResult()

@@ -4,9 +4,9 @@ import de.leanovate.jbj.ast.{Expr, Reference}
 import de.leanovate.jbj.runtime.Context
 
 case class MulByExpr(reference: Reference, expr: Expr) extends Expr {
-  override def eval(ctx: Context) = {
-    val result = reference.eval(ctx).toNum * expr.eval(ctx).toNum
-    reference.assign(ctx, result)
+  override def eval(implicit ctx: Context) = {
+    val result = reference.eval.toNum * expr.eval.toNum
+    reference.assign(result)
     result
   }
 }

@@ -7,8 +7,8 @@ import de.leanovate.jbj.parser.{ParseContext, JbjParser}
 import de.leanovate.jbj.ast.expr.ScalarExpr
 
 case class InterpolatedStringExpr(format: String, interpolations: List[Expr]) extends Expr {
-  def eval(ctx: Context) = {
-    val values = interpolations.map(_.eval(ctx).toStr.value)
+  override def eval(implicit ctx: Context) = {
+    val values = interpolations.map(_.eval.toStr.value)
     StringVal(format.format(values: _*))
   }
 }

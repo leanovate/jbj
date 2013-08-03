@@ -11,19 +11,19 @@ case class ForStmt(befores: List[Expr], conditions: List[Expr], afters: List[Exp
 
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
-  def exec(ctx: Context): ExecResult = {
-    befores.foreach(_.eval(ctx))
+  override def exec(implicit ctx: Context): ExecResult = {
+    befores.foreach(_.eval)
     while (conditions.foldLeft(true) {
       (result, cond) =>
-        cond.eval(ctx).toBool.value
+        cond.eval.toBool.value
     }) {
-      execStmts(stmts, ctx) match {
+      execStmts(stmts) match {
         case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
         case BreakExecResult(_) => return SuccessExecResult()
         case result: ReturnExecResult => return result
         case _ =>
       }
-      afters.foreach(_.eval(ctx))
+      afters.foreach(_.eval)
     }
     SuccessExecResult()
   }
@@ -33,9 +33,9 @@ case class ForStmt(befores: List[Expr], conditions: List[Expr], afters: List[Exp
   }
 
   @tailrec
-  private def execStmts(statements: List[Stmt], context: Context): ExecResult = statements match {
-    case head :: tail => head.exec(context) match {
-      case SuccessExecResult() => execStmts(tail, context)
+  private def execStmts(statements: List[Stmt])(implicit context: Context): ExecResult = statements match {
+    case head :: tail => head.exec match {
+      case SuccessExecResult() => execStmts(tail)
       case result => result
     }
     case Nil => SuccessExecResult()

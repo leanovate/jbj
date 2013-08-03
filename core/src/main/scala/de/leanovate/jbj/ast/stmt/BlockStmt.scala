@@ -8,7 +8,7 @@ import de.leanovate.jbj.runtime.SuccessExecResult
 case class BlockStmt(stmts: List[Stmt]) extends Stmt with StaticInitializer {
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
-  override def exec(ctx: Context) = {
+  override def exec(implicit ctx: Context) = {
     execStmts(stmts, ctx)
   }
 

@@ -6,5 +6,5 @@ import de.leanovate.jbj.runtime.value.BooleanVal
 import de.leanovate.jbj.ast.expr.BinaryExpr
 
 case class LtExpr(left: Expr, right: Expr) extends BinaryExpr {
-  override def eval(ctx: Context) = BooleanVal(Value.compare(left.eval(ctx), right.eval(ctx)) < 0)
+  override def eval(implicit ctx: Context) = BooleanVal(Value.compare(left.eval, right.eval) < 0)
 }

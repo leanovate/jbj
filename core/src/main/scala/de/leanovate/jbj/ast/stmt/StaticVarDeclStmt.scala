@@ -6,7 +6,7 @@ import de.leanovate.jbj.runtime.{ValueRef, SuccessExecResult, Context}
 case class StaticVarDeclStmt(assignments: List[StaticAssignment])
   extends Stmt with StaticInitializer {
 
-  override def exec(ctx: Context) = {
+  override def exec(implicit ctx: Context) = {
     assignments.foreach {
       assignment =>
         val valueRef = ctx.static.findVariable(assignment.variableName).getOrElse(ValueRef())

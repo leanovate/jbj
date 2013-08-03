@@ -4,6 +4,9 @@ import de.leanovate.jbj.runtime._
 import java.io.PrintStream
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.IntArrayKey
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import scala.util.parsing.input.NoPosition
+import de.leanovate.jbj.ast.{NodePosition, NoNodePosition}
 
 class ObjectVal(var pClass: PClass, var keyValues: mutable.LinkedHashMap[ArrayKey, Value]) extends Value {
   override def toOutput(out: PrintStream) {
@@ -44,8 +47,11 @@ class ObjectVal(var pClass: PClass, var keyValues: mutable.LinkedHashMap[ArrayKe
 
   override def getAt(index: ArrayKey) = keyValues.getOrElse(index, UndefinedVal)
 
-  override def setAt(index: ArrayKey, value: Value) {
-    keyValues.put(index, value)
+  override def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition) {
+    if (index.isDefined)
+      keyValues.put(index.get, value)
+    else
+      throw new FatalErrorJbjException(ctx, position, "Cannot use object of type %s as array".format(pClass.name.toString))
   }
 }
 

@@ -6,9 +6,9 @@ import de.leanovate.jbj.runtime.value.UndefinedVal
 import java.io.PrintStream
 
 case class NewExpr(className: NamespaceName, parameters: List[Expr]) extends Expr {
-  override def eval(ctx: Context) = ctx.findClass(className) match {
+  override def eval(implicit ctx: Context) = ctx.findClass(className) match {
     case Some(pClass) =>
-      pClass.newInstance(ctx, position, parameters.map(_.eval(ctx)))
+      pClass.newInstance(ctx, position, parameters.map(_.eval))
     case None =>
       ctx.log.fatal(position, "Class '%s' not found".format(className.toString))
       UndefinedVal

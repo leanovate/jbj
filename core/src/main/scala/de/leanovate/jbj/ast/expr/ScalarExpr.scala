@@ -5,7 +5,7 @@ import de.leanovate.jbj.ast.Expr
 import java.io.PrintStream
 
 case class ScalarExpr(value: Value) extends Expr {
-  override def eval(ctx: Context) = value
+  override def eval(implicit ctx: Context) = value
 
   override def dump(out: PrintStream, ident: String) {
     super.dump(out, ident)

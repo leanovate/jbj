@@ -4,5 +4,5 @@ import de.leanovate.jbj.ast.{Expr, Stmt}
 import de.leanovate.jbj.runtime.{ContinueExecResult, Context}
 
 case class ContinueStmt(depth: Option[Expr]) extends Stmt {
-  def exec(ctx: Context) = ContinueExecResult(depth.map(_.eval(ctx).toInteger.value).getOrElse(1))
+  override def exec(implicit ctx: Context) = ContinueExecResult(depth.map(_.eval.toInteger.value).getOrElse(1))
 }

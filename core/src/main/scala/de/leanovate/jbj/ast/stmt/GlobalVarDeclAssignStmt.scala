@@ -4,7 +4,7 @@ import de.leanovate.jbj.ast.Stmt
 import de.leanovate.jbj.runtime.{ValueRef, SuccessExecResult, Context}
 
 case class GlobalVarDeclAssignStmt(variableNames: List[String]) extends Stmt {
-  override def exec(ctx: Context) = {
+  override def exec(implicit ctx: Context) = {
     variableNames.foreach {
       variableName =>
         val valueRef = ctx.global.findVariable(variableName) match {

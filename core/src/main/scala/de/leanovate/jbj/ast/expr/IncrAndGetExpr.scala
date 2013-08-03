@@ -4,9 +4,9 @@ import de.leanovate.jbj.ast.{Reference, Expr}
 import de.leanovate.jbj.runtime.Context
 
 case class IncrAndGetExpr(reference: Reference) extends Expr {
-  def eval(ctx: Context) = {
-    val result = reference.eval(ctx).incr
-    reference.assign(ctx, result)
+  override def eval(implicit ctx: Context) = {
+    val result = reference.eval.incr
+    reference.assign(result)
     result
   }
 }

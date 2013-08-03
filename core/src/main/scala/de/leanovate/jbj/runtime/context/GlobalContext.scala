@@ -48,7 +48,7 @@ case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
 
   def findVariable(name: String): Option[ValueRef] = variables.get(name)
 
-  def defineVariable(name: String, valueRef: ValueRef) {
+  def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition)  {
     variables.put(name, valueRef)
   }
 

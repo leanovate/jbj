@@ -8,9 +8,9 @@ case class AssignExpr(reference: Reference, expr: Expr) extends BinaryExpr {
 
   def right = expr
 
-  override def eval(ctx: Context) = {
-    val value = expr.eval(ctx)
-    reference.assign(ctx, value)
+  override def eval(implicit ctx: Context) = {
+    val value = expr.eval
+    reference.assign(value)
     value
   }
 }

@@ -5,7 +5,7 @@ import java.io.PrintStream
 trait Node {
   private var _position: NodePosition = NoNodePosition
 
-  def position = _position
+  implicit def position = _position
 
   def position_=(pos: NodePosition) {
     if (_position == NoNodePosition)

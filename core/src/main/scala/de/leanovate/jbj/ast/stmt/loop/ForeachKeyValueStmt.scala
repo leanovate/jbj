@@ -11,10 +11,10 @@ case class ForeachKeyValueStmt(arrayExpr: Expr, keyVar: Reference, valueVar: Ref
                                stmts: List[Stmt]) extends Stmt with StaticInitializer {
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
-  def exec(ctx: Context) = {
-    arrayExpr.eval(ctx) match {
+  def exec(implicit ctx: Context) = {
+    arrayExpr.eval match {
       case array: ArrayVal =>
-        execValues(array.keyValues.toList, ctx)
+        execValues(array.keyValues.toList)
       case _ =>
     }
     SuccessExecResult()
@@ -25,23 +25,23 @@ case class ForeachKeyValueStmt(arrayExpr: Expr, keyVar: Reference, valueVar: Ref
   }
 
   @tailrec
-  private def execValues(keyValues: List[(ArrayKey, Value)], context: Context): ExecResult = keyValues match {
+  private def execValues(keyValues: List[(ArrayKey, Value)])(implicit context: Context): ExecResult = keyValues match {
     case head :: tail =>
-      keyVar.assign(context, head._1.value)
-      valueVar.assign(context, head._2)
-      execStmts(stmts, context) match {
+      keyVar.assign(head._1.value)
+      valueVar.assign(head._2)
+      execStmts(stmts) match {
         case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
         case BreakExecResult(_) => SuccessExecResult()
         case result: ReturnExecResult => result
-        case _ => execValues(tail, context)
+        case _ => execValues(tail)
       }
     case Nil => SuccessExecResult()
   }
 
   @tailrec
-  private def execStmts(statements: List[Stmt], context: Context): ExecResult = statements match {
-    case head :: tail => head.exec(context) match {
-      case SuccessExecResult() => execStmts(tail, context)
+  private def execStmts(statements: List[Stmt])(implicit context: Context): ExecResult = statements match {
+    case head :: tail => head.exec match {
+      case SuccessExecResult() => execStmts(tail)
       case result => result
     }
     case Nil => SuccessExecResult()

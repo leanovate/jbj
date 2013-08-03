@@ -5,7 +5,7 @@ import de.leanovate.jbj.runtime.{ReturnExecResult, Context}
 import de.leanovate.jbj.runtime.value.UndefinedVal
 
 case class ReturnStmt(expr: Option[Expr]) extends Stmt {
-  def exec(ctx: Context) = {
-    ReturnExecResult(expr.map(_.eval(ctx)).getOrElse(UndefinedVal))
+  override def exec(implicit ctx: Context) = {
+    ReturnExecResult(expr.map(_.eval).getOrElse(UndefinedVal))
   }
 }

@@ -1,7 +1,8 @@
 package de.leanovate.jbj.runtime.value
 
 import java.io.PrintStream
-import de.leanovate.jbj.runtime.{IntArrayKey, ArrayKey, Value}
+import de.leanovate.jbj.runtime.{Context, IntArrayKey, ArrayKey, Value}
+import de.leanovate.jbj.ast.NodePosition
 
 case class StringVal(value: String) extends Value {
   override def toOutput(out: PrintStream) {
@@ -42,7 +43,7 @@ case class StringVal(value: String) extends Value {
     case _ => StringVal(value(0).toString)
   }
 
-  override def setAt(index: ArrayKey, value: Value) {}
+  override def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition) {}
 
   def dot(other: Value): Value = StringVal(value + other.toStr.value)
 }

@@ -6,8 +6,8 @@ import de.leanovate.jbj.runtime.value.IntegerVal
 import java.io.PrintStream
 
 case class PrintExpr(expr: Expr) extends Expr {
-  override def eval(ctx: Context) = {
-    expr.eval(ctx).toOutput(ctx.out)
+  override def eval(implicit ctx: Context) = {
+    expr.eval.toOutput(ctx.out)
     IntegerVal(1)
   }
 

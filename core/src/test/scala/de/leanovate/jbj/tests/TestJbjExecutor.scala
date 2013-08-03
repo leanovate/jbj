@@ -6,7 +6,7 @@ import org.scalatest.matchers.{MatchResult, MustMatchers, Matcher}
 import de.leanovate.jbj.runtime.context.GlobalContext
 import scala.Some
 import de.leanovate.jbj.ast.Prog
-import de.leanovate.jbj.runtime.http.CgiEnvironment
+import de.leanovate.jbj.runtime.env.{CliEnvironment, CgiEnvironment}
 
 trait TestJbjExecutor extends MustMatchers {
 
@@ -19,6 +19,16 @@ trait TestJbjExecutor extends MustMatchers {
 
     def withGet(uriStr: String) = {
       CgiEnvironment.httpGet(uriStr, context)
+      this
+    }
+
+    def withPost(uriStr: String, formData: String) = {
+      CgiEnvironment.httpPostForm(uriStr, formData, context)
+      this
+    }
+
+    def withCommandLine(args: String) = {
+      CliEnvironment.commandLine("-", args.split(" "), context)
       this
     }
 

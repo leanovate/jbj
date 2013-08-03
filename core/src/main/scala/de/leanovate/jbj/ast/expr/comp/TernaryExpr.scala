@@ -4,8 +4,8 @@ import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.runtime.Context
 
 case class TernaryExpr(cond: Expr, trueExpr: Expr, falseExpr: Expr) extends Expr {
-  def eval(ctx: Context) = if (cond.eval(ctx).toBool.value)
-    trueExpr.eval(ctx)
+  override def eval(implicit ctx: Context) = if (cond.eval.toBool.value)
+    trueExpr.eval
   else
-    falseExpr.eval(ctx)
+    falseExpr.eval
 }

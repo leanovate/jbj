@@ -5,15 +5,15 @@ import de.leanovate.jbj.runtime.{ArrayKey, Context}
 import de.leanovate.jbj.runtime.value.UndefinedVal
 
 case class IndexGetExpr(expr: Expr, indexExpr: Option[Expr]) extends Expr {
-  override def eval(ctx: Context) = {
+  override def eval(implicit ctx: Context) = {
     val optArrayKey = indexExpr.flatMap {
       expr =>
-        ArrayKey(expr.eval(ctx))
+        ArrayKey(expr.eval)
     }
 
     optArrayKey.map {
       arrayKey =>
-        val array = expr.eval(ctx)
+        val array = expr.eval
         array.getAt(arrayKey)
 
     }.getOrElse(UndefinedVal)

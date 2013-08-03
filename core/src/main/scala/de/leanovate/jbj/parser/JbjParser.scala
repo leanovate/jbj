@@ -16,7 +16,7 @@ import scala.util.parsing.combinator.{PackratParsers, Parsers}
 import scala.language.implicitConversions
 import scala.Some
 import de.leanovate.jbj.runtime.context.GlobalContext
-import de.leanovate.jbj.runtime.http.CgiEnvironment
+import de.leanovate.jbj.runtime.env.CgiEnvironment
 
 class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   type Elem = JbjTokens.Token

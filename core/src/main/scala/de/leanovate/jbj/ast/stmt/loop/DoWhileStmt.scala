@@ -9,15 +9,15 @@ import de.leanovate.jbj.runtime.SuccessExecResult
 case class DoWhileStmt(stmts: List[Stmt], condition: Expr) extends Stmt with StaticInitializer {
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
-  override def exec(ctx: Context): ExecResult = {
+  override def exec(implicit ctx: Context): ExecResult = {
     do {
-      execStmts(stmts, ctx) match {
+      execStmts(stmts) match {
         case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
         case BreakExecResult(_) => return SuccessExecResult()
         case result: ReturnExecResult => return result
         case _ =>
       }
-    } while (condition.eval(ctx).toBool.value)
+    } while (condition.eval.toBool.value)
     SuccessExecResult()
   }
 
@@ -26,9 +26,9 @@ case class DoWhileStmt(stmts: List[Stmt], condition: Expr) extends Stmt with Sta
   }
 
   @tailrec
-  private def execStmts(statements: List[Stmt], context: Context): ExecResult = statements match {
+  private def execStmts(statements: List[Stmt])(implicit context: Context): ExecResult = statements match {
     case head :: tail => head.exec(context) match {
-      case SuccessExecResult() => execStmts(tail, context)
+      case SuccessExecResult() => execStmts(tail)
       case result => result
     }
     case Nil => SuccessExecResult()

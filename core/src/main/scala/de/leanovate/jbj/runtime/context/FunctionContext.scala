@@ -34,7 +34,7 @@ case class FunctionContext(functionName: NamespaceName, callerPosition: NodePosi
 
   def findVariable(name: String): Option[ValueRef] = localVariables.get(name)
 
-  def defineVariable(name: String, valueRef: ValueRef) {
+  def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition)  {
     localVariables.put(name, valueRef)
   }
 

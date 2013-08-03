@@ -4,6 +4,7 @@ import de.leanovate.jbj.runtime.value._
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.runtime.value.IntegerVal
+import de.leanovate.jbj.ast.NodePosition
 
 trait Value {
   def toOutput(out: PrintStream)
@@ -30,7 +31,7 @@ trait Value {
 
   def getAt(index: ArrayKey): Value
 
-  def setAt(index: ArrayKey, value: Value)
+  def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition)
 }
 
 object Value {

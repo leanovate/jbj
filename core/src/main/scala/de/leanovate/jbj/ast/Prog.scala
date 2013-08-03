@@ -7,13 +7,13 @@ import de.leanovate.jbj.runtime.exception.JbjException
 case class Prog(stmts: Seq[Stmt]) extends Node {
   val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
-  def exec(ctx: Context) {
+  def exec(implicit ctx: Context) {
     if (!ctx.static.initialized) {
       staticInitializers.foreach(_.initializeStatic(ctx))
       ctx.static.initialized = true
     }
 
-    stmts.foreach(_.exec(ctx))
+    stmts.foreach(_.exec)
   }
 
   override def dump(out: PrintStream, ident: String) {

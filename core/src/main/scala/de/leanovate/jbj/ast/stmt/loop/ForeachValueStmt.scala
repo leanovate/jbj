@@ -12,10 +12,10 @@ case class ForeachValueStmt(arrayExpr: Expr, valueVar:Reference, stmts: List[Stm
 
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
-  def exec(ctx: Context) = {
-    arrayExpr.eval(ctx) match {
+  def exec(implicit ctx: Context) = {
+    arrayExpr.eval match {
       case array: ArrayVal =>
-        execValues(array.keyValues.toList.map(_._2), ctx)
+        execValues(array.keyValues.toList.map(_._2))
       case _ =>
     }
     SuccessExecResult()
@@ -26,22 +26,22 @@ case class ForeachValueStmt(arrayExpr: Expr, valueVar:Reference, stmts: List[Stm
   }
 
   @tailrec
-  private def execValues(values: List[Value], context: Context): ExecResult = values match {
+  private def execValues(values: List[Value])(implicit context: Context): ExecResult = values match {
     case head :: tail =>
-      valueVar.assign(context, head)
-      execStmts(stmts, context) match {
+      valueVar.assign(head)
+      execStmts(stmts) match {
         case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
         case BreakExecResult(_) => SuccessExecResult()
         case result: ReturnExecResult => result
-        case _ => execValues(tail, context)
+        case _ => execValues(tail)
       }
     case Nil => SuccessExecResult()
   }
 
   @tailrec
-  private def execStmts(statements: List[Stmt], context: Context): ExecResult = statements match {
-    case head :: tail => head.exec(context) match {
-      case SuccessExecResult() => execStmts(tail, context)
+  private def execStmts(statements: List[Stmt])(implicit context: Context): ExecResult = statements match {
+    case head :: tail => head.exec match {
+      case SuccessExecResult() => execStmts(tail)
       case result => result
     }
     case Nil => SuccessExecResult()

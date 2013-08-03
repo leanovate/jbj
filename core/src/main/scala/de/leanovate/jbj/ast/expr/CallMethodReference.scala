@@ -6,9 +6,9 @@ import de.leanovate.jbj.runtime.value.{UndefinedVal, ObjectVal}
 import java.io.PrintStream
 
 case class CallMethodReference(instanceExpr: Expr, methodName: Name, parameters: List[Expr]) extends Reference {
-  override def eval(ctx: Context) = instanceExpr.eval(ctx) match {
+  override def eval(implicit ctx: Context) = instanceExpr.eval match {
     case instance: ObjectVal =>
-      instance.pClass.invokeMethod(ctx, position, instance, methodName.evalName(ctx), parameters.map(_.eval(ctx))) match {
+      instance.pClass.invokeMethod(ctx, position, instance, methodName.evalName, parameters.map(_.eval)) match {
         case Left(value) => value
         case Right(valueRef) => valueRef.value
       }
@@ -17,7 +17,7 @@ case class CallMethodReference(instanceExpr: Expr, methodName: Name, parameters:
       UndefinedVal
   }
 
-  override def assign(ctx: Context, value: Value) {}
+  override def assign(value: Value)(implicit ctx: Context) {}
 
   override def dump(out: PrintStream, ident: String) {
     out.println(ident + getClass.getSimpleName + " " + methodName + " " + position)

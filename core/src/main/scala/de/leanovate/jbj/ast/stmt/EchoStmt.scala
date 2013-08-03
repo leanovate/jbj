@@ -5,10 +5,10 @@ import de.leanovate.jbj.runtime.{SuccessExecResult, Context}
 import java.io.PrintStream
 
 case class EchoStmt(parameters: Seq[Expr]) extends Stmt {
-  override def exec(ctx: Context) = {
+  override def exec(implicit ctx: Context) = {
     parameters.foreach {
       expr =>
-        expr.eval(ctx).toOutput(ctx.out)
+        expr.eval.toOutput(ctx.out)
     }
     SuccessExecResult()
   }

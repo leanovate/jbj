@@ -1,10 +1,18 @@
 package de.leanovate.jbj.runtime.value
 
 import java.io.PrintStream
-import de.leanovate.jbj.runtime.{ArrayKey, StringArrayKey, IntArrayKey, Value}
+import de.leanovate.jbj.runtime._
 import scala.collection.mutable
+import de.leanovate.jbj.runtime.IntArrayKey
+import de.leanovate.jbj.runtime.StringArrayKey
+import de.leanovate.jbj.ast.NodePosition
 
 class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, Value]) extends Value {
+
+  private var maxIndex: Long = (0L :: keyValues.keys.map {
+    case IntArrayKey(idx) => idx
+    case _ => 0L
+  }.toList).max
 
   override def toOutput(out: PrintStream) {
     out.print("Array")
@@ -46,8 +54,17 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, Value]) extends Va
 
   override def getAt(index: ArrayKey) = keyValues.getOrElse(index, UndefinedVal)
 
-  override def setAt(index: ArrayKey, value: Value) {
-    keyValues.put(index, value)
+  override def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition) {
+    index match {
+      case Some(key@IntArrayKey(idx)) if idx > maxIndex =>
+        keyValues.put(key, value)
+        maxIndex = idx
+      case Some(key) =>
+        keyValues.put(key, value)
+      case None =>
+        maxIndex += 1
+        keyValues.put(IntArrayKey(maxIndex), value)
+    }
   }
 
   def count: IntegerVal = IntegerVal(keyValues.size)

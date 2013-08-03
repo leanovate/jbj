@@ -5,7 +5,7 @@ import de.leanovate.jbj.runtime.Context
 import java.io.PrintStream
 
 case class DynamicName(expr: Expr) extends Name {
-  override def evalName(ctx: Context) = expr.eval(ctx).toStr.value
+  override def evalName(implicit ctx: Context) = expr.eval.toStr.value
 
   override def dump(out: PrintStream, ident: String) {
     super.dump(out, ident)

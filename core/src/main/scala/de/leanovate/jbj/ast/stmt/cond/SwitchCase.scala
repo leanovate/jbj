@@ -6,5 +6,5 @@ import de.leanovate.jbj.runtime.{Value, Context}
 trait SwitchCase {
   def stmts: List[Stmt]
 
-  def matches(value: Value, ctx: Context): Boolean
+  def matches(value: Value)(implicit ctx: Context): Boolean
 }

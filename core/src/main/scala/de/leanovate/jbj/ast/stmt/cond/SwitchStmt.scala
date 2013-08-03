@@ -9,10 +9,10 @@ case class SwitchStmt(expr: Expr, cases: List[SwitchCase]) extends Stmt with Sta
   private val staticInitializers =
     cases.map(_.stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])).flatten
 
-  override def exec(ctx: Context) = {
-    val value = expr.eval(ctx)
+  override def exec(implicit ctx: Context) = {
+    val value = expr.eval
 
-    execStmts(cases.dropWhile(!_.matches(value, ctx)).map(_.stmts).flatten, ctx)
+    execStmts(cases.dropWhile(!_.matches(value)).map(_.stmts).flatten)
   }
 
   override def initializeStatic(ctx: Context) {
@@ -20,9 +20,9 @@ case class SwitchStmt(expr: Expr, cases: List[SwitchCase]) extends Stmt with Sta
   }
 
   @tailrec
-  private def execStmts(statements: List[Stmt], context: Context): ExecResult = statements match {
-    case head :: tail => head.exec(context) match {
-      case SuccessExecResult() => execStmts(tail, context)
+  private def execStmts(statements: List[Stmt])(implicit context: Context): ExecResult = statements match {
+    case head :: tail => head.exec match {
+      case SuccessExecResult() => execStmts(tail)
       case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
       case BreakExecResult(_) => SuccessExecResult()
       case result => result

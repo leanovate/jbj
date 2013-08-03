@@ -6,5 +6,5 @@ import de.leanovate.jbj.runtime.value.{NumericVal, DoubleVal, IntegerVal}
 import de.leanovate.jbj.ast.expr.BinaryExpr
 
 case class AddExpr(left: Expr, right: Expr) extends BinaryExpr {
-  override def eval(ctx: Context) = left.eval(ctx).toNum + right.eval(ctx).toNum
+  override def eval(implicit ctx: Context) = left.eval.toNum + right.eval.toNum
 }

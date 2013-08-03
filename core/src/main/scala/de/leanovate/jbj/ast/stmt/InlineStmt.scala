@@ -4,7 +4,7 @@ import de.leanovate.jbj.ast.Stmt
 import de.leanovate.jbj.runtime.{SuccessExecResult, Context}
 
 case class InlineStmt(text: String) extends Stmt {
-  def exec(ctx: Context) = {
+  override def exec(implicit ctx: Context) = {
     ctx.out.print(text)
     SuccessExecResult()
   }

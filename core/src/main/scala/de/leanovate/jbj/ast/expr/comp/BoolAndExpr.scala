@@ -6,10 +6,10 @@ import de.leanovate.jbj.runtime.value.BooleanVal
 import de.leanovate.jbj.ast.expr.BinaryExpr
 
 case class BoolAndExpr(left: Expr, right: Expr) extends BinaryExpr {
-  override def eval(ctx: Context) = {
-    if (!left.eval(ctx).toBool.value)
+  override def eval(implicit ctx: Context) = {
+    if (!left.eval.toBool.value)
       BooleanVal.FALSE
     else
-      right.eval(ctx).toBool
+      right.eval.toBool
   }
 }
