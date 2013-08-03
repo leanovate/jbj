@@ -32,7 +32,7 @@ class ClassExampleSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |
           |echo "Done\n"; // shouldn't be displayed
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """base
           |
           |Fatal error: Cannot instantiate abstract class base in - on line 15
@@ -89,7 +89,7 @@ class ClassExampleSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |$tmp->display();
           |
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """User information
           |----------------
           |
@@ -147,7 +147,7 @@ class ClassExampleSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |
           |echo "Done\n"; // shouldn't be displayed
           |?>""".stripMargin
-      ) must (haveOutput(
+      ).result must (haveOutput(
         """
           |Fatal error: Class derived may not inherit from final class (base) in - on line 11
           |""".stripMargin
@@ -165,7 +165,7 @@ class ClassExampleSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |
           |echo "Done\n";
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """stdClass
           |Done
           |""".stripMargin

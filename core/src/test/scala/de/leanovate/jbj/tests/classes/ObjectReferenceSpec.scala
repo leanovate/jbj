@@ -30,7 +30,7 @@ class ObjectReferenceSpec extends FreeSpec with TestJbjExecutor with MustMatcher
           |echo $foo->name;
           |
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """I'm Foo!
           |I'm Bar!
           |""".stripMargin

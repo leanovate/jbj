@@ -51,7 +51,7 @@ class NumericLiteralsSpec extends FreeSpec with MustMatchers with TestJbjExecuto
           |$large_number =  50000000000000 * $million;
           |var_dump($large_number);                     // float(5.0E+19)
           |?>""".stripMargin
-      ) must haveOutput (
+      ).result must haveOutput (
         """int(1234)
           |int(456)
           |int(-123)

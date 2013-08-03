@@ -48,7 +48,7 @@ class Lang4Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |		break;
           |endswitch;
           |?>""".stripMargin
-      ) must haveOutput (
+      ).result must haveOutput (
         """If: 11
           |While: 12346789
           |For: 0123401234

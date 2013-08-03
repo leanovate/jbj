@@ -32,7 +32,7 @@ class NegateSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |}
           |
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """--- testing: 9223372036854775807 ---
           |int(-9223372036854775807)
           |--- testing: -9223372036854775808 ---
@@ -84,7 +84,7 @@ class NegateSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |}
           |
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """--- testing: '0' ---
           |int(0)
           |--- testing: '65' ---

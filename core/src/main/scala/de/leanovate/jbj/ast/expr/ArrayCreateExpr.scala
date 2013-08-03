@@ -9,6 +9,6 @@ case class ArrayCreateExpr(keyValueExprs: List[(Option[Expr], Expr)]) extends Ex
     ArrayVal(keyValueExprs.map {
       case (keyExpr, valueExpr) =>
         (keyExpr.map(_.eval(ctx)), valueExpr.eval(ctx))
-    })
+    }: _*)
   }
 }

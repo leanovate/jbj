@@ -18,7 +18,7 @@ class PrecedenceSpec extends FreeSpec with MustMatchers with TestJbjExecutor {
           |var_dump(3*(1+2)+8/5);
           |
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """int(42)
           |float(23.2)
           |float(10.6)

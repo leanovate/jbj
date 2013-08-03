@@ -34,7 +34,7 @@ class FinalSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |
           |echo "Done\n";
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """Call to function first::show()
           |Call to function second::show()
           |Done

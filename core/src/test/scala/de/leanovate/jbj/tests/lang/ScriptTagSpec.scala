@@ -21,7 +21,7 @@ class ScriptTagSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |echo "oi\n"; //ignore here
           |# 2nd comment
           |""".stripMargin
-      ) must haveOutput (
+      ).result must haveOutput (
         """ola
           |ola2
           |ola3

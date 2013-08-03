@@ -54,7 +54,7 @@ class Lang3Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           | }
           |}
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """In branch 1
           |Inner default...
           |blah=100
@@ -121,7 +121,7 @@ class Lang3Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |}
           |echo "hi\n";
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """i=0
           |In branch 0
           |i=1
@@ -166,7 +166,7 @@ class Lang3Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |  }
           |}
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """zero
           |one
           |2
@@ -219,7 +219,7 @@ class Lang3Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |
           |RekTest(0);
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         " 0  a  1  a  2  a  3  a  4  a  5  a  6  a  7  a  8  a  9 \n b 10 \n b 9  a  9 \n b 10 \n" +
           " b 8  a  8  a  9 \n b 10 \n b 9  a  9 \n b 10 \n b 7  a  7  a  8  a  9 \n b 10 \n b 9  a  9 \n b 10 \n" +
           " b 8  a  8  a  9 \n b 10 \n b 9  a  9 \n b 10 \n b 6  a  6  a  7  a  8  a  9 \n b 10 \n b 9  a  9 \n" +
@@ -297,7 +297,7 @@ class Lang3Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
       // func/026
       script(
         """<?php echo "\"\t\\'" . '\n\\\'a\\\b\\' ?>"""
-      ) must haveOutput(
+      ).result must haveOutput(
         """"	\'\n\'a\\b\"""
       )
     }

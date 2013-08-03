@@ -39,7 +39,7 @@ class FactorySpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |ShapeFactoryMethod("Square")->draw();
           |
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """Circle
           |Square
           |""".stripMargin

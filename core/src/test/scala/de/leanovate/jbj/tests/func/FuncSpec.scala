@@ -13,7 +13,7 @@ class FuncSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
       // func/001
       script(
         """<?php echo strlen("abcdef")?>"""
-      ) must haveOutput(
+      ).result must haveOutput(
         """6"""
       )
     }
@@ -35,7 +35,7 @@ class FuncSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |if (isset($hey) || isset($yo)) {
           |  echo "Local variables became global :(\n";
           |}""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """hey=0, 0
           |hey=1, -1
           |hey=2, -2
@@ -141,7 +141,7 @@ class FuncSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |}
           |
           |andi (3,10);""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """hey
           |blah
           |hey
@@ -372,7 +372,7 @@ class FuncSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |some_other_function();
           |
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """Before function declaration...
           |After function declaration...
           |Calling function for the first time...

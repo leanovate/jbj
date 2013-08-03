@@ -54,7 +54,7 @@ class InheritanceSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |$bar1->c = 12;
           |$bar1->display();
           |echo $bar1->mul()."\n";""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """This is class foo
           |a = 2
           |b = 5

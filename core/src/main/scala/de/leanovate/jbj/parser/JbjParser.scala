@@ -16,6 +16,7 @@ import scala.util.parsing.combinator.{PackratParsers, Parsers}
 import scala.language.implicitConversions
 import scala.Some
 import de.leanovate.jbj.runtime.context.GlobalContext
+import de.leanovate.jbj.runtime.http.CgiEnvironment
 
 class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   type Elem = JbjTokens.Token
@@ -459,6 +460,17 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       case valueExpr ~ None => None -> valueExpr
     }, ",") <~ opt(",")
 
+  lazy val encapsList: Parser[Any] = rep(encapsVar | encapsAndWhitespaceLit)
+
+  lazy val encapsVar: Parser[Any] =
+    variableLit ~ "[" ~ encapsVarOffset ~ "]" |
+      variableLit ~ "->" ~ identLit |
+      variableLit |
+      "${" ~> expr <~ "}" |
+      "${" ~> identLit ~ "[" ~ expr ~ "]" |
+      "{$" ~> variable <~ "}"
+
+  lazy val encapsVarOffset: Parser[Any] = identLit | longNumLit | variable
 
   lazy val constant: PackratParser[Expr] = identLit ^^ {
     name => ConstGetExpr(name)
@@ -501,6 +513,9 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val variableLit: PackratParser[String] =
     elem("variable", _.isInstanceOf[Variable]) ^^ (_.asInstanceOf[Variable].name)
 
+  lazy val encapsAndWhitespaceLit: PackratParser[String] =
+    elem("encapsAntWhitespace", _.isInstanceOf[EncapsAndWhitespace]) ^^ (_.chars)
+
   implicit def parser2packrat1[T <: Node](p: => super.Parser[T]): PackratParser[T] = {
     lazy val q = p
     memo(super.Parser {
@@ -529,28 +544,19 @@ object JbjParser {
     tree.dump(System.out, "")
 
     val context = GlobalContext(System.out, System.err)
+    CgiEnvironment.httpGet("?ab+cd+ef+123+test", context)
     tree.exec(context)
   }
 
   //A main method for testing
   def main(args: Array[String]) = {
     test( """<?php
+            |$argc = $_SERVER['argc'];
+            |$argv = $_SERVER['argv'];
             |
-            |class Foo {
-            |	public $name;
-            |
-            |	function Foo() {
-            |		$this->name = "I'm Foo!\n";
-            |	}
+            |for ($i=0; $i<$argc; $i++) {
+            |	echo "$i: ".$argv[$i]."\n";
             |}
-            |
-            |$foo = new Foo;
-            |echo $foo->name;
-            |$bar = $foo;
-            |$bar->name = "I'm Bar!\n";
-            |
-            |// In ZE1, we would expect "I'm Foo!"
-            |echo $foo->name;
             |
             |?>""".stripMargin)
   }

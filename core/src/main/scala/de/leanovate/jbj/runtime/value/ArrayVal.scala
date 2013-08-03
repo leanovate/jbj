@@ -54,7 +54,7 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, Value]) extends Va
 }
 
 object ArrayVal {
-  def apply(keyValues: List[(Option[Value], Value)]): ArrayVal = {
+  def apply(keyValues: (Option[Value], Value)*): ArrayVal = {
     var nextIndex: Long = -1
 
     new ArrayVal(keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[ArrayKey, Value]) {

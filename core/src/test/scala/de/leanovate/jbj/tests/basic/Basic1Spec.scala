@@ -7,13 +7,13 @@ import de.leanovate.jbj.tests.TestJbjExecutor
 import org.scalatest.matchers.MustMatchers
 
 @RunWith(classOf[JUnitRunner])
-class BasicSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Basic test" - {
+class Basic1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
+  "Basic test 1" - {
     "Trivial \"Hello World\" test" in {
       // basic/001
       script(
         """<?php echo "Hello World"?>"""
-      ) must haveOutput(
+      ).result must haveOutput(
         """Hello World"""
       )
     }
@@ -22,7 +22,7 @@ class BasicSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
       // basic/006
       script(
         """<?php $a=1; $b=2; $c=3; $d=$a+$b+$c; echo $d?>"""
-      ) must haveOutput(
+      ).result must haveOutput(
         """6"""
       )
     }
@@ -31,7 +31,7 @@ class BasicSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
       // basic/007
       script(
         """<?php $a=2; $b=4; $c=8; $d=$a*$b*$c; echo $d?>"""
-      ) must haveOutput(
+      ).result must haveOutput(
         """64"""
       )
     }
@@ -40,7 +40,7 @@ class BasicSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
       // basic/008
       script(
         """<?php $a=27; $b=3; $c=3; $d=$a/$b/$c; echo $d?>"""
-      ) must haveOutput(
+      ).result must haveOutput(
         """3.0"""
       )
     }
@@ -49,7 +49,7 @@ class BasicSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
       // basic/009
       script(
         """<?php $a=27; $b=7; $c=10; $d=$a-$b-$c; echo $d?>"""
-      ) must haveOutput(
+      ).result must haveOutput(
         """10"""
       )
     }

@@ -70,7 +70,7 @@ class GtEqualsSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |   echo "Test Passed\n";
           |}
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """Test Passed
           |""".stripMargin
       )
@@ -131,7 +131,7 @@ class GtEqualsSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |}
           |
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """Test Passed
           |""".stripMargin
       )

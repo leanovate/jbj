@@ -56,7 +56,7 @@ class StaticSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |   $k++;
           |}
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """
           |Same variable used as static and non static.
           |---------
@@ -120,7 +120,7 @@ class StaticSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |foo();
           |
           |?>""".stripMargin
-      ) must haveOutput (
+      ).result must haveOutput (
         """int(5)
           |int(11)
           |int(14)

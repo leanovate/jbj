@@ -39,7 +39,7 @@ class DereferencingSpec extends FreeSpec with TestJbjExecutor with MustMatchers 
           |$person->getName()->display();
           |
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """John
           |""".stripMargin
       )

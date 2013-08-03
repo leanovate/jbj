@@ -13,7 +13,7 @@ class Lang1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
       // lang/001
       script(
         """<?php $a=1; if($a>0) { echo "Yes"; } ?>"""
-      ) must haveOutput(
+      ).result must haveOutput(
         """Yes"""
       )
     }
@@ -28,7 +28,7 @@ class Lang1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |	$a++;
           |}
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """123456789"""
       )
     }
@@ -49,7 +49,7 @@ class Lang1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |		break;
           |}
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """good"""
       )
     }
@@ -65,7 +65,7 @@ class Lang1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |	echo "good";
           |}
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """good"""
       )
     }
@@ -84,7 +84,7 @@ class Lang1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |	echo "good";
           |}
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """good"""
       )
     }
@@ -110,7 +110,7 @@ class Lang1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |	}
           |}
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """good"""
       )
     }
@@ -140,7 +140,7 @@ class Lang1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |echo "$a $b $c ";
           |Test();
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """1 5 2 2 10 5  2 5 3 2 10 5  3 5 4 2 """
       )
     }
@@ -154,7 +154,7 @@ class Lang1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |}
           |test(1,2);
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """3"""
       )
     }

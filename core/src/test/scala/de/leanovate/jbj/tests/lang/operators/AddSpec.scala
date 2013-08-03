@@ -30,7 +30,7 @@ class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |
           |
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """--- testing: '0' + '0' ---
           |int(0)
           |--- testing: '0' + '65' ---

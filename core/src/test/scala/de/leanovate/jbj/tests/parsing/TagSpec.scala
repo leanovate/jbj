@@ -12,7 +12,7 @@ class TagSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
     "<?php" in {
       script(
         """Start <div><?php echo "Hello World"?></div> End"""
-      ) must haveOutput(
+      ).result must haveOutput(
         """Start <div>Hello World</div> End"""
       )
     }
@@ -20,7 +20,7 @@ class TagSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
     "<?" in {
       script(
         """Start <div><? echo "Hello World"?></div> End"""
-      ) must haveOutput(
+      ).result must haveOutput(
         """Start <div>Hello World</div> End"""
       )
     }
@@ -28,7 +28,7 @@ class TagSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
     "<?=" in {
       script(
         """Start <div><?= "Hello World"?></div> End"""
-      ) must haveOutput(
+      ).result must haveOutput(
         """Start <div>Hello World</div> End"""
       )
     }
@@ -36,7 +36,7 @@ class TagSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
     "<%" in {
       script(
         """Start <div><% echo "Hello World"%></div> End"""
-      ) must haveOutput(
+      ).result must haveOutput(
         """Start <div>Hello World</div> End"""
       )
     }
@@ -44,7 +44,7 @@ class TagSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
     "<%=" in {
       script(
         """Start <div><%= "Hello World"%></div> End"""
-      ) must haveOutput(
+      ).result must haveOutput(
         """Start <div>Hello World</div> End"""
       )
     }
@@ -52,7 +52,7 @@ class TagSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
     """<script language="php">""" in {
       script(
         """Start <div><script language="php">echo "Hello World"</script></div> End"""
-      ) must haveOutput(
+      ).result must haveOutput(
         """Start <div>Hello World</div> End"""
       )
     }

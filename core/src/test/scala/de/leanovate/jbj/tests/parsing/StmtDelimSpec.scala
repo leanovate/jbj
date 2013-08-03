@@ -12,7 +12,7 @@ class StmtDelimSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
     "No ; after block" in {
       script(
         """<?php $a=1; if ($a < 2) { echo "Hurra"; } echo "bla" ?>"""
-      ) must haveOutput(
+      ).result must haveOutput(
         """Hurrabla"""
       )
     }
@@ -20,7 +20,7 @@ class StmtDelimSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
     "No ; at end of script" in {
       script(
         """<?php echo "Hurra"; ?><?php echo "bla" ?>"""
-      ) must haveOutput(
+      ).result must haveOutput(
         """Hurrabla"""
       )
     }
@@ -28,7 +28,7 @@ class StmtDelimSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
     "Conditional inline" in {
       script(
         """Begin <?php $a=1; if($a>2) { echo "true" ?>true<?php } else { echo "fa"; ?>lse<?php } ?> End"""
-      ) must haveOutput(
+      ).result must haveOutput(
         """Begin false End"""
       )
 

@@ -20,7 +20,7 @@ class Lang2Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |$a = test(1);
           |echo $a;
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """2"""
       )
     }
@@ -46,7 +46,7 @@ class Lang2Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |
           |G();
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """4 Hello 4"""
       )
     }
@@ -67,7 +67,7 @@ class Lang2Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |	$i++;
           |}
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """HelloHello"""
       )
     }
@@ -88,7 +88,7 @@ class Lang2Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |	$a++;
           |}
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """1
           |""".stripMargin
       )

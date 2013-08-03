@@ -30,7 +30,7 @@ class ModulusSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |
           |
           |?>""".stripMargin
-      ) must haveOutput (
+      ).result must haveOutput (
         """--- testing: '0' % '0' ---
           |bool(false)
           |--- testing: '0' % '65' ---

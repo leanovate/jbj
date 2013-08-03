@@ -70,7 +70,7 @@ class NotEqualsSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |}
           |
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """Test Passed
           |""".stripMargin
       )
@@ -133,7 +133,7 @@ class NotEqualsSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |}
           |
           |?>""".stripMargin
-      ) must haveOutput(
+      ).result must haveOutput(
         """Test Passed
           |""".stripMargin
       )
