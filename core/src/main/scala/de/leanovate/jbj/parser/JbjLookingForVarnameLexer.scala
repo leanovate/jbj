@@ -4,7 +4,7 @@ import scala.util.parsing.input.{CharArrayReader, Reader}
 import de.leanovate.jbj.parser.JbjTokens._
 import scala.util.parsing.combinator.Parsers
 
-class JbjLookingForVarnameLexer (fileName: String, in: Reader[Char]) extends Reader[Token] with Parsers {
+class JbjLookingForVarnameLexer ( fileName: String, in: Reader[Char]) extends Reader[Token] with Parsers {
   type Elem = Char
 
   def this(in: String) = this("-", new CharArrayReader(in.toCharArray))

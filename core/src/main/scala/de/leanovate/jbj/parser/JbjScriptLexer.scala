@@ -10,14 +10,13 @@ import de.leanovate.jbj.parser.JbjTokens.EOF
 import de.leanovate.jbj.parser.JbjTokens.Keyword
 import de.leanovate.jbj.parser.JbjTokens.StringLit
 
-class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] with Parsers {
-  type Elem = Char
+class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] {
 
-  import JbjScriptLexer.{delimiters, reserved}
+  import JbjScriptLexer.{Success, NoSuccess, token, whitespace}
 
   def this(in: String) = this("-", new CharArrayReader(in.toCharArray))
 
-  private val (tok, mode, rest1, rest2) = whitespace(in) match {
+  private val (tok: Token, mode: JbjLexerMode, rest1: Reader[Char], rest2: Reader[Char]) = whitespace(in) match {
     case Success(_, in1) =>
       token(in1) match {
         case Success((token, m), in2) => (token, m, in1, in2)
@@ -43,7 +42,29 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
     case _ => false
   })
 
-  private def token: Parser[(Token, JbjLexerMode)] =
+}
+
+object JbjScriptLexer extends Parsers with CommonLexerPatterns {
+  /** The set of reserved identifiers: these will be returned as `Keyword`s. */
+  val reserved = Set("static", "global", "public", "protected", "private", "var", "const",
+    "class", "extends", "use", "interface", "trait", "implements", "abstract", "final",
+    "exit", "die", "eval", "include", "include_once", "require", "require_once", "namespace",
+    "echo", "print", "new", "clone", "eval",
+    "return", "break", "continue", "goto", "yield",
+    "try", "catch", "finally", "throw",
+    "if", "else", "elseif", "endif", "while", "endwhile", "for", "endfor", "foreach", "as", "endforeach",
+    "declare", "enddeclare", "instanceof",
+    "switch", "case", "default", "endswitch",
+    "function", "array", "list", "callable")
+
+  /** The set of delimiters (ordering does not matter). */
+  val delimiters = Set("$", ",", ":", "::", "?", "!", ";", "{", "}", "[", "]", "=>", "->",
+    ".", "+", "-", "*", "/", "%", "(", ")", ".=", "+=", "-=", "*=", "/=", "%=", "--", "++",
+    "<<", ">>", "^", "|", "&", "<<=", ">>=", "^=", "&=", "|=",
+    "=", ">", ">=", "<", "<=", "==", "!=", "<>", "===", "!==",
+    "||", "&&", "^", "or", "and", "xor", "\\", "\"")
+
+  def token: Parser[(Token, JbjLexerMode)] =
     str("?>") ^^^ Keyword(";") -> JbjLexerMode.INITIAL |
       str("%>") ^^^ Keyword(";") -> JbjLexerMode.INITIAL |
       str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> JbjLexerMode.INITIAL |
@@ -68,9 +89,9 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
       case first ~ rest => convertNum(first :: rest mkString "", 10) -> JbjLexerMode.IN_SCRIPTING
     } | '$' ~> identChar ~ rep(identChar | digit) ^^ {
       case first ~ rest => Variable(first :: rest mkString "") -> JbjLexerMode.IN_SCRIPTING
-    } | '\'' ~ notInterpolatedStr ~ '\'' ^^ {
+    } | '\'' ~ singleQuotedStr ~ '\'' ^^ {
       case '\'' ~ str ~ '\'' => StringLit(str) -> JbjLexerMode.IN_SCRIPTING
-    } | '\"' ~ interpolatedStr ~ '\"' ^^ {
+    } | '\"' ~ doubleQuotedStr ~ '\"' ^^ {
       case '\"' ~ str ~ '\"' if str.exists(_.isRight) => InterpolatedStringLit(str) -> JbjLexerMode.IN_SCRIPTING
       case '\"' ~ str ~ '\"' => StringLit(str.map(_.left.get) mkString "") -> JbjLexerMode.IN_SCRIPTING
     } | '(' ~> tabsOrSpaces ~> (str("int") | str("integer")) <~ tabsOrSpaces <~ ')' ^^ {
@@ -96,24 +117,6 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
     case first ~ sign ~ exponent => first :: (sign.toList ++ exponent)
   }
 
-  private def interpolatedCharReplacements: Parser[Char] = '\\' ~> (
-    '\\' ^^^ '\\' | '\"' ^^^ '\"' | '$' ^^^ '$' |
-      'n' ^^^ '\n' | 'r' ^^^ '\r' | 't' ^^^ '\t' | 'v' ^^^ '\13' | 'f' ^^^ '\f' | 'e' ^^^ '\33' |
-      digit ~ opt(digit) ~ opt(digit) ^^ {
-        case d1 ~ optD2 ~ optD3 =>
-          var d = Character.digit(d1, 8)
-          optD2.foreach(d2 => d = 8 * d + Character.digit(d2, 8))
-          optD3.foreach(d3 => d = 8 * d + Character.digit(d3, 8))
-          d.toChar
-      } |
-      'x' ~> hexDigit ~ opt(hexDigit) ^^ {
-        case d1 ~ optD2 =>
-          var d = Character.digit(d1, 16)
-          optD2.foreach(d2 => d = 16 * d + Character.digit(d2, 16))
-          d.toChar
-      }
-    )
-
   private def strInterpolation: Parser[String] =
     '$' ~> '{' ~> rep(chrExcept('\"', '}', EofCh)) <~ '}' ^^ {
       chars => '$' :: chars mkString ""
@@ -123,23 +126,21 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
       case start ~ first ~ rest => start :: first :: rest mkString ""
     }
 
-  private def interpolatedChar: Parser[Either[Char, String]] = interpolatedCharReplacements ^^ (ch => Left(ch)) |
-    strInterpolation ^^ (s => Right(s)) |
-    chrExcept('\"', EofCh) ^^ (ch => Left(ch))
 
-  private def notInterpolatedChar: Parser[Char] = '\\' ~> ('\\' ^^^ '\\' | '\'' ^^^ '\'') | chrExcept('\'', EofCh)
+  private def singleQuotedChar: Parser[Char] = '\\' ~> ('\\' ^^^ '\\' | '\'' ^^^ '\'') | chrExcept('\'', EofCh)
 
-  private def notInterpolatedStr: Parser[String] = rep(notInterpolatedChar) ^^ {
+  private def singleQuotedStr: Parser[String] = rep(singleQuotedChar) ^^ {
     chars => chars.mkString("")
   }
 
-  private def interpolatedStr: Parser[List[Either[Char, String]]] = rep(interpolatedChar)
+  private def doubleQuotedChar: Parser[Either[Char, String]] = encapsCharReplacements ^^ (ch => Left(ch)) |
+    strInterpolation ^^ (s => Right(s)) |
+    chrExcept('\"', EofCh) ^^ (ch => Left(ch))
 
-  /** Returns the legal identifier chars, except digits. */
-  private def identChar = letter | elem('_')
+  private def doubleQuotedStr: Parser[List[Either[Char, String]]] = rep(doubleQuotedChar)
 
   // see `whitespace in `Scanners`
-  private def whitespace: Parser[Any] = rep(
+  def whitespace: Parser[Any] = rep(
     whitespaceChar
       | '/' ~ '*' ~ comment
       | '/' ~ '/' ~ rep(chrExcept(EofCh, '\n'))
@@ -149,12 +150,6 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
 
   private def tabsOrSpaces: Parser[Any] = rep(elem("space char", ch => ch == ' ' || ch == '\t'))
 
-  /** A character-parser that matches a letter (and returns it). */
-  private def letter = elem("letter", _.isLetter)
-
-  /** A character-parser that matches a digit (and returns it). */
-  private def digit = elem("digit", _.isDigit)
-
   private def exponentMarker = elem("exponent", ch => ch == 'e' || ch == 'E')
 
   private def sign = elem("sign", ch => ch == '-' || ch == '+')
@@ -162,11 +157,6 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
   private def binDigit = elem("binDigit", ch => ch == '0' || ch == '1')
 
   private def octDigit = elem("octDigt", ch => ch >= '0' && ch <= '8')
-
-  private def hexDigit = elem("hexDigt", ch => ch.isDigit || (ch >= 'a' && ch <= 'f') || (ch >= 'A' && ch <= 'F'))
-
-  /** A character-parser that matches any character except the ones given in `cs` (and returns it). */
-  private def chrExcept(cs: Char*) = elem("", ch => cs.forall(ch.!=))
 
   /** A character-parser that matches a white-space character (and returns it). */
   private def whitespaceChar = elem("space char", ch => ch <= ' ' && ch != EofCh)
@@ -195,8 +185,6 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
 
   private def delim: Parser[Token] = _delim
 
-  private def str(str: String): Parser[String] = accept(str.toList) ^^ (_ mkString "")
-
   private def convertNum(chars: String, radix: Int): Token = {
     try {
       LongNumLit(chars, java.lang.Long.valueOf(chars, radix))
@@ -206,25 +194,4 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] w
         DoubleNumLit(chars, bInt.toDouble)
     }
   }
-}
-
-object JbjScriptLexer {
-  /** The set of reserved identifiers: these will be returned as `Keyword`s. */
-  val reserved = Set("static", "global", "public", "protected", "private", "var", "const",
-    "class", "extends", "use", "interface", "trait", "implements", "abstract", "final",
-    "exit", "die", "eval", "include", "include_once", "require", "require_once", "namespace",
-    "echo", "print", "new", "clone", "eval",
-    "return", "break", "continue", "goto", "yield",
-    "try", "catch", "finally", "throw",
-    "if", "else", "elseif", "endif", "while", "endwhile", "for", "endfor", "foreach", "as", "endforeach",
-    "declare", "enddeclare", "instanceof",
-    "switch", "case", "default", "endswitch",
-    "function", "array", "list", "callable")
-
-  /** The set of delimiters (ordering does not matter). */
-  val delimiters = Set("$", ",", ":", "::", "?", "!", ";", "{", "}", "[", "]", "=>", "->",
-    ".", "+", "-", "*", "/", "%", "(", ")", ".=", "+=", "-=", "*=", "/=", "%=", "--", "++",
-    "<<", ">>", "^", "|", "&", "<<=", ">>=", "^=", "&=", "|=",
-    "=", ">", ">=", "<", "<=", "==", "!=", "<>", "===", "!==",
-    "||", "&&", "^", "or", "and", "xor", "\\")
 }

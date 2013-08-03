@@ -7,13 +7,13 @@ import scala.util.parsing.input.CharArrayReader.EofCh
 import de.leanovate.jbj.parser.JbjTokens.Inline
 import de.leanovate.jbj.parser.JbjTokens.EOF
 
-class JbjInitialLexer(fileName: String, in: Reader[Char]) extends Reader[Token] with Parsers {
-  type Elem = Char
+class JbjInitialLexer(fileName: String, in: Reader[Char]) extends Reader[Token] {
+  import JbjInitialLexer.{Success, NoSuccess, token}
 
   def this(in: String) = this("-", new CharArrayReader(in.toCharArray))
 
-  private val (tok, mode, rest1) = token(in) match {
-    case Success((tok, m), i) => (tok, m, i)
+  private val (tok: Token, mode: JbjLexerMode, rest1: Reader[Char]) = token(in) match {
+    case Success((t, m), i) => (t, m, i)
     case ns: NoSuccess => (errorToken(ns.msg), JbjLexerMode.ERROR, ns.next)
   }
 
@@ -24,10 +24,12 @@ class JbjInitialLexer(fileName: String, in: Reader[Char]) extends Reader[Token] 
   def pos = in.pos
 
   def atEnd = in.atEnd
+}
 
-  private def token: Parser[(Token, JbjLexerMode)] =
+object JbjInitialLexer extends Parsers with CommonLexerPatterns {
+  def token: Parser[(Token, JbjLexerMode)] =
     (scriptStart ^^^ Inline("") -> JbjLexerMode.IN_SCRIPTING
-      | str("<?php") ~ witespaceChar ^^^ Inline("") -> JbjLexerMode.IN_SCRIPTING
+      | str("<?php") ~ whitespaceChar ^^^ Inline("") -> JbjLexerMode.IN_SCRIPTING
       | str("<?=") ^^^ Keyword("echo") -> JbjLexerMode.IN_SCRIPTING
       | str("<?") ^^^ Inline("") -> JbjLexerMode.IN_SCRIPTING
       | str("<%=") ^^^ Keyword("echo") -> JbjLexerMode.IN_SCRIPTING
@@ -41,16 +43,9 @@ class JbjInitialLexer(fileName: String, in: Reader[Char]) extends Reader[Token] 
   private def scriptStart = str("<script") ~ optWhitespace ~ str("language") ~ optWhitespace ~ '=' ~
     optWhitespace ~ opt(quote) ~ str("php") ~ opt(quote) ~ optWhitespace ~ '>'
 
-  private def witespaceChar = elem("whitespace char", ch => ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n')
+  private def whitespaceChar = elem("whitespace char", ch => ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n')
 
-  private def optWhitespace = opt(rep(witespaceChar))
+  private def optWhitespace = opt(rep(whitespaceChar))
 
   private def quote = elem("quote", ch => ch == '"' || ch == '\'')
-
-  private def php = 'p' ~ 'h' ~ 'p'
-
-  /** A character-parser that matches any character except the ones given in `cs` (and returns it). */
-  private def chrExcept(cs: Char*) = elem("", ch => cs.forall(ch.!=))
-
-  private def str(str: String): Parser[Any] = accept(str.toList)
 }
