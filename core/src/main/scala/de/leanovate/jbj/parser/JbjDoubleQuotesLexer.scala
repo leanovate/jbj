@@ -5,12 +5,12 @@ import de.leanovate.jbj.parser.JbjTokens._
 import scala.util.parsing.combinator.Parsers
 import scala.util.parsing.input.CharArrayReader._
 
-class JbjDoubleQuotesLexer(fileName: String, in: Reader[Char])
+class JbjDoubleQuotesLexer(in: Reader[Char])
   extends Reader[Token] {
 
   import JbjDoubleQuotesLexer.{Success, NoSuccess, token}
 
-  def this(in: String) = this("-", new CharArrayReader(in.toCharArray))
+  def this(in: String) = this(new CharArrayReader(in.toCharArray))
 
   private val (tok: Token, mode: JbjLexerMode, rest1: Reader[Char]) = token(in) match {
     case Success((t, m), i) => (t, m, i)
@@ -19,7 +19,7 @@ class JbjDoubleQuotesLexer(fileName: String, in: Reader[Char])
 
   def first = tok
 
-  def rest = mode.newLexer(fileName, rest1)
+  def rest = mode.newLexer(rest1)
 
   def pos = in.pos
 

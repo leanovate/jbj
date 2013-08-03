@@ -53,12 +53,12 @@ trait TestJbjExecutor extends MustMatchers {
 
   case class ScriptResult(out: String, err: String, exception: Option[Throwable])
 
-  def script(progStr: String): Script = Script(JbjParser(progStr))
+  def script(progStr: String): Script = Script(JbjParser("-", progStr))
 
   def haveOutput(right: String) = new Matcher[Any] {
     def apply(left: Any) = left match {
-      case ScriptResult(left, _, _) =>
-        be(right).apply(left)
+      case ScriptResult(l, _, _) =>
+        be(right).apply(l)
     }
   }
 
@@ -72,7 +72,7 @@ trait TestJbjExecutor extends MustMatchers {
         )
       case ScriptResult(_, _, None) =>
         MatchResult(
-          false,
+          matches = false,
           "no exception was thrown",
           "no exception was thrown"
         )

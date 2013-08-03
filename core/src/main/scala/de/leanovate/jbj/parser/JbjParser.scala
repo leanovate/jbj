@@ -12,11 +12,13 @@ import de.leanovate.jbj.parser.JbjTokens._
 import de.leanovate.jbj.ast.stmt._
 import de.leanovate.jbj.runtime.value._
 import scala.collection.mutable
+import scala.util.parsing.input.{CharArrayReader, Reader, StreamReader}
 import scala.util.parsing.combinator.{PackratParsers, Parsers}
 import scala.language.implicitConversions
 import scala.Some
 import de.leanovate.jbj.runtime.context.GlobalContext
 import de.leanovate.jbj.runtime.env.CgiEnvironment
+import java.io.{ByteArrayInputStream, InputStreamReader}
 
 class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   type Elem = JbjTokens.Token
@@ -41,7 +43,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     }
   }
 
-  lazy val start: PackratParser[Prog] = topStatementList ^^ {
+  lazy val start: PackratParser[Prog] = topStatementList <~ opt(EOF) ^^ {
     stmts => Prog(stmts)
   }
 
@@ -530,16 +532,14 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 }
 
 object JbjParser {
-  def apply(s: String): Prog = {
-    val parser = new JbjParser(ParseContext("-"))
+  def apply(fileName:String, s: String): Prog = {
+    val parser = new JbjParser(ParseContext(fileName))
     parser.parse(s)
   }
 
-
   //Simplify testing
   def test(exprstr: String) = {
-    val parser = new JbjParser(ParseContext("-"))
-    val tree = parser.parse(exprstr)
+    val tree = apply("-", exprstr)
 
     tree.dump(System.out, "")
 
@@ -558,6 +558,8 @@ object JbjParser {
             |	echo "$i: ".$argv[$i]."\n";
             |}
             |
-            |?>""".stripMargin)
+            |?>
+            |
+            |""".stripMargin)
   }
 }

@@ -10,11 +10,11 @@ import de.leanovate.jbj.parser.JbjTokens.EOF
 import de.leanovate.jbj.parser.JbjTokens.Keyword
 import de.leanovate.jbj.parser.JbjTokens.StringLit
 
-class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] {
+class JbjScriptLexer(in: Reader[Char]) extends Reader[Token] {
 
   import JbjScriptLexer.{Success, NoSuccess, token, whitespace}
 
-  def this(in: String) = this("-", new CharArrayReader(in.toCharArray))
+  def this(in: String) = this(new CharArrayReader(in.toCharArray))
 
   private val (tok: Token, mode: JbjLexerMode, rest1: Reader[Char], rest2: Reader[Char]) = whitespace(in) match {
     case Success(_, in1) =>
@@ -33,7 +33,7 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] {
 
   def first = tok
 
-  def rest = mode.newLexer(fileName, rest2)
+  def rest = mode.newLexer(rest2)
 
   def pos = rest1.pos
 
@@ -41,7 +41,6 @@ class JbjScriptLexer(fileName: String, in: Reader[Char]) extends Reader[Token] {
     case Success(_, in1) => in1.atEnd
     case _ => false
   })
-
 }
 
 object JbjScriptLexer extends Parsers with CommonLexerPatterns {

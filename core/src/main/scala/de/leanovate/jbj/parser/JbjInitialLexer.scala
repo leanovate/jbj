@@ -7,10 +7,11 @@ import scala.util.parsing.input.CharArrayReader.EofCh
 import de.leanovate.jbj.parser.JbjTokens.Inline
 import de.leanovate.jbj.parser.JbjTokens.EOF
 
-class JbjInitialLexer(fileName: String, in: Reader[Char]) extends Reader[Token] {
+class JbjInitialLexer(in: Reader[Char]) extends Reader[Token] {
+
   import JbjInitialLexer.{Success, NoSuccess, token}
 
-  def this(in: String) = this("-", new CharArrayReader(in.toCharArray))
+  def this(in: String) = this(new CharArrayReader(in.toCharArray))
 
   private val (tok: Token, mode: JbjLexerMode, rest1: Reader[Char]) = token(in) match {
     case Success((t, m), i) => (t, m, i)
@@ -19,7 +20,7 @@ class JbjInitialLexer(fileName: String, in: Reader[Char]) extends Reader[Token] 
 
   def first = tok
 
-  def rest = mode.newLexer(fileName, rest1)
+  def rest = mode.newLexer(rest1)
 
   def pos = in.pos
 
