@@ -12,7 +12,7 @@ case class BlockStmt(stmts: List[Stmt]) extends Stmt with StaticInitializer with
     execStmts(stmts)
   }
 
-  override def initializeStatic(ctx: Context) {
-    staticInitializers.foreach(_.initializeStatic(ctx))
+  override def initializeStatic(implicit ctx: Context) {
+    staticInitializers.foreach(_.initializeStatic)
   }
 }

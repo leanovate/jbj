@@ -11,7 +11,7 @@ case class TryCatchStmt(tryStmts: List[Stmt], catchBlocks: List[CatchBlock], fin
 
   override def exec(implicit ctx: Context) = ???
 
-  override def initializeStatic(ctx: Context) {
-    staticInitializers.foreach(_.initializeStatic(ctx))
+  override def initializeStatic(implicit ctx: Context) {
+    staticInitializers.foreach(_.initializeStatic)
   }
 }

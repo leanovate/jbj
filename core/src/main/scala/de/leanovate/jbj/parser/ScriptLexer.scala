@@ -10,19 +10,19 @@ import de.leanovate.jbj.parser.JbjTokens.EOF
 import de.leanovate.jbj.parser.JbjTokens.Keyword
 import de.leanovate.jbj.parser.JbjTokens.StringLit
 
-class JbjScriptLexer(in: Reader[Char]) extends Reader[Token] {
+class ScriptLexer(in: Reader[Char]) extends Reader[Token] {
 
-  import JbjScriptLexer.{Success, NoSuccess, token, whitespace}
+  import ScriptLexer.{Success, NoSuccess, token, whitespace}
 
   def this(in: String) = this(new CharArrayReader(in.toCharArray))
 
-  private val (tok: Token, mode: JbjLexerMode, rest1: Reader[Char], rest2: Reader[Char]) = whitespace(in) match {
+  private val (tok: Token, mode: LexerMode, rest1: Reader[Char], rest2: Reader[Char]) = whitespace(in) match {
     case Success(_, in1) =>
       token(in1) match {
         case Success((token, m), in2) => (token, m, in1, in2)
-        case ns: NoSuccess => (errorToken(ns.msg), JbjLexerMode.ERROR, ns.next, skip(ns.next))
+        case ns: NoSuccess => (errorToken(ns.msg), LexerMode.ERROR, ns.next, skip(ns.next))
       }
-    case ns: NoSuccess => (errorToken(ns.msg), JbjLexerMode.ERROR, ns.next, skip(ns.next))
+    case ns: NoSuccess => (errorToken(ns.msg), LexerMode.ERROR, ns.next, skip(ns.next))
   }
 
   private def skip(in: Reader[Char]) = if (in.atEnd) in else in.rest
@@ -43,7 +43,7 @@ class JbjScriptLexer(in: Reader[Char]) extends Reader[Token] {
   })
 }
 
-object JbjScriptLexer extends Parsers with CommonLexerPatterns {
+object ScriptLexer extends Parsers with CommonLexerPatterns {
   /** The set of reserved identifiers: these will be returned as `Keyword`s. */
   val reserved = Set("static", "global", "public", "protected", "private", "var", "const",
     "class", "extends", "use", "interface", "trait", "implements", "abstract", "final",
@@ -63,53 +63,53 @@ object JbjScriptLexer extends Parsers with CommonLexerPatterns {
     "=", ">", ">=", "<", "<=", "==", "!=", "<>", "===", "!==",
     "||", "&&", "^", "or", "and", "xor", "\\", "\"")
 
-  def token: Parser[(Token, JbjLexerMode)] =
-    str("?>") ^^^ Keyword(";") -> JbjLexerMode.INITIAL |
-      str("%>") ^^^ Keyword(";") -> JbjLexerMode.INITIAL |
-      str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> JbjLexerMode.INITIAL |
+  def token: Parser[(Token, LexerMode)] =
+    str("?>") ^^^ Keyword(";") -> LexerMode.INITIAL |
+      str("%>") ^^^ Keyword(";") -> LexerMode.INITIAL |
+      str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> LexerMode.INITIAL |
       identChar ~ rep(identChar | digit) ^^ {
-        case first ~ rest => processIdent(first :: rest mkString "") -> JbjLexerMode.IN_SCRIPTING
+        case first ~ rest => processIdent(first :: rest mkString "") -> LexerMode.IN_SCRIPTING
       } | rep(digit) ~ '.' ~ rep1(digit) ~ opt(exponent) ^^ {
       case first ~ dot ~ rest ~ exponent =>
-        DoubleNumLit(first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "") -> JbjLexerMode.IN_SCRIPTING
+        DoubleNumLit(first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "") -> LexerMode.IN_SCRIPTING
     } | rep1(digit) ~ '.' ~ rep(digit) ~ opt(exponent) ^^ {
       case first ~ dot ~ rest ~ exponent =>
-        DoubleNumLit(first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "") -> JbjLexerMode.IN_SCRIPTING
+        DoubleNumLit(first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "") -> LexerMode.IN_SCRIPTING
     } | digit ~ rep(digit) ~ exponent ^^ {
       case first ~ rest ~ exponent =>
-        DoubleNumLit((first :: rest) ++ exponent mkString "") -> JbjLexerMode.IN_SCRIPTING
+        DoubleNumLit((first :: rest) ++ exponent mkString "") -> LexerMode.IN_SCRIPTING
     } | '0' ~ rep1(octDigit) ^^ {
-      case first ~ rest => convertNum(first :: rest mkString "", 8) -> JbjLexerMode.IN_SCRIPTING
+      case first ~ rest => convertNum(first :: rest mkString "", 8) -> LexerMode.IN_SCRIPTING
     } | '0' ~ 'b' ~ rep(binDigit) ^^ {
-      case _ ~ _ ~ binary => convertNum(binary mkString "", 2) -> JbjLexerMode.IN_SCRIPTING
+      case _ ~ _ ~ binary => convertNum(binary mkString "", 2) -> LexerMode.IN_SCRIPTING
     } | '0' ~ 'x' ~ rep(hexDigit) ^^ {
-      case _ ~ _ ~ hex => convertNum(hex mkString "", 16) -> JbjLexerMode.IN_SCRIPTING
+      case _ ~ _ ~ hex => convertNum(hex mkString "", 16) -> LexerMode.IN_SCRIPTING
     } | digit ~ rep(digit) ^^ {
-      case first ~ rest => convertNum(first :: rest mkString "", 10) -> JbjLexerMode.IN_SCRIPTING
+      case first ~ rest => convertNum(first :: rest mkString "", 10) -> LexerMode.IN_SCRIPTING
     } | '$' ~> identChar ~ rep(identChar | digit) ^^ {
-      case first ~ rest => Variable(first :: rest mkString "") -> JbjLexerMode.IN_SCRIPTING
+      case first ~ rest => Variable(first :: rest mkString "") -> LexerMode.IN_SCRIPTING
     } | '\'' ~ singleQuotedStr ~ '\'' ^^ {
-      case '\'' ~ str ~ '\'' => StringLit(str) -> JbjLexerMode.IN_SCRIPTING
+      case '\'' ~ str ~ '\'' => StringLit(str) -> LexerMode.IN_SCRIPTING
     } | '\"' ~ doubleQuotedStr ~ '\"' ^^ {
-      case '\"' ~ str ~ '\"' if str.exists(_.isRight) => InterpolatedStringLit(str) -> JbjLexerMode.IN_SCRIPTING
-      case '\"' ~ str ~ '\"' => StringLit(str.map(_.left.get) mkString "") -> JbjLexerMode.IN_SCRIPTING
+      case '\"' ~ str ~ '\"' if str.exists(_.isRight) => InterpolatedStringLit(str) -> LexerMode.IN_SCRIPTING
+      case '\"' ~ str ~ '\"' => StringLit(str.map(_.left.get) mkString "") -> LexerMode.IN_SCRIPTING
     } | '(' ~> tabsOrSpaces ~> (str("int") | str("integer")) <~ tabsOrSpaces <~ ')' ^^ {
-      s => IntegerCast(s) -> JbjLexerMode.IN_SCRIPTING
+      s => IntegerCast(s) -> LexerMode.IN_SCRIPTING
     } | '(' ~> tabsOrSpaces ~> (str("real") | str("double") | str("float")) <~ tabsOrSpaces <~ ')' ^^ {
-      s => DoubleCast(s) -> JbjLexerMode.IN_SCRIPTING
+      s => DoubleCast(s) -> LexerMode.IN_SCRIPTING
     } | '(' ~> tabsOrSpaces ~> (str("string") | str("binary")) <~ tabsOrSpaces <~ ')' ^^ {
-      s => StringCast(s) -> JbjLexerMode.IN_SCRIPTING
+      s => StringCast(s) -> LexerMode.IN_SCRIPTING
     } | '(' ~> tabsOrSpaces ~> str("array") <~ tabsOrSpaces <~ ')' ^^ {
-      s => ArrayCast(s) -> JbjLexerMode.IN_SCRIPTING
+      s => ArrayCast(s) -> LexerMode.IN_SCRIPTING
     } | '(' ~> tabsOrSpaces ~> (str("bool") | str("boolean")) <~ tabsOrSpaces <~ ')' ^^ {
-      s => BooleanCast(s) -> JbjLexerMode.IN_SCRIPTING
+      s => BooleanCast(s) -> LexerMode.IN_SCRIPTING
     } | '(' ~> tabsOrSpaces ~> str("unset") <~ tabsOrSpaces <~ ')' ^^ {
-      s => UnsetCast(s) -> JbjLexerMode.IN_SCRIPTING
-    } | EofCh ^^^ EOF -> JbjLexerMode.IN_SCRIPTING |
+      s => UnsetCast(s) -> LexerMode.IN_SCRIPTING
+    } | EofCh ^^^ EOF -> LexerMode.IN_SCRIPTING |
       '\'' ~> failure("unclosed string literal") |
       '\"' ~> failure("unclosed string literal") |
       delim ^^ {
-        d => d -> JbjLexerMode.IN_SCRIPTING
+        d => d -> LexerMode.IN_SCRIPTING
       } | failure("illegal character")
 
   private def exponent: Parser[List[Elem]] = exponentMarker ~ opt(sign) ~ rep1(digit) ^^ {

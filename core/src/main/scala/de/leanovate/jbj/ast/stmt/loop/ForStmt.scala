@@ -28,8 +28,8 @@ case class ForStmt(befores: List[Expr], conditions: List[Expr], afters: List[Exp
     SuccessExecResult
   }
 
-  override def initializeStatic(ctx: Context) {
-    staticInitializers.foreach(_.initializeStatic(ctx))
+  override def initializeStatic(implicit ctx: Context) {
+    staticInitializers.foreach(_.initializeStatic)
   }
 
   @tailrec

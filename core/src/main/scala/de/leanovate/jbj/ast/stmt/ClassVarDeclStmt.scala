@@ -2,6 +2,7 @@ package de.leanovate.jbj.ast.stmt
 
 import de.leanovate.jbj.ast.{Stmt, MemberModifier}
 import de.leanovate.jbj.runtime.{SuccessExecResult, ValueRef, Context}
+import de.leanovate.jbj.runtime.value.NullVal
 
 case class ClassVarDeclStmt(modifieres: Set[MemberModifier.Type],
                             assignments: List[StaticAssignment]) extends Stmt {
@@ -9,7 +10,7 @@ case class ClassVarDeclStmt(modifieres: Set[MemberModifier.Type],
     assignments.foreach {
       assignment =>
 
-        ctx.defineVariable(assignment.variableName, ValueRef(assignment.initial))
+        ctx.defineVariable(assignment.variableName, ValueRef(assignment.initial.map(_.eval)))
     }
     SuccessExecResult
   }

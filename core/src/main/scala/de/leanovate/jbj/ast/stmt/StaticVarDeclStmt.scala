@@ -15,10 +15,10 @@ case class StaticVarDeclStmt(assignments: List[StaticAssignment])
     SuccessExecResult
   }
 
-  def initializeStatic(ctx: Context) {
+  override def initializeStatic(implicit ctx: Context) {
     assignments.foreach {
       assignment =>
-        ctx.static.defineVariable(assignment.variableName, ValueRef(assignment.initial))
+        ctx.static.defineVariable(assignment.variableName, ValueRef(assignment.initial.map(_.eval)))
     }
   }
 }

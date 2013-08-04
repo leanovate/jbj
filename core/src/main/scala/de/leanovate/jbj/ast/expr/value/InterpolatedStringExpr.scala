@@ -4,7 +4,6 @@ import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.parser.{ParseContext, JbjParser}
-import de.leanovate.jbj.ast.expr.ScalarExpr
 
 case class InterpolatedStringExpr(format: String, interpolations: List[Expr]) extends Expr {
   override def eval(implicit ctx: Context) = {

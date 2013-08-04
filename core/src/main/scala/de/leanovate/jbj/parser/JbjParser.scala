@@ -24,7 +24,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   private val keywordCache = mutable.HashMap[String, Parser[String]]()
 
   def parse(s: String): Prog = {
-    val tokens = new JbjInitialLexer(s)
+    val tokens = new InitialLexer(s)
     phrase(start)(tokens) match {
       case Success(tree, _) => tree
       case e: NoSuccess =>
@@ -33,7 +33,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   }
 
   def parseExpr(s: String): Expr = {
-    val tokens = new JbjScriptLexer(s)
+    val tokens = new ScriptLexer(s)
     phrase(expr)(tokens) match {
       case Success(result, _) => result
       case e: NoSuccess =>
@@ -41,7 +41,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     }
   }
 
-  lazy val start: PackratParser[Prog] = topStatementList <~ opt(EOF) ^^ {
+  lazy val start: PackratParser[Prog] = topStatementList ^^ {
     stmts => Prog(stmts)
   }
 
@@ -55,7 +55,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     classDeclarationStatement | constantDeclaration
 
   lazy val constantDeclaration: PackratParser[Stmt] = "const" ~> rep1(identLit ~ "=" ~ staticScalar ^^ {
-    case name ~ _ ~ s => StaticAssignment(name, s.value)
+    case name ~ _ ~ s => StaticAssignment(name, Some(s))
   }) ^^ {
     assignments => ConstDeclStmt(assignments)
   }
@@ -186,7 +186,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val parameterList: PackratParser[List[ParameterDecl]] = repsep(
     optionalClassType ~ opt("&") ~ variableLit ~ opt("=" ~> staticScalar) ^^ {
       case typeHint ~ optRef ~ v ~ optDefault =>
-        ParameterDecl(typeHint, v, optRef.isDefined, optDefault.map(_.value))
+        ParameterDecl(typeHint, v, optRef.isDefined, optDefault)
     }, ",")
 
   lazy val optionalClassType: PackratParser[Option[TypeHint]] = opt("array" ^^^ ArrayTypeHint |
@@ -197,7 +197,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val globalVarList: PackratParser[List[String]] = rep1sep(variableLit, ",")
 
   lazy val staticVarList: PackratParser[List[StaticAssignment]] = rep1sep(variableLit ~ opt("=" ~> staticScalar) ^^ {
-    case v ~ optScalar => StaticAssignment(v, optScalar.map(_.value).getOrElse(NullVal))
+    case v ~ optScalar => StaticAssignment(v, optScalar)
   }, ",")
 
   lazy val classStatementList: PackratParser[List[Stmt]] = rep(classStatement)
@@ -237,12 +237,12 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val classVariableDeclaration: PackratParser[List[StaticAssignment]] =
     rep1sep(variableLit ~ opt("=" ~> staticScalar) ^^ {
       case v ~ optScalar =>
-        StaticAssignment(v, optScalar.map(_.value).getOrElse(NullVal))
+        StaticAssignment(v, optScalar)
     }, ",")
 
   lazy val classConstantDeclaration: PackratParser[List[StaticAssignment]] =
     "const" ~> rep1sep(identLit ~ "=" ~ staticScalar ^^ {
-      case name ~ _ ~ s => StaticAssignment(name, s.value)
+      case name ~ _ ~ s => StaticAssignment(name, Some(s))
     }, ",")
 
   lazy val echoExprList: PackratParser[List[Expr]] = rep1sep(expr, ",")
@@ -356,7 +356,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val ctorArguments: PackratParser[List[Expr]] = opt(functionCallParameterList) ^^ (_.getOrElse(Nil))
 
-  lazy val commonScalar: PackratParser[ScalarExpr] =
+  lazy val commonScalar: PackratParser[Expr] =
     longNumLit ^^ {
       s => ScalarExpr(IntegerVal(s))
     } | doubleNumLit ^^ {
@@ -365,14 +365,28 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       s => ScalarExpr(StringVal(s))
     }
 
-  lazy val staticScalar: PackratParser[ScalarExpr] =
+  lazy val staticScalar: PackratParser[Expr] =
     commonScalar | "+" ~> staticScalar ^^ {
-      s => ScalarExpr(s.value.toNum)
+      s => PosExpr(s)
     } | "-" ~> staticScalar ^^ {
-      s => ScalarExpr(-s.value.toNum)
-    }
+      s => NegExpr(s)
+    } | "array" ~> "(" ~> staticArrayPairList <~ ")" ^^ {
+      pairs => ArrayCreateExpr(pairs)
+    } | "[" ~> staticArrayPairList <~ "]" ^^ {
+      pairs => ArrayCreateExpr(pairs)
+    } | staticClassConstant
+
+  lazy val staticClassConstant: PackratParser[Expr] = className ~ "::" ~ identLit ^^ {
+    case cname ~ _ ~ name => ClassConstantExpr(cname, name)
+  }
 
   lazy val scalar: PackratParser[Expr] = commonScalar | interpolatedStringLit ^^ (s => InterpolatedStringExpr(parseCtx, s.charOrInterpolations))
+
+  lazy val staticArrayPairList: PackratParser[List[(Option[Expr], Expr)]] = repsep(
+    staticScalar ~ opt("=>" ~> staticScalar) ^^ {
+      case keyExpr ~ Some(valueExpr) => Some(keyExpr) -> valueExpr
+      case valueExpr ~ None => None -> valueExpr
+    }, ",") <~ opt(",")
 
   lazy val expr: PackratParser[Expr] = exprWithoutVariable ||| rVariable
 
@@ -559,8 +573,47 @@ object JbjParser {
   //A main method for testing
   def main(args: Array[String]) = {
     test( """<?php
-            |$a=1;
-            |var_dump(!isset($a));
+            |class setter {
+            |	public $n;
+            |	public $x = array('a' => 1, 'b' => 2, 'c' => 3);
+            |
+            |	function __get($nm) {
+            |		echo "Getting [$nm]\n";
+            |
+            |		if (isset($this->x[$nm])) {
+            |			$r = $this->x[$nm];
+            |			echo "Returning: $r\n";
+            |			return $r;
+            |		}
+            |		else {
+            |			echo "Nothing!\n";
+            |		}
+            |	}
+            |
+            |	function __set($nm, $val) {
+            |		echo "Setting [$nm] to $val\n";
+            |
+            |		if (isset($this->x[$nm])) {
+            |			$this->x[$nm] = $val;
+            |			echo "OK!\n";
+            |		}
+            |		else {
+            |			echo "Not OK!\n";
+            |		}
+            |	}
+            |}
+            |
+            |$foo = new Setter();
+            |
+            |// this doesn't go through __set()... should it?
+            |$foo->n = 1;
+            |
+            |// the rest are fine...
+            |$foo->a = 100;
+            |$foo->a++;
+            |$foo->z++;
+            |var_dump($foo);
+            |
             |?>""".stripMargin)
   }
 }

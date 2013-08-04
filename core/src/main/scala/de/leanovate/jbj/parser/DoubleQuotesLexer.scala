@@ -5,16 +5,16 @@ import de.leanovate.jbj.parser.JbjTokens._
 import scala.util.parsing.combinator.Parsers
 import scala.util.parsing.input.CharArrayReader._
 
-class JbjDoubleQuotesLexer(in: Reader[Char])
+class DoubleQuotesLexer(in: Reader[Char])
   extends Reader[Token] {
 
-  import JbjDoubleQuotesLexer.{Success, NoSuccess, token}
+  import DoubleQuotesLexer.{Success, NoSuccess, token}
 
   def this(in: String) = this(new CharArrayReader(in.toCharArray))
 
-  private val (tok: Token, mode: JbjLexerMode, rest1: Reader[Char]) = token(in) match {
+  private val (tok: Token, mode: LexerMode, rest1: Reader[Char]) = token(in) match {
     case Success((t, m), i) => (t, m, i)
-    case ns: NoSuccess => (errorToken(ns.msg), JbjLexerMode.ERROR, ns.next)
+    case ns: NoSuccess => (errorToken(ns.msg), LexerMode.ERROR, ns.next)
   }
 
   def first = tok
@@ -27,15 +27,15 @@ class JbjDoubleQuotesLexer(in: Reader[Char])
 
 }
 
-object JbjDoubleQuotesLexer extends Parsers with CommonLexerPatterns {
-  def token: Parser[(Token, JbjLexerMode)] =
+object DoubleQuotesLexer extends Parsers with CommonLexerPatterns {
+  def token: Parser[(Token, LexerMode)] =
     doubleQuotedStr ^^ {
-      str => EncapsAndWhitespace(str) -> JbjLexerMode.DOUBLE_QUOTES
-    } | '$' ~ '{' ^^^ (Keyword("${") -> JbjLexerMode.DOUBLE_QUOTES) |
-      '{' ~ '$' ^^^ (Keyword("{$") -> JbjLexerMode.DOUBLE_QUOTES) |
+      str => EncapsAndWhitespace(str) -> LexerMode.DOUBLE_QUOTES
+    } | '$' ~ '{' ^^^ (Keyword("${") -> LexerMode.DOUBLE_QUOTES) |
+      '{' ~ '$' ^^^ (Keyword("{$") -> LexerMode.DOUBLE_QUOTES) |
       '$' ~> rep1(identChar) ^^ {
-        name => Variable(name mkString "") -> JbjLexerMode.LOOKING_FOR_VARNAME
-      } | '"' ^^^ Keyword("\"") -> JbjLexerMode.IN_SCRIPTING
+        name => Variable(name mkString "") -> LexerMode.LOOKING_FOR_VARNAME
+      } | '"' ^^^ Keyword("\"") -> LexerMode.IN_SCRIPTING
 
   private def strInterpolation: Parser[String] =
     '$' ~> '{' ~> rep(chrExcept('\"', '}', EofCh)) <~ '}' ^^ {

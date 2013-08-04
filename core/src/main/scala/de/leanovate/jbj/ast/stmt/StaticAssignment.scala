@@ -1,5 +1,5 @@
 package de.leanovate.jbj.ast.stmt
 
-import de.leanovate.jbj.runtime.Value
+import de.leanovate.jbj.ast.Expr
 
-case class StaticAssignment(variableName: String, initial: Value)
+case class StaticAssignment(variableName: String, initial: Option[Expr])

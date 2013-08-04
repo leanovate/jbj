@@ -20,8 +20,8 @@ case class WhileStmt(condition: Expr, stmts: List[Stmt]) extends Stmt with Stati
     SuccessExecResult
   }
 
-  override def initializeStatic(ctx: Context) {
-    staticInitializers.foreach(_.initializeStatic(ctx))
+  override def initializeStatic(implicit ctx: Context) {
+    staticInitializers.foreach(_.initializeStatic)
   }
 
   @tailrec

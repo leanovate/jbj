@@ -7,15 +7,15 @@ import scala.util.parsing.input.CharArrayReader.EofCh
 import de.leanovate.jbj.parser.JbjTokens.Inline
 import de.leanovate.jbj.parser.JbjTokens.EOF
 
-class JbjInitialLexer(in: Reader[Char]) extends Reader[Token] {
+class InitialLexer(in: Reader[Char]) extends Reader[Token] {
 
-  import JbjInitialLexer.{Success, NoSuccess, token}
+  import InitialLexer.{Success, NoSuccess, token}
 
   def this(in: String) = this(new CharArrayReader(in.toCharArray))
 
-  private val (tok: Token, mode: JbjLexerMode, rest1: Reader[Char]) = token(in) match {
+  private val (tok: Token, mode: LexerMode, rest1: Reader[Char]) = token(in) match {
     case Success((t, m), i) => (t, m, i)
-    case ns: NoSuccess => (errorToken(ns.msg), JbjLexerMode.ERROR, ns.next)
+    case ns: NoSuccess => (errorToken(ns.msg), LexerMode.ERROR, ns.next)
   }
 
   def first = tok
@@ -27,18 +27,18 @@ class JbjInitialLexer(in: Reader[Char]) extends Reader[Token] {
   def atEnd = in.atEnd
 }
 
-object JbjInitialLexer extends Parsers with CommonLexerPatterns {
-  def token: Parser[(Token, JbjLexerMode)] =
-    (scriptStart ^^^ Inline("") -> JbjLexerMode.IN_SCRIPTING
-      | str("<?php") ~ whitespaceChar ^^^ Inline("") -> JbjLexerMode.IN_SCRIPTING
-      | str("<?=") ^^^ Keyword("echo") -> JbjLexerMode.IN_SCRIPTING
-      | str("<?") ^^^ Inline("") -> JbjLexerMode.IN_SCRIPTING
-      | str("<%=") ^^^ Keyword("echo") -> JbjLexerMode.IN_SCRIPTING
-      | str("<%") ^^^ Inline("") -> JbjLexerMode.IN_SCRIPTING
-      | '<' ^^^ Inline("<") -> JbjLexerMode.INITIAL
-      | EofCh ^^^ EOF -> JbjLexerMode.INITIAL
+object InitialLexer extends Parsers with CommonLexerPatterns {
+  def token: Parser[(Token, LexerMode)] =
+    (scriptStart ^^^ Inline("") -> LexerMode.IN_SCRIPTING
+      | str("<?php") ~ whitespaceChar ^^^ Inline("") -> LexerMode.IN_SCRIPTING
+      | str("<?=") ^^^ Keyword("echo") -> LexerMode.IN_SCRIPTING
+      | str("<?") ^^^ Inline("") -> LexerMode.IN_SCRIPTING
+      | str("<%=") ^^^ Keyword("echo") -> LexerMode.IN_SCRIPTING
+      | str("<%") ^^^ Inline("") -> LexerMode.IN_SCRIPTING
+      | '<' ^^^ Inline("<") -> LexerMode.INITIAL
+      | EofCh ^^^ EOF -> LexerMode.INITIAL
       | rep(chrExcept(EofCh, '<')) ^^ {
-      chars => Inline(chars mkString "") -> JbjLexerMode.INITIAL
+      chars => Inline(chars mkString "") -> LexerMode.INITIAL
     })
 
   private def scriptStart = str("<script") ~ optWhitespace ~ str("language") ~ optWhitespace ~ '=' ~

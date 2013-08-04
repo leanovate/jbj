@@ -19,4 +19,6 @@ object ValueRef {
   def apply(): ValueRef = new ValueRef(None)
 
   def apply(v: Value): ValueRef = new ValueRef(Some(v))
+
+  def apply(optVal: Option[Value]) = new ValueRef(optVal)
 }

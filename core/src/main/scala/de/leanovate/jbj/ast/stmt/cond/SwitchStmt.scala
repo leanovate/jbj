@@ -15,8 +15,8 @@ case class SwitchStmt(expr: Expr, cases: List[SwitchCase]) extends Stmt with Sta
     execStmts(cases.dropWhile(!_.matches(value)).map(_.stmts).flatten)
   }
 
-  override def initializeStatic(ctx: Context) {
-    staticInitializers.foreach(_.initializeStatic(ctx))
+  override def initializeStatic(implicit ctx: Context) {
+    staticInitializers.foreach(_.initializeStatic)
   }
 
   @tailrec
