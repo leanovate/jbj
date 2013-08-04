@@ -2,17 +2,17 @@ package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Name, Reference}
 import de.leanovate.jbj.runtime.{StringArrayKey, Value, Context}
-import de.leanovate.jbj.runtime.value.{StringVal, ObjectVal, UndefinedVal}
+import de.leanovate.jbj.runtime.value.{NullVal, ObjectVal}
 import java.io.PrintStream
 
 case class PropertyReference(reference: Reference, propertyName: Name) extends Reference {
   override def eval(implicit ctx: Context) = {
     reference.eval match {
       case obj: ObjectVal =>
-        obj.getAt(StringArrayKey(propertyName.evalName))
+        obj.getAt(StringArrayKey(propertyName.evalName)).getOrElse(NullVal)
       case _ =>
         ctx.log.notice(position, "Trying to get property of non-object")
-        UndefinedVal
+        NullVal
     }
   }
 

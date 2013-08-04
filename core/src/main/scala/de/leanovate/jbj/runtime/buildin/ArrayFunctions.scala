@@ -1,13 +1,12 @@
 package de.leanovate.jbj.runtime.buildin
 
-import de.leanovate.jbj.runtime.value.{ArrayVal, UndefinedVal}
+import de.leanovate.jbj.runtime.value.{NullVal, ArrayVal, IntegerVal}
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.ast.NodePosition
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.IntArrayKey
 import de.leanovate.jbj.ast.NamespaceName
 import scala.Some
-import de.leanovate.jbj.runtime.value.IntegerVal
 
 object ArrayFunctions {
   val functions = Seq(
@@ -36,7 +35,7 @@ object ArrayFunctions {
             Left(new ArrayVal(builder.result()))
           case _ =>
             ctx.log.warn(callerPosition, "array_merge() expects at least 1 parameter, 0 given")
-            Left(UndefinedVal)
+            Left(NullVal)
         }
     })
 }

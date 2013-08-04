@@ -44,8 +44,6 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, Value]) extends Va
 
   override def isNull = false
 
-  override def isUndefined = false
-
   def isEmpty = keyValues.isEmpty
 
   override def copy = new ArrayVal(keyValues.clone())
@@ -54,7 +52,7 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, Value]) extends Va
 
   override def decr = this
 
-  override def getAt(index: ArrayKey) = keyValues.getOrElse(index, UndefinedVal)
+  override def getAt(index: ArrayKey) = keyValues.get(index)
 
   override def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition) {
     index match {

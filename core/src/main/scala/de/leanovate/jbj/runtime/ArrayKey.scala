@@ -1,6 +1,6 @@
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.runtime.value.{NumericVal, UndefinedVal, IntegerVal, StringVal}
+import de.leanovate.jbj.runtime.value.{NumericVal, IntegerVal, StringVal}
 
 sealed trait ArrayKey {
   def value: Value
@@ -8,6 +8,8 @@ sealed trait ArrayKey {
 
 case class StringArrayKey(key: String) extends ArrayKey {
   def value = StringVal(key)
+
+
 }
 
 case class IntArrayKey(key: Long) extends ArrayKey {

@@ -23,15 +23,13 @@ trait Value {
 
   def isNull: Boolean
 
-  def isUndefined: Boolean
-
   def copy: Value
 
   def incr: Value
 
   def decr: Value
 
-  def getAt(index: ArrayKey): Value
+  def getAt(index: ArrayKey): Option[Value]
 
   def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition)
 }

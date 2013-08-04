@@ -1,7 +1,7 @@
 package de.leanovate.jbj.runtime.context
 
 import de.leanovate.jbj.ast.NodePosition
-import de.leanovate.jbj.runtime.value.{UndefinedVal, ObjectVal}
+import de.leanovate.jbj.runtime.value.ObjectVal
 import de.leanovate.jbj.runtime._
 import scala.collection.immutable.Stack
 import de.leanovate.jbj.ast.NamespaceName
@@ -12,6 +12,8 @@ case class ClassContext(instance: ObjectVal, callerPosition: NodePosition, calle
   lazy val global = callerCtx.global
 
   lazy val static = global.staticContext(identifier)
+
+  lazy val settings = global.settings
 
   val out = callerCtx.out
 
@@ -31,10 +33,7 @@ case class ClassContext(instance: ObjectVal, callerPosition: NodePosition, calle
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  def findVariable(name: String): Option[ValueRef] = instance.getAt(StringArrayKey(name)) match {
-    case UndefinedVal => None
-    case v => Some(ValueRef(v))
-  }
+  def findVariable(name: String): Option[ValueRef] = instance.getAt(StringArrayKey(name)).map(ValueRef(_))
 
   def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition) {
     instance.setAt(Some(StringArrayKey(name)), valueRef.value)(this, position)

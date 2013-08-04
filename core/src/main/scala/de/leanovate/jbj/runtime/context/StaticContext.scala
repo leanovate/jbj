@@ -12,6 +12,8 @@ class StaticContext(var global: GlobalContext) extends Context {
 
   def static = this
 
+  lazy val settings = global.settings
+
   def out = global.out
 
   def err = global.err

@@ -32,8 +32,6 @@ case class StringVal(value: String) extends Value {
 
   override def isNull = false
 
-  override def isUndefined = false
-
   override def copy = this
 
   override def incr = this
@@ -41,8 +39,8 @@ case class StringVal(value: String) extends Value {
   override def decr = this
 
   override def getAt(index: ArrayKey) = index match {
-    case IntArrayKey(idx) => StringVal(value(idx.toInt).toString)
-    case _ => StringVal(value(0).toString)
+    case IntArrayKey(idx) => Some(StringVal(value(idx.toInt).toString))
+    case _ => Some(StringVal(value(0).toString))
   }
 
   override def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition) {}

@@ -2,11 +2,11 @@ package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Name, Reference}
 import de.leanovate.jbj.runtime.{ValueRef, Value, Context}
-import de.leanovate.jbj.runtime.value.UndefinedVal
 import java.io.PrintStream
+import de.leanovate.jbj.runtime.value.NullVal
 
 case class VariableReference(variableName: Name) extends Reference {
-  override def eval(implicit ctx: Context) = ctx.findVariable(variableName.evalName).map(_.value).getOrElse(UndefinedVal)
+  override def eval(implicit ctx: Context) = ctx.findVariable(variableName.evalName).map(_.value).getOrElse(NullVal)
 
   override def assign(value: Value)(implicit ctx: Context) {
     var name = variableName.evalName

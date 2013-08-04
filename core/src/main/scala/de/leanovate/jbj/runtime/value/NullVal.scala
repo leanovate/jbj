@@ -24,15 +24,13 @@ object NullVal extends Value {
 
   override def isNull = true
 
-  override def isUndefined = false
-
   override def copy = this
 
   override def incr = IntegerVal(1)
 
   override def decr = NullVal
 
-  override def getAt(index: ArrayKey) = UndefinedVal
+  override def getAt(index: ArrayKey) = None
 
   override def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition) {}
 }

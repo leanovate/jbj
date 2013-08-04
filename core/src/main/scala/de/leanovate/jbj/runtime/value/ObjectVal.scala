@@ -39,15 +39,13 @@ class ObjectVal(var pClass: PClass, var keyValues: mutable.LinkedHashMap[ArrayKe
 
   override def isNull = false
 
-  override def isUndefined = false
-
   override def copy = new ObjectVal(pClass, keyValues.clone())
 
   override def incr = this
 
   override def decr = this
 
-  override def getAt(index: ArrayKey) = keyValues.getOrElse(index, UndefinedVal)
+  override def getAt(index: ArrayKey) = keyValues.get(index)
 
   override def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition) {
     if (index.isDefined)

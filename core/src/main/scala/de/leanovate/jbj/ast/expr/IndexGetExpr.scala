@@ -2,7 +2,7 @@ package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.runtime.{ArrayKey, Context}
-import de.leanovate.jbj.runtime.value.UndefinedVal
+import de.leanovate.jbj.runtime.value.NullVal
 
 case class IndexGetExpr(expr: Expr, indexExpr: Option[Expr]) extends Expr {
   override def eval(implicit ctx: Context) = {
@@ -11,11 +11,11 @@ case class IndexGetExpr(expr: Expr, indexExpr: Option[Expr]) extends Expr {
         ArrayKey(expr.eval)
     }
 
-    optArrayKey.map {
+    optArrayKey.flatMap {
       arrayKey =>
         val array = expr.eval
         array.getAt(arrayKey)
 
-    }.getOrElse(UndefinedVal)
+    }.getOrElse(NullVal)
   }
 }

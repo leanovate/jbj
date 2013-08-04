@@ -7,6 +7,7 @@ import de.leanovate.jbj.runtime.context.GlobalContext
 import scala.Some
 import de.leanovate.jbj.ast.Prog
 import de.leanovate.jbj.runtime.env.{CliEnvironment, CgiEnvironment}
+import de.leanovate.jbj.runtime.Settings
 
 trait TestJbjExecutor extends MustMatchers {
 
@@ -16,6 +17,8 @@ trait TestJbjExecutor extends MustMatchers {
     val out = new PrintStream(bOut, false, "UTF-8")
     val err = new PrintStream(bErr, false, "UTF-8")
     val context = GlobalContext(out, err)
+
+    context.settings.errorReporting = Settings.E_ALL
 
     def withGet(uriStr: String) = {
       CgiEnvironment.httpGet(uriStr, context)

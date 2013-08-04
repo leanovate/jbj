@@ -10,11 +10,9 @@ trait NumericVal extends Value {
 
   override def isNull = false
 
-  override def isUndefined = false
-
   override def copy = this
 
-  override def getAt(index: ArrayKey) = UndefinedVal
+  override def getAt(index: ArrayKey) = None
 
   override def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition) {}
 

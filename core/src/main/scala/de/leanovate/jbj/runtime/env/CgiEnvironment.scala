@@ -69,7 +69,7 @@ object CgiEnvironment {
       case Some(idx) :: Nil => array.setAt(Some(idx), value)
       case None :: Nil => array.setAt(Some(IntArrayKey(array.keyValues.size)), value)
       case Some(idx) :: tail =>
-        val subArray = array.getAt(idx).toArray
+        val subArray = array.getAt(idx).getOrElse(ArrayVal()).toArray
         array.setAt(Some(idx), subArray)
         assign(subArray, tail, value)
       case None :: tail =>

@@ -197,7 +197,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val globalVarList: PackratParser[List[String]] = rep1sep(variableLit, ",")
 
   lazy val staticVarList: PackratParser[List[StaticAssignment]] = rep1sep(variableLit ~ opt("=" ~> staticScalar) ^^ {
-    case v ~ optScalar => StaticAssignment(v, optScalar.map(_.value).getOrElse(UndefinedVal))
+    case v ~ optScalar => StaticAssignment(v, optScalar.map(_.value).getOrElse(NullVal))
   }, ",")
 
   lazy val classStatementList: PackratParser[List[Stmt]] = rep(classStatement)
@@ -237,7 +237,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val classVariableDeclaration: PackratParser[List[StaticAssignment]] =
     rep1sep(variableLit ~ opt("=" ~> staticScalar) ^^ {
       case v ~ optScalar =>
-        StaticAssignment(v, optScalar.map(_.value).getOrElse(UndefinedVal))
+        StaticAssignment(v, optScalar.map(_.value).getOrElse(NullVal))
     }, ",")
 
   lazy val classConstantDeclaration: PackratParser[List[StaticAssignment]] =

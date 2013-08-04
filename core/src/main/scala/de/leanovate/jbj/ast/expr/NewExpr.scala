@@ -2,7 +2,7 @@ package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{NamespaceName, Expr}
 import de.leanovate.jbj.runtime.Context
-import de.leanovate.jbj.runtime.value.UndefinedVal
+import de.leanovate.jbj.runtime.value.NullVal
 import java.io.PrintStream
 
 case class NewExpr(className: NamespaceName, parameters: List[Expr]) extends Expr {
@@ -11,7 +11,7 @@ case class NewExpr(className: NamespaceName, parameters: List[Expr]) extends Exp
       pClass.newInstance(ctx, position, parameters.map(_.eval))
     case None =>
       ctx.log.fatal(position, "Class '%s' not found".format(className.toString))
-      UndefinedVal
+      NullVal
   }
 
   override def dump(out: PrintStream, ident: String) {

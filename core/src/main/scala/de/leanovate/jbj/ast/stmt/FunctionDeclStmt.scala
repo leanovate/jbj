@@ -2,10 +2,9 @@ package de.leanovate.jbj.ast.stmt
 
 import de.leanovate.jbj.ast.{NodePosition, NamespaceName, StaticInitializer, Stmt}
 import de.leanovate.jbj.runtime._
-import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.context.FunctionContext
 import de.leanovate.jbj.runtime.SuccessExecResult
-import de.leanovate.jbj.runtime.value.{UndefinedVal, NullVal}
+import de.leanovate.jbj.runtime.value.NullVal
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class FunctionDeclStmt(name: NamespaceName, parameterDecls: List[ParameterDecl], stmts: List[Stmt])
@@ -31,7 +30,7 @@ case class FunctionDeclStmt(name: NamespaceName, parameterDecls: List[ParameterD
         funcCtx.defineVariable(parameterDef.variableName, ValueRef(value.copy))
     }
     execStmts(stmts) match {
-      case SuccessExecResult => Left(UndefinedVal)
+      case SuccessExecResult => Left(NullVal)
       case ReturnExecResult(retVal) => Left(retVal)
       case result: BreakExecResult =>
         throw new FatalErrorJbjException("Cannot break/continue %d level".format(result.depth))(ctx, result.position)

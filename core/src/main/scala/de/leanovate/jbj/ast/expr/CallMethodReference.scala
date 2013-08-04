@@ -2,7 +2,7 @@ package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Name, Reference, Expr}
 import de.leanovate.jbj.runtime.{Value, Context}
-import de.leanovate.jbj.runtime.value.{UndefinedVal, ObjectVal}
+import de.leanovate.jbj.runtime.value.{NullVal, ObjectVal}
 import java.io.PrintStream
 
 case class CallMethodReference(instanceExpr: Expr, methodName: Name, parameters: List[Expr]) extends Reference {
@@ -14,7 +14,7 @@ case class CallMethodReference(instanceExpr: Expr, methodName: Name, parameters:
       }
     case _ =>
       ctx.log.fatal(position, "Call to a member function %s() on a non-object".format(methodName))
-      UndefinedVal
+      NullVal
   }
 
   override def assign(value: Value)(implicit ctx: Context) {}

@@ -15,22 +15,22 @@ package object buildin {
     "TRUE" -> BooleanVal.TRUE,
     "FALSE" -> BooleanVal.FALSE,
     "NULL" -> NullVal,
-    "E_ERROR" -> IntegerVal(1),
-    "E_WARNING" -> IntegerVal(2),
-    "E_PARSE" -> IntegerVal(4),
-    "E_NOTICE" -> IntegerVal(8),
-    "E_CORE_ERROR" -> IntegerVal(16),
-    "E_CORE_WARNING" -> IntegerVal(32),
-    "E_COMPILE_ERROR" -> IntegerVal(64),
-    "E_COMPILE_WARNING" -> IntegerVal(128),
-    "E_USER_ERROR" -> IntegerVal(256),
-    "E_USER_WARNING" -> IntegerVal(512),
-    "E_USER_NOTICE" -> IntegerVal(1024),
-    "E_STRICT" -> IntegerVal(2048),
-    "E_RECOVERABLE_ERROR" -> IntegerVal(4096),
-    "E_DEPRECATED" -> IntegerVal(8192),
-    "E_USER_DEPRECATED" -> IntegerVal(16384),
-    "E_ALL" -> IntegerVal(32767)
+    "E_ERROR" -> IntegerVal(Settings.E_ERROR),
+    "E_WARNING" -> IntegerVal(Settings.E_WARNING),
+    "E_PARSE" -> IntegerVal(Settings.E_PARSE),
+    "E_NOTICE" -> IntegerVal(Settings.E_NOTICE),
+    "E_CORE_ERROR" -> IntegerVal(Settings.E_CORE_ERROR),
+    "E_CORE_WARNING" -> IntegerVal(Settings.E_CORE_WARNING),
+    "E_COMPILE_ERROR" -> IntegerVal(Settings.E_COMPILE_ERROR),
+    "E_COMPILE_WARNING" -> IntegerVal(Settings.E_COMPILE_WARNING),
+    "E_USER_ERROR" -> IntegerVal(Settings.E_USER_ERROR),
+    "E_USER_WARNING" -> IntegerVal(Settings.E_USER_WARNING),
+    "E_USER_NOTICE" -> IntegerVal(Settings.E_USER_NOTICE),
+    "E_STRICT" -> IntegerVal(Settings.E_STRICT),
+    "E_RECOVERABLE_ERROR" -> IntegerVal(Settings.E_RECOVERABLE_ERROR),
+    "E_DEPRECATED" -> IntegerVal(Settings.E_DEPRECATED),
+    "E_USER_DEPRECATED" -> IntegerVal(Settings.E_USER_DEPRECATED),
+    "E_ALL" -> IntegerVal(Settings.E_ALL)
   ).toMap
 
   val buildinClasses = Seq(
@@ -45,7 +45,7 @@ package object buildin {
       def invokeMethod(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, methodName: String,
                        parameters: List[Value]) = {
         ctx.log.fatal(callerPosition, "Call to undefined method %s::%s()".format(name.toString, methodName))
-        Left(UndefinedVal)
+        Left(NullVal)
       }
 
       def findMethod(methodName: String): Option[PMethod] = None

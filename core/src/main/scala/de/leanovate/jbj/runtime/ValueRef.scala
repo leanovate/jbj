@@ -1,10 +1,10 @@
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.runtime.value.UndefinedVal
+import de.leanovate.jbj.runtime.value.NullVal
 
 class ValueRef(private var current: Option[Value] = None) {
 
-  def value = current.getOrElse(UndefinedVal)
+  def value = current.getOrElse(NullVal)
 
   def value_=(v: Value) {
     current = Some(v)

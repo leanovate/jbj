@@ -23,6 +23,8 @@ case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
 
   def static = staticContext("global")
 
+  lazy val settings: Settings = new Settings
+
   def stack: Stack[NodePosition] = Stack.empty[NodePosition]
 
   def findClass(name: NamespaceName): Option[PClass] =

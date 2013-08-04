@@ -16,6 +16,8 @@ case class MethodContext(instance: ObjectVal, methodName: String, callerPosition
 
   lazy val static = global.staticContext(identifier)
 
+  lazy val settings = global.settings
+
   val out = callerCtx.out
 
   val err = callerCtx.err

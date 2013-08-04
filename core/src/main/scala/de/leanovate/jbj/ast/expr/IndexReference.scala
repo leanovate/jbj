@@ -1,8 +1,10 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Expr, Reference}
-import de.leanovate.jbj.runtime.{ArrayKey, Value, Context}
-import de.leanovate.jbj.runtime.value.UndefinedVal
+import de.leanovate.jbj.runtime._
+import de.leanovate.jbj.runtime.value.NullVal
+import de.leanovate.jbj.runtime.IntArrayKey
+import scala.Some
 
 case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends Reference {
   override def eval(implicit ctx: Context) = {
@@ -11,14 +13,23 @@ case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends
         ArrayKey(expr.eval)
     }
 
-    optArrayKey.map {
+    optArrayKey.flatMap {
       arrayKey =>
         val array = reference.eval
-        array.getAt(arrayKey)
-    }.getOrElse(UndefinedVal)
+        val result = array.getAt(arrayKey)
+        if (!result.isDefined) {
+          arrayKey match {
+            case IntArrayKey(idx) =>
+              ctx.log.notice(position, "Undefined offset: %d".format(idx))
+            case StringArrayKey(idx) =>
+              ctx.log.notice(position, "Undefined index: %s".format(idx))
+          }
+        }
+        result
+    }.getOrElse(NullVal)
   }
 
-  override def assign( value: Value)(implicit ctx:Context) {
+  override def assign(value: Value)(implicit ctx: Context) {
     val optArrayKey = indexExpr.flatMap {
       expr =>
         ArrayKey(expr.eval)

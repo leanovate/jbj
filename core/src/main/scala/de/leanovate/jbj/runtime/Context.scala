@@ -11,11 +11,13 @@ trait Context {
 
   def static: StaticContext
 
+  def settings: Settings
+
   def out: PrintStream
 
   def err: PrintStream
 
-  lazy val log: Log = new Log(out, err)
+  lazy val log: Log = new Log(settings, out, err)
 
   def stack: Stack[NodePosition]
 
