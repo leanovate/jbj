@@ -23,13 +23,16 @@ object CgiEnvironment {
       str => None -> StringVal(str)
     }: _*)
     ctx.defineVariable("_SERVER", ValueRef(ArrayVal(
+      Some(StringVal("PHP_SELF")) -> StringVal(uriStr),
       Some(StringVal("argv")) -> serverArgv,
       Some(StringVal("argc")) -> serverArgv.count,
       Some(StringVal("REQUEST_METHOD")) -> StringVal("GET"),
       Some(StringVal("QUERY_STRING")) -> StringVal(queryString.getOrElse(""))
     )))
 
-    ctx.defineVariable("_GET", ValueRef(decodeFormData(queryString.getOrElse(""))(ctx)))
+    val requestArray = decodeFormData(queryString.getOrElse(""))(ctx)
+    ctx.defineVariable("_GET", ValueRef(requestArray.copy))
+    ctx.defineVariable("_REQUEST", ValueRef(requestArray.copy))
   }
 
   def httpPostForm(uriStr: String, formData: String, ctx: Context) {
@@ -39,13 +42,16 @@ object CgiEnvironment {
       str => None -> StringVal(str)
     }: _*)
     ctx.defineVariable("_SERVER", ValueRef(ArrayVal(
+      Some(StringVal("PHP_SELF")) -> StringVal(uriStr),
       Some(StringVal("argv")) -> serverArgv,
       Some(StringVal("argc")) -> serverArgv.count,
       Some(StringVal("REQUEST_METHOD")) -> StringVal("POST"),
       Some(StringVal("QUERY_STRING")) -> StringVal(queryString.getOrElse(""))
     )))
 
-    ctx.defineVariable("_POST", ValueRef(decodeFormData(formData)(ctx)))
+    val requestArray = decodeFormData(formData)(ctx)
+    ctx.defineVariable("_POST", ValueRef(requestArray.copy))
+    ctx.defineVariable("_REQUEST", ValueRef(requestArray.copy))
   }
 
   def decodeKeyValues(keyValues: Seq[(String, String)])(implicit ctx: Context) = {

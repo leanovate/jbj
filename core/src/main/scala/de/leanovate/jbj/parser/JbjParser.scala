@@ -12,13 +12,11 @@ import de.leanovate.jbj.parser.JbjTokens._
 import de.leanovate.jbj.ast.stmt._
 import de.leanovate.jbj.runtime.value._
 import scala.collection.mutable
-import scala.util.parsing.input.{CharArrayReader, Reader, StreamReader}
 import scala.util.parsing.combinator.{PackratParsers, Parsers}
 import scala.language.implicitConversions
 import scala.Some
 import de.leanovate.jbj.runtime.context.GlobalContext
 import de.leanovate.jbj.runtime.env.CgiEnvironment
-import java.io.{ByteArrayInputStream, InputStreamReader}
 
 class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   type Elem = JbjTokens.Token
@@ -62,7 +60,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     assignments => ConstDeclStmt(assignments)
   }
 
-  lazy val innerStatementList: PackratParser[List[Stmt]] = rep(innerStatement)
+  lazy val innerStatementList: PackratParser[List[Stmt]] = rep(";") ~> rep(innerStatement)
 
   lazy val innerStatement: PackratParser[Stmt] = statement
 
@@ -268,8 +266,6 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       case v ~ _ ~ e => DivByExpr(v, e)
     } | variable ~ ".=" ~ expr ^^ {
       case v ~ _ ~ e => ConcatWithExpr(v, e)
-    } | expr ~ "?" ~ expr ~ ":" ~ expr ^^ {
-      case cond ~ _ ~ tExpr ~ _ ~ fExpr => TernaryExpr(cond, tExpr, fExpr)
     } | binary(minPrec) | termWithoutVariable
 
   def binaryOp(level: Int): Parser[((Expr, Expr) => Expr)] = {
@@ -316,7 +312,11 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     }
 
   lazy val termWithoutVariable: PackratParser[Expr] =
-    newExpr |
+    expr ~ "?" ~ expr ~ ":" ~ expr ^^ {
+      case cond ~ _ ~ tExpr ~ _ ~ fExpr => TernaryExpr(cond, tExpr, fExpr)
+    } | "!" ~> term ^^ {
+      e => BoolNotExpr(e)
+    } | newExpr | internalFunctionsInYacc |
       rwVariable <~ "++" ^^ {
         ref => GetAndIncrExpr(ref)
       } | rwVariable <~ "--" ^^ {
@@ -454,7 +454,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       })
     }
 
-  lazy val variableName: Parser[Name] = identLit ^^ StaticName.apply | "{" ~> expr <~ "}" ^^ DynamicName.apply
+  lazy val variableName: PackratParser[Name] = identLit ^^ StaticName.apply | "{" ~> expr <~ "}" ^^ DynamicName.apply
 
   lazy val arrayPairList: PackratParser[List[(Option[Expr], Expr)]] = repsep(
     expr ~ opt("=>" ~> expr) ^^ {
@@ -462,9 +462,9 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       case valueExpr ~ None => None -> valueExpr
     }, ",") <~ opt(",")
 
-  lazy val encapsList: Parser[Any] = rep(encapsVar | encapsAndWhitespaceLit)
+  lazy val encapsList: PackratParser[Any] = rep(encapsVar | encapsAndWhitespaceLit)
 
-  lazy val encapsVar: Parser[Any] =
+  lazy val encapsVar: PackratParser[Any] =
     variableLit ~ "[" ~ encapsVarOffset ~ "]" |
       variableLit ~ "->" ~ identLit |
       variableLit |
@@ -472,7 +472,15 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       "${" ~> identLit ~ "[" ~ expr ~ "]" |
       "{$" ~> variable <~ "}"
 
-  lazy val encapsVarOffset: Parser[Any] = identLit | longNumLit | variable
+  lazy val encapsVarOffset: PackratParser[Any] = identLit | longNumLit | variable
+
+  lazy val internalFunctionsInYacc: PackratParser[Expr] = "isset" ~> "(" ~> issetVariables <~ ")" ^^ {
+    exprs => IsSetExpr(exprs)
+  }
+
+  lazy val issetVariables: PackratParser[List[Expr]] = rep1sep(issetVariable, ",")
+
+  lazy val issetVariable: PackratParser[Expr] = exprWithoutVariable ||| rVariable
 
   lazy val constant: PackratParser[Expr] = identLit ^^ {
     name => ConstGetExpr(name)
@@ -532,7 +540,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 }
 
 object JbjParser {
-  def apply(fileName:String, s: String): Prog = {
+  def apply(fileName: String, s: String): Prog = {
     val parser = new JbjParser(ParseContext(fileName))
     parser.parse(s)
   }
@@ -551,14 +559,8 @@ object JbjParser {
   //A main method for testing
   def main(args: Array[String]) = {
     test( """<?php
-            |
-            |function bla() {
-            |  echo "First\n";
-            |  break;
-            |  echo "Error\n";
-            |}
-            |
-            |bla();
+            |$a=1;
+            |var_dump(!isset($a));
             |?>""".stripMargin)
   }
 }

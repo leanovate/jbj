@@ -22,7 +22,7 @@ object UndefinedVal extends Value {
 
   override def toArray = ArrayVal()
 
-  override def isNull = false
+  override def isNull = true
 
   override def isUndefined = true
 
