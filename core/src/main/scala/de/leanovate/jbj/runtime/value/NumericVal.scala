@@ -6,6 +6,8 @@ import de.leanovate.jbj.ast.NodePosition
 trait NumericVal extends Value {
   override def toNum: NumericVal = this
 
+  override def toArray = ArrayVal(None -> this)
+
   override def isNull = false
 
   override def isUndefined = false
@@ -43,6 +45,21 @@ trait NumericVal extends Value {
 
   def /(other: Value): Value = (this, other) match {
     case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal / rightVal)
+  }
+
+  def &(other: Value): Value = (this, other) match {
+    case (IntegerVal(leftVal), IntegerVal(rightVal)) => IntegerVal(leftVal & rightVal)
+    case (NumericVal(leftVal), NumericVal(rightVal)) => IntegerVal(leftVal.toLong & rightVal.toLong)
+  }
+
+  def |(other: Value): Value = (this, other) match {
+    case (IntegerVal(leftVal), IntegerVal(rightVal)) => IntegerVal(leftVal | rightVal)
+    case (NumericVal(leftVal), NumericVal(rightVal)) => IntegerVal(leftVal.toLong | rightVal.toLong)
+  }
+
+  def ^(other: Value): Value = (this, other) match {
+    case (IntegerVal(leftVal), IntegerVal(rightVal)) => IntegerVal(leftVal ^ rightVal)
+    case (NumericVal(leftVal), NumericVal(rightVal)) => IntegerVal(leftVal.toLong ^ rightVal.toLong)
   }
 }
 

@@ -40,6 +40,8 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, Value]) extends Va
 
   override def toBool = BooleanVal.FALSE
 
+  override def toArray = this
+
   override def isNull = false
 
   override def isUndefined = false

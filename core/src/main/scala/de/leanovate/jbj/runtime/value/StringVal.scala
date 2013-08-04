@@ -28,6 +28,8 @@ case class StringVal(value: String) extends Value {
 
   override def toBool: BooleanVal = BooleanVal(!value.isEmpty)
 
+  override def toArray = ArrayVal(None -> this)
+
   override def isNull = false
 
   override def isUndefined = false

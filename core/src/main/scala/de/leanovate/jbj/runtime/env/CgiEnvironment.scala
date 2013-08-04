@@ -1,9 +1,15 @@
 package de.leanovate.jbj.runtime.env
 
-import de.leanovate.jbj.runtime.{IntArrayKey, ValueRef, StringArrayKey, Context}
+import de.leanovate.jbj.runtime._
 import java.net.{URLDecoder, URI}
 import de.leanovate.jbj.runtime.value.{StringVal, ArrayVal}
 import de.leanovate.jbj.ast.NoNodePosition
+import de.leanovate.jbj.runtime.value.StringVal
+import de.leanovate.jbj.runtime.IntArrayKey
+import de.leanovate.jbj.runtime.StringArrayKey
+import scala.Some
+import scala.annotation.tailrec
+import scala.collection.generic.Growable
 
 object CgiEnvironment {
   val numberPattern = "([0-9]+)".r
@@ -42,41 +48,78 @@ object CgiEnvironment {
     ctx.defineVariable("_POST", ValueRef(decodeFormData(formData)(ctx)))
   }
 
-  private def decodeFormData(formData: String)(implicit ctx: Context) = {
+  def decodeKeyValues(keyValues: Seq[(String, String)])(implicit ctx: Context) = {
     val result = ArrayVal()
-    var count = 0L
-    formData.split("&").foreach {
+    keyValues.foreach {
+      case (key, value) =>
+        assign(result, extractIndices(key).toList, StringVal(value))
+    }
+    result
+  }
+
+  @tailrec
+  private def assign(array: ArrayVal, indices: List[Option[ArrayKey]], value: Value)(implicit ctx: Context) {
+    indices match {
+      case Some(idx) :: Nil => array.setAt(Some(idx), value)
+      case None :: Nil => array.setAt(Some(IntArrayKey(array.keyValues.size)), value)
+      case Some(idx) :: tail =>
+        val subArray = array.getAt(idx).toArray
+        array.setAt(Some(idx), subArray)
+        assign(subArray, tail, value)
+      case None :: tail =>
+        val subArray = ArrayVal()
+        array.setAt(Some(IntArrayKey(array.keyValues.size)), subArray)
+        assign(subArray, tail, value)
+    }
+  }
+
+  private def extractIndices(key: String): Iterator[Option[ArrayKey]] = {
+    Iterator.single {
+      val idxStart = key.indexOf('[')
+
+      if (idxStart >= 0) {
+        Some(StringArrayKey(key.substring(0, idxStart)))
+      } else {
+        Some(StringArrayKey(key))
+      }
+    } ++ new Iterator[Option[ArrayKey]] {
+      var pos = 0
+
+      def hasNext = key.indexOf('[', pos) >= 0
+
+      def next() = {
+        val idxStart = key.indexOf('[', pos)
+        val idxEnd = key.indexOf(']', idxStart)
+
+        if (idxEnd >= 0)
+          pos = idxEnd + 1
+        else
+          pos = key.length
+        key.substring(idxStart + 1, idxEnd) match {
+          case "" =>
+            None
+          case numberPattern(str) =>
+            Some(IntArrayKey(str.toLong))
+          case str =>
+            Some(StringArrayKey(str))
+        }
+      }
+    }
+  }
+
+  private def decodeFormData(formData: String)(implicit ctx: Context) = {
+    decodeKeyValues(formData.split("&").flatMap {
       param =>
         val eqIdx = param.indexOf('=')
 
         if (eqIdx > 0) {
           val key = URLDecoder.decode(param.substring(0, eqIdx), "UTF-8")
           val value = URLDecoder.decode(param.substring(eqIdx + 1), "UTF-8")
-          val arrayIdx = key.indexOf('[')
 
-          if (arrayIdx < 0) {
-            result.setAt(Some(StringArrayKey(key)), StringVal(value))
-          } else {
-            val arrayKey = key.substring(0, arrayIdx)
-            var array = result.getAt(StringArrayKey(arrayKey))
-
-            if (array.isUndefined) {
-              array = ArrayVal()
-              result.setAt(Some(StringArrayKey(arrayKey)), array)
-            }
-            val arrayIdx2 = key.indexOf(']', arrayIdx)
-            key.substring(arrayIdx + 1, arrayIdx2) match {
-              case "" =>
-                array.setAt(Some(IntArrayKey(count)), StringVal(value))
-                count += 1
-              case numberPattern(str) =>
-                array.setAt(Some(IntArrayKey(str.toLong)), StringVal(value))
-              case str =>
-                array.setAt(Some(StringArrayKey(str)), StringVal(value))
-            }
-          }
+          Seq(key -> value)
+        } else {
+          Seq.empty
         }
-    }
-    result
+    })
   }
 }

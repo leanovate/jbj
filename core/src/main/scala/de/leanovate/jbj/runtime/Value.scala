@@ -19,6 +19,8 @@ trait Value {
 
   def toBool: BooleanVal
 
+  def toArray: ArrayVal
+
   def isNull: Boolean
 
   def isUndefined: Boolean

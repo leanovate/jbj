@@ -5,7 +5,7 @@ jbj
 
 Is hosted by [Travis-CI](https://travis-ci.org/untoldwind/jbj)
 
-![Build status](https://api.travis-ci.org/untoldwind/jbj.png)
+[![Build Status](https://travis-ci.org/untoldwind/jbj.png?branch=master)](https://travis-ci.org/untoldwind/jbj)
 
 # Why jbj?
 

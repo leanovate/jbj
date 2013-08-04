@@ -20,6 +20,8 @@ object UndefinedVal extends Value {
 
   override def toBool = BooleanVal(false)
 
+  override def toArray = ArrayVal()
+
   override def isNull = false
 
   override def isUndefined = true

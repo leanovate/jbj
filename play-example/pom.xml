@@ -30,10 +30,16 @@
             <groupId>play</groupId>
             <artifactId>play_${play2-scala.version}</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>play</groupId>
+            <artifactId>play-test_${play2-scala.version}</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
         <sourceDirectory>${basedir}/app</sourceDirectory>
+        <testSourceDirectory>${basedir}/test</testSourceDirectory>
         <resources>
             <resource>
                 <directory>${basedir}/conf</directory>
@@ -70,6 +76,19 @@
                             <Implementation-Vendor-Id>${project.artifactId}</Implementation-Vendor-Id>
                         </manifestEntries>
                     </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.14</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Spec.java</include>
+                    </includes>
+                    <excludes>
+                        <exclude>test/IntegrationSpec.java</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
         </plugins>

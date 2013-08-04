@@ -35,6 +35,8 @@ class ObjectVal(var pClass: PClass, var keyValues: mutable.LinkedHashMap[ArrayKe
 
   override def toBool = BooleanVal.FALSE
 
+  override def toArray = new ArrayVal(keyValues.clone())
+
   override def isNull = false
 
   override def isUndefined = false

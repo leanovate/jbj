@@ -135,5 +135,77 @@ class Basic2Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |""".stripMargin
       )
     }
+
+    "POST Method test and arrays - 6" in {
+      // basic/018
+      script(
+        """<?php
+          |var_dump($_POST['a']);
+          |var_dump($_POST['b']);
+          |?>""".stripMargin
+      ).withPost("", "a[][]=1&a[][]=3&b[a][b][c]=1&b[a][b][d]=1").result must haveOutput(
+        """array(2) {
+          |  [0]=>
+          |  array(1) {
+          |    [0]=>
+          |    string(1) "1"
+          |  }
+          |  [1]=>
+          |  array(1) {
+          |    [0]=>
+          |    string(1) "3"
+          |  }
+          |}
+          |array(1) {
+          |  ["a"]=>
+          |  array(1) {
+          |    ["b"]=>
+          |    array(2) {
+          |      ["c"]=>
+          |      string(1) "1"
+          |      ["d"]=>
+          |      string(1) "1"
+          |    }
+          |  }
+          |}
+          |""".stripMargin
+      )
+    }
+
+    "POST Method test and arrays - 7" in {
+      // basic/019
+      script(
+        """<?php
+          |var_dump($_POST['a']);
+          |?>""".stripMargin
+      ).withPost("", "a[]=1&a[]]=3&a[[]=4").result must haveOutput(
+        """array(3) {
+          |  [0]=>
+          |  string(1) "1"
+          |  [1]=>
+          |  string(1) "3"
+          |  ["["]=>
+          |  string(1) "4"
+          |}
+          |""".stripMargin
+      )
+    }
+
+    "POST Method test and arrays - 8" in {
+      // basic/020
+      script(
+        """<?php
+          |var_dump($_POST['a']);
+          |?>""".stripMargin
+      ).withPost("", "a[a[]]=1&a[b[]]=3").result must haveOutput(
+        """array(2) {
+          |  ["a["]=>
+          |  string(1) "1"
+          |  ["b["]=>
+          |  string(1) "3"
+          |}
+          |""".stripMargin
+      )
+    }
   }
 }

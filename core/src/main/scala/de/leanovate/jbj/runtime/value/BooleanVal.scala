@@ -11,6 +11,8 @@ abstract class BooleanVal extends Value {
 
   override def toNum = toInteger
 
+  override def toArray = ArrayVal(None -> this)
+
   override def isNull = false
 
   override def isUndefined = false
