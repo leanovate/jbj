@@ -12,7 +12,7 @@ case class StaticVarDeclStmt(assignments: List[StaticAssignment])
         val valueRef = ctx.static.findVariable(assignment.variableName).getOrElse(ValueRef())
         ctx.defineVariable(assignment.variableName, valueRef)
     }
-    SuccessExecResult()
+    SuccessExecResult
   }
 
   def initializeStatic(ctx: Context) {

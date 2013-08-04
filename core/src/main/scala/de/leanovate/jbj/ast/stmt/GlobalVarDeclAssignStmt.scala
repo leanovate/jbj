@@ -16,6 +16,6 @@ case class GlobalVarDeclAssignStmt(variableNames: List[String]) extends Stmt {
         }
         ctx.defineVariable(variableName, valueRef)
     }
-    SuccessExecResult()
+    SuccessExecResult
   }
 }

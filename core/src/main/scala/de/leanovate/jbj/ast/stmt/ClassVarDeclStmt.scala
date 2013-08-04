@@ -11,7 +11,7 @@ case class ClassVarDeclStmt(modifieres: Set[MemberModifier.Type],
 
         ctx.defineVariable(assignment.variableName, ValueRef(assignment.initial))
     }
-    SuccessExecResult()
+    SuccessExecResult
   }
 
 }

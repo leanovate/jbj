@@ -5,7 +5,7 @@ import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.ast.NamespaceName
 import scala.collection.mutable
-import de.leanovate.jbj.runtime.value.{UndefinedVal, ObjectVal}
+import de.leanovate.jbj.runtime.value.ObjectVal
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
@@ -27,19 +27,19 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
       if (superClassName.isDefined) {
         superClass = ctx.findClass(superClassName.get)
         if (!superClass.isDefined)
-          throw new FatalErrorJbjException(ctx, position, "Class '%s' not found".format(superClassName))
+          throw new FatalErrorJbjException("Class '%s' not found".format(superClassName))
         else if (superClass.get.classEntry == ClassEntry.FINAL_CLASS)
-          throw new FatalErrorJbjException(ctx, position,
+          throw new FatalErrorJbjException(
             "Class %s may not inherit from final class (%s)".format(name.toString, superClassName.get.toString))
       }
       ctx.defineClass(this)
     }
-    SuccessExecResult()
+    SuccessExecResult
   }
 
   override def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]): Value = {
     if (classEntry == ClassEntry.ABSTRACT_CLASS)
-      throw new FatalErrorJbjException(ctx, callerPosition, "Cannot instantiate abstract class %s".format(name.toString))
+      throw new FatalErrorJbjException("Cannot instantiate abstract class %s".format(name.toString))(ctx, callerPosition)
     val instance = new ObjectVal(this, mutable.LinkedHashMap.empty[ArrayKey, Value])
 
     findConstructor.foreach(_.call(ctx, callerPosition, instance, parameters))
@@ -52,7 +52,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
       case Some(method) =>
         method.call(ctx, callerPosition, instance, parameters)
       case None =>
-        throw new FatalErrorJbjException(ctx, callerPosition, "Call to undefined method %s::%s()".format(name.toString, methodName))
+        throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))(ctx, callerPosition)
     }
   }
 
@@ -68,6 +68,6 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     }
   }
 
-  private def findConstructor : Option[PMethod] =
+  private def findConstructor: Option[PMethod] =
     findMethod(name.toString).map(Some.apply).getOrElse(findMethod("__construct"))
 }

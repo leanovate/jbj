@@ -17,7 +17,7 @@ case class ForeachKeyValueStmt(arrayExpr: Expr, keyVar: Reference, valueVar: Ref
         execValues(array.keyValues.toList)
       case _ =>
     }
-    SuccessExecResult()
+    SuccessExecResult
   }
 
   override def initializeStatic(ctx: Context) {
@@ -31,19 +31,19 @@ case class ForeachKeyValueStmt(arrayExpr: Expr, keyVar: Reference, valueVar: Ref
       valueVar.assign(head._2)
       execStmts(stmts) match {
         case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
-        case BreakExecResult(_) => SuccessExecResult()
+        case BreakExecResult(_) => SuccessExecResult
         case result: ReturnExecResult => result
         case _ => execValues(tail)
       }
-    case Nil => SuccessExecResult()
+    case Nil => SuccessExecResult
   }
 
   @tailrec
   private def execStmts(statements: List[Stmt])(implicit context: Context): ExecResult = statements match {
     case head :: tail => head.exec match {
-      case SuccessExecResult() => execStmts(tail)
+      case SuccessExecResult => execStmts(tail)
       case result => result
     }
-    case Nil => SuccessExecResult()
+    case Nil => SuccessExecResult
   }
 }

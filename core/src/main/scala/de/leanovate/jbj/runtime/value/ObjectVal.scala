@@ -51,7 +51,7 @@ class ObjectVal(var pClass: PClass, var keyValues: mutable.LinkedHashMap[ArrayKe
     if (index.isDefined)
       keyValues.put(index.get, value)
     else
-      throw new FatalErrorJbjException(ctx, position, "Cannot use object of type %s as array".format(pClass.name.toString))
+      throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
   }
 }
 

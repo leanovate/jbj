@@ -19,13 +19,13 @@ case class ForStmt(befores: List[Expr], conditions: List[Expr], afters: List[Exp
     }) {
       execStmts(stmts) match {
         case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
-        case BreakExecResult(_) => return SuccessExecResult()
+        case BreakExecResult(_) => return SuccessExecResult
         case result: ReturnExecResult => return result
         case _ =>
       }
       afters.foreach(_.eval)
     }
-    SuccessExecResult()
+    SuccessExecResult
   }
 
   override def initializeStatic(ctx: Context) {
@@ -35,10 +35,10 @@ case class ForStmt(befores: List[Expr], conditions: List[Expr], afters: List[Exp
   @tailrec
   private def execStmts(statements: List[Stmt])(implicit context: Context): ExecResult = statements match {
     case head :: tail => head.exec match {
-      case SuccessExecResult() => execStmts(tail)
+      case SuccessExecResult => execStmts(tail)
       case result => result
     }
-    case Nil => SuccessExecResult()
+    case Nil => SuccessExecResult
   }
 
 }

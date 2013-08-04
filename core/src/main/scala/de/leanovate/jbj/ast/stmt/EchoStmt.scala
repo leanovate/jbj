@@ -10,7 +10,7 @@ case class EchoStmt(parameters: Seq[Expr]) extends Stmt {
       expr =>
         expr.eval.toOutput(ctx.out)
     }
-    SuccessExecResult()
+    SuccessExecResult
   }
 
   override def dump(out: PrintStream, ident: String) {

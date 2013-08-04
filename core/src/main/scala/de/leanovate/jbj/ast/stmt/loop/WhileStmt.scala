@@ -12,12 +12,12 @@ case class WhileStmt(condition: Expr, stmts: List[Stmt]) extends Stmt with Stati
     while (condition.eval.toBool.value) {
       execStmts(stmts) match {
         case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
-        case BreakExecResult(_) => return SuccessExecResult()
+        case BreakExecResult(_) => return SuccessExecResult
         case result: ReturnExecResult => return result
         case _ =>
       }
     }
-    SuccessExecResult()
+    SuccessExecResult
   }
 
   override def initializeStatic(ctx: Context) {
@@ -27,9 +27,9 @@ case class WhileStmt(condition: Expr, stmts: List[Stmt]) extends Stmt with Stati
   @tailrec
   private def execStmts(statements: List[Stmt])(implicit context: Context): ExecResult = statements match {
     case head :: tail => head.exec match {
-      case SuccessExecResult() => execStmts(tail)
+      case SuccessExecResult => execStmts(tail)
       case result => result
     }
-    case Nil => SuccessExecResult()
+    case Nil => SuccessExecResult
   }
 }

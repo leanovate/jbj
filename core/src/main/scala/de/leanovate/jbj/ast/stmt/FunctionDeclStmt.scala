@@ -5,15 +5,16 @@ import de.leanovate.jbj.runtime._
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.context.FunctionContext
 import de.leanovate.jbj.runtime.SuccessExecResult
-import de.leanovate.jbj.runtime.value.NullVal
+import de.leanovate.jbj.runtime.value.{UndefinedVal, NullVal}
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class FunctionDeclStmt(name: NamespaceName, parameterDecls: List[ParameterDecl], stmts: List[Stmt])
-  extends Stmt with PFunction {
+  extends Stmt with PFunction with BlockLike {
   private lazy val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
   override def exec(implicit ctx: Context) = {
     ctx.defineFunction(this)
-    SuccessExecResult()
+    SuccessExecResult
   }
 
   def call(ctx: Context, callerPosition: NodePosition, parameters: List[Value]): Either[Value, ValueRef] = {
@@ -29,15 +30,13 @@ case class FunctionDeclStmt(name: NamespaceName, parameterDecls: List[ParameterD
         val value = parameters.drop(idx).headOption.getOrElse(parameterDef.defaultVal(ctx))
         funcCtx.defineVariable(parameterDef.variableName, ValueRef(value.copy))
     }
-    Left(execStmts(stmts))
-  }
-
-  @tailrec
-  private def execStmts(statements: List[Stmt])(implicit context: Context): Value = statements match {
-    case head :: tail => head.exec match {
-      case ReturnExecResult(returnVal) => returnVal
-      case _ => execStmts(tail)
+    execStmts(stmts) match {
+      case SuccessExecResult => Left(UndefinedVal)
+      case ReturnExecResult(retVal) => Left(retVal)
+      case result: BreakExecResult =>
+        throw new FatalErrorJbjException("Cannot break/continue %d level".format(result.depth))(ctx, result.position)
+      case result: ContinueExecResult =>
+        throw new FatalErrorJbjException("Cannot break/continue %d level".format(result.depth))(ctx, result.position)
     }
-    case Nil => NullVal
   }
 }

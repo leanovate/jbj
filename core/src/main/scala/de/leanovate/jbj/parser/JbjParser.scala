@@ -551,15 +551,14 @@ object JbjParser {
   //A main method for testing
   def main(args: Array[String]) = {
     test( """<?php
-            |$argc = $_SERVER['argc'];
-            |$argv = $_SERVER['argv'];
             |
-            |for ($i=0; $i<$argc; $i++) {
-            |	echo "$i: ".$argv[$i]."\n";
+            |function bla() {
+            |  echo "First\n";
+            |  break;
+            |  echo "Error\n";
             |}
             |
-            |?>
-            |
-            |""".stripMargin)
+            |bla();
+            |?>""".stripMargin)
   }
 }

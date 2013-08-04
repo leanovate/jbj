@@ -22,11 +22,11 @@ case class SwitchStmt(expr: Expr, cases: List[SwitchCase]) extends Stmt with Sta
   @tailrec
   private def execStmts(statements: List[Stmt])(implicit context: Context): ExecResult = statements match {
     case head :: tail => head.exec match {
-      case SuccessExecResult() => execStmts(tail)
+      case SuccessExecResult => execStmts(tail)
       case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
-      case BreakExecResult(_) => SuccessExecResult()
+      case BreakExecResult(_) => SuccessExecResult
       case result => result
     }
-    case Nil => SuccessExecResult()
+    case Nil => SuccessExecResult
   }
 }

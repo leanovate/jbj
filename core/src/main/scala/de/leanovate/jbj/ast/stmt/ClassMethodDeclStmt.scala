@@ -13,7 +13,7 @@ case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: Strin
   private lazy val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
   override def exec(implicit ctx: Context) = {
-    SuccessExecResult()
+    SuccessExecResult
   }
 
   def call(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, parameters: List[Value]) = {

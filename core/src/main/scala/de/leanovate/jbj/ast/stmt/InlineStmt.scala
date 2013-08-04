@@ -6,6 +6,6 @@ import de.leanovate.jbj.runtime.{SuccessExecResult, Context}
 case class InlineStmt(text: String) extends Stmt {
   override def exec(implicit ctx: Context) = {
     ctx.out.print(text)
-    SuccessExecResult()
+    SuccessExecResult
   }
 }
