@@ -29,7 +29,7 @@ trait Value {
 
   def decr: Value
 
-  def getAt(index: ArrayKey): Option[Value]
+  def getAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition): Option[Value]
 
   def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition)
 }

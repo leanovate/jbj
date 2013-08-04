@@ -52,7 +52,7 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, Value]) extends Va
 
   override def decr = this
 
-  override def getAt(index: ArrayKey) = keyValues.get(index)
+  override def getAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) = keyValues.get(index)
 
   override def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition) {
     index match {

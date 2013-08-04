@@ -8,12 +8,15 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime.value.ObjectVal
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.context.ClassContext
 
 case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
                          superClassName: Option[NamespaceName], implements: List[NamespaceName], stmts: List[Stmt])
   extends Stmt with PClass {
 
   private var superClass: Option[PClass] = None
+
+  private lazy val instanceAssinments = stmts.filter(_.isInstanceOf[ClassVarDeclStmt])
 
   private lazy val methodMap = stmts.filter(_.isInstanceOf[PMethod]).map(_.asInstanceOf[PMethod]).map {
     m =>
@@ -40,7 +43,11 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   override def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]): Value = {
     if (classEntry == ClassEntry.ABSTRACT_CLASS)
       throw new FatalErrorJbjException("Cannot instantiate abstract class %s".format(name.toString))(ctx, callerPosition)
-    val instance = new ObjectVal(this, mutable.LinkedHashMap.empty[ArrayKey, Value])
+    val instance = new ObjectVal(this, instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ArrayKey, Value])
+
+    implicit val classCtx = ClassContext(instance, callerPosition, ctx)
+
+    instanceAssinments.foreach(_.exec)
 
     findConstructor.foreach(_.call(ctx, callerPosition, instance, parameters))
     instance

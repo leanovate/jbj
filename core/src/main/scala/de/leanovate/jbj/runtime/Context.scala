@@ -29,7 +29,7 @@ trait Context {
 
   def defineConstant(name: String, value: Value, caseInsensitive: Boolean)
 
-  def findVariable(name: String): Option[ValueRef]
+  def findVariable(name: String)(implicit position: NodePosition): Option[ValueRef]
 
   def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition)
 

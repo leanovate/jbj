@@ -18,7 +18,7 @@ trait TestJbjExecutor extends MustMatchers {
     val err = new PrintStream(bErr, false, "UTF-8")
     val context = GlobalContext(out, err)
 
-    context.settings.errorReporting = Settings.E_ALL
+    //    context.settings.errorReporting = Settings.E_ALL
 
     def withGet(uriStr: String) = {
       CgiEnvironment.httpGet(uriStr, context)

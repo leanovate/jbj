@@ -11,7 +11,7 @@ import de.leanovate.jbj.runtime.exception.{JbjException, FatalErrorJbjException}
 class ClassExampleSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Class examples" - {
     "ZE2 An abstract class cannot be instanciated" in {
-      // class/class_abstract
+      // classes/class_abstract
       script(
         """<?php
           |
@@ -41,7 +41,7 @@ class ClassExampleSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
     }
 
     "Classes general test" in {
-      // class/class_example
+      // classes/class_example
       script(
         """<?php
           |
@@ -131,6 +131,7 @@ class ClassExampleSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
     }
 
     "ZE2 A final class cannot be inherited" in {
+      // classes/class_final
       script(
         """<?php
           |
@@ -155,7 +156,7 @@ class ClassExampleSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
     }
 
     "Instantiate stdClass" in {
-      // lang/class_stdclass
+      // classes/class_stdclass
       script(
         """<?php
           |

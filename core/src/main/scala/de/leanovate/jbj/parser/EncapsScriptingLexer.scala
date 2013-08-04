@@ -4,7 +4,7 @@ import scala.util.parsing.input.{CharArrayReader, Reader}
 import de.leanovate.jbj.parser.JbjTokens._
 import scala.util.parsing.combinator.Parsers
 
-class LookingForVarnameLexer(in: Reader[Char]) extends Reader[Token] with Parsers {
+case class EncapsScriptingLexer(in: Reader[Char]) extends Reader[Token] with Parsers {
   type Elem = Char
 
   def this(in: String) = this(new CharArrayReader(in.toCharArray))

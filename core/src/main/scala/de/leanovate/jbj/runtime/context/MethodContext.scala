@@ -36,7 +36,7 @@ case class MethodContext(instance: ObjectVal, methodName: String, callerPosition
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  def findVariable(name: String): Option[ValueRef] =
+  def findVariable(name: String)(implicit position: NodePosition): Option[ValueRef] =
     if (name == "this") Some(ValueRef(instance)) else localVariables.get(name)
 
   def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition)  {

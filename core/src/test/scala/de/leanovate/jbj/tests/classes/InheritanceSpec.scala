@@ -10,7 +10,7 @@ import org.scalatest.matchers.MustMatchers
 class InheritanceSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Inheritance" - {
     "Classes inheritance test" in {
-      // class/inheritance
+      // classes/inheritance
       script(
         """<?php
           |

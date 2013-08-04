@@ -33,10 +33,11 @@ case class ClassContext(instance: ObjectVal, callerPosition: NodePosition, calle
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  def findVariable(name: String): Option[ValueRef] = instance.getAt(StringArrayKey(name)).map(ValueRef(_))
+  def findVariable(name: String)(implicit position: NodePosition): Option[ValueRef] =
+    instance.getProperty(name)(this, position).map(ValueRef(_))
 
   def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition) {
-    instance.setAt(Some(StringArrayKey(name)), valueRef.value)(this, position)
+    instance.setProperty(name, valueRef.value)(this, position)
   }
 
   def undefineVariable(name: String) {

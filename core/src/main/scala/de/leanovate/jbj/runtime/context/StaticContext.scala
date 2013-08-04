@@ -26,7 +26,7 @@ class StaticContext(var global: GlobalContext) extends Context {
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  def findVariable(name: String) = variables.get(name)
+  def findVariable(name: String)(implicit position: NodePosition) = variables.get(name)
 
   def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition)  {
     variables.put(name, valueRef)

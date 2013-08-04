@@ -5,8 +5,7 @@ import de.leanovate.jbj.parser.JbjTokens._
 import scala.util.parsing.combinator.Parsers
 import scala.util.parsing.input.CharArrayReader._
 
-class DoubleQuotesLexer(in: Reader[Char])
-  extends Reader[Token] {
+class DoubleQuotesLexer(in: Reader[Char]) extends Reader[Token] {
 
   import DoubleQuotesLexer.{Success, NoSuccess, token}
 

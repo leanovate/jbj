@@ -10,6 +10,7 @@ import org.scalatest.matchers.MustMatchers
 class DereferencingSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Dereferencing" - {
     "ZE2 dereferencing of objects from methods" in {
+      // classes/dereferencing_001
       script(
         """<?php
           |

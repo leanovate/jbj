@@ -34,7 +34,7 @@ case class FunctionContext(functionName: NamespaceName, callerPosition: NodePosi
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  def findVariable(name: String): Option[ValueRef] = localVariables.get(name)
+  def findVariable(name: String)(implicit position: NodePosition): Option[ValueRef] = localVariables.get(name)
 
   def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition)  {
     localVariables.put(name, valueRef)

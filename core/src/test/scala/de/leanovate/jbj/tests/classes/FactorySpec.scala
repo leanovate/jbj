@@ -10,7 +10,7 @@ import org.scalatest.matchers.MustMatchers
 class FactorySpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Fectory" - {
     "ZE2 factory objects" in {
-      // class/factory_001
+      // classes/factory_001
       script(
         """<?php
           |

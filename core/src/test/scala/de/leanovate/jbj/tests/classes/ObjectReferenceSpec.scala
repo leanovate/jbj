@@ -10,6 +10,7 @@ import org.scalatest.matchers.MustMatchers
 class ObjectReferenceSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Object reference" - {
     "ZE2 object references" in {
+      // classes/object_reference_001
       script(
         """<?php
           |

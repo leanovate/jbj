@@ -2,8 +2,11 @@ package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.ast.{ClassEntry, NamespaceName, NodePosition}
 import de.leanovate.jbj.runtime.value.ObjectVal
+import java.util.concurrent.atomic.AtomicLong
 
 trait PClass {
+  val instanceCounter = new AtomicLong(0)
+
   def classEntry: ClassEntry.Type
 
   def name: NamespaceName

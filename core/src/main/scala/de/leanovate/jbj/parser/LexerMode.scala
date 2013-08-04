@@ -21,8 +21,16 @@ object LexerMode {
     def newLexer(in: Reader[Char]) = new DoubleQuotesLexer(in)
   }
 
+  val ENCAPS_SCRIPTING = new LexerMode {
+    def newLexer(in: Reader[Char]) = new EncapsScriptingLexer(in)
+  }
+
+  val LOOKING_FOR_PROPERTY = new LexerMode {
+    def newLexer(in: Reader[Char]) = new LookingForPropertyLexer(in)
+  }
+
   val LOOKING_FOR_VARNAME = new LexerMode {
-    def newLexer( in: Reader[Char]) = new LookingForVarnameLexer(in)
+    def newLexer(in: Reader[Char]) = new LookingForVarnameLexer(in)
   }
 
   val ERROR = new LexerMode {

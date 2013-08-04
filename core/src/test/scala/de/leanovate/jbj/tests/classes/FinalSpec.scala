@@ -10,7 +10,7 @@ import org.scalatest.matchers.MustMatchers
 class FinalSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "Final" - {
     "ZE2 A method may be redeclared final" in {
-      // class/final
+      // classes/final
       script(
         """<?php
           |

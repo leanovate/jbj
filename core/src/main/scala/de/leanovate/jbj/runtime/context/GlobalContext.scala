@@ -9,7 +9,7 @@ import de.leanovate.jbj.ast.{NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
 
 case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
-  private val classes = mutable.Map.empty[NamespaceName, PClass]
+  private val classes = mutable.Map.empty[Seq[String], PClass]
 
   private val constants = mutable.Map.empty[ConstantKey, Value]
 
@@ -28,10 +28,10 @@ case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
   def stack: Stack[NodePosition] = Stack.empty[NodePosition]
 
   def findClass(name: NamespaceName): Option[PClass] =
-    buildin.buildinClasses.get(name).map(Some.apply).getOrElse(classes.get(name))
+    buildin.buildinClasses.get(name).map(Some.apply).getOrElse(classes.get(name.lowercase))
 
   def defineClass(pClass: PClass) {
-    classes.put(pClass.name, pClass)
+    classes.put(pClass.name.lowercase, pClass)
   }
 
   def findConstant(name: String): Option[Value] =
@@ -48,7 +48,7 @@ case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
       constants.put(CaseSensitiveConstantKey(name), value)
   }
 
-  def findVariable(name: String): Option[ValueRef] = variables.get(name)
+  def findVariable(name: String)(implicit position: NodePosition): Option[ValueRef] = variables.get(name)
 
   def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition)  {
     variables.put(name, valueRef)

@@ -40,7 +40,7 @@ package object buildin {
       def name = NamespaceName("stdClass")
 
       def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) =
-        new ObjectVal(this, mutable.LinkedHashMap.empty[ArrayKey, Value])
+        new ObjectVal(this, instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ArrayKey, Value])
 
       def invokeMethod(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, methodName: String,
                        parameters: List[Value]) = {

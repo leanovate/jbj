@@ -38,7 +38,7 @@ case class StringVal(value: String) extends Value {
 
   override def decr = this
 
-  override def getAt(index: ArrayKey) = index match {
+  override def getAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) = index match {
     case IntArrayKey(idx) => Some(StringVal(value(idx.toInt).toString))
     case _ => Some(StringVal(value(0).toString))
   }

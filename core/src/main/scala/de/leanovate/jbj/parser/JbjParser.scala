@@ -573,46 +573,32 @@ object JbjParser {
   //A main method for testing
   def main(args: Array[String]) = {
     test( """<?php
-            |class setter {
-            |	public $n;
-            |	public $x = array('a' => 1, 'b' => 2, 'c' => 3);
+            |class Test {
+            |	protected $x;
             |
-            |	function __get($nm) {
-            |		echo "Getting [$nm]\n";
-            |
-            |		if (isset($this->x[$nm])) {
-            |			$r = $this->x[$nm];
-            |			echo "Returning: $r\n";
-            |			return $r;
+            |	function __get($name) {
+            |		if (isset($this->x[$name])) {
+            |			return $this->x[$name];
             |		}
-            |		else {
-            |			echo "Nothing!\n";
+            |		else
+            |		{
+            |			return NULL;
             |		}
             |	}
             |
-            |	function __set($nm, $val) {
-            |		echo "Setting [$nm] to $val\n";
-            |
-            |		if (isset($this->x[$nm])) {
-            |			$this->x[$nm] = $val;
-            |			echo "OK!\n";
-            |		}
-            |		else {
-            |			echo "Not OK!\n";
-            |		}
+            |	function __set($name, $val) {
+            |		$this->x[$name] = $val;
             |	}
             |}
             |
-            |$foo = new Setter();
+            |$foo = new Test();
+            |$bar = new Test();
+            |$bar->baz = "Check";
             |
-            |// this doesn't go through __set()... should it?
-            |$foo->n = 1;
+            |$foo->bar = $bar;
             |
-            |// the rest are fine...
-            |$foo->a = 100;
-            |$foo->a++;
-            |$foo->z++;
-            |var_dump($foo);
+            |var_dump($bar->baz);
+            |var_dump($foo->bar->baz);
             |
             |?>""".stripMargin)
   }
