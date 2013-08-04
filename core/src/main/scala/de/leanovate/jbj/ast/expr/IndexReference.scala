@@ -35,10 +35,8 @@ case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends
         ArrayKey(expr.eval)
     }
 
-    optArrayKey.foreach {
-      arrayKey =>
-        val array = reference.eval
-        array.setAt(Some(arrayKey), value)
-    }
+    val array = reference.eval.toArray
+    reference.assign(array)
+    array.setAt(optArrayKey, value)
   }
 }

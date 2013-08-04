@@ -9,7 +9,7 @@ import org.scalatest.matchers.MustMatchers
 @RunWith(classOf[JUnitRunner])
 class SetGetSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
   "__set __get" - {
-    "ZE2 __set() and __get()" in {
+    "ZE2 __set() and __get() 1" in {
       // classes/__set__get_001
       script(
         """<?php
@@ -79,6 +79,45 @@ class SetGetSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |    int(3)
           |  }
           |}
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 __set() and __get() 4" in {
+      // classes/__set_get_004
+      script(
+        """<?php
+          |class Test {
+          |	protected $x;
+          |
+          |	function __get($name) {
+          |		if (isset($this->x[$name])) {
+          |			return $this->x[$name];
+          |		}
+          |		else
+          |		{
+          |			return NULL;
+          |		}
+          |	}
+          |
+          |	function __set($name, $val) {
+          |		$this->x[$name] = $val;
+          |	}
+          |}
+          |
+          |$foo = new Test();
+          |$bar = new Test();
+          |$bar->baz = "Check";
+          |
+          |$foo->bar = $bar;
+          |
+          |var_dump($bar->baz);
+          |var_dump($foo->bar->baz);
+          |
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """string(5) "Check"
+          |string(5) "Check"
           |""".stripMargin
       )
     }
