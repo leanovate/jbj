@@ -64,10 +64,10 @@ object ScriptLexer extends Parsers with CommonLexerPatterns {
     "||", "&&", "^", "or", "and", "xor", "\\")
 
   def token: Parser[(Token, LexerMode)] =
-    str("?>") ^^^ Keyword(";") -> InitialLexerMode |
-      str("%>") ^^^ Keyword(";") -> InitialLexerMode |
+    str("?>") <~ opt(newLine) ^^^ Keyword(";") -> InitialLexerMode |
+      str("%>") <~ opt(newLine) ^^^ Keyword(";") -> InitialLexerMode |
       str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> InitialLexerMode |
-      str("<<<") ~> opt('\'') ~> rep1(chrExcept('\'', '\r', '\n', EofCh)) <~ opt('\'') <~ opt('\r') <~ '\n' ^^ {
+      str("<<<")  ~> rep1(chrExcept('\'', '\r', '\n', EofCh)) <~ newLine ^^ {
         endMarker => HereDocStart(endMarker.mkString("")) -> HeredocLexerMode(endMarker.mkString(""))
       } | commonScriptToken ^^ {
       t => t -> ScriptingLexerMode

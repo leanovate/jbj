@@ -39,9 +39,4 @@ class HereDocLexer(in: Reader[Char], endMarker: String) extends Reader[Token] wi
     chrExcept('\n', '$', '{', EofCh) | '\n' <~ not(str(endMarker)) | '$' <~ not(identChar | '{') | '{' <~ not('$')
 
   private def hereDocStr: Parser[String] = rep1(hereDocChar) ^^ (_ mkString "")
-
-  private def newLine: Parser[String] = opt('\r') ~ '\n' ^^ {
-    case Some(_) ~ _ => "\r\n"
-    case None ~ _ => "\n"
-  }
 }

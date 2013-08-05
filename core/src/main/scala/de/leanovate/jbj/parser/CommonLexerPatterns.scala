@@ -39,4 +39,8 @@ trait CommonLexerPatterns extends Parsers {
       }
     )
 
+  def newLine: Parser[String] = opt('\r') ~ '\n' ^^ {
+    case Some(_) ~ _ => "\r\n"
+    case None ~ _ => "\n"
+  }
 }

@@ -30,6 +30,19 @@ class ScriptTagSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |""".stripMargin
       )
     }
+
+    "short_open_tag: On" in {
+      // lang/short_tags_001
+      script(
+        """<?
+          |echo "Used a short tag\n";
+          |?>
+          |Finished""".stripMargin
+      ).result must haveOutput(
+        """Used a short tag
+          |Finished""".stripMargin
+      )
+    }
   }
 
 }
