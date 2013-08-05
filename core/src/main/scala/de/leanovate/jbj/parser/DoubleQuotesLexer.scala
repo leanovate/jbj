@@ -1,10 +1,9 @@
 package de.leanovate.jbj.parser
 
-import scala.util.parsing.input.{CharArrayReader, Reader}
+import scala.util.parsing.input.Reader
 import de.leanovate.jbj.parser.JbjTokens._
 import scala.util.parsing.combinator.Parsers
 import scala.util.parsing.input.CharArrayReader._
-import de.leanovate.jbj.parser.DoubleQuotedLexerMode
 
 class DoubleQuotesLexer(in: Reader[Char]) extends Reader[Token] {
 

@@ -448,6 +448,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val methodOrNot: PackratParser[Option[List[Expr]]] = opt(mathod)
 
+  lazy val variableWithoutObjects:PackratParser[Expr] = referenceVariable
+
   lazy val baseVariableWithFunctionCalls: PackratParser[Reference] = baseVariable | functionCall
 
   lazy val baseVariable: PackratParser[Reference] = referenceVariable
@@ -480,6 +482,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     }
 
   lazy val variableName: PackratParser[Name] = identLit ^^ StaticName.apply | "{" ~> expr <~ "}" ^^ DynamicName.apply
+
+  lazy val simpleIndirectReference = rep1("$")
 
   lazy val arrayPairList: PackratParser[List[(Option[Expr], Expr)]] = repsep(
     expr ~ opt("=>" ~> expr) ^^ {
