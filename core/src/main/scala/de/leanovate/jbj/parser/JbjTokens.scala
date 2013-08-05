@@ -84,6 +84,14 @@ object JbjTokens {
     override def toString = "(" + chars + ")"
   }
 
+  case class HereDocStart(chars: String) extends Token {
+    override def toString = "heredoc start " + chars
+  }
+
+  case class HereDocEnd(chars: String) extends Token {
+    override def toString = "heredoc end " + chars
+  }
+
   /** This token is produced by a scanner `Scanner` when scanning failed. */
   def errorToken(msg: String): Token = new ErrorToken(msg)
 }

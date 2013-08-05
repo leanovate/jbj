@@ -364,6 +364,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       s => ScalarExpr(DoubleVal(s))
     } | stringLit ^^ {
       s => ScalarExpr(StringVal(s))
+    } | hereDocStartLit ~> opt(encapsAndWhitespaceLit) <~ hereDocEndLit ^^ {
+      s => ScalarExpr(StringVal(s.getOrElse("")))
     }
 
   lazy val staticScalar: PackratParser[Expr] =
@@ -382,6 +384,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   }
 
   lazy val scalar: PackratParser[Expr] = commonScalar | "\"" ~> encapsList <~ "\"" ^^ {
+    interpolated => InterpolatedStringExpr(interpolated)
+  } | hereDocStartLit ~> encapsList <~ hereDocEndLit ^^ {
     interpolated => InterpolatedStringExpr(interpolated)
   }
 
@@ -555,6 +559,12 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val encapsAndWhitespaceLit: PackratParser[String] =
     elem("encapsAntWhitespace", _.isInstanceOf[EncapsAndWhitespace]) ^^ (_.chars)
 
+  lazy val hereDocStartLit: PackratParser[String] =
+    elem("heredocstart", _.isInstanceOf[HereDocStart]) ^^ (_.chars)
+
+  lazy val hereDocEndLit: PackratParser[String] =
+    elem("heredocstart", _.isInstanceOf[HereDocEnd]) ^^ (_.chars)
+
   implicit def parser2packrat1[T <: Node](p: => super.Parser[T]): PackratParser[T] = {
     lazy val q = p
     memo(super.Parser {
@@ -600,9 +610,16 @@ object JbjParser {
   def main(args: Array[String]) = {
     test( """<?php
             |
-            |$a=10;
-            |var_dump("Hurra $a");
+            |$b=10;
             |
-            |?>""".stripMargin)
+            |$a=<<<END
+            |Hurra
+            |Bubu $b
+            |END;
+            |
+            |var_dump($a);
+            |
+            |?>
+            |""".stripMargin)
   }
 }

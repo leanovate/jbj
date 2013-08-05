@@ -19,9 +19,9 @@ class ScriptLexer(in: Reader[Char]) extends Reader[Token] {
     case Success(_, in1) =>
       token(in1) match {
         case Success((token, m), in2) => (token, m, in1, in2)
-        case ns: NoSuccess => (errorToken(ns.msg), LexerMode.ERROR, ns.next, skip(ns.next))
+        case ns: NoSuccess => (errorToken(ns.msg), ErrorLexerMode, ns.next, skip(ns.next))
       }
-    case ns: NoSuccess => (errorToken(ns.msg), LexerMode.ERROR, ns.next, skip(ns.next))
+    case ns: NoSuccess => (errorToken(ns.msg), ErrorLexerMode, ns.next, skip(ns.next))
   }
 
   private def skip(in: Reader[Char]) = if (in.atEnd) in else in.rest
@@ -32,7 +32,7 @@ class ScriptLexer(in: Reader[Char]) extends Reader[Token] {
 
   def first = tok
 
-  def rest = mode.newLexer(rest2, LexerMode.IN_SCRIPTING)
+  def rest = mode.newLexer(rest2)
 
   def pos = rest1.pos
 
@@ -63,12 +63,14 @@ object ScriptLexer extends Parsers with CommonLexerPatterns {
     "||", "&&", "^", "or", "and", "xor", "\\")
 
   def token: Parser[(Token, LexerMode)] =
-    str("?>") ^^^ Keyword(";") -> LexerMode.INITIAL |
-      str("%>") ^^^ Keyword(";") -> LexerMode.INITIAL |
-      str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> LexerMode.INITIAL |
-      commonScriptToken ^^ {
-        t => t -> LexerMode.IN_SCRIPTING
-      } | '\"' ^^^  Keyword("\"") -> LexerMode.DOUBLE_QUOTES
+    str("?>") ^^^ Keyword(";") -> InitialLexerMode |
+      str("%>") ^^^ Keyword(";") -> InitialLexerMode |
+      str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> InitialLexerMode |
+      str("<<<") ~> opt('\'') ~> rep1(chrExcept('\'', '\r', '\n', EofCh)) <~ opt('\'') <~ opt('\r') <~ '\n' ^^ {
+        endMarker => HereDocStart(endMarker.mkString("")) -> HeredocLexerMode(endMarker.mkString(""))
+      } | commonScriptToken ^^ {
+      t => t -> ScriptingLexerMode
+    } | '\"' ^^^ Keyword("\"") -> DoubleQuotedLexerMode
 
   def commonScriptToken: Parser[Token] =
     identChar ~ rep(identChar | digit) ^^ {

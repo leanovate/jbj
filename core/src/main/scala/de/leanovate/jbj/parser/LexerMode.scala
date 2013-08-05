@@ -4,36 +4,38 @@ import scala.util.parsing.input.Reader
 import de.leanovate.jbj.parser.JbjTokens.Token
 import de.leanovate.jbj.runtime.exception.ParseJbjException
 
-trait LexerMode {
-  def newLexer(in: Reader[Char], prevMode: LexerMode): Reader[Token]
+sealed trait LexerMode {
+  def newLexer(in: Reader[Char]): Reader[Token]
 }
 
-object LexerMode {
-  val INITIAL = new LexerMode {
-    def newLexer(in: Reader[Char], prevMode: LexerMode) = new InitialLexer(in)
-  }
+object InitialLexerMode extends LexerMode {
+  def newLexer(in: Reader[Char]) = new InitialLexer(in)
+}
 
-  val IN_SCRIPTING = new LexerMode {
-    def newLexer(in: Reader[Char], prevMode: LexerMode) = new ScriptLexer(in)
-  }
+object ScriptingLexerMode extends LexerMode {
+  def newLexer(in: Reader[Char]) = new ScriptLexer(in)
+}
 
-  val DOUBLE_QUOTES = new LexerMode {
-    def newLexer(in: Reader[Char], prevMode: LexerMode) = new DoubleQuotesLexer(in)
-  }
+object DoubleQuotedLexerMode extends LexerMode {
+  def newLexer(in: Reader[Char]) = new DoubleQuotesLexer(in)
+}
 
-  val ENCAPS_SCRIPTING = new LexerMode {
-    def newLexer(in: Reader[Char], prevMode: LexerMode) = new EncapsScriptingLexer(in, prevMode)
-  }
+case class HeredocLexerMode(endMarker:String) extends LexerMode {
+  def newLexer(in: Reader[Char]) = new HereDocLexer(in, endMarker)
+}
 
-  val LOOKING_FOR_PROPERTY = new LexerMode {
-    def newLexer(in: Reader[Char], prevMode: LexerMode) = new LookingForPropertyLexer(in, prevMode)
-  }
+case class EncapsScriptingLexerMode(prevMode: LexerMode) extends LexerMode {
+  def newLexer(in: Reader[Char]) = new EncapsScriptingLexer(in, prevMode)
+}
 
-  val LOOKING_FOR_VARNAME = new LexerMode {
-    def newLexer(in: Reader[Char], prevMode: LexerMode) = new LookingForVarnameLexer(in, prevMode)
-  }
+case class LookingForPropertyLexerMode(prevMode: LexerMode) extends LexerMode {
+  def newLexer(in: Reader[Char]) = new LookingForPropertyLexer(in, prevMode)
+}
 
-  val ERROR = new LexerMode {
-    def newLexer(in: Reader[Char], prevMode: LexerMode) = throw new ParseJbjException("Lexer in error mode")
-  }
+case class LookingForVarnameLexerMode(prevMode: LexerMode) extends LexerMode {
+  def newLexer(in: Reader[Char]) = new LookingForVarnameLexer(in, prevMode)
+}
+
+object ErrorLexerMode extends LexerMode {
+  def newLexer(in: Reader[Char]) = throw new ParseJbjException("Lexer in error mode")
 }

@@ -15,12 +15,12 @@ class InitialLexer(in: Reader[Char]) extends Reader[Token] {
 
   private val (tok: Token, mode: LexerMode, rest1: Reader[Char]) = token(in) match {
     case Success((t, m), i) => (t, m, i)
-    case ns: NoSuccess => (errorToken(ns.msg), LexerMode.ERROR, ns.next)
+    case ns: NoSuccess => (errorToken(ns.msg), ErrorLexerMode, ns.next)
   }
 
   def first = tok
 
-  def rest = mode.newLexer(rest1, LexerMode.INITIAL)
+  def rest = mode.newLexer(rest1)
 
   def pos = in.pos
 
@@ -29,16 +29,16 @@ class InitialLexer(in: Reader[Char]) extends Reader[Token] {
 
 object InitialLexer extends Parsers with CommonLexerPatterns {
   def token: Parser[(Token, LexerMode)] =
-    (scriptStart ^^^ Inline("") -> LexerMode.IN_SCRIPTING
-      | str("<?php") ~ whitespaceChar ^^^ Inline("") -> LexerMode.IN_SCRIPTING
-      | str("<?=") ^^^ Keyword("echo") -> LexerMode.IN_SCRIPTING
-      | str("<?") ^^^ Inline("") -> LexerMode.IN_SCRIPTING
-      | str("<%=") ^^^ Keyword("echo") -> LexerMode.IN_SCRIPTING
-      | str("<%") ^^^ Inline("") -> LexerMode.IN_SCRIPTING
-      | '<' ^^^ Inline("<") -> LexerMode.INITIAL
-      | EofCh ^^^ EOF -> LexerMode.INITIAL
+    (scriptStart ^^^ Inline("") -> ScriptingLexerMode
+      | str("<?php") ~ whitespaceChar ^^^ Inline("") -> ScriptingLexerMode
+      | str("<?=") ^^^ Keyword("echo") -> ScriptingLexerMode
+      | str("<?") ^^^ Inline("") -> ScriptingLexerMode
+      | str("<%=") ^^^ Keyword("echo") -> ScriptingLexerMode
+      | str("<%") ^^^ Inline("") -> ScriptingLexerMode
+      | '<' ^^^ Inline("<") -> InitialLexerMode
+      | EofCh ^^^ EOF -> InitialLexerMode
       | rep(chrExcept(EofCh, '<')) ^^ {
-      chars => Inline(chars mkString "") -> LexerMode.INITIAL
+      chars => Inline(chars mkString "") -> InitialLexerMode
     })
 
   private def scriptStart = str("<script") ~ optWhitespace ~ str("language") ~ optWhitespace ~ '=' ~

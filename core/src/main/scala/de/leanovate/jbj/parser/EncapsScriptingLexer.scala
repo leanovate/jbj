@@ -9,12 +9,12 @@ case class EncapsScriptingLexer(in: Reader[Char], prevMode:LexerMode) extends Re
 
   private val (tok, mode, rest1) = token(in) match {
     case Success((tok, m), i) => (tok, m, i)
-    case ns: NoSuccess => (errorToken(ns.msg), LexerMode.ERROR, ns.next)
+    case ns: NoSuccess => (errorToken(ns.msg), ErrorLexerMode, ns.next)
   }
 
   def first = tok
 
-  def rest = mode.newLexer(rest1, prevMode)
+  def rest = mode.newLexer(rest1)
 
   def pos = in.pos
 
