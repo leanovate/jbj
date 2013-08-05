@@ -53,7 +53,8 @@ object ScriptLexer extends Parsers with CommonLexerPatterns {
     "if", "else", "elseif", "endif", "while", "endwhile", "for", "endfor", "foreach", "as", "endforeach",
     "declare", "enddeclare", "instanceof",
     "switch", "case", "default", "endswitch",
-    "function", "array", "list", "callable")
+    "function", "array", "list", "callable",
+    "__FILE__", "__LINE__", "__CLASS__", "__METHOD__")
 
   /** The set of delimiters (ordering does not matter). */
   val delimiters = Set("$", ",", ":", "::", "?", "!", ";", "{", "}", "[", "]", "=>", "->",

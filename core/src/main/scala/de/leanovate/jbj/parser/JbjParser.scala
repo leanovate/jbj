@@ -364,9 +364,13 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       s => ScalarExpr(DoubleVal(s))
     } | stringLit ^^ {
       s => ScalarExpr(StringVal(s))
-    } | hereDocStartLit ~> opt(encapsAndWhitespaceLit) <~ hereDocEndLit ^^ {
-      s => ScalarExpr(StringVal(s.getOrElse("")))
-    }
+    } | "__FILE__" ^^^ FileNameConstExpr() |
+      "__LINE__" ^^^ LineNumberConstExpr() |
+      "__CLASS__" ^^^ ClassNameConstExpr() |
+      "__METHOD__" ^^^ MethodNameConstExpr() |
+      hereDocStartLit ~> opt(encapsAndWhitespaceLit) <~ hereDocEndLit ^^ {
+        s => ScalarExpr(StringVal(s.getOrElse("")))
+      }
 
   lazy val staticScalar: PackratParser[Expr] =
     commonScalar | "+" ~> staticScalar ^^ {
@@ -609,17 +613,33 @@ object JbjParser {
   //A main method for testing
   def main(args: Array[String]) = {
     test( """<?php
+            |  class C
+            |  {
+            |      function foo($a, $b)
+            |      {
+            |          echo "Called C::foo($a, $b)\n";
+            |      }
+            |  }
             |
-            |$b=10;
+            |  $c = new C;
             |
-            |$a=<<<END
-            |Hurra
-            |Bubu $b
-            |END;
+            |  $functions[0] = 'foo';
+            |  $functions[1][2][3][4] = 'foo';
             |
-            |var_dump($a);
+            |  $c->$functions[0](1, 2);
+            |  $c->$functions[1][2][3][4](3, 4);
             |
-            |?>
-            |""".stripMargin)
+            |
+            |  function foo($a, $b)
+            |  {
+            |      echo "Called global foo($a, $b)\n";
+            |  }
+            |
+            |  $c->functions[0] = 'foo';
+            |  $c->functions[1][2][3][4] = 'foo';
+            |
+            |  $c->functions[0](5, 6);
+            |  $c->functions[1][2][3][4](7, 8);
+            |?>""".stripMargin)
   }
 }
