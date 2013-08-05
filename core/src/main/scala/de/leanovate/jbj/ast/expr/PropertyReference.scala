@@ -13,7 +13,7 @@ case class PropertyReference(reference: Reference, propertyName: Name) extends R
         val name = propertyName.evalName
         obj.getProperty(name).getOrElse {
           ctx match {
-            case MethodContext(inst, _, _, _) if inst.pClass == obj.pClass =>
+            case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__get" =>
               ctx.log.notice(position, "Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
               NullVal
             case _ =>
@@ -40,7 +40,7 @@ case class PropertyReference(reference: Reference, propertyName: Name) extends R
           obj.setProperty(propertyName.evalName, value)
         } else {
           ctx match {
-            case MethodContext(inst, _, _, _) if inst.pClass == obj.pClass =>
+            case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__set" =>
               obj.setProperty(name, value)
             case _ =>
               obj.pClass.findMethod("__set").map(_.call(ctx, position, obj, StringVal(name) :: value :: Nil)).getOrElse {

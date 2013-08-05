@@ -23,15 +23,15 @@ object JbjTokens {
   }
 
   case class Keyword(chars: String) extends Token {
-    override def toString = "`" + chars + "'"
+    override def toString = "keyword '" + chars + "'"
   }
 
   case class LongNumLit(chars: String, value: Long) extends Token {
-    override def toString = chars
+    override def toString = "long " + chars
   }
 
   case class DoubleNumLit(chars: String, value: Double) extends Token {
-    override def toString = chars
+    override def toString = "double " + chars
   }
 
   object DoubleNumLit {
@@ -39,16 +39,7 @@ object JbjTokens {
   }
 
   case class StringLit(chars: String) extends Token {
-    override def toString = "\"" + chars + "\""
-  }
-
-  case class InterpolatedStringLit(charOrInterpolations: List[Either[Char, String]]) extends Token {
-    override def chars = charOrInterpolations.map {
-      case Left(ch) => ch.toString
-      case Right(s) => s
-    }.mkString("")
-
-    override def toString = "\"" + chars + "\""
+    override def toString = "string \"" + chars + "\""
   }
 
   case class Identifier(chars: String) extends Token {
@@ -56,17 +47,17 @@ object JbjTokens {
   }
 
   case class Inline(chars: String) extends Token {
-    override def toString = "\"" + chars + "\""
+    override def toString = "inline \"" + chars + "\""
   }
 
   case class Variable(name: String) extends Token {
     override def chars = "$" + name
 
-    override def toString = chars
+    override def toString = "variable " + chars
   }
 
   case class EncapsAndWhitespace(chars: String) extends Token {
-    override def toString = chars
+    override def toString = "encaps '" + chars + "'"
   }
 
   case class IntegerCast(chars: String) extends Token {

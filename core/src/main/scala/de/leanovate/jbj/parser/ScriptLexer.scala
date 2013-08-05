@@ -4,7 +4,6 @@ import scala.util.parsing.input.{CharArrayReader, Reader}
 import de.leanovate.jbj.parser.JbjTokens._
 import scala.util.parsing.input.CharArrayReader.EofCh
 import scala.util.parsing.combinator.Parsers
-import de.leanovate.jbj.parser.JbjTokens.InterpolatedStringLit
 import de.leanovate.jbj.parser.JbjTokens.Identifier
 import de.leanovate.jbj.parser.JbjTokens.EOF
 import de.leanovate.jbj.parser.JbjTokens.Keyword
@@ -33,7 +32,7 @@ class ScriptLexer(in: Reader[Char]) extends Reader[Token] {
 
   def first = tok
 
-  def rest = mode.newLexer(rest2)
+  def rest = mode.newLexer(rest2, LexerMode.IN_SCRIPTING)
 
   def pos = rest1.pos
 
@@ -61,55 +60,59 @@ object ScriptLexer extends Parsers with CommonLexerPatterns {
     ".", "+", "-", "*", "/", "%", "(", ")", ".=", "+=", "-=", "*=", "/=", "%=", "--", "++",
     "<<", ">>", "^", "|", "&", "<<=", ">>=", "^=", "&=", "|=",
     "=", ">", ">=", "<", "<=", "==", "!=", "<>", "===", "!==",
-    "||", "&&", "^", "or", "and", "xor", "\\", "\"")
+    "||", "&&", "^", "or", "and", "xor", "\\")
 
   def token: Parser[(Token, LexerMode)] =
     str("?>") ^^^ Keyword(";") -> LexerMode.INITIAL |
       str("%>") ^^^ Keyword(";") -> LexerMode.INITIAL |
       str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> LexerMode.INITIAL |
-      identChar ~ rep(identChar | digit) ^^ {
-        case first ~ rest => processIdent(first :: rest mkString "") -> LexerMode.IN_SCRIPTING
-      } | rep(digit) ~ '.' ~ rep1(digit) ~ opt(exponent) ^^ {
+      commonScriptToken ^^ {
+        t => t -> LexerMode.IN_SCRIPTING
+      } | '\"' ^^^  Keyword("\"") -> LexerMode.DOUBLE_QUOTES
+
+  def commonScriptToken: Parser[Token] =
+    identChar ~ rep(identChar | digit) ^^ {
+      case first ~ rest => processIdent(first :: rest mkString "")
+    } | rep(digit) ~ '.' ~ rep1(digit) ~ opt(exponent) ^^ {
       case first ~ dot ~ rest ~ exponent =>
-        DoubleNumLit(first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "") -> LexerMode.IN_SCRIPTING
+        DoubleNumLit(first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "")
     } | rep1(digit) ~ '.' ~ rep(digit) ~ opt(exponent) ^^ {
       case first ~ dot ~ rest ~ exponent =>
-        DoubleNumLit(first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "") -> LexerMode.IN_SCRIPTING
+        DoubleNumLit(first ++ (dot :: rest) ++ exponent.getOrElse(Nil) mkString "")
     } | digit ~ rep(digit) ~ exponent ^^ {
       case first ~ rest ~ exponent =>
-        DoubleNumLit((first :: rest) ++ exponent mkString "") -> LexerMode.IN_SCRIPTING
+        DoubleNumLit((first :: rest) ++ exponent mkString "")
     } | '0' ~ rep1(octDigit) ^^ {
-      case first ~ rest => convertNum(first :: rest mkString "", 8) -> LexerMode.IN_SCRIPTING
+      case first ~ rest => convertNum(first :: rest mkString "", 8)
     } | '0' ~ 'b' ~ rep(binDigit) ^^ {
-      case _ ~ _ ~ binary => convertNum(binary mkString "", 2) -> LexerMode.IN_SCRIPTING
+      case _ ~ _ ~ binary => convertNum(binary mkString "", 2)
     } | '0' ~ 'x' ~ rep(hexDigit) ^^ {
-      case _ ~ _ ~ hex => convertNum(hex mkString "", 16) -> LexerMode.IN_SCRIPTING
+      case _ ~ _ ~ hex => convertNum(hex mkString "", 16)
     } | digit ~ rep(digit) ^^ {
-      case first ~ rest => convertNum(first :: rest mkString "", 10) -> LexerMode.IN_SCRIPTING
+      case first ~ rest => convertNum(first :: rest mkString "", 10)
     } | '$' ~> identChar ~ rep(identChar | digit) ^^ {
-      case first ~ rest => Variable(first :: rest mkString "") -> LexerMode.IN_SCRIPTING
+      case first ~ rest => Variable(first :: rest mkString "")
     } | '\'' ~ singleQuotedStr ~ '\'' ^^ {
-      case '\'' ~ str ~ '\'' => StringLit(str) -> LexerMode.IN_SCRIPTING
+      case '\'' ~ str ~ '\'' => StringLit(str)
     } | '\"' ~ doubleQuotedStr ~ '\"' ^^ {
-      case '\"' ~ str ~ '\"' if str.exists(_.isRight) => InterpolatedStringLit(str) -> LexerMode.IN_SCRIPTING
-      case '\"' ~ str ~ '\"' => StringLit(str.map(_.left.get) mkString "") -> LexerMode.IN_SCRIPTING
+      case '\"' ~ str ~ '\"' => str
     } | '(' ~> tabsOrSpaces ~> (str("int") | str("integer")) <~ tabsOrSpaces <~ ')' ^^ {
-      s => IntegerCast(s) -> LexerMode.IN_SCRIPTING
+      s => IntegerCast(s)
     } | '(' ~> tabsOrSpaces ~> (str("real") | str("double") | str("float")) <~ tabsOrSpaces <~ ')' ^^ {
-      s => DoubleCast(s) -> LexerMode.IN_SCRIPTING
+      s => DoubleCast(s)
     } | '(' ~> tabsOrSpaces ~> (str("string") | str("binary")) <~ tabsOrSpaces <~ ')' ^^ {
-      s => StringCast(s) -> LexerMode.IN_SCRIPTING
+      s => StringCast(s)
     } | '(' ~> tabsOrSpaces ~> str("array") <~ tabsOrSpaces <~ ')' ^^ {
-      s => ArrayCast(s) -> LexerMode.IN_SCRIPTING
+      s => ArrayCast(s)
     } | '(' ~> tabsOrSpaces ~> (str("bool") | str("boolean")) <~ tabsOrSpaces <~ ')' ^^ {
-      s => BooleanCast(s) -> LexerMode.IN_SCRIPTING
+      s => BooleanCast(s)
     } | '(' ~> tabsOrSpaces ~> str("unset") <~ tabsOrSpaces <~ ')' ^^ {
-      s => UnsetCast(s) -> LexerMode.IN_SCRIPTING
-    } | EofCh ^^^ EOF -> LexerMode.IN_SCRIPTING |
+      s => UnsetCast(s)
+    } | EofCh ^^^ EOF |
       '\'' ~> failure("unclosed string literal") |
       '\"' ~> failure("unclosed string literal") |
       delim ^^ {
-        d => d -> LexerMode.IN_SCRIPTING
+        d => d
       } | failure("illegal character")
 
   private def exponent: Parser[List[Elem]] = exponentMarker ~ opt(sign) ~ rep1(digit) ^^ {
@@ -132,11 +135,12 @@ object ScriptLexer extends Parsers with CommonLexerPatterns {
     chars => chars.mkString("")
   }
 
-  private def doubleQuotedChar: Parser[Either[Char, String]] = encapsCharReplacements ^^ (ch => Left(ch)) |
-    strInterpolation ^^ (s => Right(s)) |
-    chrExcept('\"', EofCh) ^^ (ch => Left(ch))
+  private def doubleQuotedChar: Parser[Char] = encapsCharReplacements |
+    '$' <~ not(identChar | '{') | '{' <~ not('$') | chrExcept('\"', '$', '{', EofCh)
 
-  private def doubleQuotedStr: Parser[List[Either[Char, String]]] = rep(doubleQuotedChar)
+  private def doubleQuotedStr: Parser[Token] = rep(doubleQuotedChar) ^^ {
+    chs => StringLit(chs mkString "")
+  }
 
   // see `whitespace in `Scanners`
   def whitespace: Parser[Any] = rep(

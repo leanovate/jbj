@@ -17,6 +17,7 @@ import scala.language.implicitConversions
 import scala.Some
 import de.leanovate.jbj.runtime.context.GlobalContext
 import de.leanovate.jbj.runtime.env.CgiEnvironment
+import scala.util.parsing.input.Reader
 
 class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   type Elem = JbjTokens.Token
@@ -380,7 +381,9 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     case cname ~ _ ~ name => ClassConstantExpr(cname, name)
   }
 
-  lazy val scalar: PackratParser[Expr] = commonScalar | interpolatedStringLit ^^ (s => InterpolatedStringExpr(parseCtx, s.charOrInterpolations))
+  lazy val scalar: PackratParser[Expr] = commonScalar | "\"" ~> encapsList <~ "\"" ^^ {
+    interpolated => InterpolatedStringExpr(interpolated)
+  }
 
   lazy val staticArrayPairList: PackratParser[List[(Option[Expr], Expr)]] = repsep(
     staticScalar ~ opt("=>" ~> staticScalar) ^^ {
@@ -476,17 +479,32 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       case valueExpr ~ None => None -> valueExpr
     }, ",") <~ opt(",")
 
-  lazy val encapsList: PackratParser[Any] = rep(encapsVar | encapsAndWhitespaceLit)
+  lazy val encapsList: PackratParser[List[Either[String, Expr]]] =
+    rep(encapsVar ^^ Right.apply | encapsAndWhitespaceLit ^^ Left.apply)
 
-  lazy val encapsVar: PackratParser[Any] =
-    variableLit ~ "[" ~ encapsVarOffset ~ "]" |
-      variableLit ~ "->" ~ identLit |
-      variableLit |
-      "${" ~> expr <~ "}" |
-      "${" ~> identLit ~ "[" ~ expr ~ "]" |
-      "{$" ~> variable <~ "}"
+  lazy val encapsVar: PackratParser[Expr] =
+    variableLit ~ "[" ~ encapsVarOffset <~ "]" ^^ {
+      case v ~ _ ~ idx =>
+        val ref = VariableReference(StaticName(v))
+        IndexReference(ref, Some(idx))
+    } | variableLit ~ "->" ~ identLit ^^ {
+      case v ~ _ ~ n =>
+        val ref = VariableReference(StaticName(v))
+        PropertyReference(ref, StaticName(n))
+    } | variableLit ^^ {
+      v => VariableReference(StaticName(v))
+    } | "${" ~> expr <~ "}" |
+      "${" ~> identLit ~ "[" ~ expr <~ "]" ^^ {
+        case v ~ _ ~ e =>
+          val ref = VariableReference(StaticName(v))
+          IndexReference(ref, Some(e))
+      } | "{$" ~> variable <~ "}"
 
-  lazy val encapsVarOffset: PackratParser[Any] = identLit | longNumLit | variable
+  lazy val encapsVarOffset: PackratParser[Expr] = identLit ^^ {
+    idx => ScalarExpr(StringVal(idx))
+  } | longNumLit ^^ {
+    idx => ScalarExpr(IntegerVal(idx))
+  } | variable
 
   lazy val internalFunctionsInYacc: PackratParser[Expr] = "isset" ~> "(" ~> issetVariables <~ ")" ^^ {
     exprs => IsSetExpr(exprs)
@@ -527,9 +545,6 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val stringLit: PackratParser[String] =
     elem("string literal", _.isInstanceOf[StringLit]) ^^ (_.chars)
 
-  lazy val interpolatedStringLit: PackratParser[InterpolatedStringLit] =
-    elem("interpolated string literal", _.isInstanceOf[InterpolatedStringLit]) ^^ (_.asInstanceOf[InterpolatedStringLit])
-
   /** A parser which matches an identifier */
   lazy val identLit: PackratParser[String] =
     elem("identifier", _.isInstanceOf[Identifier]) ^^ (_.chars)
@@ -561,8 +576,19 @@ object JbjParser {
 
   //Simplify testing
   def test(exprstr: String) = {
+    var tokens: Reader[Token] = new InitialLexer(exprstr)
+
+    println("Tokens")
+    var count = 0
+    while (!tokens.atEnd && count < 1000) {
+      println(tokens.first)
+      tokens = tokens.rest
+      count += 1
+    }
+
     val tree = apply("-", exprstr)
 
+    println("Tree")
     tree.dump(System.out, "")
 
     val context = GlobalContext(System.out, System.err)
@@ -573,32 +599,9 @@ object JbjParser {
   //A main method for testing
   def main(args: Array[String]) = {
     test( """<?php
-            |class Test {
-            |	protected $x;
             |
-            |	function __get($name) {
-            |		if (isset($this->x[$name])) {
-            |			return $this->x[$name];
-            |		}
-            |		else
-            |		{
-            |			return NULL;
-            |		}
-            |	}
-            |
-            |	function __set($name, $val) {
-            |		$this->x[$name] = $val;
-            |	}
-            |}
-            |
-            |$foo = new Test();
-            |$bar = new Test();
-            |$bar->baz = "Check";
-            |
-            |$foo->bar = $bar;
-            |
-            |var_dump($bar->baz);
-            |var_dump($foo->bar->baz);
+            |$a=10;
+            |var_dump("Hurra $a");
             |
             |?>""".stripMargin)
   }

@@ -20,7 +20,7 @@ class InitialLexer(in: Reader[Char]) extends Reader[Token] {
 
   def first = tok
 
-  def rest = mode.newLexer(rest1)
+  def rest = mode.newLexer(rest1, LexerMode.INITIAL)
 
   def pos = in.pos
 
