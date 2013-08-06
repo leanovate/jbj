@@ -7,8 +7,9 @@ import de.leanovate.jbj.runtime.buildin
 import scala.Some
 import de.leanovate.jbj.ast.{NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
+import de.leanovate.jbj.JbjEnv
 
-case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
+case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settings: Settings) extends Context {
   private val classes = mutable.Map.empty[Seq[String], PClass]
 
   private val constants = mutable.Map.empty[ConstantKey, Value]
@@ -22,8 +23,6 @@ case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
   def global = this
 
   def static = staticContext("global")
-
-  lazy val settings: Settings = new Settings
 
   def stack: Stack[NodePosition] = Stack.empty[NodePosition]
 
@@ -50,7 +49,7 @@ case class GlobalContext(out: PrintStream, err: PrintStream) extends Context {
 
   def findVariable(name: String)(implicit position: NodePosition): Option[ValueRef] = variables.get(name)
 
-  def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition)  {
+  def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition) {
     variables.put(name, valueRef)
   }
 

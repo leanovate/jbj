@@ -1,10 +1,12 @@
 package de.leanovate.jbj.runtime
 
-class Settings {
+class Settings extends Cloneable {
 
   import Settings._
 
   var errorReporting: Int = E_ALL & ~E_NOTICE & ~E_STRICT
+
+  override def clone: Settings = super.clone().asInstanceOf[Settings]
 }
 
 object Settings {

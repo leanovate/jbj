@@ -8,15 +8,17 @@ import scala.Some
 import de.leanovate.jbj.ast.Prog
 import de.leanovate.jbj.runtime.env.{CliEnvironment, CgiEnvironment}
 import de.leanovate.jbj.runtime.Settings
+import de.leanovate.jbj.JbjEnv
 
 trait TestJbjExecutor extends MustMatchers {
 
   case class Script(prog: Prog) {
+    val jbj = JbjEnv()
     val bOut = new ByteArrayOutputStream()
     val bErr = new ByteArrayOutputStream()
     val out = new PrintStream(bOut, false, "UTF-8")
     val err = new PrintStream(bErr, false, "UTF-8")
-    val context = GlobalContext(out, err)
+    val context = jbj.newGlobalContext(out, err)
 
     context.settings.errorReporting = Settings.E_ALL
 
@@ -36,6 +38,7 @@ trait TestJbjExecutor extends MustMatchers {
     }
 
     def result = {
+
       var thrown: Option[Throwable] = None
 
       try {

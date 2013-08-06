@@ -19,6 +19,7 @@ import de.leanovate.jbj.runtime.context.GlobalContext
 import de.leanovate.jbj.runtime.env.CgiEnvironment
 import scala.util.parsing.input.Reader
 import de.leanovate.jbj.runtime.Settings
+import de.leanovate.jbj.JbjEnv
 
 class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   type Elem = JbjTokens.Token
@@ -617,7 +618,9 @@ object JbjParser {
     println("Tree")
     tree.dump(System.out, "")
 
-    val context = GlobalContext(System.out, System.err)
+    val jbj = JbjEnv()
+    val context = jbj.newGlobalContext(System.out, System.err)
+
     context.settings.errorReporting = Settings.E_ALL
     CgiEnvironment.httpGet("?ab+cd+ef+123+test", context)
     tree.exec(context)
