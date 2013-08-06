@@ -9,40 +9,7 @@ import de.leanovate.jbj.parser.JbjTokens.EOF
 import de.leanovate.jbj.parser.JbjTokens.Keyword
 import de.leanovate.jbj.parser.JbjTokens.StringLit
 
-class ScriptLexer(in: Reader[Char]) extends Reader[Token] {
-
-  import ScriptLexer.{Success, NoSuccess, token, whitespace}
-
-  def this(in: String) = this(new CharArrayReader(in.toCharArray))
-
-  private val (tok: Token, mode: LexerMode, rest1: Reader[Char], rest2: Reader[Char]) = whitespace(in) match {
-    case Success(_, in1) =>
-      token(in1) match {
-        case Success((token, m), in2) => (token, m, in1, in2)
-        case ns: NoSuccess => (errorToken(ns.msg), ErrorLexerMode, ns.next, skip(ns.next))
-      }
-    case ns: NoSuccess => (errorToken(ns.msg), ErrorLexerMode, ns.next, skip(ns.next))
-  }
-
-  private def skip(in: Reader[Char]) = if (in.atEnd) in else in.rest
-
-  override def source: java.lang.CharSequence = in.source
-
-  override def offset: Int = in.offset
-
-  def first = tok
-
-  def rest = mode.newLexer(rest2)
-
-  def pos = rest1.pos
-
-  def atEnd = in.atEnd || (whitespace(in) match {
-    case Success(_, in1) => in1.atEnd
-    case _ => false
-  })
-}
-
-object ScriptLexer extends Parsers with CommonLexerPatterns {
+object ScriptLexer extends Lexer with CommonLexerPatterns {
   /** The set of reserved identifiers: these will be returned as `Keyword`s. */
   val reserved = Set("static", "global", "public", "protected", "private", "var", "const",
     "class", "extends", "use", "interface", "trait", "implements", "abstract", "final",
@@ -63,15 +30,15 @@ object ScriptLexer extends Parsers with CommonLexerPatterns {
     "=", ">", ">=", "<", "<=", "==", "!=", "<>", "===", "!==",
     "||", "&&", "^", "or", "and", "xor", "\\")
 
-  def token: Parser[(Token, LexerMode)] =
-    str("?>") <~ opt(newLine) ^^^ Keyword(";") -> InitialLexerMode |
-      str("%>") <~ opt(newLine) ^^^ Keyword(";") -> InitialLexerMode |
-      str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> InitialLexerMode |
-      str("<<<")  ~> rep1(chrExcept('\'', '\r', '\n', EofCh)) <~ newLine ^^ {
-        endMarker => HereDocStart(endMarker.mkString("")) -> HeredocLexerMode(endMarker.mkString(""))
+  val token: Parser[(Token, Option[LexerMode])] =
+    str("?>") <~ opt(newLine) ^^^ Keyword(";") -> Some(InitialLexerMode) |
+      str("%>") <~ opt(newLine) ^^^ Keyword(";") -> Some(InitialLexerMode) |
+      str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> Some(InitialLexerMode) |
+      str("<<<") ~> rep1(chrExcept('\'', '\r', '\n', EofCh)) <~ newLine ^^ {
+        endMarker => HereDocStart(endMarker.mkString("")) -> Some(HeredocLexerMode(endMarker.mkString("")))
       } | commonScriptToken ^^ {
-      t => t -> ScriptingLexerMode
-    } | '\"' ^^^ Keyword("\"") -> DoubleQuotedLexerMode
+      t => t -> None
+    } | '\"' ^^^ Keyword("\"") -> Some(DoubleQuotedLexerMode)
 
   def commonScriptToken: Parser[Token] =
     identChar ~ rep(identChar | digit) ^^ {
@@ -146,7 +113,7 @@ object ScriptLexer extends Parsers with CommonLexerPatterns {
   }
 
   // see `whitespace in `Scanners`
-  def whitespace: Parser[Any] = rep(
+  override val whitespace: Parser[Any] = rep(
     whitespaceChar
       | '/' ~ '*' ~ comment
       | '/' ~ '/' ~ rep(chrExcept(EofCh, '\n'))

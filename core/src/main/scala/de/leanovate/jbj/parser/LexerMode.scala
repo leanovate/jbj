@@ -5,37 +5,37 @@ import de.leanovate.jbj.parser.JbjTokens.Token
 import de.leanovate.jbj.runtime.exception.ParseJbjException
 
 sealed trait LexerMode {
-  def newLexer(in: Reader[Char]): Reader[Token]
+  def newLexer(): Lexer
 }
 
 object InitialLexerMode extends LexerMode {
-  def newLexer(in: Reader[Char]) = new InitialLexer(in)
+  def newLexer() =  InitialLexer
 }
 
 object ScriptingLexerMode extends LexerMode {
-  def newLexer(in: Reader[Char]) = new ScriptLexer(in)
+  def newLexer() =  ScriptLexer
 }
 
 object DoubleQuotedLexerMode extends LexerMode {
-  def newLexer(in: Reader[Char]) = new DoubleQuotesLexer(in)
+  def newLexer() =  DoubleQuotesLexer
 }
 
-case class HeredocLexerMode(endMarker:String) extends LexerMode {
-  def newLexer(in: Reader[Char]) = new HereDocLexer(in, endMarker)
+case class HeredocLexerMode(endMarker: String) extends LexerMode {
+  def newLexer() =  new HereDocLexer(endMarker)
 }
 
 case class EncapsScriptingLexerMode(prevMode: LexerMode) extends LexerMode {
-  def newLexer(in: Reader[Char]) = new EncapsScriptingLexer(in, prevMode)
+  def newLexer() =  new EncapsScriptingLexer(prevMode)
 }
 
 case class LookingForPropertyLexerMode(prevMode: LexerMode) extends LexerMode {
-  def newLexer(in: Reader[Char]) = new LookingForPropertyLexer(in, prevMode)
+  def newLexer() =  new LookingForPropertyLexer(prevMode)
 }
 
 case class LookingForVarnameLexerMode(prevMode: LexerMode) extends LexerMode {
-  def newLexer(in: Reader[Char]) = new LookingForVarnameLexer(in, prevMode)
+  def newLexer() =  new LookingForVarnameLexer(prevMode)
 }
 
 object ErrorLexerMode extends LexerMode {
-  def newLexer(in: Reader[Char]) = throw new ParseJbjException("Lexer in error mode")
+  def newLexer() = throw new ParseJbjException("Lexer in error mode")
 }

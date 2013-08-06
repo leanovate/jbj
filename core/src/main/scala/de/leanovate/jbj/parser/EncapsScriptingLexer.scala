@@ -4,21 +4,6 @@ import scala.util.parsing.input.{CharArrayReader, Reader}
 import de.leanovate.jbj.parser.JbjTokens._
 import scala.util.parsing.combinator.Parsers
 
-case class EncapsScriptingLexer(in: Reader[Char], prevMode:LexerMode) extends Reader[Token] with Parsers {
-  type Elem = Char
-
-  private val (tok, mode, rest1) = token(in) match {
-    case Success((tok, m), i) => (tok, m, i)
-    case ns: NoSuccess => (errorToken(ns.msg), ErrorLexerMode, ns.next)
-  }
-
-  def first = tok
-
-  def rest = mode.newLexer(rest1)
-
-  def pos = in.pos
-
-  def atEnd = in.atEnd
-
-  private def token: Parser[(Token, LexerMode)] = ???
+case class EncapsScriptingLexer(prevMode: LexerMode) extends Lexer {
+  override def token: Parser[(Token, Option[LexerMode])] = ???
 }

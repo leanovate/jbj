@@ -2,9 +2,7 @@ package de.leanovate.jbj.parser
 
 import scala.util.parsing.combinator.Parsers
 
-trait CommonLexerPatterns extends Parsers {
-  type Elem = Char
-
+trait CommonLexerPatterns extends Lexer {
   def str(str: String): Parser[String] = accept(str.toList) ^^ (_ mkString "")
 
   /** A character-parser that matches any character except the ones given in `cs` (and returns it). */

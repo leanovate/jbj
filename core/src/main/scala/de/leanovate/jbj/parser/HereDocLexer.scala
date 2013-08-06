@@ -1,38 +1,23 @@
 package de.leanovate.jbj.parser
 
-import scala.util.parsing.input.Reader
 import de.leanovate.jbj.parser.JbjTokens._
-import scala.util.parsing.combinator.Parsers
 import scala.util.parsing.input.CharArrayReader._
 import de.leanovate.jbj.parser.JbjTokens.Variable
 import de.leanovate.jbj.parser.JbjTokens.EncapsAndWhitespace
 import de.leanovate.jbj.parser.JbjTokens.Keyword
 
-class HereDocLexer(in: Reader[Char], endMarker: String) extends Reader[Token] with Parsers with CommonLexerPatterns {
-  private val (tok: Token, mode: LexerMode, rest1: Reader[Char]) = token(in) match {
-    case Success((t, m), i) => (t, m, i)
-    case ns: NoSuccess => (errorToken(ns.msg), ErrorLexerMode, ns.next)
-  }
-
-  def first = tok
-
-  def rest = mode.newLexer(rest1)
-
-  def pos = in.pos
-
-  def atEnd = in.atEnd
-
-  def token: Parser[(Token, LexerMode)] =
+class HereDocLexer(endMarker: String) extends Lexer with CommonLexerPatterns {
+  val token: Parser[(Token, Option[LexerMode])] =
     '$' ~> rep1(identChar) <~ guard(str("->") ~ identChar) ^^ {
-      name => Variable(name mkString "") -> LookingForPropertyLexerMode(HeredocLexerMode(endMarker))
-    } | '$' ~ '{' ^^^ (Keyword("${") -> HeredocLexerMode(endMarker)) |
-      '{' ~ '$' ^^^ (Keyword("{$") -> HeredocLexerMode(endMarker)) |
+      name => Variable(name mkString "") -> Some(LookingForPropertyLexerMode(HeredocLexerMode(endMarker)))
+    } | '$' ~ '{' ^^^ (Keyword("${") -> None) |
+      '{' ~ '$' ^^^ (Keyword("{$") -> None) |
       '$' ~> rep1(identChar) ^^ {
-        name => Variable(name mkString "") -> HeredocLexerMode(endMarker)
+        name => Variable(name mkString "") -> None
       } | newLine ~> str(endMarker) ^^ {
-      s => HereDocEnd(s) -> ScriptingLexerMode
+      s => HereDocEnd(s) -> Some(ScriptingLexerMode)
     } | hereDocStr ^^ {
-      str => EncapsAndWhitespace(str) -> HeredocLexerMode(endMarker)
+      str => EncapsAndWhitespace(str) -> None
     }
 
   private def hereDocChar: Parser[Char] = encapsCharReplacements |

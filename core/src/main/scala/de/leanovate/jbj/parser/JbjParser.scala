@@ -26,7 +26,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   private val keywordCache = mutable.HashMap[String, Parser[String]]()
 
   def parse(s: String): Prog = {
-    val tokens = new InitialLexer(s)
+    val tokens = new TokenReader(s, InitialLexer)
     phrase(start)(tokens) match {
       case Success(tree, _) => tree
       case e: NoSuccess =>
@@ -35,7 +35,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   }
 
   def parseExpr(s: String): Expr = {
-    val tokens = new ScriptLexer(s)
+    val tokens = new TokenReader(s, ScriptLexer)
     phrase(expr)(tokens) match {
       case Success(result, _) => result
       case e: NoSuccess =>
@@ -602,7 +602,7 @@ object JbjParser {
 
   //Simplify testing
   def test(exprstr: String) = {
-    var tokens: Reader[Token] = new InitialLexer(exprstr)
+    var tokens: Reader[Token] = new TokenReader(exprstr, InitialLexer)
 
     println("Tokens")
     var count = 0
