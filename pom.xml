@@ -49,7 +49,6 @@
                 <scope>provided</scope>
             </dependency>
 
-
             <dependency>
                 <groupId>play</groupId>
                 <artifactId>play_${play2-scala.version}</artifactId>

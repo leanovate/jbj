@@ -5,5 +5,5 @@ import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.value.BooleanVal
 
 case class IsSetExpr(parameters: List[Expr]) extends Expr {
-  override def eval(implicit ctx: Context) = BooleanVal(parameters.forall(!_.eval.isNull))
+  override def eval(implicit ctx: Context) = BooleanVal(parameters.forall(_.isDefined))
 }

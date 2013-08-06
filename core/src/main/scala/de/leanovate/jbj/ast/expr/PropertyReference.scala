@@ -7,6 +7,31 @@ import java.io.PrintStream
 import de.leanovate.jbj.runtime.context.MethodContext
 
 case class PropertyReference(reference: Reference, propertyName: Name) extends Reference {
+  override def isDefined(implicit ctx: Context) = {
+    if (reference.isDefined) {
+      reference.eval match {
+        case obj: ObjectVal =>
+          val name = propertyName.evalName
+          if (obj.getProperty(name).isDefined) {
+            true
+          } else {
+            ctx match {
+              case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__set" =>
+                false
+              case _ =>
+                obj.pClass.findMethod("__get").map(_.call(ctx, position, obj, StringVal(name) :: Nil)).exists {
+                  case Left(v) => !v.isNull
+                  case Right(ref) => !ref.value.isNull
+                }
+            }
+          }
+        case _ => false
+      }
+    } else {
+      false
+    }
+  }
+
   override def eval(implicit ctx: Context) = {
     reference.eval match {
       case obj: ObjectVal =>
@@ -14,14 +39,14 @@ case class PropertyReference(reference: Reference, propertyName: Name) extends R
         obj.getProperty(name).getOrElse {
           ctx match {
             case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__get" =>
-              ctx.log.notice(position, "Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
+              ctx.log.notice(position, "Undefined property: %s::%s".format(obj.pClass.name.toString, name))
               NullVal
             case _ =>
               obj.pClass.findMethod("__get").map(_.call(ctx, position, obj, StringVal(name) :: Nil)).map {
                 case Left(v) => v
                 case Right(ref) => ref.value
               }.getOrElse {
-                ctx.log.notice(position, "Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
+                ctx.log.notice(position, "Undefined property: %s::%s".format(obj.pClass.name.toString, name))
                 NullVal
               }
           }

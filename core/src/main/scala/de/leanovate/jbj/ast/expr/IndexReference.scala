@@ -2,11 +2,29 @@ package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Expr, Reference}
 import de.leanovate.jbj.runtime._
-import de.leanovate.jbj.runtime.value.NullVal
+import de.leanovate.jbj.runtime.value.{ArrayVal, NullVal}
 import de.leanovate.jbj.runtime.IntArrayKey
 import scala.Some
 
 case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends Reference {
+
+  override def isDefined(implicit ctx: Context) = {
+    if (reference.isDefined) {
+      val optArrayKey = indexExpr.flatMap {
+        expr =>
+          ArrayKey(expr.eval)
+      }
+
+      optArrayKey.exists {
+        arrayKey =>
+          val array = reference.eval
+          array.getAt(arrayKey).isDefined
+      }
+    } else {
+      false
+    }
+  }
+
   override def eval(implicit ctx: Context) = {
     val optArrayKey = indexExpr.flatMap {
       expr =>
@@ -20,6 +38,7 @@ case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends
         if (!result.isDefined) {
           arrayKey match {
             case IntArrayKey(idx) =>
+              Thread.dumpStack()
               ctx.log.notice(position, "Undefined offset: %d".format(idx))
             case StringArrayKey(idx) =>
               ctx.log.notice(position, "Undefined index: %s".format(idx))
@@ -35,8 +54,9 @@ case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends
         ArrayKey(expr.eval)
     }
 
-    val array = reference.eval.toArray
+    val array = if (reference.isDefined) reference.eval.toArray else ArrayVal()
     reference.assign(array)
     array.setAt(optArrayKey, value)
   }
+
 }
