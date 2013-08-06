@@ -1,19 +1,20 @@
 package de.leanovate.jbj.ast
 
-import de.leanovate.jbj.runtime.Context
+import de.leanovate.jbj.runtime.{ExecResult, Context}
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.exception.JbjException
+import de.leanovate.jbj.ast.stmt.BlockLike
 
-case class Prog(stmts: Seq[Stmt]) extends Node {
+case class Prog(stmts: Seq[Stmt]) extends Stmt with BlockLike {
   val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
-  def exec(implicit ctx: Context) {
+  override def exec(implicit ctx: Context): ExecResult = {
     if (!ctx.static.initialized) {
       staticInitializers.foreach(_.initializeStatic(ctx))
       ctx.static.initialized = true
     }
 
-    stmts.foreach(_.exec)
+    execStmts(stmts.toList)
   }
 
   override def dump(out: PrintStream, ident: String) {

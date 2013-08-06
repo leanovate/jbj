@@ -1,10 +1,9 @@
 package de.leanovate.jbj.runtime.context
 
-import de.leanovate.jbj.ast.NodePosition
+import de.leanovate.jbj.ast.{Prog, NodePosition, NamespaceName}
 import de.leanovate.jbj.runtime.value.ObjectVal
 import de.leanovate.jbj.runtime._
 import scala.collection.immutable.Stack
-import de.leanovate.jbj.ast.NamespaceName
 
 case class ClassContext(instance: ObjectVal, callerPosition: NodePosition, callerCtx: Context) extends Context {
   private val identifier = "Class_" + instance.pClass.name.toString
@@ -20,6 +19,8 @@ case class ClassContext(instance: ObjectVal, callerPosition: NodePosition, calle
   val err = callerCtx.err
 
   lazy val stack: Stack[NodePosition] = callerCtx.stack.push(callerPosition)
+
+  def include(file:String)(implicit ctx: Context, position: NodePosition): Option[Prog] = global.include(file)
 
   def findClass(name: NamespaceName): Option[PClass] = global.findClass(name)
 

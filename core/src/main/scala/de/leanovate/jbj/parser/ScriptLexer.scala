@@ -14,7 +14,7 @@ object ScriptLexer extends Lexer with CommonLexerPatterns {
   val reserved = Set("static", "global", "public", "protected", "private", "var", "const",
     "class", "extends", "use", "interface", "trait", "implements", "abstract", "final",
     "exit", "die", "eval", "include", "include_once", "require", "require_once", "namespace",
-    "echo", "print", "new", "clone", "eval", "isset",
+    "echo", "print", "new", "clone", "eval", "isset", "empty",
     "return", "break", "continue", "goto", "yield",
     "try", "catch", "finally", "throw",
     "if", "else", "elseif", "endif", "while", "endwhile", "for", "endfor", "foreach", "as", "endforeach",

@@ -72,6 +72,35 @@ class Lang2Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
       )
     }
 
+    "Testing eval function" in {
+      // lang/013
+      script(
+        """<?php
+          |error_reporting(0);
+          |$a="echo \"Hello\";";
+          |eval($a);
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """Hello""".stripMargin
+      )
+    }
+
+    "Testing eval function inside user-defined function" in {
+      // lang/014
+      script(
+        """<?php
+          |function F ($a) {
+          |	eval($a);
+          |}
+          |
+          |error_reporting(0);
+          |F("echo \"Hello\";");
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """Hello""".stripMargin
+      )
+    }
+
     "Testing user-defined function falling out of an If into another" in {
       // lang/017
       script(

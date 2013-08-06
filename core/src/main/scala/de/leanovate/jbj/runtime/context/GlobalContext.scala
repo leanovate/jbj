@@ -5,9 +5,10 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.buildin
 import scala.Some
-import de.leanovate.jbj.ast.{NodePosition, NamespaceName}
+import de.leanovate.jbj.ast.{Prog, NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
 import de.leanovate.jbj.JbjEnv
+import de.leanovate.jbj.runtime.exception.CompileErrorException
 
 case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settings: Settings) extends Context {
   private val classes = mutable.Map.empty[Seq[String], PClass]
@@ -25,6 +26,22 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
   def static = staticContext("global")
 
   def stack: Stack[NodePosition] = Stack.empty[NodePosition]
+
+  def include(file: String)(implicit ctx: Context, position: NodePosition): Option[Prog] = jbj.parse(file) match {
+    case Some(Left(prog)) => Some(prog)
+    case Some(Right(t)) => throw new CompileErrorException(t.getMessage)
+    case None if file.startsWith("/") => None
+    case None =>
+      val idx = position.fileName.lastIndexOf('/')
+      if (idx < 0)
+        None
+      else
+        jbj.parse(position.fileName.substring(0, idx + 1) + file) match {
+          case Some(Left(prog)) => Some(prog)
+          case Some(Right(t)) => throw new CompileErrorException(t.getMessage)
+          case None => None
+        }
+  }
 
   def findClass(name: NamespaceName): Option[PClass] =
     buildin.buildinClasses.get(name).map(Some.apply).getOrElse(classes.get(name.lowercase))

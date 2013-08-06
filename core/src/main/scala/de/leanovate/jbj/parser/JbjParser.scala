@@ -15,11 +15,11 @@ import scala.collection.mutable
 import scala.util.parsing.combinator.{PackratParsers, Parsers}
 import scala.language.implicitConversions
 import scala.Some
-import de.leanovate.jbj.runtime.context.GlobalContext
 import de.leanovate.jbj.runtime.env.CgiEnvironment
 import scala.util.parsing.input.Reader
 import de.leanovate.jbj.runtime.Settings
 import de.leanovate.jbj.JbjEnv
+import de.leanovate.jbj.ast.expr.include.{RequireOnceExpr, RequireExpr, IncludeOnceExpr, IncludeExpr}
 
 class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   type Elem = JbjTokens.Token
@@ -31,16 +31,16 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     phrase(start)(tokens) match {
       case Success(tree, _) => tree
       case e: NoSuccess =>
-        throw new IllegalArgumentException("Bad syntax: " + e)
+        throw new IllegalArgumentException(e.toString)
     }
   }
 
-  def parseExpr(s: String): Expr = {
+  def parseStmt(s: String): Prog = {
     val tokens = new TokenReader(s, ScriptLexer)
-    phrase(expr)(tokens) match {
+    phrase(start)(tokens) match {
       case Success(result, _) => result
       case e: NoSuccess =>
-        throw new IllegalArgumentException("Bad syntax: " + e)
+        throw new IllegalArgumentException(e.toString)
     }
   }
 
@@ -529,6 +529,16 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val internalFunctionsInYacc: PackratParser[Expr] = "isset" ~> "(" ~> issetVariables <~ ")" ^^ {
     exprs => IsSetExpr(exprs)
+  } | "include" ~> expr ^^ {
+    e => IncludeExpr(e)
+  } | "include_once" ~> expr ^^ {
+    e => IncludeOnceExpr(e)
+  } | "eval" ~> "(" ~> expr <~ ")" ^^ {
+    e => EvalExpr(e)
+  } | "require" ~> expr ^^ {
+    e => RequireExpr(e)
+  } | "require_once" ~> expr ^^ {
+    e => RequireOnceExpr(e)
   }
 
   lazy val issetVariables: PackratParser[List[Expr]] = rep1sep(issetVariable, ",")
@@ -627,35 +637,11 @@ object JbjParser {
   }
 
   //A main method for testing
-  def main(args: Array[String]) = {
+  def main(args: Array[String]) {
     test( """<?php
-            |  class C
-            |  {
-            |      function foo($a, $b)
-            |      {
-            |          echo "Called C::foo($a, $b)\n";
-            |      }
-            |  }
-            |
-            |  $c = new C;
-            |
-            |  $functions[0] = 'foo';
-            |  $functions[1][2][3][4] = 'foo';
-            |
-            |  $c->$functions[0](1, 2);
-            |  $c->$functions[1][2][3][4](3, 4);
-            |
-            |
-            |  function foo($a, $b)
-            |  {
-            |      echo "Called global foo($a, $b)\n";
-            |  }
-            |
-            |  $c->functions[0] = 'foo';
-            |  $c->functions[1][2][3][4] = 'foo';
-            |
-            |  $c->functions[0](5, 6);
-            |  $c->functions[1][2][3][4](7, 8);
+            |error_reporting(0);
+            |$a="echo \"Hello\";";
+            |eval($a);
             |?>""".stripMargin)
   }
 }

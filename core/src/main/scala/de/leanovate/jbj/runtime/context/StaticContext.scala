@@ -2,7 +2,7 @@ package de.leanovate.jbj.runtime.context
 
 import scala.collection.mutable
 import de.leanovate.jbj.runtime._
-import de.leanovate.jbj.ast.{NodePosition, NamespaceName}
+import de.leanovate.jbj.ast.{Prog, NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
 
 class StaticContext(var global: GlobalContext) extends Context {
@@ -19,6 +19,8 @@ class StaticContext(var global: GlobalContext) extends Context {
   def err = global.err
 
   def stack: Stack[NodePosition] = Stack.empty[NodePosition]
+
+  def include(file:String)(implicit ctx: Context, position: NodePosition): Option[Prog] = global.include(file)
 
   def findConstant(name: String): Option[Value] = global.findConstant(name)
 
