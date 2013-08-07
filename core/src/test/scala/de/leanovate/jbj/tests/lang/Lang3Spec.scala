@@ -90,7 +90,7 @@ class Lang3Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
     }
 
     "Switch test 2" in {
-      // func/021
+      // lang/021
       script(
         """<?php
           |
@@ -295,7 +295,7 @@ class Lang3Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
     }
 
     "Testing string scanner confirmance" in {
-      // func/026
+      // lang/026
       script(
         """<?php echo "\"\t\\'" . '\n\\\'a\\\b\\' ?>"""
       ).result must haveOutput(
@@ -304,4 +304,18 @@ class Lang3Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
     }
   }
 
+  "Testing do-while loop" in {
+    // lang/027
+    script(
+      """<?php
+        |$i=3;
+        |do {
+        |	echo $i;
+        |	$i--;
+        |} while($i>0);
+        |?>""".stripMargin
+    ).result must haveOutput(
+      """321""".stripMargin
+    )
+  }
 }

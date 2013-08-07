@@ -198,7 +198,15 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val functionCallParameterList: PackratParser[List[Expr]] = "(" ~> repsep(exprWithoutVariable | variable, ",") <~ ")"
 
-  lazy val globalVarList: PackratParser[List[String]] = rep1sep(variableLit, ",")
+  lazy val globalVar: PackratParser[Name] = variableLit ^^ {
+    v => StaticName(v)
+  } | "$" ~> rVariable ^^ {
+    e => DynamicName(e)
+  } | "$" ~> "{" ~> expr <~ "}" ^^ {
+    e => DynamicName(e)
+  }
+
+  lazy val globalVarList: PackratParser[List[Name]] = rep1sep(globalVar, ",")
 
   lazy val staticVarList: PackratParser[List[StaticAssignment]] = rep1sep(variableLit ~ opt("=" ~> staticScalar) ^^ {
     case v ~ optScalar => StaticAssignment(v, optScalar)
@@ -387,10 +395,10 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     } | staticClassConstant
 
   lazy val staticClassConstant: PackratParser[Expr] = className ~ "::" ~ identLit ^^ {
-    case cname ~ _ ~ name => ClassConstantExpr(cname, name)
+    case cname ~ _ ~ name => ClassConstantExpr(StaticNamespaceName(cname), name)
   }
 
-  lazy val scalar: PackratParser[Expr] = commonScalar | "\"" ~> encapsList <~ "\"" ^^ {
+  lazy val scalar: PackratParser[Expr] = classConstant | commonScalar | "\"" ~> encapsList <~ "\"" ^^ {
     interpolated => InterpolatedStringExpr(interpolated)
   } | hereDocStartLit ~> encapsList <~ hereDocEndLit ^^ {
     interpolated => InterpolatedStringExpr(interpolated)
@@ -451,11 +459,33 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val methodOrNot: PackratParser[Option[List[Expr]]] = opt(mathod)
 
-  lazy val variableWithoutObjects: PackratParser[Expr] = referenceVariable
+  lazy val variableWithoutObjects: PackratParser[Expr] = referenceVariable |
+    simpleIndirectReference ~ referenceVariable ^^ {
+      case indirects ~ v => indirects.foldLeft(v) {
+        (v, indirect) =>
+          indirect(v)
+      }
+    }
+
+  lazy val staticMember: PackratParser[Reference] = className ~ "::" ~ variableWithoutObjects ^^ {
+    case cname ~ _ ~ v => StaticClassVarReference(StaticNamespaceName(cname), DynamicName(v))
+  } | variableClassName ~ "::" ~ variableWithoutObjects ^^ {
+    case cname ~ _ ~ v => StaticClassVarReference(cname, DynamicName(v))
+  }
+
+  lazy val variableClassName : PackratParser[Name] = referenceVariable ^^ {
+    v => DynamicName(v)
+  }
 
   lazy val baseVariableWithFunctionCalls: PackratParser[Reference] = baseVariable | functionCall
 
-  lazy val baseVariable: PackratParser[Reference] = referenceVariable
+  lazy val baseVariable: PackratParser[Reference] = referenceVariable |
+    simpleIndirectReference ~ referenceVariable ^^ {
+      case indirects ~ v => indirects.foldLeft(v) {
+        (v, indirect) =>
+          indirect(v)
+      }
+    } | staticMember
 
   lazy val referenceVariable: PackratParser[Reference] = compoundVariable ~ rep(
     "[" ~> dimOffset <~ "]" | "{" ~> expr <~ "}" ^^ Some.apply
@@ -492,7 +522,10 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val variableName: PackratParser[Name] = identLit ^^ StaticName.apply | "{" ~> expr <~ "}" ^^ DynamicName.apply
 
-  lazy val simpleIndirectReference = rep1("$")
+  lazy val simpleIndirectReference: PackratParser[List[Expr => Reference]] =
+    rep1("$" ^^^ {
+      e: Expr => VariableReference(DynamicName(e))
+    })
 
 
   lazy val arrayPairList: PackratParser[List[(Option[Expr], Expr)]] = repsep(
@@ -545,6 +578,15 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val issetVariables: PackratParser[List[Expr]] = rep1sep(issetVariable, ",")
 
   lazy val issetVariable: PackratParser[Expr] = exprWithoutVariable ||| rVariable
+
+  lazy val classConstant : PackratParser[Expr] = className ~ "::" ~ identLit ^^ {
+    case cname ~ _ ~ n => ClassConstantExpr(StaticNamespaceName(cname), n)
+  } | variableClassName ~ "::" ~ identLit ^^ {
+    case cname ~ _ ~ n => ClassConstantExpr(cname, n)
+  }
+
+
+
 
   lazy val constant: PackratParser[Expr] = identLit ^^ {
     name => ConstGetExpr(name)
@@ -624,60 +666,33 @@ object JbjParser {
       count += 1
     }
 
-    val tree = apply("-", exprstr)
+    val tokens2 = new TokenReader(exprstr, InitialLexer)
+    val parser = new JbjParser(ParseContext("-"))
+    parser.phrase(parser.start)(tokens2) match {
+      case parser.Success(tree: Prog, _) =>
+        println("Tree")
+        tree.dump(System.out, "")
 
-    println("Tree")
-    tree.dump(System.out, "")
+        val jbj = JbjEnv()
+        val context = jbj.newGlobalContext(System.out, System.err)
 
-    val jbj = JbjEnv()
-    val context = jbj.newGlobalContext(System.out, System.err)
+        context.settings.errorReporting = Settings.E_ALL
+        CgiEnvironment.httpGet("?ab+cd+ef+123+test", context)
+        tree.exec(context)
+      case e: parser.NoSuccess =>
+        println(e)
+    }
 
-    context.settings.errorReporting = Settings.E_ALL
-    CgiEnvironment.httpGet("?ab+cd+ef+123+test", context)
-    tree.exec(context)
   }
 
   //A main method for testing
   def main(args: Array[String]) {
     test( """<?php
-            |var_dump(1234);
-            |var_dump(+456);
-            |var_dump(-123);
-            |var_dump(0x4d2);
-            |var_dump(+0x1C8);
-            |var_dump(-0x76);
-            |var_dump(02322);
-            |var_dump(+0710);
-            |var_dump(-0173);
-            |var_dump(0b10011010010);
-            |var_dump(+0b111001000);
-            |var_dump(-0b1111011);
-            |
-            |var_dump(.123);
-            |var_dump(+.123);
-            |var_dump(-.123);
-            |var_dump(123.);
-            |var_dump(+123.);
-            |var_dump(-123.);
-            |var_dump(123.4);
-            |var_dump(+123.4);
-            |var_dump(-123.4);
-            |
-            |var_dump(.123E5);
-            |var_dump(.123E+5);
-            |var_dump(.123e-5);
-            |var_dump(123.E5);
-            |var_dump(123e5);
-            |
-            |$large_number = 9223372036854775807;
-            |var_dump($large_number);                     // int(9223372036854775807)
-            |
-            |$large_number = 9223372036854775808;
-            |var_dump($large_number);                     // float(9.2233720368548E+18)
-            |
-            |$million = 1000000;
-            |$large_number =  50000000000000 * $million;
-            |var_dump($large_number);                     // float(5.0E+19)
+            |$i=3;
+            |do {
+            |	echo $i;
+            |	$i--;
+            |} while($i>0);
             |?>""".stripMargin)
   }
 }

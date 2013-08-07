@@ -17,7 +17,7 @@ object ScriptLexer extends Lexer with CommonLexerPatterns {
     "echo", "print", "new", "clone", "eval", "isset", "empty",
     "return", "break", "continue", "goto", "yield",
     "try", "catch", "finally", "throw",
-    "if", "else", "elseif", "endif", "while", "endwhile", "for", "endfor", "foreach", "as", "endforeach",
+    "if", "else", "elseif", "endif", "do", "while", "endwhile", "for", "endfor", "foreach", "as", "endforeach",
     "declare", "enddeclare", "instanceof",
     "switch", "case", "default", "endswitch",
     "function", "array", "list", "callable",
