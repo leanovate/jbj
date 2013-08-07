@@ -15,5 +15,7 @@ trait PClass {
 
   def invokeMethod(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, methodName: String, parameters: List[Value]): Either[Value, ValueRef]
 
+  def methods:Seq[String]
+
   def findMethod(methodName: String): Option[PMethod]
 }

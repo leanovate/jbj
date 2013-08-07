@@ -50,10 +50,8 @@ object TestBed {
             |	echo __FUNCTION__ . '(' . $class_name . ")\n";
             |}
             |
-            |var_dump(class_exists('autoload_root'));
+            |var_dump(class_exists('autoload_derived'));
             |
-            |?>
-            |===DONE===
-            |""".stripMargin)
+            |?>""".stripMargin)
   }
 }

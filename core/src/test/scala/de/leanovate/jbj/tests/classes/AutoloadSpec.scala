@@ -32,5 +32,53 @@ class AutoloadSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |""".stripMargin
       )
     }
+
+    "ZE2 Autoload and get_class_methods" in {
+      // classes/autoload_002
+      script(
+        """<?php
+          |
+          |function __autoload($class_name)
+          |{
+          |	require_once(dirname(__FILE__) . '/' . $class_name . '.p5c');
+          |	echo __FUNCTION__ . '(' . $class_name . ")\n";
+          |}
+          |
+          |var_dump(get_class_methods('autoload_root'));
+          |
+          |?>
+          |===DONE===""".stripMargin
+      ).result must haveOutput(
+        """__autoload(autoload_root)
+          |array(1) {
+          |  [0]=>
+          |  string(12) "testFunction"
+          |}
+          |===DONE===""".stripMargin
+      )
+    }
+
+    "ZE2 Autoload and derived classes" in {
+      // classes/autoload_003
+      script(
+        """<?php
+          |
+          |function __autoload($class_name)
+          |{
+          |	require_once(dirname(__FILE__) . '/' . $class_name . '.p5c');
+          |	echo __FUNCTION__ . '(' . $class_name . ")\n";
+          |}
+          |
+          |var_dump(class_exists('autoload_derived'));
+          |
+          |?>
+          |===DONE===""".stripMargin
+      ).result must haveOutput(
+        """__autoload(autoload_root)
+          |__autoload(autoload_derived)
+          |bool(true)
+          |===DONE===""".stripMargin
+      )
+    }
   }
 }

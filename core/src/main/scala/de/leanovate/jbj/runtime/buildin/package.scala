@@ -54,6 +54,8 @@ package object buildin {
         Left(NullVal)
       }
 
+      def methods = Seq.empty
+
       def findMethod(methodName: String): Option[PMethod] = None
     }
   ).map {

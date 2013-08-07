@@ -28,7 +28,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
       ctx.log.fatal(position, "Cannot redeclare class %s".format(name))
     else {
       if (superClassName.isDefined) {
-        superClass = ctx.global.findClass(superClassName.get)
+        superClass = ctx.global.findClassOrAutoload(superClassName.get)
         if (!superClass.isDefined)
           throw new FatalErrorJbjException("Class '%s' not found".format(superClassName))
         else if (superClass.get.classEntry == ClassEntry.FINAL_CLASS)
@@ -62,6 +62,8 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
         throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))(ctx, callerPosition)
     }
   }
+
+  override lazy val methods = stmts.filter(_.isInstanceOf[PMethod]).map(_.asInstanceOf[PMethod]).map(_.name).toSeq
 
   override def findMethod(methodName: String): Option[PMethod] =
     methodMap.get(methodName.toLowerCase).map(Some.apply).getOrElse(superClass.flatMap(_.findMethod(methodName)))
