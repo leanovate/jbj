@@ -35,7 +35,7 @@ class ClassExampleSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
       ).result must haveOutput(
         """base
           |
-          |Fatal error: Cannot instantiate abstract class base in - on line 15
+          |Fatal error: Cannot instantiate abstract class base in /classes/ClassExampleSpec.inlinePhp on line 15
           |""".stripMargin
       )
     }
@@ -150,7 +150,7 @@ class ClassExampleSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |?>""".stripMargin
       ).result must (haveOutput(
         """
-          |Fatal error: Class derived may not inherit from final class (base) in - on line 11
+          |Fatal error: Class derived may not inherit from final class (base) in /classes/ClassExampleSpec.inlinePhp on line 11
           |""".stripMargin
       ) and haveThrown(classOf[FatalErrorJbjException]))
     }

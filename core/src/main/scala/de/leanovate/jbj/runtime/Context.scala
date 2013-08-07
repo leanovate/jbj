@@ -2,8 +2,7 @@ package de.leanovate.jbj.runtime
 
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.context.{StaticContext, GlobalContext}
-import de.leanovate.jbj.ast.{Prog, NodePosition, NamespaceName}
-import scala.collection.mutable
+import de.leanovate.jbj.ast.{NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
 
 trait Context {
@@ -18,8 +17,6 @@ trait Context {
   def err: PrintStream
 
   lazy val log: Log = new Log(settings, out, err)
-
-  def include(file:String)(implicit ctx: Context, position: NodePosition): Option[Prog]
 
   def stack: Stack[NodePosition]
 

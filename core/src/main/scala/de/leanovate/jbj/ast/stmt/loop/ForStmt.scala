@@ -5,9 +5,10 @@ import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.SuccessExecResult
 import scala.annotation.tailrec
+import de.leanovate.jbj.ast.stmt.BlockLike
 
 case class ForStmt(befores: List[Expr], conditions: List[Expr], afters: List[Expr], stmts: List[Stmt])
-  extends Stmt with StaticInitializer {
+  extends Stmt with BlockLike with StaticInitializer {
 
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
@@ -31,14 +32,4 @@ case class ForStmt(befores: List[Expr], conditions: List[Expr], afters: List[Exp
   override def initializeStatic(implicit ctx: Context) {
     staticInitializers.foreach(_.initializeStatic)
   }
-
-  @tailrec
-  private def execStmts(statements: List[Stmt])(implicit context: Context): ExecResult = statements match {
-    case head :: tail => head.exec match {
-      case SuccessExecResult => execStmts(tail)
-      case result => result
-    }
-    case Nil => SuccessExecResult
-  }
-
 }

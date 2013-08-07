@@ -1,8 +1,23 @@
 package de.leanovate.jbj.ast.expr.include
 
 import de.leanovate.jbj.ast.Expr
-import de.leanovate.jbj.runtime.Context
+import de.leanovate.jbj.runtime.{ReturnExecResult, Context}
+import de.leanovate.jbj.runtime.value.BooleanVal
 
 case class IncludeExpr(file: Expr) extends Expr {
-  def eval(implicit ctx: Context) = ???
+  override def eval(implicit ctx: Context) = {
+    val filename = file.eval.toStr.value
+
+    ctx.global.include(filename) match {
+      case Some((prog, _)) =>
+        prog.exec match {
+          case ReturnExecResult(v) => v
+          case _ => BooleanVal.TRUE
+        }
+      case _ =>
+        ctx.log.warn(position,
+          "include(): Failed opening '%s' for inclusion (include_path='%s')".format(filename, position.fileName))
+        BooleanVal.FALSE
+    }
+  }
 }

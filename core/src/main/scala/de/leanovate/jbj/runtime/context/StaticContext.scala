@@ -20,8 +20,6 @@ class StaticContext(var global: GlobalContext) extends Context {
 
   def stack: Stack[NodePosition] = Stack.empty[NodePosition]
 
-  def include(file:String)(implicit ctx: Context, position: NodePosition): Option[Prog] = global.include(file)
-
   def findConstant(name: String): Option[Value] = global.findConstant(name)
 
   def defineConstant(name: String, value: Value, caseInsensitive: Boolean) {

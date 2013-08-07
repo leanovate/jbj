@@ -6,9 +6,10 @@ import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.value.ArrayVal
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.SuccessExecResult
+import de.leanovate.jbj.ast.stmt.BlockLike
 
 case class ForeachValueStmt(arrayExpr: Expr, valueVar:Reference, stmts: List[Stmt])
-  extends Stmt with StaticInitializer {
+  extends Stmt with BlockLike with StaticInitializer {
 
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
@@ -35,15 +36,6 @@ case class ForeachValueStmt(arrayExpr: Expr, valueVar:Reference, stmts: List[Stm
         case result: ReturnExecResult => result
         case _ => execValues(tail)
       }
-    case Nil => SuccessExecResult
-  }
-
-  @tailrec
-  private def execStmts(statements: List[Stmt])(implicit context: Context): ExecResult = statements match {
-    case head :: tail => head.exec match {
-      case SuccessExecResult => execStmts(tail)
-      case result => result
-    }
     case Nil => SuccessExecResult
   }
 }

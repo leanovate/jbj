@@ -136,6 +136,7 @@ class Lang3Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
     }
 
     "Switch test 3" in {
+      // lang/022
       script(
         """<?php
           |

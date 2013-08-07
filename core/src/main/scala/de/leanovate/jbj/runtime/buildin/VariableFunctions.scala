@@ -5,7 +5,7 @@ import de.leanovate.jbj.runtime.{Value, Context, PFunction}
 import de.leanovate.jbj.ast.{NamespaceName, NodePosition}
 
 object VariableFunctions {
-  val functions = Seq(
+  val functions: Seq[PFunction] = Seq(
     new PFunction() {
       def name = NamespaceName("var_dump")
 

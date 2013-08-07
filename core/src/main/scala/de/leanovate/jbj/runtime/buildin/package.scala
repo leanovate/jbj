@@ -2,16 +2,17 @@ package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.ast.{ClassEntry, NamespaceName, NodePosition}
+import scala.collection.Map
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.value.IntegerVal
 
 package object buildin {
-  val buildinFunctions = (ArrayFunctions.functions ++ ClassFunctions.functions ++ StringFunctions.functions ++
+  val buildinFunctions: Map[NamespaceName, PFunction] = (ArrayFunctions.functions ++ ClassFunctions.functions ++ StringFunctions.functions ++
     VariableFunctions.functions ++ RuntimeFunctions.functions).map {
     function => function.name -> function
   }.toMap
 
-  val buildinConstants = Seq(
+  val buildinConstants: Map[String, Value] = Seq(
     "TRUE" -> BooleanVal.TRUE,
     "FALSE" -> BooleanVal.FALSE,
     "NULL" -> NullVal,
@@ -33,7 +34,7 @@ package object buildin {
     "E_ALL" -> IntegerVal(Settings.E_ALL)
   ).toMap
 
-  val buildinClasses = Seq(
+  val buildinClasses: Map[NamespaceName, PClass] = Seq(
     new PClass {
       def classEntry = ClassEntry.CLASS
 

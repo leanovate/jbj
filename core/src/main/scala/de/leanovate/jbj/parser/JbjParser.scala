@@ -21,7 +21,6 @@ import de.leanovate.jbj.runtime.Settings
 import de.leanovate.jbj.JbjEnv
 import de.leanovate.jbj.ast.expr.include.{RequireOnceExpr, RequireExpr, IncludeOnceExpr, IncludeExpr}
 import de.leanovate.jbj.runtime.exception.ParseJbjException
-import java.math.MathContext
 
 class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   type Elem = JbjTokens.Token
@@ -47,7 +46,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   }
 
   lazy val start: PackratParser[Prog] = topStatementList ^^ {
-    stmts => Prog(stmts)
+    stmts => Prog(parseCtx.fileName, stmts)
   }
 
   lazy val topStatementList: PackratParser[List[Stmt]] = rep(topStatement)

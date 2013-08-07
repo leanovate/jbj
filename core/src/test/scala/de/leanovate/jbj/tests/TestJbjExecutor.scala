@@ -13,7 +13,7 @@ import de.leanovate.jbj.JbjEnv
 trait TestJbjExecutor extends MustMatchers {
 
   case class Script(prog: Prog) {
-    val jbj = JbjEnv()
+    val jbj = JbjEnv(TestLocator)
     val bOut = new ByteArrayOutputStream()
     val bErr = new ByteArrayOutputStream()
     val out = new PrintStream(bOut, false, "UTF-8")
@@ -33,7 +33,7 @@ trait TestJbjExecutor extends MustMatchers {
     }
 
     def withCommandLine(args: String) = {
-      CliEnvironment.commandLine("-", args.split(" "), context)
+      CliEnvironment.commandLine(prog.fileName, args.split(" "), context)
       this
     }
 
@@ -59,7 +59,10 @@ trait TestJbjExecutor extends MustMatchers {
 
   case class ScriptResult(out: String, err: String, exception: Option[Throwable])
 
-  def script(progStr: String): Script = Script(JbjParser("-", progStr))
+  def script(progStr: String): Script = {
+    val pseudoFileName = getClass.getName.replace("de.leanovate.jbj.tests", "").replace('.', '/') + ".inlinePhp"
+    Script(JbjParser(pseudoFileName, progStr))
+  }
 
   def haveOutput(right: String) = new Matcher[Any] {
     def apply(left: Any) = left match {

@@ -9,7 +9,7 @@ import de.leanovate.jbj.ast.NamespaceName
 import scala.Some
 
 object ArrayFunctions {
-  val functions = Seq(
+  val functions: Seq[PFunction] = Seq(
     BuildinFunction1("count", {
       case (_, _, Some(array: ArrayVal)) => array.count
       case (_, _, Some(_)) => IntegerVal(1)

@@ -4,7 +4,6 @@ import java.io.PrintStream
 import scala.collection.mutable
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.buildin
-import scala.Some
 import de.leanovate.jbj.ast.{Prog, NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
 import de.leanovate.jbj.JbjEnv
@@ -21,14 +20,17 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
 
   private val staticContexts = mutable.Map.empty[String, StaticContext]
 
+  private val includedFiles = mutable.Set.empty[String]
+
   def global = this
 
   def static = staticContext("global")
 
   def stack: Stack[NodePosition] = Stack.empty[NodePosition]
 
-  def include(file: String)(implicit ctx: Context, position: NodePosition): Option[Prog] = jbj.parse(file) match {
-    case Some(Left(prog)) => Some(prog)
+  def include(file: String)(implicit ctx: Context, position: NodePosition): Option[(Prog, Boolean)] = jbj.parse(file) match {
+    case Some(Left(prog)) =>
+      Some(prog, includedFiles.add(prog.fileName))
     case Some(Right(t)) => throw new CompileErrorException(t.getMessage)
     case None if file.startsWith("/") => None
     case None =>
@@ -37,7 +39,7 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
         None
       else
         jbj.parse(position.fileName.substring(0, idx + 1) + file) match {
-          case Some(Left(prog)) => Some(prog)
+          case Some(Left(prog)) => Some(prog, includedFiles.add(prog.fileName))
           case Some(Right(t)) => throw new CompileErrorException(t.getMessage)
           case None => None
         }

@@ -5,7 +5,7 @@ import java.io.File
 
 trait Locator {
 
-  case class Script(content: String, etag: String)
+  case class Script(content: String, fileName:String, etag: String)
 
   def getETag(fileName: String): Option[String]
 
@@ -26,7 +26,7 @@ object DefaultLocator extends Locator {
     val file = new File(fileName)
 
     if (file.isFile && file.canRead)
-      Some(Script(Source.fromFile(file).mkString, file.lastModified.toString))
+      Some(Script(Source.fromFile(file).mkString, file.getAbsolutePath, file.lastModified.toString))
     else
       None
   }

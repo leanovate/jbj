@@ -1,9 +1,10 @@
 package de.leanovate.jbj.runtime.buildin
 
 import de.leanovate.jbj.runtime.value.{BooleanVal, StringVal, IntegerVal}
+import de.leanovate.jbj.runtime.PFunction
 
 object StringFunctions {
-  val functions = Seq(
+  val functions: Seq[PFunction] = Seq(
     BuildinFunction1("strlen", {
       case (_, _, Some(str)) => IntegerVal(str.toStr.value.length)
     }),

@@ -28,7 +28,7 @@ object PlayLocator extends Locator {
       case url =>
         lastModifiedFor(url).map {
           lastModified =>
-            Script(Source.fromInputStream(url.openStream()).mkString, lastModified)
+            Script(Source.fromInputStream(url.openStream()).mkString, fileName, lastModified)
         }
     }
   }

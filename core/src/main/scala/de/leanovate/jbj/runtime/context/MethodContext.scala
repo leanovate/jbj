@@ -23,8 +23,6 @@ case class MethodContext(instance: ObjectVal, methodName: String, callerPosition
 
   lazy val stack: Stack[NodePosition] = callerCtx.stack.push(callerPosition)
 
-  def include(file:String)(implicit ctx: Context, position: NodePosition): Option[Prog] = global.include(file)
-
   def findClass(name: NamespaceName): Option[PClass] = global.findClass(name)
 
   def defineClass(pClass: PClass) {

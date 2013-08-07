@@ -25,7 +25,7 @@ class BreakContinueSpec extends FreeSpec with TestJbjExecutor with MustMatchers 
       ).result must (haveOutput(
         """First
           |
-          |Fatal error: Cannot break/continue 1 level in - on line 5
+          |Fatal error: Cannot break/continue 1 level in /special/BreakContinueSpec.inlinePhp on line 5
           |""".stripMargin
       ) and haveThrown(classOf[FatalErrorJbjException]))
     }

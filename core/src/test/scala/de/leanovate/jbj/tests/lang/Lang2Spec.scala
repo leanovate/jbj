@@ -101,6 +101,29 @@ class Lang2Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
       )
     }
 
+    "Testing include" in {
+      // lang/015
+      script(
+        """<?php
+          |include "015.inc";
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """Hello""".stripMargin
+      )
+    }
+
+    "Testing user-defined function in included file" in {
+      // lang/016
+      script(
+        """<?php
+          |include "016.inc";
+          |MyFunc("Hello");
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """Hello""".stripMargin
+      )
+    }
+
     "Testing user-defined function falling out of an If into another" in {
       // lang/017
       script(
@@ -199,7 +222,7 @@ class Lang2Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
         |hey, this is a regular echo'd eval()
         |hey, this is a function inside an eval()!
         |
-        |Parse error: syntax error, unexpected end of input in -(12) : eval()'d code on line 1
+        |Parse error: syntax error, unexpected end of input in /lang/Lang2Spec.inlinePhp(12) : eval()'d code on line 1
         |""".stripMargin
     )
   }
