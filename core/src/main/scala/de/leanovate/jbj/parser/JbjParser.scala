@@ -20,6 +20,8 @@ import scala.util.parsing.input.Reader
 import de.leanovate.jbj.runtime.Settings
 import de.leanovate.jbj.JbjEnv
 import de.leanovate.jbj.ast.expr.include.{RequireOnceExpr, RequireExpr, IncludeOnceExpr, IncludeExpr}
+import de.leanovate.jbj.runtime.exception.ParseJbjException
+import java.math.MathContext
 
 class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   type Elem = JbjTokens.Token
@@ -31,7 +33,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     phrase(start)(tokens) match {
       case Success(tree, _) => tree
       case e: NoSuccess =>
-        throw new IllegalArgumentException(e.toString)
+        throw new ParseJbjException(e.msg, FileNodePosition(parseCtx.fileName, e.next.pos.line))
     }
   }
 
@@ -40,7 +42,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     phrase(start)(tokens) match {
       case Success(result, _) => result
       case e: NoSuccess =>
-        throw new IllegalArgumentException(e.toString)
+        throw new ParseJbjException(e.msg, FileNodePosition(parseCtx.fileName, e.next.pos.line))
     }
   }
 
@@ -639,9 +641,44 @@ object JbjParser {
   //A main method for testing
   def main(args: Array[String]) {
     test( """<?php
-            |error_reporting(0);
-            |$a="echo \"Hello\";";
-            |eval($a);
+            |var_dump(1234);
+            |var_dump(+456);
+            |var_dump(-123);
+            |var_dump(0x4d2);
+            |var_dump(+0x1C8);
+            |var_dump(-0x76);
+            |var_dump(02322);
+            |var_dump(+0710);
+            |var_dump(-0173);
+            |var_dump(0b10011010010);
+            |var_dump(+0b111001000);
+            |var_dump(-0b1111011);
+            |
+            |var_dump(.123);
+            |var_dump(+.123);
+            |var_dump(-.123);
+            |var_dump(123.);
+            |var_dump(+123.);
+            |var_dump(-123.);
+            |var_dump(123.4);
+            |var_dump(+123.4);
+            |var_dump(-123.4);
+            |
+            |var_dump(.123E5);
+            |var_dump(.123E+5);
+            |var_dump(.123e-5);
+            |var_dump(123.E5);
+            |var_dump(123e5);
+            |
+            |$large_number = 9223372036854775807;
+            |var_dump($large_number);                     // int(9223372036854775807)
+            |
+            |$large_number = 9223372036854775808;
+            |var_dump($large_number);                     // float(9.2233720368548E+18)
+            |
+            |$million = 1000000;
+            |$large_number =  50000000000000 * $million;
+            |var_dump($large_number);                     // float(5.0E+19)
             |?>""".stripMargin)
   }
 }

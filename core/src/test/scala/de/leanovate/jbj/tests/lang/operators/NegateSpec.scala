@@ -31,12 +31,13 @@ class NegateSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |   var_dump(-$longVal);
           |}
           |
-          |?>""".stripMargin
+          |?>
+          |===DONE===""".stripMargin
       ).result must haveOutput(
         """--- testing: 9223372036854775807 ---
           |int(-9223372036854775807)
           |--- testing: -9223372036854775808 ---
-          |float(9.223372036854776E18)
+          |float(9.2233720368548E+18)
           |--- testing: 2147483647 ---
           |int(-2147483647)
           |--- testing: -2147483648 ---
@@ -57,13 +58,13 @@ class NegateSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |int(-4294967293)
           |--- testing: 9223372036854775806 ---
           |int(-9223372036854775806)
-          |--- testing: 9.223372036854776E18 ---
-          |float(-9.223372036854776E18)
+          |--- testing: 9.2233720368548E+18 ---
+          |float(-9.2233720368548E+18)
           |--- testing: -9223372036854775807 ---
           |int(9223372036854775807)
-          |--- testing: -9.223372036854776E18 ---
-          |float(9.223372036854776E18)
-          |""".stripMargin
+          |--- testing: -9.2233720368548E+18 ---
+          |float(9.2233720368548E+18)
+          |===DONE===""".stripMargin
       )
     }
 
@@ -83,7 +84,8 @@ class NegateSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |   var_dump(-$strVal);
           |}
           |
-          |?>""".stripMargin
+          |?>
+          |===DONE===""".stripMargin
       ).result must haveOutput(
         """--- testing: '0' ---
           |int(0)
@@ -100,9 +102,9 @@ class NegateSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |--- testing: '123abc' ---
           |int(-123)
           |--- testing: '123e5' ---
-          |float(-1.23E7)
+          |float(-12300000)
           |--- testing: '123e5xyz' ---
-          |float(-1.23E7)
+          |float(-12300000)
           |--- testing: ' 123abc' ---
           |int(-123)
           |--- testing: '123 abc' ---
@@ -113,7 +115,7 @@ class NegateSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |float(-3.4)
           |--- testing: 'a5.9' ---
           |int(0)
-          |""".stripMargin
+          |===DONE===""".stripMargin
       )
     }
   }

@@ -35,7 +35,3 @@ case class LookingForPropertyLexerMode(prevMode: LexerMode) extends LexerMode {
 case class LookingForVarnameLexerMode(prevMode: LexerMode) extends LexerMode {
   def newLexer() =  new LookingForVarnameLexer(prevMode)
 }
-
-object ErrorLexerMode extends LexerMode {
-  def newLexer() = throw new ParseJbjException("Lexer in error mode")
-}

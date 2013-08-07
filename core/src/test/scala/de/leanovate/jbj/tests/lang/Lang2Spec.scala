@@ -124,4 +124,83 @@ class Lang2Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
     }
   }
 
+  "eval() test" in {
+    // lang/018
+    script(
+      """<?php
+        |
+        |error_reporting(0);
+        |
+        |$message = "echo \"hey\n\";";
+        |
+        |for ($i=0; $i<10; $i++) {
+        |  eval($message);
+        |  echo $i."\n";
+        |}""".stripMargin
+    ).result must haveOutput(
+      """hey
+        |0
+        |hey
+        |1
+        |hey
+        |2
+        |hey
+        |3
+        |hey
+        |4
+        |hey
+        |5
+        |hey
+        |6
+        |hey
+        |7
+        |hey
+        |8
+        |hey
+        |9
+        |""".stripMargin
+    )
+  }
+
+  "eval() test 2" in {
+    // lang/019
+    script(
+      """<?php
+        |
+        |eval("function test() { echo \"hey, this is a function inside an eval()!\\n\"; }");
+        |
+        |$i=0;
+        |while ($i<10) {
+        |  eval("echo \"hey, this is a regular echo'd eval()\\n\";");
+        |  test();
+        |  $i++;
+        |}
+        |
+        |eval('-');""".stripMargin
+    ).result must haveOutput(
+      """hey, this is a regular echo'd eval()
+        |hey, this is a function inside an eval()!
+        |hey, this is a regular echo'd eval()
+        |hey, this is a function inside an eval()!
+        |hey, this is a regular echo'd eval()
+        |hey, this is a function inside an eval()!
+        |hey, this is a regular echo'd eval()
+        |hey, this is a function inside an eval()!
+        |hey, this is a regular echo'd eval()
+        |hey, this is a function inside an eval()!
+        |hey, this is a regular echo'd eval()
+        |hey, this is a function inside an eval()!
+        |hey, this is a regular echo'd eval()
+        |hey, this is a function inside an eval()!
+        |hey, this is a regular echo'd eval()
+        |hey, this is a function inside an eval()!
+        |hey, this is a regular echo'd eval()
+        |hey, this is a function inside an eval()!
+        |hey, this is a regular echo'd eval()
+        |hey, this is a function inside an eval()!
+        |
+        |Parse error: syntax error, unexpected end of input in -(12) : eval()'d code on line 1
+        |""".stripMargin
+    )
+  }
 }

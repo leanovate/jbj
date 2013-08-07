@@ -41,7 +41,7 @@ class Basic1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
       script(
         """<?php $a=27; $b=3; $c=3; $d=$a/$b/$c; echo $d?>"""
       ).result must haveOutput(
-        """3.0"""
+        """3"""
       )
     }
 

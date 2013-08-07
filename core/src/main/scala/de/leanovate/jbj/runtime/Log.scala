@@ -34,4 +34,12 @@ class Log(settings: Settings, out: PrintStream, err: PrintStream) {
       out.println("Notice: %s in %s on line %d".format(msg, position.fileName, position.line))
     }
   }
+
+  def parseError(position:NodePosition, msg:String) {
+    if ((settings.errorReporting & Settings.E_PARSE) != 0) {
+      err.println("PHP Parse error: %s in %s on line %d".format(msg, position.fileName, position.line))
+      out.println()
+      out.println("Parse error: %s in %s on line %d".format(msg, position.fileName, position.line))
+    }
+  }
 }

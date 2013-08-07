@@ -29,7 +29,8 @@ class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |}
           |
           |
-          |?>""".stripMargin
+          |?>
+          |===DONE===""".stripMargin
       ).result must haveOutput(
         """--- testing: '0' + '0' ---
           |int(0)
@@ -46,9 +47,9 @@ class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |--- testing: '0' + '123abc' ---
           |int(123)
           |--- testing: '0' + '123e5' ---
-          |float(1.23E7)
+          |float(12300000)
           |--- testing: '0' + '123e5xyz' ---
-          |float(1.23E7)
+          |float(12300000)
           |--- testing: '0' + ' 123abc' ---
           |int(123)
           |--- testing: '0' + '123 abc' ---
@@ -74,9 +75,9 @@ class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |--- testing: '65' + '123abc' ---
           |int(188)
           |--- testing: '65' + '123e5' ---
-          |float(1.2300065E7)
+          |float(12300065)
           |--- testing: '65' + '123e5xyz' ---
-          |float(1.2300065E7)
+          |float(12300065)
           |--- testing: '65' + ' 123abc' ---
           |int(188)
           |--- testing: '65' + '123 abc' ---
@@ -102,9 +103,9 @@ class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |--- testing: '-44' + '123abc' ---
           |int(79)
           |--- testing: '-44' + '123e5' ---
-          |float(1.2299956E7)
+          |float(12299956)
           |--- testing: '-44' + '123e5xyz' ---
-          |float(1.2299956E7)
+          |float(12299956)
           |--- testing: '-44' + ' 123abc' ---
           |int(79)
           |--- testing: '-44' + '123 abc' ---
@@ -130,9 +131,9 @@ class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |--- testing: '1.2' + '123abc' ---
           |float(124.2)
           |--- testing: '1.2' + '123e5' ---
-          |float(1.23000012E7)
+          |float(12300001.2)
           |--- testing: '1.2' + '123e5xyz' ---
-          |float(1.23000012E7)
+          |float(12300001.2)
           |--- testing: '1.2' + ' 123abc' ---
           |float(124.2)
           |--- testing: '1.2' + '123 abc' ---
@@ -158,9 +159,9 @@ class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |--- testing: '-7.7' + '123abc' ---
           |float(115.3)
           |--- testing: '-7.7' + '123e5' ---
-          |float(1.22999923E7)
+          |float(12299992.3)
           |--- testing: '-7.7' + '123e5xyz' ---
-          |float(1.22999923E7)
+          |float(12299992.3)
           |--- testing: '-7.7' + ' 123abc' ---
           |float(115.3)
           |--- testing: '-7.7' + '123 abc' ---
@@ -168,7 +169,7 @@ class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |--- testing: '-7.7' + '123abc ' ---
           |float(115.3)
           |--- testing: '-7.7' + '3.4a' ---
-          |float(-4.300000000000001)
+          |float(-4.3)
           |--- testing: '-7.7' + 'a5.9' ---
           |float(-7.7)
           |--- testing: 'abc' + '0' ---
@@ -186,9 +187,9 @@ class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |--- testing: 'abc' + '123abc' ---
           |int(123)
           |--- testing: 'abc' + '123e5' ---
-          |float(1.23E7)
+          |float(12300000)
           |--- testing: 'abc' + '123e5xyz' ---
-          |float(1.23E7)
+          |float(12300000)
           |--- testing: 'abc' + ' 123abc' ---
           |int(123)
           |--- testing: 'abc' + '123 abc' ---
@@ -214,9 +215,9 @@ class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |--- testing: '123abc' + '123abc' ---
           |int(246)
           |--- testing: '123abc' + '123e5' ---
-          |float(1.2300123E7)
+          |float(12300123)
           |--- testing: '123abc' + '123e5xyz' ---
-          |float(1.2300123E7)
+          |float(12300123)
           |--- testing: '123abc' + ' 123abc' ---
           |int(246)
           |--- testing: '123abc' + '123 abc' ---
@@ -228,61 +229,61 @@ class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |--- testing: '123abc' + 'a5.9' ---
           |int(123)
           |--- testing: '123e5' + '0' ---
-          |float(1.23E7)
+          |float(12300000)
           |--- testing: '123e5' + '65' ---
-          |float(1.2300065E7)
+          |float(12300065)
           |--- testing: '123e5' + '-44' ---
-          |float(1.2299956E7)
+          |float(12299956)
           |--- testing: '123e5' + '1.2' ---
-          |float(1.23000012E7)
+          |float(12300001.2)
           |--- testing: '123e5' + '-7.7' ---
-          |float(1.22999923E7)
+          |float(12299992.3)
           |--- testing: '123e5' + 'abc' ---
-          |float(1.23E7)
+          |float(12300000)
           |--- testing: '123e5' + '123abc' ---
-          |float(1.2300123E7)
+          |float(12300123)
           |--- testing: '123e5' + '123e5' ---
-          |float(2.46E7)
+          |float(24600000)
           |--- testing: '123e5' + '123e5xyz' ---
-          |float(2.46E7)
+          |float(24600000)
           |--- testing: '123e5' + ' 123abc' ---
-          |float(1.2300123E7)
+          |float(12300123)
           |--- testing: '123e5' + '123 abc' ---
-          |float(1.2300123E7)
+          |float(12300123)
           |--- testing: '123e5' + '123abc ' ---
-          |float(1.2300123E7)
+          |float(12300123)
           |--- testing: '123e5' + '3.4a' ---
-          |float(1.23000034E7)
+          |float(12300003.4)
           |--- testing: '123e5' + 'a5.9' ---
-          |float(1.23E7)
+          |float(12300000)
           |--- testing: '123e5xyz' + '0' ---
-          |float(1.23E7)
+          |float(12300000)
           |--- testing: '123e5xyz' + '65' ---
-          |float(1.2300065E7)
+          |float(12300065)
           |--- testing: '123e5xyz' + '-44' ---
-          |float(1.2299956E7)
+          |float(12299956)
           |--- testing: '123e5xyz' + '1.2' ---
-          |float(1.23000012E7)
+          |float(12300001.2)
           |--- testing: '123e5xyz' + '-7.7' ---
-          |float(1.22999923E7)
+          |float(12299992.3)
           |--- testing: '123e5xyz' + 'abc' ---
-          |float(1.23E7)
+          |float(12300000)
           |--- testing: '123e5xyz' + '123abc' ---
-          |float(1.2300123E7)
+          |float(12300123)
           |--- testing: '123e5xyz' + '123e5' ---
-          |float(2.46E7)
+          |float(24600000)
           |--- testing: '123e5xyz' + '123e5xyz' ---
-          |float(2.46E7)
+          |float(24600000)
           |--- testing: '123e5xyz' + ' 123abc' ---
-          |float(1.2300123E7)
+          |float(12300123)
           |--- testing: '123e5xyz' + '123 abc' ---
-          |float(1.2300123E7)
+          |float(12300123)
           |--- testing: '123e5xyz' + '123abc ' ---
-          |float(1.2300123E7)
+          |float(12300123)
           |--- testing: '123e5xyz' + '3.4a' ---
-          |float(1.23000034E7)
+          |float(12300003.4)
           |--- testing: '123e5xyz' + 'a5.9' ---
-          |float(1.23E7)
+          |float(12300000)
           |--- testing: ' 123abc' + '0' ---
           |int(123)
           |--- testing: ' 123abc' + '65' ---
@@ -298,9 +299,9 @@ class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |--- testing: ' 123abc' + '123abc' ---
           |int(246)
           |--- testing: ' 123abc' + '123e5' ---
-          |float(1.2300123E7)
+          |float(12300123)
           |--- testing: ' 123abc' + '123e5xyz' ---
-          |float(1.2300123E7)
+          |float(12300123)
           |--- testing: ' 123abc' + ' 123abc' ---
           |int(246)
           |--- testing: ' 123abc' + '123 abc' ---
@@ -326,9 +327,9 @@ class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |--- testing: '123 abc' + '123abc' ---
           |int(246)
           |--- testing: '123 abc' + '123e5' ---
-          |float(1.2300123E7)
+          |float(12300123)
           |--- testing: '123 abc' + '123e5xyz' ---
-          |float(1.2300123E7)
+          |float(12300123)
           |--- testing: '123 abc' + ' 123abc' ---
           |int(246)
           |--- testing: '123 abc' + '123 abc' ---
@@ -354,9 +355,9 @@ class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |--- testing: '123abc ' + '123abc' ---
           |int(246)
           |--- testing: '123abc ' + '123e5' ---
-          |float(1.2300123E7)
+          |float(12300123)
           |--- testing: '123abc ' + '123e5xyz' ---
-          |float(1.2300123E7)
+          |float(12300123)
           |--- testing: '123abc ' + ' 123abc' ---
           |int(246)
           |--- testing: '123abc ' + '123 abc' ---
@@ -376,15 +377,15 @@ class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |--- testing: '3.4a' + '1.2' ---
           |float(4.6)
           |--- testing: '3.4a' + '-7.7' ---
-          |float(-4.300000000000001)
+          |float(-4.3)
           |--- testing: '3.4a' + 'abc' ---
           |float(3.4)
           |--- testing: '3.4a' + '123abc' ---
           |float(126.4)
           |--- testing: '3.4a' + '123e5' ---
-          |float(1.23000034E7)
+          |float(12300003.4)
           |--- testing: '3.4a' + '123e5xyz' ---
-          |float(1.23000034E7)
+          |float(12300003.4)
           |--- testing: '3.4a' + ' 123abc' ---
           |float(126.4)
           |--- testing: '3.4a' + '123 abc' ---
@@ -410,9 +411,9 @@ class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |--- testing: 'a5.9' + '123abc' ---
           |int(123)
           |--- testing: 'a5.9' + '123e5' ---
-          |float(1.23E7)
+          |float(12300000)
           |--- testing: 'a5.9' + '123e5xyz' ---
-          |float(1.23E7)
+          |float(12300000)
           |--- testing: 'a5.9' + ' 123abc' ---
           |int(123)
           |--- testing: 'a5.9' + '123 abc' ---
@@ -423,7 +424,7 @@ class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |float(3.4)
           |--- testing: 'a5.9' + 'a5.9' ---
           |int(0)
-          |""".stripMargin
+          |===DONE===""".stripMargin
       )
     }
   }
