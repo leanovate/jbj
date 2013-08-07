@@ -41,9 +41,4 @@ class StaticContext(var global: GlobalContext) extends Context {
   def defineFunction(function: PFunction) {
     global.defineFunction(function)
   }
-  def findClass(name: NamespaceName): Option[PClass] = global.findClass(name)
-
-  def defineClass(pClass: PClass) {
-    global.defineClass(pClass)
-  }
 }

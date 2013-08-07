@@ -4,10 +4,12 @@ import java.io.PrintStream
 import scala.collection.mutable
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.buildin
-import de.leanovate.jbj.ast.{Prog, NodePosition, NamespaceName}
+import de.leanovate.jbj.ast.{Prog, NodePosition}
 import scala.collection.immutable.Stack
 import de.leanovate.jbj.JbjEnv
 import de.leanovate.jbj.runtime.exception.CompileErrorException
+import de.leanovate.jbj.ast.NamespaceName
+import de.leanovate.jbj.runtime.value.StringVal
 
 case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settings: Settings) extends Context {
   private val classes = mutable.Map.empty[Seq[String], PClass]
@@ -47,6 +49,15 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
 
   def findClass(name: NamespaceName): Option[PClass] =
     buildin.buildinClasses.get(name).map(Some.apply).getOrElse(classes.get(name.lowercase))
+
+  def findClassOrAutoload(name: NamespaceName)(implicit position: NodePosition): Option[PClass] =
+    findClass(name).map(Some.apply).getOrElse {
+      findFunction(NamespaceName("__autoload")).flatMap {
+        autoload =>
+          autoload.call(this, position, StringVal(name.toString) :: Nil)
+          findClass(name)
+      }
+    }
 
   def defineClass(pClass: PClass) {
     classes.put(pClass.name.lowercase, pClass)

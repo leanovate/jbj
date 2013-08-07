@@ -20,10 +20,6 @@ trait Context {
 
   def stack: Stack[NodePosition]
 
-  def findClass(name: NamespaceName): Option[PClass]
-
-  def defineClass(pClass: PClass)
-
   def findConstant(name: String): Option[Value]
 
   def defineConstant(name: String, value: Value, caseInsensitive: Boolean)

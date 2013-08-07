@@ -377,6 +377,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       s => ScalarExpr(StringVal(s))
     } | "__FILE__" ^^^ FileNameConstExpr() |
       "__LINE__" ^^^ LineNumberConstExpr() |
+      "__FUNCTION__" ^^^ FunctionNameConstExpr() |
       "__CLASS__" ^^^ ClassNameConstExpr() |
       "__METHOD__" ^^^ MethodNameConstExpr() |
       hereDocStartLit ~> opt(encapsAndWhitespaceLit) <~ hereDocEndLit ^^ {
@@ -473,7 +474,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     case cname ~ _ ~ v => StaticClassVarReference(cname, DynamicName(v))
   }
 
-  lazy val variableClassName : PackratParser[Name] = referenceVariable ^^ {
+  lazy val variableClassName: PackratParser[Name] = referenceVariable ^^ {
     v => DynamicName(v)
   }
 
@@ -579,13 +580,11 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val issetVariable: PackratParser[Expr] = exprWithoutVariable ||| rVariable
 
-  lazy val classConstant : PackratParser[Expr] = className ~ "::" ~ identLit ^^ {
+  lazy val classConstant: PackratParser[Expr] = className ~ "::" ~ identLit ^^ {
     case cname ~ _ ~ n => ClassConstantExpr(StaticNamespaceName(cname), n)
   } | variableClassName ~ "::" ~ identLit ^^ {
     case cname ~ _ ~ n => ClassConstantExpr(cname, n)
   }
-
-
 
 
   lazy val constant: PackratParser[Expr] = identLit ^^ {
@@ -652,47 +651,5 @@ object JbjParser {
   def apply(fileName: String, s: String): Prog = {
     val parser = new JbjParser(ParseContext(fileName))
     parser.parse(s)
-  }
-
-  //Simplify testing
-  def test(exprstr: String) = {
-    var tokens: Reader[Token] = new TokenReader(exprstr, InitialLexer)
-
-    println("Tokens")
-    var count = 0
-    while (!tokens.atEnd && count < 1000) {
-      println(tokens.first)
-      tokens = tokens.rest
-      count += 1
-    }
-
-    val tokens2 = new TokenReader(exprstr, InitialLexer)
-    val parser = new JbjParser(ParseContext("-"))
-    parser.phrase(parser.start)(tokens2) match {
-      case parser.Success(tree: Prog, _) =>
-        println("Tree")
-        tree.dump(System.out, "")
-
-        val jbj = JbjEnv()
-        val context = jbj.newGlobalContext(System.out, System.err)
-
-        context.settings.errorReporting = Settings.E_ALL
-        CgiEnvironment.httpGet("?ab+cd+ef+123+test", context)
-        tree.exec(context)
-      case e: parser.NoSuccess =>
-        println(e)
-    }
-
-  }
-
-  //A main method for testing
-  def main(args: Array[String]) {
-    test( """<?php
-            |$i=3;
-            |do {
-            |	echo $i;
-            |	$i--;
-            |} while($i>0);
-            |?>""".stripMargin)
   }
 }

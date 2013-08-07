@@ -21,7 +21,7 @@ object ScriptLexer extends Lexer with CommonLexerPatterns {
     "declare", "enddeclare", "instanceof",
     "switch", "case", "default", "endswitch",
     "function", "array", "list", "callable",
-    "__FILE__", "__LINE__", "__CLASS__", "__METHOD__")
+    "__FILE__", "__LINE__", "__FUNCTION__", "__CLASS__", "__METHOD__")
 
   /** The set of delimiters (ordering does not matter). */
   val delimiters = Set("$", ",", ":", "::", "?", "!", ";", "{", "}", "[", "]", "=>", "->",

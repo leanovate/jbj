@@ -24,18 +24,18 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   }.toMap
 
   override def exec(implicit ctx: Context) = {
-    if (ctx.findClass(name).isDefined)
+    if (ctx.global.findClass(name).isDefined)
       ctx.log.fatal(position, "Cannot redeclare class %s".format(name))
     else {
       if (superClassName.isDefined) {
-        superClass = ctx.findClass(superClassName.get)
+        superClass = ctx.global.findClass(superClassName.get)
         if (!superClass.isDefined)
           throw new FatalErrorJbjException("Class '%s' not found".format(superClassName))
         else if (superClass.get.classEntry == ClassEntry.FINAL_CLASS)
           throw new FatalErrorJbjException(
             "Class %s may not inherit from final class (%s)".format(name.toString, superClassName.get.toString))
       }
-      ctx.defineClass(this)
+      ctx.global.defineClass(this)
     }
     SuccessExecResult
   }

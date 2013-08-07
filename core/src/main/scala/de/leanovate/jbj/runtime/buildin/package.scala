@@ -7,8 +7,13 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime.value.IntegerVal
 
 package object buildin {
-  val buildinFunctions: Map[NamespaceName, PFunction] = (ArrayFunctions.functions ++ ClassFunctions.functions ++ StringFunctions.functions ++
-    VariableFunctions.functions ++ RuntimeFunctions.functions).map {
+  val buildinFunctions: Map[NamespaceName, PFunction] = (
+    ArrayFunctions.functions ++
+      ClassFunctions.functions ++
+      FileFunctions.functions ++
+      StringFunctions.functions ++
+      VariableFunctions.functions ++
+      RuntimeFunctions.functions).map {
     function => function.name -> function
   }.toMap
 

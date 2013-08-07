@@ -20,12 +20,6 @@ case class ClassContext(instance: ObjectVal, callerPosition: NodePosition, calle
 
   lazy val stack: Stack[NodePosition] = callerCtx.stack.push(callerPosition)
 
-  def findClass(name: NamespaceName): Option[PClass] = global.findClass(name)
-
-  def defineClass(pClass: PClass) {
-    global.defineClass(pClass)
-  }
-
   def findConstant(name: String): Option[Value] = global.findConstant(name)
 
   def defineConstant(name: String, value: Value, caseInsensitive: Boolean) {

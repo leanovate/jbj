@@ -3,7 +3,8 @@ package de.leanovate.jbj.runtime.buildin
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.value.StringVal
 import scala.Some
-import de.leanovate.jbj.runtime.PFunction
+import de.leanovate.jbj.runtime.{PClass, PFunction}
+import de.leanovate.jbj.ast.NamespaceName
 
 object ClassFunctions {
   val functions: Seq[PFunction] = Seq(
@@ -12,6 +13,10 @@ object ClassFunctions {
       case (ctx, callerPosition, Some(_)) =>
         ctx.log.warn(callerPosition, "get_class() expects parameter 1 to be object, string given")
         BooleanVal.FALSE
+    }),
+    BuildinFunction1("class_exists", {
+      case (ctx, callerPosition, Some(name)) =>
+        BooleanVal(ctx.global.findClassOrAutoload(NamespaceName(name.toStr.value))(callerPosition).isDefined)
     })
   )
 }
