@@ -62,7 +62,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val innerStatementList: PackratParser[List[Stmt]] = rep(";") ~> rep(innerStatement)
 
-  lazy val innerStatement: PackratParser[Stmt] = statement
+  lazy val innerStatement: PackratParser[Stmt] = statement | functionDeclarationStatement | classDeclarationStatement
 
   lazy val statement: PackratParser[Stmt] = identLit <~ ":" ^^ {
     label => LabelStmt(label)
