@@ -2,7 +2,7 @@ package de.leanovate.jbj.ast.stmt
 
 import de.leanovate.jbj.ast.{StaticInitializer, NodePosition, MemberModifier, Stmt}
 import de.leanovate.jbj.runtime._
-import de.leanovate.jbj.runtime.value.{NullVal, ObjectVal}
+import de.leanovate.jbj.runtime.value.{Value, NullVal, ObjectVal}
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.context.MethodContext
 import de.leanovate.jbj.runtime.ReturnExecResult

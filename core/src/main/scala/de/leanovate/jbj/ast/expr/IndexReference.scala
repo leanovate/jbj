@@ -2,7 +2,7 @@ package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Expr, Reference}
 import de.leanovate.jbj.runtime._
-import de.leanovate.jbj.runtime.value.{ArrayVal, NullVal}
+import de.leanovate.jbj.runtime.value.{Value, ArrayVal, NullVal}
 import de.leanovate.jbj.runtime.IntArrayKey
 import scala.Some
 

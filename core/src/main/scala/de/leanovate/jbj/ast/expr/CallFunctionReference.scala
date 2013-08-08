@@ -1,8 +1,9 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Name, NamespaceName, Reference, Expr}
-import de.leanovate.jbj.runtime.{Value, Context}
+import de.leanovate.jbj.runtime.{Context}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.value.Value
 
 case class CallFunctionReference(functionName: Name, parameters: List[Expr]) extends Reference {
   override def eval(implicit ctx: Context) = {

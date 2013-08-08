@@ -1,28 +1,20 @@
 package de.leanovate.jbj.runtime.value
 
-import java.io.PrintStream
-import de.leanovate.jbj.runtime.Value
 
 case class IntegerVal(value: Long) extends NumericVal {
-  def toOutput(out: PrintStream) {
-    out.print(value)
-  }
+  override def toOutput = value.toString
 
-  def toDump(out: PrintStream, ident: String = "") {
-    out.println( """%sint(%d)""".format(ident, value))
-  }
+  override def toStr: StringVal = StringVal(value.toString)
 
-  def toStr: StringVal = StringVal(value.toString)
+  override def toInteger: IntegerVal = this
 
-  def toInteger: IntegerVal = this
+  override def toBool = BooleanVal(value != 0)
 
-  def toBool = BooleanVal(value != 0)
+  override def incr = IntegerVal(value + 1)
 
-  def incr = IntegerVal(value + 1)
+  override def decr = IntegerVal(value - 1)
 
-  def decr = IntegerVal(value - 1)
-
-  def unary_- = if (value > Long.MinValue) IntegerVal(-value) else DoubleVal(-value.toDouble)
+  override def unary_- = if (value > Long.MinValue) IntegerVal(-value) else DoubleVal(-value.toDouble)
 
   def %(other: Value): Value = (this, other) match {
     case (_, IntegerVal(0)) => BooleanVal.FALSE

@@ -2,9 +2,8 @@ package de.leanovate.jbj.runtime.env
 
 import de.leanovate.jbj.runtime._
 import java.net.{URLDecoder, URI}
-import de.leanovate.jbj.runtime.value.{StringVal, ArrayVal}
+import de.leanovate.jbj.runtime.value.{Value, StringVal, ArrayVal}
 import de.leanovate.jbj.ast.NoNodePosition
-import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.runtime.IntArrayKey
 import de.leanovate.jbj.runtime.StringArrayKey
 import scala.Some

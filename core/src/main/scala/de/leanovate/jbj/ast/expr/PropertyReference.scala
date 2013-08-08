@@ -1,8 +1,8 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Name, Reference}
-import de.leanovate.jbj.runtime.{StringArrayKey, Value, Context}
-import de.leanovate.jbj.runtime.value.{StringVal, NullVal, ObjectVal}
+import de.leanovate.jbj.runtime.{StringArrayKey, Context}
+import de.leanovate.jbj.runtime.value.{Value, StringVal, NullVal, ObjectVal}
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.context.MethodContext
 

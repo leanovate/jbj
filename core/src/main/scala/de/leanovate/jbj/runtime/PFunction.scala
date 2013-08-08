@@ -1,6 +1,7 @@
 package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.ast.{NamespaceName, NodePosition}
+import de.leanovate.jbj.runtime.value.Value
 
 trait PFunction {
   def name: NamespaceName

@@ -1,7 +1,8 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Name, Reference}
-import de.leanovate.jbj.runtime.{Context, Value}
+import de.leanovate.jbj.runtime.{Context}
+import de.leanovate.jbj.runtime.value.Value
 
 case class StaticClassVarReference(className: Name, variableName: Name) extends Reference {
   override def eval(implicit ctx: Context) = ???

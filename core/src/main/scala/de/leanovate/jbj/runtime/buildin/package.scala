@@ -12,7 +12,7 @@ package object buildin {
       ClassFunctions.functions ++
       FileFunctions.functions ++
       StringFunctions.functions ++
-      VariableFunctions.functions ++
+      OutputFunctions.functions ++
       RuntimeFunctions.functions).map {
     function => function.name -> function
   }.toMap

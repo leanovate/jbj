@@ -1,6 +1,6 @@
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.runtime.value.NullVal
+import de.leanovate.jbj.runtime.value.{Value, NullVal}
 
 class ValueRef(private var current: Option[Value] = None) {
 

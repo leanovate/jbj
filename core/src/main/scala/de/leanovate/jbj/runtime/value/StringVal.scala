@@ -1,17 +1,11 @@
 package de.leanovate.jbj.runtime.value
 
 import java.io.PrintStream
-import de.leanovate.jbj.runtime.{Context, IntArrayKey, ArrayKey, Value}
+import de.leanovate.jbj.runtime.{Context, IntArrayKey, ArrayKey}
 import de.leanovate.jbj.ast.NodePosition
 
 case class StringVal(value: String) extends Value {
-  override def toOutput(out: PrintStream) {
-    out.print(value)
-  }
-
-  override def toDump(out: PrintStream, ident: String = "") {
-    out.println( """%sstring(%s) "%s"""".format(ident, value.length, value))
-  }
+  override def toOutput = value
 
   override def toStr: StringVal = this
 

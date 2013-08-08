@@ -4,6 +4,7 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.ast.{Prog, NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
+import de.leanovate.jbj.runtime.value.Value
 
 class StaticContext(var global: GlobalContext) extends Context {
   private val variables = mutable.Map.empty[String, ValueRef]

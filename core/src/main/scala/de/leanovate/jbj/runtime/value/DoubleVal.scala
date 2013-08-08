@@ -6,13 +6,7 @@ import java.math.MathContext
 import java.math
 
 case class DoubleVal(value: Double) extends NumericVal {
-  def toOutput(out: PrintStream) {
-    out.print(compatbleStr)
-  }
-
-  def toDump(out: PrintStream, ident: String = "") {
-    out.println( """%sfloat(%s)""".format(ident, compatbleStr))
-  }
+  def toOutput = compatbleStr
 
   def toStr: StringVal = StringVal(compatbleStr)
 
@@ -28,7 +22,7 @@ case class DoubleVal(value: Double) extends NumericVal {
 
   private def compatbleStr = {
     val str = new math.BigDecimal(value, DoubleVal.mathContext).toString
-    if ( str.indexOf('.') >= 0 && str.indexOf("E") < 0)
+    if (str.indexOf('.') >= 0 && str.indexOf("E") < 0)
       str.reverse.dropWhile(_ == '0').reverse
     else
       str

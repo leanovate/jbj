@@ -1,6 +1,6 @@
 package de.leanovate.jbj.runtime.value
 
-import de.leanovate.jbj.runtime.{Context, ArrayKey, Value}
+import de.leanovate.jbj.runtime.{Context, ArrayKey}
 import de.leanovate.jbj.ast.NodePosition
 
 trait NumericVal extends Value {

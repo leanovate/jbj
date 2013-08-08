@@ -4,6 +4,7 @@ import java.io.PrintStream
 import de.leanovate.jbj.runtime.context.{StaticContext, GlobalContext}
 import de.leanovate.jbj.ast.{NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
+import de.leanovate.jbj.runtime.value.Value
 
 trait Context {
   def global: GlobalContext

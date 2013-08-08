@@ -1,16 +1,11 @@
 package de.leanovate.jbj.runtime.value
 
 import java.io.PrintStream
-import de.leanovate.jbj.runtime.{Context, ArrayKey, Value}
+import de.leanovate.jbj.runtime.{Context, ArrayKey}
 import de.leanovate.jbj.ast.NodePosition
 
 object NullVal extends Value {
-  override def toOutput(out: PrintStream) {
-  }
-
-  override def toDump(out: PrintStream, ident: String = "") {
-    out.println("%sNULL".format(ident))
-  }
+  override def toOutput = ""
 
   override def toStr = StringVal("")
 

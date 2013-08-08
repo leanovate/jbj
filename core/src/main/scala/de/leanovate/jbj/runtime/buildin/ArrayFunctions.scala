@@ -1,6 +1,6 @@
 package de.leanovate.jbj.runtime.buildin
 
-import de.leanovate.jbj.runtime.value.{NullVal, ArrayVal, IntegerVal}
+import de.leanovate.jbj.runtime.value.{Value, NullVal, ArrayVal, IntegerVal}
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.ast.NodePosition
 import scala.collection.mutable

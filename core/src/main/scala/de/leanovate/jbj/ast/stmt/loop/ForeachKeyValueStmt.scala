@@ -3,7 +3,7 @@ package de.leanovate.jbj.ast.stmt.loop
 import de.leanovate.jbj.ast.{Reference, StaticInitializer, Stmt, Expr}
 import de.leanovate.jbj.runtime._
 import scala.annotation.tailrec
-import de.leanovate.jbj.runtime.value.ArrayVal
+import de.leanovate.jbj.runtime.value.{Value, ArrayVal}
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.ast.stmt.BlockLike

@@ -5,7 +5,7 @@ import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.ast.NamespaceName
 import scala.collection.mutable
-import de.leanovate.jbj.runtime.value.ObjectVal
+import de.leanovate.jbj.runtime.value.{Value, ObjectVal}
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.ClassContext

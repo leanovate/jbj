@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.expr.comp
 
-import de.leanovate.jbj.runtime.value.BooleanVal
-import de.leanovate.jbj.runtime.{Value, Context}
+import de.leanovate.jbj.runtime.value.{Value, BooleanVal}
+import de.leanovate.jbj.runtime.{Context}
 import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.ast.expr.BinaryExpr
 

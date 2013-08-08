@@ -3,7 +3,7 @@ package de.leanovate.jbj.runtime.buildin
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.value.StringVal
 import scala.Some
-import de.leanovate.jbj.runtime.{Value, PClass, PFunction}
+import de.leanovate.jbj.runtime.{PClass, PFunction}
 import de.leanovate.jbj.ast.NamespaceName
 
 object ClassFunctions {

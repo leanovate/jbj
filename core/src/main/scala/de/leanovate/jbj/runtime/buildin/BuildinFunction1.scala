@@ -1,7 +1,8 @@
 package de.leanovate.jbj.runtime.buildin
 
-import de.leanovate.jbj.runtime.{Value, PFunction, Context}
+import de.leanovate.jbj.runtime.{PFunction, Context}
 import de.leanovate.jbj.ast.{NamespaceName, NodePosition}
+import de.leanovate.jbj.runtime.value.Value
 
 case class BuildinFunction1(_name: String, impl: PartialFunction[(Context, NodePosition, Option[Value]), Value]) extends PFunction {
   def name = NamespaceName(_name)

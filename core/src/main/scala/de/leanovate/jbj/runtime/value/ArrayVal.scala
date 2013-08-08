@@ -14,23 +14,7 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, Value]) extends Va
     case _ => 0L
   }.toList).max
 
-  override def toOutput(out: PrintStream) {
-    out.print("Array")
-  }
-
-  override def toDump(out: PrintStream, ident: String = "") {
-    val nextIdent = ident + "  "
-    out.println("%sarray(%d) {".format(ident, keyValues.size))
-    keyValues.foreach {
-      case (IntArrayKey(key), value) =>
-        out.println("%s[%d]=>".format(nextIdent, key))
-        value.toDump(out, ident + "  ")
-      case (StringArrayKey(key), value) =>
-        out.println( """%s["%s"]=>""".format(nextIdent, key))
-        value.toDump(out, ident + "  ")
-    }
-    out.println("%s}".format(ident))
-  }
+  override def toOutput = "Array"
 
   override def toStr = StringVal("Array")
 
@@ -95,4 +79,6 @@ object ArrayVal {
         builder += key -> keyValue._2
     }.result())
   }
+
+  def unapply(array: ArrayVal) = Some(array.keyValues)
 }

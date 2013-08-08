@@ -4,6 +4,7 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.ast.{Prog, NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
+import de.leanovate.jbj.runtime.value.Value
 
 case class FunctionContext(functionName: NamespaceName, callerPosition: NodePosition, callerCtx: Context) extends Context {
   private val localVariables = mutable.Map.empty[String, ValueRef]

@@ -1,15 +1,10 @@
-package de.leanovate.jbj.runtime
+package de.leanovate.jbj.runtime.value
 
-import de.leanovate.jbj.runtime.value._
-import java.io.PrintStream
-import de.leanovate.jbj.runtime.value.StringVal
-import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.ast.NodePosition
+import de.leanovate.jbj.runtime.{Context, ArrayKey}
 
 trait Value {
-  def toOutput(out: PrintStream)
-
-  def toDump(out: PrintStream, ident: String = "")
+  def toOutput: String
 
   def toStr: StringVal
 

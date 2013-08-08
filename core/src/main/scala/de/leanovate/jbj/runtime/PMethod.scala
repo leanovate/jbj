@@ -1,6 +1,6 @@
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.runtime.value.ObjectVal
+import de.leanovate.jbj.runtime.value.{Value, ObjectVal}
 import de.leanovate.jbj.ast.NodePosition
 
 trait PMethod {

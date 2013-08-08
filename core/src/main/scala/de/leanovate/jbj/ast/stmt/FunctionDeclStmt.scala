@@ -4,7 +4,7 @@ import de.leanovate.jbj.ast.{NodePosition, NamespaceName, StaticInitializer, Stm
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.context.FunctionContext
 import de.leanovate.jbj.runtime.SuccessExecResult
-import de.leanovate.jbj.runtime.value.NullVal
+import de.leanovate.jbj.runtime.value.{Value, NullVal}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class FunctionDeclStmt(name: NamespaceName, parameterDecls: List[ParameterDecl], stmts: List[Stmt])
