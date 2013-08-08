@@ -39,27 +39,59 @@ package object buildin {
     "E_ALL" -> IntegerVal(Settings.E_ALL)
   ).toMap
 
-  val buildinClasses: Map[NamespaceName, PClass] = Seq(
-    new PClass {
-      def classEntry = ClassEntry.CLASS
 
-      def name = NamespaceName("stdClass")
+  val stdClass = new PClass {
+    override def classEntry = ClassEntry.CLASS
 
-      def superClass = None
+    override def name = NamespaceName("stdClass")
 
-      def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) =
-        new ObjectVal(this, instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ArrayKey, Value])
+    override def superClass = None
 
-      def invokeMethod(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, methodName: String,
-                       parameters: List[Value]) = {
-        ctx.log.fatal(callerPosition, "Call to undefined method %s::%s()".format(name.toString, methodName))
-        Left(NullVal)
-      }
+    override def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) =
+      new ObjectVal(this, instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ArrayKey, Value])
 
-      def methods = Seq.empty
-
-      def findMethod(methodName: String): Option[PMethod] = None
+    override def invokeMethod(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, methodName: String,
+                              parameters: List[Value]) = {
+      ctx.log.fatal(callerPosition, "Call to undefined method %s::%s()".format(name.toString, methodName))
+      Left(NullVal)
     }
+
+    override def methods = Seq.empty
+
+    override def findMethod(methodName: String) = None
+  }
+
+  val Exception = new PClass {
+    override def classEntry = ClassEntry.CLASS
+
+    override def name = NamespaceName("Exception")
+
+    override def superClass = None
+
+    override def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) = {
+      val (message: Value, code: Value, previous: Value) = parameters match {
+        case Nil => (StringVal(""), IntegerVal(0), NullVal)
+        case msg :: Nil => (msg.toStr, IntegerVal(0), NullVal)
+        case msg :: c :: Nil => (msg.toStr, c.toInteger, NullVal)
+        case msg :: c :: prev => (msg.toStr, c.toInteger, prev)
+      }
+      ObjectVal(this,
+        Some(StringVal("message")) -> message,
+        Some(StringVal("code")) -> code,
+        Some(StringVal("previous")) -> previous,
+        Some(StringVal("file")) -> StringVal(callerPosition.fileName),
+        Some(StringVal("line")) -> IntegerVal(callerPosition.line))
+    }
+
+    override def invokeMethod(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, methodName: String, parameters: List[Value]) = ???
+
+    override def methods = Seq.empty
+
+    override def findMethod(methodName: String) = None
+  }
+
+  val buildinClasses: Map[NamespaceName, PClass] = Seq(
+    stdClass, Exception
   ).map {
     c =>
       c.name -> c

@@ -51,7 +51,7 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutabl
 }
 
 object ObjectVal {
-  def apply(pClass: PClass, keyValues: List[(Option[Value], Value)]): ObjectVal = {
+  def apply(pClass: PClass, keyValues: (Option[Value], Value)*): ObjectVal = {
     var nextIndex: Long = -1
 
     new ObjectVal(pClass, pClass.instanceCounter.incrementAndGet,
@@ -77,5 +77,5 @@ object ObjectVal {
       }.result())
   }
 
-  def unapply(obj:ObjectVal) = Some(obj.pClass, obj.instanceNum, obj.keyValues)
+  def unapply(obj: ObjectVal) = Some(obj.pClass, obj.instanceNum, obj.keyValues)
 }

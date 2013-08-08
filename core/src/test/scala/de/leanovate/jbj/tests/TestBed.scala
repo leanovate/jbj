@@ -44,48 +44,80 @@ object TestBed {
   //A main method for testing
   def main(args: Array[String]) {
     test( """<?php
+            |class test {
+            |  protected $x;
             |
-            |static $a = array(7,8,9);
+            |  static private $test = NULL;
+            |  static private $cnt = 0;
             |
-            |function f1() {
-            |	static $a = array(1,2,3);
+            |  static function factory($x) {
+            |    if (test::$test) {
+            |      return test::$test;
+            |    } else {
+            |      test::$test = new test($x);
+            |      return test::$test;
+            |    }
+            |  }
             |
-            |	function g1() {
-            |		static $a = array(4,5,6);
-            |		var_dump($a);
-            |	}
+            |  protected function __construct($x) {
+            |    test::$cnt++;
+            |    $this->x = $x;
+            |  }
             |
-            |	var_dump($a);
+            |  static function destroy() {
+            |    test::$test = NULL;
+            |  }
             |
+            |  protected function __destruct() {
+            |  	test::$cnt--;
+            |  }
+            |
+            |  public function get() {
+            |    return $this->x;
+            |  }
+            |
+            |  static public function getX() {
+            |    if (test::$test) {
+            |      return test::$test->x;
+            |    } else {
+            |      return NULL;
+            |    }
+            |  }
+            |
+            |  static public function count() {
+            |    return test::$cnt;
+            |  }
             |}
             |
-            |f1();
-            |g1();
-            |var_dump($a);
+            |echo "Access static members\n";
+            |var_dump(test::getX());
+            |var_dump(test::count());
             |
-            |eval(' static $b = array(10,11,12); ');
+            |echo "Create x and y\n";
+            |$x = test::factory(1);
+            |$y = test::factory(2);
+            |var_dump(test::getX());
+            |var_dump(test::count());
+            |var_dump($x->get());
+            |var_dump($y->get());
             |
-            |function f2() {
-            |	eval(' static $b = array(1,2,3); ');
+            |echo "Destruct x\n";
+            |$x = NULL;
+            |var_dump(test::getX());
+            |var_dump(test::count());
+            |var_dump($y->get());
             |
-            |	function g2a() {
-            |		eval(' static $b = array(4,5,6); ');
-            |		var_dump($b);
-            |	}
+            |echo "Destruct y\n";
+            |$y = NULL;
+            |var_dump(test::getX());
+            |var_dump(test::count());
             |
-            |	eval('function g2b() { static $b = array(7, 8, 9); var_dump($b); } ');
-            |	var_dump($b);
-            |}
+            |echo "Destruct static\n";
+            |test::destroy();
+            |var_dump(test::getX());
+            |var_dump(test::count());
             |
-            |f2();
-            |g2a();
-            |g2b();
-            |var_dump($b);
-            |
-            |
-            |eval(' function f3() { static $c = array(1,2,3); var_dump($c); }');
-            |f3();
-            |
+            |echo "Done\n";
             |?>""".stripMargin)
   }
 }
