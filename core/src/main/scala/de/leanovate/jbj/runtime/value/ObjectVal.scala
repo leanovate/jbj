@@ -6,6 +6,7 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime.IntArrayKey
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.ast.NodePosition
+import scala.annotation.tailrec
 
 class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutable.LinkedHashMap[ArrayKey, Value]) extends Value {
   override def toOutput(out: PrintStream) {
@@ -43,6 +44,12 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutabl
   override def incr = this
 
   override def decr = this
+
+  @tailrec
+  final def instanceOf(other: PClass): Boolean = pClass == other || (pClass.superClass match {
+    case None => false
+    case Some(s) => instanceOf(s)
+  })
 
   def getProperty(name: String)(implicit ctx: Context, position: NodePosition): Option[Value] =
     keyValues.get(StringArrayKey(name))

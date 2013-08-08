@@ -80,5 +80,50 @@ class AutoloadSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |===DONE===""".stripMargin
       )
     }
+
+    "ZE2 Autoload and recursion" in {
+      // classes/autoload_004
+      script(
+        """<?php
+          |
+          |function __autoload($class_name)
+          |{
+          |	var_dump(class_exists($class_name));
+          |	require_once(dirname(__FILE__) . '/' . $class_name . '.p5c');
+          |	echo __FUNCTION__ . '(' . $class_name . ")\n";
+          |}
+          |
+          |var_dump(class_exists('autoload_derived'));
+          |
+          |?>
+          |===DONE===""".stripMargin
+      ).result must haveOutput(
+        """bool(false)
+          |bool(false)
+          |__autoload(autoload_root)
+          |__autoload(autoload_derived)
+          |bool(true)
+          |===DONE===""".stripMargin
+      )
+    }
+
+    "Ensure instanceof does not trigger autoload." in {
+      // classes/autoload_007
+      script(
+        """<?php
+          |  function __autoload($name)
+          |  {
+          |      echo "In autoload: ";
+          |      var_dump($name);
+          |  }
+          |
+          |  $a = new stdClass;
+          |  var_dump($a instanceof UndefC);
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """bool(false)
+          |""".stripMargin
+      )
+    }
   }
 }

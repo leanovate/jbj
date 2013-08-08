@@ -15,10 +15,6 @@ import scala.collection.mutable
 import scala.util.parsing.combinator.{PackratParsers, Parsers}
 import scala.language.implicitConversions
 import scala.Some
-import de.leanovate.jbj.runtime.env.CgiEnvironment
-import scala.util.parsing.input.Reader
-import de.leanovate.jbj.runtime.Settings
-import de.leanovate.jbj.JbjEnv
 import de.leanovate.jbj.ast.expr.include.{RequireOnceExpr, RequireExpr, IncludeOnceExpr, IncludeExpr}
 import de.leanovate.jbj.runtime.exception.ParseJbjException
 
@@ -324,7 +320,9 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     }
 
   lazy val termWithoutVariable: PackratParser[Expr] =
-    expr ~ "?" ~ expr ~ ":" ~ expr ^^ {
+    expr ~ "instanceof" ~ classNameReference ^^ {
+      case e ~ _ ~ cname => InstanceOfExpr(e, cname)
+    } | expr ~ "?" ~ expr ~ ":" ~ expr ^^ {
       case cond ~ _ ~ tExpr ~ _ ~ fExpr => TernaryExpr(cond, tExpr, fExpr)
     } | "!" ~> term ^^ {
       e => BoolNotExpr(e)
@@ -364,7 +362,17 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val fullyQualifiedClassName: PackratParser[NamespaceName] = namespaceName
 
-  lazy val classNameReference: PackratParser[NamespaceName] = className
+  lazy val classNameReference: PackratParser[Name] = className ^^ {
+    cname => StaticNamespaceName(cname)
+  } | dynamicClassNameReference
+
+  lazy val dynamicClassNameReference: PackratParser[Name] =
+    baseVariable ~ rep("->" ~> objectProperty) ^^ {
+      case v ~ props => DynamicName(props.flatten.foldLeft(v) {
+        (ref, prop) =>
+          prop(ref)
+      })
+    }
 
   lazy val ctorArguments: PackratParser[List[Expr]] = opt(functionCallParameterList) ^^ (_.getOrElse(Nil))
 

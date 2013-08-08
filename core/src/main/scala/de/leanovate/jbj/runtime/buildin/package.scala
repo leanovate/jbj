@@ -45,6 +45,8 @@ package object buildin {
 
       def name = NamespaceName("stdClass")
 
+      def superClass = None
+
       def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) =
         new ObjectVal(this, instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ArrayKey, Value])
 

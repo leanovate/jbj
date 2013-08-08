@@ -24,6 +24,8 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
 
   private val includedFiles = mutable.Set.empty[String]
 
+  private val autoloading = mutable.Set.empty[String]
+
   def global = this
 
   def static = staticContext("global")
@@ -53,9 +55,12 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
   def findClassOrAutoload(name: NamespaceName)(implicit position: NodePosition): Option[PClass] =
     findClass(name).map(Some.apply).getOrElse {
       findFunction(NamespaceName("__autoload")).flatMap {
-        autoload =>
+        case autoload if !autoloading.contains(name.toString) =>
+          autoloading.add(name.toString)
           autoload.call(this, position, StringVal(name.toString) :: Nil)
+          autoloading.remove(name.toString)
           findClass(name)
+        case _ => None
       }
     }
 

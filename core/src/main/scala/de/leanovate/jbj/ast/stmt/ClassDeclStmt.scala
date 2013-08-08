@@ -14,7 +14,9 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
                          superClassName: Option[NamespaceName], implements: List[NamespaceName], stmts: List[Stmt])
   extends Stmt with PClass {
 
-  private var superClass: Option[PClass] = None
+  private var _superClass: Option[PClass] = None
+
+  def superClass = _superClass
 
   private lazy val instanceAssinments = stmts.filter(_.isInstanceOf[ClassVarDeclStmt])
 
@@ -28,9 +30,9 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
       ctx.log.fatal(position, "Cannot redeclare class %s".format(name))
     else {
       if (superClassName.isDefined) {
-        superClass = ctx.global.findClassOrAutoload(superClassName.get)
+        _superClass = ctx.global.findClassOrAutoload(superClassName.get)
         if (!superClass.isDefined)
-          throw new FatalErrorJbjException("Class '%s' not found".format(superClassName))
+          throw new FatalErrorJbjException("Class '%s' not found".format(superClassName.get))
         else if (superClass.get.classEntry == ClassEntry.FINAL_CLASS)
           throw new FatalErrorJbjException(
             "Class %s may not inherit from final class (%s)".format(name.toString, superClassName.get.toString))

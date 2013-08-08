@@ -11,6 +11,8 @@ trait PClass {
 
   def name: NamespaceName
 
+  def superClass:Option[PClass]
+
   def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]): Value
 
   def invokeMethod(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, methodName: String, parameters: List[Value]): Either[Value, ValueRef]
