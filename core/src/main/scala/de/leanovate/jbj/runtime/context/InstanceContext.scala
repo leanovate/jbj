@@ -1,11 +1,11 @@
 package de.leanovate.jbj.runtime.context
 
-import de.leanovate.jbj.ast.{Prog, NodePosition, NamespaceName}
+import de.leanovate.jbj.ast.{NodePosition, NamespaceName}
 import de.leanovate.jbj.runtime.value.{Value, ObjectVal}
 import de.leanovate.jbj.runtime._
 import scala.collection.immutable.Stack
 
-case class ClassContext(instance: ObjectVal, callerPosition: NodePosition, callerCtx: Context) extends Context {
+case class InstanceContext(instance: ObjectVal, callerPosition: NodePosition, callerCtx: Context) extends Context {
   private val identifier = "Class_" + instance.pClass.name.toString
 
   lazy val global = callerCtx.global

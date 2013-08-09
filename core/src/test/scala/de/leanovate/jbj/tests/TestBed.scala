@@ -43,18 +43,35 @@ object TestBed {
   //A main method for testing
   def main(args: Array[String]) {
     test( """<?php
-            |function test($str) {
-            |  echo "\n--> Testing $str:\n";
-            |  var_dump((int)$str);
-            |  var_dump((float)$str);
-            |  var_dump($str > 0);
+            |class MyException extends Exception {
+            |	function MyException($_error) {
+            |		$this->error = $_error;
+            |	}
+            |
+            |	function getException()
+            |	{
+            |		return $this->error;
+            |	}
             |}
             |
-            |test("..9");
-            |test(".9.");
-            |test("9..");
-            |test("9.9.");
-            |test("9.9.9");
+            |function ThrowException()
+            |{
+            |	throw new MyException("'This is an exception!'");
+            |}
+            |
+            |
+            |try {
+            |} catch (MyException $exception) {
+            |	print "There shouldn't be an exception: " . $exception->getException();
+            |	print "\n";
+            |}
+            |
+            |try {
+            |	ThrowException();
+            |} catch (MyException $exception) {
+            |	print "There was an exception: " . $exception->getException();
+            |	print "\n";
+            |}
             |?>""".stripMargin)
   }
 }

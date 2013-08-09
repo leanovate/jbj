@@ -11,7 +11,7 @@ import scala.annotation.tailrec
 object OutputFunctions {
   val functions: Seq[PFunction] = Seq(
     new PFunction() {
-      def name = NamespaceName("var_dump")
+      def name = NamespaceName(relative = false, "var_dump")
 
       def call(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) = {
         var_dump(parameters: _*)(ctx, callerPosition)

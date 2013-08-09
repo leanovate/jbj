@@ -1,14 +1,15 @@
 package de.leanovate.jbj.ast.stmt
 
-import de.leanovate.jbj.ast.{NodePosition, ClassEntry, Stmt}
+import de.leanovate.jbj.ast._
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.SuccessExecResult
-import de.leanovate.jbj.ast.NamespaceName
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.value.{Value, ObjectVal}
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.runtime.context.ClassContext
+import de.leanovate.jbj.runtime.context.InstanceContext
+import de.leanovate.jbj.ast.NamespaceName
+import scala.Some
 
 case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
                          superClassName: Option[NamespaceName], implements: List[NamespaceName], stmts: List[Stmt])
@@ -19,11 +20,6 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   def superClass = _superClass
 
   private lazy val instanceAssinments = stmts.filter(_.isInstanceOf[ClassVarDeclStmt])
-
-  private lazy val methodMap = stmts.filter(_.isInstanceOf[PMethod]).map(_.asInstanceOf[PMethod]).map {
-    m =>
-      m.name.toLowerCase -> m
-  }.toMap
 
   override def exec(implicit ctx: Context) = {
     if (ctx.global.findClass(name).isDefined)
@@ -47,28 +43,26 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
       throw new FatalErrorJbjException("Cannot instantiate abstract class %s".format(name.toString))(ctx, callerPosition)
     val instance = new ObjectVal(this, instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ArrayKey, Value])
 
-    implicit val classCtx = ClassContext(instance, callerPosition, ctx)
+    implicit val classCtx = InstanceContext(instance, callerPosition, ctx)
 
     instanceAssinments.foreach(_.exec)
 
-    findConstructor.foreach(_.call(ctx, callerPosition, instance, parameters))
+    findConstructor.foreach(_.invoke(ctx, callerPosition, instance, parameters))
     instance
   }
 
-  override def invokeMethod(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, methodName: String,
-                            parameters: List[Value]) = {
-    findMethod(methodName) match {
-      case Some(method) =>
-        method.call(ctx, callerPosition, instance, parameters)
-      case None =>
-        throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))(ctx, callerPosition)
+  override lazy val methods: Map[String, PMethod] = {
+    val result = mutable.LinkedHashMap.empty[String, PMethod]
+
+    superClass.foreach(result ++= _.methods)
+    stmts.foreach {
+      case method: PMethod =>
+        result -= method.name.toLowerCase
+        result += method.name.toLowerCase -> method
+      case _ =>
     }
+    result.toMap
   }
-
-  override lazy val methods = stmts.filter(_.isInstanceOf[PMethod]).map(_.asInstanceOf[PMethod]).map(_.name).toSeq
-
-  override def findMethod(methodName: String): Option[PMethod] =
-    methodMap.get(methodName.toLowerCase).map(Some.apply).getOrElse(superClass.flatMap(_.findMethod(methodName)))
 
   override def dump(out: PrintStream, ident: String) {
     out.println(ident + getClass.getSimpleName + " " + name.toString + " " + position)

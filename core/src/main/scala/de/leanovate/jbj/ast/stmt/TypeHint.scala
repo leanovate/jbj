@@ -1,6 +1,6 @@
 package de.leanovate.jbj.ast.stmt
 
-import de.leanovate.jbj.ast.NamespaceName
+import de.leanovate.jbj.ast.{NamespaceName, Name}
 
 sealed trait TypeHint
 

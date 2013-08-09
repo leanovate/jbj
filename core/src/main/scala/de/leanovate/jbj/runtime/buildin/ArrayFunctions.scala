@@ -15,7 +15,7 @@ object ArrayFunctions {
       case (_, _, Some(_)) => IntegerVal(1)
     }),
     new PFunction() {
-      def name = NamespaceName("array_merge")
+      def name = NamespaceName(relative = false, "array_merge")
 
       def call(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) =
         parameters match {

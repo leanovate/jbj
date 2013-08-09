@@ -1,7 +1,16 @@
 package de.leanovate.jbj.ast
 
-case class NamespaceName(path: String*) {
+import de.leanovate.jbj.runtime.Context
+
+case class NamespaceName(relative: Boolean, path: String*) {
   lazy val lowercase = path.map(_.toLowerCase)
 
-  override def toString = path.mkString("\\")
+  def absolute(implicit ctx: Context) = this
+
+  override def toString =
+    path.mkString("\\")
+}
+
+object NamespaceName {
+  def apply(name: String): NamespaceName = NamespaceName(relative = name.startsWith("\\"), name.split( """\\"""): _*)
 }

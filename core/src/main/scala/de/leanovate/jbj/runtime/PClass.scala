@@ -3,6 +3,8 @@ package de.leanovate.jbj.runtime
 import de.leanovate.jbj.ast.{ClassEntry, NamespaceName, NodePosition}
 import de.leanovate.jbj.runtime.value.{Value, ObjectVal}
 import java.util.concurrent.atomic.AtomicLong
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import scala.annotation.tailrec
 
 trait PClass {
   val instanceCounter = new AtomicLong(0)
@@ -11,13 +13,34 @@ trait PClass {
 
   def name: NamespaceName
 
-  def superClass:Option[PClass]
+  def superClass: Option[PClass]
 
   def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]): Value
 
-  def invokeMethod(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, methodName: String, parameters: List[Value]): Either[Value, ValueRef]
+  def invokeMethod(ctx: Context, callerPosition: NodePosition, optInstance: Option[ObjectVal], methodName: String,
+                   parameters: List[Value]) = {
+    findMethod(methodName) match {
+      case Some(method) =>
+        optInstance.map {
+          instance =>
+            method.invoke(ctx, callerPosition, instance, parameters)
+        }.getOrElse {
+          if (!method.isStatic)
+            ctx.log.strict(callerPosition, "Non-static method %s::%s() should not be called statically".format(name.toString, methodName))
+          method.invokeStatic(ctx, callerPosition, this, parameters)
+        }
+      case None =>
+        throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))(ctx, callerPosition)
+    }
+  }
 
-  def methods:Seq[String]
+  def methods: Map[String, PMethod]
 
-  def findMethod(methodName: String): Option[PMethod]
+  def findMethod(methodName: String): Option[PMethod] = methods.get(methodName.toLowerCase)
+
+  @tailrec
+  final def isAssignableFrom(other: PClass): Boolean = this == other || (other.superClass match {
+    case None => false
+    case Some(s) => isAssignableFrom(s)
+  })
 }

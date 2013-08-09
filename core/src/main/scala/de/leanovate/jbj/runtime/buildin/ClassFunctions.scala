@@ -3,7 +3,7 @@ package de.leanovate.jbj.runtime.buildin
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.value.StringVal
 import scala.Some
-import de.leanovate.jbj.runtime.{PClass, PFunction}
+import de.leanovate.jbj.runtime.PFunction
 import de.leanovate.jbj.ast.NamespaceName
 
 object ClassFunctions {
@@ -22,7 +22,9 @@ object ClassFunctions {
       case (ctx, callerPosition, Some(name)) =>
         ctx.global.findClassOrAutoload(NamespaceName(name.toStr.value))(callerPosition).map {
           pClass =>
-            ArrayVal(pClass.methods.map(None -> StringVal(_)): _*)
+            ArrayVal(pClass.methods.values.map {
+              method => None -> StringVal(method.name)
+            }.toSeq: _*)
         }.getOrElse(NullVal)
     })
   )

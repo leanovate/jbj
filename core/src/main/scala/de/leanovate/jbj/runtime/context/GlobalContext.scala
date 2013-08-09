@@ -18,7 +18,7 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
 
   private val variables = mutable.Map.empty[String, ValueRef]
 
-  private val functions = mutable.Map.empty[NamespaceName, PFunction]
+  private val functions = mutable.Map.empty[Seq[String], PFunction]
 
   private val staticContexts = mutable.Map.empty[String, StaticContext]
 
@@ -50,11 +50,11 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
   }
 
   def findClass(name: NamespaceName): Option[PClass] =
-    buildin.buildinClasses.get(name).map(Some.apply).getOrElse(classes.get(name.lowercase))
+    buildin.buildinClasses.get(name.lowercase).map(Some.apply).getOrElse(classes.get(name.lowercase))
 
   def findClassOrAutoload(name: NamespaceName)(implicit position: NodePosition): Option[PClass] =
     findClass(name).map(Some.apply).getOrElse {
-      findFunction(NamespaceName("__autoload")).flatMap {
+      findFunction(NamespaceName(relative = true, "__autoload")).flatMap {
         case autoload if !autoloading.contains(name.toString) =>
           autoloading.add(name.toString)
           autoload.call(this, position, StringVal(name.toString) :: Nil)
@@ -93,10 +93,10 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
   }
 
   def findFunction(name: NamespaceName) =
-    buildin.buildinFunctions.get(name).map(Some.apply).getOrElse(functions.get(name))
+    buildin.buildinFunctions.get(name.lowercase).map(Some.apply).getOrElse(functions.get(name.lowercase))
 
   def defineFunction(function: PFunction) {
-    functions.put(function.name, function)
+    functions.put(function.name.lowercase, function)
   }
 
   def staticContext(identifier: String): StaticContext =

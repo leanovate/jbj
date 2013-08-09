@@ -19,7 +19,7 @@ case class PropertyReference(reference: Reference, propertyName: Name) extends R
               case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__set" =>
                 false
               case _ =>
-                obj.pClass.findMethod("__get").map(_.call(ctx, position, obj, StringVal(name) :: Nil)).exists {
+                obj.pClass.findMethod("__get").map(_.invoke(ctx, position, obj, StringVal(name) :: Nil)).exists {
                   case Left(v) => !v.isNull
                   case Right(ref) => !ref.value.isNull
                 }
@@ -42,7 +42,7 @@ case class PropertyReference(reference: Reference, propertyName: Name) extends R
               ctx.log.notice(position, "Undefined property: %s::%s".format(obj.pClass.name.toString, name))
               NullVal
             case _ =>
-              obj.pClass.findMethod("__get").map(_.call(ctx, position, obj, StringVal(name) :: Nil)).map {
+              obj.pClass.findMethod("__get").map(_.invoke(ctx, position, obj, StringVal(name) :: Nil)).map {
                 case Left(v) => v
                 case Right(ref) => ref.value
               }.getOrElse {
@@ -68,7 +68,7 @@ case class PropertyReference(reference: Reference, propertyName: Name) extends R
             case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__set" =>
               obj.setProperty(name, value)
             case _ =>
-              obj.pClass.findMethod("__set").map(_.call(ctx, position, obj, StringVal(name) :: value :: Nil)).getOrElse {
+              obj.pClass.findMethod("__set").map(_.invoke(ctx, position, obj, StringVal(name) :: value :: Nil)).getOrElse {
                 obj.setProperty(name, value)
               }
           }

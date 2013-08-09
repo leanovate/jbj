@@ -160,7 +160,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val topStatementList: PackratParser[List[Stmt]] = rep(topStatement)
 
   lazy val namespaceName: PackratParser[NamespaceName] = rep1sep(identLit, "\\") ^^ {
-    path => NamespaceName(path: _*)
+    path => NamespaceName(relative = true, path: _*)
   }
 
   lazy val topStatement: PackratParser[Stmt] = statement | functionDeclarationStatement |
@@ -236,13 +236,13 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val untickedFunctionDeclarationStatement: PackratParser[FunctionDeclStmt] =
     "function" ~ opt("&") ~ identLit ~ "(" ~ parameterList ~ ")" ~ "{" ~ innerStatementList <~ "}" ^^ {
-      case func ~ isRef ~ name ~ _ ~ params ~ _ ~ _ ~ body => FunctionDeclStmt(NamespaceName(name), params, body)
+      case func ~ isRef ~ name ~ _ ~ params ~ _ ~ _ ~ body => FunctionDeclStmt(NamespaceName(relative = true, name), params, body)
     }
 
   lazy val untickedClassDeclarationStatement: PackratParser[ClassDeclStmt] =
     classEntryType ~ identLit ~ extendsFrom ~ implementsList ~ "{" ~ classStatementList <~ "}" ^^ {
       case entry ~ name ~ exts ~ impls ~ _ ~ stmts =>
-        ClassDeclStmt(entry, NamespaceName(name), exts, impls, stmts)
+        ClassDeclStmt(entry, NamespaceName(relative = true, name), exts, impls, stmts)
     }
 
   lazy val classEntryType: PackratParser[ClassEntry.Type] =
@@ -450,7 +450,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       e => ArrayCastExpr(e)
     } | booleanCastLit ~> term ^^ {
       e => BooleanCastExpr(e)
-    }| rwVariable <~ "++" ^^ {
+    } | rwVariable <~ "++" ^^ {
       ref => GetAndIncrExpr(ref)
     } | rwVariable <~ "--" ^^ {
       ref => GetAndDecrExpr(ref)
@@ -476,11 +476,11 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   }
 
   lazy val functionCall: PackratParser[Reference] = namespaceName ~ functionCallParameterList ^^ {
-    case name ~ params => CallFunctionReference(StaticNamespaceName(name, relative = true), params)
+    case name ~ params => CallFunctionReference(StaticNamespaceName(name), params)
   } | "namespace" ~> "\\" ~> namespaceName ~ functionCallParameterList ^^ {
-    case name ~ params => CallFunctionReference(StaticNamespaceName(name, relative = false), params)
+    case name ~ params => CallFunctionReference(StaticNamespaceName(NamespaceName(relative = false, name.path: _*)), params)
   } | "\\" ~> namespaceName ~ functionCallParameterList ^^ {
-    case name ~ params => CallFunctionReference(StaticNamespaceName(name, relative = false), params)
+    case name ~ params => CallFunctionReference(StaticNamespaceName(NamespaceName(relative = false, name.path: _*)), params)
   } | className ~ "::" ~ variableName ~ functionCallParameterList ^^ {
     case cname ~ _ ~ method ~ params => CallStaticMethodReference(cname, method, params)
   } | className ~ "::" ~ variableWithoutObjects ~ functionCallParameterList ^^ {
@@ -493,9 +493,20 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     case name ~ params => CallFunctionReference(DynamicName(name), params)
   }
 
-  lazy val className: PackratParser[Name] = namespaceName ^^ (StaticNamespaceName(_))
+  lazy val className: PackratParser[Name] =
+    namespaceName ^^ StaticNamespaceName.apply | "namespace" ~> "\\" ~> namespaceName ^^ {
+      n => StaticNamespaceName(NamespaceName(relative = false, n.path: _*))
+    } | "\\" ~> namespaceName ^^ {
+      n => StaticNamespaceName(NamespaceName(relative = false, n.path: _*))
+    }
 
-  lazy val fullyQualifiedClassName: PackratParser[NamespaceName] = namespaceName
+  lazy val fullyQualifiedClassName: PackratParser[NamespaceName] =
+    namespaceName |
+      "namespace" ~> "\\" ~> namespaceName ^^ {
+        n => NamespaceName(relative = false, n.path: _*)
+      } | "\\" ~> namespaceName ^^ {
+      n => NamespaceName(relative = false, n.path: _*)
+    }
 
   lazy val classNameReference: PackratParser[Name] = className | dynamicClassNameReference
 
@@ -630,7 +641,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     v => DynamicName(v)
   }
 
-  lazy val baseVariableWithFunctionCalls: PackratParser[Reference] = baseVariable | functionCall
+  lazy val baseVariableWithFunctionCalls: PackratParser[Reference] = functionCall | baseVariable
 
   lazy val baseVariable: PackratParser[Reference] = referenceVariable |
     simpleIndirectReference ~ referenceVariable ^^ {

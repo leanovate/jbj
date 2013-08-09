@@ -10,7 +10,7 @@ object RuntimeFunctions {
       case _ => NullVal
     }),
     new PFunction() {
-      def name = NamespaceName("define")
+      def name = NamespaceName(relative = false, "define")
 
       def call(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) = {
         parameters match {

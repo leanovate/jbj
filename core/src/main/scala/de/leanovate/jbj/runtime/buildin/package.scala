@@ -7,14 +7,14 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime.value.IntegerVal
 
 package object buildin {
-  val buildinFunctions: Map[NamespaceName, PFunction] = (
+  val buildinFunctions: Map[Seq[String], PFunction] = (
     ArrayFunctions.functions ++
       ClassFunctions.functions ++
       FileFunctions.functions ++
       StringFunctions.functions ++
       OutputFunctions.functions ++
       RuntimeFunctions.functions).map {
-    function => function.name -> function
+    function => function.name.lowercase -> function
   }.toMap
 
   val buildinConstants: Map[String, Value] = Seq(
@@ -43,28 +43,20 @@ package object buildin {
   val stdClass = new PClass {
     override def classEntry = ClassEntry.CLASS
 
-    override def name = NamespaceName("stdClass")
+    override def name = NamespaceName(relative = false, "stdClass")
 
     override def superClass = None
 
     override def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) =
       new ObjectVal(this, instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ArrayKey, Value])
 
-    override def invokeMethod(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, methodName: String,
-                              parameters: List[Value]) = {
-      ctx.log.fatal(callerPosition, "Call to undefined method %s::%s()".format(name.toString, methodName))
-      Left(NullVal)
-    }
-
-    override def methods = Seq.empty
-
-    override def findMethod(methodName: String) = None
+    override def methods = Map.empty
   }
 
   val Exception = new PClass {
     override def classEntry = ClassEntry.CLASS
 
-    override def name = NamespaceName("Exception")
+    override def name = NamespaceName(relative = false, "Exception")
 
     override def superClass = None
 
@@ -83,17 +75,13 @@ package object buildin {
         Some(StringVal("line")) -> IntegerVal(callerPosition.line))
     }
 
-    override def invokeMethod(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, methodName: String, parameters: List[Value]) = ???
-
-    override def methods = Seq.empty
-
-    override def findMethod(methodName: String) = None
+    override def methods = Map.empty
   }
 
-  val buildinClasses: Map[NamespaceName, PClass] = Seq(
+  val buildinClasses: Map[Seq[String], PClass] = Seq(
     stdClass, Exception
   ).map {
     c =>
-      c.name -> c
+      c.name.lowercase -> c
   }.toMap
 }

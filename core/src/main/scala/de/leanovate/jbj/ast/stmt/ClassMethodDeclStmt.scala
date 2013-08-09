@@ -3,10 +3,10 @@ package de.leanovate.jbj.ast.stmt
 import de.leanovate.jbj.ast.{StaticInitializer, NodePosition, MemberModifier, Stmt}
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.value.{Value, NullVal, ObjectVal}
-import scala.annotation.tailrec
-import de.leanovate.jbj.runtime.context.MethodContext
-import de.leanovate.jbj.runtime.ReturnExecResult
 import java.io.PrintStream
+import de.leanovate.jbj.runtime.context.MethodContext
+import de.leanovate.jbj.runtime.context.StaticMethodContext
+import de.leanovate.jbj.runtime.ReturnExecResult
 
 case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: String, parameterDecls: List[ParameterDecl],
                                stmts: List[Stmt]) extends Stmt with PMethod with BlockLike {
@@ -18,8 +18,27 @@ case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: Strin
 
   override lazy val isStatic = modifieres.contains(MemberModifier.STATIC)
 
-  override def call(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, parameters: List[Value]) = {
+  override def invoke(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, parameters: List[Value]) = {
     implicit val methodCtx = MethodContext(instance, name, callerPosition, ctx)
+
+    if (!methodCtx.static.initialized) {
+      staticInitializers.foreach(_.initializeStatic(methodCtx))
+      methodCtx.static.initialized = true
+    }
+
+    parameterDecls.zipWithIndex.foreach {
+      case (parameterDef, idx) =>
+        val value = parameters.drop(idx).headOption.getOrElse(parameterDef.defaultVal(ctx))
+        methodCtx.defineVariable(parameterDef.variableName, ValueRef(value.copy))
+    }
+    Left(execStmts(stmts) match {
+      case ReturnExecResult(returnVal) => returnVal
+      case _ => NullVal
+    })
+  }
+
+  override def invokeStatic(ctx: Context, callerPosition: NodePosition, pClass: PClass, parameters: List[Value]) = {
+    implicit val methodCtx = StaticMethodContext(pClass, name, callerPosition, ctx)
 
     if (!methodCtx.static.initialized) {
       staticInitializers.foreach(_.initializeStatic(methodCtx))
@@ -44,4 +63,5 @@ case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: Strin
         stmt.dump(out, ident + "  ")
     }
   }
+
 }

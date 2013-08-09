@@ -8,12 +8,12 @@ import java.io.PrintStream
 case class CallMethodReference(instanceExpr: Expr, methodName: Name, parameters: List[Expr]) extends Reference {
   override def eval(implicit ctx: Context) = instanceExpr.eval match {
     case instance: ObjectVal =>
-      instance.pClass.invokeMethod(ctx, position, instance, methodName.evalName, parameters.map(_.eval)) match {
+      instance.pClass.invokeMethod(ctx, position, Some(instance), methodName.evalName, parameters.map(_.eval)) match {
         case Left(value) => value
         case Right(valueRef) => valueRef.value
       }
     case _ =>
-      ctx.log.fatal(position, "Call to a member function %s() on a non-object".format(methodName))
+      ctx.log.fatal(position, "Call to a member function %s() on a non-object".format(methodName.evalName))
       NullVal
   }
 
