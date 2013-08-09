@@ -22,7 +22,7 @@ case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: Strin
     implicit val methodCtx = MethodContext(instance, name, callerPosition, ctx)
 
     if (!methodCtx.static.initialized) {
-      staticInitializers.foreach(_.initializeStatic(methodCtx))
+      staticInitializers.foreach(_.initializeStatic(methodCtx.static))
       methodCtx.static.initialized = true
     }
 
@@ -41,7 +41,7 @@ case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: Strin
     implicit val methodCtx = StaticMethodContext(pClass, name, callerPosition, ctx)
 
     if (!methodCtx.static.initialized) {
-      staticInitializers.foreach(_.initializeStatic(methodCtx))
+      staticInitializers.foreach(_.initializeStatic(methodCtx.static))
       methodCtx.static.initialized = true
     }
 

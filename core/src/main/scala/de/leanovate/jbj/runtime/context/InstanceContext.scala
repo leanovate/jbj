@@ -6,11 +6,9 @@ import de.leanovate.jbj.runtime._
 import scala.collection.immutable.Stack
 
 case class InstanceContext(instance: ObjectVal, callerPosition: NodePosition, callerCtx: Context) extends Context {
-  private val identifier = "Class_" + instance.pClass.name.toString
-
   lazy val global = callerCtx.global
 
-  lazy val static = global.staticContext(identifier)
+  lazy val static = instance.pClass
 
   lazy val settings = global.settings
 

@@ -43,15 +43,18 @@ object TestBed {
   //A main method for testing
   def main(args: Array[String]) {
     test( """<?php
-            |  function __autoload($name)
-            |  {
-            |      echo "In autoload: ";
-            |      var_dump($name);
-            |  }
             |
-            |  class C extends UndefBase
-            |  {
-            |  }
+            |class test {
+            |	static public $ar = array();
+            |}
+            |
+            |var_dump(test::$ar);
+            |
+            |test::$ar[] = 1;
+            |
+            |var_dump(test::$ar);
+            |
+            |echo "Done\n";
             |?>""".stripMargin)
   }
 }

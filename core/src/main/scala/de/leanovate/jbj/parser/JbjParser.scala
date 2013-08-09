@@ -484,13 +484,25 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   } | className ~ "::" ~ variableName ~ functionCallParameterList ^^ {
     case cname ~ _ ~ method ~ params => CallStaticMethodReference(cname, method, params)
   } | className ~ "::" ~ variableWithoutObjects ~ functionCallParameterList ^^ {
-    case cname ~ _ ~ method ~ params => CallStaticMethodReference(cname, DynamicName(method), params)
+    case cname ~ _ ~ ((n, dims)) ~ params =>
+      val method = DynamicName(dims.foldLeft(VariableReference(n).asInstanceOf[Reference]) {
+        (ref, dim) => IndexReference(ref, dim)
+      })
+      CallStaticMethodReference(cname, method, params)
   } | variableClassName ~ "::" ~ variableName ~ functionCallParameterList ^^ {
     case cname ~ _ ~ method ~ params => CallStaticMethodReference(cname, method, params)
   } | variableClassName ~ "::" ~ variableWithoutObjects ~ functionCallParameterList ^^ {
-    case cname ~ _ ~ method ~ params => CallStaticMethodReference(cname, DynamicName(method), params)
+    case cname ~ _ ~ ((n, dims)) ~ params =>
+      val method = DynamicName(dims.foldLeft(VariableReference(n).asInstanceOf[Reference]) {
+        (ref, dim) => IndexReference(ref, dim)
+      })
+      CallStaticMethodReference(cname, method, params)
   } | variableWithoutObjects ~ functionCallParameterList ^^ {
-    case name ~ params => CallFunctionReference(DynamicName(name), params)
+    case ((n, dims)) ~ params =>
+      val func = DynamicName(dims.foldLeft(VariableReference(n).asInstanceOf[Reference]) {
+        (ref, dim) => IndexReference(ref, dim)
+      })
+      CallFunctionReference(func, params)
   }
 
   lazy val className: PackratParser[Name] =
@@ -623,54 +635,71 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val methodOrNot: PackratParser[Option[List[Expr]]] = opt(mathod)
 
-  lazy val variableWithoutObjects: PackratParser[Expr] = referenceVariable |
-    simpleIndirectReference ~ referenceVariable ^^ {
-      case indirects ~ v => indirects.foldLeft(v) {
+  lazy val variableWithoutObjects: PackratParser[(Name, List[Option[Expr]])] =
+    referenceVariable | simpleIndirectReference ~ referenceVariable ^^ {
+      case indirects ~ ((n, dims)) => DynamicName(indirects.foldLeft(VariableReference(n).asInstanceOf[Reference]) {
         (v, indirect) =>
           indirect(v)
-      }
+      }) -> dims
     }
 
   lazy val staticMember: PackratParser[Reference] = className ~ "::" ~ variableWithoutObjects ^^ {
-    case cname ~ _ ~ v => StaticClassVarReference(cname, DynamicName(v))
+    case cname ~ _ ~ ((n, dims)) =>
+      dims.foldLeft(StaticClassVarReference(cname, n).asInstanceOf[Reference]) {
+        (ref, dim) => IndexReference(ref, dim)
+      }
   } | variableClassName ~ "::" ~ variableWithoutObjects ^^ {
-    case cname ~ _ ~ v => StaticClassVarReference(cname, DynamicName(v))
+    case cname ~ _ ~ ((n, dims)) =>
+      dims.foldLeft(StaticClassVarReference(cname, n).asInstanceOf[Reference]) {
+        (ref, dim) => IndexReference(ref, dim)
+      }
   }
 
   lazy val variableClassName: PackratParser[Name] = referenceVariable ^^ {
-    v => DynamicName(v)
+    case (n, dims) => DynamicName(dims.foldLeft(VariableReference(n).asInstanceOf[Reference]) {
+      (ref, dim) => IndexReference(ref, dim)
+    })
   }
 
   lazy val baseVariableWithFunctionCalls: PackratParser[Reference] = functionCall | baseVariable
 
-  lazy val baseVariable: PackratParser[Reference] = referenceVariable |
-    simpleIndirectReference ~ referenceVariable ^^ {
-      case indirects ~ v => indirects.foldLeft(v) {
+  lazy val baseVariable: PackratParser[Reference] = referenceVariable ^^ {
+    case (n, dims) => dims.foldLeft(VariableReference(n).asInstanceOf[Reference]) {
+      (ref, dim) => IndexReference(ref, dim)
+    }
+  } | simpleIndirectReference ~ referenceVariable ^^ {
+    case indirects ~ ((n, dims)) =>
+      val ref = indirects.foldLeft(VariableReference(n).asInstanceOf[Reference]) {
         (v, indirect) =>
           indirect(v)
       }
-    } | staticMember
+      dims.foldLeft(ref) {
+        (ref, dim) => IndexReference(ref, dim)
+      }
+  } | staticMember
 
-  lazy val referenceVariable: PackratParser[Reference] = compoundVariable ~ rep(
-    "[" ~> dimOffset <~ "]" | "{" ~> expr <~ "}" ^^ Some.apply
-  ) ^^ {
-    case v ~ dims => dims.foldLeft(v.asInstanceOf[Reference]) {
-      (ref, dim) => IndexReference(ref, dim)
+  lazy val referenceVariable: PackratParser[(Name, List[Option[Expr]])] =
+    compoundVariable ~ rep("[" ~> dimOffset <~ "]" | "{" ~> expr <~ "}" ^^ Some.apply) ^^ {
+      case n ~ dims => n -> dims
     }
-  }
 
-  lazy val compoundVariable: PackratParser[Reference] = variableLit ^^ {
-    v => VariableReference(StaticName(v))
+  lazy val compoundVariable: PackratParser[Name] = variableLit ^^ {
+    v => StaticName(v)
   } | "$" ~> "{" ~> expr <~ "}" ^^ {
-    expr => VariableReference(DynamicName(expr))
+    expr => DynamicName(expr)
   }
 
   lazy val dimOffset: PackratParser[Option[Expr]] = opt(expr)
 
   lazy val objectProperty: PackratParser[List[Reference => Reference]] = objectDimList | variableWithoutObjects ^^ {
-    v => {
-      ref: Reference => PropertyReference(ref, DynamicName(v))
-    } :: Nil
+    case (n, dims) =>
+      val name = DynamicName(dims.foldLeft(VariableReference(n).asInstanceOf[Reference]) {
+        (ref, dim) =>
+          IndexReference(ref, dim)
+      })
+      List({
+        ref: Reference => PropertyReference(ref, name)
+      })
   }
 
   lazy val objectDimList: PackratParser[List[Reference => Reference]] =

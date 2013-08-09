@@ -5,6 +5,7 @@ import de.leanovate.jbj.runtime._
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.ast.stmt.BlockLike
+import de.leanovate.jbj.runtime.context.StaticContext
 
 case class WhileStmt(condition: Expr, stmts: List[Stmt]) extends Stmt with BlockLike with StaticInitializer {
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
@@ -21,7 +22,7 @@ case class WhileStmt(condition: Expr, stmts: List[Stmt]) extends Stmt with Block
     SuccessExecResult
   }
 
-  override def initializeStatic(implicit ctx: Context) {
-    staticInitializers.foreach(_.initializeStatic)
+  override def initializeStatic(staticCtx: StaticContext)(implicit ctx: Context) {
+    staticInitializers.foreach(_.initializeStatic(staticCtx))
   }
 }

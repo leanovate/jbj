@@ -21,7 +21,7 @@ case class FunctionDeclStmt(name: NamespaceName, parameterDecls: List[ParameterD
     implicit val funcCtx = FunctionContext(name, callerPosition, ctx)
 
     if (!funcCtx.static.initialized) {
-      staticInitializers.foreach(_.initializeStatic(funcCtx))
+      staticInitializers.foreach(_.initializeStatic(funcCtx.static))
       funcCtx.static.initialized = true
     }
 

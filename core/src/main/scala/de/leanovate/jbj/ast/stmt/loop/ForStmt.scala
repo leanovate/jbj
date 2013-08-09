@@ -6,6 +6,7 @@ import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.SuccessExecResult
 import scala.annotation.tailrec
 import de.leanovate.jbj.ast.stmt.BlockLike
+import de.leanovate.jbj.runtime.context.StaticContext
 
 case class ForStmt(befores: List[Expr], conditions: List[Expr], afters: List[Expr], stmts: List[Stmt])
   extends Stmt with BlockLike with StaticInitializer {
@@ -29,7 +30,7 @@ case class ForStmt(befores: List[Expr], conditions: List[Expr], afters: List[Exp
     SuccessExecResult
   }
 
-  override def initializeStatic(implicit ctx: Context) {
-    staticInitializers.foreach(_.initializeStatic)
+  override def initializeStatic(staticCtx: StaticContext)(implicit ctx: Context) {
+    staticInitializers.foreach(_.initializeStatic(staticCtx))
   }
 }

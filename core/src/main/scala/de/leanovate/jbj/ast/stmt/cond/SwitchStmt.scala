@@ -4,29 +4,24 @@ import de.leanovate.jbj.ast.{StaticInitializer, Expr, Stmt}
 import de.leanovate.jbj.runtime._
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.SuccessExecResult
+import de.leanovate.jbj.runtime.context.StaticContext
+import de.leanovate.jbj.ast.stmt.BlockLike
 
-case class SwitchStmt(expr: Expr, cases: List[SwitchCase]) extends Stmt with StaticInitializer {
+case class SwitchStmt(expr: Expr, cases: List[SwitchCase]) extends Stmt with StaticInitializer with BlockLike {
   private val staticInitializers =
     cases.map(_.stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])).flatten
 
   override def exec(implicit ctx: Context) = {
     val value = expr.eval
 
-    execStmts(cases.dropWhile(!_.matches(value)).map(_.stmts).flatten)
-  }
-
-  override def initializeStatic(implicit ctx: Context) {
-    staticInitializers.foreach(_.initializeStatic)
-  }
-
-  @tailrec
-  private def execStmts(statements: List[Stmt])(implicit context: Context): ExecResult = statements match {
-    case head :: tail => head.exec match {
-      case SuccessExecResult => execStmts(tail)
+    execStmts(cases.dropWhile(!_.matches(value)).map(_.stmts).flatten) match {
       case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
       case BreakExecResult(_) => SuccessExecResult
       case result => result
     }
-    case Nil => SuccessExecResult
+  }
+
+  override def initializeStatic(staticCtx: StaticContext)(implicit ctx: Context) {
+    staticInitializers.foreach(_.initializeStatic(staticCtx))
   }
 }

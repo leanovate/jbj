@@ -9,7 +9,7 @@ case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike 
   val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
   override def exec(implicit ctx: Context): ExecResult = {
-    staticInitializers.foreach(_.initializeStatic(ctx))
+    staticInitializers.foreach(_.initializeStatic(ctx.static))
     ctx.static.initialized = true
 
     execStmts(stmts.toList)

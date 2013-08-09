@@ -1,12 +1,16 @@
 package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.ast.{ClassEntry, NamespaceName, NodePosition}
-import de.leanovate.jbj.runtime.value.{Value, ObjectVal}
+import de.leanovate.jbj.runtime.value.{ValueRef, Value, ObjectVal}
 import java.util.concurrent.atomic.AtomicLong
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import scala.annotation.tailrec
+import scala.collection.mutable
+import de.leanovate.jbj.runtime.context.StaticContext
 
-trait PClass {
+trait PClass extends StaticContext {
+  private val staticVariables = mutable.Map.empty[String, ValueRef]
+
   val instanceCounter = new AtomicLong(0)
 
   def classEntry: ClassEntry.Type
@@ -43,4 +47,14 @@ trait PClass {
     case None => false
     case Some(s) => isAssignableFrom(s)
   })
+
+  def findVariable(name: String)(implicit position: NodePosition) = staticVariables.get(name)
+
+  def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition) {
+    staticVariables.put(name, valueRef)
+  }
+
+  def undefineVariable(name: String) {
+    staticVariables.remove(name)
+  }
 }

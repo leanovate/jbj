@@ -3,6 +3,7 @@ package de.leanovate.jbj.ast.stmt
 import de.leanovate.jbj.ast.{StaticInitializer, Stmt}
 import de.leanovate.jbj.runtime.{SuccessExecResult, Context}
 import de.leanovate.jbj.runtime.value.ValueRef
+import de.leanovate.jbj.runtime.context.StaticContext
 
 case class StaticVarDeclStmt(assignments: List[StaticAssignment])
   extends Stmt with StaticInitializer {
@@ -16,10 +17,10 @@ case class StaticVarDeclStmt(assignments: List[StaticAssignment])
     SuccessExecResult
   }
 
-  override def initializeStatic(implicit ctx: Context) {
+  override def initializeStatic(staticCtx: StaticContext)(implicit ctx:Context) {
     assignments.foreach {
       assignment =>
-        ctx.static.defineVariable(assignment.variableName, ValueRef(assignment.initial.map(_.eval)))
+        staticCtx.defineVariable(assignment.variableName, ValueRef(assignment.initial.map(_.eval)))
     }
   }
 }

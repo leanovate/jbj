@@ -1,11 +1,12 @@
 package de.leanovate.jbj.ast.stmt.cond
 
 import de.leanovate.jbj.ast.{StaticInitializer, Stmt, Expr}
-import de.leanovate.jbj.runtime.{ExecResult, SuccessExecResult, Context}
-import scala.annotation.tailrec
+import de.leanovate.jbj.runtime.Context
+import de.leanovate.jbj.runtime.context.StaticContext
+import de.leanovate.jbj.ast.stmt.BlockLike
 
 case class IfStmt(condition: Expr, thenStmts: List[Stmt], elseIfs: List[ElseIfBlock], elseStmts: List[Stmt])
-  extends Stmt with StaticInitializer {
+  extends Stmt with StaticInitializer with BlockLike {
 
   private val staticInitializers =
     thenStmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer]) ++
@@ -25,16 +26,7 @@ case class IfStmt(condition: Expr, thenStmts: List[Stmt], elseIfs: List[ElseIfBl
     }
   }
 
-  override def initializeStatic(implicit ctx: Context) {
-    staticInitializers.foreach(_.initializeStatic)
-  }
-
-  @tailrec
-  private def execStmts(statements: List[Stmt])(implicit context: Context): ExecResult = statements match {
-    case head :: tail => head.exec match {
-      case SuccessExecResult => execStmts(tail)
-      case result => result
-    }
-    case Nil => SuccessExecResult
+  override def initializeStatic(staticCtx: StaticContext)(implicit ctx: Context) {
+    staticInitializers.foreach(_.initializeStatic(staticCtx))
   }
 }

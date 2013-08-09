@@ -20,7 +20,7 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
 
   private val functions = mutable.Map.empty[Seq[String], PFunction]
 
-  private val staticContexts = mutable.Map.empty[String, StaticContext]
+  private val staticContexts = mutable.Map.empty[String, GenericStaticContext]
 
   private val includedFiles = mutable.Set.empty[String]
 
@@ -99,6 +99,6 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
     functions.put(function.name.lowercase, function)
   }
 
-  def staticContext(identifier: String): StaticContext =
-    staticContexts.getOrElseUpdate(identifier, new StaticContext(this))
+  def staticContext(identifier: String): GenericStaticContext =
+    staticContexts.getOrElseUpdate(identifier, new GenericStaticContext(this))
 }

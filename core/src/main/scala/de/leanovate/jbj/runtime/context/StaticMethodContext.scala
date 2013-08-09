@@ -9,7 +9,7 @@ import scala.collection.immutable.Stack
 case class StaticMethodContext(pClass: PClass, methodName: String, callerPosition: NodePosition, callerCtx: Context) extends Context {
   private val localVariables = mutable.Map.empty[String, ValueRef]
 
-  private val identifier = "Class_" + pClass.name.toString
+  private val identifier = "Method_" + pClass.name.toString + "::" + methodName
 
   lazy val global = callerCtx.global
 

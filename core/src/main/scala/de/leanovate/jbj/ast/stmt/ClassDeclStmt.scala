@@ -15,6 +15,8 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
                          superClassName: Option[NamespaceName], implements: List[NamespaceName], stmts: List[Stmt])
   extends Stmt with PClass {
 
+  private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
+
   private var _superClass: Option[PClass] = None
 
   def superClass = _superClass
@@ -33,6 +35,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
           throw new FatalErrorJbjException(
             "Class %s may not inherit from final class (%s)".format(name.toString, superClassName.get.toString))
       }
+      staticInitializers.foreach(_.initializeStatic(this))
       ctx.global.defineClass(this)
     }
     SuccessExecResult

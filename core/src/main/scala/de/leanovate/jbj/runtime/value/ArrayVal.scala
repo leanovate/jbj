@@ -48,8 +48,8 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, Value]) extends Va
       case Some(key) =>
         keyValues.put(key, value)
       case None =>
-        maxIndex += 1
         keyValues.put(IntArrayKey(maxIndex), value)
+        maxIndex += 1
     }
   }
 

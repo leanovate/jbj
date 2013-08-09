@@ -4,6 +4,7 @@ import de.leanovate.jbj.ast.{StaticInitializer, Stmt}
 import de.leanovate.jbj.runtime.{SuccessExecResult, Context}
 import de.leanovate.jbj.runtime.exception.RuntimeJbjException
 import de.leanovate.jbj.runtime.value.ValueRef
+import de.leanovate.jbj.runtime.context.StaticContext
 
 case class TryCatchStmt(tryStmts: List[Stmt], catchBlocks: List[CatchBlock], finallyStmts: List[Stmt])
   extends Stmt with StaticInitializer with BlockLike {
@@ -29,7 +30,7 @@ case class TryCatchStmt(tryStmts: List[Stmt], catchBlocks: List[CatchBlock], fin
     execStmts(finallyStmts)
   }
 
-  override def initializeStatic(implicit ctx: Context) {
-    staticInitializers.foreach(_.initializeStatic)
+  override def initializeStatic(staticCtx: StaticContext)(implicit ctx: Context) {
+    staticInitializers.foreach(_.initializeStatic(staticCtx))
   }
 }

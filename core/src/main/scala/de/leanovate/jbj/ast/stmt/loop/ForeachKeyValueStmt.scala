@@ -7,6 +7,7 @@ import de.leanovate.jbj.runtime.value.{Value, ArrayVal}
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.ast.stmt.BlockLike
+import de.leanovate.jbj.runtime.context.StaticContext
 
 case class ForeachKeyValueStmt(arrayExpr: Expr, keyVar: Reference, valueVar: Reference,
                                stmts: List[Stmt]) extends Stmt with BlockLike with StaticInitializer {
@@ -21,8 +22,8 @@ case class ForeachKeyValueStmt(arrayExpr: Expr, keyVar: Reference, valueVar: Ref
     SuccessExecResult
   }
 
-  override def initializeStatic(implicit ctx: Context) {
-    staticInitializers.foreach(_.initializeStatic)
+  override def initializeStatic(staticCtx: StaticContext)(implicit ctx: Context) {
+    staticInitializers.foreach(_.initializeStatic(staticCtx))
   }
 
   @tailrec
