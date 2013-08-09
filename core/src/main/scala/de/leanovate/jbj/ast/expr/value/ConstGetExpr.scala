@@ -1,14 +1,14 @@
 package de.leanovate.jbj.ast.expr.value
 
-import de.leanovate.jbj.ast.Expr
+import de.leanovate.jbj.ast.{NamespaceName, Expr}
 import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.value.StringVal
 
-case class ConstGetExpr(constName: String) extends Expr {
+case class ConstGetExpr(constName: NamespaceName, relative: Boolean = true) extends Expr {
   override def eval(implicit ctx: Context) = {
-    ctx.findConstant(constName).getOrElse {
+    ctx.findConstant(constName.toString).getOrElse {
       ctx.log.notice(position, "Use of undefined constant %s - assumed '%s'".format(constName, constName))
-      StringVal(constName)
+      StringVal(constName.toString)
     }
   }
 }

@@ -12,6 +12,8 @@ trait Value {
 
   def toInteger: IntegerVal
 
+  def toDouble: DoubleVal
+
   def toBool: BooleanVal
 
   def toArray: ArrayVal

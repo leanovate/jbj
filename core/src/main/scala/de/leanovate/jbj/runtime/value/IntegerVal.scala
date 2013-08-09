@@ -6,6 +6,8 @@ case class IntegerVal(value: Long) extends NumericVal {
 
   override def toStr: StringVal = StringVal(value.toString)
 
+  override def toDouble: DoubleVal = DoubleVal(value)
+
   override def toInteger: IntegerVal = this
 
   override def toBool = BooleanVal(value != 0)

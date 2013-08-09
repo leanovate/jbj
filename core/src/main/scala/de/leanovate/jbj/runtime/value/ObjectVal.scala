@@ -15,6 +15,8 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutabl
 
   override def toNum = toInteger
 
+  override def toDouble = DoubleVal(0.0)
+
   override def toInteger = IntegerVal(0)
 
   override def toBool = BooleanVal.FALSE

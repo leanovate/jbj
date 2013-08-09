@@ -6,17 +6,19 @@ import java.math.MathContext
 import java.math
 
 case class DoubleVal(value: Double) extends NumericVal {
-  def toOutput = compatbleStr
+  override def toOutput = compatbleStr
 
-  def toStr: StringVal = StringVal(compatbleStr)
+  override def toStr: StringVal = StringVal(compatbleStr)
 
-  def toInteger: IntegerVal = IntegerVal(value.toLong)
+  override def toDouble = this
 
-  def toBool = BooleanVal(value != 0.0)
+  override def toInteger: IntegerVal = IntegerVal(value.toLong)
 
-  def incr = DoubleVal(value + 1)
+  override def toBool = BooleanVal(value != 0.0)
 
-  def decr = DoubleVal(value - 1)
+  override def incr = DoubleVal(value + 1)
+
+  override def decr = DoubleVal(value - 1)
 
   def unary_- = DoubleVal(-value)
 

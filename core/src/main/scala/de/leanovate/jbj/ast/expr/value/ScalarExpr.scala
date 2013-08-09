@@ -11,6 +11,6 @@ case class ScalarExpr(value: Value) extends Expr {
 
   override def dump(out: PrintStream, ident: String) {
     super.dump(out, ident)
-    out.println(ident + value.toString)
+    out.println(ident + "  " + value.toString)
   }
 }

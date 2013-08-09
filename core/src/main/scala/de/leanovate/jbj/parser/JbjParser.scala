@@ -2,21 +2,133 @@ package de.leanovate.jbj.parser
 
 import de.leanovate.jbj.ast._
 import de.leanovate.jbj.ast.stmt.cond._
-import de.leanovate.jbj.ast.stmt.loop._
-import de.leanovate.jbj.ast.expr._
-import de.leanovate.jbj.ast.expr.value._
-import de.leanovate.jbj.ast.expr.calc._
-import de.leanovate.jbj.ast.expr.comp._
-import de.leanovate.jbj.ast.name.{StaticNamespaceName, StaticName, DynamicName}
 import de.leanovate.jbj.parser.JbjTokens._
 import de.leanovate.jbj.ast.stmt._
 import de.leanovate.jbj.runtime.value._
 import scala.collection.mutable
 import scala.util.parsing.combinator.{PackratParsers, Parsers}
 import scala.language.implicitConversions
-import scala.Some
-import de.leanovate.jbj.ast.expr.include.{RequireOnceExpr, RequireExpr, IncludeOnceExpr, IncludeExpr}
 import de.leanovate.jbj.runtime.exception.ParseJbjException
+import de.leanovate.jbj.ast.expr.cast._
+import de.leanovate.jbj.ast.expr.VariableReference
+import de.leanovate.jbj.parser.JbjTokens.ArrayCast
+import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
+import de.leanovate.jbj.ast.expr.calc.AddExpr
+import de.leanovate.jbj.ast.expr.comp.InstanceOfExpr
+import de.leanovate.jbj.ast.name.StaticName
+import de.leanovate.jbj.parser.JbjTokens.DoubleCast
+import de.leanovate.jbj.ast.stmt.ReturnStmt
+import de.leanovate.jbj.ast.expr.calc.SubExpr
+import de.leanovate.jbj.ast.stmt.cond.SwitchStmt
+import scala.Some
+import de.leanovate.jbj.ast.stmt.ClassTypeHint
+import de.leanovate.jbj.ast.expr.AssignExpr
+import de.leanovate.jbj.ast.expr.IndexReference
+import de.leanovate.jbj.ast.expr.value.ClassNameConstExpr
+import de.leanovate.jbj.parser.JbjTokens.Inline
+import de.leanovate.jbj.ast.stmt.StaticVarDeclStmt
+import de.leanovate.jbj.ast.expr.calc.BitAndExpr
+import de.leanovate.jbj.ast.Prog
+import de.leanovate.jbj.ast.stmt.ExprStmt
+import de.leanovate.jbj.ast.expr.calc.ConcatExpr
+import de.leanovate.jbj.ast.stmt.CatchBlock
+import de.leanovate.jbj.ast.expr.calc.NegExpr
+import de.leanovate.jbj.parser.JbjTokens.StringCast
+import de.leanovate.jbj.ast.expr.calc.SubFromExpr
+import de.leanovate.jbj.ast.expr.IsSetExpr
+import de.leanovate.jbj.ast.expr.calc.MulExpr
+import de.leanovate.jbj.ast.name.DynamicName
+import de.leanovate.jbj.ast.expr.CallStaticMethodReference
+import de.leanovate.jbj.ast.expr.cast.StringCastExpr
+import de.leanovate.jbj.ast.expr.PropertyReference
+import de.leanovate.jbj.ast.stmt.loop.ForeachValueStmt
+import de.leanovate.jbj.parser.JbjTokens.Identifier
+import de.leanovate.jbj.ast.expr.PrintExpr
+import de.leanovate.jbj.ast.expr.comp.LeExpr
+import de.leanovate.jbj.ast.expr.include.RequireExpr
+import de.leanovate.jbj.parser.JbjTokens.LongNumLit
+import de.leanovate.jbj.ast.expr.calc.PosExpr
+import de.leanovate.jbj.ast.expr.comp.EqExpr
+import de.leanovate.jbj.ast.stmt.TraitUseStmt
+import de.leanovate.jbj.ast.name.StaticNamespaceName
+import de.leanovate.jbj.ast.expr.value.MethodNameConstExpr
+import de.leanovate.jbj.ast.expr.comp.NotEqExpr
+import de.leanovate.jbj.ast.stmt.loop.ForeachKeyValueStmt
+import de.leanovate.jbj.ast.expr.comp.BoolOrExpr
+import de.leanovate.jbj.ast.stmt.GlobalVarDeclAssignStmt
+import de.leanovate.jbj.ast.expr.value.FunctionNameConstExpr
+import de.leanovate.jbj.ast.expr.include.IncludeOnceExpr
+import de.leanovate.jbj.runtime.value.IntegerVal
+import de.leanovate.jbj.ast.stmt.ClassVarDeclStmt
+import de.leanovate.jbj.ast.expr.StaticClassVarReference
+import de.leanovate.jbj.ast.expr.comp.GtExpr
+import de.leanovate.jbj.ast.expr.calc.DivExpr
+import de.leanovate.jbj.ast.stmt.EchoStmt
+import de.leanovate.jbj.ast.expr.IndexGetExpr
+import de.leanovate.jbj.parser.JbjTokens.HereDocStart
+import de.leanovate.jbj.ast.FileNodePosition
+import de.leanovate.jbj.ast.stmt.loop.ForStmt
+import de.leanovate.jbj.ast.stmt.ParameterDecl
+import de.leanovate.jbj.ast.stmt.ConstDeclStmt
+import de.leanovate.jbj.ast.expr.comp.BoolAndExpr
+import de.leanovate.jbj.ast.stmt.cond.IfStmt
+import de.leanovate.jbj.ast.stmt.FunctionDeclStmt
+import de.leanovate.jbj.ast.stmt.ClassMethodDeclStmt
+import de.leanovate.jbj.ast.expr.CallMethodReference
+import de.leanovate.jbj.ast.expr.comp.TernaryExpr
+import de.leanovate.jbj.ast.expr.value.ClassConstantExpr
+import de.leanovate.jbj.ast.expr.cast.ArrayCastExpr
+import de.leanovate.jbj.parser.JbjTokens.HereDocEnd
+import de.leanovate.jbj.ast.expr.calc.ModExpr
+import de.leanovate.jbj.ast.stmt.TryCatchStmt
+import de.leanovate.jbj.ast.expr.value.InterpolatedStringExpr
+import de.leanovate.jbj.ast.expr.comp.BoolNotExpr
+import de.leanovate.jbj.ast.expr.value.ConstGetExpr
+import de.leanovate.jbj.ast.stmt.BlockStmt
+import de.leanovate.jbj.runtime.value.StringVal
+import de.leanovate.jbj.parser.JbjTokens.Variable
+import de.leanovate.jbj.ast.stmt.ClassDeclStmt
+import de.leanovate.jbj.ast.stmt.BreakStmt
+import de.leanovate.jbj.ast.expr.include.IncludeExpr
+import de.leanovate.jbj.ast.expr.comp.LtExpr
+import de.leanovate.jbj.ast.stmt.loop.DoWhileStmt
+import de.leanovate.jbj.ast.expr.comp.GeExpr
+import de.leanovate.jbj.ast.stmt.loop.WhileStmt
+import de.leanovate.jbj.ast.expr.calc.AddToExpr
+import de.leanovate.jbj.ast.expr.calc.DivByExpr
+import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
+import de.leanovate.jbj.ast.stmt.ClassConstDeclStmt
+import de.leanovate.jbj.ast.expr.value.ScalarExpr
+import de.leanovate.jbj.parser.JbjTokens.IntegerCast
+import de.leanovate.jbj.ast.expr.EvalExpr
+import de.leanovate.jbj.ast.stmt.ThrowStmt
+import de.leanovate.jbj.ast.stmt.LabelStmt
+import de.leanovate.jbj.ast.NamespaceName
+import de.leanovate.jbj.parser.JbjTokens.EncapsAndWhitespace
+import de.leanovate.jbj.ast.expr.NewExpr
+import de.leanovate.jbj.ast.expr.value.FileNameConstExpr
+import de.leanovate.jbj.ast.expr.CallFunctionReference
+import de.leanovate.jbj.ast.stmt.StaticAssignment
+import de.leanovate.jbj.ast.expr.calc.BitOrExpr
+import de.leanovate.jbj.ast.stmt.cond.CaseBlock
+import de.leanovate.jbj.ast.expr.GetAndDecrExpr
+import de.leanovate.jbj.ast.stmt.ContinueStmt
+import de.leanovate.jbj.ast.expr.calc.BitXorExpr
+import de.leanovate.jbj.ast.expr.IncrAndGetExpr
+import de.leanovate.jbj.ast.expr.calc.ConcatWithExpr
+import de.leanovate.jbj.ast.expr.ClassNameExpr
+import de.leanovate.jbj.ast.expr.DecrAndGetExpr
+import de.leanovate.jbj.ast.expr.calc.MulByExpr
+import de.leanovate.jbj.ast.expr.include.RequireOnceExpr
+import de.leanovate.jbj.ast.expr.ArrayCreateExpr
+import de.leanovate.jbj.ast.stmt.InlineStmt
+import de.leanovate.jbj.ast.expr.value.LineNumberConstExpr
+import de.leanovate.jbj.ast.expr.cast.DoubleCastExpr
+import de.leanovate.jbj.parser.JbjTokens.Keyword
+import de.leanovate.jbj.ast.expr.cast.IntegerCastExpr
+import de.leanovate.jbj.parser.JbjTokens.StringLit
+import de.leanovate.jbj.ast.expr.comp.BoolXorExpr
+import de.leanovate.jbj.ast.expr.GetAndIncrExpr
 
 class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   type Elem = JbjTokens.Token
@@ -320,16 +432,27 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     }
 
   lazy val termWithoutVariable: PackratParser[Expr] =
-    expr ~ "instanceof" ~ classNameReference ^^ {
-      case e ~ _ ~ cname => InstanceOfExpr(e, cname)
-    } | expr ~ "?" ~ expr ~ ":" ~ expr ^^ {
-      case cond ~ _ ~ tExpr ~ _ ~ fExpr => TernaryExpr(cond, tExpr, fExpr)
+    "+" ~> term | "-" ~> term ^^ {
+      expr => NegExpr(expr)
     } | "!" ~> term ^^ {
       e => BoolNotExpr(e)
-    } | newExpr | internalFunctionsInYacc |
-      rwVariable <~ "++" ^^ {
-        ref => GetAndIncrExpr(ref)
-      } | rwVariable <~ "--" ^^ {
+    } | expr ~ "instanceof" ~ classNameReference ^^ {
+      case e ~ _ ~ cname => InstanceOfExpr(e, cname)
+    } | parenthesisExpr | expr ~ "?" ~ expr ~ ":" ~ expr ^^ {
+      case cond ~ _ ~ tExpr ~ _ ~ fExpr => TernaryExpr(cond, tExpr, fExpr)
+    } | newExpr | internalFunctionsInYacc | integerCastLit ~> term ^^ {
+      e => IntegerCastExpr(e)
+    } | doubleCastLit ~> term ^^ {
+      e => DoubleCastExpr(e)
+    } | stringCastLit ~> term ^^ {
+      e => StringCastExpr(e)
+    } | arrayCastLit ~> term ^^ {
+      e => ArrayCastExpr(e)
+    } | booleanCastLit ~> term ^^ {
+      e => BooleanCastExpr(e)
+    }| rwVariable <~ "++" ^^ {
+      ref => GetAndIncrExpr(ref)
+    } | rwVariable <~ "--" ^^ {
       ref => GetAndDecrExpr(ref)
     } | "++" ~> rwVariable ^^ {
       ref => IncrAndGetExpr(ref)
@@ -338,9 +461,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     } | scalar | combinedScalarOffset |
       "print" ~> expr ^^ {
         e => PrintExpr(e)
-      } | constant | parenthesisExpr | "-" ~> term ^^ {
-      expr => NegExpr(expr)
-    } | "+" ~> term
+      } | parenthesisExpr
 
   lazy val combinedScalarOffset: PackratParser[Expr] = combinedScalar ~ rep("[" ~> dimOffset <~ "]") ^^ {
     case s ~ dims => dims.foldLeft(s) {
@@ -355,16 +476,28 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   }
 
   lazy val functionCall: PackratParser[Reference] = namespaceName ~ functionCallParameterList ^^ {
-    case name ~ params => CallFunctionReference(StaticNamespaceName(name), params)
+    case name ~ params => CallFunctionReference(StaticNamespaceName(name, relative = true), params)
+  } | "namespace" ~> "\\" ~> namespaceName ~ functionCallParameterList ^^ {
+    case name ~ params => CallFunctionReference(StaticNamespaceName(name, relative = false), params)
+  } | "\\" ~> namespaceName ~ functionCallParameterList ^^ {
+    case name ~ params => CallFunctionReference(StaticNamespaceName(name, relative = false), params)
+  } | className ~ "::" ~ variableName ~ functionCallParameterList ^^ {
+    case cname ~ _ ~ method ~ params => CallStaticMethodReference(cname, method, params)
+  } | className ~ "::" ~ variableWithoutObjects ~ functionCallParameterList ^^ {
+    case cname ~ _ ~ method ~ params => CallStaticMethodReference(cname, DynamicName(method), params)
+  } | variableClassName ~ "::" ~ variableName ~ functionCallParameterList ^^ {
+    case cname ~ _ ~ method ~ params => CallStaticMethodReference(cname, method, params)
+  } | variableClassName ~ "::" ~ variableWithoutObjects ~ functionCallParameterList ^^ {
+    case cname ~ _ ~ method ~ params => CallStaticMethodReference(cname, DynamicName(method), params)
+  } | variableWithoutObjects ~ functionCallParameterList ^^ {
+    case name ~ params => CallFunctionReference(DynamicName(name), params)
   }
 
-  lazy val className: PackratParser[NamespaceName] = namespaceName
+  lazy val className: PackratParser[Name] = namespaceName ^^ (StaticNamespaceName(_))
 
   lazy val fullyQualifiedClassName: PackratParser[NamespaceName] = namespaceName
 
-  lazy val classNameReference: PackratParser[Name] = className ^^ {
-    cname => StaticNamespaceName(cname)
-  } | dynamicClassNameReference
+  lazy val classNameReference: PackratParser[Name] = className | dynamicClassNameReference
 
   lazy val dynamicClassNameReference: PackratParser[Name] =
     baseVariable ~ rep("->" ~> objectProperty) ^^ {
@@ -386,14 +519,19 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     } | "__FILE__" ^^^ FileNameConstExpr() |
       "__LINE__" ^^^ LineNumberConstExpr() |
       "__FUNCTION__" ^^^ FunctionNameConstExpr() |
-      "__CLASS__" ^^^ ClassNameConstExpr() |
       "__METHOD__" ^^^ MethodNameConstExpr() |
       hereDocStartLit ~> opt(encapsAndWhitespaceLit) <~ hereDocEndLit ^^ {
         s => ScalarExpr(StringVal(s.getOrElse("")))
       }
 
   lazy val staticScalar: PackratParser[Expr] =
-    commonScalar | "+" ~> staticScalar ^^ {
+    commonScalar | staticClassNameScalar | namespaceName ^^ {
+      name => ConstGetExpr(name)
+    } | "namespace" ~> "\\" ~> namespaceName ^^ {
+      name => ConstGetExpr(name, relative = false)
+    } | "\\" ~> namespaceName ^^ {
+      name => ConstGetExpr(name, relative = false)
+    } | "+" ~> staticScalar ^^ {
       s => PosExpr(s)
     } | "-" ~> staticScalar ^^ {
       s => NegExpr(s)
@@ -401,17 +539,23 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       pairs => ArrayCreateExpr(pairs)
     } | "[" ~> staticArrayPairList <~ "]" ^^ {
       pairs => ArrayCreateExpr(pairs)
-    } | staticClassConstant
+    } | staticClassConstant | "__CLASS__" ^^^ ClassNameConstExpr()
 
   lazy val staticClassConstant: PackratParser[Expr] = className ~ "::" ~ identLit ^^ {
-    case cname ~ _ ~ name => ClassConstantExpr(StaticNamespaceName(cname), name)
+    case cname ~ _ ~ name => ClassConstantExpr(cname, name)
   }
 
-  lazy val scalar: PackratParser[Expr] = classConstant | commonScalar | "\"" ~> encapsList <~ "\"" ^^ {
+  lazy val scalar: PackratParser[Expr] = classNameScalar | classConstant | namespaceName ^^ {
+    name => ConstGetExpr(name)
+  } | "namespace" ~> "\\" ~> namespaceName ^^ {
+    name => ConstGetExpr(name, relative = false)
+  } | "\\" ~> namespaceName ^^ {
+    name => ConstGetExpr(name, relative = false)
+  } | commonScalar | "\"" ~> encapsList <~ "\"" ^^ {
     interpolated => InterpolatedStringExpr(interpolated)
   } | hereDocStartLit ~> encapsList <~ hereDocEndLit ^^ {
     interpolated => InterpolatedStringExpr(interpolated)
-  }
+  } | "__CLASS__" ^^^ ClassNameConstExpr()
 
   lazy val staticArrayPairList: PackratParser[List[(Option[Expr], Expr)]] = repsep(
     staticScalar ~ opt("=>" ~> staticScalar) ^^ {
@@ -477,7 +621,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     }
 
   lazy val staticMember: PackratParser[Reference] = className ~ "::" ~ variableWithoutObjects ^^ {
-    case cname ~ _ ~ v => StaticClassVarReference(StaticNamespaceName(cname), DynamicName(v))
+    case cname ~ _ ~ v => StaticClassVarReference(cname, DynamicName(v))
   } | variableClassName ~ "::" ~ variableWithoutObjects ^^ {
     case cname ~ _ ~ v => StaticClassVarReference(cname, DynamicName(v))
   }
@@ -589,16 +733,18 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val issetVariable: PackratParser[Expr] = exprWithoutVariable ||| rVariable
 
   lazy val classConstant: PackratParser[Expr] = className ~ "::" ~ identLit ^^ {
-    case cname ~ _ ~ n => ClassConstantExpr(StaticNamespaceName(cname), n)
+    case cname ~ _ ~ n => ClassConstantExpr(cname, n)
   } | variableClassName ~ "::" ~ identLit ^^ {
     case cname ~ _ ~ n => ClassConstantExpr(cname, n)
   }
 
-
-  lazy val constant: PackratParser[Expr] = identLit ^^ {
-    name => ConstGetExpr(name)
+  lazy val staticClassNameScalar: PackratParser[Expr] = className <~ "::" <~ "class" ^^ {
+    cname => ClassNameExpr(cname)
   }
 
+  lazy val classNameScalar: PackratParser[Expr] = className <~ "::" <~ "class" ^^ {
+    cname => ClassNameExpr(cname)
+  }
 
   lazy val inlineHtml: PackratParser[InlineStmt] =
     elem("inline", _.isInstanceOf[Inline]) ^^ {
@@ -641,6 +787,21 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val hereDocEndLit: PackratParser[String] =
     elem("heredocstart", _.isInstanceOf[HereDocEnd]) ^^ (_.chars)
+
+  lazy val integerCastLit: PackratParser[String] =
+    elem("integerCast", _.isInstanceOf[IntegerCast]) ^^ (_.chars)
+
+  lazy val doubleCastLit: PackratParser[String] =
+    elem("doubleCast", _.isInstanceOf[DoubleCast]) ^^ (_.chars)
+
+  lazy val stringCastLit: PackratParser[String] =
+    elem("stringCast", _.isInstanceOf[StringCast]) ^^ (_.chars)
+
+  lazy val arrayCastLit: PackratParser[String] =
+    elem("arrayCast", _.isInstanceOf[ArrayCast]) ^^ (_.chars)
+
+  lazy val booleanCastLit: PackratParser[String] =
+    elem("booleanCast", _.isInstanceOf[BooleanCast]) ^^ (_.chars)
 
   implicit def parser2packrat1[T <: Node](p: => super.Parser[T]): PackratParser[T] = {
     lazy val q = p

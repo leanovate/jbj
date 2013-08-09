@@ -71,7 +71,7 @@ object NumericVal {
     case IntegerVal(value) => Some(value.toDouble)
     case DoubleVal(value) => Some(value)
     case BooleanVal(value) => Some(if (value) 1.0 else 0.0)
-    case StringVal(numericPattern(num, _, _)) if !num.isEmpty && num != "-" => Some(num.toDouble)
+    case StringVal(numericPattern(num, _, _)) if !num.isEmpty && num != "-" && num != "." => Some(num.toDouble)
     case StringVal(truePattern()) => Some(1.0)
     case StringVal(falsePattern()) => Some(1.0)
     case array: ArrayVal => Some(if (!array.isEmpty) 1.0 else 0.0)

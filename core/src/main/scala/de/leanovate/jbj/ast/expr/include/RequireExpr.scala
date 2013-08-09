@@ -4,6 +4,7 @@ import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.runtime.{ReturnExecResult, Context}
 import de.leanovate.jbj.runtime.value.BooleanVal
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import java.io.PrintStream
 
 case class RequireExpr(file: Expr) extends Expr {
   def eval(implicit ctx: Context) = {
@@ -19,5 +20,10 @@ case class RequireExpr(file: Expr) extends Expr {
         throw new FatalErrorJbjException("require(): Failed opening required '%s' for inclusion (include_path='%s')".
           format(filename, position.fileName))
     }
+  }
+
+  override def dump(out: PrintStream, ident: String) {
+    out.println(ident + getClass.getSimpleName + " " + position)
+    file.dump(out, ident + "  ")
   }
 }

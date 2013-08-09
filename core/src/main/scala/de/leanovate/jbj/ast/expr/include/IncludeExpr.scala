@@ -3,6 +3,7 @@ package de.leanovate.jbj.ast.expr.include
 import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.runtime.{ReturnExecResult, Context}
 import de.leanovate.jbj.runtime.value.BooleanVal
+import java.io.PrintStream
 
 case class IncludeExpr(file: Expr) extends Expr {
   override def eval(implicit ctx: Context) = {
@@ -19,5 +20,10 @@ case class IncludeExpr(file: Expr) extends Expr {
           "include(): Failed opening '%s' for inclusion (include_path='%s')".format(filename, position.fileName))
         BooleanVal.FALSE
     }
+  }
+
+  override def dump(out: PrintStream, ident: String) {
+    out.println(ident + getClass.getSimpleName + " " + position)
+    file.dump(out, ident + "  ")
   }
 }

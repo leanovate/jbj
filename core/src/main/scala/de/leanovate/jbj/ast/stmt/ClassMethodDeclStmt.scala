@@ -9,14 +9,16 @@ import de.leanovate.jbj.runtime.ReturnExecResult
 import java.io.PrintStream
 
 case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: String, parameterDecls: List[ParameterDecl],
-                               stmts: List[Stmt]) extends Stmt with PMethod {
+                               stmts: List[Stmt]) extends Stmt with PMethod with BlockLike {
   private lazy val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
   override def exec(implicit ctx: Context) = {
     SuccessExecResult
   }
 
-  def call(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, parameters: List[Value]) = {
+  override lazy val isStatic = modifieres.contains(MemberModifier.STATIC)
+
+  override def call(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, parameters: List[Value]) = {
     implicit val methodCtx = MethodContext(instance, name, callerPosition, ctx)
 
     if (!methodCtx.static.initialized) {
@@ -29,16 +31,10 @@ case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: Strin
         val value = parameters.drop(idx).headOption.getOrElse(parameterDef.defaultVal(ctx))
         methodCtx.defineVariable(parameterDef.variableName, ValueRef(value.copy))
     }
-    Left(execStmts(stmts))
-  }
-
-  @tailrec
-  private def execStmts(statements: List[Stmt])(implicit context: Context): Value = statements match {
-    case head :: tail => head.exec match {
+    Left(execStmts(stmts) match {
       case ReturnExecResult(returnVal) => returnVal
-      case _ => execStmts(tail)
-    }
-    case Nil => NullVal
+      case _ => NullVal
+    })
   }
 
   override def dump(out: PrintStream, ident: String) {

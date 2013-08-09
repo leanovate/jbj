@@ -32,6 +32,8 @@ object BooleanVal {
 
     override def toOutput = "1"
 
+    override def toDouble = DoubleVal(1.0)
+
     override val toInteger = IntegerVal(1)
 
     override val toStr = StringVal("1")
@@ -41,6 +43,8 @@ object BooleanVal {
     val value = false
 
     override def toOutput = ""
+
+    override def toDouble = DoubleVal(0.0)
 
     override val toInteger = IntegerVal(0)
 
