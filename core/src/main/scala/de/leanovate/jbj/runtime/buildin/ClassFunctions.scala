@@ -16,11 +16,11 @@ object ClassFunctions {
     }),
     BuildinFunction1("class_exists", {
       case (ctx, callerPosition, Some(name)) =>
-        BooleanVal(ctx.global.findClassOrAutoload(NamespaceName(name.toStr.value))(callerPosition).isDefined)
+        BooleanVal(ctx.global.findClassOrAutoload(NamespaceName(name.toStr.asString))(callerPosition).isDefined)
     }),
     BuildinFunction1("get_class_methods", {
       case (ctx, callerPosition, Some(name)) =>
-        ctx.global.findClassOrAutoload(NamespaceName(name.toStr.value))(callerPosition).map {
+        ctx.global.findClassOrAutoload(NamespaceName(name.toStr.asString))(callerPosition).map {
           pClass =>
             ArrayVal(pClass.methods.values.map {
               method => None -> StringVal(method.name)

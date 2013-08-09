@@ -15,12 +15,12 @@ object OutputFunctions {
 
       def call(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) = {
         var_dump(parameters: _*)(ctx, callerPosition)
-        Left(NullVal)
+        NullVal
       }
     },
     BuildinFunction2("print_r", {
       case (ctx, callerPosition, Some(value), ret) =>
-        print_r(value, ret.exists(_.toBool.value))(ctx, callerPosition)
+        print_r(value, ret.exists(_.toBool.asBoolean))(ctx, callerPosition)
     })
   )
 

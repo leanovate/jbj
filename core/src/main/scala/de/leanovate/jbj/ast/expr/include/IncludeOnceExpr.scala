@@ -7,7 +7,7 @@ import java.io.PrintStream
 
 case class IncludeOnceExpr(file: Expr) extends Expr {
   def eval(implicit ctx: Context) = {
-    val filename = file.eval.toStr.value
+    val filename = file.eval.toStr.asString
 
     ctx.global.include(filename) match {
       case Some((prog, true)) =>

@@ -10,10 +10,7 @@ case class CallStaticMethodReference(className: Name, methodName: Name, paramete
     val name = className.evalNamespaceName
     ctx.global.findClass(name).map {
       pClass =>
-        pClass.invokeMethod(ctx, position, None, methodName.evalName, parameters.map(_.eval)) match {
-          case Left(value) => value
-          case Right(valueRef) => valueRef.value
-        }
+        pClass.invokeMethod(ctx, position, None, methodName.evalName, parameters.map(_.eval)).value
     }.getOrElse {
       throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))
     }

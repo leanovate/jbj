@@ -72,7 +72,7 @@ object ArrayVal {
               nextIndex = value.toInt
             IntArrayKey(value.toInt)
           case value =>
-            StringArrayKey(value.toStr.value)
+            StringArrayKey(value.toStr.asString)
         }.getOrElse {
           nextIndex += 1
           IntArrayKey(nextIndex)

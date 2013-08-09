@@ -1,8 +1,6 @@
-package de.leanovate.jbj.runtime
+package de.leanovate.jbj.runtime.value
 
-import de.leanovate.jbj.runtime.value.{Value, NullVal}
-
-class ValueRef(private var current: Option[Value] = None) {
+class ValueRef(private var current: Option[Value] = None) extends ValueOrRef {
 
   def value = current.getOrElse(NullVal)
 

@@ -15,12 +15,12 @@ object RuntimeFunctions {
       def call(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) = {
         parameters match {
           case name :: value :: Nil =>
-            ctx.defineConstant(name.toStr.value, value, caseInsensitive = false)
+            ctx.defineConstant(name.toStr.asString, value, caseInsensitive = false)
           case name :: value :: caseInensitive :: Nil =>
-            ctx.defineConstant(name.toStr.value, value, caseInensitive.toBool.value)
+            ctx.defineConstant(name.toStr.asString, value, caseInensitive.toBool.asBoolean)
           case _ => ctx.log.warn(callerPosition, "var_dump() expects at least 2 parameter, %d given".format(parameters.length))
         }
-        Left(NullVal)
+        NullVal
       }
     }
   )

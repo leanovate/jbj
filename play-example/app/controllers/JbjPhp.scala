@@ -5,12 +5,12 @@ import java.io.{PrintStream, ByteArrayOutputStream, File}
 import play.api.{Logger, Play}
 import play.api.Play.current
 import de.leanovate.jbj.parser.JbjParser
-import de.leanovate.jbj.runtime.{ValueRef, Context}
+import de.leanovate.jbj.runtime.{Context}
 import de.leanovate.jbj.runtime.context.GlobalContext
 import scala.io.Source
 import de.leanovate.jbj.runtime.env.CgiEnvironment
 import de.leanovate.jbj.ast.{NodePosition, NoNodePosition}
-import de.leanovate.jbj.runtime.value.{StringVal, ArrayVal}
+import de.leanovate.jbj.runtime.value.{ValueRef, StringVal, ArrayVal}
 import java.net.URLDecoder
 import de.leanovate.jbj.JbjEnv
 

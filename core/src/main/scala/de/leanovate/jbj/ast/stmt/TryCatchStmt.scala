@@ -1,8 +1,9 @@
 package de.leanovate.jbj.ast.stmt
 
 import de.leanovate.jbj.ast.{StaticInitializer, Stmt}
-import de.leanovate.jbj.runtime.{ValueRef, SuccessExecResult, Context}
+import de.leanovate.jbj.runtime.{SuccessExecResult, Context}
 import de.leanovate.jbj.runtime.exception.RuntimeJbjException
+import de.leanovate.jbj.runtime.value.ValueRef
 
 case class TryCatchStmt(tryStmts: List[Stmt], catchBlocks: List[CatchBlock], finallyStmts: List[Stmt])
   extends Stmt with StaticInitializer with BlockLike {

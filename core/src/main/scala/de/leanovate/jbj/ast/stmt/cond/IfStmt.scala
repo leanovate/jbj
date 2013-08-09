@@ -14,10 +14,10 @@ case class IfStmt(condition: Expr, thenStmts: List[Stmt], elseIfs: List[ElseIfBl
 
 
   override def exec(implicit ctx: Context) = {
-    if (condition.eval.toBool.value) {
+    if (condition.eval.toBool.asBoolean) {
       execStmts(thenStmts)
     } else {
-      elseIfs.find(_.condition.eval.toBool.value).map {
+      elseIfs.find(_.condition.eval.toBool.asBoolean).map {
         elseIf => execStmts(elseIf.themStmts)
       }.getOrElse {
         execStmts(elseStmts)

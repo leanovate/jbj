@@ -32,10 +32,10 @@ object ArrayFunctions {
                     builder += key -> value
                 }
             }
-            Left(new ArrayVal(builder.result()))
+            new ArrayVal(builder.result())
           case _ =>
             ctx.log.warn(callerPosition, "array_merge() expects at least 1 parameter, 0 given")
-            Left(NullVal)
+            NullVal
         }
     })
 }

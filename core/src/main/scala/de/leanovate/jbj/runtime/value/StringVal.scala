@@ -1,15 +1,14 @@
 package de.leanovate.jbj.runtime.value
 
-import java.io.PrintStream
 import de.leanovate.jbj.runtime.{Context, IntArrayKey, ArrayKey}
 import de.leanovate.jbj.ast.NodePosition
 
-case class StringVal(value: String) extends Value {
-  override def toOutput = value
+case class StringVal(asString: String) extends Value {
+  override def toOutput = asString
 
   override def toStr: StringVal = this
 
-  override def toNum: NumericVal = value match {
+  override def toNum: NumericVal = asString match {
     case NumericVal.numericPattern(num, null, null) if !num.isEmpty && num != "-" && num != "." =>
       IntegerVal(num.toLong)
     case NumericVal.numericPattern(num, _, _) if !num.isEmpty && num != "-" && num != "." =>
@@ -17,18 +16,18 @@ case class StringVal(value: String) extends Value {
     case _ => IntegerVal(0)
   }
 
-  override def toDouble: DoubleVal = value match {
+  override def toDouble: DoubleVal = asString match {
     case NumericVal.numericPattern(num, _, _) if !num.isEmpty && num != "-" && num != "." =>
       DoubleVal(num.toDouble)
     case _ => DoubleVal(0.0)
   }
 
-  override def toInteger: IntegerVal = value match {
+  override def toInteger: IntegerVal = asString match {
     case NumericVal.integerPattern(num) => IntegerVal(num.toLong)
     case _ => IntegerVal(0)
   }
 
-  override def toBool: BooleanVal = BooleanVal(!value.isEmpty)
+  override def toBool: BooleanVal = BooleanVal(!asString.isEmpty)
 
   override def toArray = ArrayVal(None -> this)
 
@@ -41,11 +40,11 @@ case class StringVal(value: String) extends Value {
   override def decr = this
 
   override def getAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) = index match {
-    case IntArrayKey(idx) => Some(StringVal(value(idx.toInt).toString))
-    case _ => Some(StringVal(value(0).toString))
+    case IntArrayKey(idx) => Some(StringVal(asString(idx.toInt).toString))
+    case _ => Some(StringVal(asString(0).toString))
   }
 
   override def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition) {}
 
-  def dot(other: Value): Value = StringVal(value + other.toStr.value)
+  def dot(other: Value): Value = StringVal(asString + other.toStr.asString)
 }

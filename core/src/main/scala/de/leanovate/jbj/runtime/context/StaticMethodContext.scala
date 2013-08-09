@@ -1,8 +1,8 @@
 package de.leanovate.jbj.runtime.context
 
-import de.leanovate.jbj.runtime.value.Value
+import de.leanovate.jbj.runtime.value.{ValueRef, Value}
 import de.leanovate.jbj.ast.{NamespaceName, NodePosition}
-import de.leanovate.jbj.runtime.{PClass, PFunction, ValueRef, Context}
+import de.leanovate.jbj.runtime.{PClass, PFunction, Context}
 import scala.collection.mutable
 import scala.collection.immutable.Stack
 

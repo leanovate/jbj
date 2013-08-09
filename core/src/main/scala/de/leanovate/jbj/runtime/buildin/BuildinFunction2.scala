@@ -8,8 +8,8 @@ case class BuildinFunction2(_name: String, impl: PartialFunction[(Context, NodeP
   def name = NamespaceName(relative = false, _name)
 
   def call(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) = parameters match {
-    case param :: Nil => Left(impl.apply(ctx, callerPosition, Some(param), None))
-    case param1 :: param2 :: Nil => Left(impl.apply(ctx, callerPosition, Some(param1), Some(param2)))
-    case _ => Left(impl.apply(ctx, callerPosition, None, None))
+    case param :: Nil => impl.apply(ctx, callerPosition, Some(param), None)
+    case param1 :: param2 :: Nil => impl.apply(ctx, callerPosition, Some(param1), Some(param2))
+    case _ => impl.apply(ctx, callerPosition, None, None)
   }
 }

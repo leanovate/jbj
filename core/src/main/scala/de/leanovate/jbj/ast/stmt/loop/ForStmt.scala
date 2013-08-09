@@ -16,7 +16,7 @@ case class ForStmt(befores: List[Expr], conditions: List[Expr], afters: List[Exp
     befores.foreach(_.eval)
     while (conditions.foldLeft(true) {
       (result, cond) =>
-        cond.eval.toBool.value
+        cond.eval.toBool.asBoolean
     }) {
       execStmts(stmts) match {
         case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)

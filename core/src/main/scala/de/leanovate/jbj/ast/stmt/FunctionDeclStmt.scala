@@ -4,7 +4,7 @@ import de.leanovate.jbj.ast.{NodePosition, NamespaceName, StaticInitializer, Stm
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.context.FunctionContext
 import de.leanovate.jbj.runtime.SuccessExecResult
-import de.leanovate.jbj.runtime.value.{Value, NullVal}
+import de.leanovate.jbj.runtime.value.{ValueRef, Value, NullVal}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import java.io.PrintStream
 
@@ -17,7 +17,7 @@ case class FunctionDeclStmt(name: NamespaceName, parameterDecls: List[ParameterD
     SuccessExecResult
   }
 
-  def call(ctx: Context, callerPosition: NodePosition, parameters: List[Value]): Either[Value, ValueRef] = {
+  override def call(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) = {
     implicit val funcCtx = FunctionContext(name, callerPosition, ctx)
 
     if (!funcCtx.static.initialized) {
@@ -31,8 +31,8 @@ case class FunctionDeclStmt(name: NamespaceName, parameterDecls: List[ParameterD
         funcCtx.defineVariable(parameterDef.variableName, ValueRef(value.copy))
     }
     execStmts(stmts) match {
-      case SuccessExecResult => Left(NullVal)
-      case ReturnExecResult(retVal) => Left(retVal)
+      case SuccessExecResult => NullVal
+      case ReturnExecResult(retVal) => retVal
       case result: BreakExecResult =>
         throw new FatalErrorJbjException("Cannot break/continue %d level".format(result.depth))(ctx, result.position)
       case result: ContinueExecResult =>

@@ -1,6 +1,6 @@
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.runtime.value.{Value, ObjectVal}
+import de.leanovate.jbj.runtime.value.{ValueOrRef, ValueRef, Value, ObjectVal}
 import de.leanovate.jbj.ast.NodePosition
 
 trait PMethod {
@@ -8,7 +8,7 @@ trait PMethod {
 
   def isStatic: Boolean
 
-  def invoke(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, parameters: List[Value]): Either[Value, ValueRef]
+  def invoke(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, parameters: List[Value]): ValueOrRef
 
-  def invokeStatic(ctx: Context, callerPosition: NodePosition, pClass: PClass, parameters: List[Value]): Either[Value, ValueRef]
+  def invokeStatic(ctx: Context, callerPosition: NodePosition, pClass: PClass, parameters: List[Value]): ValueOrRef
 }

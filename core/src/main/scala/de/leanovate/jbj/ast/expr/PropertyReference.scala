@@ -19,10 +19,7 @@ case class PropertyReference(reference: Reference, propertyName: Name) extends R
               case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__set" =>
                 false
               case _ =>
-                obj.pClass.findMethod("__get").map(_.invoke(ctx, position, obj, StringVal(name) :: Nil)).exists {
-                  case Left(v) => !v.isNull
-                  case Right(ref) => !ref.value.isNull
-                }
+                obj.pClass.findMethod("__get").map(_.invoke(ctx, position, obj, StringVal(name) :: Nil)).exists(_.value.isNull)
             }
           }
         case _ => false
@@ -42,10 +39,7 @@ case class PropertyReference(reference: Reference, propertyName: Name) extends R
               ctx.log.notice(position, "Undefined property: %s::%s".format(obj.pClass.name.toString, name))
               NullVal
             case _ =>
-              obj.pClass.findMethod("__get").map(_.invoke(ctx, position, obj, StringVal(name) :: Nil)).map {
-                case Left(v) => v
-                case Right(ref) => ref.value
-              }.getOrElse {
+              obj.pClass.findMethod("__get").map(_.invoke(ctx, position, obj, StringVal(name) :: Nil)).map(_.value).getOrElse {
                 ctx.log.notice(position, "Undefined property: %s::%s".format(obj.pClass.name.toString, name))
                 NullVal
               }

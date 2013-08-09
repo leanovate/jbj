@@ -10,7 +10,7 @@ case class WhileStmt(condition: Expr, stmts: List[Stmt]) extends Stmt with Block
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
   override def exec(implicit ctx: Context): ExecResult = {
-    while (condition.eval.toBool.value) {
+    while (condition.eval.toBool.asBoolean) {
       execStmts(stmts) match {
         case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
         case BreakExecResult(_) => return SuccessExecResult

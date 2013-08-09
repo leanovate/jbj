@@ -1,7 +1,7 @@
 package de.leanovate.jbj.runtime.env
 
-import de.leanovate.jbj.runtime.{Context, ValueRef}
-import de.leanovate.jbj.runtime.value.{Value, StringVal, ArrayVal}
+import de.leanovate.jbj.runtime.{Context}
+import de.leanovate.jbj.runtime.value.{ValueRef, Value, StringVal, ArrayVal}
 import de.leanovate.jbj.ast.NoNodePosition
 
 object CliEnvironment {

@@ -9,7 +9,7 @@ import scala.collection.immutable.Stack
 import de.leanovate.jbj.JbjEnv
 import de.leanovate.jbj.runtime.exception.CompileErrorException
 import de.leanovate.jbj.ast.NamespaceName
-import de.leanovate.jbj.runtime.value.{Value, StringVal}
+import de.leanovate.jbj.runtime.value.{ValueRef, Value, StringVal}
 
 case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settings: Settings) extends Context {
   private val classes = mutable.Map.empty[Seq[String], PClass]

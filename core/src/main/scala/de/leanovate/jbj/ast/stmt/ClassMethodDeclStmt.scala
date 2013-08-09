@@ -2,7 +2,7 @@ package de.leanovate.jbj.ast.stmt
 
 import de.leanovate.jbj.ast.{StaticInitializer, NodePosition, MemberModifier, Stmt}
 import de.leanovate.jbj.runtime._
-import de.leanovate.jbj.runtime.value.{Value, NullVal, ObjectVal}
+import de.leanovate.jbj.runtime.value.{ValueRef, Value, NullVal, ObjectVal}
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.context.MethodContext
 import de.leanovate.jbj.runtime.context.StaticMethodContext
@@ -31,10 +31,10 @@ case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: Strin
         val value = parameters.drop(idx).headOption.getOrElse(parameterDef.defaultVal(ctx))
         methodCtx.defineVariable(parameterDef.variableName, ValueRef(value.copy))
     }
-    Left(execStmts(stmts) match {
+    execStmts(stmts) match {
       case ReturnExecResult(returnVal) => returnVal
       case _ => NullVal
-    })
+    }
   }
 
   override def invokeStatic(ctx: Context, callerPosition: NodePosition, pClass: PClass, parameters: List[Value]) = {
@@ -50,10 +50,10 @@ case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: Strin
         val value = parameters.drop(idx).headOption.getOrElse(parameterDef.defaultVal(ctx))
         methodCtx.defineVariable(parameterDef.variableName, ValueRef(value.copy))
     }
-    Left(execStmts(stmts) match {
+    execStmts(stmts) match {
       case ReturnExecResult(returnVal) => returnVal
       case _ => NullVal
-    })
+    }
   }
 
   override def dump(out: PrintStream, ident: String) {

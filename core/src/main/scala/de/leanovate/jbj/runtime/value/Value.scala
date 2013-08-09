@@ -3,7 +3,7 @@ package de.leanovate.jbj.runtime.value
 import de.leanovate.jbj.ast.NodePosition
 import de.leanovate.jbj.runtime.{Context, ArrayKey}
 
-trait Value {
+trait Value extends ValueOrRef {
   def toOutput: String
 
   def toStr: StringVal
@@ -29,6 +29,8 @@ trait Value {
   def getAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition): Option[Value]
 
   def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition)
+
+  final override def value = this
 }
 
 object Value {
@@ -37,6 +39,6 @@ object Value {
     case (IntegerVal(leftVal), IntegerVal(rightVal)) => leftVal.compare(rightVal)
     case (NumericVal(leftVal), NumericVal(rightVal)) => leftVal.compare(rightVal)
     case (BooleanVal(leftVal), BooleanVal(rightVal)) => leftVal.compare(rightVal)
-    case (anyLeft, anyRight) => anyLeft.toStr.value.compare(anyRight.toStr.value)
+    case (anyLeft, anyRight) => anyLeft.toStr.asString.compare(anyRight.toStr.asString)
   }
 }

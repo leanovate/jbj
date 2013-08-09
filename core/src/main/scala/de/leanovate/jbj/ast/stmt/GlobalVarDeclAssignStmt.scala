@@ -1,7 +1,8 @@
 package de.leanovate.jbj.ast.stmt
 
 import de.leanovate.jbj.ast.{Name, Stmt}
-import de.leanovate.jbj.runtime.{ValueRef, SuccessExecResult, Context}
+import de.leanovate.jbj.runtime.{SuccessExecResult, Context}
+import de.leanovate.jbj.runtime.value.ValueRef
 
 case class GlobalVarDeclAssignStmt(variableNames: List[Name]) extends Stmt {
   override def exec(implicit ctx: Context) = {

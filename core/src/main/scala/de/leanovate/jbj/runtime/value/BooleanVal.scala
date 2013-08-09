@@ -1,11 +1,10 @@
 package de.leanovate.jbj.runtime.value
 
-import java.io.PrintStream
 import de.leanovate.jbj.runtime.{Context, ArrayKey}
 import de.leanovate.jbj.ast.NodePosition
 
 abstract class BooleanVal extends Value {
-  def value: Boolean
+  def asBoolean: Boolean
 
   override def toBool = this
 
@@ -28,7 +27,7 @@ abstract class BooleanVal extends Value {
 
 object BooleanVal {
   val TRUE = new BooleanVal {
-    val value = true
+    val asBoolean = true
 
     override def toOutput = "1"
 
@@ -40,7 +39,7 @@ object BooleanVal {
   }
 
   val FALSE = new BooleanVal {
-    val value = false
+    val asBoolean = false
 
     override def toOutput = ""
 
@@ -53,5 +52,5 @@ object BooleanVal {
 
   def apply(value: Boolean): BooleanVal = if (value) TRUE else FALSE
 
-  def unapply(boolean: BooleanVal) = Some(boolean.value)
+  def unapply(boolean: BooleanVal) = Some(boolean.asBoolean)
 }

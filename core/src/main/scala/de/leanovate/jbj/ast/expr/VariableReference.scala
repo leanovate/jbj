@@ -1,9 +1,9 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Name, Reference}
-import de.leanovate.jbj.runtime.{ValueRef, Context}
+import de.leanovate.jbj.runtime.{Context}
 import java.io.PrintStream
-import de.leanovate.jbj.runtime.value.{Value, NullVal}
+import de.leanovate.jbj.runtime.value.{ValueRef, Value, NullVal}
 
 case class VariableReference(variableName: Name) extends Reference {
   override def eval(implicit ctx: Context) = ctx.findVariable(variableName.evalName).map(_.value).getOrElse(NullVal)
