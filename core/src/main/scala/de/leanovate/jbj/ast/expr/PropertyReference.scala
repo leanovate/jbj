@@ -1,10 +1,11 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Name, Reference}
-import de.leanovate.jbj.runtime.{StringArrayKey, Context}
-import de.leanovate.jbj.runtime.value.{Value, StringVal, NullVal, ObjectVal}
+import de.leanovate.jbj.runtime.Context
+import de.leanovate.jbj.runtime.value._
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.context.MethodContext
+import de.leanovate.jbj.runtime.value.StringVal
 
 case class PropertyReference(reference: Reference, propertyName: Name) extends Reference {
   override def isDefined(implicit ctx: Context) = {
@@ -29,7 +30,7 @@ case class PropertyReference(reference: Reference, propertyName: Name) extends R
     }
   }
 
-  override def eval(implicit ctx: Context) = {
+  override def evalRef(implicit ctx: Context) = {
     reference.eval match {
       case obj: ObjectVal =>
         val name = propertyName.evalName
@@ -51,19 +52,19 @@ case class PropertyReference(reference: Reference, propertyName: Name) extends R
     }
   }
 
-  override def assign(value: Value)(implicit ctx: Context) {
+  override def assignRef(valueOrRef: ValueOrRef)(implicit ctx: Context) {
     reference.eval match {
       case obj: ObjectVal =>
         val name = propertyName.evalName
         if (obj.getProperty(name).isDefined) {
-          obj.setProperty(propertyName.evalName, value)
+          obj.setProperty(propertyName.evalName, valueOrRef.value)
         } else {
           ctx match {
             case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__set" =>
-              obj.setProperty(name, value)
+              obj.setProperty(name, valueOrRef.value)
             case _ =>
-              obj.pClass.findMethod("__set").map(_.invoke(ctx, position, obj, StringVal(name) :: value :: Nil)).getOrElse {
-                obj.setProperty(name, value)
+              obj.pClass.findMethod("__set").map(_.invoke(ctx, position, obj, StringVal(name) :: valueOrRef.value :: Nil)).getOrElse {
+                obj.setProperty(name, valueOrRef.value)
               }
           }
         }

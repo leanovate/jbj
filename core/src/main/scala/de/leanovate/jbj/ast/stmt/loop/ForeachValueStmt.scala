@@ -29,7 +29,7 @@ case class ForeachValueStmt(arrayExpr: Expr, valueVar:Reference, stmts: List[Stm
   @tailrec
   private def execValues(values: List[Value])(implicit context: Context): ExecResult = values match {
     case head :: tail =>
-      valueVar.assign(head)
+      valueVar.assignRef(head)
       execStmts(stmts) match {
         case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
         case BreakExecResult(_) => SuccessExecResult

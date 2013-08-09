@@ -10,7 +10,7 @@ case class AssignExpr(reference: Reference, expr: Expr) extends BinaryExpr {
 
   override def eval(implicit ctx: Context) = {
     val value = expr.eval
-    reference.assign(value)
+    reference.assignRef(value)
     value
   }
 }

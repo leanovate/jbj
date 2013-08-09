@@ -3,16 +3,16 @@ package de.leanovate.jbj.ast.expr
 import de.leanovate.jbj.ast.{Name, Reference}
 import de.leanovate.jbj.runtime.{Context}
 import java.io.PrintStream
-import de.leanovate.jbj.runtime.value.{ValueRef, Value, NullVal}
+import de.leanovate.jbj.runtime.value.{ValueOrRef, ValueRef, Value, NullVal}
 
 case class VariableReference(variableName: Name) extends Reference {
-  override def eval(implicit ctx: Context) = ctx.findVariable(variableName.evalName).map(_.value).getOrElse(NullVal)
+  override def evalRef(implicit ctx: Context) = ctx.findVariable(variableName.evalName).getOrElse(NullVal)
 
-  override def assign(value: Value)(implicit ctx: Context) {
+  override def assignRef(valueOrRef: ValueOrRef)(implicit ctx: Context) {
     var name = variableName.evalName
     ctx.findVariable(name) match {
-      case Some(valueRef) => valueRef.value = value
-      case None => ctx.defineVariable(name, ValueRef(value))
+      case Some(valueRef) => valueRef.value = valueOrRef.value
+      case None => ctx.defineVariable(name, ValueRef(valueOrRef.value))
       case _ =>
     }
   }
