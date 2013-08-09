@@ -125,5 +125,57 @@ class AutoloadSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
           |""".stripMargin
       )
     }
+
+    "Ensure catch blocks for unknown exception types do not trigger autoload." in {
+      // classes/autoload_008
+      script(
+        """<?php
+          |  function __autoload($name)
+          |  {
+          |      echo "In autoload: ";
+          |      var_dump($name);
+          |  }
+          |
+          |  function f()
+          |  {
+          |      throw new Exception();
+          |  }
+          |  try {
+          |      f();
+          |  }
+          |  catch (UndefC $u) {
+          |      echo "In UndefClass catch block.\n";
+          |  }
+          |  catch (Exception $e) {
+          |      echo "In Exception catch block. Autoload should not have been triggered.\n";
+          |  }
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """In Exception catch block. Autoload should not have been triggered.
+          |""".stripMargin
+      )
+    }
+
+    "Ensure extends does trigger autoload." in {
+      // classes/autoload_011
+      script(
+        """<?php
+          |  function __autoload($name)
+          |  {
+          |      echo "In autoload: ";
+          |      var_dump($name);
+          |  }
+          |
+          |  class C extends UndefBase
+          |  {
+          |  }
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """In autoload: string(9) "UndefBase"
+          |
+          |Fatal error: Class 'UndefBase' not found in /classes/AutoloadSpec.inlinePhp on line 8
+          |""".stripMargin
+      )
+    }
   }
 }

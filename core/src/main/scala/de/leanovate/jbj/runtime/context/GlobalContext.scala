@@ -55,10 +55,10 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
   def findClassOrAutoload(name: NamespaceName)(implicit position: NodePosition): Option[PClass] =
     findClass(name).map(Some.apply).getOrElse {
       findFunction(NamespaceName(relative = true, "__autoload")).flatMap {
-        case autoload if !autoloading.contains(name.toString) =>
-          autoloading.add(name.toString)
+        case autoload if !autoloading.contains(name.toString.toLowerCase) =>
+          autoloading.add(name.toString.toLowerCase)
           autoload.call(this, position, StringVal(name.toString) :: Nil)
-          autoloading.remove(name.toString)
+          autoloading.remove(name.toString.toLowerCase)
           findClass(name)
         case _ => None
       }
