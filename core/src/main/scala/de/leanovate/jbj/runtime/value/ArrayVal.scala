@@ -43,12 +43,18 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, ValueOrRef]) exten
   override def setAt(index: Option[ArrayKey], value: ValueOrRef)(implicit ctx: Context, position: NodePosition) {
     index match {
       case Some(key@IntArrayKey(idx)) if idx > maxIndex =>
+        keyValues.get(key).foreach(_.decrRefCount())
         keyValues.put(key, value)
+        value.incrRefCount()
         maxIndex = idx
       case Some(key) =>
+        keyValues.get(key).foreach(_.decrRefCount())
         keyValues.put(key, value)
+        value.incrRefCount()
       case None =>
+        keyValues.get(IntArrayKey(maxIndex)).foreach(_.decrRefCount())
         keyValues.put(IntArrayKey(maxIndex), value)
+        value.incrRefCount()
         maxIndex += 1
     }
   }
@@ -78,6 +84,7 @@ object ArrayVal {
           IntArrayKey(nextIndex)
         }
 
+        keyValue._2.incrRefCount()
         builder += key -> keyValue._2
     }.result())
   }

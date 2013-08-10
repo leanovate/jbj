@@ -8,7 +8,7 @@ trait PMethod {
 
   def isStatic: Boolean
 
-  def invoke(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, parameters: List[Value]): ValueOrRef
+  def invoke(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, parameters: List[ValueOrRef]): ValueOrRef
 
-  def invokeStatic(ctx: Context, callerPosition: NodePosition, pClass: PClass, parameters: List[Value]): ValueOrRef
+  def invokeStatic(ctx: Context, callerPosition: NodePosition, pClass: PClass, parameters: List[ValueOrRef]): ValueOrRef
 }

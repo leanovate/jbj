@@ -31,6 +31,10 @@ trait Value extends ValueOrRef {
   def setAt(index: Option[ArrayKey], value: ValueOrRef)(implicit ctx: Context, position: NodePosition)
 
   final override def value = this
+
+  final override def incrRefCount() {}
+
+  final override def decrRefCount() {}
 }
 
 object Value {

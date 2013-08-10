@@ -12,7 +12,7 @@ object OutputFunctions {
     new PFunction() {
       def name = NamespaceName(relative = false, "var_dump")
 
-      def call(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) = {
+      def call(ctx: Context, callerPosition: NodePosition, parameters: List[ValueOrRef]) = {
         var_dump(parameters: _*)(ctx, callerPosition)
         NullVal
       }
@@ -23,7 +23,7 @@ object OutputFunctions {
     })
   )
 
-  def var_dump(values: Value*)(implicit ctx: Context, position: NodePosition) {
+  def var_dump(values: ValueOrRef*)(implicit ctx: Context, position: NodePosition) {
     if (values.isEmpty)
       ctx.log.warn(position, "var_dump() expects at least 1 parameter, 0 given")
 

@@ -2,7 +2,7 @@ package de.leanovate.jbj.ast.stmt
 
 import de.leanovate.jbj.ast.{StaticInitializer, NodePosition, MemberModifier, Stmt}
 import de.leanovate.jbj.runtime._
-import de.leanovate.jbj.runtime.value.{ValueRef, Value, NullVal, ObjectVal}
+import de.leanovate.jbj.runtime.value._
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.context.MethodContext
 import de.leanovate.jbj.runtime.context.StaticMethodContext
@@ -18,7 +18,7 @@ case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: Strin
 
   override lazy val isStatic = modifieres.contains(MemberModifier.STATIC)
 
-  override def invoke(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, parameters: List[Value]) = {
+  override def invoke(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, parameters: List[ValueOrRef]) = {
     implicit val methodCtx = MethodContext(instance, name, callerPosition, ctx)
 
     if (!methodCtx.static.initialized) {
@@ -29,7 +29,7 @@ case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: Strin
     parameterDecls.zipWithIndex.foreach {
       case (parameterDef, idx) =>
         val value = parameters.drop(idx).headOption.getOrElse(parameterDef.defaultVal(ctx))
-        methodCtx.defineVariable(parameterDef.variableName, ValueRef(value.copy))
+        methodCtx.defineVariable(parameterDef.variableName, ValueRef(value.value.copy))
     }
     execStmts(stmts) match {
       case ReturnExecResult(returnVal) => returnVal
@@ -37,7 +37,7 @@ case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: Strin
     }
   }
 
-  override def invokeStatic(ctx: Context, callerPosition: NodePosition, pClass: PClass, parameters: List[Value]) = {
+  override def invokeStatic(ctx: Context, callerPosition: NodePosition, pClass: PClass, parameters: List[ValueOrRef]) = {
     implicit val methodCtx = StaticMethodContext(pClass, name, callerPosition, ctx)
 
     if (!methodCtx.static.initialized) {
@@ -48,7 +48,7 @@ case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: Strin
     parameterDecls.zipWithIndex.foreach {
       case (parameterDef, idx) =>
         val value = parameters.drop(idx).headOption.getOrElse(parameterDef.defaultVal(ctx))
-        methodCtx.defineVariable(parameterDef.variableName, ValueRef(value.copy))
+        methodCtx.defineVariable(parameterDef.variableName, ValueRef(value.value.copy))
     }
     execStmts(stmts) match {
       case ReturnExecResult(returnVal) => returnVal
@@ -63,5 +63,4 @@ case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: Strin
         stmt.dump(out, ident + "  ")
     }
   }
-
 }

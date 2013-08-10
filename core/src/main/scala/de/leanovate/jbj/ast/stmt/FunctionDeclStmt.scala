@@ -4,7 +4,7 @@ import de.leanovate.jbj.ast.{NodePosition, NamespaceName, StaticInitializer, Stm
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.context.FunctionContext
 import de.leanovate.jbj.runtime.SuccessExecResult
-import de.leanovate.jbj.runtime.value.{ValueRef, Value, NullVal}
+import de.leanovate.jbj.runtime.value.{ValueOrRef, ValueRef, Value, NullVal}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import java.io.PrintStream
 
@@ -17,7 +17,7 @@ case class FunctionDeclStmt(name: NamespaceName, parameterDecls: List[ParameterD
     SuccessExecResult
   }
 
-  override def call(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) = {
+  override def call(ctx: Context, callerPosition: NodePosition, parameters: List[ValueOrRef]) = {
     implicit val funcCtx = FunctionContext(name, callerPosition, ctx)
 
     if (!funcCtx.static.initialized) {
@@ -28,7 +28,7 @@ case class FunctionDeclStmt(name: NamespaceName, parameterDecls: List[ParameterD
     parameterDecls.zipWithIndex.foreach {
       case (parameterDef, idx) =>
         val value = parameters.drop(idx).headOption.getOrElse(parameterDef.defaultVal(ctx))
-        funcCtx.defineVariable(parameterDef.variableName, ValueRef(value.copy))
+        funcCtx.defineVariable(parameterDef.variableName, ValueRef(value.value.copy))
     }
     execStmts(stmts) match {
       case SuccessExecResult => NullVal

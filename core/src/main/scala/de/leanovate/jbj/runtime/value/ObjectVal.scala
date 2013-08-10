@@ -35,7 +35,10 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutabl
     keyValues.get(StringArrayKey(name))
 
   def setProperty(name: String, value: ValueOrRef)(implicit ctx: Context, position: NodePosition) {
-    keyValues.put(StringArrayKey(name), value)
+    val key = StringArrayKey(name)
+    keyValues.get(key).foreach(_.decrRefCount())
+    keyValues.put(key, value)
+    value.incrRefCount()
   }
 
   override def getAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) =
@@ -69,6 +72,7 @@ object ObjectVal {
             IntArrayKey(nextIndex)
           }
 
+          keyValue._2.incrRefCount()
           builder += (key -> keyValue._2)
       }.result())
   }

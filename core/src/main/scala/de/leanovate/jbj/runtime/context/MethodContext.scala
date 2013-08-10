@@ -33,11 +33,13 @@ case class MethodContext(instance: ObjectVal, methodName: String, callerPosition
     if (name == "this") Some(ValueRef(instance)) else localVariables.get(name)
 
   def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition)  {
+    localVariables.get(name).foreach(_.decrRefCount())
     localVariables.put(name, valueRef)
+    valueRef.incrRefCount()
   }
 
   def undefineVariable(name: String) {
-    localVariables.remove(name)
+    localVariables.remove(name).foreach(_.decrRefCount())
   }
 
   def findFunction(name: NamespaceName) = callerCtx.findFunction(name)

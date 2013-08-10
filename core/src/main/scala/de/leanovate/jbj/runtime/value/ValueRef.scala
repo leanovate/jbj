@@ -1,6 +1,8 @@
 package de.leanovate.jbj.runtime.value
 
 class ValueRef(private var current: Option[Value] = None) extends ValueOrRef {
+  private var _refCount = 0
+
   def toOutput: String = current.map(_.toOutput).getOrElse("")
 
   def value = current.getOrElse(NullVal)
@@ -11,6 +13,16 @@ class ValueRef(private var current: Option[Value] = None) extends ValueOrRef {
 
   def unset() {
     current = None
+  }
+
+  def refCount = _refCount
+
+  override def incrRefCount() {
+    _refCount += 1
+  }
+
+  override def decrRefCount() {
+    _refCount -= 1
   }
 }
 

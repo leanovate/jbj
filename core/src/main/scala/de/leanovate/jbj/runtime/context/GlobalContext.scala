@@ -85,11 +85,13 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
   def findVariable(name: String)(implicit position: NodePosition): Option[ValueRef] = variables.get(name)
 
   def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition) {
+    variables.get(name).foreach(_.decrRefCount())
     variables.put(name, valueRef)
+    valueRef.incrRefCount()
   }
 
   def undefineVariable(name: String) {
-    variables.remove(name)
+    variables.remove(name).foreach(_.decrRefCount())
   }
 
   def findFunction(name: NamespaceName) =

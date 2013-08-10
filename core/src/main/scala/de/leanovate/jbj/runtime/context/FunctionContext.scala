@@ -32,11 +32,13 @@ case class FunctionContext(functionName: NamespaceName, callerPosition: NodePosi
   def findVariable(name: String)(implicit position: NodePosition): Option[ValueRef] = localVariables.get(name)
 
   def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition)  {
+    localVariables.get(name).foreach(_.decrRefCount())
     localVariables.put(name, valueRef)
+    valueRef.incrRefCount()
   }
 
   def undefineVariable(name: String) {
-    localVariables.remove(name)
+    localVariables.remove(name).foreach(_.decrRefCount())
   }
 
   def findFunction(name: NamespaceName) = global.findFunction(name)
