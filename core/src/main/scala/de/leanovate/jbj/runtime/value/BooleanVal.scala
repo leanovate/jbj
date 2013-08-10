@@ -22,7 +22,7 @@ abstract class BooleanVal extends Value {
 
   override def getAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) = None
 
-  override def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition) {}
+  override def setAt(index: Option[ArrayKey], value: ValueOrRef)(implicit ctx: Context, position: NodePosition) {}
 }
 
 object BooleanVal {

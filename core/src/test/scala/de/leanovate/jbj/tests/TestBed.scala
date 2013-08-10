@@ -43,11 +43,28 @@ object TestBed {
   //A main method for testing
   def main(args: Array[String]) {
     test( """<?php
-            |class dooh {
-            |    public $blah;
+            |function f($arg1, &$arg2)
+            |{
+            |	var_dump($arg1++);
+            |	var_dump($arg2++);
             |}
-            |$d = new dooh;
-            |var_dump(is_subclass_of($d, 'dooh'));
+            |
+            |function g (&$arg1, &$arg2)
+            |{
+            |	var_dump($arg1);
+            |	var_dump($arg2);
+            |}
+            |$a = 7;
+            |$b = 15;
+            |
+            |f($a, $b);
+            |
+            |var_dump($a);
+            |var_dump($b);
+            |
+            |$c=array(1);
+            |g($c,$c[0]);
+            |
             |?>""".stripMargin)
   }
 }

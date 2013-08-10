@@ -1,14 +1,12 @@
 package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime._
-import java.io.PrintStream
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.IntArrayKey
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.ast.NodePosition
-import scala.annotation.tailrec
 
-class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutable.LinkedHashMap[ArrayKey, Value]) extends Value {
+class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutable.LinkedHashMap[ArrayKey, ValueOrRef]) extends Value {
   override def toOutput = "Array"
 
   override def toStr = StringVal("object")
@@ -33,17 +31,17 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutabl
 
   final def instanceOf(other: PClass): Boolean = other.isAssignableFrom(pClass)
 
-  def getProperty(name: String)(implicit ctx: Context, position: NodePosition): Option[Value] =
+  def getProperty(name: String)(implicit ctx: Context, position: NodePosition): Option[ValueOrRef] =
     keyValues.get(StringArrayKey(name))
 
-  def setProperty(name: String, value: Value)(implicit ctx: Context, position: NodePosition) {
+  def setProperty(name: String, value: ValueOrRef)(implicit ctx: Context, position: NodePosition) {
     keyValues.put(StringArrayKey(name), value)
   }
 
   override def getAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) =
     throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
 
-  override def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition) {
+  override def setAt(index: Option[ArrayKey], value: ValueOrRef)(implicit ctx: Context, position: NodePosition) {
     throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
   }
 }
@@ -53,7 +51,7 @@ object ObjectVal {
     var nextIndex: Long = -1
 
     new ObjectVal(pClass, pClass.instanceCounter.incrementAndGet,
-      keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[ArrayKey, Value]) {
+      keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[ArrayKey, ValueOrRef]) {
         (builder, keyValue) =>
           val key = keyValue._1.map {
             case IntegerVal(value) =>

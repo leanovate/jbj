@@ -1,12 +1,13 @@
 package de.leanovate.jbj.runtime.buildin
 
-import de.leanovate.jbj.runtime.value.{Value, NullVal, ArrayVal, IntegerVal}
+import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.ast.NodePosition
 import scala.collection.mutable
-import de.leanovate.jbj.runtime.IntArrayKey
 import de.leanovate.jbj.ast.NamespaceName
+import de.leanovate.jbj.runtime.IntArrayKey
 import scala.Some
+import de.leanovate.jbj.runtime.value.IntegerVal
 
 object ArrayFunctions {
   val functions: Seq[PFunction] = Seq(
@@ -21,7 +22,7 @@ object ArrayFunctions {
         parameters match {
           case params if !params.isEmpty =>
             var count: Long = -1
-            var builder = mutable.LinkedHashMap.newBuilder[ArrayKey, Value]
+            var builder = mutable.LinkedHashMap.newBuilder[ArrayKey, ValueOrRef]
             params.foreach {
               case array: ArrayVal =>
                 array.keyValues.map {

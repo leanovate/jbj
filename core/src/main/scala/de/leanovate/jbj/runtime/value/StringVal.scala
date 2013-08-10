@@ -44,7 +44,7 @@ case class StringVal(asString: String) extends Value {
     case _ => Some(StringVal(asString(0).toString))
   }
 
-  override def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition) {}
+  override def setAt(index: Option[ArrayKey], value: ValueOrRef)(implicit ctx: Context, position: NodePosition) {}
 
   def dot(other: Value): Value = StringVal(asString + other.toStr.asString)
 }

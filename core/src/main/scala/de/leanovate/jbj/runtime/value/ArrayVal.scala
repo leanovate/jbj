@@ -7,7 +7,7 @@ import de.leanovate.jbj.runtime.IntArrayKey
 import de.leanovate.jbj.runtime.StringArrayKey
 import de.leanovate.jbj.ast.NodePosition
 
-class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, Value]) extends Value {
+class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, ValueOrRef]) extends Value {
 
   private var maxIndex: Long = (0L :: keyValues.keys.map {
     case IntArrayKey(idx) => idx
@@ -40,7 +40,7 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, Value]) extends Va
 
   override def getAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) = keyValues.get(index)
 
-  override def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition) {
+  override def setAt(index: Option[ArrayKey], value: ValueOrRef)(implicit ctx: Context, position: NodePosition) {
     index match {
       case Some(key@IntArrayKey(idx)) if idx > maxIndex =>
         keyValues.put(key, value)
@@ -60,7 +60,7 @@ object ArrayVal {
   def apply(keyValues: (Option[Value], Value)*): ArrayVal = {
     var nextIndex: Long = -1
 
-    new ArrayVal(keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[ArrayKey, Value]) {
+    new ArrayVal(keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[ArrayKey, ValueOrRef]) {
       (builder, keyValue) =>
         val key = keyValue._1.map {
           case IntegerVal(value) =>

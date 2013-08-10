@@ -30,11 +30,11 @@ case class PropertyReference(reference: Reference, propertyName: Name) extends R
     }
   }
 
-  override def evalRef(implicit ctx: Context) = {
+  override def eval(implicit ctx: Context) = {
     reference.eval match {
       case obj: ObjectVal =>
         val name = propertyName.evalName
-        obj.getProperty(name).getOrElse {
+        obj.getProperty(name).map(_.value).getOrElse {
           ctx match {
             case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__get" =>
               ctx.log.notice(position, "Undefined property: %s::%s".format(obj.pClass.name.toString, name))

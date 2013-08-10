@@ -15,7 +15,6 @@ case class IndexGetExpr(expr: Expr, indexExpr: Option[Expr]) extends Expr {
       arrayKey =>
         val array = expr.eval
         array.getAt(arrayKey)
-
-    }.getOrElse(NullVal)
+    }.map(_.value).getOrElse(NullVal)
   }
 }

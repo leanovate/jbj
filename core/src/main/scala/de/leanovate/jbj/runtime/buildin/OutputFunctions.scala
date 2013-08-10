@@ -27,7 +27,7 @@ object OutputFunctions {
     if (values.isEmpty)
       ctx.log.warn(position, "var_dump() expects at least 1 parameter, 0 given")
 
-    def dump(value: Value, ident: String) {
+    def dump(value: ValueOrRef, ident: String) {
       value match {
         case ArrayVal(keyValues) =>
           val nextIdent = ident + "  "
@@ -35,10 +35,10 @@ object OutputFunctions {
           keyValues.foreach {
             case (IntArrayKey(key), v) =>
               ctx.out.println("%s[%d]=>".format(nextIdent, key))
-              dump(v, nextIdent)
+              dump(v.value, nextIdent)
             case (StringArrayKey(key), v) =>
               ctx.out.println( """%s["%s"]=>""".format(nextIdent, key))
-              dump(v, nextIdent)
+              dump(v.value, nextIdent)
           }
           ctx.out.println("%s}".format(ident))
         case BooleanVal(bool) =>
@@ -71,7 +71,7 @@ object OutputFunctions {
   }
 
   def print_r(value: Value, ret: Boolean = false)(implicit ctx: Context, position: NodePosition): Value = {
-    def dump(value: Value): List[String] = {
+    def dump(value: ValueOrRef): List[String] = {
       value match {
         case ArrayVal(keyValues) =>
           "Array" :: "(" :: keyValues.flatMap {

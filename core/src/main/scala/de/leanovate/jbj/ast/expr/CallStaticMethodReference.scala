@@ -1,12 +1,22 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Expr, Reference, Name}
-import de.leanovate.jbj.runtime.value.{ValueOrRef, Value}
+import de.leanovate.jbj.runtime.value.{ValueRef, ValueOrRef}
 import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class CallStaticMethodReference(className: Name, methodName: Name, parameters: List[Expr]) extends Reference {
-  def evalRef(implicit ctx: Context) = {
+  override def eval(implicit ctx: Context) = callMethod.value
+
+  override def evalRef(implicit ctx: Context) = callMethod match {
+    case valueRef: ValueRef => Some(valueRef)
+    case _ => None
+  }
+
+  def assignRef(valueOrRef: ValueOrRef)(implicit ctx: Context) {
+  }
+
+  private def callMethod(implicit ctx: Context): ValueOrRef = {
     val name = className.evalNamespaceName
     ctx.global.findClass(name).map {
       pClass =>
@@ -14,8 +24,5 @@ case class CallStaticMethodReference(className: Name, methodName: Name, paramete
     }.getOrElse {
       throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))
     }
-  }
-
-  def assignRef(valueOrRef: ValueOrRef)(implicit ctx: Context) {
   }
 }

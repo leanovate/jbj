@@ -26,9 +26,9 @@ trait Value extends ValueOrRef {
 
   def decr: Value
 
-  def getAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition): Option[Value]
+  def getAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition): Option[ValueOrRef]
 
-  def setAt(index: Option[ArrayKey], value: Value)(implicit ctx: Context, position: NodePosition)
+  def setAt(index: Option[ArrayKey], value: ValueOrRef)(implicit ctx: Context, position: NodePosition)
 
   final override def value = this
 }

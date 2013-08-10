@@ -1,6 +1,7 @@
 package de.leanovate.jbj.runtime.value
 
 class ValueRef(private var current: Option[Value] = None) extends ValueOrRef {
+  def toOutput: String = current.map(_.toOutput).getOrElse("")
 
   def value = current.getOrElse(NullVal)
 

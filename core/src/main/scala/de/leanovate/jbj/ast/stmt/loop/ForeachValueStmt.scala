@@ -3,7 +3,7 @@ package de.leanovate.jbj.ast.stmt.loop
 import de.leanovate.jbj.ast.{Reference, StaticInitializer, Stmt, Expr}
 import de.leanovate.jbj.runtime._
 import scala.annotation.tailrec
-import de.leanovate.jbj.runtime.value.{Value, ArrayVal}
+import de.leanovate.jbj.runtime.value.{ValueOrRef, Value, ArrayVal}
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.ast.stmt.BlockLike
@@ -28,7 +28,7 @@ case class ForeachValueStmt(arrayExpr: Expr, valueVar:Reference, stmts: List[Stm
   }
 
   @tailrec
-  private def execValues(values: List[Value])(implicit context: Context): ExecResult = values match {
+  private def execValues(values: List[ValueOrRef])(implicit context: Context): ExecResult = values match {
     case head :: tail =>
       valueVar.assignRef(head)
       execStmts(stmts) match {

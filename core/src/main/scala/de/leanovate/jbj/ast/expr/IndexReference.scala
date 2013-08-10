@@ -25,7 +25,7 @@ case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends
     }
   }
 
-  override def evalRef(implicit ctx: Context) = {
+  override def eval(implicit ctx: Context) = {
     val optArrayKey = indexExpr.flatMap {
       expr =>
         ArrayKey(expr.eval)
@@ -43,7 +43,7 @@ case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends
               ctx.log.notice(position, "Undefined index: %s".format(idx))
           }
         }
-        result
+        result.map(_.value)
     }.getOrElse(NullVal)
   }
 
