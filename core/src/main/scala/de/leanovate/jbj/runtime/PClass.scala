@@ -19,7 +19,9 @@ trait PClass extends StaticContext {
 
   def superClass: Option[PClass]
 
-  def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]): Value
+  def newEmptyInstance(ctx: Context, callerPosition: NodePosition, pClass: PClass): ObjectVal = ObjectVal(pClass)
+
+  def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]): ObjectVal
 
   def invokeMethod(ctx: Context, callerPosition: NodePosition, optInstance: Option[ObjectVal], methodName: String,
                    parameters: List[Value]) = {

@@ -26,6 +26,31 @@ object ClassFunctions {
               method => None -> StringVal(method.name)
             }.toSeq: _*)
         }.getOrElse(NullVal)
+    }),
+    BuildinFunction2("is_subclass_of", {
+      case (ctx, callerPosition, Some(obj: ObjectVal), Some(name)) =>
+        obj.pClass.superClass.flatMap {
+          superClass =>
+            ctx.global.findClassOrAutoload(NamespaceName(name.toStr.asString))(callerPosition).map {
+              pClass =>
+                BooleanVal(pClass.isAssignableFrom(superClass))
+            }
+        }.getOrElse(BooleanVal.FALSE)
+      case (ctx, callerPosition, Some(_), Some(_)) =>
+        BooleanVal.FALSE
+    }),
+    BuildinFunction1("get_parent_class", {
+      case (ctx, callerPosition, Some(obj: ObjectVal)) =>
+        obj.pClass.superClass.map {
+          superClass => StringVal(superClass.name.toString)
+        }.getOrElse(BooleanVal.FALSE)
+      case (ctx, callerPosition, Some(name)) =>
+        ctx.global.findClassOrAutoload(NamespaceName(name.toStr.asString))(callerPosition).flatMap {
+          pClass =>
+            pClass.superClass.map {
+              superClass => StringVal(superClass.name.toString)
+            }
+        }.getOrElse(BooleanVal.FALSE)
     })
   )
 }

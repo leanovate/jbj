@@ -10,6 +10,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.InstanceContext
 import de.leanovate.jbj.ast.NamespaceName
 import scala.Some
+import scala.collection.immutable.List
 
 case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
                          superClassName: Option[NamespaceName], implements: List[NamespaceName], stmts: List[Stmt])
@@ -19,7 +20,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
 
   private var _superClass: Option[PClass] = None
 
-  def superClass = _superClass
+  override def superClass = _superClass
 
   private lazy val instanceAssinments = stmts.filter(_.isInstanceOf[ClassVarDeclStmt])
 
@@ -35,20 +36,25 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
           throw new FatalErrorJbjException(
             "Class %s may not inherit from final class (%s)".format(name.toString, superClassName.get.toString))
       }
+
       staticInitializers.foreach(_.initializeStatic(this))
       ctx.global.defineClass(this)
     }
     SuccessExecResult
   }
 
-  override def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]): Value = {
-    if (classEntry == ClassEntry.ABSTRACT_CLASS)
-      throw new FatalErrorJbjException("Cannot instantiate abstract class %s".format(name.toString))(ctx, callerPosition)
-    val instance = new ObjectVal(this, instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ArrayKey, Value])
-
+  override def newEmptyInstance(ctx: Context, callerPosition: NodePosition, pClass: PClass): ObjectVal = {
+    val instance = superClass.map(_.newEmptyInstance(ctx, callerPosition, pClass)).getOrElse(ObjectVal(pClass))
     implicit val classCtx = InstanceContext(instance, callerPosition, ctx)
 
     instanceAssinments.foreach(_.exec)
+    instance
+  }
+
+  override def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) = {
+    if (classEntry == ClassEntry.ABSTRACT_CLASS)
+      throw new FatalErrorJbjException("Cannot instantiate abstract class %s".format(name.toString))(ctx, callerPosition)
+    val instance = newEmptyInstance(ctx, callerPosition, this)
 
     findConstructor.foreach(_.invoke(ctx, callerPosition, instance, parameters))
     instance

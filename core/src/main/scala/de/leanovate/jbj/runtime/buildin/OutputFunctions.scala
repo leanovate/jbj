@@ -6,7 +6,6 @@ import de.leanovate.jbj.ast.NodePosition
 import de.leanovate.jbj.runtime.IntArrayKey
 import de.leanovate.jbj.ast.NamespaceName
 import de.leanovate.jbj.runtime.StringArrayKey
-import scala.annotation.tailrec
 
 object OutputFunctions {
   val functions: Seq[PFunction] = Seq(
@@ -76,6 +75,17 @@ object OutputFunctions {
       value match {
         case ArrayVal(keyValues) =>
           "Array" :: "(" :: keyValues.flatMap {
+            case (IntArrayKey(key), v) =>
+              val lines = dump(v)
+              "    [%d] => %s".format(key, lines.head) :: (
+                if (lines.tail.isEmpty) Nil else lines.tail.map("        " + _) ::: "" :: Nil)
+            case (StringArrayKey(key), v) =>
+              val lines = dump(v)
+              """    [%s] => %s""".format(key, lines.head) :: (
+                if (lines.tail.isEmpty) Nil else lines.tail.map("        " + _) ::: "" :: Nil)
+          }.toList ::: ")" :: Nil
+        case ObjectVal(pClass, _, keyValues) =>
+          "%s Object".format(pClass.name.toString) :: "(" :: keyValues.flatMap {
             case (IntArrayKey(key), v) =>
               val lines = dump(v)
               "    [%d] => %s".format(key, lines.head) :: (

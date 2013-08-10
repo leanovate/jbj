@@ -60,19 +60,31 @@ package object buildin {
 
     override def superClass = None
 
-    override def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) = {
-      val (message: Value, code: Value, previous: Value) = parameters match {
-        case Nil => (StringVal(""), IntegerVal(0), NullVal)
-        case msg :: Nil => (msg.toStr, IntegerVal(0), NullVal)
-        case msg :: c :: Nil => (msg.toStr, c.toInteger, NullVal)
-        case msg :: c :: prev => (msg.toStr, c.toInteger, prev)
-      }
-      ObjectVal(this,
-        Some(StringVal("message")) -> message,
-        Some(StringVal("code")) -> code,
-        Some(StringVal("previous")) -> previous,
+
+    override def newEmptyInstance(ctx: Context, callerPosition: NodePosition, pClass: PClass) =
+      ObjectVal(pClass,
+        Some(StringVal("message")) -> StringVal(""),
+        Some(StringVal("code")) -> IntegerVal(0),
+        Some(StringVal("previous")) -> NullVal,
         Some(StringVal("file")) -> StringVal(callerPosition.fileName),
         Some(StringVal("line")) -> IntegerVal(callerPosition.line))
+
+    override def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) = {
+      val instance = newEmptyInstance(ctx, callerPosition, this)
+
+      parameters match {
+        case msg :: Nil =>
+          instance.setAt(Some(StringArrayKey("message")), msg.toStr)(ctx, callerPosition)
+        case msg :: c :: Nil => (msg.toStr, c.toInteger, NullVal)
+          instance.setAt(Some(StringArrayKey("message")), msg.toStr)(ctx, callerPosition)
+          instance.setAt(Some(StringArrayKey("code")), c.toInteger)(ctx, callerPosition)
+        case msg :: c :: prev :: tail => (msg.toStr, c.toInteger, prev)
+          instance.setAt(Some(StringArrayKey("message")), msg.toStr)(ctx, callerPosition)
+          instance.setAt(Some(StringArrayKey("code")), c.toInteger)(ctx, callerPosition)
+          instance.setAt(Some(StringArrayKey("previous")), prev)(ctx, callerPosition)
+        case _ =>
+      }
+      instance
     }
 
     override def methods = Map.empty
