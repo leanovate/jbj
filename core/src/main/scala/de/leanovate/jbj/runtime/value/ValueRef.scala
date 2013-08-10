@@ -31,5 +31,5 @@ object ValueRef {
 
   def apply(v: Value): ValueRef = new ValueRef(Some(v))
 
-  def apply(optVal: Option[Value]) = new ValueRef(optVal)
+  def apply(optVal: Option[ValueOrRef]) = new ValueRef(optVal.map(_.value))
 }

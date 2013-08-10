@@ -32,6 +32,7 @@ object ArrayFunctions {
                   case (key, value) =>
                     builder += key -> value
                 }
+              case _ =>
             }
             new ArrayVal(builder.result())
           case _ =>

@@ -20,7 +20,12 @@ case class StaticClassVarReference(className: Name, variableName: Name) extends 
     val name = className.evalNamespaceName
     ctx.global.findClass(name).map {
       pClass =>
-        pClass.findVariable(variableName.evalName)
+        val varName = variableName.evalName
+        pClass.findVariable(varName).getOrElse {
+          val result = ValueRef()
+          pClass.defineVariable(varName, result)
+          result
+        }
     }.getOrElse {
       throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))
     }

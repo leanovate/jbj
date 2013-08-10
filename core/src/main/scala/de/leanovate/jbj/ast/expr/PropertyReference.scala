@@ -6,6 +6,7 @@ import de.leanovate.jbj.runtime.value._
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.context.MethodContext
 import de.leanovate.jbj.runtime.value.StringVal
+import de.leanovate.jbj.runtime.context.MethodContext
 
 case class PropertyReference(reference: Reference, propertyName: Name) extends Reference {
   override def isDefined(implicit ctx: Context) = {
@@ -45,6 +46,28 @@ case class PropertyReference(reference: Reference, propertyName: Name) extends R
                 NullVal
               }
           }
+        }
+      case _ =>
+        ctx.log.notice(position, "Trying to get property of non-object")
+        NullVal
+    }
+  }
+
+  def evalRef(implicit ctx: Context) = {
+    reference.eval match {
+      case obj: ObjectVal =>
+        val name = propertyName.evalName
+        obj.getProperty(name).map {
+          case valueRef: ValueRef =>
+            valueRef
+          case value: Value =>
+            val result = ValueRef(value)
+            obj.setProperty(name, result)
+            result
+        }.getOrElse {
+          val result = ValueRef()
+          obj.setProperty(name, result)
+          result
         }
       case _ =>
         ctx.log.notice(position, "Trying to get property of non-object")

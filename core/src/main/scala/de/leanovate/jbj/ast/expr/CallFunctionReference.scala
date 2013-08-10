@@ -8,10 +8,7 @@ import de.leanovate.jbj.runtime.value.{ValueOrRef, ValueRef, Value}
 case class CallFunctionReference(functionName: Name, parameters: List[Expr]) extends Reference {
   override def eval(implicit ctx: Context) = callFunction.value
 
-  override def evalRef(implicit ctx: Context) = callFunction match {
-    case valueRef: ValueRef => Some(valueRef)
-    case _ => None
-  }
+  override def evalRef(implicit ctx: Context) = callFunction
 
   override def assignRef(valueOrRef: ValueOrRef)(implicit ctx: Context) {
     callFunction match {

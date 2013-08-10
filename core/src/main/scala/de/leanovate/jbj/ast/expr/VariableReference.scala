@@ -8,10 +8,17 @@ import de.leanovate.jbj.runtime.value.{ValueOrRef, ValueRef, NullVal}
 case class VariableReference(variableName: Name) extends Reference {
   override def eval(implicit ctx: Context) = ctx.findVariable(variableName.evalName).map(_.value).getOrElse(NullVal)
 
-  override def evalRef(implicit ctx: Context) = ctx.findVariable(variableName.evalName)
+  override def evalRef(implicit ctx: Context) = {
+    val name = variableName.evalName
+    ctx.findVariable(name).getOrElse {
+      val result = ValueRef()
+      ctx.defineVariable(name, result)
+      result
+    }
+  }
 
   override def assignRef(valueOrRef: ValueOrRef)(implicit ctx: Context) {
-    var name = variableName.evalName
+    val name = variableName.evalName
     ctx.findVariable(name) match {
       case Some(valueRef) => valueRef.value = valueOrRef.value
       case None => ctx.defineVariable(name, ValueRef(valueOrRef.value))

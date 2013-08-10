@@ -2,19 +2,15 @@ package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Expr, Reference}
 import de.leanovate.jbj.runtime._
-import de.leanovate.jbj.runtime.value.{ValueOrRef, Value, ArrayVal, NullVal}
+import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.IntArrayKey
+import de.leanovate.jbj.runtime.StringArrayKey
 import scala.Some
 
 case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends Reference {
 
   override def isDefined(implicit ctx: Context) = {
     if (reference.isDefined) {
-      val optArrayKey = indexExpr.flatMap {
-        expr =>
-          ArrayKey(expr.eval)
-      }
-
       optArrayKey.exists {
         arrayKey =>
           val array = reference.eval
@@ -26,11 +22,6 @@ case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends
   }
 
   override def eval(implicit ctx: Context) = {
-    val optArrayKey = indexExpr.flatMap {
-      expr =>
-        ArrayKey(expr.eval)
-    }
-
     optArrayKey.flatMap {
       arrayKey =>
         val array = reference.eval
@@ -47,15 +38,68 @@ case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends
     }.getOrElse(NullVal)
   }
 
-  override def assignRef(valueOrRef: ValueOrRef)(implicit ctx: Context) {
-    val optArrayKey = indexExpr.flatMap {
-      expr =>
-        ArrayKey(expr.eval)
+  override def evalRef(implicit ctx: Context) = {
+    val optArray: Option[ArrayVal] = if (!reference.isDefined) {
+      val array = ArrayVal()
+      reference.assignRef(array)
+      Some(array)
+    } else {
+      reference.eval.value match {
+        case array: ArrayVal =>
+          Some(array)
+        case NullVal =>
+          val array = ArrayVal()
+          reference.assignRef(array)
+          Some(array)
+        case _ =>
+          None
+      }
     }
 
-    val array = if (reference.isDefined) reference.eval.toArray else ArrayVal()
-    reference.assignRef(array)
-    array.setAt(optArrayKey, valueOrRef.value)
+    optArray.map {
+      array =>
+        optArrayKey match {
+          case Some(key) =>
+            array.getAt(key) match {
+              case Some(valueRef: ValueRef) =>
+                valueRef
+              case someValue =>
+                val result = ValueRef(someValue)
+                array.setAt(Some(key), result)
+                result
+            }
+          case None =>
+            val result = ValueRef()
+            array.setAt(None, result)
+            result
+        }
+    }.getOrElse {
+      ctx.log.warn(position, "Cannot use a scalar value as an array")
+      ValueRef()
+    }
   }
 
+  override def assignRef(valueOrRef: ValueOrRef)(implicit ctx: Context) {
+    if (!reference.isDefined) {
+      val array = ArrayVal()
+      reference.assignRef(array)
+      array.setAt(optArrayKey, valueOrRef)
+    } else {
+      reference.eval.value match {
+        case array: ArrayVal =>
+          array.setAt(optArrayKey, valueOrRef)
+        case NullVal =>
+          val array = ArrayVal()
+          reference.assignRef(array)
+          array.setAt(optArrayKey, valueOrRef)
+        case v =>
+          ctx.log.warn(position, "Cannot use a scalar value as an array")
+      }
+    }
+  }
+
+  private def optArrayKey(implicit ctx: Context) = indexExpr.flatMap {
+    expr =>
+      ArrayKey(expr.eval)
+  }
 }

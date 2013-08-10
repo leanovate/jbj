@@ -7,6 +7,4 @@ trait Expr extends Node {
   def isDefined(implicit ctx: Context) = !eval.isNull
 
   def eval(implicit ctx: Context): Value
-
-  def evalRef(implicit ctx: Context): Option[ValueRef] = None
 }

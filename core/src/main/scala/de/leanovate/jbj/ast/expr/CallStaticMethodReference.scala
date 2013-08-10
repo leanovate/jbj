@@ -8,10 +8,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 case class CallStaticMethodReference(className: Name, methodName: Name, parameters: List[Expr]) extends Reference {
   override def eval(implicit ctx: Context) = callMethod.value
 
-  override def evalRef(implicit ctx: Context) = callMethod match {
-    case valueRef: ValueRef => Some(valueRef)
-    case _ => None
-  }
+  override def evalRef(implicit ctx: Context) = callMethod
 
   def assignRef(valueOrRef: ValueOrRef)(implicit ctx: Context) {
   }

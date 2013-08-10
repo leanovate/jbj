@@ -10,10 +10,7 @@ import scala.Some
 case class CallMethodReference(instanceExpr: Expr, methodName: Name, parameters: List[Expr]) extends Reference {
   override def eval(implicit ctx: Context) = callMethod.value
 
-  override def evalRef(implicit ctx: Context) = callMethod match {
-    case valueRef: ValueRef => Some(valueRef)
-    case _ => None
-  }
+  override def evalRef(implicit ctx: Context) = callMethod
 
   override def assignRef(valueOrRef: ValueOrRef)(implicit ctx: Context) {}
 
