@@ -1,7 +1,7 @@
 package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.runtime.value._
-import de.leanovate.jbj.ast.{ClassEntry, NamespaceName, NodePosition}
+import de.leanovate.jbj.ast.{Expr, ClassEntry, NamespaceName, NodePosition}
 import scala.collection.Map
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.value.IntegerVal
@@ -47,7 +47,7 @@ package object buildin {
 
     override def superClass = None
 
-    override def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) =
+    override def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Expr]) =
       new ObjectVal(this, instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ArrayKey, ValueOrRef])
 
     override def methods = Map.empty
@@ -69,10 +69,10 @@ package object buildin {
         Some(StringVal("file")) -> StringVal(callerPosition.fileName),
         Some(StringVal("line")) -> IntegerVal(callerPosition.line))
 
-    override def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) = {
+    override def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Expr]) = {
       val instance = newEmptyInstance(ctx, callerPosition, this)
 
-      parameters match {
+      parameters.map(_.eval(ctx)) match {
         case msg :: Nil =>
           instance.setAt(Some(StringArrayKey("message")), msg.toStr)(ctx, callerPosition)
         case msg :: c :: Nil => (msg.toStr, c.toInteger, NullVal)

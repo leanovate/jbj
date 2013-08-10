@@ -25,7 +25,7 @@ case class CallMethodReference(instanceExpr: Expr, methodName: Name, parameters:
 
   private def callMethod(implicit ctx: Context): ValueOrRef = instanceExpr.eval match {
     case instance: ObjectVal =>
-      instance.pClass.invokeMethod(ctx, position, Some(instance), methodName.evalName, parameters.map(_.eval))
+      instance.pClass.invokeMethod(ctx, position, Some(instance), methodName.evalName, parameters)
     case _ =>
       throw new FatalErrorJbjException("Call to a member function %s() on a non-object".format(methodName.evalName))
   }

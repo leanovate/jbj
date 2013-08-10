@@ -1,6 +1,6 @@
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.ast.{ClassEntry, NamespaceName, NodePosition}
+import de.leanovate.jbj.ast.{Expr, ClassEntry, NamespaceName, NodePosition}
 import de.leanovate.jbj.runtime.value.{ValueRef, Value, ObjectVal}
 import java.util.concurrent.atomic.AtomicLong
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
@@ -21,10 +21,10 @@ trait PClass extends StaticContext {
 
   def newEmptyInstance(ctx: Context, callerPosition: NodePosition, pClass: PClass): ObjectVal = ObjectVal(pClass)
 
-  def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]): ObjectVal
+  def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Expr]): ObjectVal
 
   def invokeMethod(ctx: Context, callerPosition: NodePosition, optInstance: Option[ObjectVal], methodName: String,
-                   parameters: List[Value]) = {
+                   parameters: List[Expr]) = {
     findMethod(methodName) match {
       case Some(method) =>
         optInstance.map {

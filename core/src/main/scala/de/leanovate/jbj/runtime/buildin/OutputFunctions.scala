@@ -2,9 +2,8 @@ package de.leanovate.jbj.runtime.buildin
 
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.{Context, PFunction}
-import de.leanovate.jbj.ast.NodePosition
+import de.leanovate.jbj.ast.{Expr, NodePosition, NamespaceName}
 import de.leanovate.jbj.runtime.IntArrayKey
-import de.leanovate.jbj.ast.NamespaceName
 import de.leanovate.jbj.runtime.StringArrayKey
 
 object OutputFunctions {
@@ -12,8 +11,8 @@ object OutputFunctions {
     new PFunction() {
       def name = NamespaceName(relative = false, "var_dump")
 
-      def call(ctx: Context, callerPosition: NodePosition, parameters: List[ValueOrRef]) = {
-        var_dump(parameters: _*)(ctx, callerPosition)
+      def call(ctx: Context, callerPosition: NodePosition, parameters: List[Expr]) = {
+        var_dump(parameters.map(_.eval(ctx)): _*)(ctx, callerPosition)
         NullVal
       }
     },
@@ -27,7 +26,11 @@ object OutputFunctions {
     if (values.isEmpty)
       ctx.log.warn(position, "var_dump() expects at least 1 parameter, 0 given")
 
-    def dump(value: ValueOrRef, ident: String) {
+    def dump(valueOfRef: ValueOrRef, ident: String) {
+      val (value, isRef) = valueOfRef match {
+        case valueRef: ValueRef => valueRef.value -> "&"
+        case value: Value => value -> ""
+      }
       value match {
         case ArrayVal(keyValues) =>
           val nextIdent = ident + "  "
@@ -35,18 +38,18 @@ object OutputFunctions {
           keyValues.foreach {
             case (IntArrayKey(key), v) =>
               ctx.out.println("%s[%d]=>".format(nextIdent, key))
-              dump(v.value, nextIdent)
+              dump(v, nextIdent)
             case (StringArrayKey(key), v) =>
               ctx.out.println( """%s["%s"]=>""".format(nextIdent, key))
-              dump(v.value, nextIdent)
+              dump(v, nextIdent)
           }
           ctx.out.println("%s}".format(ident))
         case BooleanVal(bool) =>
-          ctx.out.println("%sbool(%s)".format(ident, if (bool) "true" else "false"))
+          ctx.out.println("%s%sbool(%s)".format(ident, isRef, if (bool) "true" else "false"))
         case d: DoubleVal =>
-          ctx.out.println( """%sfloat(%s)""".format(ident, d.toOutput))
+          ctx.out.println( """%s%sfloat(%s)""".format(ident,isRef, d.toOutput))
         case IntegerVal(i) =>
-          ctx.out.println( """%sint(%d)""".format(ident, i))
+          ctx.out.println( """%s%sint(%d)""".format(ident,isRef, i))
         case NullVal =>
           ctx.out.println("%sNULL".format(ident))
         case ObjectVal(pClass, instanceNum, keyValues) =>
@@ -61,7 +64,6 @@ object OutputFunctions {
               dump(v, nextIdent)
           }
           ctx.out.println("%s}".format(ident))
-
         case StringVal(str) =>
           ctx.out.println( """%sstring(%s) "%s"""".format(ident, str.length, str))
       }

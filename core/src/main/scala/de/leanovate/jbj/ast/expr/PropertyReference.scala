@@ -4,9 +4,9 @@ import de.leanovate.jbj.ast.{Name, Reference}
 import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.value._
 import java.io.PrintStream
-import de.leanovate.jbj.runtime.context.MethodContext
 import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.runtime.context.MethodContext
+import de.leanovate.jbj.ast.expr.value.ScalarExpr
 
 case class PropertyReference(reference: Reference, propertyName: Name) extends Reference {
   override def isDefined(implicit ctx: Context) = {
@@ -21,7 +21,7 @@ case class PropertyReference(reference: Reference, propertyName: Name) extends R
               case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__set" =>
                 false
               case _ =>
-                obj.pClass.findMethod("__get").map(_.invoke(ctx, position, obj, StringVal(name) :: Nil)).exists(_.value.isNull)
+                obj.pClass.findMethod("__get").map(_.invoke(ctx, position, obj, ScalarExpr(StringVal(name)) :: Nil)).exists(_.value.isNull)
             }
           }
         case _ => false
@@ -41,7 +41,7 @@ case class PropertyReference(reference: Reference, propertyName: Name) extends R
               ctx.log.notice(position, "Undefined property: %s::%s".format(obj.pClass.name.toString, name))
               NullVal
             case _ =>
-              obj.pClass.findMethod("__get").map(_.invoke(ctx, position, obj, StringVal(name) :: Nil)).map(_.value).getOrElse {
+              obj.pClass.findMethod("__get").map(_.invoke(ctx, position, obj, ScalarExpr(StringVal(name)) :: Nil)).map(_.value).getOrElse {
                 ctx.log.notice(position, "Undefined property: %s::%s".format(obj.pClass.name.toString, name))
                 NullVal
               }
@@ -86,7 +86,7 @@ case class PropertyReference(reference: Reference, propertyName: Name) extends R
             case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__set" =>
               obj.setProperty(name, valueOrRef.value)
             case _ =>
-              obj.pClass.findMethod("__set").map(_.invoke(ctx, position, obj, StringVal(name) :: valueOrRef.value :: Nil)).getOrElse {
+              obj.pClass.findMethod("__set").map(_.invoke(ctx, position, obj, ScalarExpr(StringVal(name)) :: ScalarExpr(valueOrRef.value) :: Nil)).getOrElse {
                 obj.setProperty(name, valueOrRef.value)
               }
           }

@@ -2,9 +2,8 @@ package de.leanovate.jbj.runtime.buildin
 
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime._
-import de.leanovate.jbj.ast.NodePosition
+import de.leanovate.jbj.ast.{Expr, NodePosition, NamespaceName}
 import scala.collection.mutable
-import de.leanovate.jbj.ast.NamespaceName
 import de.leanovate.jbj.runtime.IntArrayKey
 import scala.Some
 import de.leanovate.jbj.runtime.value.IntegerVal
@@ -18,7 +17,7 @@ object ArrayFunctions {
     new PFunction() {
       def name = NamespaceName(relative = false, "array_merge")
 
-      def call(ctx: Context, callerPosition: NodePosition, parameters: List[ValueOrRef]) =
+      def call(ctx: Context, callerPosition: NodePosition, parameters: List[Expr]) =
         parameters match {
           case params if !params.isEmpty =>
             var count: Long = -1

@@ -10,6 +10,7 @@ import de.leanovate.jbj.JbjEnv
 import de.leanovate.jbj.runtime.exception.CompileErrorException
 import de.leanovate.jbj.ast.NamespaceName
 import de.leanovate.jbj.runtime.value.{ValueRef, Value, StringVal}
+import de.leanovate.jbj.ast.expr.value.ScalarExpr
 
 case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settings: Settings) extends Context {
   private val classes = mutable.Map.empty[Seq[String], PClass]
@@ -57,7 +58,7 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
       findFunction(NamespaceName(relative = true, "__autoload")).flatMap {
         case autoload if !autoloading.contains(name.toString.toLowerCase) =>
           autoloading.add(name.toString.toLowerCase)
-          autoload.call(this, position, StringVal(name.toString) :: Nil)
+          autoload.call(this, position, ScalarExpr(StringVal(name.toString)) :: Nil)
           autoloading.remove(name.toString.toLowerCase)
           findClass(name)
         case _ => None

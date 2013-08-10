@@ -51,7 +51,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     instance
   }
 
-  override def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Value]) = {
+  override def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Expr]) = {
     if (classEntry == ClassEntry.ABSTRACT_CLASS)
       throw new FatalErrorJbjException("Cannot instantiate abstract class %s".format(name.toString))(ctx, callerPosition)
     val instance = newEmptyInstance(ctx, callerPosition, this)

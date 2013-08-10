@@ -43,28 +43,25 @@ object TestBed {
   //A main method for testing
   def main(args: Array[String]) {
     test( """<?php
-            |function f($arg1, &$arg2)
-            |{
-            |	var_dump($arg1++);
-            |	var_dump($arg2++);
+            |function passbyVal($val) {
+            |	echo "\nInside passbyVal call:\n";
+            |	var_dump($val);
             |}
             |
-            |function g (&$arg1, &$arg2)
-            |{
-            |	var_dump($arg1);
-            |	var_dump($arg2);
+            |function passbyRef(&$ref) {
+            |	echo "\nInside passbyRef call:\n";
+            |	var_dump($ref);
             |}
-            |$a = 7;
-            |$b = 15;
             |
-            |f($a, $b);
+            |echo "\nPassing undefined by value\n";
+            |passbyVal($undef1[0]);
+            |echo "\nAfter call\n";
+            |var_dump($undef1);
             |
-            |var_dump($a);
-            |var_dump($b);
-            |
-            |$c=array(1);
-            |g($c,$c[0]);
-            |
+            |echo "\nPassing undefined by reference\n";
+            |passbyRef($undef2[0]);
+            |echo "\nAfter call\n";
+            |var_dump($undef2)
             |?>""".stripMargin)
   }
 }

@@ -1,6 +1,6 @@
 package de.leanovate.jbj.ast.expr
 
-import de.leanovate.jbj.ast.{Name, NamespaceName, Expr}
+import de.leanovate.jbj.ast.{Name, Expr}
 import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.value.NullVal
 import java.io.PrintStream
@@ -8,7 +8,7 @@ import java.io.PrintStream
 case class NewExpr(className: Name, parameters: List[Expr]) extends Expr {
   override def eval(implicit ctx: Context) = ctx.global.findClass(className.evalNamespaceName) match {
     case Some(pClass) =>
-      pClass.newInstance(ctx, position, parameters.map(_.eval))
+      pClass.newInstance(ctx, position, parameters)
     case None =>
       ctx.log.fatal(position, "Class '%s' not found".format(className.toString))
       NullVal

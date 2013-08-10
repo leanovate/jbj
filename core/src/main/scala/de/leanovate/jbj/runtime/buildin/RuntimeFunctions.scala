@@ -2,7 +2,7 @@ package de.leanovate.jbj.runtime.buildin
 
 import de.leanovate.jbj.runtime.value.{ValueOrRef, Value, NullVal}
 import de.leanovate.jbj.runtime.{Context, PFunction}
-import de.leanovate.jbj.ast.{NamespaceName, NodePosition}
+import de.leanovate.jbj.ast.{Expr, NamespaceName, NodePosition}
 
 object RuntimeFunctions {
   val functions : Seq[PFunction]= Seq(
@@ -12,8 +12,8 @@ object RuntimeFunctions {
     new PFunction() {
       def name = NamespaceName(relative = false, "define")
 
-      def call(ctx: Context, callerPosition: NodePosition, parameters: List[ValueOrRef]) = {
-        parameters match {
+      def call(ctx: Context, callerPosition: NodePosition, parameters: List[Expr]) = {
+        parameters.map(_.eval(ctx)) match {
           case name :: value :: Nil =>
             ctx.defineConstant(name.value.toStr.asString, value.value, caseInsensitive = false)
           case name :: value :: caseInensitive :: Nil =>

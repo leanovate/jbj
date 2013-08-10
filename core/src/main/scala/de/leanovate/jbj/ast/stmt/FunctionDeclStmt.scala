@@ -1,15 +1,18 @@
 package de.leanovate.jbj.ast.stmt
 
-import de.leanovate.jbj.ast.{NodePosition, NamespaceName, StaticInitializer, Stmt}
+import de.leanovate.jbj.ast._
 import de.leanovate.jbj.runtime._
-import de.leanovate.jbj.runtime.context.FunctionContext
 import de.leanovate.jbj.runtime.SuccessExecResult
-import de.leanovate.jbj.runtime.value.{ValueOrRef, ValueRef, Value, NullVal}
+import de.leanovate.jbj.runtime.value.NullVal
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import java.io.PrintStream
+import de.leanovate.jbj.runtime.context.FunctionContext
+import de.leanovate.jbj.runtime.BreakExecResult
+import de.leanovate.jbj.runtime.ReturnExecResult
+import de.leanovate.jbj.runtime.ContinueExecResult
 
 case class FunctionDeclStmt(name: NamespaceName, parameterDecls: List[ParameterDecl], stmts: List[Stmt])
-  extends Stmt with PFunction with BlockLike {
+  extends Stmt with PFunction with BlockLike with FunctionLike {
   private lazy val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
   override def exec(implicit ctx: Context) = {
@@ -17,7 +20,7 @@ case class FunctionDeclStmt(name: NamespaceName, parameterDecls: List[ParameterD
     SuccessExecResult
   }
 
-  override def call(ctx: Context, callerPosition: NodePosition, parameters: List[ValueOrRef]) = {
+  override def call(ctx: Context, callerPosition: NodePosition, parameters: List[Expr]) = {
     implicit val funcCtx = FunctionContext(name, callerPosition, ctx)
 
     if (!funcCtx.static.initialized) {
@@ -25,11 +28,7 @@ case class FunctionDeclStmt(name: NamespaceName, parameterDecls: List[ParameterD
       funcCtx.static.initialized = true
     }
 
-    parameterDecls.zipWithIndex.foreach {
-      case (parameterDef, idx) =>
-        val value = parameters.drop(idx).headOption.getOrElse(parameterDef.defaultVal(ctx))
-        funcCtx.defineVariable(parameterDef.variableName, ValueRef(value.value.copy))
-    }
+    setParameters(funcCtx, ctx, callerPosition, parameters)
     execStmts(stmts) match {
       case SuccessExecResult => NullVal
       case ReturnExecResult(retVal) => retVal
