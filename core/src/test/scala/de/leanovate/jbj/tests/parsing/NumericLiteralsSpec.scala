@@ -76,7 +76,7 @@ class NumericLiteralsSpec extends SpecificationWithJUnit with TestJbjExecutor{
           |float(12300000)
           |int(9223372036854775807)
           |float(9.2233720368548E+18)
-          |float(5.0000000000000E+19)
+          |float(5E+19)
           |""".stripMargin
       )
     }

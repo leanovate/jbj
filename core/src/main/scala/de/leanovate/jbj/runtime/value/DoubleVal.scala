@@ -11,7 +11,11 @@ case class DoubleVal(asDouble: Double) extends NumericVal {
 
   override def toDouble = this
 
-  override def toInteger: IntegerVal = IntegerVal(asDouble.toLong)
+  override def toInteger: IntegerVal =
+    if (asDouble > Long.MinValue.toDouble && asDouble < Long.MaxValue.toDouble)
+      IntegerVal(asDouble.toLong)
+    else
+      IntegerVal(Long.MinValue)
 
   override def toBool = BooleanVal(asDouble != 0.0)
 
@@ -23,9 +27,14 @@ case class DoubleVal(asDouble: Double) extends NumericVal {
 
   private def compatbleStr = {
     val str = new math.BigDecimal(asDouble, DoubleVal.mathContext).toString
-    if (str.indexOf('.') >= 0 && str.indexOf("E") < 0)
-      str.reverse.dropWhile(_ == '0').reverse
-    else
+    if (str.indexOf('.') >= 0) {
+      val idx = str.indexOf('E')
+      if (idx < 0)
+        str.reverse.dropWhile(_ == '0').reverse
+      else {
+        str.substring(0, idx).reverse.dropWhile(_ == '0').dropWhile(_ == '.').reverse + str.substring(idx)
+      }
+    } else
       str
   }
 }

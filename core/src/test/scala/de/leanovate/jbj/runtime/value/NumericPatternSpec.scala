@@ -2,7 +2,7 @@ package de.leanovate.jbj.runtime.value
 
 import org.specs2.mutable.SpecificationWithJUnit
 
-class NumericValSpec extends SpecificationWithJUnit {
+class NumericPatternSpec extends SpecificationWithJUnit {
   "Numeric pattern" should {
     "int paatern" in {
       numericMatch("123") must beSome("123")

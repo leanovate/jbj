@@ -1,7 +1,5 @@
 package de.leanovate.jbj.runtime.value
 
-import de.leanovate.jbj.runtime.{Context, ArrayKey}
-import de.leanovate.jbj.ast.NodePosition
 
 trait NumericVal extends Value {
   override def toNum: NumericVal = this
@@ -41,20 +39,12 @@ trait NumericVal extends Value {
     case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal / rightVal)
   }
 
-  def &(other: Value): Value = (this, other) match {
-    case (IntegerVal(leftVal), IntegerVal(rightVal)) => IntegerVal(leftVal & rightVal)
-    case (NumericVal(leftVal), NumericVal(rightVal)) => IntegerVal(leftVal.toLong & rightVal.toLong)
-  }
+  def &(other: Value): Value = IntegerVal(this.toInteger.asLong & other.toInteger.asLong)
 
-  def |(other: Value): Value = (this, other) match {
-    case (IntegerVal(leftVal), IntegerVal(rightVal)) => IntegerVal(leftVal | rightVal)
-    case (NumericVal(leftVal), NumericVal(rightVal)) => IntegerVal(leftVal.toLong | rightVal.toLong)
-  }
+  def |(other: Value): Value = IntegerVal(this.toInteger.asLong | other.toInteger.asLong)
 
-  def ^(other: Value): Value = (this, other) match {
-    case (IntegerVal(leftVal), IntegerVal(rightVal)) => IntegerVal(leftVal ^ rightVal)
-    case (NumericVal(leftVal), NumericVal(rightVal)) => IntegerVal(leftVal.toLong ^ rightVal.toLong)
-  }
+  def ^(other: Value): Value = IntegerVal(this.toInteger.asLong ^ other.toInteger.asLong)
+
 }
 
 object NumericVal {
@@ -73,5 +63,4 @@ object NumericVal {
     case array: ArrayVal => Some(if (!array.isEmpty) 1.0 else 0.0)
     case _ => None
   }
-
 }
