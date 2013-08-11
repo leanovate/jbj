@@ -14,6 +14,50 @@ class Basic1Spec extends SpecificationWithJUnit with TestJbjExecutor {
       )
     }
 
+    "Simple POST Method test" in {
+      // basic/002
+      script(
+        """<?php
+          |echo $_POST['a']; ?>
+          |""".stripMargin
+      ).withPost("", "a=Hello+World").result must haveOutput(
+        """Hello World""".stripMargin
+      )
+    }
+
+    "GET and POST Method combined" in {
+      // basic/003
+      script(
+        """<?php
+          |error_reporting(0);
+          |echo "post-a=({$_POST['a']}) get-b=({$_GET['b']}) get-c=({$_GET['c']})"?>""".stripMargin
+      ).withPost("?b=Hello+Again+World&c=Hi+Mom", "a=Hello+World").result must haveOutput(
+        """post-a=(Hello World) get-b=(Hello Again World) get-c=(Hi Mom)""".stripMargin
+      )
+    }
+
+    "Two variables in POST data" in {
+      // basic/004
+      script(
+        """<?php
+          |error_reporting(0);
+          |echo "{$_POST['a']} {$_POST['b']}" ?>""".stripMargin
+      ).withPost("", "a=Hello+World&b=Hello+Again+World").result must haveOutput(
+        """Hello World Hello Again World""".stripMargin
+      )
+    }
+
+    "Three variables in POST data" in {
+      // basic/005
+      script(
+        """<?php
+          |error_reporting(0);
+          |echo "{$_POST['a']} {$_POST['b']} {$_POST['c']}"?>""".stripMargin
+      ).withPost("", "a=Hello+World&b=Hello+Again+World&c=1").result must haveOutput(
+        """Hello World Hello Again World 1""".stripMargin
+      )
+    }
+
     "Add 3 variables together and print result" in {
       // basic/006
       script(

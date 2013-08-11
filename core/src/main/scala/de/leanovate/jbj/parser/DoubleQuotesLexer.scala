@@ -10,7 +10,7 @@ object DoubleQuotesLexer extends Lexer with CommonLexerPatterns {
     } | doubleQuotedStr ^^ {
       str => EncapsAndWhitespace(str) -> None
     } | '$' ~ '{' ^^^ (Keyword("${") -> None) |
-      '{' ~ '$' ^^^ (Keyword("{$") -> None) |
+      '{' ~ guard('$') ^^^ (Keyword("{$") -> Some(EncapsScriptingLexerMode(DoubleQuotedLexerMode))) |
       '$' ~> rep1(identChar) ^^ {
         name => Variable(name mkString "") -> None
       } | '"' ^^^ Keyword("\"") -> Some(ScriptingLexerMode)

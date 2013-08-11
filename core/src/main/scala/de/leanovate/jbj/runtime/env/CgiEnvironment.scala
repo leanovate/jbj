@@ -2,13 +2,17 @@ package de.leanovate.jbj.runtime.env
 
 import de.leanovate.jbj.runtime._
 import java.net.{URLDecoder, URI}
-import de.leanovate.jbj.runtime.value.{ValueRef, Value, StringVal, ArrayVal}
+import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.ast.NoNodePosition
 import de.leanovate.jbj.runtime.IntArrayKey
 import de.leanovate.jbj.runtime.StringArrayKey
 import scala.Some
 import scala.annotation.tailrec
 import scala.collection.generic.Growable
+import de.leanovate.jbj.runtime.value.StringVal
+import de.leanovate.jbj.runtime.IntArrayKey
+import de.leanovate.jbj.runtime.StringArrayKey
+import scala.Some
 
 object CgiEnvironment {
   val numberPattern = "([0-9]+)".r
@@ -48,9 +52,11 @@ object CgiEnvironment {
       Some(StringVal("QUERY_STRING")) -> StringVal(queryString.getOrElse(""))
     )))
 
-    val requestArray = decodeFormData(formData)(ctx)
-    ctx.defineVariable("_POST", ValueRef(requestArray.copy))
-    ctx.defineVariable("_REQUEST", ValueRef(requestArray.copy))
+    val getRequestArray = decodeFormData(queryString.getOrElse(""))(ctx)
+    ctx.defineVariable("_GET", ValueRef(getRequestArray.copy))
+    val postRequestArray = decodeFormData(formData)(ctx)
+    ctx.defineVariable("_POST", ValueRef(postRequestArray.copy))
+    ctx.defineVariable("_REQUEST", ValueRef(postRequestArray.copy))
   }
 
   def decodeKeyValues(keyValues: Seq[(String, String)])(implicit ctx: Context) = {

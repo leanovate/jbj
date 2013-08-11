@@ -5,6 +5,15 @@ import org.specs2.mutable.SpecificationWithJUnit
 
 class Basic2Spec extends SpecificationWithJUnit with TestJbjExecutor {
   "Basic test 2" should {
+    "Testing | and & operators" in {
+      // basic/010
+      script(
+        """<?php $a=8; $b=4; $c=8; echo $a|$b&$c?>""".stripMargin
+      ).result must haveOutput(
+        """8""".stripMargin
+      )
+    }
+
     "Testing $argc and $argv handling (GET)" in {
       // basic/011
       script(
