@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.special
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class StaticVarSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Static variable" - {
+class StaticVarSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Static variable" should {
     "Static variable declaration crazyness" in {
       script(
         """<?php

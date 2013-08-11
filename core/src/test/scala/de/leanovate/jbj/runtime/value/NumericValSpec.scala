@@ -1,49 +1,45 @@
 package de.leanovate.jbj.runtime.value
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class NumericValSpec extends FreeSpec with MustMatchers {
-  "Numeric pattern" - {
+class NumericValSpec extends SpecificationWithJUnit {
+  "Numeric pattern" should {
     "int paatern" in {
-      numericMatch("123") must be(Some("123"))
-      numericMatch("-123") must be(Some("-123"))
-      numericMatch("123abc") must be(Some("123"))
-      numericMatch("-123abc") must be(Some("-123"))
-      numericMatch("ab123") must be(None)
+      numericMatch("123") must beSome("123")
+      numericMatch("-123") must beSome("-123")
+      numericMatch("123abc") must beSome("123")
+      numericMatch("-123abc") must beSome("-123")
+      numericMatch("ab123") must beNone
     }
 
     "float pattern" in {
-      numericMatch("123") must be(Some("123"))
-      numericMatch("-123") must be(Some("-123"))
-      numericMatch("-123e3") must be(Some("-123e3"))
-      numericMatch("123.0") must be(Some("123.0"))
-      numericMatch("123.0e6") must be(Some("123.0e6"))
-      numericMatch("123.0123") must be(Some("123.0123"))
-      numericMatch("123.0123E4") must be(Some("123.0123E4"))
-      numericMatch(".0123") must be(Some(".0123"))
-      numericMatch(".0123e4") must be(Some(".0123e4"))
-      numericMatch("123abcd") must be(Some("123"))
-      numericMatch("-123abcd") must be(Some("-123"))
-      numericMatch("-123e3abcd") must be(Some("-123e3"))
-      numericMatch("123.0abcd") must be(Some("123.0"))
-      numericMatch("123.0e6abcd") must be(Some("123.0e6"))
-      numericMatch("123.0123abcd") must be(Some("123.0123"))
-      numericMatch("123.0123E4abcd") must be(Some("123.0123E4"))
-      numericMatch(".0123abcd") must be(Some(".0123"))
-      numericMatch(".0123e4abcd") must be(Some(".0123e4"))
-      numericMatch("ab123") must be(None)
+      numericMatch("123") must beSome("123")
+      numericMatch("-123") must beSome("-123")
+      numericMatch("-123e3") must beSome("-123e3")
+      numericMatch("123.0") must beSome("123.0")
+      numericMatch("123.0e6") must beSome("123.0e6")
+      numericMatch("123.0123") must beSome("123.0123")
+      numericMatch("123.0123E4") must beSome("123.0123E4")
+      numericMatch(".0123") must beSome(".0123")
+      numericMatch(".0123e4") must beSome(".0123e4")
+      numericMatch("123abcd") must beSome("123")
+      numericMatch("-123abcd") must beSome("-123")
+      numericMatch("-123e3abcd") must beSome("-123e3")
+      numericMatch("123.0abcd") must beSome("123.0")
+      numericMatch("123.0e6abcd") must beSome("123.0e6")
+      numericMatch("123.0123abcd") must beSome("123.0123")
+      numericMatch("123.0123E4abcd") must beSome("123.0123E4")
+      numericMatch(".0123abcd") must beSome(".0123")
+      numericMatch(".0123e4abcd") must beSome(".0123e4")
+      numericMatch("ab123") must beNone
     }
 
     "string conversion" in {
-      convert("679") must be(Some(679.0))
-      convert("679abc") must be(Some(679.0))
-      convert(" 679") must be(Some(679.0))
-      convert("679  ") must be(Some(679.0))
-      convert("- 67835") must be(None)
+      convert("679") must beSome(679.0)
+      convert("679abc") must beSome(679.0)
+      convert(" 679") must beSome(679.0)
+      convert("679  ") must beSome(679.0)
+      convert("- 67835") must beNone
     }
   }
 

@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.classes
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class FinalSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Final" - {
+class FinalSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Final" should {
     "ZE2 A method may be redeclared final" in {
       // classes/final
       script(

@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.lang
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class IncludeSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Include" - {
+class IncludeSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Include" should {
     "include() a file from the current script directory" in {
       // lang/include_variation1
       script(

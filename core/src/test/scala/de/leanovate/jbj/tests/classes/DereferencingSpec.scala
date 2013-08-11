@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.classes
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class DereferencingSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Dereferencing" - {
+class DereferencingSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Dereferencing" should {
     "ZE2 dereferencing of objects from methods" in {
       // classes/dereferencing_001
       script(

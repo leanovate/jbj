@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.basic
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class Basic2Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Basic test 2" - {
+class Basic2Spec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Basic test 2" should {
     "Testing $argc and $argv handling (GET)" in {
       // basic/011
       script(

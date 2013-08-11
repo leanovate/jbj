@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.lang.operators
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class NotEqualsSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "NotEquals operator" - {
+class NotEqualsSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "NotEquals operator" should {
     "Test != operator : different types" in {
       // lang/operators/operator_notequals_basic
       script(

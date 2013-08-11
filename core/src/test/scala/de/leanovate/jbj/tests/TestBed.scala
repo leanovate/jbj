@@ -43,25 +43,28 @@ object TestBed {
   //A main method for testing
   def main(args: Array[String]) {
     test( """<?php
-            |function passbyVal($val) {
-            |	echo "\nInside passbyVal call:\n";
-            |	var_dump($val);
+            |class C {
+            |    public static $x = 'C::$x';
+            |    protected static $y = 'C::$y';
             |}
             |
-            |function passbyRef(&$ref) {
-            |	echo "\nInside passbyRef call:\n";
-            |	var_dump($ref);
-            |}
+            |$c = new C;
             |
-            |echo "\nPassing undefined by value\n";
-            |passbyVal($undef1[0]);
-            |echo "\nAfter call\n";
-            |var_dump($undef1);
+            |echo "\n--> Access visible static prop like instance prop:\n";
+            |var_dump(isset($c->x));
+            |unset($c->x);
+            |echo $c->x;
+            |$c->x = 1;
+            |$ref = 'ref';
+            |$c->x =& $ref;
+            |var_dump($c->x, C::$x);
             |
-            |echo "\nPassing undefined by reference\n";
-            |passbyRef($undef2[0]);
-            |echo "\nAfter call\n";
-            |var_dump($undef2)
+            |echo "\n--> Access non-visible static prop like instance prop:\n";
+            |var_dump(isset($c->y));
+            |//unset($c->y);		// Fatal error, tested in static_properties_003_error1.phpt
+            |//echo $c->y;		// Fatal error, tested in static_properties_003_error2.phpt
+            |//$c->y = 1;		// Fatal error, tested in static_properties_003_error3.phpt
+            |//$c->y =& $ref;	// Fatal error, tested in static_properties_003_error4.phpt
             |?>""".stripMargin)
   }
 }

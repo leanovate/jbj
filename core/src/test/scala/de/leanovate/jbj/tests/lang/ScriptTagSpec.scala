@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.lang
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class ScriptTagSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Script Tag" - {
+class ScriptTagSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Script Tag" should {
     "<script> tag" in {
       // lang/script_tag
       script(

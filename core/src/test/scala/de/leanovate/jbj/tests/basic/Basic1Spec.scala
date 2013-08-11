@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.basic
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class Basic1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Basic test 1" - {
+class Basic1Spec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Basic test 1" should {
     "Trivial \"Hello World\" test" in {
       // basic/001
       script(

@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.lang
 
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class Bug24xxxSpec extends FreeSpec with TestJbjExecutor with MustMatchers{
-  "Bugs #24xxx" - {
+class Bug24xxxSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Bugs #24xxx" should {
     "Bug #24396 (global $$variable broken)" in {
       // lang/bug24396
       script(
@@ -23,6 +19,8 @@ class Bug24xxxSpec extends FreeSpec with TestJbjExecutor with MustMatchers{
           |
           |    $$k = $v;
           |}
+          |
+          |// This following was not part of the original, but it stresses out the point of this test
           |echo "a:$a\n";
           |echo "b:$b\n";
           |echo "c:$c\n";
@@ -35,6 +33,8 @@ class Bug24xxxSpec extends FreeSpec with TestJbjExecutor with MustMatchers{
           |a:1
           |b:2
           |c:3
+          |
+          |Notice: Undefined variable: d in /lang/Bug24xxxSpec.inlinePhp on line 17
           |d:
           |""".stripMargin
       )

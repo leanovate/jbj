@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.lang
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class StaticSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Static tests" - {
+class StaticSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Static tests" should {
     "Static keyword - basic tests" in {
       // lang/static_basic_001
       script(

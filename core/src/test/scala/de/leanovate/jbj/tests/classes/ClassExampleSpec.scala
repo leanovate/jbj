@@ -1,15 +1,11 @@
 package de.leanovate.jbj.tests.classes
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
-import de.leanovate.jbj.runtime.exception.{JbjException, FatalErrorJbjException}
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class ClassExampleSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Class examples" - {
+class ClassExampleSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Class examples" should {
     "ZE2 An abstract class cannot be instanciated" in {
       // classes/class_abstract
       script(

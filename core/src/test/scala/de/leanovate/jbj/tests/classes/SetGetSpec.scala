@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.classes
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class SetGetSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "__set __get" - {
+class SetGetSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "__set __get" should {
     "ZE2 __set() and __get() 1" in {
       // classes/__set__get_001
       script(

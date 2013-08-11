@@ -2,15 +2,14 @@ package de.leanovate.jbj.tests
 
 import java.io.{ByteArrayOutputStream, PrintStream}
 import de.leanovate.jbj.parser.JbjParser
-import org.scalatest.matchers.{MatchResult, MustMatchers, Matcher}
-import de.leanovate.jbj.runtime.context.GlobalContext
 import scala.Some
 import de.leanovate.jbj.ast.Prog
 import de.leanovate.jbj.runtime.env.{CliEnvironment, CgiEnvironment}
 import de.leanovate.jbj.runtime.Settings
 import de.leanovate.jbj.JbjEnv
+import org.specs2.matcher.{MatchResult, BeEqualTo, Expectable, Matcher}
 
-trait TestJbjExecutor extends MustMatchers {
+trait TestJbjExecutor {
 
   case class Script(prog: Prog) {
     val jbj = JbjEnv(TestLocator)
@@ -64,26 +63,29 @@ trait TestJbjExecutor extends MustMatchers {
     Script(JbjParser(pseudoFileName, progStr))
   }
 
-  def haveOutput(right: String) = new Matcher[Any] {
-    def apply(left: Any) = left match {
-      case ScriptResult(l, _, _) =>
-        be(right).apply(l)
-    }
+  def haveOutput(expected: String) = new Matcher[ScriptResult] {
+    def apply[S <: ScriptResult](t: Expectable[S]): MatchResult[S] =
+      result(t.map {
+        scriptResult :S =>
+          scriptResult.out
+      }.applyMatcher(new BeEqualTo(expected)), t)
   }
 
-  def haveThrown(right: Class[_]) = new Matcher[Any] {
-    def apply(left: Any) = left match {
+  def haveThrown(expected: Class[_]) = new Matcher[ScriptResult] {
+    def apply[S <: ScriptResult](t: Expectable[S]) = t.value match {
       case ScriptResult(_, _, Some(thrown)) =>
-        MatchResult(
-          thrown.getClass == right,
-          thrown + " is not of " + right,
-          thrown + " is of " + right
+        result(
+          thrown.getClass == expected,
+          thrown + " is not of " + expected,
+          thrown + " is of " + expected,
+          t
         )
       case ScriptResult(_, _, None) =>
-        MatchResult(
-          matches = false,
+        result(
+          test = false,
           "no exception was thrown",
-          "no exception was thrown"
+          "no exception was thrown",
+          t
         )
     }
   }

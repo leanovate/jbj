@@ -18,6 +18,8 @@ case class IntegerVal(asLong: Long) extends NumericVal {
 
   override def unary_- = if (asLong > Long.MinValue) IntegerVal(-asLong) else DoubleVal(-asLong.toDouble)
 
+  def asInt = asLong.toInt
+
   def %(other: Value): Value = (this, other) match {
     case (_, IntegerVal(0)) => BooleanVal.FALSE
     case (IntegerVal(leftVal), IntegerVal(rightVal)) => IntegerVal(leftVal % rightVal)

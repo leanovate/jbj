@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.lang.operators
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class EqualsSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Equals operator" - {
+class EqualsSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Equals operator" should {
     "Test == operator : different types" in {
       // lang/operators/operator_equals_basic
       script(

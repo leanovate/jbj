@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.classes
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class ObjectReferenceSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Object reference" - {
+class ObjectReferenceSpec extends SpecificationWithJUnit with TestJbjExecutor{
+  "Object reference" should {
     "ZE2 object references" in {
       // classes/object_reference_001
       script(

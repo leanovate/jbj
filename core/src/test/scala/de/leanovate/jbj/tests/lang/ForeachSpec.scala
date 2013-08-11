@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.lang
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class ForeachSpec extends FreeSpec with TestJbjExecutor with MustMatchers{
-  "Foreach" - {
+class ForeachSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Foreach" should {
     "foreach() with foreach($o->mthd()->arr)" in {
       // lang/foreach_with_object_001
       script(

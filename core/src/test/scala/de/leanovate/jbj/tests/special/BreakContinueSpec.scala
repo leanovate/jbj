@@ -1,15 +1,11 @@
 package de.leanovate.jbj.tests.special
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class BreakContinueSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Break/continue" - {
+class BreakContinueSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Break/continue" should {
     "break in function" in {
       script(
         """<?php

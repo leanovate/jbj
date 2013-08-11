@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.lang
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class Lang1Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Language test 1" - {
+class Lang1Spec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Language test 1" should {
     "Simple If condition test" in {
       // lang/001
       script(

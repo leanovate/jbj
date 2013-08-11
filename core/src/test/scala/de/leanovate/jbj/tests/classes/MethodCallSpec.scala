@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.classes
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class MethodCallSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Method call" - {
+class MethodCallSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Method call" should {
     "In $a->$b[Y](), $b[Y] represents a method name on $a. But in $a->X[Y](), $a->X[Y] represents a global function name." in {
       // classes/method_call_variation_001
       script(

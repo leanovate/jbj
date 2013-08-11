@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.parsing
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class TagSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Script Tag" - {
+class TagSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Script Tag" should {
     "<?php" in {
       script(
         """Start <div><?php echo "Hello World"?></div> End"""

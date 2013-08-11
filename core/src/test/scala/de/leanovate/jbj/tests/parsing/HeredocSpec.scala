@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.parsing
 
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class HeredocSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Heredoc" - {
+class HeredocSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Heredoc" should {
     "Static heredoc" in {
       script(
         """<?php

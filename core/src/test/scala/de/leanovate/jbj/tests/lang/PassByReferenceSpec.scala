@@ -1,16 +1,12 @@
-package de.leanovate.jbj.tests.classes
+package de.leanovate.jbj.tests.lang
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class PassByReferenceSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Pass by reference" - {
+class PassByReferenceSpec extends SpecificationWithJUnit with TestJbjExecutor{
+  "Pass by reference" should {
     "passing of function parameters by reference" in {
-      // classes/passByReference_001
+      // lang/passByReference_001
       script(
         """<?php
           |function f($arg1, &$arg2)
@@ -51,7 +47,7 @@ class PassByReferenceSpec extends FreeSpec with TestJbjExecutor with MustMatcher
     }
 
     "Attempt to pass a constant by reference" in {
-      // classes/passByReference_002
+      // lang/passByReference_002
       script(
         """<?php
           |
@@ -65,7 +61,7 @@ class PassByReferenceSpec extends FreeSpec with TestJbjExecutor with MustMatcher
           |?>""".stripMargin
       ).result must haveOutput(
         """
-          |Fatal error: Only variables can be passed by reference in /classes/PassByReferenceSpec.inlinePhp on line 8
+          |Fatal error: Only variables can be passed by reference in /lang/PassByReferenceSpec.inlinePhp on line 8
           |""".stripMargin
       )
     }

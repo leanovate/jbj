@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.classes
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class BugsSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Bugs" - {
+class BugsSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Bugs" should {
     "Bug #23951 (Defines not working in inherited classes)" in {
       // classes/bug23951
       script(

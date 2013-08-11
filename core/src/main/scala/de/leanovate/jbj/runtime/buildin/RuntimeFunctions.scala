@@ -5,8 +5,11 @@ import de.leanovate.jbj.runtime.{Context, PFunction}
 import de.leanovate.jbj.ast.{Expr, NamespaceName, NodePosition}
 
 object RuntimeFunctions {
-  val functions : Seq[PFunction]= Seq(
+  val functions: Seq[PFunction] = Seq(
     BuildinFunction1("error_reporting", {
+      case (ctx, callerPosition, Some(value)) =>
+        ctx.settings.errorReporting = value.toInteger.asInt
+        NullVal
       case _ => NullVal
     }),
     new PFunction() {

@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.classes
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class AssignPropertySpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Assign property" - {
+class AssignPropertySpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Assign property" should {
     "ZE2 assign_op property of overloaded object" in {
       // classes/assign_op_property_001
       script(

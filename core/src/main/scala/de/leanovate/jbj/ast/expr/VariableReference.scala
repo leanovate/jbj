@@ -6,7 +6,15 @@ import java.io.PrintStream
 import de.leanovate.jbj.runtime.value.{ValueOrRef, ValueRef, NullVal}
 
 case class VariableReference(variableName: Name) extends Reference {
-  override def eval(implicit ctx: Context) = ctx.findVariable(variableName.evalName).map(_.value).getOrElse(NullVal)
+  override def isDefined(implicit ctx: Context) = ctx.findVariable(variableName.evalName).isDefined
+
+  override def eval(implicit ctx: Context) = {
+    val name = variableName.evalName
+    ctx.findVariable(name).map(_.value).getOrElse {
+      ctx.log.notice(position, "Undefined variable: %s".format(name))
+      NullVal
+    }
+  }
 
   override def evalRef(implicit ctx: Context) = {
     val name = variableName.evalName

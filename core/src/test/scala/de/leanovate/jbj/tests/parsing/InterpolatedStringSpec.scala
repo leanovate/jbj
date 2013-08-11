@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.parsing
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class InterpolatedStringSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Interpolated string" - {
+class InterpolatedStringSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Interpolated string" should {
     "Simple variable" in {
       script(
         """<?php

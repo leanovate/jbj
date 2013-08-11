@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.classes
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class FactorySpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Fectory" - {
+class FactorySpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Fectory" should {
     "ZE2 factory objects" in {
       // classes/factory_001
       script(

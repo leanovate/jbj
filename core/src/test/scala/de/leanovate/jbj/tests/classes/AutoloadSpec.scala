@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.classes
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class AutoloadSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Autoload" - {
+class AutoloadSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Autoload" should {
     "ZE2 Autoload and class_exists" in {
       // classes/autoload_001
       script(

@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.lang.operators
 
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class NegateSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Negate" - {
+class NegateSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Negate" should {
     "Test -N operator : 64bit long tests" in {
       // lang/operators/negate_basiclong_64bit
       script(

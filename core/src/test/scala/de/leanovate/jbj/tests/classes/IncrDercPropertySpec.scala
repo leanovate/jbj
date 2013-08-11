@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.classes
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class IncrDercPropertySpec extends FreeSpec with TestJbjExecutor with MustMatchers{
-  "Increment decrement property" - {
+class IncrDercPropertySpec extends SpecificationWithJUnit with TestJbjExecutor{
+  "Increment decrement property" should {
     "ZE2 post increment/decrement property of overloaded object" in {
       // classes/incdec_property_001
       script(

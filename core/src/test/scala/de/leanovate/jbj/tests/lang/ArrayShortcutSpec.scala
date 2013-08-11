@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.lang
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class ArrayShortcutSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Array shortcut" - {
+class ArrayShortcutSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Array shortcut" should {
     "Square bracket array shortcut test 1" in {
       // lang/array_shortcut_001
       script(

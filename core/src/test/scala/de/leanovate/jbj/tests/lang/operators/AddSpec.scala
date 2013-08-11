@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.lang.operators
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class AddSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Add operator" - {
+class AddSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Add operator" should {
     "Test + operator : various numbers as strings" in {
       // lang/operators/add_variationStr
       script(

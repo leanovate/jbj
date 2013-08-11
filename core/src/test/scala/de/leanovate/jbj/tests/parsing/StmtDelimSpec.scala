@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.parsing
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class StmtDelimSpec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Stmt delimiter tests" - {
+class StmtDelimSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Stmt delimiter tests" should {
     "No ; after block" in {
       script(
         """<?php $a=1; if ($a < 2) { echo "Hurra"; } echo "bla" ?>"""

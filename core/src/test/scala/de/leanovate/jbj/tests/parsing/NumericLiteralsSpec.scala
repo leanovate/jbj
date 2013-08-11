@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.parsing
 
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class NumericLiteralsSpec extends FreeSpec with MustMatchers with TestJbjExecutor{
-  "Numeric literals" - {
+class NumericLiteralsSpec extends SpecificationWithJUnit with TestJbjExecutor{
+  "Numeric literals" should {
     "Integer and float" in {
       script(
         """<?php

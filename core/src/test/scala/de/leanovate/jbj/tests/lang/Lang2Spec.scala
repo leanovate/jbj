@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.lang
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
 import de.leanovate.jbj.tests.TestJbjExecutor
-import org.scalatest.matchers.MustMatchers
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class Lang2Spec extends FreeSpec with TestJbjExecutor with MustMatchers {
-  "Language test 2" - {
+class Lang2Spec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Language test 2" should {
     "Testing function parameter passing with a return value" in {
       // lang/010
       script(

@@ -1,14 +1,10 @@
 package de.leanovate.jbj.tests.parsing
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FreeSpec
-import org.scalatest.matchers.MustMatchers
 import de.leanovate.jbj.tests.TestJbjExecutor
+import org.specs2.mutable.SpecificationWithJUnit
 
-@RunWith(classOf[JUnitRunner])
-class PrecedenceSpec extends FreeSpec with MustMatchers with TestJbjExecutor {
-  "Precedence test" - {
+class PrecedenceSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Precedence test" should {
     "mul/div befor add/sub" in {
       script(
         """<?php
