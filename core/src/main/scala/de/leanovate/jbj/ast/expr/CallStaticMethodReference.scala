@@ -10,7 +10,11 @@ case class CallStaticMethodReference(className: Name, methodName: Name, paramete
 
   override def evalRef(implicit ctx: Context) = callMethod
 
-  def assignRef(valueOrRef: ValueOrRef)(implicit ctx: Context) {
+  override def assignRef(valueOrRef: ValueOrRef)(implicit ctx: Context) {
+  }
+
+  override def unsetRef(implicit ctx: Context) {
+    throw new FatalErrorJbjException("Can't use function return value in write context")
   }
 
   private def callMethod(implicit ctx: Context): ValueOrRef = {

@@ -25,16 +25,17 @@ case class InstanceContext(instance: ObjectVal, callerPosition: NodePosition, ca
   }
 
   def findVariable(name: String)(implicit position: NodePosition): Option[ValueRef] =
-    instance.getProperty(name)(this, position).map {
+    instance.getProperty(name).map {
       case valueRef: ValueRef => valueRef
       case value: Value => ValueRef(value)
     }
 
   def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition) {
-    instance.setProperty(name, valueRef.value)(this, position)
+    instance.setProperty(name, valueRef.value)
   }
 
   def undefineVariable(name: String) {
+    instance.unsetProperty(name)
   }
 
   def findFunction(name: NamespaceName) = callerCtx.findFunction(name)

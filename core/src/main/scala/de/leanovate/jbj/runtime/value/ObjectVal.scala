@@ -6,7 +6,8 @@ import de.leanovate.jbj.runtime.IntArrayKey
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.ast.NodePosition
 
-class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutable.LinkedHashMap[ArrayKey, ValueOrRef]) extends Value {
+class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutable.LinkedHashMap[ArrayKey, ValueOrRef])
+  extends Value with ArrayLike {
   override def toOutput = "Array"
 
   override def toStr = StringVal("object")
@@ -31,20 +32,27 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutabl
 
   final def instanceOf(other: PClass): Boolean = other.isAssignableFrom(pClass)
 
-  def getProperty(name: String)(implicit ctx: Context, position: NodePosition): Option[ValueOrRef] =
-    keyValues.get(StringArrayKey(name))
+  def getProperty(name: String): Option[ValueOrRef] = keyValues.get(StringArrayKey(name))
 
-  def setProperty(name: String, value: ValueOrRef)(implicit ctx: Context, position: NodePosition) {
+  def setProperty(name: String, value: ValueOrRef) {
     val key = StringArrayKey(name)
     keyValues.get(key).foreach(_.decrRefCount())
     keyValues.put(key, value)
     value.incrRefCount()
   }
 
+  def unsetProperty(name: String) = {
+    keyValues.remove(StringArrayKey(name)).foreach(_.decrRefCount())
+  }
+
   override def getAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) =
     throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
 
   override def setAt(index: Option[ArrayKey], value: ValueOrRef)(implicit ctx: Context, position: NodePosition) {
+    throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
+  }
+
+  override def unsetAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) {
     throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
   }
 }

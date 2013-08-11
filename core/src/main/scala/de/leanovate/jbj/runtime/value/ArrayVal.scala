@@ -1,13 +1,12 @@
 package de.leanovate.jbj.runtime.value
 
-import java.io.PrintStream
 import de.leanovate.jbj.runtime._
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.IntArrayKey
 import de.leanovate.jbj.runtime.StringArrayKey
 import de.leanovate.jbj.ast.NodePosition
 
-class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, ValueOrRef]) extends Value {
+class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, ValueOrRef]) extends Value with ArrayLike {
 
   private var maxIndex: Long = (0L :: keyValues.keys.map {
     case IntArrayKey(idx) => idx
@@ -58,6 +57,11 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, ValueOrRef]) exten
         maxIndex += 1
     }
   }
+
+override  def unsetAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) {
+  keyValues.remove(index).foreach(_.decrRefCount())
+}
+
 
   def count: IntegerVal = IntegerVal(keyValues.size)
 }

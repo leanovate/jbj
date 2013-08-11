@@ -211,6 +211,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       params => EchoStmt(params)
     } | inlineHtml | expr <~ ";" ^^ {
       e => ExprStmt(e)
+    } | "unset" ~> "(" ~> unsetVariables <~ ")" ^^ {
+      case vars => UnsetStmt(vars)
     } | "foreach" ~> "(" ~> exprWithoutVariable ~ "as" ~ foreachVariable ~ foreachOptionalArg ~ ")" ~ foreachStatement ^^ {
       case array ~ _ ~ valueVar ~ None ~ _ ~ stmts =>
         ForeachValueStmt(array, valueVar, stmts)
@@ -229,6 +231,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val finallyStatement: PackratParser[List[Stmt]] =
     opt("finally" ~> "{" ~> innerStatementList <~ "}") ^^ (_.getOrElse(Nil))
+
+  lazy val unsetVariables : PackratParser[List[Reference]] = rep1sep(variable, ",")
 
   lazy val functionDeclarationStatement: PackratParser[FunctionDeclStmt] = untickedFunctionDeclarationStatement <~ rep(";")
 

@@ -23,6 +23,10 @@ case class CallMethodReference(instanceExpr: Expr, methodName: Name, parameters:
     }
   }
 
+  override def unsetRef(implicit ctx:Context) {
+    throw new FatalErrorJbjException("Can't use function return value in write context")
+  }
+
   private def callMethod(implicit ctx: Context): ValueOrRef = instanceExpr.eval match {
     case instance: ObjectVal =>
       instance.pClass.invokeMethod(ctx, position, Some(instance), methodName.evalName, parameters)

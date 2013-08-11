@@ -12,10 +12,6 @@ trait NumericVal extends Value {
 
   override def copy = this
 
-  override def getAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) = None
-
-  override def setAt(index: Option[ArrayKey], value: ValueOrRef)(implicit ctx: Context, position: NodePosition) {}
-
   def unary_- : NumericVal
 
   def +(other: Value): Value = (this, other) match {

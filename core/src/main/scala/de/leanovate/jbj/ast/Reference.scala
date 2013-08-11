@@ -8,4 +8,6 @@ trait Reference extends Expr {
   def evalRef(implicit ctx: Context): ValueOrRef
 
   def assignRef(valueOrRef: ValueOrRef)(implicit ctx: Context)
+
+  def unsetRef(implicit ctx: Context)
 }

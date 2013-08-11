@@ -20,8 +20,10 @@ case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends
     if (reference.isDefined) {
       optArrayKey.exists {
         arrayKey =>
-          val array = reference.eval
-          array.getAt(arrayKey).isDefined
+          reference.eval match {
+            case array: ArrayLike => array.getAt(arrayKey).isDefined
+            case _ => false
+          }
       }
     } else {
       false
@@ -32,7 +34,7 @@ case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends
     optArrayKey.flatMap {
       arrayKey =>
         reference.eval match {
-          case array: ArrayVal =>
+          case array: ArrayLike =>
             val result = array.getAt(arrayKey)
             if (!result.isDefined) {
               arrayKey match {
@@ -50,13 +52,13 @@ case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends
   }
 
   override def evalRef(implicit ctx: Context) = {
-    val optArray: Option[ArrayVal] = if (!reference.isDefined) {
+    val optArray: Option[ArrayLike] = if (!reference.isDefined) {
       val array = ArrayVal()
       reference.assignRef(array)
       Some(array)
     } else {
       reference.eval.value match {
-        case array: ArrayVal =>
+        case array: ArrayLike =>
           Some(array)
         case NullVal =>
           val array = ArrayVal()
@@ -97,7 +99,7 @@ case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends
       array.setAt(optArrayKey, valueOrRef)
     } else {
       reference.eval.value match {
-        case array: ArrayVal =>
+        case array: ArrayLike =>
           array.setAt(optArrayKey, valueOrRef)
         case NullVal =>
           val array = ArrayVal()
@@ -106,6 +108,16 @@ case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends
         case v =>
           ctx.log.warn(position, "Cannot use a scalar value as an array")
       }
+    }
+  }
+
+  override def unsetRef(implicit ctx:Context) {
+    optArrayKey.foreach {
+      arrayKey =>
+        reference.eval match {
+          case array: ArrayLike => array.getAt(arrayKey).isDefined
+          case _ => false
+        }
     }
   }
 

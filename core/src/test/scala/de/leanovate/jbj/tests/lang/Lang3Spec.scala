@@ -298,20 +298,20 @@ class Lang3Spec extends SpecificationWithJUnit with TestJbjExecutor {
         """"	\'\n\'a\\b\"""
       )
     }
-  }
 
-  "Testing do-while loop" in {
-    // lang/027
-    script(
-      """<?php
-        |$i=3;
-        |do {
-        |	echo $i;
-        |	$i--;
-        |} while($i>0);
-        |?>""".stripMargin
-    ).result must haveOutput(
-      """321""".stripMargin
-    )
+    "Testing do-while loop" in {
+      // lang/027
+      script(
+        """<?php
+          |$i=3;
+          |do {
+          |	echo $i;
+          |	$i--;
+          |} while($i>0);
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """321""".stripMargin
+      )
+    }
   }
 }

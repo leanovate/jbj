@@ -42,6 +42,10 @@ case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: Strin
     }
 
     setParameters(methodCtx, ctx, callerPosition, parameters)
+
+    if (!isStatic)
+      ctx.log.strict(callerPosition, "Non-static method %s::%s() should not be called statically".format(pClass.name.toString, name))
+
     execStmts(stmts) match {
       case ReturnExecResult(returnVal) => returnVal
       case _ => NullVal

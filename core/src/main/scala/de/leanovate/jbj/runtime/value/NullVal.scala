@@ -25,8 +25,4 @@ object NullVal extends Value {
   override def incr = IntegerVal(1)
 
   override def decr = NullVal
-
-  override def getAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) = None
-
-  override def setAt(index: Option[ArrayKey], value: ValueOrRef)(implicit ctx: Context, position: NodePosition) {}
 }

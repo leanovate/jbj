@@ -18,6 +18,10 @@ case class CallFunctionReference(functionName: Name, parameters: List[Expr]) ext
     }
   }
 
+  override def unsetRef(implicit ctx:Context) {
+    throw new FatalErrorJbjException("Can't use function return value in write context")
+  }
+
   private def callFunction(implicit ctx: Context): ValueOrRef = {
     val name = functionName.evalNamespaceName
     ctx.findFunction(name).map {

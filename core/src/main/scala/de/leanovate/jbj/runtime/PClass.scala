@@ -31,8 +31,6 @@ trait PClass extends StaticContext {
           instance =>
             method.invoke(ctx, callerPosition, instance, parameters)
         }.getOrElse {
-          if (!method.isStatic)
-            ctx.log.strict(callerPosition, "Non-static method %s::%s() should not be called statically".format(name.toString, methodName))
           method.invokeStatic(ctx, callerPosition, this, parameters)
         }
       case None =>

@@ -40,4 +40,14 @@ case class StaticClassVarReference(className: Name, variableName: Name) extends 
       throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))
     }
   }
+
+  override def unsetRef(implicit ctx:Context) {
+    val name = className.evalNamespaceName
+    ctx.global.findClass(name).map {
+      pClass =>
+        pClass.undefineVariable(variableName.evalName)
+    }.getOrElse {
+      throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))
+    }
+  }
 }

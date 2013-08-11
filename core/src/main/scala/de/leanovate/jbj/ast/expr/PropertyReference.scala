@@ -96,6 +96,13 @@ case class PropertyReference(reference: Reference, propertyName: Name) extends R
     }
   }
 
+  override def unsetRef(implicit ctx: Context) {
+    reference.eval match {
+      case obj: ObjectVal => obj.unsetProperty(propertyName.evalName)
+      case _ =>
+    }
+  }
+
   override def dump(out: PrintStream, ident: String) {
     super.dump(out, ident)
     reference.dump(out, ident + "  ")

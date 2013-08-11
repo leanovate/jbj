@@ -2,8 +2,9 @@ package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.{Context, IntArrayKey, ArrayKey}
 import de.leanovate.jbj.ast.NodePosition
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
-case class StringVal(asString: String) extends Value {
+case class StringVal(asString: String) extends Value with ArrayLike{
   override def toOutput = asString
 
   override def toStr: StringVal = this
@@ -45,6 +46,10 @@ case class StringVal(asString: String) extends Value {
   }
 
   override def setAt(index: Option[ArrayKey], value: ValueOrRef)(implicit ctx: Context, position: NodePosition) {}
+
+  override  def unsetAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) {
+    throw new FatalErrorJbjException("Cannot unset string offsets")
+  }
 
   def dot(other: Value): Value = StringVal(asString + other.toStr.asString)
 }

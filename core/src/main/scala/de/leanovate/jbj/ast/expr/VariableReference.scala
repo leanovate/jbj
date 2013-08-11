@@ -34,6 +34,10 @@ case class VariableReference(variableName: Name) extends Reference {
     }
   }
 
+  override def unsetRef(implicit ctx: Context) {
+    ctx.undefineVariable(variableName.evalName)
+  }
+
   override def dump(out: PrintStream, ident: String) {
     super.dump(out, ident)
     variableName.dump(out, ident + "  ")
