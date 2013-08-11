@@ -2,7 +2,7 @@ package de.leanovate.jbj.ast.stmt
 
 import de.leanovate.jbj.ast.{Reference, NodePosition, Expr}
 import de.leanovate.jbj.runtime.Context
-import de.leanovate.jbj.runtime.value.ValueRef
+import de.leanovate.jbj.runtime.value.{Value, ValueRef}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 trait FunctionLike {
@@ -19,8 +19,9 @@ trait FunctionLike {
               reference.evalRef(callerContext) match {
                 case valueRef: ValueRef =>
                   funcCtx.defineVariable(parameterDecl.variableName, valueRef)(callerPosition)
-                case _ =>
-                  throw new FatalErrorJbjException("Only variables can be passed by reference")(callerContext, callerPosition)
+                case value: Value =>
+                  callerContext.log.strict(callerPosition, "Only variables should be passed by reference")
+                  funcCtx.defineVariable(parameterDecl.variableName, ValueRef(value))(callerPosition)
               }
             case _ if parameterDecl.byRef =>
               throw new FatalErrorJbjException("Only variables can be passed by reference")(callerContext, callerPosition)

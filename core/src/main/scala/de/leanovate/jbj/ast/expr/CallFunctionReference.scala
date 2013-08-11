@@ -4,6 +4,7 @@ import de.leanovate.jbj.ast.{Name, Reference, Expr}
 import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.value.{ValueOrRef, ValueRef}
+import java.io.PrintStream
 
 case class CallFunctionReference(functionName: Name, parameters: List[Expr]) extends Reference {
   override def eval(implicit ctx: Context) = callFunction.value
@@ -24,5 +25,11 @@ case class CallFunctionReference(functionName: Name, parameters: List[Expr]) ext
     }.getOrElse {
       throw new FatalErrorJbjException("Call to undefined function %s()".format(name.toString))
     }
+  }
+
+  override def dump(out: PrintStream, ident: String) {
+    super.dump(out, ident)
+    functionName.dump(out, ident + "  ")
+    parameters.foreach(_.dump(out, ident + "  "))
   }
 }

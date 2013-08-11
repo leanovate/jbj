@@ -65,5 +65,83 @@ class PassByReferenceSpec extends SpecificationWithJUnit with TestJbjExecutor{
           |""".stripMargin
       )
     }
+
+    "Implicit initialisation when passing by reference" in {
+      // lang/passByReference_003
+      script(
+        """<?php
+          |function passbyVal($val) {
+          |	echo "\nInside passbyVal call:\n";
+          |	var_dump($val);
+          |}
+          |
+          |function passbyRef(&$ref) {
+          |	echo "\nInside passbyRef call:\n";
+          |	var_dump($ref);
+          |}
+          |
+          |echo "\nPassing undefined by value\n";
+          |passbyVal($undef1[0]);
+          |echo "\nAfter call\n";
+          |var_dump($undef1);
+          |
+          |echo "\nPassing undefined by reference\n";
+          |passbyRef($undef2[0]);
+          |echo "\nAfter call\n";
+          |var_dump($undef2)
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """
+          |Passing undefined by value
+          |
+          |Notice: Undefined variable: undef1 in /lang/PassByReferenceSpec.inlinePhp on line 13
+          |
+          |Inside passbyVal call:
+          |NULL
+          |
+          |After call
+          |
+          |Notice: Undefined variable: undef1 in /lang/PassByReferenceSpec.inlinePhp on line 15
+          |NULL
+          |
+          |Passing undefined by reference
+          |
+          |Inside passbyRef call:
+          |NULL
+          |
+          |After call
+          |array(1) {
+          |  [0]=>
+          |  NULL
+          |}
+          |""".stripMargin
+      )
+    }
+
+    "Attempt to pass a constant by reference" in {
+      // lang/passByReference_004
+      script(
+        """<?php
+          |
+          |function foo(&$ref)
+          |{
+          |	var_dump($ref);
+          |}
+          |
+          |function bar($value)
+          |{
+          |	return $value;
+          |}
+          |
+          |foo(bar(5));
+          |
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """
+          |Strict Standards: Only variables should be passed by reference in /lang/PassByReferenceSpec.inlinePhp on line 13
+          |int(5)
+          |""".stripMargin
+      )
+    }
   }
 }

@@ -9,6 +9,16 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <scm>
+        <connection>https://github.com/untoldwind/jbj.git</connection>
+        <developerConnection>scm:git:git@github.com:untoldwind/jbj.git</developerConnection>
+        <url>https://github.com/untoldwind/jbj</url>
+    </scm>
+
+    <issueManagement>
+        <url>https://github.com/untoldwind/jbj/issues</url>
+    </issueManagement>
+
     <properties>
         <scala.version>2.10.0</scala.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -77,6 +87,26 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.scala-tools</groupId>
+                    <artifactId>maven-scala-plugin</artifactId>
+                    <version>2.15.2</version>
+                    <configuration>
+                        <verbose>true</verbose>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.14</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
     <modules>
         <module>core</module>

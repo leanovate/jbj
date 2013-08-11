@@ -111,7 +111,7 @@ class IncrDercPropertySpec extends SpecificationWithJUnit with TestJbjExecutor{
     }
 
     "ZE2 pre increment/decrement property of overloaded object with assignment" in {
-      // classes/incdec_property_003
+      // classes/incdec_property_004
       script(
         """<?php
           |

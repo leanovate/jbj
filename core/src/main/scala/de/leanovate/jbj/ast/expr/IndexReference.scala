@@ -1,13 +1,20 @@
 package de.leanovate.jbj.ast.expr
 
-import de.leanovate.jbj.ast.{Expr, Reference}
+import de.leanovate.jbj.ast.{NodePosition, Expr, Reference}
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.IntArrayKey
 import de.leanovate.jbj.runtime.StringArrayKey
 import scala.Some
+import java.io.PrintStream
 
 case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends Reference {
+
+  override def position_=(pos: NodePosition) {
+    super.position_=(pos)
+
+    reference.position = pos
+  }
 
   override def isDefined(implicit ctx: Context) = {
     if (reference.isDefined) {
@@ -24,17 +31,21 @@ case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends
   override def eval(implicit ctx: Context) = {
     optArrayKey.flatMap {
       arrayKey =>
-        val array = reference.eval
-        val result = array.getAt(arrayKey)
-        if (!result.isDefined) {
-          arrayKey match {
-            case IntArrayKey(idx) =>
-              ctx.log.notice(position, "Undefined offset: %d".format(idx))
-            case StringArrayKey(idx) =>
-              ctx.log.notice(position, "Undefined index: %s".format(idx))
-          }
+        reference.eval match {
+          case array: ArrayVal =>
+            val result = array.getAt(arrayKey)
+            if (!result.isDefined) {
+              arrayKey match {
+                case IntArrayKey(idx) =>
+                  ctx.log.notice(position, "Undefined offset: %d".format(idx))
+                case StringArrayKey(idx) =>
+                  ctx.log.notice(position, "Undefined index: %s".format(idx))
+              }
+            }
+            result.map(_.value)
+          case _ =>
+            Some(NullVal)
         }
-        result.map(_.value)
     }.getOrElse(NullVal)
   }
 
@@ -101,5 +112,13 @@ case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends
   private def optArrayKey(implicit ctx: Context) = indexExpr.flatMap {
     expr =>
       ArrayKey(expr.eval)
+  }
+
+  override def dump(out: PrintStream, ident: String) {
+    super.dump(out, ident)
+    reference.dump(out, ident + "  ")
+    indexExpr.map(_.dump(out, ident + "  ")).getOrElse {
+      out.println(ident + "  <empty>")
+    }
   }
 }
