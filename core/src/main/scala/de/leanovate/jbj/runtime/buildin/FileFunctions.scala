@@ -7,12 +7,12 @@ object FileFunctions {
   val functions: Seq[PFunction] = Seq(
     BuildinFunction1("dirname", {
       case (ctx, callerPosition, Some(name)) =>
-        val fileName = name.toStr.asString
+        val fileName = name.toStr(ctx).asString(ctx)
         val idx = fileName.lastIndexOf('/')
         StringVal(if (idx >= 0)
           fileName.substring(0, idx)
         else
-          "")
+          "")(ctx)
     })
   )
 }

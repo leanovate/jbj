@@ -4,19 +4,19 @@ import de.leanovate.jbj.runtime.{Context, ArrayKey}
 import de.leanovate.jbj.ast.NodePosition
 
 object NullVal extends Value {
-  override def toOutput = ""
+  override def toOutput(implicit ctx:Context) = ""
 
-  override def toStr = StringVal("")
+  override def toStr(implicit ctx:Context) = StringVal("")
 
-  override def toNum = toInteger
+  override def toNum(implicit ctx:Context) = toInteger
 
-  override def toDouble = DoubleVal(0.0)
+  override def toDouble(implicit ctx:Context) = DoubleVal(0.0)
 
-  override def toInteger = IntegerVal(0)
+  override def toInteger(implicit ctx:Context) = IntegerVal(0)
 
-  override def toBool = BooleanVal(false)
+  override def toBool(implicit ctx:Context) = BooleanVal(false)
 
-  override def toArray = ArrayVal()
+  override def toArray(implicit ctx:Context) = ArrayVal()
 
   override def isNull = true
 

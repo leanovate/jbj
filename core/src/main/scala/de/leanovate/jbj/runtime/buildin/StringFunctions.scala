@@ -6,28 +6,28 @@ import de.leanovate.jbj.runtime.PFunction
 object StringFunctions {
   val functions: Seq[PFunction] = Seq(
     BuildinFunction1("strlen", {
-      case (_, _, Some(str)) => IntegerVal(str.toStr.asString.length)
+      case (ctx, _, Some(str)) => IntegerVal(str.toStr(ctx).asString(ctx).length)
     }),
     BuildinFunction3("strstr", {
-      case (_, _, Some(haystack), Some(needle), beforeNeedle) =>
+      case (ctx, _, Some(haystack), Some(needle), beforeNeedle) =>
         val needleStr = needle match {
-          case str: StringVal => str.asString
+          case str: StringVal => str.asString(ctx)
           case int: IntegerVal => int.asLong.toChar.toString
         }
-        val idx = haystack.toStr.asString.indexOf(needleStr)
+        val idx = haystack.toStr(ctx).asString(ctx).indexOf(needleStr)
         if (idx < 0) {
           BooleanVal.FALSE
-        } else if (beforeNeedle.exists(_.toBool.asBoolean)) {
-          StringVal(haystack.toStr.asString.substring(0, idx))
+        } else if (beforeNeedle.exists(_.toBool(ctx).asBoolean)) {
+          StringVal(haystack.toStr(ctx).asString(ctx).substring(0, idx))(ctx)
         } else {
-          StringVal(haystack.toStr.asString.substring(idx))
+          StringVal(haystack.toStr(ctx).asString(ctx).substring(idx))(ctx)
         }
     }),
     BuildinFunction1("strtolower", {
-      case (_, _,Some(str)) => StringVal(str.toStr.asString.toLowerCase)
+      case (ctx, _,Some(str)) => StringVal(str.toStr(ctx).asString(ctx).toLowerCase)(ctx)
     }),
     BuildinFunction1("strtoupper", {
-      case (_, _, Some(str)) => StringVal(str.toStr.asString.toUpperCase)
+      case (ctx, _, Some(str)) => StringVal(str.toStr(ctx).asString(ctx).toUpperCase)(ctx)
     })
   )
 }

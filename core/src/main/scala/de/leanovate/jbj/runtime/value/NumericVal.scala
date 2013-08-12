@@ -1,10 +1,12 @@
 package de.leanovate.jbj.runtime.value
 
+import de.leanovate.jbj.runtime.Context
+
 
 trait NumericVal extends Value {
-  override def toNum: NumericVal = this
+  override def toNum(implicit ctx:Context): NumericVal = this
 
-  override def toArray = ArrayVal(None -> this)
+  override def toArray(implicit ctx:Context) = ArrayVal(None -> this)
 
   override def isNull = false
 
@@ -12,7 +14,7 @@ trait NumericVal extends Value {
 
   def unary_- : NumericVal
 
-  def +(other: Value): Value = (this, other) match {
+  def +(other: Value)(implicit ctx:Context): Value = (this, other) match {
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal > 0 && leftVal <= Long.MaxValue - rightVal =>
       IntegerVal(leftVal + rightVal)
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal <= 0 && leftVal >= Long.MinValue - rightVal =>
@@ -20,7 +22,7 @@ trait NumericVal extends Value {
     case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal + rightVal)
   }
 
-  def -(other: Value): Value = (this, other) match {
+  def -(other: Value)(implicit ctx:Context): Value = (this, other) match {
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal > 0 && leftVal >= Long.MinValue + rightVal =>
       IntegerVal(leftVal - rightVal)
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal <= 0 && leftVal <= Long.MaxValue + rightVal =>
@@ -28,22 +30,16 @@ trait NumericVal extends Value {
     case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal - rightVal)
   }
 
-  def *(other: Value): Value = (this, other) match {
+  def *(other: Value)(implicit ctx:Context): Value = (this, other) match {
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal == 0 => IntegerVal(0)
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal > 0 && leftVal <= Long.MaxValue / rightVal && leftVal >= Long.MinValue / rightVal => IntegerVal(leftVal * rightVal)
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal < 0 && leftVal <= Long.MinValue / rightVal && leftVal >= Long.MaxValue / rightVal => IntegerVal(leftVal * rightVal)
     case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal * rightVal)
   }
 
-  def /(other: Value): Value = (this, other) match {
+  def /(other: Value)(implicit ctx:Context): Value = (this, other) match {
     case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal / rightVal)
   }
-
-  def &(other: Value): Value = IntegerVal(this.toInteger.asLong & other.toInteger.asLong)
-
-  def |(other: Value): Value = IntegerVal(this.toInteger.asLong | other.toInteger.asLong)
-
-  def ^(other: Value): Value = IntegerVal(this.toInteger.asLong ^ other.toInteger.asLong)
 
 }
 
@@ -53,7 +49,7 @@ object NumericVal {
   val truePattern = "[tT][rR][uU][eE]".r
   val falsePattern = "[fF][aA][lL][sS][eE]".r
 
-  def unapply(numeric: Value): Option[Double] = numeric match {
+  def unapply(numeric: Value)(implicit ctx:Context): Option[Double] = numeric match {
     case IntegerVal(value) => Some(value.toDouble)
     case DoubleVal(value) => Some(value)
     case BooleanVal(value) => Some(if (value) 1.0 else 0.0)

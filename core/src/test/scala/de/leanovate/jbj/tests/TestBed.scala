@@ -21,18 +21,18 @@ object TestBed {
       count += 1
     }
 
+    val jbj = JbjEnv(TestLocator)
     val tokens2 = new TokenReader(exprstr, InitialLexer)
-    val parser = new JbjParser(ParseContext("/classes/bla.php"))
+    val parser = new JbjParser(ParseContext("/classes/bla.php", jbj.settings))
     parser.phrase(parser.start)(tokens2) match {
       case parser.Success(tree: Prog, _) =>
         println("Tree")
         tree.dump(System.out, "")
 
-        val jbj = JbjEnv(TestLocator)
-        val context = jbj.newGlobalContext(System.out, System.err)
+        implicit val context = jbj.newGlobalContext(System.out, System.err)
 
         context.settings.errorReporting = Settings.E_ALL
-        CgiEnvironment.httpGet("?ab+cd+ef+123+test", context)
+        CgiEnvironment.httpGet("?ab+cd+ef+123+test")
         tree.exec(context)
       case e: parser.NoSuccess =>
         println(e)

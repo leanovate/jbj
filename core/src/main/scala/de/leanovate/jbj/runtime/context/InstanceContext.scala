@@ -25,7 +25,7 @@ case class InstanceContext(instance: ObjectVal, callerPosition: NodePosition, ca
   }
 
   def findVariable(name: String)(implicit position: NodePosition): Option[ValueRef] =
-    instance.getProperty(name).map {
+    instance.getProperty(name)(this).map {
       case valueRef: ValueRef => valueRef
       case value: Value => ValueRef(value)
     }

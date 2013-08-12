@@ -25,7 +25,7 @@ case class JbjEnv(locator: Locator = DefaultLocator) {
       None
     case None => locator.readScript(fileName).map {
       script =>
-        val parser = new JbjParser(ParseContext(script.fileName))
+        val parser = new JbjParser(ParseContext(script.fileName, settings))
         val result = try {
           Left(parser.parse(script.content))
         } catch {

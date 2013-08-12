@@ -1,10 +1,14 @@
 package de.leanovate.jbj.runtime
 
+import java.nio.charset.Charset
+
 class Settings extends Cloneable {
 
   import Settings._
 
   var errorReporting: Int = E_ALL & ~E_NOTICE & ~E_STRICT
+
+  var charset = Charset.forName("UTF-8")
 
   override def clone: Settings = super.clone().asInstanceOf[Settings]
 }

@@ -58,7 +58,7 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
       findFunction(NamespaceName(relative = true, "__autoload")).flatMap {
         case autoload if !autoloading.contains(name.toString.toLowerCase) =>
           autoloading.add(name.toString.toLowerCase)
-          autoload.call(this, position, ScalarExpr(StringVal(name.toString)) :: Nil)
+          autoload.call(this, position, ScalarExpr(StringVal(name.toString)(this)) :: Nil)
           autoloading.remove(name.toString.toLowerCase)
           findClass(name)
         case _ => None

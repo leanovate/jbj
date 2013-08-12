@@ -129,6 +129,7 @@ import de.leanovate.jbj.ast.expr.cast.IntegerCastExpr
 import de.leanovate.jbj.parser.JbjTokens.StringLit
 import de.leanovate.jbj.ast.expr.comp.BoolXorExpr
 import de.leanovate.jbj.ast.expr.GetAndIncrExpr
+import de.leanovate.jbj.runtime.Settings
 
 class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   type Elem = JbjTokens.Token
@@ -542,13 +543,13 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     } | doubleNumLit ^^ {
       s => ScalarExpr(DoubleVal(s))
     } | stringLit ^^ {
-      s => ScalarExpr(StringVal(s))
+      s => ScalarExpr(StringVal(s.getBytes(parseCtx.settings.charset)))
     } | "__FILE__" ^^^ FileNameConstExpr() |
       "__LINE__" ^^^ LineNumberConstExpr() |
       "__FUNCTION__" ^^^ FunctionNameConstExpr() |
       "__METHOD__" ^^^ MethodNameConstExpr() |
       hereDocStartLit ~> opt(encapsAndWhitespaceLit) <~ hereDocEndLit ^^ {
-        s => ScalarExpr(StringVal(s.getOrElse("")))
+        s => ScalarExpr(StringVal(s.getOrElse("").getBytes(parseCtx.settings.charset)))
       }
 
   lazy val staticScalar: PackratParser[Expr] =
@@ -753,7 +754,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       } | "{$" ~> variable <~ "}"
 
   lazy val encapsVarOffset: PackratParser[Expr] = identLit ^^ {
-    idx => ScalarExpr(StringVal(idx))
+    idx => ScalarExpr(StringVal(idx.getBytes(parseCtx.settings.charset)))
   } | longNumLit ^^ {
     idx => ScalarExpr(IntegerVal(idx))
   } | variable
@@ -861,8 +862,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 }
 
 object JbjParser {
-  def apply(fileName: String, s: String): Prog = {
-    val parser = new JbjParser(ParseContext(fileName))
+  def apply(fileName: String, s: String, settings:Settings): Prog = {
+    val parser = new JbjParser(ParseContext(fileName, settings))
     parser.parse(s)
   }
 }

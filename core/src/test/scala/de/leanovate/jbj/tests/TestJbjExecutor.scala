@@ -11,28 +11,27 @@ import org.specs2.matcher.{MatchResult, BeEqualTo, Expectable, Matcher}
 
 trait TestJbjExecutor {
 
-  case class Script(prog: Prog) {
-    val jbj = JbjEnv(TestLocator)
+  case class Script(prog: Prog, jbj: JbjEnv) {
     val bOut = new ByteArrayOutputStream()
     val bErr = new ByteArrayOutputStream()
     val out = new PrintStream(bOut, false, "UTF-8")
     val err = new PrintStream(bErr, false, "UTF-8")
-    val context = jbj.newGlobalContext(out, err)
+    implicit val context = jbj.newGlobalContext(out, err)
 
     context.settings.errorReporting = Settings.E_ALL
 
     def withGet(uriStr: String) = {
-      CgiEnvironment.httpGet(uriStr, context)
+      CgiEnvironment.httpGet(uriStr)
       this
     }
 
     def withPost(uriStr: String, formData: String) = {
-      CgiEnvironment.httpPostForm(uriStr, formData, context)
+      CgiEnvironment.httpPostForm(uriStr, formData)
       this
     }
 
     def withCommandLine(args: String) = {
-      CliEnvironment.commandLine(prog.fileName, args.split(" "), context)
+      CliEnvironment.commandLine(prog.fileName, args.split(" "))
       this
     }
 
@@ -41,7 +40,7 @@ trait TestJbjExecutor {
       var thrown: Option[Throwable] = None
 
       try {
-        prog.exec(context)
+        prog.exec
       } catch {
         case e: Throwable =>
           thrown = Some(e)
@@ -59,14 +58,15 @@ trait TestJbjExecutor {
   case class ScriptResult(out: String, err: String, exception: Option[Throwable])
 
   def script(progStr: String): Script = {
+    val jbj = JbjEnv(TestLocator)
     val pseudoFileName = getClass.getName.replace("de.leanovate.jbj.tests", "").replace('.', '/') + ".inlinePhp"
-    Script(JbjParser(pseudoFileName, progStr))
+    Script(JbjParser(pseudoFileName, progStr, jbj.settings), jbj)
   }
 
   def haveOutput(expected: String) = new Matcher[ScriptResult] {
     def apply[S <: ScriptResult](t: Expectable[S]): MatchResult[S] =
       result(t.map {
-        scriptResult :S =>
+        scriptResult: S =>
           scriptResult.out
       }.applyMatcher(new BeEqualTo(expected)), t)
   }

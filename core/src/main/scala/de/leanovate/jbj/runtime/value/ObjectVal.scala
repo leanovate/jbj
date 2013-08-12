@@ -8,19 +8,19 @@ import de.leanovate.jbj.ast.NodePosition
 
 class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutable.LinkedHashMap[ArrayKey, ValueOrRef])
   extends Value with ArrayLike {
-  override def toOutput = "Array"
+  override def toOutput(implicit ctx: Context) = "Array"
 
-  override def toStr = StringVal("object")
+  override def toStr(implicit ctx: Context) = StringVal("object".getBytes(ctx.settings.charset))
 
-  override def toNum = toInteger
+  override def toNum(implicit ctx: Context) = toInteger
 
-  override def toDouble = DoubleVal(0.0)
+  override def toDouble(implicit ctx: Context) = DoubleVal(0.0)
 
-  override def toInteger = IntegerVal(0)
+  override def toInteger(implicit ctx:Context) = IntegerVal(0)
 
-  override def toBool = BooleanVal.FALSE
+  override def toBool(implicit ctx:Context) = BooleanVal.FALSE
 
-  override def toArray = new ArrayVal(keyValues.clone())
+  override def toArray(implicit ctx:Context) = new ArrayVal(keyValues.clone())
 
   override def isNull = false
 
@@ -32,7 +32,7 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutabl
 
   final def instanceOf(other: PClass): Boolean = other.isAssignableFrom(pClass)
 
-  def getProperty(name: String): Option[ValueOrRef] = keyValues.get(StringArrayKey(name))
+  def getProperty(name: String)(implicit ctx:Context): Option[ValueOrRef] = keyValues.get(StringArrayKey(name))
 
   def setProperty(name: String, value: ValueOrRef) {
     val key = StringArrayKey(name)
@@ -58,7 +58,7 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutabl
 }
 
 object ObjectVal {
-  def apply(pClass: PClass, keyValues: (Option[Value], Value)*): ObjectVal = {
+  def apply(pClass: PClass, keyValues: (Option[Value], Value)*)(implicit ctx:Context): ObjectVal = {
     var nextIndex: Long = -1
 
     new ObjectVal(pClass, pClass.instanceCounter.incrementAndGet,

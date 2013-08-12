@@ -19,7 +19,7 @@ object CgiEnvironment {
 
   implicit val position = NoNodePosition
 
-  def httpGet(uriStr: String, ctx: Context) {
+  def httpGet(uriStr: String)(implicit ctx: Context) {
     val uri = new URI(uriStr)
     val queryString = Option(uri.getQuery)
     val serverArgv = ArrayVal(URLDecoder.decode(queryString.getOrElse(""), "UTF-8").split(" ").map {
@@ -38,7 +38,7 @@ object CgiEnvironment {
     ctx.defineVariable("_REQUEST", ValueRef(requestArray.copy))
   }
 
-  def httpPostForm(uriStr: String, formData: String, ctx: Context) {
+  def httpPostForm(uriStr: String, formData: String)(implicit ctx: Context) {
     val uri = new URI(uriStr)
     val queryString = Option(uri.getQuery)
     val serverArgv = ArrayVal(URLDecoder.decode(queryString.getOrElse(""), "UTF-8").split(" ").map {

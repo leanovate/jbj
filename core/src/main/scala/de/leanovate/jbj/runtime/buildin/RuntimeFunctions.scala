@@ -8,7 +8,7 @@ object RuntimeFunctions {
   val functions: Seq[PFunction] = Seq(
     BuildinFunction1("error_reporting", {
       case (ctx, callerPosition, Some(value)) =>
-        ctx.settings.errorReporting = value.toInteger.asInt
+        ctx.settings.errorReporting = value.toInteger(ctx).asInt
         NullVal
       case _ => NullVal
     }),
@@ -18,9 +18,9 @@ object RuntimeFunctions {
       def call(ctx: Context, callerPosition: NodePosition, parameters: List[Expr]) = {
         parameters.map(_.eval(ctx)) match {
           case name :: value :: Nil =>
-            ctx.defineConstant(name.value.toStr.asString, value.value, caseInsensitive = false)
+            ctx.defineConstant(name.value.toStr(ctx).asString(ctx), value.value, caseInsensitive = false)
           case name :: value :: caseInensitive :: Nil =>
-            ctx.defineConstant(name.value.toStr.asString, value.value, caseInensitive.value.toBool.asBoolean)
+            ctx.defineConstant(name.value.toStr(ctx).asString(ctx), value.value, caseInensitive.value.toBool(ctx).asBoolean)
           case _ => ctx.log.warn(callerPosition, "var_dump() expects at least 2 parameter, %d given".format(parameters.length))
         }
         NullVal

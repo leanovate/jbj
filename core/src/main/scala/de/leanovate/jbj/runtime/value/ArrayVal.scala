@@ -13,19 +13,19 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, ValueOrRef]) exten
     case _ => 0L
   }.toList).max
 
-  override def toOutput = "Array"
+  override def toOutput(implicit ctx: Context) = "Array"
 
-  override def toStr = StringVal("Array")
+  override def toStr(implicit ctx: Context) = StringVal("Array".getBytes(ctx.settings.charset))
 
-  override def toNum = toInteger
+  override def toNum(implicit ctx: Context) = toInteger
 
-  override def toDouble = DoubleVal(0.0)
+  override def toDouble(implicit ctx: Context) = DoubleVal(0.0)
 
-  override def toInteger = IntegerVal(0)
+  override def toInteger(implicit ctx: Context) = IntegerVal(keyValues.size)
 
-  override def toBool = BooleanVal.FALSE
+  override def toBool(implicit ctx: Context) = BooleanVal.FALSE
 
-  override def toArray = this
+  override def toArray(implicit ctx: Context) = this
 
   override def isNull = false
 
@@ -58,16 +58,16 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, ValueOrRef]) exten
     }
   }
 
-override  def unsetAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) {
-  keyValues.remove(index).foreach(_.decrRefCount())
-}
+  override def unsetAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) {
+    keyValues.remove(index).foreach(_.decrRefCount())
+  }
 
 
   def count: IntegerVal = IntegerVal(keyValues.size)
 }
 
 object ArrayVal {
-  def apply(keyValues: (Option[Value], Value)*): ArrayVal = {
+  def apply(keyValues: (Option[Value], Value)*)(implicit ctx: Context): ArrayVal = {
     var nextIndex: Long = -1
 
     new ArrayVal(keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[ArrayKey, ValueOrRef]) {

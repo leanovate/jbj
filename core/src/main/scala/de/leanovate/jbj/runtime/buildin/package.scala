@@ -47,7 +47,7 @@ package object buildin {
 
     override def superClass = None
 
-    override def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Expr]) =
+    override def newInstance(parameters: List[Expr])(implicit ctx: Context, callerPosition: NodePosition) =
       new ObjectVal(this, instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ArrayKey, ValueOrRef])
 
     override def methods = Map.empty
@@ -61,16 +61,17 @@ package object buildin {
     override def superClass = None
 
 
-    override def newEmptyInstance(ctx: Context, callerPosition: NodePosition, pClass: PClass) =
+    override def newEmptyInstance(pClass: PClass)(implicit ctx: Context, callerPosition: NodePosition): ObjectVal = {
       ObjectVal(pClass,
-        Some(StringVal("message")) -> StringVal(""),
+        Some(StringVal("message")) -> StringVal(Array.emptyByteArray),
         Some(StringVal("code")) -> IntegerVal(0),
         Some(StringVal("previous")) -> NullVal,
         Some(StringVal("file")) -> StringVal(callerPosition.fileName),
         Some(StringVal("line")) -> IntegerVal(callerPosition.line))
+    }
 
-    override def newInstance(ctx: Context, callerPosition: NodePosition, parameters: List[Expr]) = {
-      val instance = newEmptyInstance(ctx, callerPosition, this)
+    override def newInstance(parameters: List[Expr])(implicit ctx: Context, callerPosition: NodePosition) = {
+      val instance = newEmptyInstance(this)
 
       parameters.map(_.eval(ctx)) match {
         case msg :: Nil =>

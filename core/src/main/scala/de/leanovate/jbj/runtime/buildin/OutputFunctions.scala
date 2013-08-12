@@ -18,7 +18,7 @@ object OutputFunctions {
     },
     BuildinFunction2("print_r", {
       case (ctx, callerPosition, Some(value), ret) =>
-        print_r(value, ret.exists(_.toBool.asBoolean))(ctx, callerPosition)
+        print_r(value, ret.exists(_.toBool(ctx).asBoolean))(ctx, callerPosition)
     })
   )
 
@@ -64,8 +64,8 @@ object OutputFunctions {
               dump(v, nextIdent)
           }
           ctx.out.println("%s}".format(ident))
-        case StringVal(str) =>
-          ctx.out.println( """%sstring(%s) "%s"""".format(ident, str.length, str))
+        case str: StringVal =>
+          ctx.out.println( """%sstring(%s) "%s"""".format(ident, str.chars.length, str.asString))
       }
     }
 

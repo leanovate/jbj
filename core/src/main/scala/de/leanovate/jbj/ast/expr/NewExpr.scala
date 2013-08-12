@@ -8,7 +8,7 @@ import java.io.PrintStream
 case class NewExpr(className: Name, parameters: List[Expr]) extends Expr {
   override def eval(implicit ctx: Context) = ctx.global.findClass(className.evalNamespaceName) match {
     case Some(pClass) =>
-      pClass.newInstance(ctx, position, parameters)
+      pClass.newInstance(parameters)
     case None =>
       ctx.log.fatal(position, "Class '%s' not found".format(className.toString))
       NullVal

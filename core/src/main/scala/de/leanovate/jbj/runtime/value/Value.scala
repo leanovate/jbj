@@ -4,19 +4,19 @@ import de.leanovate.jbj.ast.NodePosition
 import de.leanovate.jbj.runtime.{Context, ArrayKey}
 
 trait Value extends ValueOrRef {
-  def toOutput: String
+  def toOutput(implicit ctx:Context): String
 
-  def toStr: StringVal
+  def toStr(implicit ctx:Context): StringVal
 
-  def toNum: NumericVal
+  def toNum(implicit ctx:Context): NumericVal
 
-  def toInteger: IntegerVal
+  def toInteger(implicit ctx:Context): IntegerVal
 
-  def toDouble: DoubleVal
+  def toDouble(implicit ctx:Context): DoubleVal
 
-  def toBool: BooleanVal
+  def toBool(implicit ctx:Context): BooleanVal
 
-  def toArray: ArrayVal
+  def toArray(implicit ctx:Context): ArrayVal
 
   def isNull: Boolean
 
@@ -34,8 +34,7 @@ trait Value extends ValueOrRef {
 }
 
 object Value {
-  def compare(left: Value, right: Value): Int = (left, right) match {
-    case (StringVal(leftVal), StringVal(rightVal)) => leftVal.compare(rightVal)
+  def compare(left: Value, right: Value)(implicit ctx:Context): Int = (left, right) match {
     case (IntegerVal(leftVal), IntegerVal(rightVal)) => leftVal.compare(rightVal)
     case (NumericVal(leftVal), NumericVal(rightVal)) => leftVal.compare(rightVal)
     case (BooleanVal(leftVal), BooleanVal(rightVal)) => leftVal.compare(rightVal)
