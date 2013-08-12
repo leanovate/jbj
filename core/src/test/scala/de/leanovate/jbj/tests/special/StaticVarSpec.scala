@@ -35,5 +35,31 @@ class StaticVarSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Another static variable example" in {
+      script(
+        """<?php
+          |
+          |$a = 10;
+          |echo "First: $a\n";
+          |
+          |static $a = 20;
+          |echo "Second: $a\n";
+          |
+          |if ( $a < 35 ) {
+          |	static $a = 30;
+          |	echo "Third: $a\n";
+          |} else {
+          |	static $a = 40;
+          |	echo "Fourth: $a\n";
+          |}
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """First: 10
+          |Second: 40
+          |Fourth: 40
+          |""".stripMargin
+      )
+    }
   }
 }
