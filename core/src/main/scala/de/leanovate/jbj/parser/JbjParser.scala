@@ -401,7 +401,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       case 4 => "||" ^^^ ((a: Expr, b: Expr) => BoolOrExpr(a, b))
       case 5 => "&&" ^^^ ((a: Expr, b: Expr) => BoolAndExpr(a, b))
       case 6 => "|" ^^^ ((a: Expr, b: Expr) => BitOrExpr(a, b))
-      case 7 => "" ^^^ ((a: Expr, b: Expr) => BitXorExpr(a, b))
+      case 7 => "^" ^^^ ((a: Expr, b: Expr) => BitXorExpr(a, b))
       case 8 => "&" ^^^ ((a: Expr, b: Expr) => BitAndExpr(a, b))
       case 9 =>
         "==" ^^^ ((a: Expr, b: Expr) => EqExpr(a, b)) |

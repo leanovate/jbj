@@ -24,10 +24,23 @@ object StringFunctions {
         }
     }),
     BuildinFunction1("strtolower", {
-      case (ctx, _,Some(str)) => StringVal(str.toStr(ctx).asString(ctx).toLowerCase)(ctx)
+      case (ctx, _, Some(str)) => StringVal(str.toStr(ctx).asString(ctx).toLowerCase)(ctx)
     }),
     BuildinFunction1("strtoupper", {
       case (ctx, _, Some(str)) => StringVal(str.toStr(ctx).asString(ctx).toUpperCase)(ctx)
+    }),
+    BuildinFunction1("bin2hex", {
+      case (ctx, _, Some(str)) => {
+        val chars = str.toStr(ctx).chars
+        val result = new Array[Byte](chars.length * 2)
+        for (i <- Range(0, chars.length)) {
+          val ch = chars(i)
+          result(i * 2) = Character.forDigit(ch >> 4, 16).toByte
+          result(i * 2 +1) = Character.forDigit(ch & 0xf, 16).toByte
+        }
+        StringVal(result)
+      }
     })
+
   )
 }
