@@ -25,7 +25,7 @@ case class CallFunctionReference(functionName: Name, parameters: List[Expr]) ext
   private def callFunction(implicit ctx: Context): ValueOrRef = {
     val name = functionName.evalNamespaceName
     ctx.findFunction(name).map {
-      func => func.call(ctx, position, parameters)
+      func => func.call(parameters)
     }.getOrElse {
       throw new FatalErrorJbjException("Call to undefined function %s()".format(name.toString))
     }

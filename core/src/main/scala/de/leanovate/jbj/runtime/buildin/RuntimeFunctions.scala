@@ -13,9 +13,9 @@ object RuntimeFunctions {
       case _ => NullVal
     }),
     new PFunction() {
-      def name = NamespaceName(relative = false, "define")
+      override def name = NamespaceName(relative = false, "define")
 
-      def call(ctx: Context, callerPosition: NodePosition, parameters: List[Expr]) = {
+      override def call(parameters: List[Expr])(implicit  ctx: Context, callerPosition: NodePosition) = {
         parameters.map(_.eval(ctx)) match {
           case name :: value :: Nil =>
             ctx.defineConstant(name.value.toStr(ctx).asString(ctx), value.value, caseInsensitive = false)

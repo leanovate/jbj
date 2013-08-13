@@ -1,9 +1,11 @@
 package de.leanovate.jbj.runtime.adapter
 
 import de.leanovate.jbj.runtime.Context
-import de.leanovate.jbj.runtime.value.ValueOrRef
-import de.leanovate.jbj.ast.NodePosition
+import de.leanovate.jbj.ast.{Expr, NodePosition}
 
 object ContextParameterAdapter extends ParameterAdapter[Context] {
-  def adapt(parameters: List[ValueOrRef])(implicit ctx: Context, position: NodePosition) = Some(ctx, parameters)
+  override def requiredCount = 0
+
+  override def adapt(parameters: List[Expr])(implicit ctx: Context, position: NodePosition) =
+    Some(ctx, parameters)
 }

@@ -15,9 +15,9 @@ object ArrayFunctions {
       case (_, _, Some(_)) => IntegerVal(1)
     }),
     new PFunction() {
-      def name = NamespaceName(relative = false, "array_merge")
+      override def name = NamespaceName(relative = false, "array_merge")
 
-      def call(ctx: Context, callerPosition: NodePosition, parameters: List[Expr]) =
+      override def call(parameters: List[Expr])(implicit ctx: Context, callerPosition: NodePosition) =
         parameters match {
           case params if !params.isEmpty =>
             var count: Long = -1

@@ -9,10 +9,10 @@ import de.leanovate.jbj.runtime.StringArrayKey
 object OutputFunctions {
   val functions: Seq[PFunction] = Seq(
     new PFunction() {
-      def name = NamespaceName(relative = false, "var_dump")
+      override def name = NamespaceName(relative = false, "var_dump")
 
-      def call(ctx: Context, callerPosition: NodePosition, parameters: List[Expr]) = {
-        var_dump(parameters.map(_.eval(ctx)): _*)(ctx, callerPosition)
+      override def call(parameters: List[Expr])(implicit ctx: Context, callerPosition: NodePosition) = {
+        var_dump(parameters.map(_.eval(ctx)): _*)
         NullVal
       }
     },
@@ -47,9 +47,9 @@ object OutputFunctions {
         case BooleanVal(bool) =>
           ctx.out.println("%s%sbool(%s)".format(ident, isRef, if (bool) "true" else "false"))
         case d: DoubleVal =>
-          ctx.out.println( """%s%sfloat(%s)""".format(ident,isRef, d.toOutput))
+          ctx.out.println( """%s%sfloat(%s)""".format(ident, isRef, d.toOutput))
         case IntegerVal(i) =>
-          ctx.out.println( """%s%sint(%d)""".format(ident,isRef, i))
+          ctx.out.println( """%s%sint(%d)""".format(ident, isRef, i))
         case NullVal =>
           ctx.out.println("%sNULL".format(ident))
         case ObjectVal(pClass, instanceNum, keyValues) =>

@@ -20,22 +20,22 @@ case class FunctionDeclStmt(name: NamespaceName, parameterDecls: List[ParameterD
     SuccessExecResult
   }
 
-  override def call(ctx: Context, callerPosition: NodePosition, parameters: List[Expr]) = {
-    implicit val funcCtx = FunctionContext(name, callerPosition, ctx)
+  override def call(parameters: List[Expr])(implicit callerCtx: Context, callerPosition: NodePosition) = {
+    implicit val funcCtx = FunctionContext(name, callerPosition, callerCtx)
 
     if (!funcCtx.static.initialized) {
       staticInitializers.foreach(_.initializeStatic(funcCtx.static))
       funcCtx.static.initialized = true
     }
 
-    setParameters(funcCtx, ctx, callerPosition, parameters)
+    setParameters(funcCtx, callerCtx, callerPosition, parameters)
     execStmts(stmts) match {
       case SuccessExecResult => NullVal
       case ReturnExecResult(retVal) => retVal
       case result: BreakExecResult =>
-        throw new FatalErrorJbjException("Cannot break/continue %d level".format(result.depth))(ctx, result.position)
+        throw new FatalErrorJbjException("Cannot break/continue %d level".format(result.depth))(callerCtx, result.position)
       case result: ContinueExecResult =>
-        throw new FatalErrorJbjException("Cannot break/continue %d level".format(result.depth))(ctx, result.position)
+        throw new FatalErrorJbjException("Cannot break/continue %d level".format(result.depth))(callerCtx, result.position)
     }
   }
 
