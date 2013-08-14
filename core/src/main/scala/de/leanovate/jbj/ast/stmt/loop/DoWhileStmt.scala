@@ -14,8 +14,10 @@ case class DoWhileStmt(stmts: List[Stmt], condition: Expr) extends Stmt with Blo
   override def exec(implicit ctx: Context): ExecResult = {
     do {
       execStmts(stmts) match {
-        case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
+        case BreakExecResult(depth) if depth > 1 => return BreakExecResult(depth - 1)
         case BreakExecResult(_) => return SuccessExecResult
+        case ContinueExecResult(depth) if depth > 1 => return ContinueExecResult(depth - 1)
+        case ContinueExecResult(_) =>
         case result: ReturnExecResult => return result
         case _ =>
       }

@@ -13,8 +13,10 @@ case class WhileStmt(condition: Expr, stmts: List[Stmt]) extends Stmt with Block
   override def exec(implicit ctx: Context): ExecResult = {
     while (condition.eval.toBool.asBoolean) {
       execStmts(stmts) match {
-        case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
+        case BreakExecResult(depth) if depth > 1 => return BreakExecResult(depth - 1)
         case BreakExecResult(_) => return SuccessExecResult
+        case ContinueExecResult(depth) if depth > 1 => return ContinueExecResult(depth - 1)
+        case ContinueExecResult(_) =>
         case result: ReturnExecResult => return result
         case _ =>
       }

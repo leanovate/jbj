@@ -34,6 +34,8 @@ case class ForeachValueStmt(arrayExpr: Expr, valueVar:Reference, stmts: List[Stm
       execStmts(stmts) match {
         case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
         case BreakExecResult(_) => SuccessExecResult
+        case ContinueExecResult(depth) if depth > 1 => ContinueExecResult(depth - 1)
+        case ContinueExecResult(_) => execValues(tail)
         case result: ReturnExecResult => result
         case _ => execValues(tail)
       }
