@@ -60,14 +60,12 @@ package object buildin {
 
     override def superClass = None
 
-
-    override def newEmptyInstance(pClass: PClass)(implicit ctx: Context, callerPosition: NodePosition): ObjectVal = {
-      ObjectVal(pClass,
-        Some(StringVal("message")) -> StringVal(Array.emptyByteArray),
-        Some(StringVal("code")) -> IntegerVal(0),
-        Some(StringVal("previous")) -> NullVal,
-        Some(StringVal("file")) -> StringVal(callerPosition.fileName),
-        Some(StringVal("line")) -> IntegerVal(callerPosition.line))
+    override def initializeInstance(instance: ObjectVal)(implicit ctx: Context, callerPosition: NodePosition) {
+      instance.setProperty("message", StringVal(Array.emptyByteArray))
+      instance.setProperty("code", IntegerVal(0))
+      instance.setProperty("previous", NullVal)
+      instance.setProperty("file", StringVal(callerPosition.fileName))
+      instance.setProperty("line", IntegerVal(callerPosition.line))
     }
 
     override def newInstance(parameters: List[Expr])(implicit ctx: Context, callerPosition: NodePosition) = {

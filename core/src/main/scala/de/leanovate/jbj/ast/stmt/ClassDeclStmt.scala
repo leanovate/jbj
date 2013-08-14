@@ -43,12 +43,16 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     SuccessExecResult
   }
 
-  override def newEmptyInstance(pClass: PClass)(implicit ctx: Context, callerPosition: NodePosition): ObjectVal = {
-    val instance = superClass.map(_.newEmptyInstance(pClass)(ctx, callerPosition)).getOrElse(ObjectVal(pClass))
+  override def newEmptyInstance(pClass: PClass)(implicit ctx: Context, callerPosition: NodePosition): ObjectVal =
+    superClass.map(_.newEmptyInstance(pClass)(ctx, callerPosition)).getOrElse(ObjectVal(pClass))
+
+
+  override def initializeInstance(instance: ObjectVal)(implicit ctx: Context, callerPosition: NodePosition) {
     implicit val classCtx = InstanceContext(instance, callerPosition, ctx)
 
     instanceAssinments.foreach(_.exec)
-    instance
+
+    superClass.foreach(_.initializeInstance(instance)(ctx, callerPosition))
   }
 
   override def newInstance(parameters: List[Expr])(implicit ctx: Context, callerPosition: NodePosition) = {
@@ -56,6 +60,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
       throw new FatalErrorJbjException("Cannot instantiate abstract class %s".format(name.toString))(ctx, callerPosition)
     val instance = newEmptyInstance(this)(ctx, callerPosition)
 
+    initializeInstance(instance)(ctx, callerPosition)
     findConstructor.foreach(_.invoke(ctx, callerPosition, instance, parameters))
     instance
   }

@@ -9,7 +9,10 @@ import scala.collection.mutable
 import scala.util.parsing.combinator.{PackratParsers, Parsers}
 import scala.language.implicitConversions
 import de.leanovate.jbj.runtime.exception.ParseJbjException
-import de.leanovate.jbj.ast.expr.cast._
+import de.leanovate.jbj.ast.expr._
+import de.leanovate.jbj.runtime.value.StringVal
+import de.leanovate.jbj.ast.NamespaceName
+import de.leanovate.jbj.runtime.Settings
 import de.leanovate.jbj.ast.expr.VariableReference
 import de.leanovate.jbj.parser.JbjTokens.ArrayCast
 import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
@@ -26,9 +29,10 @@ import de.leanovate.jbj.ast.expr.AssignExpr
 import de.leanovate.jbj.ast.expr.IndexReference
 import de.leanovate.jbj.ast.expr.value.ClassNameConstExpr
 import de.leanovate.jbj.parser.JbjTokens.Inline
+import de.leanovate.jbj.ast.stmt.UnsetStmt
 import de.leanovate.jbj.ast.stmt.StaticVarDeclStmt
-import de.leanovate.jbj.ast.expr.calc.BitAndExpr
 import de.leanovate.jbj.ast.Prog
+import de.leanovate.jbj.ast.expr.calc.BitAndExpr
 import de.leanovate.jbj.ast.stmt.ExprStmt
 import de.leanovate.jbj.ast.expr.calc.ConcatExpr
 import de.leanovate.jbj.ast.stmt.CatchBlock
@@ -72,6 +76,7 @@ import de.leanovate.jbj.ast.stmt.ParameterDecl
 import de.leanovate.jbj.ast.stmt.ConstDeclStmt
 import de.leanovate.jbj.ast.expr.comp.BoolAndExpr
 import de.leanovate.jbj.ast.stmt.cond.IfStmt
+import de.leanovate.jbj.ast.expr.cast.BooleanCastExpr
 import de.leanovate.jbj.ast.stmt.FunctionDeclStmt
 import de.leanovate.jbj.ast.stmt.ClassMethodDeclStmt
 import de.leanovate.jbj.ast.expr.CallMethodReference
@@ -85,7 +90,7 @@ import de.leanovate.jbj.ast.expr.value.InterpolatedStringExpr
 import de.leanovate.jbj.ast.expr.comp.BoolNotExpr
 import de.leanovate.jbj.ast.expr.value.ConstGetExpr
 import de.leanovate.jbj.ast.stmt.BlockStmt
-import de.leanovate.jbj.runtime.value.StringVal
+import de.leanovate.jbj.parser.JbjTokens.BooleanCast
 import de.leanovate.jbj.parser.JbjTokens.Variable
 import de.leanovate.jbj.ast.stmt.ClassDeclStmt
 import de.leanovate.jbj.ast.stmt.BreakStmt
@@ -103,7 +108,6 @@ import de.leanovate.jbj.parser.JbjTokens.IntegerCast
 import de.leanovate.jbj.ast.expr.EvalExpr
 import de.leanovate.jbj.ast.stmt.ThrowStmt
 import de.leanovate.jbj.ast.stmt.LabelStmt
-import de.leanovate.jbj.ast.NamespaceName
 import de.leanovate.jbj.parser.JbjTokens.EncapsAndWhitespace
 import de.leanovate.jbj.ast.expr.NewExpr
 import de.leanovate.jbj.ast.expr.value.FileNameConstExpr
@@ -129,7 +133,6 @@ import de.leanovate.jbj.ast.expr.cast.IntegerCastExpr
 import de.leanovate.jbj.parser.JbjTokens.StringLit
 import de.leanovate.jbj.ast.expr.comp.BoolXorExpr
 import de.leanovate.jbj.ast.expr.GetAndIncrExpr
-import de.leanovate.jbj.runtime.Settings
 
 class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   type Elem = JbjTokens.Token
@@ -381,6 +384,10 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val exprWithoutVariable: PackratParser[Expr] =
     variable ~ "=" ~ expr ^^ {
       case v ~ _ ~ e => AssignExpr(v, e)
+    } | variable ~ "=" ~ "&" ~ variable ^^ {
+      case v ~_ ~ _ ~ ref => AssignRefExpr(v, ref)
+    } | "clone" ~> expr ^^ {
+      e => CloneExpr(e)
     } | variable ~ "+=" ~ expr ^^ {
       case v ~ _ ~ e => AddToExpr(v, e)
     } | variable ~ "-=" ~ expr ^^ {
