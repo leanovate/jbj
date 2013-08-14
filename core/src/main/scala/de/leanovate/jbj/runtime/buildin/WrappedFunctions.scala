@@ -12,6 +12,7 @@ import de.leanovate.jbj.JbjEnv
 import de.leanovate.jbj.ast.expr.value.ScalarExpr
 
 trait WrappedFunctions {
+
   import WrappedFunctions._
 
   lazy val functions: Seq[PFunction] = {
@@ -25,32 +26,6 @@ trait WrappedFunctions {
         mapMethod(member.asMethod, instance)
     }.toSeq
   }
-
-  private def mapMethod(method: MethodSymbol, instance: InstanceMirror): PFunction = {
-    val adapters = method.paramss.flatten.map(mapParameter).toSeq
-    val resultConverter = converterForClass(method.returnType)
-
-    WrappedReflectMethodFunction(NamespaceName(method.name.decoded), instance.reflectMethod(method), adapters, resultConverter)
-  }
-
-  private def mapParameter(parameter: Symbol): ParameterAdapter[_] = parameter.typeSignature match {
-    case TypeRef(_, sym, a) if sym == definitions.RepeatedParamClass => VarargParameterAdapter(converterForClass(a.head))
-    case TypeRef(_, sym, a) if sym == definitions.OptionClass => OptionParameterAdapter(converterForClass(a.head))
-    case TypeRef(_, sym, _) if sym == contextClass => ContextParameterAdapter
-    case TypeRef(_, sym, _) if sym == nodePositionClass => PositionParameterAdapter
-    case t => DefaultParamterAdapter(converterForClass(t))
-  }
-
-  private def converterForClass(_type: Type): Converter[_, _ <: Value] = _type match {
-    case t if t.typeSymbol == definitions.StringClass => StringConverter
-    case t if t.typeSymbol == definitions.IntClass => IntConverter
-    case t if t.typeSymbol == definitions.LongClass => LongConverter
-    case t if t.typeSymbol == definitions.DoubleClass => DoubleConverter
-    case t if t.typeSymbol == definitions.BooleanClass => BooleanConverter
-    case t if t.typeSymbol == valueClass => DirectConverter
-    case TypeRef(_, sym, a) if sym == definitions.ArrayClass && a.head.typeSymbol == definitions.ByteClass =>
-      ByteArrayConverter
-  }
 }
 
 object WrappedFunctions {
@@ -58,4 +33,32 @@ object WrappedFunctions {
   val contextClass = typeOf[Context].typeSymbol
   val nodePositionClass = typeOf[NodePosition].typeSymbol
   val valueClass = typeOf[Value].typeSymbol
+
+  def mapMethod(method: MethodSymbol, instance: InstanceMirror): PFunction = {
+    val adapters = method.paramss.flatten.map(mapParameter).toSeq
+    val resultConverter = converterForClass(method.returnType)
+
+    WrappedReflectMethodFunction(new NamespaceName(relative = false, method.name.decoded),
+      instance.reflectMethod(method), adapters, resultConverter)
+  }
+
+  def mapParameter(parameter: Symbol): ParameterAdapter[_] = parameter.typeSignature match {
+    case TypeRef(_, sym, a) if sym == definitions.RepeatedParamClass => VarargParameterAdapter(converterForClass(a.head))
+    case TypeRef(_, sym, a) if sym == definitions.OptionClass => OptionParameterAdapter(converterForClass(a.head))
+    case TypeRef(_, sym, _) if sym == contextClass => ContextParameterAdapter
+    case TypeRef(_, sym, _) if sym == nodePositionClass => PositionParameterAdapter
+    case t => DefaultParamterAdapter(converterForClass(t))
+  }
+
+  def converterForClass(_type: Type): Converter[_, _ <: Value] = _type match {
+    case t if t.typeSymbol == definitions.StringClass => StringConverter
+    case t if t.typeSymbol == definitions.IntClass => IntConverter
+    case t if t.typeSymbol == definitions.LongClass => LongConverter
+    case t if t.typeSymbol == definitions.DoubleClass => DoubleConverter
+    case t if t.typeSymbol == definitions.BooleanClass => BooleanConverter
+    case t if t.typeSymbol == valueClass => DirectConverter
+    case t if t.typeSymbol == definitions.UnitClass => UnitConverter
+    case TypeRef(_, sym, a) if sym == definitions.ArrayClass && a.head.typeSymbol == definitions.ByteClass =>
+      ByteArrayConverter
+  }
 }

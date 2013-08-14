@@ -2,41 +2,38 @@ package de.leanovate.jbj.runtime.buildin
 
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime._
-import de.leanovate.jbj.ast.{Expr, NodePosition, NamespaceName}
+import de.leanovate.jbj.ast.NodePosition
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.IntArrayKey
-import scala.Some
-import de.leanovate.jbj.runtime.value.IntegerVal
+import de.leanovate.jbj.runtime.annotations.GlobalFunction
 
-object ArrayFunctions {
-  val functions: Seq[PFunction] = Seq(
-    BuildinFunction1("count", {
-      case (_, _, Some(array: ArrayVal)) => array.count
-      case (_, _, Some(_)) => IntegerVal(1)
-    }),
-    new PFunction() {
-      override def name = NamespaceName(relative = false, "array_merge")
+object ArrayFunctions extends WrappedFunctions {
+  @GlobalFunction
+  def count(value: Value): Int = value match {
+    case array: ArrayVal => array.keyValues.size
+    case _ => 1
+  }
 
-      override def call(parameters: List[Expr])(implicit ctx: Context, callerPosition: NodePosition) =
-        parameters match {
-          case params if !params.isEmpty =>
-            var count: Long = -1
-            var builder = mutable.LinkedHashMap.newBuilder[ArrayKey, ValueOrRef]
-            params.foreach {
-              case array: ArrayVal =>
-                array.keyValues.map {
-                  case (IntArrayKey(_), value) =>
-                    count += 1
-                    builder += IntArrayKey(count) -> value
-                  case (key, value) =>
-                    builder += key -> value
-                }
-              case _ =>
-            }
-            new ArrayVal(builder.result())
-          case _ =>
-            ctx.log.warn(callerPosition, "array_merge() expects at least 1 parameter, 0 given")
-            NullVal
-        }
-    })
+  @GlobalFunction
+  def array_merge(values: Value*)(implicit ctx: Context, callerPosition: NodePosition): Value = {
+    if (values.isEmpty) {
+      ctx.log.warn(callerPosition, "array_merge() expects at least 1 parameter, 0 given")
+      NullVal
+    } else {
+      var count: Long = -1
+      var builder = mutable.LinkedHashMap.newBuilder[ArrayKey, ValueOrRef]
+      values.foreach {
+        case array: ArrayVal =>
+          array.keyValues.map {
+            case (IntArrayKey(_), value) =>
+              count += 1
+              builder += IntArrayKey(count) -> value
+            case (key, value) =>
+              builder += key -> value
+          }
+        case _ =>
+      }
+      new ArrayVal(builder.result())
+    }
+  }
 }

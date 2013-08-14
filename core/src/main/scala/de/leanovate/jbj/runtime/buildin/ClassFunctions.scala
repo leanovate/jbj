@@ -7,6 +7,7 @@ import de.leanovate.jbj.runtime.PFunction
 import de.leanovate.jbj.ast.NamespaceName
 
 object ClassFunctions {
+
   val functions: Seq[PFunction] = Seq(
     BuildinFunction1("get_class", {
       case (ctx, _, Some(obj: ObjectVal)) => StringVal(obj.pClass.name.toString)(ctx)

@@ -8,5 +8,5 @@ object ByteArrayConverter extends Converter[Array[Byte], StringVal] {
 
   def toScala(value: StringVal)(implicit ctx: Context) = value.chars
 
-  def toJbj(value: Array[Byte])(implicit ctx: Context) = new StringVal(value)
+  def toJbj(value: Array[Byte])(implicit ctx: Context) = StringVal(value)
 }
