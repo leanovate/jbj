@@ -9,10 +9,10 @@ import scala.collection.mutable
 import scala.util.parsing.combinator.{PackratParsers, Parsers}
 import scala.language.implicitConversions
 import de.leanovate.jbj.runtime.exception.ParseJbjException
-import de.leanovate.jbj.ast.expr._
 import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.ast.NamespaceName
 import de.leanovate.jbj.runtime.Settings
+import de.leanovate.jbj.ast.expr.calc._
 import de.leanovate.jbj.ast.expr.VariableReference
 import de.leanovate.jbj.parser.JbjTokens.ArrayCast
 import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
@@ -29,6 +29,7 @@ import de.leanovate.jbj.ast.expr.AssignExpr
 import de.leanovate.jbj.ast.expr.IndexReference
 import de.leanovate.jbj.ast.expr.value.ClassNameConstExpr
 import de.leanovate.jbj.parser.JbjTokens.Inline
+import de.leanovate.jbj.ast.expr.AssignRefExpr
 import de.leanovate.jbj.ast.stmt.UnsetStmt
 import de.leanovate.jbj.ast.stmt.StaticVarDeclStmt
 import de.leanovate.jbj.ast.Prog
@@ -105,6 +106,7 @@ import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
 import de.leanovate.jbj.ast.stmt.ClassConstDeclStmt
 import de.leanovate.jbj.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.parser.JbjTokens.IntegerCast
+import de.leanovate.jbj.ast.expr.CloneExpr
 import de.leanovate.jbj.ast.expr.EvalExpr
 import de.leanovate.jbj.ast.stmt.ThrowStmt
 import de.leanovate.jbj.ast.stmt.LabelStmt
@@ -448,6 +450,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       expr => NegExpr(expr)
     } | "!" ~> term ^^ {
       e => BoolNotExpr(e)
+    } | "~" ~> term ^^ {
+      e => BitNotExpr(e)
     } | expr ~ "instanceof" ~ classNameReference ^^ {
       case e ~ _ ~ cname => InstanceOfExpr(e, cname)
     } | parenthesisExpr | expr ~ "?" ~ expr ~ ":" ~ expr ^^ {

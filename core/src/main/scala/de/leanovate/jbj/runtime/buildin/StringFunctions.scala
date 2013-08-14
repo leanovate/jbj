@@ -36,7 +36,7 @@ object StringFunctions extends WrappedFunctions {
     val result = new Array[Byte](str.length * 2)
     for (i <- Range(0, str.length)) {
       val ch = str(i)
-      result(i * 2) = Character.forDigit(ch >> 4, 16).toByte
+      result(i * 2) = Character.forDigit((ch >> 4) & 0xf, 16).toByte
       result(i * 2 + 1) = Character.forDigit(ch & 0xf, 16).toByte
     }
     result

@@ -38,6 +38,7 @@ trait NumericVal extends Value {
   }
 
   def /(other: Value)(implicit ctx:Context): Value = (this, other) match {
+    case (NumericVal(leftVal), NumericVal(0.0)) => BooleanVal.FALSE
     case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal / rightVal)
   }
 

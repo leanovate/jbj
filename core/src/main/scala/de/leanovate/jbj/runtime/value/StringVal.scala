@@ -107,6 +107,14 @@ class StringVal(var chars: Array[Byte]) extends Value with ArrayLike {
     }
     StringVal(result)
   }
+
+  def unary_~(): Value = {
+    val result = new Array[Byte](chars.length)
+    for (i <- Range(0, result.length)) {
+      result(i) = (~chars(i)).toByte
+    }
+    StringVal(result)
+  }
 }
 
 object StringVal {

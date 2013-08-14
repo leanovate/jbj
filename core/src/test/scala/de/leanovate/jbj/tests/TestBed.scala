@@ -43,22 +43,18 @@ object TestBed {
   //A main method for testing
   def main(args: Array[String]) {
     test( """<?php
-            |class test {
-            |	public $p1 = 1;
-            |	public $p2 = 2;
-            |	public $p3;
-            |};
             |
-            |$obj = new test;
-            |$obj->p2 = 'A';
-            |$obj->p3 = 'B';
-            |$copy = clone $obj;
-            |$copy->p3 = 'C';
-            |echo "Object\n";
-            |var_dump($obj);
-            |echo "Clown\n";
-            |var_dump($copy);
-            |echo "Done\n";
+            |$strVals = array(
+            |   "0","65","-44", "1.2", "-7.7", "abc", "123abc", "123e5", "123e5xyz", " 123abc", "123 abc", "123abc ", "3.4a",
+            |   "a5.9"
+            |);
+            |
+            |
+            |foreach ($strVals as $strVal) {
+            |   echo "--- testing: '$strVal' ---\n";
+            |   var_dump(bin2hex(~$strVal));
+            |}
+            |
             |?>""".stripMargin)
   }
 }
