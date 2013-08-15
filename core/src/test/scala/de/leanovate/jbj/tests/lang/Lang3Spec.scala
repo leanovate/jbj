@@ -581,5 +581,14 @@ class Lang3Spec extends SpecificationWithJUnit with TestJbjExecutor {
         """321""".stripMargin
       )
     }
+
+    "Testing calling user-level functions from C" in {
+      // lang/028
+      script(
+        Source.fromInputStream(getClass.getResourceAsStream("028.php")).mkString("")
+      ).result must haveOutput(
+        Source.fromInputStream(getClass.getResourceAsStream("028.expected")).mkString("")
+      )
+    }
   }
 }

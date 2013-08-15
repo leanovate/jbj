@@ -10,6 +10,6 @@ case class VarargParameterAdapter[T, S <: Value](converter: Converter[T, S]) ext
   override def adapt(parameters: List[Expr])(implicit ctx: Context, position: NodePosition) =
     Some(parameters.map {
       parameter =>
-        converter.toScalaWithConversion(parameter.eval)
+        converter.toScalaWithConversion(parameter)
     }, Nil)
 }

@@ -10,7 +10,7 @@ case class DefaultParamterAdapter[T, S <: Value](converter: Converter[T, S])
 
   override def adapt(parameters: List[Expr])(implicit ctx: Context, position: NodePosition) =
     parameters match {
-      case head :: tail => Some(converter.toScalaWithConversion(head.eval), tail)
+      case head :: tail => Some(converter.toScalaWithConversion(head), tail)
       case Nil => None
     }
 }

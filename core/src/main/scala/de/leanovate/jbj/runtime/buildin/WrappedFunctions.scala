@@ -31,6 +31,7 @@ object WrappedFunctions {
   val nodePositionClass = typeOf[NodePosition].typeSymbol
   val valueClass = typeOf[Value].typeSymbol
   val valueOrRefClass = typeOf[ValueOrRef].typeSymbol
+  val exprClass = typeOf[de.leanovate.jbj.ast.Expr].typeSymbol
 
   def mapMethod(method: MethodSymbol, instance: InstanceMirror): PFunction = {
     val adapters = method.paramss.flatten.map(mapParameter).toSeq
@@ -56,6 +57,7 @@ object WrappedFunctions {
     case t if t.typeSymbol == definitions.BooleanClass => BooleanConverter
     case t if t.typeSymbol == valueClass => ValueConverter
     case t if t.typeSymbol == valueOrRefClass => ValueOrRefConverter
+    case t if t.typeSymbol == exprClass => ExprConverter
     case t if t.typeSymbol == definitions.UnitClass => UnitConverter
     case TypeRef(_, sym, a) if sym == definitions.ArrayClass && a.head.typeSymbol == definitions.ByteClass =>
       ByteArrayConverter

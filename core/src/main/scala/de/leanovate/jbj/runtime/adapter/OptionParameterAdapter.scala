@@ -9,7 +9,7 @@ case class OptionParameterAdapter[T, S <: Value](converter: Converter[T, S]) ext
 
   override def adapt(parameters: List[Expr])(implicit ctx: Context, position: NodePosition) =
     parameters match {
-      case head :: tail => Some(Some(converter.toScalaWithConversion(head.eval)), tail)
+      case head :: tail => Some(Some(converter.toScalaWithConversion(head)), tail)
       case Nil => Some(None, Nil)
     }
 }

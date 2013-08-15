@@ -12,6 +12,7 @@ package object buildin {
       ClassFunctions.functions ++
       DateFunctions.functions ++
       FileFunctions.functions ++
+      FunctionFunctions.functions ++
       StringFunctions.functions ++
       OutputFunctions.functions ++
       RuntimeFunctions.functions).map {
