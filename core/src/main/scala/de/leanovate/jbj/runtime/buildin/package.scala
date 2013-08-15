@@ -10,6 +10,7 @@ package object buildin {
   val buildinFunctions: Map[Seq[String], PFunction] = (
     ArrayFunctions.functions ++
       ClassFunctions.functions ++
+      DateFunctions.functions ++
       FileFunctions.functions ++
       StringFunctions.functions ++
       OutputFunctions.functions ++

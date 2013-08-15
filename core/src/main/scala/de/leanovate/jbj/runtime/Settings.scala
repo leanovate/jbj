@@ -1,6 +1,7 @@
 package de.leanovate.jbj.runtime
 
 import java.nio.charset.Charset
+import java.util.TimeZone
 
 class Settings extends Cloneable {
 
@@ -9,6 +10,8 @@ class Settings extends Cloneable {
   var errorReporting: Int = E_ALL & ~E_NOTICE & ~E_STRICT
 
   var charset = Charset.forName("UTF-8")
+
+  var timezone = TimeZone.getTimeZone("UTC")
 
   override def clone: Settings = super.clone().asInstanceOf[Settings]
 }
