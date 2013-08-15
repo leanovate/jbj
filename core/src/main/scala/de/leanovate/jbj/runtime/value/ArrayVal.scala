@@ -67,7 +67,7 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, ValueOrRef]) exten
 }
 
 object ArrayVal {
-  def apply(keyValues: (Option[Value], Value)*)(implicit ctx: Context): ArrayVal = {
+  def apply(keyValues: (Option[Value], ValueOrRef)*)(implicit ctx: Context): ArrayVal = {
     var nextIndex: Long = -1
 
     new ArrayVal(keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[ArrayKey, ValueOrRef]) {

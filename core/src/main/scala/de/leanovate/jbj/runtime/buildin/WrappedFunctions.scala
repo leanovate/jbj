@@ -2,14 +2,11 @@ package de.leanovate.jbj.runtime.buildin
 
 import de.leanovate.jbj.runtime.{Context, PFunction}
 import scala.reflect.runtime.universe._
-import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.adapter._
-import de.leanovate.jbj.runtime.value.{StringVal, Value}
+import de.leanovate.jbj.runtime.value.{ValueOrRef, Value}
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.adapter.VarargParameterAdapter
-import de.leanovate.jbj.ast.{NoNodePosition, NamespaceName, NodePosition}
-import de.leanovate.jbj.JbjEnv
-import de.leanovate.jbj.ast.expr.value.ScalarExpr
+import de.leanovate.jbj.ast.{NamespaceName, NodePosition}
 
 trait WrappedFunctions {
 
@@ -33,6 +30,7 @@ object WrappedFunctions {
   val contextClass = typeOf[Context].typeSymbol
   val nodePositionClass = typeOf[NodePosition].typeSymbol
   val valueClass = typeOf[Value].typeSymbol
+  val valueOrRefClass = typeOf[ValueOrRef].typeSymbol
 
   def mapMethod(method: MethodSymbol, instance: InstanceMirror): PFunction = {
     val adapters = method.paramss.flatten.map(mapParameter).toSeq
@@ -56,7 +54,8 @@ object WrappedFunctions {
     case t if t.typeSymbol == definitions.LongClass => LongConverter
     case t if t.typeSymbol == definitions.DoubleClass => DoubleConverter
     case t if t.typeSymbol == definitions.BooleanClass => BooleanConverter
-    case t if t.typeSymbol == valueClass => DirectConverter
+    case t if t.typeSymbol == valueClass => ValueConverter
+    case t if t.typeSymbol == valueOrRefClass => ValueOrRefConverter
     case t if t.typeSymbol == definitions.UnitClass => UnitConverter
     case TypeRef(_, sym, a) if sym == definitions.ArrayClass && a.head.typeSymbol == definitions.ByteClass =>
       ByteArrayConverter

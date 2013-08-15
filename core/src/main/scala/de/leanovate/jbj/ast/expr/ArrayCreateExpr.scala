@@ -1,14 +1,16 @@
 package de.leanovate.jbj.ast.expr
 
-import de.leanovate.jbj.ast.Expr
+import de.leanovate.jbj.ast.{Reference, Expr}
 import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.value.ArrayVal
 
-case class ArrayCreateExpr(keyValueExprs: List[(Option[Expr], Expr)]) extends Expr {
+case class ArrayKeyValue(key: Option[Expr], value: Expr, isRef: Boolean)
+
+case class ArrayCreateExpr(keyValueExprs: List[ArrayKeyValue]) extends Expr {
   override def eval(implicit ctx: Context) = {
     ArrayVal(keyValueExprs.map {
-      case (keyExpr, valueExpr) =>
-        (keyExpr.map(_.eval), valueExpr.eval)
+      case ArrayKeyValue(keyExpr, valueExpr: Reference, true) => (keyExpr.map(_.eval), valueExpr.evalRef)
+      case ArrayKeyValue(keyExpr, valueExpr: Expr, _) => (keyExpr.map(_.eval), valueExpr.eval)
     }: _*)
   }
 }

@@ -1,27 +1,15 @@
 package de.leanovate.jbj.runtime.buildin
 
 import de.leanovate.jbj.runtime.value._
-import de.leanovate.jbj.runtime.{Context, PFunction}
-import de.leanovate.jbj.ast.{Expr, NodePosition, NamespaceName}
+import de.leanovate.jbj.runtime.Context
+import de.leanovate.jbj.ast.NodePosition
 import de.leanovate.jbj.runtime.IntArrayKey
 import de.leanovate.jbj.runtime.StringArrayKey
+import de.leanovate.jbj.runtime.annotations.GlobalFunction
 
-object OutputFunctions {
-  val functions: Seq[PFunction] = Seq(
-    new PFunction() {
-      override def name = NamespaceName(relative = false, "var_dump")
+object OutputFunctions extends WrappedFunctions {
 
-      override def call(parameters: List[Expr])(implicit ctx: Context, callerPosition: NodePosition) = {
-        var_dump(parameters.map(_.eval(ctx)): _*)
-        NullVal
-      }
-    },
-    BuildinFunction2("print_r", {
-      case (ctx, callerPosition, Some(value), ret) =>
-        print_r(value, ret.exists(_.toBool(ctx).asBoolean))(ctx, callerPosition)
-    })
-  )
-
+  @GlobalFunction
   def var_dump(values: ValueOrRef*)(implicit ctx: Context, position: NodePosition) {
     if (values.isEmpty)
       ctx.log.warn(position, "var_dump() expects at least 1 parameter, 0 given")
@@ -72,7 +60,8 @@ object OutputFunctions {
     values.foreach(dump(_, ""))
   }
 
-  def print_r(value: Value, ret: Boolean = false)(implicit ctx: Context, position: NodePosition): Value = {
+  @GlobalFunction
+  def print_r(value: Value, ret: Option[Boolean])(implicit ctx: Context, position: NodePosition): Value = {
     def dump(value: ValueOrRef): List[String] = {
       value match {
         case ArrayVal(keyValues) =>
@@ -101,7 +90,7 @@ object OutputFunctions {
       }
     }
 
-    if (ret)
+    if (ret.getOrElse(false))
       StringVal(dump(value).mkString("\n") + "\n")
     else {
       dump(value).foreach(ctx.out.println)

@@ -12,7 +12,7 @@ import de.leanovate.jbj.runtime.exception.ParseJbjException
 import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.ast.NamespaceName
 import de.leanovate.jbj.runtime.Settings
-import de.leanovate.jbj.ast.expr.calc._
+import de.leanovate.jbj.ast.expr._
 import de.leanovate.jbj.ast.expr.VariableReference
 import de.leanovate.jbj.parser.JbjTokens.ArrayCast
 import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
@@ -74,6 +74,7 @@ import de.leanovate.jbj.parser.JbjTokens.HereDocStart
 import de.leanovate.jbj.ast.FileNodePosition
 import de.leanovate.jbj.ast.stmt.loop.ForStmt
 import de.leanovate.jbj.ast.stmt.ParameterDecl
+import de.leanovate.jbj.ast.expr.calc.BitNotExpr
 import de.leanovate.jbj.ast.stmt.ConstDeclStmt
 import de.leanovate.jbj.ast.expr.comp.BoolAndExpr
 import de.leanovate.jbj.ast.stmt.cond.IfStmt
@@ -238,7 +239,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val finallyStatement: PackratParser[List[Stmt]] =
     opt("finally" ~> "{" ~> innerStatementList <~ "}") ^^ (_.getOrElse(Nil))
 
-  lazy val unsetVariables : PackratParser[List[Reference]] = rep1sep(variable, ",")
+  lazy val unsetVariables: PackratParser[List[Reference]] = rep1sep(variable, ",")
 
   lazy val functionDeclarationStatement: PackratParser[FunctionDeclStmt] = untickedFunctionDeclarationStatement <~ rep(";")
 
@@ -387,7 +388,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     variable ~ "=" ~ expr ^^ {
       case v ~ _ ~ e => AssignExpr(v, e)
     } | variable ~ "=" ~ "&" ~ variable ^^ {
-      case v ~_ ~ _ ~ ref => AssignRefExpr(v, ref)
+      case v ~ _ ~ _ ~ ref => AssignRefExpr(v, ref)
     } | "clone" ~> expr ^^ {
       e => CloneExpr(e)
     } | variable ~ "+=" ~ expr ^^ {
@@ -596,10 +597,9 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     interpolated => InterpolatedStringExpr(interpolated)
   } | "__CLASS__" ^^^ ClassNameConstExpr()
 
-  lazy val staticArrayPairList: PackratParser[List[(Option[Expr], Expr)]] = repsep(
-    staticScalar ~ opt("=>" ~> staticScalar) ^^ {
-      case keyExpr ~ Some(valueExpr) => Some(keyExpr) -> valueExpr
-      case valueExpr ~ None => None -> valueExpr
+  lazy val staticArrayPairList: PackratParser[List[ArrayKeyValue]] = repsep(
+    opt(staticScalar <~ "=>") ~ staticScalar ^^ {
+      case keyExpr ~ valueExpr => ArrayKeyValue(keyExpr,valueExpr, isRef = false)
     }, ",") <~ opt(",")
 
   lazy val expr: PackratParser[Expr] = exprWithoutVariable ||| rVariable
@@ -737,10 +737,11 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     })
 
 
-  lazy val arrayPairList: PackratParser[List[(Option[Expr], Expr)]] = repsep(
-    expr ~ opt("=>" ~> expr) ^^ {
-      case keyExpr ~ Some(valueExpr) => Some(keyExpr) -> valueExpr
-      case valueExpr ~ None => None -> valueExpr
+  lazy val arrayPairList: PackratParser[List[ArrayKeyValue]] = repsep(
+    opt(expr <~ "=>") ~ expr ^^ {
+      case keyExpr ~ valueExpr => ArrayKeyValue(keyExpr, valueExpr, isRef = false)
+    } | opt(expr <~ "=>") ~ "&" ~ variable ^^ {
+      case keyExpr ~ _ ~ v => ArrayKeyValue(keyExpr, v, isRef = true)
     }, ",") <~ opt(",")
 
   lazy val encapsList: PackratParser[List[Either[String, Expr]]] =
@@ -873,7 +874,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 }
 
 object JbjParser {
-  def apply(fileName: String, s: String, settings:Settings): Prog = {
+  def apply(fileName: String, s: String, settings: Settings): Prog = {
     val parser = new JbjParser(ParseContext(fileName, settings))
     parser.parse(s)
   }

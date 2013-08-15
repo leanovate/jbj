@@ -1,18 +1,14 @@
 package de.leanovate.jbj.runtime.buildin
 
-import de.leanovate.jbj.runtime.PFunction
-import de.leanovate.jbj.runtime.value.StringVal
+import de.leanovate.jbj.runtime.annotations.GlobalFunction
 
-object FileFunctions {
-  val functions: Seq[PFunction] = Seq(
-    BuildinFunction1("dirname", {
-      case (ctx, callerPosition, Some(name)) =>
-        val fileName = name.toStr(ctx).asString(ctx)
-        val idx = fileName.lastIndexOf('/')
-        StringVal(if (idx >= 0)
-          fileName.substring(0, idx)
-        else
-          "")(ctx)
-    })
-  )
+object FileFunctions extends WrappedFunctions {
+  @GlobalFunction
+  def dirname(fileName: String): String = {
+    val idx = fileName.lastIndexOf('/')
+    if (idx >= 0)
+      fileName.substring(0, idx)
+    else
+      ""
+  }
 }
