@@ -1,11 +1,14 @@
 package de.leanovate.jbj.ast.stmt
 
-import de.leanovate.jbj.ast.{ReferableExpr, NodePosition, Expr}
-import de.leanovate.jbj.runtime.Context
-import de.leanovate.jbj.runtime.value.PVar
+import de.leanovate.jbj.ast.{Stmt, ReferableExpr, NodePosition, Expr}
+import de.leanovate.jbj.runtime._
+import de.leanovate.jbj.runtime.value.{NullVal, PVar}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.BreakExecResult
+import de.leanovate.jbj.runtime.ReturnExecResult
+import scala.Some
 
-trait FunctionLike {
+trait FunctionLike extends BlockLike {
 
   def parameterDecls: List[ParameterDecl]
 
@@ -16,7 +19,13 @@ trait FunctionLike {
         if (parameterIt.hasNext) {
           parameterIt.next() match {
             case reference: ReferableExpr if parameterDecl.byRef =>
-              funcCtx.defineVariable(parameterDecl.variableName, reference.evalVar(callerContext))(callerPosition)
+              val pVar = reference.evalVar(callerContext) match {
+                case pVar: PVar => pVar
+                case pAny =>
+                  callerContext.log.strict(callerPosition, "Only variables should be passed by reference")
+                  PVar(pAny.value)
+              }
+              funcCtx.defineVariable(parameterDecl.variableName, pVar)(callerPosition)
             case _ if parameterDecl.byRef =>
               throw new FatalErrorJbjException("Only variables can be passed by reference")(callerContext, callerPosition)
             case expr =>
@@ -27,4 +36,27 @@ trait FunctionLike {
         }
     }
   }
+
+  def perform(funcCtx: Context, returnByRef: Boolean, stmts: List[Stmt]) =
+    execStmts(stmts)(funcCtx) match {
+      case SuccessExecResult => NullVal
+      case ret: ReturnExecResult => ret.expr match {
+        case Some(referable: ReferableExpr) if returnByRef => referable.evalVar(funcCtx) match {
+          case pVar: PVar => pVar
+          case pAny =>
+            funcCtx.log.notice(ret.position, "Only variable references should be returned by reference")
+            pAny
+        }
+        case Some(expr) if returnByRef =>
+          funcCtx.log.notice(ret.position, "Only variable references should be returned by reference")
+          expr.eval(funcCtx)
+        case Some(expr) => expr.eval(funcCtx)
+        case None => NullVal
+      }
+      case result: BreakExecResult =>
+        throw new FatalErrorJbjException("Cannot break/continue %d level".format(result.depth))(funcCtx, result.position)
+      case result: ContinueExecResult =>
+        throw new FatalErrorJbjException("Cannot break/continue %d level".format(result.depth))(funcCtx, result.position)
+    }
+
 }

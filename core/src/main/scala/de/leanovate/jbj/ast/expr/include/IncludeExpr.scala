@@ -2,7 +2,7 @@ package de.leanovate.jbj.ast.expr.include
 
 import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.runtime.{ReturnExecResult, Context}
-import de.leanovate.jbj.runtime.value.BooleanVal
+import de.leanovate.jbj.runtime.value.{NullVal, BooleanVal}
 import java.io.PrintStream
 
 case class IncludeExpr(file: Expr) extends Expr {
@@ -12,7 +12,7 @@ case class IncludeExpr(file: Expr) extends Expr {
     ctx.global.include(filename) match {
       case Some((prog, _)) =>
         prog.exec match {
-          case ReturnExecResult(v) => v
+          case ReturnExecResult(returnExpr) => returnExpr.map(_.eval).getOrElse(NullVal)
           case _ => BooleanVal.TRUE
         }
       case _ =>

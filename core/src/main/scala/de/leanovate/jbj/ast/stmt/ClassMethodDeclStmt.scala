@@ -7,8 +7,9 @@ import java.io.PrintStream
 import de.leanovate.jbj.runtime.context.MethodContext
 import de.leanovate.jbj.runtime.context.StaticMethodContext
 import de.leanovate.jbj.runtime.ReturnExecResult
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
-case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: String, parameterDecls: List[ParameterDecl],
+case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: String, returnByRef: Boolean, parameterDecls: List[ParameterDecl],
                                stmts: List[Stmt]) extends Stmt with PMethod with BlockLike with FunctionLike {
   private lazy val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
@@ -27,10 +28,7 @@ case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: Strin
     }
 
     setParameters(methodCtx, ctx, callerPosition, parameters)
-    execStmts(stmts) match {
-      case ReturnExecResult(returnVal) => returnVal
-      case _ => NullVal
-    }
+    perform(methodCtx, returnByRef, stmts)
   }
 
   override def invokeStatic(ctx: Context, callerPosition: NodePosition, pClass: PClass, parameters: List[Expr]) = {
@@ -46,10 +44,7 @@ case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: Strin
     if (!isStatic)
       ctx.log.strict(callerPosition, "Non-static method %s::%s() should not be called statically".format(pClass.name.toString, name))
 
-    execStmts(stmts) match {
-      case ReturnExecResult(returnVal) => returnVal
-      case _ => NullVal
-    }
+    perform(methodCtx, returnByRef, stmts)
   }
 
   override def dump(out: PrintStream, ident: String) {

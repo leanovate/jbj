@@ -9,12 +9,7 @@ import java.io.PrintStream
 case class CallFunctionReferableExpr(functionName: Name, parameters: List[Expr]) extends ReferableExpr {
   override def eval(implicit ctx: Context) = callFunction.value
 
-  override def evalVar(implicit ctx: Context) = callFunction match {
-    case pVar: PVar => pVar
-    case pAny =>
-      ctx.log.strict(position, "Only variables should be passed by reference")
-      PVar(pAny.value)
-  }
+  override def evalVar(implicit ctx: Context) = callFunction
 
   override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
     callFunction match {

@@ -52,24 +52,7 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
   }
 
   override def evalVar(implicit ctx: Context) = {
-    val optArray: Option[ArrayLike] = if (!reference.isDefined) {
-      val array = ArrayVal()
-      reference.assignVar(array)
-      Some(array)
-    } else {
-      reference.eval.value match {
-        case array: ArrayLike =>
-          Some(array)
-        case NullVal =>
-          val array = ArrayVal()
-          reference.assignVar(array)
-          Some(array)
-        case _ =>
-          None
-      }
-    }
-
-    optArray.map {
+    parentArray.map {
       array =>
         optArrayKey match {
           case Some(key) =>
@@ -93,31 +76,38 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
   }
 
   override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
-    if (!reference.isDefined) {
-      val array = ArrayVal()
-      reference.assignVar(array)
-      array.setAt(optArrayKey, valueOrRef)
-    } else {
-      reference.eval.value match {
-        case array: ArrayLike =>
-          array.setAt(optArrayKey, valueOrRef)
-        case NullVal =>
-          val array = ArrayVal()
-          reference.assignVar(array)
-          array.setAt(optArrayKey, valueOrRef)
-        case v =>
-          ctx.log.warn(position, "Cannot use a scalar value as an array")
-      }
+    parentArray.map {
+      array =>
+        array.setAt(optArrayKey, valueOrRef)
+    }.getOrElse {
+      ctx.log.warn(position, "Cannot use a scalar value as an array")
     }
   }
 
-  override def unsetVar(implicit ctx:Context) {
+  override def unsetVar(implicit ctx: Context) {
     optArrayKey.foreach {
       arrayKey =>
         reference.eval match {
           case array: ArrayLike => array.getAt(arrayKey).isDefined
           case _ => false
         }
+    }
+  }
+
+  private def parentArray(implicit ctx: Context) = if (!reference.isDefined) {
+    val array = ArrayVal()
+    reference.assignVar(array)
+    Some(array)
+  } else {
+    reference.eval.value match {
+      case array: ArrayLike =>
+        Some(array)
+      case NullVal =>
+        val array = ArrayVal()
+        reference.assignVar(array)
+        Some(array)
+      case _ =>
+        None
     }
   }
 

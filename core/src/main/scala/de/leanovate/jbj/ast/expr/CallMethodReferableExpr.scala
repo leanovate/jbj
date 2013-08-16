@@ -10,12 +10,7 @@ import scala.Some
 case class CallMethodReferableExpr(instanceExpr: Expr, methodName: Name, parameters: List[Expr]) extends ReferableExpr {
   override def eval(implicit ctx: Context) = callMethod.value
 
-  override def evalVar(implicit ctx: Context) = callMethod match {
-    case pVar: PVar => pVar
-    case pAny =>
-      ctx.log.strict(position, "Only variables should be passed by reference")
-      PVar(pAny.value)
-  }
+  override def evalVar(implicit ctx: Context) = callMethod
 
   override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {}
 

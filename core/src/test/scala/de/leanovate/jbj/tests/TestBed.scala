@@ -43,26 +43,32 @@ object TestBed {
   //A main method for testing
   def main(args: Array[String]) {
     test( """<?php
-            |class par {
-            |	private $id = "foo";
-            |
-            |	function displayMe()
-            |	{
-            |		print $this->id;
-            |	}
-            |};
-            |
-            |class chld extends par {
-            |	public $id = "bar";
-            |	function displayHim()
-            |	{
-            |		parent::displayMe();
-            |	}
-            |};
             |
             |
-            |$obj = new chld();
-            |$obj->displayHim();
-            |?>""".stripMargin)
+            |function &returnVarByRef () {
+            |    $b=1;
+            |	return $b;
+            |}
+            |
+            |function &testReturnVarByRef() {
+            |	return returnVarByRef();
+            |}
+            |
+            |function returnVal () {
+            |return 1;
+            |}
+            |
+            |function &testReturnValByRef() {
+            |	return returnVal();
+            |}
+            |
+            |echo "\n---> 1. Return a variable by reference -> No warning:\n";
+            |
+            |var_dump (testReturnVarByRef());
+            |
+            |echo "\n---> 2. Return a value by reference -> Warning:\n";
+            |
+            |var_dump (testReturnValByRef());
+            |""".stripMargin)
   }
 }

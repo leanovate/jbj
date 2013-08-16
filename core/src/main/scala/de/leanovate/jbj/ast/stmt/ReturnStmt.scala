@@ -6,6 +6,6 @@ import de.leanovate.jbj.runtime.value.NullVal
 
 case class ReturnStmt(expr: Option[Expr]) extends Stmt {
   override def exec(implicit ctx: Context) = {
-    ReturnExecResult(expr.map(_.eval).getOrElse(NullVal))
+    ReturnExecResult(expr)
   }
 }

@@ -31,10 +31,10 @@ case class FunctionContext(functionName: NamespaceName, callerPosition: NodePosi
 
   def findVariable(name: String)(implicit position: NodePosition): Option[PVar] = localVariables.get(name)
 
-  def defineVariable(name: String, valueRef: PVar)(implicit position: NodePosition)  {
+  def defineVariable(name: String, pVar: PVar)(implicit position: NodePosition)  {
     localVariables.get(name).foreach(_.decrRefCount())
-    localVariables.put(name, valueRef)
-    valueRef.incrRefCount()
+    localVariables.put(name, pVar)
+    pVar.incrRefCount()
   }
 
   def undefineVariable(name: String) {

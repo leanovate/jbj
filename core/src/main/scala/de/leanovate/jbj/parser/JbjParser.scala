@@ -247,7 +247,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val untickedFunctionDeclarationStatement: PackratParser[FunctionDeclStmt] =
     "function" ~ opt("&") ~ identLit ~ "(" ~ parameterList ~ ")" ~ "{" ~ innerStatementList <~ "}" ^^ {
-      case func ~ isRef ~ name ~ _ ~ params ~ _ ~ _ ~ body => FunctionDeclStmt(NamespaceName(relative = true, name), params, body)
+      case func ~ isRef ~ name ~ _ ~ params ~ _ ~ _ ~ body =>
+        FunctionDeclStmt(NamespaceName(relative = true, name), isRef.isDefined, params, body)
     }
 
   lazy val untickedClassDeclarationStatement: PackratParser[ClassDeclStmt] =
@@ -339,7 +340,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     assignments => ClassConstDeclStmt(assignments)
   } | traitUseStatement |
     methodModifiers ~ "function" ~ opt("&") ~ identLit ~ "(" ~ parameterList ~ ")" ~ methodBody ^^ {
-      case modifiers ~ _ ~ optRef ~ name ~ _ ~ params ~ _ ~ stmts => ClassMethodDeclStmt(modifiers, name, params, stmts)
+      case modifiers ~ _ ~ isRef ~ name ~ _ ~ params ~ _ ~ stmts =>
+        ClassMethodDeclStmt(modifiers, name, isRef.isDefined, params, stmts)
     }
 
   lazy val traitUseStatement: PackratParser[TraitUseStmt] = "use" ~> traitList <~ ";" ^^ {
