@@ -4,7 +4,7 @@ import de.leanovate.jbj.ast._
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.SuccessExecResult
 import scala.collection.mutable
-import de.leanovate.jbj.runtime.value.{PAnyVal, ObjectVal}
+import de.leanovate.jbj.runtime.value.{PVal, ObjectVal}
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.InstanceContext

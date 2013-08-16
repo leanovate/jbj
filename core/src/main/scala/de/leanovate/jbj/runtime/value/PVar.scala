@@ -2,14 +2,14 @@ package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.Context
 
-class VarRef(private var current: Option[PAnyVal] = None) extends PAnyRef {
+class PVar(private var current: Option[PVal] = None) extends PAny {
   private var _refCount = 0
 
   def toOutput(implicit ctx: Context): String = current.map(_.toOutput).getOrElse("")
 
   def value = current.getOrElse(NullVal)
 
-  def value_=(v: PAnyVal) {
+  def value_=(v: PVal) {
     current = Some(v)
   }
 
@@ -28,10 +28,10 @@ class VarRef(private var current: Option[PAnyVal] = None) extends PAnyRef {
   }
 }
 
-object VarRef {
-  def apply(): VarRef = new VarRef(None)
+object PVar {
+  def apply(): PVar = new PVar(None)
 
-  def apply(v: PAnyVal): VarRef = new VarRef(Some(v))
+  def apply(v: PVal): PVar = new PVar(Some(v))
 
-  def apply(optVal: Option[PAny]) = new VarRef(optVal.map(_.value))
+  def apply(optVal: Option[PAny]) = new PVar(optVal.map(_.value))
 }

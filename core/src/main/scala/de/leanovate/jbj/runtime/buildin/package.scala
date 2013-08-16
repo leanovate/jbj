@@ -19,7 +19,7 @@ package object buildin {
     function => function.name.lowercase -> function
   }.toMap
 
-  val buildinConstants: Map[String, PAnyVal] = Seq(
+  val buildinConstants: Map[String, PVal] = Seq(
     "TRUE" -> BooleanVal.TRUE,
     "FALSE" -> BooleanVal.FALSE,
     "NULL" -> NullVal,

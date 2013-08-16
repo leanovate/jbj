@@ -3,7 +3,7 @@ package de.leanovate.jbj.runtime.value
 import de.leanovate.jbj.ast.NodePosition
 import de.leanovate.jbj.runtime.{Context, ArrayKey}
 
-trait PAnyVal extends PAny {
+trait PVal extends PAny {
   def toOutput(implicit ctx:Context): String
 
   def toStr(implicit ctx:Context): StringVal
@@ -20,11 +20,11 @@ trait PAnyVal extends PAny {
 
   def isNull: Boolean
 
-  def copy: PAnyVal
+  def copy: PVal
 
-  def incr: PAnyVal
+  def incr: PVal
 
-  def decr: PAnyVal
+  def decr: PVal
 
   final override def value = this
 
@@ -33,8 +33,8 @@ trait PAnyVal extends PAny {
   final override def decrRefCount() {}
 }
 
-object PAnyVal {
-  def compare(left: PAnyVal, right: PAnyVal)(implicit ctx:Context): Int = (left, right) match {
+object PVal {
+  def compare(left: PVal, right: PVal)(implicit ctx:Context): Int = (left, right) match {
     case (IntegerVal(leftVal), IntegerVal(rightVal)) => leftVal.compare(rightVal)
     case (NumericVal(leftVal), NumericVal(rightVal)) => leftVal.compare(rightVal)
     case (BooleanVal(leftVal), BooleanVal(rightVal)) => leftVal.compare(rightVal)

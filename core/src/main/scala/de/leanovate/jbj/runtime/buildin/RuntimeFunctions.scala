@@ -1,6 +1,6 @@
 package de.leanovate.jbj.runtime.buildin
 
-import de.leanovate.jbj.runtime.value.{PAny, PAnyVal, NullVal}
+import de.leanovate.jbj.runtime.value.{PAny, PVal, NullVal}
 import de.leanovate.jbj.runtime.{Context, PFunction}
 import de.leanovate.jbj.ast.{Expr, NamespaceName, NodePosition}
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
@@ -13,7 +13,7 @@ object RuntimeFunctions extends WrappedFunctions {
   }
 
   @GlobalFunction
-  def define(name: String, value: PAnyVal, caseInsensitive: Option[Boolean])(implicit ctx: Context) {
+  def define(name: String, value: PVal, caseInsensitive: Option[Boolean])(implicit ctx: Context) {
     ctx.defineConstant(name, value, caseInsensitive.getOrElse(false))
   }
 

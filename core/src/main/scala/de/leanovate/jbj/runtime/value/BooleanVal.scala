@@ -2,7 +2,7 @@ package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.Context
 
-abstract class BooleanVal extends PAnyVal {
+abstract class BooleanVal extends PVal {
   def asBoolean: Boolean
 
   override def toBool(implicit ctx: Context) = this

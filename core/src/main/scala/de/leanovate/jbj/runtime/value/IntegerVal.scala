@@ -22,15 +22,15 @@ case class IntegerVal(asLong: Long) extends NumericVal {
 
   def asInt = asLong.toInt
 
-  def &(other: IntegerVal): PAnyVal = IntegerVal(this.asLong & other.asLong)
+  def &(other: IntegerVal): PVal = IntegerVal(this.asLong & other.asLong)
 
-  def |(other: IntegerVal): PAnyVal = IntegerVal(this.asLong | other.asLong)
+  def |(other: IntegerVal): PVal = IntegerVal(this.asLong | other.asLong)
 
-  def ^(other: IntegerVal): PAnyVal = IntegerVal(this.asLong ^ other.asLong)
+  def ^(other: IntegerVal): PVal = IntegerVal(this.asLong ^ other.asLong)
 
-  def unary_~(): PAnyVal = IntegerVal(~asLong)
+  def unary_~(): PVal = IntegerVal(~asLong)
 
-  def %(other: PAnyVal): PAnyVal = (this, other) match {
+  def %(other: PVal): PVal = (this, other) match {
     case (_, IntegerVal(0)) => BooleanVal.FALSE
     case (IntegerVal(leftVal), IntegerVal(rightVal)) => IntegerVal(leftVal % rightVal)
   }

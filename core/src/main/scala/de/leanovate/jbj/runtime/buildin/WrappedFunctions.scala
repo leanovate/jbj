@@ -3,7 +3,7 @@ package de.leanovate.jbj.runtime.buildin
 import de.leanovate.jbj.runtime.{Context, PFunction}
 import scala.reflect.runtime.universe._
 import de.leanovate.jbj.runtime.adapter._
-import de.leanovate.jbj.runtime.value.{PAny, PAnyVal}
+import de.leanovate.jbj.runtime.value.{PAny, PVal}
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.adapter.VarargParameterAdapter
 import de.leanovate.jbj.ast.{NamespaceName, NodePosition}
@@ -29,7 +29,7 @@ object WrappedFunctions {
   val globalFunctionClass = typeOf[GlobalFunction].typeSymbol
   val contextClass = typeOf[Context].typeSymbol
   val nodePositionClass = typeOf[NodePosition].typeSymbol
-  val valueClass = typeOf[PAnyVal].typeSymbol
+  val valueClass = typeOf[PVal].typeSymbol
   val valueOrRefClass = typeOf[PAny].typeSymbol
   val exprClass = typeOf[de.leanovate.jbj.ast.Expr].typeSymbol
 
@@ -49,7 +49,7 @@ object WrappedFunctions {
     case t => DefaultParamterAdapter(converterForClass(t))
   }
 
-  def converterForClass(_type: Type): Converter[_, _ <: PAnyVal] = _type match {
+  def converterForClass(_type: Type): Converter[_, _ <: PVal] = _type match {
     case t if t.typeSymbol == definitions.StringClass => StringConverter
     case t if t.typeSymbol == definitions.IntClass => IntConverter
     case t if t.typeSymbol == definitions.LongClass => LongConverter

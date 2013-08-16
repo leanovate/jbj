@@ -3,7 +3,7 @@ package de.leanovate.jbj.runtime.value
 import de.leanovate.jbj.runtime.{Context, ArrayKey}
 import de.leanovate.jbj.ast.NodePosition
 
-object NullVal extends PAnyVal {
+object NullVal extends PVal {
   override def toOutput(implicit ctx:Context) = ""
 
   override def toStr(implicit ctx:Context) = StringVal("")

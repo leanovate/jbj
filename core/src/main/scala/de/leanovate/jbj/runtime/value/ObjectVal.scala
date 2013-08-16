@@ -7,7 +7,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.ast.NodePosition
 
 class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutable.LinkedHashMap[ArrayKey, PAny])
-  extends PAnyVal with ArrayLike {
+  extends PVal with ArrayLike {
   override def toOutput(implicit ctx: Context) = "Array"
 
   override def toStr(implicit ctx: Context) = StringVal("object".getBytes(ctx.settings.charset))
@@ -58,7 +58,7 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutabl
 }
 
 object ObjectVal {
-  def apply(pClass: PClass, keyValues: (Option[PAnyVal], PAnyVal)*)(implicit ctx:Context): ObjectVal = {
+  def apply(pClass: PClass, keyValues: (Option[PVal], PVal)*)(implicit ctx:Context): ObjectVal = {
     var nextIndex: Long = -1
 
     new ObjectVal(pClass, pClass.instanceCounter.incrementAndGet,

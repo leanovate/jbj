@@ -16,8 +16,8 @@ object OutputFunctions extends WrappedFunctions {
 
     def dump(valueOfRef: PAny, ident: String) {
       val (value, isRef) = valueOfRef match {
-        case valueRef: VarRef => valueRef.value -> "&"
-        case value: PAnyVal => value -> ""
+        case valueRef: PVar => valueRef.value -> "&"
+        case value: PVal => value -> ""
       }
       value match {
         case ArrayVal(keyValues) =>
@@ -61,7 +61,7 @@ object OutputFunctions extends WrappedFunctions {
   }
 
   @GlobalFunction
-  def print_r(value: PAnyVal, ret: Option[Boolean])(implicit ctx: Context, position: NodePosition): PAnyVal = {
+  def print_r(value: PVal, ret: Option[Boolean])(implicit ctx: Context, position: NodePosition): PVal = {
     def dump(value: PAny): List[String] = {
       value match {
         case ArrayVal(keyValues) =>

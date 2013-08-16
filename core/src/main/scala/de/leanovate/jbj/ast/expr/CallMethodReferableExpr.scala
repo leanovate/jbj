@@ -10,9 +10,14 @@ import scala.Some
 case class CallMethodReferableExpr(instanceExpr: Expr, methodName: Name, parameters: List[Expr]) extends ReferableExpr {
   override def eval(implicit ctx: Context) = callMethod.value
 
-  override def evalRef(implicit ctx: Context) = callMethod
+  override def evalVar(implicit ctx: Context) = callMethod match {
+    case pVar: PVar => pVar
+    case pAny =>
+      ctx.log.strict(position, "Only variables should be passed by reference")
+      PVar(pAny.value)
+  }
 
-  override def assignRef(valueOrRef: PAny)(implicit ctx: Context) {}
+  override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {}
 
   override def dump(out: PrintStream, ident: String) {
     out.println(ident + getClass.getSimpleName + " " + methodName + " " + position)
@@ -23,7 +28,7 @@ case class CallMethodReferableExpr(instanceExpr: Expr, methodName: Name, paramet
     }
   }
 
-  override def unsetRef(implicit ctx:Context) {
+  override def unsetVar(implicit ctx:Context) {
     throw new FatalErrorJbjException("Can't use function return value in write context")
   }
 

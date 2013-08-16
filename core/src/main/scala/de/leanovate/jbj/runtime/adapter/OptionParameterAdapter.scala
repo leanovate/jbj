@@ -1,10 +1,10 @@
 package de.leanovate.jbj.runtime.adapter
 
-import de.leanovate.jbj.runtime.value.{PAnyVal, PAny}
+import de.leanovate.jbj.runtime.value.{PVal, PAny}
 import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.ast.{Expr, NodePosition}
 
-case class OptionParameterAdapter[T, S <: PAnyVal](converter: Converter[T, S]) extends ParameterAdapter[Option[T]] {
+case class OptionParameterAdapter[T, S <: PVal](converter: Converter[T, S]) extends ParameterAdapter[Option[T]] {
   override def requiredCount = 0
 
   override def adapt(parameters: List[Expr])(implicit ctx: Context, position: NodePosition) =

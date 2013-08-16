@@ -51,10 +51,10 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
     }.getOrElse(NullVal)
   }
 
-  override def evalRef(implicit ctx: Context) = {
+  override def evalVar(implicit ctx: Context) = {
     val optArray: Option[ArrayLike] = if (!reference.isDefined) {
       val array = ArrayVal()
-      reference.assignRef(array)
+      reference.assignVar(array)
       Some(array)
     } else {
       reference.eval.value match {
@@ -62,7 +62,7 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
           Some(array)
         case NullVal =>
           val array = ArrayVal()
-          reference.assignRef(array)
+          reference.assignVar(array)
           Some(array)
         case _ =>
           None
@@ -74,28 +74,28 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
         optArrayKey match {
           case Some(key) =>
             array.getAt(key) match {
-              case Some(valueRef: VarRef) =>
+              case Some(valueRef: PVar) =>
                 valueRef
               case someValue =>
-                val result = VarRef(someValue)
+                val result = PVar(someValue)
                 array.setAt(Some(key), result)
                 result
             }
           case None =>
-            val result = VarRef()
+            val result = PVar()
             array.setAt(None, result)
             result
         }
     }.getOrElse {
       ctx.log.warn(position, "Cannot use a scalar value as an array")
-      VarRef()
+      PVar()
     }
   }
 
-  override def assignRef(valueOrRef: PAny)(implicit ctx: Context) {
+  override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
     if (!reference.isDefined) {
       val array = ArrayVal()
-      reference.assignRef(array)
+      reference.assignVar(array)
       array.setAt(optArrayKey, valueOrRef)
     } else {
       reference.eval.value match {
@@ -103,7 +103,7 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
           array.setAt(optArrayKey, valueOrRef)
         case NullVal =>
           val array = ArrayVal()
-          reference.assignRef(array)
+          reference.assignVar(array)
           array.setAt(optArrayKey, valueOrRef)
         case v =>
           ctx.log.warn(position, "Cannot use a scalar value as an array")
@@ -111,7 +111,7 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
     }
   }
 
-  override def unsetRef(implicit ctx:Context) {
+  override def unsetVar(implicit ctx:Context) {
     optArrayKey.foreach {
       arrayKey =>
         reference.eval match {

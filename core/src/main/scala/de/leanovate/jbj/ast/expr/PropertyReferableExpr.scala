@@ -53,29 +53,29 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
     }
   }
 
-  def evalRef(implicit ctx: Context) = {
+  def evalVar(implicit ctx: Context) = {
     reference.eval match {
       case obj: ObjectVal =>
         val name = propertyName.evalName
         obj.getProperty(name).map {
-          case valueRef: VarRef =>
+          case valueRef: PVar =>
             valueRef
-          case value: PAnyVal =>
-            val result = VarRef(value)
+          case value: PVal =>
+            val result = PVar(value)
             obj.setProperty(name, result)
             result
         }.getOrElse {
-          val result = VarRef()
+          val result = PVar()
           obj.setProperty(name, result)
           result
         }
       case _ =>
         ctx.log.notice(position, "Trying to get property of non-object")
-        NullVal
+        PVar(NullVal)
     }
   }
 
-  override def assignRef(valueOrRef: PAny)(implicit ctx: Context) {
+  override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
     reference.eval match {
       case obj: ObjectVal =>
         val name = propertyName.evalName
@@ -96,7 +96,7 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
     }
   }
 
-  override def unsetRef(implicit ctx: Context) {
+  override def unsetVar(implicit ctx: Context) {
     reference.eval match {
       case obj: ObjectVal => obj.unsetProperty(propertyName.evalName)
       case _ =>

@@ -1,19 +1,24 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Expr, ReferableExpr, Name}
-import de.leanovate.jbj.runtime.value.PAny
+import de.leanovate.jbj.runtime.value.{PVar, PAny}
 import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class CallStaticMethodReferableExpr(className: Name, methodName: Name, parameters: List[Expr]) extends ReferableExpr {
   override def eval(implicit ctx: Context) = callMethod.value
 
-  override def evalRef(implicit ctx: Context) = callMethod
-
-  override def assignRef(valueOrRef: PAny)(implicit ctx: Context) {
+  override def evalVar(implicit ctx: Context) = callMethod match {
+    case pVar: PVar => pVar
+    case pAny =>
+      ctx.log.strict(position, "Only variables should be passed by reference")
+      PVar(pAny.value)
   }
 
-  override def unsetRef(implicit ctx: Context) {
+  override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
+  }
+
+  override def unsetVar(implicit ctx: Context) {
     throw new FatalErrorJbjException("Can't use function return value in write context")
   }
 

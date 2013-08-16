@@ -4,10 +4,10 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.ast.{Prog, NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
-import de.leanovate.jbj.runtime.value.{VarRef, PAnyVal}
+import de.leanovate.jbj.runtime.value.{PVar, PVal}
 
 case class FunctionContext(functionName: NamespaceName, callerPosition: NodePosition, callerCtx: Context) extends Context {
-  private val localVariables = mutable.Map.empty[String, VarRef]
+  private val localVariables = mutable.Map.empty[String, PVar]
 
   private val identifier = "Function_" + functionName.toString
 
@@ -23,15 +23,15 @@ case class FunctionContext(functionName: NamespaceName, callerPosition: NodePosi
 
   lazy val stack: Stack[NodePosition] = callerCtx.stack.push(callerPosition)
 
-  def findConstant(name: String): Option[PAnyVal] = global.findConstant(name)
+  def findConstant(name: String): Option[PVal] = global.findConstant(name)
 
-  def defineConstant(name: String, value: PAnyVal, caseInsensitive: Boolean) {
+  def defineConstant(name: String, value: PVal, caseInsensitive: Boolean) {
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  def findVariable(name: String)(implicit position: NodePosition): Option[VarRef] = localVariables.get(name)
+  def findVariable(name: String)(implicit position: NodePosition): Option[PVar] = localVariables.get(name)
 
-  def defineVariable(name: String, valueRef: VarRef)(implicit position: NodePosition)  {
+  def defineVariable(name: String, valueRef: PVar)(implicit position: NodePosition)  {
     localVariables.get(name).foreach(_.decrRefCount())
     localVariables.put(name, valueRef)
     valueRef.incrRefCount()

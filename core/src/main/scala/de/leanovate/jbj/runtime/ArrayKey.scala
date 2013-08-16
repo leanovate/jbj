@@ -1,9 +1,9 @@
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.runtime.value.{PAnyVal, NumericVal, IntegerVal, StringVal}
+import de.leanovate.jbj.runtime.value.{PVal, NumericVal, IntegerVal, StringVal}
 
 sealed trait ArrayKey {
-  def value(implicit ctx: Context): PAnyVal
+  def value(implicit ctx: Context): PVal
 }
 
 case class StringArrayKey(key: String) extends ArrayKey {
@@ -15,7 +15,7 @@ case class IntArrayKey(key: Long) extends ArrayKey {
 }
 
 object ArrayKey {
-  def apply(value: PAnyVal)(implicit ctx: Context): Option[ArrayKey] = value match {
+  def apply(value: PVal)(implicit ctx: Context): Option[ArrayKey] = value match {
     case IntegerVal(idx) => Some(IntArrayKey(idx.toInt))
     case NumericVal(idx) => Some(IntArrayKey(idx.toInt))
     case str: StringVal => Some(StringArrayKey(str.asString))

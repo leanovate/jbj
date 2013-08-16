@@ -9,8 +9,8 @@ case class AssignRefExpr(reference: ReferableExpr, otherRef: ReferableExpr) exte
   def right = otherRef
 
   override def eval(implicit ctx: Context) = {
-    val valueOrRef = otherRef.evalRef
-    reference.assignRef(valueOrRef)
+    val valueOrRef = otherRef.evalVar
+    reference.assignVar(valueOrRef)
     valueOrRef.value
   }
 }

@@ -4,7 +4,7 @@ import de.leanovate.jbj.runtime.{StringArrayKey, Context, IntArrayKey, ArrayKey}
 import de.leanovate.jbj.ast.NodePosition
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
-class StringVal(var chars: Array[Byte]) extends PAnyVal with ArrayLike {
+class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
   def asString(implicit ctx: Context) = new String(chars, ctx.settings.charset)
 
   override def toOutput(implicit ctx: Context) = asString
@@ -75,9 +75,9 @@ class StringVal(var chars: Array[Byte]) extends PAnyVal with ArrayLike {
     throw new FatalErrorJbjException("Cannot unset string offsets")
   }
 
-  def dot(other: StringVal): PAnyVal = StringVal(Array.concat(chars, other.chars))
+  def dot(other: StringVal): PVal = StringVal(Array.concat(chars, other.chars))
 
-  def &(other: StringVal): PAnyVal = {
+  def &(other: StringVal): PVal = {
     val resultLength = Math.min(chars.length, other.chars.length)
     val result = new Array[Byte](resultLength)
     for (i <- Range(0, resultLength)) {
@@ -86,7 +86,7 @@ class StringVal(var chars: Array[Byte]) extends PAnyVal with ArrayLike {
     StringVal(result)
   }
 
-  def |(other: StringVal): PAnyVal = {
+  def |(other: StringVal): PVal = {
     val resultLength = Math.max(chars.length, other.chars.length)
     val result = new Array[Byte](resultLength)
     val leftIt = this.chars.iterator
@@ -99,7 +99,7 @@ class StringVal(var chars: Array[Byte]) extends PAnyVal with ArrayLike {
     StringVal(result)
   }
 
-  def ^(other: StringVal): PAnyVal = {
+  def ^(other: StringVal): PVal = {
     val resultLength = Math.min(chars.length, other.chars.length)
     val result = new Array[Byte](resultLength)
     for (i <- Range(0, resultLength)) {
@@ -108,7 +108,7 @@ class StringVal(var chars: Array[Byte]) extends PAnyVal with ArrayLike {
     StringVal(result)
   }
 
-  def unary_~(): PAnyVal = {
+  def unary_~(): PVal = {
     val result = new Array[Byte](chars.length)
     for (i <- Range(0, result.length)) {
       result(i) = (~chars(i)).toByte

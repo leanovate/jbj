@@ -9,13 +9,13 @@ import de.leanovate.jbj.runtime.annotations.GlobalFunction
 
 object ArrayFunctions extends WrappedFunctions {
   @GlobalFunction
-  def count(value: PAnyVal): Int = value match {
+  def count(value: PVal): Int = value match {
     case array: ArrayVal => array.keyValues.size
     case _ => 1
   }
 
   @GlobalFunction
-  def array_merge(values: PAnyVal*)(implicit ctx: Context, callerPosition: NodePosition): PAnyVal = {
+  def array_merge(values: PVal*)(implicit ctx: Context, callerPosition: NodePosition): PVal = {
     if (values.isEmpty) {
       ctx.log.warn(callerPosition, "array_merge() expects at least 1 parameter, 0 given")
       NullVal

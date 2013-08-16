@@ -1,7 +1,7 @@
 package de.leanovate.jbj.runtime.context
 
 import de.leanovate.jbj.ast.{NodePosition, NamespaceName}
-import de.leanovate.jbj.runtime.value.{VarRef, PAnyVal, ObjectVal}
+import de.leanovate.jbj.runtime.value.{PVar, PVal, ObjectVal}
 import de.leanovate.jbj.runtime._
 import scala.collection.immutable.Stack
 
@@ -18,19 +18,19 @@ case class InstanceContext(instance: ObjectVal, callerPosition: NodePosition, ca
 
   lazy val stack: Stack[NodePosition] = callerCtx.stack.push(callerPosition)
 
-  def findConstant(name: String): Option[PAnyVal] = global.findConstant(name)
+  def findConstant(name: String): Option[PVal] = global.findConstant(name)
 
-  def defineConstant(name: String, value: PAnyVal, caseInsensitive: Boolean) {
+  def defineConstant(name: String, value: PVal, caseInsensitive: Boolean) {
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  def findVariable(name: String)(implicit position: NodePosition): Option[VarRef] =
+  def findVariable(name: String)(implicit position: NodePosition): Option[PVar] =
     instance.getProperty(name)(this).map {
-      case valueRef: VarRef => valueRef
-      case value: PAnyVal => VarRef(value)
+      case valueRef: PVar => valueRef
+      case value: PVal => PVar(value)
     }
 
-  def defineVariable(name: String, valueRef: VarRef)(implicit position: NodePosition) {
+  def defineVariable(name: String, valueRef: PVar)(implicit position: NodePosition) {
     instance.setProperty(name, valueRef.value)
   }
 

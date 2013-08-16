@@ -4,10 +4,10 @@ import de.leanovate.jbj.ast.{Prog, NodePosition, NamespaceName}
 import de.leanovate.jbj.runtime._
 import scala.collection.mutable
 import scala.collection.immutable.Stack
-import de.leanovate.jbj.runtime.value.{VarRef, PAnyVal, ObjectVal}
+import de.leanovate.jbj.runtime.value.{PVar, PVal, ObjectVal}
 
 case class MethodContext(instance: ObjectVal, methodName: String, callerPosition: NodePosition, callerCtx: Context) extends Context {
-  private val localVariables = mutable.Map.empty[String, VarRef]
+  private val localVariables = mutable.Map.empty[String, PVar]
 
   private val identifier = "Method_" + instance.pClass.name.toString + "::" + methodName
 
@@ -23,16 +23,16 @@ case class MethodContext(instance: ObjectVal, methodName: String, callerPosition
 
   lazy val stack: Stack[NodePosition] = callerCtx.stack.push(callerPosition)
 
-  def findConstant(name: String): Option[PAnyVal] = global.findConstant(name)
+  def findConstant(name: String): Option[PVal] = global.findConstant(name)
 
-  def defineConstant(name: String, value: PAnyVal, caseInsensitive: Boolean) {
+  def defineConstant(name: String, value: PVal, caseInsensitive: Boolean) {
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  def findVariable(name: String)(implicit position: NodePosition): Option[VarRef] =
-    if (name == "this") Some(VarRef(instance)) else localVariables.get(name)
+  def findVariable(name: String)(implicit position: NodePosition): Option[PVar] =
+    if (name == "this") Some(PVar(instance)) else localVariables.get(name)
 
-  def defineVariable(name: String, valueRef: VarRef)(implicit position: NodePosition)  {
+  def defineVariable(name: String, valueRef: PVar)(implicit position: NodePosition)  {
     localVariables.get(name).foreach(_.decrRefCount())
     localVariables.put(name, valueRef)
     valueRef.incrRefCount()

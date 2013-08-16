@@ -3,7 +3,7 @@ package de.leanovate.jbj.ast.stmt
 import de.leanovate.jbj.ast.{StaticInitializer, Stmt}
 import de.leanovate.jbj.runtime.{SuccessExecResult, Context}
 import de.leanovate.jbj.runtime.exception.RuntimeJbjException
-import de.leanovate.jbj.runtime.value.VarRef
+import de.leanovate.jbj.runtime.value.PVar
 import de.leanovate.jbj.runtime.context.StaticContext
 
 case class TryCatchStmt(tryStmts: List[Stmt], catchBlocks: List[CatchBlock], finallyStmts: List[Stmt])
@@ -23,7 +23,7 @@ case class TryCatchStmt(tryStmts: List[Stmt], catchBlocks: List[CatchBlock], fin
           ctx.global.findClass(catchBlock.exceptionName).exists(e.exception.instanceOf)
       }.map {
         catchBlock =>
-          ctx.defineVariable(catchBlock.variableName, VarRef(e.exception))
+          ctx.defineVariable(catchBlock.variableName, PVar(e.exception))
           execStmts(catchBlock.stmts)
       }.getOrElse(SuccessExecResult)
   } finally {

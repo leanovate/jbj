@@ -2,7 +2,7 @@ package de.leanovate.jbj.ast.stmt
 
 import de.leanovate.jbj.ast.{ReferableExpr, NodePosition, Expr}
 import de.leanovate.jbj.runtime.Context
-import de.leanovate.jbj.runtime.value.{PAnyVal, VarRef}
+import de.leanovate.jbj.runtime.value.PVar
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 trait FunctionLike {
@@ -16,20 +16,14 @@ trait FunctionLike {
         if (parameterIt.hasNext) {
           parameterIt.next() match {
             case reference: ReferableExpr if parameterDecl.byRef =>
-              reference.evalRef(callerContext) match {
-                case valueRef: VarRef =>
-                  funcCtx.defineVariable(parameterDecl.variableName, valueRef)(callerPosition)
-                case value: PAnyVal =>
-                  callerContext.log.strict(callerPosition, "Only variables should be passed by reference")
-                  funcCtx.defineVariable(parameterDecl.variableName, VarRef(value))(callerPosition)
-              }
+              funcCtx.defineVariable(parameterDecl.variableName, reference.evalVar(callerContext))(callerPosition)
             case _ if parameterDecl.byRef =>
               throw new FatalErrorJbjException("Only variables can be passed by reference")(callerContext, callerPosition)
             case expr =>
-              funcCtx.defineVariable(parameterDecl.variableName, VarRef(expr.eval(callerContext)))(callerPosition)
+              funcCtx.defineVariable(parameterDecl.variableName, PVar(expr.eval(callerContext)))(callerPosition)
           }
         } else {
-          funcCtx.defineVariable(parameterDecl.variableName, VarRef(parameterDecl.defaultVal(callerContext)))(callerPosition)
+          funcCtx.defineVariable(parameterDecl.variableName, PVar(parameterDecl.defaultVal(callerContext)))(callerPosition)
         }
     }
   }

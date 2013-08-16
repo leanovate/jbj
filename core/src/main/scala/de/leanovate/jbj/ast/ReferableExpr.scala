@@ -1,13 +1,13 @@
 package de.leanovate.jbj.ast
 
 import de.leanovate.jbj.runtime.Context
-import de.leanovate.jbj.runtime.value.{VarRef, PAny, PAnyVal}
+import de.leanovate.jbj.runtime.value.{PVar, PAny}
 
 trait ReferableExpr extends Expr {
 
-  def evalRef(implicit ctx: Context): PAny
+  def evalVar(implicit ctx: Context): PVar
 
-  def assignRef(valueOrRef: PAny)(implicit ctx: Context)
+  def assignVar(pAny: PAny)(implicit ctx: Context)
 
-  def unsetRef(implicit ctx: Context)
+  def unsetVar(implicit ctx: Context)
 }
