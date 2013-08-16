@@ -1,6 +1,6 @@
 package de.leanovate.jbj.ast.expr
 
-import de.leanovate.jbj.ast.{NodePosition, Expr, Reference}
+import de.leanovate.jbj.ast.{NodePosition, Expr, ReferableExpr}
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.IntArrayKey
@@ -8,7 +8,7 @@ import de.leanovate.jbj.runtime.StringArrayKey
 import scala.Some
 import java.io.PrintStream
 
-case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends Reference {
+case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr]) extends ReferableExpr {
 
   override def position_=(pos: NodePosition) {
     super.position_=(pos)
@@ -74,25 +74,25 @@ case class IndexReference(reference: Reference, indexExpr: Option[Expr]) extends
         optArrayKey match {
           case Some(key) =>
             array.getAt(key) match {
-              case Some(valueRef: ValueRef) =>
+              case Some(valueRef: VarRef) =>
                 valueRef
               case someValue =>
-                val result = ValueRef(someValue)
+                val result = VarRef(someValue)
                 array.setAt(Some(key), result)
                 result
             }
           case None =>
-            val result = ValueRef()
+            val result = VarRef()
             array.setAt(None, result)
             result
         }
     }.getOrElse {
       ctx.log.warn(position, "Cannot use a scalar value as an array")
-      ValueRef()
+      VarRef()
     }
   }
 
-  override def assignRef(valueOrRef: ValueOrRef)(implicit ctx: Context) {
+  override def assignRef(valueOrRef: PAny)(implicit ctx: Context) {
     if (!reference.isDefined) {
       val array = ArrayVal()
       reference.assignRef(array)

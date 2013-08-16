@@ -1,15 +1,15 @@
 package de.leanovate.jbj.ast.stmt.loop
 
-import de.leanovate.jbj.ast.{Reference, StaticInitializer, Stmt, Expr}
+import de.leanovate.jbj.ast.{ReferableExpr, StaticInitializer, Stmt, Expr}
 import de.leanovate.jbj.runtime._
 import scala.annotation.tailrec
-import de.leanovate.jbj.runtime.value.{ValueOrRef, Value, ArrayVal}
+import de.leanovate.jbj.runtime.value.{PAny, PAnyVal, ArrayVal}
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.ast.stmt.BlockLike
 import de.leanovate.jbj.runtime.context.StaticContext
 
-case class ForeachKeyValueStmt(arrayExpr: Expr, keyVar: Reference, valueVar: Reference,
+case class ForeachKeyValueStmt(arrayExpr: Expr, keyVar: ReferableExpr, valueVar: ReferableExpr,
                                stmts: List[Stmt]) extends Stmt with BlockLike with StaticInitializer {
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
@@ -27,7 +27,7 @@ case class ForeachKeyValueStmt(arrayExpr: Expr, keyVar: Reference, valueVar: Ref
   }
 
   @tailrec
-  private def execValues(keyValues: List[(ArrayKey, ValueOrRef)])(implicit context: Context): ExecResult =
+  private def execValues(keyValues: List[(ArrayKey, PAny)])(implicit context: Context): ExecResult =
     keyValues match {
       case head :: tail =>
         keyVar.assignRef(head._1.value)

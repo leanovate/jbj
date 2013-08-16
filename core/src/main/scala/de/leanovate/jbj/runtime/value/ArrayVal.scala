@@ -6,7 +6,7 @@ import de.leanovate.jbj.runtime.IntArrayKey
 import de.leanovate.jbj.runtime.StringArrayKey
 import de.leanovate.jbj.ast.NodePosition
 
-class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, ValueOrRef]) extends Value with ArrayLike {
+class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, PAny]) extends PAnyVal with ArrayLike {
 
   private var maxIndex: Long = (0L :: keyValues.keys.map {
     case IntArrayKey(idx) => idx
@@ -39,7 +39,7 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, ValueOrRef]) exten
 
   override def getAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) = keyValues.get(index)
 
-  override def setAt(index: Option[ArrayKey], value: ValueOrRef)(implicit ctx: Context, position: NodePosition) {
+  override def setAt(index: Option[ArrayKey], value: PAny)(implicit ctx: Context, position: NodePosition) {
     index match {
       case Some(key@IntArrayKey(idx)) if idx > maxIndex =>
         keyValues.get(key).foreach(_.decrRefCount())
@@ -67,10 +67,10 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, ValueOrRef]) exten
 }
 
 object ArrayVal {
-  def apply(keyValues: (Option[Value], ValueOrRef)*)(implicit ctx: Context): ArrayVal = {
+  def apply(keyValues: (Option[PAnyVal], PAny)*)(implicit ctx: Context): ArrayVal = {
     var nextIndex: Long = -1
 
-    new ArrayVal(keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[ArrayKey, ValueOrRef]) {
+    new ArrayVal(keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[ArrayKey, PAny]) {
       (builder, keyValue) =>
         val key = keyValue._1.map {
           case IntegerVal(value) =>

@@ -1,15 +1,15 @@
 package de.leanovate.jbj.ast.stmt.loop
 
-import de.leanovate.jbj.ast.{Reference, StaticInitializer, Stmt, Expr}
+import de.leanovate.jbj.ast.{ReferableExpr, StaticInitializer, Stmt, Expr}
 import de.leanovate.jbj.runtime._
 import scala.annotation.tailrec
-import de.leanovate.jbj.runtime.value.{ValueOrRef, Value, ArrayVal}
+import de.leanovate.jbj.runtime.value.{PAny, PAnyVal, ArrayVal}
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.ast.stmt.BlockLike
 import de.leanovate.jbj.runtime.context.StaticContext
 
-case class ForeachValueStmt(arrayExpr: Expr, valueVar:Reference, stmts: List[Stmt])
+case class ForeachValueStmt(arrayExpr: Expr, valueVar:ReferableExpr, stmts: List[Stmt])
   extends Stmt with BlockLike with StaticInitializer {
 
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
@@ -28,7 +28,7 @@ case class ForeachValueStmt(arrayExpr: Expr, valueVar:Reference, stmts: List[Stm
   }
 
   @tailrec
-  private def execValues(values: List[ValueOrRef])(implicit context: Context): ExecResult = values match {
+  private def execValues(values: List[PAny])(implicit context: Context): ExecResult = values match {
     case head :: tail =>
       valueVar.assignRef(head)
       execStmts(stmts) match {

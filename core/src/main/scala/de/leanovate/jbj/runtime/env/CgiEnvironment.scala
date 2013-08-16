@@ -25,7 +25,7 @@ object CgiEnvironment {
     val serverArgv = ArrayVal(URLDecoder.decode(queryString.getOrElse(""), "UTF-8").split(" ").map {
       str => None -> StringVal(str)
     }: _*)
-    ctx.defineVariable("_SERVER", ValueRef(ArrayVal(
+    ctx.defineVariable("_SERVER", VarRef(ArrayVal(
       Some(StringVal("PHP_SELF")) -> StringVal(uriStr),
       Some(StringVal("argv")) -> serverArgv,
       Some(StringVal("argc")) -> serverArgv.count,
@@ -34,8 +34,8 @@ object CgiEnvironment {
     )))
 
     val requestArray = decodeFormData(queryString.getOrElse(""))(ctx)
-    ctx.defineVariable("_GET", ValueRef(requestArray.copy))
-    ctx.defineVariable("_REQUEST", ValueRef(requestArray.copy))
+    ctx.defineVariable("_GET", VarRef(requestArray.copy))
+    ctx.defineVariable("_REQUEST", VarRef(requestArray.copy))
   }
 
   def httpPostForm(uriStr: String, formData: String)(implicit ctx: Context) {
@@ -44,7 +44,7 @@ object CgiEnvironment {
     val serverArgv = ArrayVal(URLDecoder.decode(queryString.getOrElse(""), "UTF-8").split(" ").map {
       str => None -> StringVal(str)
     }: _*)
-    ctx.defineVariable("_SERVER", ValueRef(ArrayVal(
+    ctx.defineVariable("_SERVER", VarRef(ArrayVal(
       Some(StringVal("PHP_SELF")) -> StringVal(uriStr),
       Some(StringVal("argv")) -> serverArgv,
       Some(StringVal("argc")) -> serverArgv.count,
@@ -53,10 +53,10 @@ object CgiEnvironment {
     )))
 
     val getRequestArray = decodeFormData(queryString.getOrElse(""))(ctx)
-    ctx.defineVariable("_GET", ValueRef(getRequestArray.copy))
+    ctx.defineVariable("_GET", VarRef(getRequestArray.copy))
     val postRequestArray = decodeFormData(formData)(ctx)
-    ctx.defineVariable("_POST", ValueRef(postRequestArray.copy))
-    ctx.defineVariable("_REQUEST", ValueRef(postRequestArray.copy))
+    ctx.defineVariable("_POST", VarRef(postRequestArray.copy))
+    ctx.defineVariable("_REQUEST", VarRef(postRequestArray.copy))
   }
 
   def decodeKeyValues(keyValues: Seq[(String, String)])(implicit ctx: Context) = {
@@ -69,7 +69,7 @@ object CgiEnvironment {
   }
 
   @tailrec
-  private def assign(array: ArrayVal, indices: List[Option[ArrayKey]], value: Value)(implicit ctx: Context) {
+  private def assign(array: ArrayVal, indices: List[Option[ArrayKey]], value: PAnyVal)(implicit ctx: Context) {
     indices match {
       case Some(idx) :: Nil => array.setAt(Some(idx), value)
       case None :: Nil => array.setAt(Some(IntArrayKey(array.keyValues.size)), value)

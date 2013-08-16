@@ -1,7 +1,7 @@
 package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.ast.{Expr, ClassEntry, NamespaceName, NodePosition}
-import de.leanovate.jbj.runtime.value.{ValueRef, Value, ObjectVal}
+import de.leanovate.jbj.runtime.value.{VarRef, PAnyVal, ObjectVal}
 import java.util.concurrent.atomic.AtomicLong
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import scala.annotation.tailrec
@@ -9,7 +9,7 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime.context.StaticContext
 
 trait PClass extends StaticContext {
-  private val staticVariables = mutable.Map.empty[String, ValueRef]
+  private val staticVariables = mutable.Map.empty[String, VarRef]
 
   val instanceCounter = new AtomicLong(0)
 
@@ -52,7 +52,7 @@ trait PClass extends StaticContext {
 
   def findVariable(name: String)(implicit position: NodePosition) = staticVariables.get(name)
 
-  def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition) {
+  def defineVariable(name: String, valueRef: VarRef)(implicit position: NodePosition) {
     staticVariables.put(name, valueRef)
   }
 

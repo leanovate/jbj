@@ -7,8 +7,8 @@ import de.leanovate.jbj.runtime.annotations.GlobalFunction
 
 object FunctionFunctions extends WrappedFunctions {
   @GlobalFunction
-  def call_user_func(callable: Value, parameters: Expr*)(implicit ctx: Context,
-                                                          position: NodePosition): ValueOrRef = callable match {
+  def call_user_func(callable: PAnyVal, parameters: Expr*)(implicit ctx: Context,
+                                                          position: NodePosition): PAny = callable match {
     case array: ArrayVal if array.keyValues.size != 2 =>
       ctx.log.warn(position, "call_user_func() expects parameter 1 to be a valid callback, array must have exactly two members")
       NullVal

@@ -1,9 +1,9 @@
 package de.leanovate.jbj.ast.expr
 
-import de.leanovate.jbj.ast.{Expr, Reference}
+import de.leanovate.jbj.ast.{Expr, ReferableExpr}
 import de.leanovate.jbj.runtime.Context
 
-case class AssignExpr(reference: Reference, expr: Expr) extends BinaryExpr {
+case class AssignExpr(reference: ReferableExpr, expr: Expr) extends BinaryExpr {
   def left = reference
 
   def right = expr

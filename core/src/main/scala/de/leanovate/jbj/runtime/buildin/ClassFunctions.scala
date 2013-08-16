@@ -8,7 +8,7 @@ import de.leanovate.jbj.runtime.annotations.GlobalFunction
 object ClassFunctions extends WrappedFunctions {
 
   @GlobalFunction
-  def get_class(value: Value)(implicit ctx: Context, position: NodePosition): Value = value match {
+  def get_class(value: PAnyVal)(implicit ctx: Context, position: NodePosition): PAnyVal = value match {
     case obj: ObjectVal => StringVal(obj.pClass.name.toString)
     case _ =>
       ctx.log.warn(position, "get_class() expects parameter 1 to be object, string given")
@@ -21,7 +21,7 @@ object ClassFunctions extends WrappedFunctions {
   }
 
   @GlobalFunction
-  def get_class_methods(name: String)(implicit ctx: Context, position: NodePosition): Value = {
+  def get_class_methods(name: String)(implicit ctx: Context, position: NodePosition): PAnyVal = {
     ctx.global.findClassOrAutoload(NamespaceName(name)).map {
       pClass =>
         ArrayVal(pClass.methods.values.map {
@@ -31,7 +31,7 @@ object ClassFunctions extends WrappedFunctions {
   }
 
   @GlobalFunction
-  def is_subclass_of(value: Value, name: String)(implicit ctx: Context, position: NodePosition): Boolean = value match {
+  def is_subclass_of(value: PAnyVal, name: String)(implicit ctx: Context, position: NodePosition): Boolean = value match {
     case obj: ObjectVal =>
       obj.pClass.superClass.flatMap {
         superClass =>
@@ -44,7 +44,7 @@ object ClassFunctions extends WrappedFunctions {
   }
 
   @GlobalFunction
-  def get_parent_class(value: Value)(implicit ctx: Context, position: NodePosition): Value = value match {
+  def get_parent_class(value: PAnyVal)(implicit ctx: Context, position: NodePosition): PAnyVal = value match {
     case obj: ObjectVal =>
       obj.pClass.superClass.map {
         superClass => StringVal(superClass.name.toString)

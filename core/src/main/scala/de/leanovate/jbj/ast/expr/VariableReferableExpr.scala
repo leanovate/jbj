@@ -1,11 +1,11 @@
 package de.leanovate.jbj.ast.expr
 
-import de.leanovate.jbj.ast.{Name, Reference}
+import de.leanovate.jbj.ast.{Name, ReferableExpr}
 import de.leanovate.jbj.runtime.Context
 import java.io.PrintStream
-import de.leanovate.jbj.runtime.value.{ValueOrRef, ValueRef, NullVal}
+import de.leanovate.jbj.runtime.value.{PAny, VarRef, NullVal}
 
-case class VariableReference(variableName: Name) extends Reference {
+case class VariableReferableExpr(variableName: Name) extends ReferableExpr {
   override def isDefined(implicit ctx: Context) = ctx.findVariable(variableName.evalName).isDefined
 
   override def eval(implicit ctx: Context) = {
@@ -19,17 +19,17 @@ case class VariableReference(variableName: Name) extends Reference {
   override def evalRef(implicit ctx: Context) = {
     val name = variableName.evalName
     ctx.findVariable(name).getOrElse {
-      val result = ValueRef()
+      val result = VarRef()
       ctx.defineVariable(name, result)
       result
     }
   }
 
-  override def assignRef(valueOrRef: ValueOrRef)(implicit ctx: Context) {
+  override def assignRef(valueOrRef: PAny)(implicit ctx: Context) {
     val name = variableName.evalName
     ctx.findVariable(name) match {
       case Some(valueRef) => valueRef.value = valueOrRef.value
-      case None => ctx.defineVariable(name, ValueRef(valueOrRef.value))
+      case None => ctx.defineVariable(name, VarRef(valueOrRef.value))
       case _ =>
     }
   }

@@ -9,15 +9,15 @@ import scala.collection.immutable.Stack
 import de.leanovate.jbj.JbjEnv
 import de.leanovate.jbj.runtime.exception.CompileErrorException
 import de.leanovate.jbj.ast.NamespaceName
-import de.leanovate.jbj.runtime.value.{ValueRef, Value, StringVal}
+import de.leanovate.jbj.runtime.value.{VarRef, PAnyVal, StringVal}
 import de.leanovate.jbj.ast.expr.value.ScalarExpr
 
 case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settings: Settings) extends Context {
   private val classes = mutable.Map.empty[Seq[String], PClass]
 
-  private val constants = mutable.Map.empty[ConstantKey, Value]
+  private val constants = mutable.Map.empty[ConstantKey, PAnyVal]
 
-  private val variables = mutable.Map.empty[String, ValueRef]
+  private val variables = mutable.Map.empty[String, VarRef]
 
   private val functions = mutable.Map.empty[Seq[String], PFunction]
 
@@ -71,23 +71,23 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
     classes.put(pClass.name.lowercase, pClass)
   }
 
-  def findConstant(name: String): Option[Value] =
+  def findConstant(name: String): Option[PAnyVal] =
     buildin.buildinConstants.get(name.toUpperCase).map(Some.apply).getOrElse {
       constants.get(CaseSensitiveConstantKey(name)).map(Some.apply).getOrElse {
         constants.get(CaseInsensitiveConstantKey(name.toLowerCase))
       }
     }
 
-  def defineConstant(name: String, value: Value, caseInsensitive: Boolean) {
+  def defineConstant(name: String, value: PAnyVal, caseInsensitive: Boolean) {
     if (caseInsensitive)
       constants.put(CaseInsensitiveConstantKey(name.toLowerCase), value)
     else
       constants.put(CaseSensitiveConstantKey(name), value)
   }
 
-  def findVariable(name: String)(implicit position: NodePosition): Option[ValueRef] = variables.get(name)
+  def findVariable(name: String)(implicit position: NodePosition): Option[VarRef] = variables.get(name)
 
-  def defineVariable(name: String, valueRef: ValueRef)(implicit position: NodePosition) {
+  def defineVariable(name: String, valueRef: VarRef)(implicit position: NodePosition) {
     variables.get(name).foreach(_.decrRefCount())
     variables.put(name, valueRef)
     valueRef.incrRefCount()

@@ -19,7 +19,7 @@ package object buildin {
     function => function.name.lowercase -> function
   }.toMap
 
-  val buildinConstants: Map[String, Value] = Seq(
+  val buildinConstants: Map[String, PAnyVal] = Seq(
     "TRUE" -> BooleanVal.TRUE,
     "FALSE" -> BooleanVal.FALSE,
     "NULL" -> NullVal,
@@ -50,7 +50,7 @@ package object buildin {
     override def superClass = None
 
     override def newInstance(parameters: List[Expr])(implicit ctx: Context, callerPosition: NodePosition) =
-      new ObjectVal(this, instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ArrayKey, ValueOrRef])
+      new ObjectVal(this, instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ArrayKey, PAny])
 
     override def methods = Map.empty
   }

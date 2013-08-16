@@ -2,10 +2,10 @@ package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.Context
 
-trait ValueOrRef {
+trait PAny {
   def toOutput(implicit ctx: Context): String
 
-  def value: Value
+  def value: PAnyVal
 
   def incrRefCount()
 

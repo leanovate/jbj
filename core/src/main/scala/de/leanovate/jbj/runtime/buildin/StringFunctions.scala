@@ -10,7 +10,7 @@ object StringFunctions extends WrappedFunctions {
   def strlen(str: Array[Byte]): Int = str.length
 
   @GlobalFunction
-  def strstr(haystack: Array[Byte], needle: Value, beforeNeedle: Option[Boolean]): Value = {
+  def strstr(haystack: Array[Byte], needle: PAnyVal, beforeNeedle: Option[Boolean]): PAnyVal = {
     val needleBytes = needle match {
       case str: StringVal => str.chars
       case int: IntegerVal => Array(int.asLong.toByte)

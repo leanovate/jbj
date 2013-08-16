@@ -1,6 +1,6 @@
 package de.leanovate.jbj.runtime.adapter
 
-import de.leanovate.jbj.runtime.value.{ValueOrRef, StringVal}
+import de.leanovate.jbj.runtime.value.{PAny, StringVal}
 import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.ast.Expr
 

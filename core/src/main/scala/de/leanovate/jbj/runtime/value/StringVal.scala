@@ -4,7 +4,7 @@ import de.leanovate.jbj.runtime.{StringArrayKey, Context, IntArrayKey, ArrayKey}
 import de.leanovate.jbj.ast.NodePosition
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
-class StringVal(var chars: Array[Byte]) extends Value with ArrayLike {
+class StringVal(var chars: Array[Byte]) extends PAnyVal with ArrayLike {
   def asString(implicit ctx: Context) = new String(chars, ctx.settings.charset)
 
   override def toOutput(implicit ctx: Context) = asString
@@ -47,7 +47,7 @@ class StringVal(var chars: Array[Byte]) extends Value with ArrayLike {
     case _ => Some(StringVal(Array(chars(0))))
   }
 
-  override def setAt(index: Option[ArrayKey], valueOrRef: ValueOrRef)(implicit ctx: Context, position: NodePosition) {
+  override def setAt(index: Option[ArrayKey], valueOrRef: PAny)(implicit ctx: Context, position: NodePosition) {
     val chs = valueOrRef.value.toStr.chars
     val ch: Byte = if (!chs.isEmpty) chars(0) else 0
     index match {
@@ -75,9 +75,9 @@ class StringVal(var chars: Array[Byte]) extends Value with ArrayLike {
     throw new FatalErrorJbjException("Cannot unset string offsets")
   }
 
-  def dot(other: StringVal): Value = StringVal(Array.concat(chars, other.chars))
+  def dot(other: StringVal): PAnyVal = StringVal(Array.concat(chars, other.chars))
 
-  def &(other: StringVal): Value = {
+  def &(other: StringVal): PAnyVal = {
     val resultLength = Math.min(chars.length, other.chars.length)
     val result = new Array[Byte](resultLength)
     for (i <- Range(0, resultLength)) {
@@ -86,7 +86,7 @@ class StringVal(var chars: Array[Byte]) extends Value with ArrayLike {
     StringVal(result)
   }
 
-  def |(other: StringVal): Value = {
+  def |(other: StringVal): PAnyVal = {
     val resultLength = Math.max(chars.length, other.chars.length)
     val result = new Array[Byte](resultLength)
     val leftIt = this.chars.iterator
@@ -99,7 +99,7 @@ class StringVal(var chars: Array[Byte]) extends Value with ArrayLike {
     StringVal(result)
   }
 
-  def ^(other: StringVal): Value = {
+  def ^(other: StringVal): PAnyVal = {
     val resultLength = Math.min(chars.length, other.chars.length)
     val result = new Array[Byte](resultLength)
     for (i <- Range(0, resultLength)) {
@@ -108,7 +108,7 @@ class StringVal(var chars: Array[Byte]) extends Value with ArrayLike {
     StringVal(result)
   }
 
-  def unary_~(): Value = {
+  def unary_~(): PAnyVal = {
     val result = new Array[Byte](chars.length)
     for (i <- Range(0, result.length)) {
       result(i) = (~chars(i)).toByte

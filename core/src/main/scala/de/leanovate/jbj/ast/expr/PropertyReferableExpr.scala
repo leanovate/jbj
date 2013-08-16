@@ -1,6 +1,6 @@
 package de.leanovate.jbj.ast.expr
 
-import de.leanovate.jbj.ast.{Name, Reference}
+import de.leanovate.jbj.ast.{Name, ReferableExpr}
 import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.value._
 import java.io.PrintStream
@@ -8,7 +8,7 @@ import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.runtime.context.MethodContext
 import de.leanovate.jbj.ast.expr.value.ScalarExpr
 
-case class PropertyReference(reference: Reference, propertyName: Name) extends Reference {
+case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) extends ReferableExpr {
   override def isDefined(implicit ctx: Context) = {
     if (reference.isDefined) {
       reference.eval match {
@@ -58,14 +58,14 @@ case class PropertyReference(reference: Reference, propertyName: Name) extends R
       case obj: ObjectVal =>
         val name = propertyName.evalName
         obj.getProperty(name).map {
-          case valueRef: ValueRef =>
+          case valueRef: VarRef =>
             valueRef
-          case value: Value =>
-            val result = ValueRef(value)
+          case value: PAnyVal =>
+            val result = VarRef(value)
             obj.setProperty(name, result)
             result
         }.getOrElse {
-          val result = ValueRef()
+          val result = VarRef()
           obj.setProperty(name, result)
           result
         }
@@ -75,7 +75,7 @@ case class PropertyReference(reference: Reference, propertyName: Name) extends R
     }
   }
 
-  override def assignRef(valueOrRef: ValueOrRef)(implicit ctx: Context) {
+  override def assignRef(valueOrRef: PAny)(implicit ctx: Context) {
     reference.eval match {
       case obj: ObjectVal =>
         val name = propertyName.evalName

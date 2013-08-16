@@ -1,19 +1,19 @@
 package de.leanovate.jbj.ast.expr
 
-import de.leanovate.jbj.ast.{Name, Reference, Expr}
+import de.leanovate.jbj.ast.{Name, ReferableExpr, Expr}
 import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.runtime.value.{ValueOrRef, ValueRef}
+import de.leanovate.jbj.runtime.value.{PAny, VarRef}
 import java.io.PrintStream
 
-case class CallFunctionReference(functionName: Name, parameters: List[Expr]) extends Reference {
+case class CallFunctionReferableExpr(functionName: Name, parameters: List[Expr]) extends ReferableExpr {
   override def eval(implicit ctx: Context) = callFunction.value
 
   override def evalRef(implicit ctx: Context) = callFunction
 
-  override def assignRef(valueOrRef: ValueOrRef)(implicit ctx: Context) {
+  override def assignRef(valueOrRef: PAny)(implicit ctx: Context) {
     callFunction match {
-      case valueRef: ValueRef => valueRef.value = valueOrRef.value
+      case valueRef: VarRef => valueRef.value = valueOrRef.value
       case _ => throw new RuntimeException("Function does not have reference result")
     }
   }
@@ -22,7 +22,7 @@ case class CallFunctionReference(functionName: Name, parameters: List[Expr]) ext
     throw new FatalErrorJbjException("Can't use function return value in write context")
   }
 
-  private def callFunction(implicit ctx: Context): ValueOrRef = {
+  private def callFunction(implicit ctx: Context): PAny = {
     val name = functionName.evalNamespaceName
     ctx.findFunction(name).map {
       func => func.call(parameters)

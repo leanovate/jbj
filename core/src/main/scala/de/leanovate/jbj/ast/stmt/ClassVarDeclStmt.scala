@@ -2,7 +2,7 @@ package de.leanovate.jbj.ast.stmt
 
 import de.leanovate.jbj.ast.{StaticInitializer, Stmt, MemberModifier}
 import de.leanovate.jbj.runtime.{SuccessExecResult, Context}
-import de.leanovate.jbj.runtime.value.ValueRef
+import de.leanovate.jbj.runtime.value.VarRef
 import de.leanovate.jbj.runtime.context.StaticContext
 
 case class ClassVarDeclStmt(modifieres: Set[MemberModifier.Type],
@@ -13,7 +13,7 @@ case class ClassVarDeclStmt(modifieres: Set[MemberModifier.Type],
     if (!isStatic) {
       assignments.foreach {
         assignment =>
-          ctx.defineVariable(assignment.variableName, ValueRef(assignment.initial.map(_.eval)))
+          ctx.defineVariable(assignment.variableName, VarRef(assignment.initial.map(_.eval)))
       }
     }
     SuccessExecResult
@@ -23,7 +23,7 @@ case class ClassVarDeclStmt(modifieres: Set[MemberModifier.Type],
     if (isStatic) {
       assignments.foreach {
         assignment =>
-          staticCtx.defineVariable(assignment.variableName, ValueRef(assignment.initial.map(_.eval)))
+          staticCtx.defineVariable(assignment.variableName, VarRef(assignment.initial.map(_.eval)))
       }
     }
   }

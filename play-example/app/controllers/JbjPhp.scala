@@ -10,7 +10,7 @@ import de.leanovate.jbj.runtime.context.GlobalContext
 import scala.io.Source
 import de.leanovate.jbj.runtime.env.CgiEnvironment
 import de.leanovate.jbj.ast.{NodePosition, NoNodePosition}
-import de.leanovate.jbj.runtime.value.{ValueRef, StringVal, ArrayVal}
+import de.leanovate.jbj.runtime.value.{VarRef, StringVal, ArrayVal}
 import java.net.URLDecoder
 import de.leanovate.jbj.JbjEnv
 
@@ -47,8 +47,8 @@ object JbjPhp extends Controller {
               val requestArray = CgiEnvironment.decodeKeyValues(request.queryString.toSeq.flatMap {
                 case (key, values) => values.map(key -> _)
               })
-              ctx.defineVariable("_REQUEST", ValueRef(requestArray.copy))
-              ctx.defineVariable("_GET", ValueRef(requestArray.copy))
+              ctx.defineVariable("_REQUEST", VarRef(requestArray.copy))
+              ctx.defineVariable("_GET", VarRef(requestArray.copy))
             case "POST" =>
               val requestArray = request.body.asFormUrlEncoded.map {
                 keyValues =>
@@ -56,8 +56,8 @@ object JbjPhp extends Controller {
                     case (key, values) => values.map(key -> _)
                   })
               }.getOrElse(ArrayVal())
-              ctx.defineVariable("_REQUEST", ValueRef(requestArray.copy))
-              ctx.defineVariable("_POST", ValueRef(requestArray.copy))
+              ctx.defineVariable("_REQUEST", VarRef(requestArray.copy))
+              ctx.defineVariable("_POST", VarRef(requestArray.copy))
           }
 
           prog.exec
@@ -78,7 +78,7 @@ object JbjPhp extends Controller {
     val serverArgv = ArrayVal(URLDecoder.decode(request.rawQueryString, "UTF-8").split(" ").map {
       str => None -> StringVal(str)
     }: _*)
-    ctx.defineVariable("_SERVER", ValueRef(ArrayVal(
+    ctx.defineVariable("_SERVER", VarRef(ArrayVal(
       Some(StringVal("PHP_SELF")) -> StringVal(request.uri),
       Some(StringVal("argv")) -> serverArgv,
       Some(StringVal("argc")) -> serverArgv.count,

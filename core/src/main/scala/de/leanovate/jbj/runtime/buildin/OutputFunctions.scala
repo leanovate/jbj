@@ -10,14 +10,14 @@ import de.leanovate.jbj.runtime.annotations.GlobalFunction
 object OutputFunctions extends WrappedFunctions {
 
   @GlobalFunction
-  def var_dump(values: ValueOrRef*)(implicit ctx: Context, position: NodePosition) {
+  def var_dump(values: PAny*)(implicit ctx: Context, position: NodePosition) {
     if (values.isEmpty)
       ctx.log.warn(position, "var_dump() expects at least 1 parameter, 0 given")
 
-    def dump(valueOfRef: ValueOrRef, ident: String) {
+    def dump(valueOfRef: PAny, ident: String) {
       val (value, isRef) = valueOfRef match {
-        case valueRef: ValueRef => valueRef.value -> "&"
-        case value: Value => value -> ""
+        case valueRef: VarRef => valueRef.value -> "&"
+        case value: PAnyVal => value -> ""
       }
       value match {
         case ArrayVal(keyValues) =>
@@ -61,8 +61,8 @@ object OutputFunctions extends WrappedFunctions {
   }
 
   @GlobalFunction
-  def print_r(value: Value, ret: Option[Boolean])(implicit ctx: Context, position: NodePosition): Value = {
-    def dump(value: ValueOrRef): List[String] = {
+  def print_r(value: PAnyVal, ret: Option[Boolean])(implicit ctx: Context, position: NodePosition): PAnyVal = {
+    def dump(value: PAny): List[String] = {
       value match {
         case ArrayVal(keyValues) =>
           "Array" :: "(" :: keyValues.flatMap {

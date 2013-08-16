@@ -1,13 +1,13 @@
 package de.leanovate.jbj.runtime.adapter
 
-import de.leanovate.jbj.runtime.value.{ValueOrRef, Value}
+import de.leanovate.jbj.runtime.value.{PAny, PAnyVal}
 import de.leanovate.jbj.runtime.Context
-import de.leanovate.jbj.ast.{Reference, Expr}
+import de.leanovate.jbj.ast.{ReferableExpr, Expr}
 
-object ValueOrRefConverter extends Converter[ValueOrRef, Value] {
+object ValueOrRefConverter extends Converter[PAny, PAnyVal] {
   override def toScalaWithConversion(expr: Expr)(implicit ctx: Context) =  expr.eval
 
-  override def toScala(value: Value)(implicit ctx: Context) = value
+  override def toScala(value: PAnyVal)(implicit ctx: Context) = value
 
-  override def toJbj(valueOrRef: ValueOrRef)(implicit ctx: Context) = valueOrRef.value
+  override def toJbj(valueOrRef: PAny)(implicit ctx: Context) = valueOrRef.value
 }
