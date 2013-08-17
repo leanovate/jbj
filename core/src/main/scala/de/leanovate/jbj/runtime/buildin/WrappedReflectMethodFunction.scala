@@ -4,13 +4,13 @@ import de.leanovate.jbj.runtime.{Context, PFunction}
 import de.leanovate.jbj.ast.{Expr, NodePosition, NamespaceName}
 import scala.reflect.runtime.universe._
 import de.leanovate.jbj.runtime.adapter.{Converter, ParameterAdapter}
-import de.leanovate.jbj.runtime.value.PVal
+import de.leanovate.jbj.runtime.value.PAny
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
-case class WrappedReflectMethodFunction[T, S <: PVal](name: NamespaceName,
-                                                       methodMirror: MethodMirror,
-                                                       parameterAdapters: Seq[ParameterAdapter[_]],
-                                                       resultConverter: Converter[T, S]) extends PFunction {
+case class WrappedReflectMethodFunction[T, S <: PAny](name: NamespaceName,
+                                                      methodMirror: MethodMirror,
+                                                      parameterAdapters: Seq[ParameterAdapter[_]],
+                                                      resultConverter: Converter[T, S]) extends PFunction {
   lazy val requiredParameterCount = parameterAdapters.map(_.requiredCount).sum
 
   override def call(parameters: List[Expr])(implicit callerCtx: Context, callerPosition: NodePosition) = {

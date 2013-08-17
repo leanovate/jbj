@@ -43,23 +43,18 @@ object TestBed {
   //A main method for testing
   def main(args: Array[String]) {
     test( """<?php
-            |    function foo(&$x, &$y) { $x = 1; echo $y ; }
+            |error_reporting(E_ALL | E_STRICT | E_NOTICE);
             |
-            |    $x = 0;
-            |    foo($x, $x); // prints 1 ..
+            |// Simplified array_shift_variation5.phpt
+            |// Showing warning:
+            |// "Only variables should be passed by reference in %s on line %d"
+            |$stack = array ( array ( 'two' ));
+            |var_dump(array_shift(array_shift($stack)));
             |
-            |
-            |    function foo2($x, &$y, $z)
-            |    {
-            |      echo $x; // 0
-            |      echo $y; // 1
-            |      $y = 2;
-            |    }
-            |
-            |    $x = 0;
-            |
-            |    foo2($x, $x, $x = 1);
-            |    echo $x; // 2
+            |// This should show the identical warning
+            |$original = array ( array ( 'one' ));
+            |$stack = $original;
+            |var_dump(array_shift(array_shift($stack)));
             |?>""".stripMargin)
   }
 }

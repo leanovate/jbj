@@ -25,11 +25,11 @@ import de.leanovate.jbj.ast.expr.calc.SubExpr
 import de.leanovate.jbj.ast.stmt.cond.SwitchStmt
 import scala.Some
 import de.leanovate.jbj.ast.stmt.ClassTypeHint
-import de.leanovate.jbj.ast.expr.AssignExpr
+import de.leanovate.jbj.ast.expr.AssignReferableExpr
 import de.leanovate.jbj.ast.expr.IndexReferableExpr
 import de.leanovate.jbj.ast.expr.value.ClassNameConstExpr
 import de.leanovate.jbj.parser.JbjTokens.Inline
-import de.leanovate.jbj.ast.expr.AssignRefExpr
+import de.leanovate.jbj.ast.expr.AssignRefReferableExpr
 import de.leanovate.jbj.ast.stmt.UnsetStmt
 import de.leanovate.jbj.ast.stmt.StaticVarDeclStmt
 import de.leanovate.jbj.ast.Prog
@@ -122,7 +122,7 @@ import de.leanovate.jbj.ast.expr.GetAndDecrExpr
 import de.leanovate.jbj.ast.stmt.ContinueStmt
 import de.leanovate.jbj.ast.expr.calc.BitXorExpr
 import de.leanovate.jbj.ast.expr.IncrAndGetExpr
-import de.leanovate.jbj.ast.expr.calc.ConcatWithExpr
+import de.leanovate.jbj.ast.expr.calc.ConcatWithReferableExpr
 import de.leanovate.jbj.ast.expr.ClassNameExpr
 import de.leanovate.jbj.ast.expr.DecrAndGetExpr
 import de.leanovate.jbj.ast.expr.calc.MulByExpr
@@ -388,9 +388,9 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val exprWithoutVariable: PackratParser[Expr] =
     variable ~ "=" ~ expr ^^ {
-      case v ~ _ ~ e => AssignExpr(v, e)
+      case v ~ _ ~ e => AssignReferableExpr(v, e)
     } | variable ~ "=" ~ "&" ~ variable ^^ {
-      case v ~ _ ~ _ ~ ref => AssignRefExpr(v, ref)
+      case v ~ _ ~ _ ~ ref => AssignRefReferableExpr(v, ref)
     } | "clone" ~> expr ^^ {
       e => CloneExpr(e)
     } | variable ~ "+=" ~ expr ^^ {
@@ -402,7 +402,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     } | variable ~ "/=" ~ expr ^^ {
       case v ~ _ ~ e => DivByExpr(v, e)
     } | variable ~ ".=" ~ expr ^^ {
-      case v ~ _ ~ e => ConcatWithExpr(v, e)
+      case v ~ _ ~ e => ConcatWithReferableExpr(v, e)
     } | binary(minPrec) | termWithoutVariable
 
   def binaryOp(level: Int): Parser[((Expr, Expr) => Expr)] = {

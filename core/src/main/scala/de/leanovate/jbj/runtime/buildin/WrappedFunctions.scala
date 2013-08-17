@@ -29,8 +29,8 @@ object WrappedFunctions {
   val globalFunctionClass = typeOf[GlobalFunction].typeSymbol
   val contextClass = typeOf[Context].typeSymbol
   val nodePositionClass = typeOf[NodePosition].typeSymbol
-  val valueClass = typeOf[PVal].typeSymbol
-  val valueOrRefClass = typeOf[PAny].typeSymbol
+  val pValClass = typeOf[PVal].typeSymbol
+  val pAnyClass = typeOf[PAny].typeSymbol
   val exprClass = typeOf[de.leanovate.jbj.ast.Expr].typeSymbol
 
   def mapMethod(method: MethodSymbol, instance: InstanceMirror): PFunction = {
@@ -49,14 +49,14 @@ object WrappedFunctions {
     case t => DefaultParamterAdapter(converterForClass(t))
   }
 
-  def converterForClass(_type: Type): Converter[_, _ <: PVal] = _type match {
+  def converterForClass(_type: Type): Converter[_, _ <: PAny] = _type match {
     case t if t.typeSymbol == definitions.StringClass => StringConverter
     case t if t.typeSymbol == definitions.IntClass => IntConverter
     case t if t.typeSymbol == definitions.LongClass => LongConverter
     case t if t.typeSymbol == definitions.DoubleClass => DoubleConverter
     case t if t.typeSymbol == definitions.BooleanClass => BooleanConverter
-    case t if t.typeSymbol == valueClass => ValueConverter
-    case t if t.typeSymbol == valueOrRefClass => ValueOrRefConverter
+    case t if t.typeSymbol == pValClass => PValConverter
+    case t if t.typeSymbol == pAnyClass => PAnyConverter
     case t if t.typeSymbol == exprClass => ExprConverter
     case t if t.typeSymbol == definitions.UnitClass => UnitConverter
     case TypeRef(_, sym, a) if sym == definitions.ArrayClass && a.head.typeSymbol == definitions.ByteClass =>

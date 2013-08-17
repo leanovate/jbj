@@ -4,7 +4,7 @@ import de.leanovate.jbj.runtime.value.{PAny, PVal}
 import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.ast.Expr
 
-trait Converter[ScalaType, JbjType <: PVal] {
+trait Converter[ScalaType, JbjType <: PAny] {
   def toScalaWithConversion(expr: Expr)(implicit ctx: Context): ScalaType
 
   def toScala(value: JbjType)(implicit ctx: Context): ScalaType
