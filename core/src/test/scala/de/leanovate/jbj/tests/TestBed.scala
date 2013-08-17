@@ -43,15 +43,23 @@ object TestBed {
   //A main method for testing
   def main(args: Array[String]) {
     test( """<?php
-            |function &returnVariableByRef() {
-            |	return $GLOBALS['a'];
-            |}
+            |    function foo(&$x, &$y) { $x = 1; echo $y ; }
             |
-            |$a = 4;
-            |$b = &returnVariableByRef();
-            |$a++;
-            |var_dump($a, $b);
+            |    $x = 0;
+            |    foo($x, $x); // prints 1 ..
             |
+            |
+            |    function foo2($x, &$y, $z)
+            |    {
+            |      echo $x; // 0
+            |      echo $y; // 1
+            |      $y = 2;
+            |    }
+            |
+            |    $x = 0;
+            |
+            |    foo2($x, $x, $x = 1);
+            |    echo $x; // 2
             |?>""".stripMargin)
   }
 }

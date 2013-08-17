@@ -408,5 +408,385 @@ class PassByReferenceSpec extends SpecificationWithJUnit with TestJbjExecutor{
           |""".stripMargin
       )
     }
+
+    "Pass uninitialised objects and arrays by reference to test implicit initialisation." in {
+      // lang/passByReference_006
+      script(
+        """<?php
+          |
+          |function refs(&$ref1, &$ref2, &$ref3, &$ref4, &$ref5) {
+          |  $ref1 = "Ref1 changed";
+          |  $ref2 = "Ref2 changed";
+          |  $ref3 = "Ref3 changed";
+          |  $ref4 = "Ref4 changed";
+          |  $ref5 = "Ref5 changed";
+          |}
+          |
+          |
+          |class C {
+          |
+          |	function __construct(&$ref1, &$ref2, &$ref3, &$ref4, &$ref5) {
+          |	  $ref1 = "Ref1 changed";
+          |	  $ref2 = "Ref2 changed";
+          |	  $ref3 = "Ref3 changed";
+          |	  $ref4 = "Ref4 changed";
+          |	  $ref5 = "Ref5 changed";
+          |	}
+          |
+          |	function refs(&$ref1, &$ref2, &$ref3, &$ref4, &$ref5) {
+          |	  $ref1 = "Ref1 changed";
+          |	  $ref2 = "Ref2 changed";
+          |	  $ref3 = "Ref3 changed";
+          |	  $ref4 = "Ref4 changed";
+          |	  $ref5 = "Ref5 changed";
+          |	}
+          |
+          |}
+          |
+          |echo "\n ---- Pass uninitialised array & object by ref: function call ---\n";
+          |unset($u1, $u2, $u3, $u4, $u5);
+          |refs($u1[0], $u2[0][1], $u3->a, $u4->a->b, $u5->a->b->c);
+          |var_dump($u1, $u2, $u3, $u4, $u5);
+          |
+          |echo "\n ---- Pass uninitialised arrays & objects by ref: static method call ---\n";
+          |unset($u1, $u2, $u3, $u4, $u5);
+          |C::refs($u1[0], $u2[0][1], $u3->a, $u4->a->b, $u5->a->b->c);
+          |var_dump($u1, $u2, $u3, $u4, $u5);
+          |
+          |echo "\n\n---- Pass uninitialised arrays & objects by ref: constructor ---\n";
+          |unset($u1, $u2, $u3, $u4, $u5);
+          |$c = new C($u1[0], $u2[0][1], $u3->a, $u4->a->b, $u5->a->b->c);
+          |var_dump($u1, $u2, $u3, $u4, $u5);
+          |
+          |echo "\n ---- Pass uninitialised arrays & objects by ref: instance method call ---\n";
+          |unset($u1, $u2, $u3, $u4, $u5);
+          |$c->refs($u1[0], $u2[0][1], $u3->a, $u4->a->b, $u5->a->b->c);
+          |var_dump($u1, $u2, $u3, $u4, $u5);
+          |
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """
+          | ---- Pass uninitialised array & object by ref: function call ---
+          |array(1) {
+          |  [0]=>
+          |  string(12) "Ref1 changed"
+          |}
+          |array(1) {
+          |  [0]=>
+          |  array(1) {
+          |    [1]=>
+          |    string(12) "Ref2 changed"
+          |  }
+          |}
+          |object(stdClass)#1 (1) {
+          |  ["a"]=>
+          |  string(12) "Ref3 changed"
+          |}
+          |object(stdClass)#3 (1) {
+          |  ["a"]=>
+          |  object(stdClass)#2 (1) {
+          |    ["b"]=>
+          |    string(12) "Ref4 changed"
+          |  }
+          |}
+          |object(stdClass)#6 (1) {
+          |  ["a"]=>
+          |  object(stdClass)#5 (1) {
+          |    ["b"]=>
+          |    object(stdClass)#4 (1) {
+          |      ["c"]=>
+          |      string(12) "Ref5 changed"
+          |    }
+          |  }
+          |}
+          |
+          | ---- Pass uninitialised arrays & objects by ref: static method call ---
+          |
+          |Strict Standards: Non-static method C::refs() should not be called statically in /lang/PassByReferenceSpec.inlinePhp on line 39
+          |array(1) {
+          |  [0]=>
+          |  string(12) "Ref1 changed"
+          |}
+          |array(1) {
+          |  [0]=>
+          |  array(1) {
+          |    [1]=>
+          |    string(12) "Ref2 changed"
+          |  }
+          |}
+          |object(stdClass)#7 (1) {
+          |  ["a"]=>
+          |  string(12) "Ref3 changed"
+          |}
+          |object(stdClass)#9 (1) {
+          |  ["a"]=>
+          |  object(stdClass)#8 (1) {
+          |    ["b"]=>
+          |    string(12) "Ref4 changed"
+          |  }
+          |}
+          |object(stdClass)#12 (1) {
+          |  ["a"]=>
+          |  object(stdClass)#11 (1) {
+          |    ["b"]=>
+          |    object(stdClass)#10 (1) {
+          |      ["c"]=>
+          |      string(12) "Ref5 changed"
+          |    }
+          |  }
+          |}
+          |
+          |
+          |---- Pass uninitialised arrays & objects by ref: constructor ---
+          |array(1) {
+          |  [0]=>
+          |  string(12) "Ref1 changed"
+          |}
+          |array(1) {
+          |  [0]=>
+          |  array(1) {
+          |    [1]=>
+          |    string(12) "Ref2 changed"
+          |  }
+          |}
+          |object(stdClass)#13 (1) {
+          |  ["a"]=>
+          |  string(12) "Ref3 changed"
+          |}
+          |object(stdClass)#15 (1) {
+          |  ["a"]=>
+          |  object(stdClass)#14 (1) {
+          |    ["b"]=>
+          |    string(12) "Ref4 changed"
+          |  }
+          |}
+          |object(stdClass)#18 (1) {
+          |  ["a"]=>
+          |  object(stdClass)#17 (1) {
+          |    ["b"]=>
+          |    object(stdClass)#16 (1) {
+          |      ["c"]=>
+          |      string(12) "Ref5 changed"
+          |    }
+          |  }
+          |}
+          |
+          | ---- Pass uninitialised arrays & objects by ref: instance method call ---
+          |array(1) {
+          |  [0]=>
+          |  string(12) "Ref1 changed"
+          |}
+          |array(1) {
+          |  [0]=>
+          |  array(1) {
+          |    [1]=>
+          |    string(12) "Ref2 changed"
+          |  }
+          |}
+          |object(stdClass)#19 (1) {
+          |  ["a"]=>
+          |  string(12) "Ref3 changed"
+          |}
+          |object(stdClass)#21 (1) {
+          |  ["a"]=>
+          |  object(stdClass)#20 (1) {
+          |    ["b"]=>
+          |    string(12) "Ref4 changed"
+          |  }
+          |}
+          |object(stdClass)#24 (1) {
+          |  ["a"]=>
+          |  object(stdClass)#23 (1) {
+          |    ["b"]=>
+          |    object(stdClass)#22 (1) {
+          |      ["c"]=>
+          |      string(12) "Ref5 changed"
+          |    }
+          |  }
+          |}
+          |""".stripMargin
+      )
+    }
+
+    "Pass function and method calls by reference and by value." in {
+      // lang/passByReReference_007
+      script(
+        """<?php
+          |class C {
+          |	static function sreturnVal() {
+          |		global $a;
+          |		return $a;
+          |	}
+          |
+          |	static function &sreturnReference() {
+          |		global $a;
+          |		return $a;
+          |	}
+          |
+          |	function returnVal() {
+          |		global $a;
+          |		return $a;
+          |	}
+          |
+          |	function &returnReference() {
+          |		global $a;
+          |		return $a;
+          |	}
+          |}
+          |
+          |function returnVal() {
+          |		global $a;
+          |		return $a;
+          |}
+          |
+          |function &returnReference() {
+          |		global $a;
+          |		return $a;
+          |}
+          |
+          |
+          |
+          |function foo(&$ref) {
+          |	var_dump($ref);
+          |	$ref = "changed";
+          |}
+          |
+          |
+          |echo "Pass a function call that returns a value:\n";
+          |$a = "original";
+          |foo(returnVal());
+          |var_dump($a);
+          |
+          |echo "Pass a function call that returns a reference:\n";
+          |$a = "original";
+          |foo(returnReference());
+          |var_dump($a);
+          |
+          |
+          |echo "\nPass a static method call that returns a value:\n";
+          |$a = "original";
+          |foo(C::sreturnVal());
+          |var_dump($a);
+          |
+          |echo "Pass a static method call that returns a reference:\n";
+          |$a = "original";
+          |foo(C::sreturnReference());
+          |var_dump($a);
+          |
+          |
+          |$myC = new C;
+          |echo "\nPass a method call that returns a value:\n";
+          |$a = "original";
+          |foo($myC->returnVal());
+          |var_dump($a);
+          |
+          |echo "Pass a method call that returns a reference:\n";
+          |$a = "original";
+          |foo($myC->returnReference());
+          |var_dump($a);
+          |
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """Pass a function call that returns a value:
+          |
+          |Strict Standards: Only variables should be passed by reference in /lang/PassByReferenceSpec.inlinePhp on line 44
+          |string(8) "original"
+          |string(8) "original"
+          |Pass a function call that returns a reference:
+          |string(8) "original"
+          |string(7) "changed"
+          |
+          |Pass a static method call that returns a value:
+          |
+          |Strict Standards: Only variables should be passed by reference in /lang/PassByReferenceSpec.inlinePhp on line 55
+          |string(8) "original"
+          |string(8) "original"
+          |Pass a static method call that returns a reference:
+          |string(8) "original"
+          |string(7) "changed"
+          |
+          |Pass a method call that returns a value:
+          |
+          |Strict Standards: Only variables should be passed by reference in /lang/PassByReferenceSpec.inlinePhp on line 67
+          |string(8) "original"
+          |string(8) "original"
+          |Pass a method call that returns a reference:
+          |string(8) "original"
+          |string(7) "changed"
+          |""".stripMargin
+      )
+    }
+
+    "Pass same variable by ref and by value. " in {
+      // lang/passByReference_008
+      script(
+        """<?php
+          |function valRef($x, &$y) {
+          |	var_dump($x, $y);
+          |	$x = 'changed.x';
+          |	$y = 'changed.y';
+          |}
+          |
+          |function refVal(&$x, $y) {
+          |	var_dump($x, $y);
+          |	$x = 'changed.x';
+          |	$y = 'changed.y';
+          |}
+          |
+          |
+          |echo "\n\n-- Val, Ref --\n";
+          |$a = 'original.a';
+          |valRef($a, $a);
+          |var_dump($a);
+          |
+          |echo "\n\n-- Ref, Val --\n";
+          |$b = 'original.b';
+          |refVal($b, $b);
+          |var_dump($b);
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """
+          |
+          |-- Val, Ref --
+          |string(10) "original.a"
+          |string(10) "original.a"
+          |string(9) "changed.y"
+          |
+          |
+          |-- Ref, Val --
+          |string(10) "original.b"
+          |string(10) "original.b"
+          |string(9) "changed.x"
+          |""".stripMargin
+      )
+    }
+
+    "Assignement as argument" in {
+      // lang/passByReference_009
+      script(
+        """<?php
+          |    function foo(&$x, &$y) { $x = 1; echo $y ; }
+          |
+          |    $x = 0;
+          |    foo($x, $x); // prints 1 ..
+          |
+          |
+          |    function foo2($x, &$y, $z)
+          |    {
+          |      echo $x; // 0
+          |      echo $y; // 1
+          |      $y = 2;
+          |    }
+          |
+          |    $x = 0;
+          |
+          |    foo2($x, $x, $x = 1);
+          |    echo $x; // 2
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """1012""".stripMargin
+      )
+    }
+
   }
 }

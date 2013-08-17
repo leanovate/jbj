@@ -42,19 +42,6 @@ package object buildin {
   ).toMap
 
 
-  val stdClass = new PClass {
-    override def classEntry = ClassEntry.CLASS
-
-    override def name = NamespaceName(relative = false, "stdClass")
-
-    override def superClass = None
-
-    override def newInstance(parameters: List[Expr])(implicit ctx: Context, callerPosition: NodePosition) =
-      new ObjectVal(this, instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[Any, PAny])
-
-    override def methods = Map.empty
-  }
-
   val Exception = new PClass {
     override def classEntry = ClassEntry.CLASS
 
@@ -92,7 +79,7 @@ package object buildin {
   }
 
   val buildinClasses: Map[Seq[String], PClass] = Seq(
-    stdClass, Exception
+    StdClass, Exception
   ).map {
     c =>
       c.name.lowercase -> c

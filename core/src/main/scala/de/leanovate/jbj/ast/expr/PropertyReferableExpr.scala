@@ -1,12 +1,13 @@
 package de.leanovate.jbj.ast.expr
 
-import de.leanovate.jbj.ast.{Name, ReferableExpr}
+import de.leanovate.jbj.ast.{NoNodePosition, Name, ReferableExpr}
 import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.value._
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.runtime.context.MethodContext
 import de.leanovate.jbj.ast.expr.value.ScalarExpr
+import de.leanovate.jbj.runtime.buildin.StdClass
 
 case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) extends ReferableExpr {
   override def isDefined(implicit ctx: Context) = {
@@ -54,8 +55,8 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
   }
 
   def evalVar(implicit ctx: Context) = {
-    reference.eval match {
-      case obj: ObjectVal =>
+    parentObject match {
+      case Some(obj) =>
         val name = propertyName.evalName
         obj.getProperty(name).map {
           case valueRef: PVar =>
@@ -69,15 +70,15 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
           obj.setProperty(name, result)
           result
         }
-      case _ =>
+      case None =>
         ctx.log.notice(position, "Trying to get property of non-object")
         PVar(NullVal)
     }
   }
 
   override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
-    reference.eval match {
-      case obj: ObjectVal =>
+    parentObject match {
+      case Some(obj) =>
         val name = propertyName.evalName
         if (obj.getProperty(name).isDefined) {
           obj.setProperty(propertyName.evalName, valueOrRef.asVal)
@@ -91,7 +92,7 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
               }
           }
         }
-      case _ =>
+      case None =>
         ctx.log.warn(position, "Attempt to assign property of non-object")
     }
   }
@@ -107,5 +108,22 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
     super.dump(out, ident)
     reference.dump(out, ident + "  ")
     propertyName.dump(out, ident + "  ")
+  }
+
+  private def parentObject(implicit ctx: Context) = if (!reference.isDefined) {
+    val obj = StdClass.newInstance(Nil)(ctx, NoNodePosition)
+    reference.assignVar(obj)
+    Some(obj)
+  } else {
+    reference.eval.asVal match {
+      case obj: ObjectVal =>
+        Some(obj)
+      case NullVal =>
+        val obj = StdClass.newInstance(Nil)(ctx, NoNodePosition)
+        reference.assignVar(obj)
+        Some(obj)
+      case _ =>
+        None
+    }
   }
 }
