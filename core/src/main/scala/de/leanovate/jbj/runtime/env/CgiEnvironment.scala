@@ -6,7 +6,6 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.ast.NoNodePosition
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.value.StringVal
-import de.leanovate.jbj.runtime.IntArrayKey
 import scala.Some
 
 object CgiEnvironment {

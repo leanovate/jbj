@@ -3,8 +3,6 @@ package de.leanovate.jbj.ast.expr
 import de.leanovate.jbj.ast.{NodePosition, Expr, ReferableExpr}
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.value._
-import de.leanovate.jbj.runtime.IntArrayKey
-import de.leanovate.jbj.runtime.StringArrayKey
 import scala.Some
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
@@ -110,11 +108,6 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
       case _ =>
         None
     }
-  }
-
-  private def optArrayKey(implicit ctx: Context) = indexExpr.flatMap {
-    expr =>
-      ArrayKey(expr.eval)
   }
 
   override def dump(out: PrintStream, ident: String) {

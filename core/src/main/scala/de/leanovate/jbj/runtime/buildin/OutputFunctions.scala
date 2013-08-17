@@ -3,8 +3,6 @@ package de.leanovate.jbj.runtime.buildin
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.ast.NodePosition
-import de.leanovate.jbj.runtime.IntArrayKey
-import de.leanovate.jbj.runtime.StringArrayKey
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 
 object OutputFunctions extends WrappedFunctions {

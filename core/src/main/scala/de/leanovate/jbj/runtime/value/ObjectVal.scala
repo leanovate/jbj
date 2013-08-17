@@ -2,15 +2,15 @@ package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime._
 import scala.collection.mutable
-import de.leanovate.jbj.runtime.IntArrayKey
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.ast.NodePosition
 
-class ObjectVal(var pClass: PClass, var instanceNum: Long, keyValueMap: mutable.LinkedHashMap[ArrayKey, PAny])
+class ObjectVal(var pClass: PClass, var instanceNum: Long, keyValueMap: mutable.LinkedHashMap[Any, PAny])
   extends PVal with ArrayLike {
 
   def keyValues(implicit ctx: Context): Seq[(PVal, PAny)] = keyValueMap.toSeq.map {
-    case (key, value) => key.value -> value
+    case (key:Long, value) => IntegerVal(key) -> value
+    case (key:String, value) => StringVal(key) -> value
   }
 
   override def toOutput(implicit ctx: Context) = "Array"
@@ -37,17 +37,16 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, keyValueMap: mutable.
 
   final def instanceOf(other: PClass): Boolean = other.isAssignableFrom(pClass)
 
-  def getProperty(name: String)(implicit ctx: Context): Option[PAny] = keyValueMap.get(StringArrayKey(name))
+  def getProperty(name: String)(implicit ctx: Context): Option[PAny] = keyValueMap.get(name)
 
   def setProperty(name: String, value: PAny) {
-    val key = StringArrayKey(name)
-    keyValueMap.get(key).foreach(_.decrRefCount())
-    keyValueMap.put(key, value)
+    keyValueMap.get(name).foreach(_.decrRefCount())
+    keyValueMap.put(name, value)
     value.incrRefCount()
   }
 
   def unsetProperty(name: String) = {
-    keyValueMap.remove(StringArrayKey(name)).foreach(_.decrRefCount())
+    keyValueMap.remove(name).foreach(_.decrRefCount())
   }
 
   override def size: Int = keyValueMap.size
@@ -84,22 +83,22 @@ object ObjectVal {
     var nextIndex: Long = -1
 
     new ObjectVal(pClass, pClass.instanceCounter.incrementAndGet,
-      keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[ArrayKey, PAny]) {
+      keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[Any, PAny]) {
         (builder, keyValue) =>
           val key = keyValue._1.map {
             case IntegerVal(value) =>
               if (value > nextIndex)
                 nextIndex = value
-              IntArrayKey(value)
+              value
             case NumericVal(value) =>
               if (value > nextIndex)
-                nextIndex = value.toInt
-              IntArrayKey(value.toInt)
+                nextIndex = value.toLong
+              value.toLong
             case value =>
-              StringArrayKey(value.toStr.asString)
+              value.toStr.asString
           }.getOrElse {
             nextIndex += 1
-            IntArrayKey(nextIndex)
+            nextIndex
           }
 
           keyValue._2.incrRefCount()

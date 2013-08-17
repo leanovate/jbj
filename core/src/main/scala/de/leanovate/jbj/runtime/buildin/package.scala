@@ -50,7 +50,7 @@ package object buildin {
     override def superClass = None
 
     override def newInstance(parameters: List[Expr])(implicit ctx: Context, callerPosition: NodePosition) =
-      new ObjectVal(this, instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ArrayKey, PAny])
+      new ObjectVal(this, instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[Any, PAny])
 
     override def methods = Map.empty
   }

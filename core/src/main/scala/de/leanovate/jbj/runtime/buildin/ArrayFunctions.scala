@@ -4,7 +4,6 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.ast.NodePosition
 import scala.collection.mutable
-import de.leanovate.jbj.runtime.IntArrayKey
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 
 object ArrayFunctions extends WrappedFunctions {
@@ -21,15 +20,15 @@ object ArrayFunctions extends WrappedFunctions {
       NullVal
     } else {
       var count: Long = -1
-      var builder = mutable.LinkedHashMap.newBuilder[ArrayKey, PAny]
+      var builder = mutable.LinkedHashMap.newBuilder[Any, PAny]
       values.foreach {
         case array: ArrayVal =>
           array.keyValues.map {
             case (IntegerVal(_), value) =>
               count += 1
-              builder += IntArrayKey(count) -> value
-            case (key, value) =>
-              builder += ArrayKey(key).get -> value
+              builder += count -> value
+            case (StringVal(key), value) =>
+              builder += key -> value
           }
         case _ =>
       }

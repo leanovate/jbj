@@ -2,19 +2,18 @@ package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime._
 import scala.collection.mutable
-import de.leanovate.jbj.runtime.IntArrayKey
-import de.leanovate.jbj.runtime.StringArrayKey
 import de.leanovate.jbj.ast.NodePosition
 
-class ArrayVal(keyValueMap: mutable.LinkedHashMap[ArrayKey, PAny]) extends PVal with ArrayLike {
+class ArrayVal(keyValueMap: mutable.LinkedHashMap[Any, PAny]) extends PVal with ArrayLike {
 
   private var maxIndex: Long = (0L :: keyValueMap.keys.map {
-    case IntArrayKey(idx) => idx
+    case idx: Long => idx
     case _ => 0L
   }.toList).max
 
   def keyValues(implicit ctx: Context): Seq[(PVal, PAny)] = keyValueMap.toSeq.map {
-    case (key, value) => key.value -> value
+    case (key:Long, value) => IntegerVal(key) -> value
+    case (key:String, value) => StringVal(key) -> value
   }
 
   override def toOutput(implicit ctx: Context) = "Array"
@@ -44,41 +43,39 @@ class ArrayVal(keyValueMap: mutable.LinkedHashMap[ArrayKey, PAny]) extends PVal 
   override def size: Int = keyValueMap.size
 
   override def getAt(index: Long)(implicit ctx: Context, position: NodePosition): Option[PAny] =
-    keyValueMap.get(IntArrayKey(index))
+    keyValueMap.get(index)
 
   override def getAt(index: String)(implicit ctx: Context, position: NodePosition): Option[PAny] =
-    keyValueMap.get(StringArrayKey(index))
+    keyValueMap.get(index)
 
   override def setAt(index: Long, value: PAny)(implicit ctx: Context, position: NodePosition) {
     if (index > maxIndex) {
       maxIndex = index
     }
-    val key = IntArrayKey(index)
-    keyValueMap.get(key).foreach(_.decrRefCount())
-    keyValueMap.put(key, value)
+    keyValueMap.get(index).foreach(_.decrRefCount())
+    keyValueMap.put(index, value)
     value.incrRefCount()
   }
 
   override def setAt(index: String, value: PAny)(implicit ctx: Context, position: NodePosition) {
-    val key = StringArrayKey(index)
-    keyValueMap.get(key).foreach(_.decrRefCount())
-    keyValueMap.put(key, value)
+    keyValueMap.get(index).foreach(_.decrRefCount())
+    keyValueMap.put(index, value)
     value.incrRefCount()
   }
 
   override def append(value: PAny)(implicit ctx: Context, position: NodePosition) {
-    keyValueMap.get(IntArrayKey(maxIndex)).foreach(_.decrRefCount())
-    keyValueMap.put(IntArrayKey(maxIndex), value)
+    keyValueMap.get(maxIndex).foreach(_.decrRefCount())
+    keyValueMap.put(maxIndex, value)
     value.incrRefCount()
     maxIndex += 1
   }
 
   override def unsetAt(index: Long)(implicit ctx: Context, position: NodePosition) {
-    keyValueMap.remove(IntArrayKey(index)).foreach(_.decrRefCount())
+    keyValueMap.remove(index).foreach(_.decrRefCount())
   }
 
   override def unsetAt(index: String)(implicit ctx: Context, position: NodePosition) {
-    keyValueMap.remove(StringArrayKey(index)).foreach(_.decrRefCount())
+    keyValueMap.remove(index).foreach(_.decrRefCount())
   }
 
   def count: IntegerVal = IntegerVal(keyValueMap.size)
@@ -88,22 +85,22 @@ object ArrayVal {
   def apply(keyValues: (Option[PVal], PAny)*)(implicit ctx: Context): ArrayVal = {
     var nextIndex: Long = -1
 
-    new ArrayVal(keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[ArrayKey, PAny]) {
+    new ArrayVal(keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[Any, PAny]) {
       (builder, keyValue) =>
         val key = keyValue._1.map {
           case IntegerVal(value) =>
             if (value > nextIndex)
               nextIndex = value
-            IntArrayKey(value)
+            value
           case NumericVal(value) =>
             if (value > nextIndex)
-              nextIndex = value.toInt
-            IntArrayKey(value.toInt)
+              nextIndex = value.toLong
+            value.toLong
           case value =>
-            StringArrayKey(value.toStr.asString)
+            value.toStr.asString
         }.getOrElse {
           nextIndex += 1
-          IntArrayKey(nextIndex)
+          nextIndex
         }
 
         keyValue._2.incrRefCount()
