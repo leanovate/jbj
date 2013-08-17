@@ -6,8 +6,13 @@ import de.leanovate.jbj.runtime.IntArrayKey
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.ast.NodePosition
 
-class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutable.LinkedHashMap[ArrayKey, PAny])
+class ObjectVal(var pClass: PClass, var instanceNum: Long, keyValueMap: mutable.LinkedHashMap[ArrayKey, PAny])
   extends PVal with ArrayLike {
+
+  def keyValues(implicit ctx: Context): Seq[(PVal, PAny)] = keyValueMap.toSeq.map {
+    case (key, value) => key.value -> value
+  }
+
   override def toOutput(implicit ctx: Context) = "Array"
 
   override def toStr(implicit ctx: Context) = StringVal("object".getBytes(ctx.settings.charset))
@@ -20,11 +25,11 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutabl
 
   override def toBool(implicit ctx: Context) = BooleanVal.FALSE
 
-  override def toArray(implicit ctx: Context) = new ArrayVal(keyValues.clone())
+  override def toArray(implicit ctx: Context) = new ArrayVal(keyValueMap.clone())
 
   override def isNull = false
 
-  override def copy = new ObjectVal(pClass, pClass.instanceCounter.incrementAndGet(), keyValues.clone())
+  override def copy = new ObjectVal(pClass, pClass.instanceCounter.incrementAndGet(), keyValueMap.clone())
 
   override def incr = this
 
@@ -32,18 +37,20 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutabl
 
   final def instanceOf(other: PClass): Boolean = other.isAssignableFrom(pClass)
 
-  def getProperty(name: String)(implicit ctx: Context): Option[PAny] = keyValues.get(StringArrayKey(name))
+  def getProperty(name: String)(implicit ctx: Context): Option[PAny] = keyValueMap.get(StringArrayKey(name))
 
   def setProperty(name: String, value: PAny) {
     val key = StringArrayKey(name)
-    keyValues.get(key).foreach(_.decrRefCount())
-    keyValues.put(key, value)
+    keyValueMap.get(key).foreach(_.decrRefCount())
+    keyValueMap.put(key, value)
     value.incrRefCount()
   }
 
   def unsetProperty(name: String) = {
-    keyValues.remove(StringArrayKey(name)).foreach(_.decrRefCount())
+    keyValueMap.remove(StringArrayKey(name)).foreach(_.decrRefCount())
   }
+
+  override def size: Int = keyValueMap.size
 
   override def getAt(index: Long)(implicit ctx: Context, position: NodePosition): Option[PAny] =
     throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
@@ -100,5 +107,5 @@ object ObjectVal {
       }.result())
   }
 
-  def unapply(obj: ObjectVal) = Some(obj.pClass, obj.instanceNum, obj.keyValues)
+  def unapply(obj: ObjectVal)(implicit ctx: Context) = Some(obj.pClass, obj.instanceNum, obj.keyValues)
 }

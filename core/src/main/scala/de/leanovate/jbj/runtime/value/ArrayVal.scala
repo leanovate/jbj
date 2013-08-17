@@ -6,12 +6,16 @@ import de.leanovate.jbj.runtime.IntArrayKey
 import de.leanovate.jbj.runtime.StringArrayKey
 import de.leanovate.jbj.ast.NodePosition
 
-class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, PAny]) extends PVal with ArrayLike {
+class ArrayVal(keyValueMap: mutable.LinkedHashMap[ArrayKey, PAny]) extends PVal with ArrayLike {
 
-  private var maxIndex: Long = (0L :: keyValues.keys.map {
+  private var maxIndex: Long = (0L :: keyValueMap.keys.map {
     case IntArrayKey(idx) => idx
     case _ => 0L
   }.toList).max
+
+  def keyValues(implicit ctx: Context): Seq[(PVal, PAny)] = keyValueMap.toSeq.map {
+    case (key, value) => key.value -> value
+  }
 
   override def toOutput(implicit ctx: Context) = "Array"
 
@@ -21,7 +25,7 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, PAny]) extends PVa
 
   override def toDouble(implicit ctx: Context) = DoubleVal(0.0)
 
-  override def toInteger(implicit ctx: Context) = IntegerVal(keyValues.size)
+  override def toInteger(implicit ctx: Context) = IntegerVal(keyValueMap.size)
 
   override def toBool(implicit ctx: Context) = BooleanVal.FALSE
 
@@ -29,53 +33,55 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, PAny]) extends PVa
 
   override def isNull = false
 
-  def isEmpty = keyValues.isEmpty
+  def isEmpty = keyValueMap.isEmpty
 
-  override def copy = new ArrayVal(keyValues.clone())
+  override def copy = new ArrayVal(keyValueMap.clone())
 
   override def incr = this
 
   override def decr = this
 
+  override def size: Int = keyValueMap.size
+
   override def getAt(index: Long)(implicit ctx: Context, position: NodePosition): Option[PAny] =
-    keyValues.get(IntArrayKey(index))
+    keyValueMap.get(IntArrayKey(index))
 
   override def getAt(index: String)(implicit ctx: Context, position: NodePosition): Option[PAny] =
-    keyValues.get(StringArrayKey(index))
+    keyValueMap.get(StringArrayKey(index))
 
   override def setAt(index: Long, value: PAny)(implicit ctx: Context, position: NodePosition) {
     if (index > maxIndex) {
       maxIndex = index
     }
     val key = IntArrayKey(index)
-    keyValues.get(key).foreach(_.decrRefCount())
-    keyValues.put(key, value)
+    keyValueMap.get(key).foreach(_.decrRefCount())
+    keyValueMap.put(key, value)
     value.incrRefCount()
   }
 
   override def setAt(index: String, value: PAny)(implicit ctx: Context, position: NodePosition) {
     val key = StringArrayKey(index)
-    keyValues.get(key).foreach(_.decrRefCount())
-    keyValues.put(key, value)
+    keyValueMap.get(key).foreach(_.decrRefCount())
+    keyValueMap.put(key, value)
     value.incrRefCount()
   }
 
   override def append(value: PAny)(implicit ctx: Context, position: NodePosition) {
-    keyValues.get(IntArrayKey(maxIndex)).foreach(_.decrRefCount())
-    keyValues.put(IntArrayKey(maxIndex), value)
+    keyValueMap.get(IntArrayKey(maxIndex)).foreach(_.decrRefCount())
+    keyValueMap.put(IntArrayKey(maxIndex), value)
     value.incrRefCount()
     maxIndex += 1
   }
 
   override def unsetAt(index: Long)(implicit ctx: Context, position: NodePosition) {
-    keyValues.remove(IntArrayKey(index)).foreach(_.decrRefCount())
+    keyValueMap.remove(IntArrayKey(index)).foreach(_.decrRefCount())
   }
 
   override def unsetAt(index: String)(implicit ctx: Context, position: NodePosition) {
-    keyValues.remove(StringArrayKey(index)).foreach(_.decrRefCount())
+    keyValueMap.remove(StringArrayKey(index)).foreach(_.decrRefCount())
   }
 
-  def count: IntegerVal = IntegerVal(keyValues.size)
+  def count: IntegerVal = IntegerVal(keyValueMap.size)
 }
 
 object ArrayVal {
@@ -105,5 +111,5 @@ object ArrayVal {
     }.result())
   }
 
-  def unapply(array: ArrayVal) = Some(array.keyValues)
+  def unapply(array: ArrayVal)(implicit ctx: Context) = Some(array.keyValues)
 }

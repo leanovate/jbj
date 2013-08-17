@@ -24,10 +24,10 @@ object OutputFunctions extends WrappedFunctions {
           val nextIdent = ident + "  "
           ctx.out.println("%sarray(%d) {".format(ident, keyValues.size))
           keyValues.foreach {
-            case (IntArrayKey(key), v) =>
+            case (IntegerVal(key), v) =>
               ctx.out.println("%s[%d]=>".format(nextIdent, key))
               dump(v, nextIdent)
-            case (StringArrayKey(key), v) =>
+            case (StringVal(key), v) =>
               ctx.out.println( """%s["%s"]=>""".format(nextIdent, key))
               dump(v, nextIdent)
           }
@@ -44,10 +44,10 @@ object OutputFunctions extends WrappedFunctions {
           val nextIdent = ident + "  "
           ctx.out.println("%sobject(%s)#%d (%d) {".format(ident, pClass.name.toString, instanceNum, keyValues.size))
           keyValues.foreach {
-            case (IntArrayKey(key), v) =>
+            case (IntegerVal(key), v) =>
               ctx.out.println("%s[%d]=>".format(nextIdent, key))
               dump(v, nextIdent)
-            case (StringArrayKey(key), v) =>
+            case (StringVal(key), v) =>
               ctx.out.println( """%s["%s"]=>""".format(nextIdent, key))
               dump(v, nextIdent)
           }
@@ -66,22 +66,22 @@ object OutputFunctions extends WrappedFunctions {
       value match {
         case ArrayVal(keyValues) =>
           "Array" :: "(" :: keyValues.flatMap {
-            case (IntArrayKey(key), v) =>
+            case (IntegerVal(key), v) =>
               val lines = dump(v)
               "    [%d] => %s".format(key, lines.head) :: (
                 if (lines.tail.isEmpty) Nil else lines.tail.map("        " + _) ::: "" :: Nil)
-            case (StringArrayKey(key), v) =>
+            case (StringVal(key), v) =>
               val lines = dump(v)
               """    [%s] => %s""".format(key, lines.head) :: (
                 if (lines.tail.isEmpty) Nil else lines.tail.map("        " + _) ::: "" :: Nil)
           }.toList ::: ")" :: Nil
         case ObjectVal(pClass, _, keyValues) =>
           "%s Object".format(pClass.name.toString) :: "(" :: keyValues.flatMap {
-            case (IntArrayKey(key), v) =>
+            case (IntegerVal(key), v) =>
               val lines = dump(v)
               "    [%d] => %s".format(key, lines.head) :: (
                 if (lines.tail.isEmpty) Nil else lines.tail.map("        " + _) ::: "" :: Nil)
-            case (StringArrayKey(key), v) =>
+            case (StringVal(key), v) =>
               val lines = dump(v)
               """    [%s] => %s""".format(key, lines.head) :: (
                 if (lines.tail.isEmpty) Nil else lines.tail.map("        " + _) ::: "" :: Nil)

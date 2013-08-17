@@ -27,10 +27,10 @@ case class ForeachKeyValueStmt(arrayExpr: Expr, keyVar: ReferableExpr, valueVar:
   }
 
   @tailrec
-  private def execValues(keyValues: List[(ArrayKey, PAny)])(implicit context: Context): ExecResult =
+  private def execValues(keyValues: List[(PVal, PAny)])(implicit context: Context): ExecResult =
     keyValues match {
       case head :: tail =>
-        keyVar.assignVar(head._1.value)
+        keyVar.assignVar(head._1)
         valueVar.assignVar(head._2)
         execStmts(stmts) match {
           case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)

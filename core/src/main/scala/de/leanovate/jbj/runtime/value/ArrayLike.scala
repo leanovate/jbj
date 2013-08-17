@@ -4,6 +4,8 @@ import de.leanovate.jbj.runtime.{StringArrayKey, IntArrayKey, Context, ArrayKey}
 import de.leanovate.jbj.ast.NodePosition
 
 trait ArrayLike {
+  def size:Int
+
   def getAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition): Option[PAny] =
     index match {
       case IntArrayKey(idx) => getAt(idx)

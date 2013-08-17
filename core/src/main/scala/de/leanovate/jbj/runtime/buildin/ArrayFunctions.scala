@@ -10,7 +10,7 @@ import de.leanovate.jbj.runtime.annotations.GlobalFunction
 object ArrayFunctions extends WrappedFunctions {
   @GlobalFunction
   def count(value: PVal): Int = value match {
-    case array: ArrayVal => array.keyValues.size
+    case array: ArrayVal => array.size
     case _ => 1
   }
 
@@ -25,11 +25,11 @@ object ArrayFunctions extends WrappedFunctions {
       values.foreach {
         case array: ArrayVal =>
           array.keyValues.map {
-            case (IntArrayKey(_), value) =>
+            case (IntegerVal(_), value) =>
               count += 1
               builder += IntArrayKey(count) -> value
             case (key, value) =>
-              builder += key -> value
+              builder += ArrayKey(key).get -> value
           }
         case _ =>
       }
