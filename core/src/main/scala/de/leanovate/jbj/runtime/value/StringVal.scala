@@ -1,6 +1,6 @@
 package de.leanovate.jbj.runtime.value
 
-import de.leanovate.jbj.runtime.{StringArrayKey, Context, IntArrayKey, ArrayKey}
+import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.ast.NodePosition
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
@@ -42,36 +42,47 @@ class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
 
   override def decr = this
 
-  override def getAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) = index match {
-    case IntArrayKey(idx) => Some(StringVal(Array(chars(idx.toInt))))
-    case _ => Some(StringVal(Array(chars(0))))
+  override def getAt(index: Long)(implicit ctx: Context, position: NodePosition) = {
+    Some(StringVal(Array(chars(index.toInt))))
   }
 
-  override def setAt(index: Option[ArrayKey], valueOrRef: PAny)(implicit ctx: Context, position: NodePosition) {
-    val chs = valueOrRef.value.toStr.chars
-    val ch: Byte = if (!chs.isEmpty) chars(0) else 0
-    index match {
-      case Some(IntArrayKey(idx)) if idx < 0 =>
-        ctx.log.warn(position, "Illegal string offset:  %d".format(idx))
-      case Some(IntArrayKey(idx)) if idx >= chars.length =>
-        val newChars = new Array[Byte](idx.toInt + 1)
+  override def getAt(index: String)(implicit ctx: Context, position: NodePosition) = {
+    Some(StringVal(Array(chars(0))))
+  }
+
+  override def setAt(index: Long, value: PAny)(implicit ctx: Context, position: NodePosition) {
+    if (index < 0) {
+      ctx.log.warn(position, "Illegal string offset:  %d".format(index))
+    } else {
+      val chs = value.value.toStr.chars
+      val ch: Byte = if (!chs.isEmpty) chars(0) else 0
+
+      if (index >= chars.length) {
+        val newChars = new Array[Byte](index.toInt + 1)
         Array.copy(chars, 0, newChars, 0, chars.length)
-        for (i <- Range(chars.length, idx.toInt))
+        for (i <- Range(chars.length, index.toInt))
           newChars(i) = 0x20.toByte
-        newChars(idx.toInt) = ch
+        newChars(index.toInt) = ch
         chars = newChars
-      case Some(IntArrayKey(idx)) =>
-        chars(idx.toInt) = ch
-      case Some(StringArrayKey(NumericVal.integerPattern(idx))) =>
-        setAt(Some(IntArrayKey(idx.toInt)), valueOrRef)
-      case Some(_) =>
-        setAt(Some(IntArrayKey(0)), valueOrRef)
-      case None =>
-        throw new FatalErrorJbjException("[] operator not supported for strings")
+      } else {
+        chars(index.toInt) = ch
+      }
     }
   }
 
-  override def unsetAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) {
+  override def setAt(index: String, value: PAny)(implicit ctx: Context, position: NodePosition) {
+    setAt(0, value)
+  }
+
+  override def append(value: PAny)(implicit ctx: Context, position: NodePosition) {
+    throw new FatalErrorJbjException("[] operator not supported for strings")
+  }
+
+  override def unsetAt(index: Long)(implicit ctx: Context, position: NodePosition) {
+    throw new FatalErrorJbjException("Cannot unset string offsets")
+  }
+
+  override def unsetAt(index: String)(implicit ctx: Context, position: NodePosition) {
     throw new FatalErrorJbjException("Cannot unset string offsets")
   }
 

@@ -37,31 +37,43 @@ class ArrayVal(var keyValues: mutable.LinkedHashMap[ArrayKey, PAny]) extends PVa
 
   override def decr = this
 
-  override def getAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) = keyValues.get(index)
+  override def getAt(index: Long)(implicit ctx: Context, position: NodePosition): Option[PAny] =
+    keyValues.get(IntArrayKey(index))
 
-  override def setAt(index: Option[ArrayKey], value: PAny)(implicit ctx: Context, position: NodePosition) {
-    index match {
-      case Some(key@IntArrayKey(idx)) if idx > maxIndex =>
-        keyValues.get(key).foreach(_.decrRefCount())
-        keyValues.put(key, value)
-        value.incrRefCount()
-        maxIndex = idx
-      case Some(key) =>
-        keyValues.get(key).foreach(_.decrRefCount())
-        keyValues.put(key, value)
-        value.incrRefCount()
-      case None =>
-        keyValues.get(IntArrayKey(maxIndex)).foreach(_.decrRefCount())
-        keyValues.put(IntArrayKey(maxIndex), value)
-        value.incrRefCount()
-        maxIndex += 1
+  override def getAt(index: String)(implicit ctx: Context, position: NodePosition): Option[PAny] =
+    keyValues.get(StringArrayKey(index))
+
+  override def setAt(index: Long, value: PAny)(implicit ctx: Context, position: NodePosition) {
+    if (index > maxIndex) {
+      maxIndex = index
     }
+    val key = IntArrayKey(index)
+    keyValues.get(key).foreach(_.decrRefCount())
+    keyValues.put(key, value)
+    value.incrRefCount()
   }
 
-  override def unsetAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) {
-    keyValues.remove(index).foreach(_.decrRefCount())
+  override def setAt(index: String, value: PAny)(implicit ctx: Context, position: NodePosition) {
+    val key = StringArrayKey(index)
+    keyValues.get(key).foreach(_.decrRefCount())
+    keyValues.put(key, value)
+    value.incrRefCount()
   }
 
+  override def append(value: PAny)(implicit ctx: Context, position: NodePosition) {
+    keyValues.get(IntArrayKey(maxIndex)).foreach(_.decrRefCount())
+    keyValues.put(IntArrayKey(maxIndex), value)
+    value.incrRefCount()
+    maxIndex += 1
+  }
+
+  override def unsetAt(index: Long)(implicit ctx: Context, position: NodePosition) {
+    keyValues.remove(IntArrayKey(index)).foreach(_.decrRefCount())
+  }
+
+  override def unsetAt(index: String)(implicit ctx: Context, position: NodePosition) {
+    keyValues.remove(StringArrayKey(index)).foreach(_.decrRefCount())
+  }
 
   def count: IntegerVal = IntegerVal(keyValues.size)
 }

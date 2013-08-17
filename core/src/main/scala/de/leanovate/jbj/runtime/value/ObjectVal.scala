@@ -16,11 +16,11 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutabl
 
   override def toDouble(implicit ctx: Context) = DoubleVal(0.0)
 
-  override def toInteger(implicit ctx:Context) = IntegerVal(0)
+  override def toInteger(implicit ctx: Context) = IntegerVal(0)
 
-  override def toBool(implicit ctx:Context) = BooleanVal.FALSE
+  override def toBool(implicit ctx: Context) = BooleanVal.FALSE
 
-  override def toArray(implicit ctx:Context) = new ArrayVal(keyValues.clone())
+  override def toArray(implicit ctx: Context) = new ArrayVal(keyValues.clone())
 
   override def isNull = false
 
@@ -32,7 +32,7 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutabl
 
   final def instanceOf(other: PClass): Boolean = other.isAssignableFrom(pClass)
 
-  def getProperty(name: String)(implicit ctx:Context): Option[PAny] = keyValues.get(StringArrayKey(name))
+  def getProperty(name: String)(implicit ctx: Context): Option[PAny] = keyValues.get(StringArrayKey(name))
 
   def setProperty(name: String, value: PAny) {
     val key = StringArrayKey(name)
@@ -45,20 +45,35 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, var keyValues: mutabl
     keyValues.remove(StringArrayKey(name)).foreach(_.decrRefCount())
   }
 
-  override def getAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) =
+  override def getAt(index: Long)(implicit ctx: Context, position: NodePosition): Option[PAny] =
     throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
 
-  override def setAt(index: Option[ArrayKey], value: PAny)(implicit ctx: Context, position: NodePosition) {
+  override def getAt(index: String)(implicit ctx: Context, position: NodePosition): Option[PAny] =
+    throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
+
+  override def setAt(index: Long, value: PAny)(implicit ctx: Context, position: NodePosition) {
     throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
   }
 
-  override def unsetAt(index: ArrayKey)(implicit ctx: Context, position: NodePosition) {
+  override def setAt(index: String, value: PAny)(implicit ctx: Context, position: NodePosition) {
+    throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
+  }
+
+  override def append(value: PAny)(implicit ctx: Context, position: NodePosition) {
+    throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
+  }
+
+  override def unsetAt(index: Long)(implicit ctx: Context, position: NodePosition) {
+    throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
+  }
+
+  override def unsetAt(index: String)(implicit ctx: Context, position: NodePosition) {
     throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
   }
 }
 
 object ObjectVal {
-  def apply(pClass: PClass, keyValues: (Option[PVal], PVal)*)(implicit ctx:Context): ObjectVal = {
+  def apply(pClass: PClass, keyValues: (Option[PVal], PVal)*)(implicit ctx: Context): ObjectVal = {
     var nextIndex: Long = -1
 
     new ObjectVal(pClass, pClass.instanceCounter.incrementAndGet,
