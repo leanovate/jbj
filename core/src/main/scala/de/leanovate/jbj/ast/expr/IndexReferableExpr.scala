@@ -7,6 +7,7 @@ import de.leanovate.jbj.runtime.IntArrayKey
 import de.leanovate.jbj.runtime.StringArrayKey
 import scala.Some
 import java.io.PrintStream
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr]) extends ReferableExpr {
 
@@ -18,10 +19,10 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
 
   override def isDefined(implicit ctx: Context) = {
     if (reference.isDefined) {
-      optArrayKey.exists {
-        arrayKey =>
+      indexExpr.exists {
+        expr =>
           reference.eval match {
-            case array: ArrayLike => array.getAt(arrayKey).isDefined
+            case array: ArrayLike => array.getAt(expr.eval).isDefined
             case _ => false
           }
       }
@@ -31,37 +32,38 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
   }
 
   override def eval(implicit ctx: Context) = {
-    optArrayKey.flatMap {
-      arrayKey =>
-        reference.eval match {
-          case array: ArrayLike =>
-            val result = array.getAt(arrayKey)
-            if (!result.isDefined) {
-              arrayKey match {
-                case IntArrayKey(idx) =>
-                  ctx.log.notice(position, "Undefined offset: %d".format(idx))
-                case StringArrayKey(idx) =>
-                  ctx.log.notice(position, "Undefined index: %s".format(idx))
-              }
-            }
-            result.map(_.value)
-          case _ =>
-            Some(NullVal)
+    if (indexExpr.isEmpty)
+      throw new FatalErrorJbjException("Cannot use [] for reading")
+    reference.eval match {
+      case array: ArrayLike =>
+        val arrayKey = indexExpr.get.eval
+        val result = array.getAt(indexExpr.get.eval)
+        if (!result.isDefined) {
+          arrayKey match {
+            case NumericVal(idx) =>
+              ctx.log.notice(position, "Undefined offset: %d".format(idx.toLong))
+            case idx =>
+              ctx.log.notice(position, "Undefined index: %s".format(idx.toStr.asString))
+          }
         }
-    }.getOrElse(NullVal)
+        result.map(_.value).getOrElse(NullVal)
+      case _ =>
+        NullVal
+    }
   }
 
   override def evalVar(implicit ctx: Context) = {
     parentArray.map {
       array =>
-        optArrayKey match {
-          case Some(key) =>
-            array.getAt(key) match {
+        indexExpr match {
+          case Some(expr) =>
+            val arrayKey = expr.eval
+            array.getAt(arrayKey) match {
               case Some(valueRef: PVar) =>
                 valueRef
               case someValue =>
                 val result = PVar(someValue)
-                array.setAt(Some(key), result)
+                array.setAt(arrayKey, result)
                 result
             }
           case None =>
@@ -78,19 +80,18 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
   override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
     parentArray.map {
       array =>
-        array.setAt(optArrayKey, valueOrRef)
+        array.setAt(indexExpr.map(_.eval), valueOrRef)
     }.getOrElse {
       ctx.log.warn(position, "Cannot use a scalar value as an array")
     }
   }
 
   override def unsetVar(implicit ctx: Context) {
-    optArrayKey.foreach {
-      arrayKey =>
-        reference.eval match {
-          case array: ArrayLike => array.getAt(arrayKey).isDefined
-          case _ => false
-        }
+    if (indexExpr.isDefined) {
+      reference.eval match {
+        case array: ArrayLike => array.getAt(indexExpr.get.eval).isDefined
+        case _ =>
+      }
     }
   }
 

@@ -4,14 +4,9 @@ import de.leanovate.jbj.runtime._
 import java.net.{URLDecoder, URI}
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.ast.NoNodePosition
-import de.leanovate.jbj.runtime.IntArrayKey
-import de.leanovate.jbj.runtime.StringArrayKey
-import scala.Some
 import scala.annotation.tailrec
-import scala.collection.generic.Growable
 import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.runtime.IntArrayKey
-import de.leanovate.jbj.runtime.StringArrayKey
 import scala.Some
 
 object CgiEnvironment {
@@ -69,31 +64,31 @@ object CgiEnvironment {
   }
 
   @tailrec
-  private def assign(array: ArrayVal, indices: List[Option[ArrayKey]], value: PVal)(implicit ctx: Context) {
+  private def assign(array: ArrayVal, indices: List[Option[PVal]], value: PVal)(implicit ctx: Context) {
     indices match {
-      case Some(idx) :: Nil => array.setAt(Some(idx), value)
-      case None :: Nil => array.setAt(Some(IntArrayKey(array.keyValues.size)), value)
+      case Some(idx) :: Nil => array.setAt(idx, value)
+      case None :: Nil => array.setAt(array.size, value)
       case Some(idx) :: tail =>
         val subArray = array.getAt(idx).getOrElse(ArrayVal()).value.toArray
-        array.setAt(Some(idx), subArray)
+        array.setAt(idx, subArray)
         assign(subArray, tail, value)
       case None :: tail =>
         val subArray = ArrayVal()
-        array.setAt(Some(IntArrayKey(array.keyValues.size)), subArray)
+        array.setAt(array.size, subArray)
         assign(subArray, tail, value)
     }
   }
 
-  private def extractIndices(key: String): Iterator[Option[ArrayKey]] = {
+  private def extractIndices(key: String)(implicit ctx: Context): Iterator[Option[PVal]] = {
     Iterator.single {
       val idxStart = key.indexOf('[')
 
       if (idxStart >= 0) {
-        Some(StringArrayKey(key.substring(0, idxStart)))
+        Some(StringVal(key.substring(0, idxStart)))
       } else {
-        Some(StringArrayKey(key))
+        Some(StringVal(key))
       }
-    } ++ new Iterator[Option[ArrayKey]] {
+    } ++ new Iterator[Option[PVal]] {
       var pos = 0
 
       def hasNext = key.indexOf('[', pos) >= 0
@@ -110,9 +105,9 @@ object CgiEnvironment {
           case "" =>
             None
           case numberPattern(str) =>
-            Some(IntArrayKey(str.toLong))
+            Some(IntegerVal(str.toLong))
           case str =>
-            Some(StringArrayKey(str))
+            Some(StringVal(str))
         }
       }
     }

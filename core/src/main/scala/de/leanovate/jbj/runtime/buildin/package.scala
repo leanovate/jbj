@@ -75,14 +75,14 @@ package object buildin {
 
       parameters.map(_.eval(ctx)) match {
         case msg :: Nil =>
-          instance.setAt(Some(StringArrayKey("message")), msg.toStr)(ctx, callerPosition)
+          instance.setAt("message", msg.toStr)(ctx, callerPosition)
         case msg :: c :: Nil => (msg.toStr, c.toInteger, NullVal)
-          instance.setAt(Some(StringArrayKey("message")), msg.toStr)(ctx, callerPosition)
-          instance.setAt(Some(StringArrayKey("code")), c.toInteger)(ctx, callerPosition)
+          instance.setAt("message", msg.toStr)(ctx, callerPosition)
+          instance.setAt("code", c.toInteger)(ctx, callerPosition)
         case msg :: c :: prev :: tail => (msg.toStr, c.toInteger, prev)
-          instance.setAt(Some(StringArrayKey("message")), msg.toStr)(ctx, callerPosition)
-          instance.setAt(Some(StringArrayKey("code")), c.toInteger)(ctx, callerPosition)
-          instance.setAt(Some(StringArrayKey("previous")), prev)(ctx, callerPosition)
+          instance.setAt("message", msg.toStr)(ctx, callerPosition)
+          instance.setAt("code", c.toInteger)(ctx, callerPosition)
+          instance.setAt("previous", prev)(ctx, callerPosition)
         case _ =>
       }
       instance
