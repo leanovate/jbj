@@ -549,22 +549,22 @@ class PassByReferenceSpec extends SpecificationWithJUnit with TestJbjExecutor{
           |    string(12) "Ref2 changed"
           |  }
           |}
-          |object(stdClass)#13 (1) {
+          |object(stdClass)#14 (1) {
           |  ["a"]=>
           |  string(12) "Ref3 changed"
           |}
-          |object(stdClass)#15 (1) {
+          |object(stdClass)#16 (1) {
           |  ["a"]=>
-          |  object(stdClass)#14 (1) {
+          |  object(stdClass)#15 (1) {
           |    ["b"]=>
           |    string(12) "Ref4 changed"
           |  }
           |}
-          |object(stdClass)#18 (1) {
+          |object(stdClass)#19 (1) {
           |  ["a"]=>
-          |  object(stdClass)#17 (1) {
+          |  object(stdClass)#18 (1) {
           |    ["b"]=>
-          |    object(stdClass)#16 (1) {
+          |    object(stdClass)#17 (1) {
           |      ["c"]=>
           |      string(12) "Ref5 changed"
           |    }
@@ -583,22 +583,22 @@ class PassByReferenceSpec extends SpecificationWithJUnit with TestJbjExecutor{
           |    string(12) "Ref2 changed"
           |  }
           |}
-          |object(stdClass)#19 (1) {
+          |object(stdClass)#20 (1) {
           |  ["a"]=>
           |  string(12) "Ref3 changed"
           |}
-          |object(stdClass)#21 (1) {
+          |object(stdClass)#22 (1) {
           |  ["a"]=>
-          |  object(stdClass)#20 (1) {
+          |  object(stdClass)#21 (1) {
           |    ["b"]=>
           |    string(12) "Ref4 changed"
           |  }
           |}
-          |object(stdClass)#24 (1) {
+          |object(stdClass)#25 (1) {
           |  ["a"]=>
-          |  object(stdClass)#23 (1) {
+          |  object(stdClass)#24 (1) {
           |    ["b"]=>
-          |    object(stdClass)#22 (1) {
+          |    object(stdClass)#23 (1) {
           |      ["c"]=>
           |      string(12) "Ref5 changed"
           |    }

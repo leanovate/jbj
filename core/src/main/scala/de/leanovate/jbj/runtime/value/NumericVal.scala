@@ -10,7 +10,7 @@ trait NumericVal extends PVal {
 
   override def isNull = false
 
-  override def copy = this
+  override def copy(implicit ctx: Context) = this
 
   def unary_- : NumericVal
 

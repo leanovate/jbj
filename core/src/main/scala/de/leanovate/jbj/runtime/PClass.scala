@@ -11,8 +11,6 @@ import de.leanovate.jbj.runtime.context.StaticContext
 trait PClass extends StaticContext {
   private val staticVariables = mutable.Map.empty[String, PVar]
 
-  val instanceCounter = new AtomicLong(0)
-
   def classEntry: ClassEntry.Type
 
   def name: NamespaceName

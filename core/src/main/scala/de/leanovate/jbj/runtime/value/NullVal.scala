@@ -19,7 +19,7 @@ object NullVal extends PVal {
 
   override def isNull = true
 
-  override def copy = this
+  override def copy(implicit ctx: Context) = this
 
   override def incr = IntegerVal(1)
 

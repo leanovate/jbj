@@ -10,6 +10,7 @@ import de.leanovate.jbj.JbjEnv
 import de.leanovate.jbj.runtime.exception.CompileErrorException
 import de.leanovate.jbj.runtime.value.{ArrayVal, PVar, PVal, StringVal}
 import de.leanovate.jbj.ast.expr.value.ScalarExpr
+import java.util.concurrent.atomic.AtomicLong
 
 case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settings: Settings) extends Context {
   private val classes = mutable.Map.empty[Seq[String], PClass]
@@ -29,6 +30,8 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
   def static = staticContext("global")
 
   def stack: Stack[NodePosition] = Stack.empty[NodePosition]
+
+  val instanceCounter = new AtomicLong(0)
 
   val GLOBALS = ArrayVal()
 

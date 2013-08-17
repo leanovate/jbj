@@ -34,7 +34,7 @@ class ArrayVal(keyValueMap: mutable.LinkedHashMap[Any, PAny]) extends PVal with 
 
   def isEmpty = keyValueMap.isEmpty
 
-  override def copy = new ArrayVal(keyValueMap.clone())
+  override def copy(implicit ctx: Context) = new ArrayVal(keyValueMap.clone())
 
   override def incr = this
 

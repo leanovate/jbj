@@ -29,7 +29,7 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, keyValueMap: mutable.
 
   override def isNull = false
 
-  override def copy = new ObjectVal(pClass, pClass.instanceCounter.incrementAndGet(), keyValueMap.clone())
+  override def copy(implicit ctx:Context) = new ObjectVal(pClass, ctx.global.instanceCounter.incrementAndGet(), keyValueMap.clone())
 
   override def incr = this
 
@@ -82,7 +82,7 @@ object ObjectVal {
   def apply(pClass: PClass, keyValues: (Option[PVal], PVal)*)(implicit ctx: Context): ObjectVal = {
     var nextIndex: Long = -1
 
-    new ObjectVal(pClass, pClass.instanceCounter.incrementAndGet,
+    new ObjectVal(pClass, ctx.global.instanceCounter.incrementAndGet,
       keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[Any, PAny]) {
         (builder, keyValue) =>
           val key = keyValue._1.map {

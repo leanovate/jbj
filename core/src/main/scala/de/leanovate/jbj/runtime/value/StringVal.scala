@@ -36,7 +36,7 @@ class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
 
   override def isNull = false
 
-  override def copy = this
+  override def copy(implicit ctx: Context) = this
 
   override def incr = this
 
