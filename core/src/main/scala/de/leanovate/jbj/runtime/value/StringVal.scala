@@ -56,7 +56,7 @@ class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
     if (index < 0) {
       ctx.log.warn(position, "Illegal string offset:  %d".format(index))
     } else {
-      val chs = value.value.toStr.chars
+      val chs = value.asVal.toStr.chars
       val ch: Byte = if (!chs.isEmpty) chars(0) else 0
 
       if (index >= chars.length) {

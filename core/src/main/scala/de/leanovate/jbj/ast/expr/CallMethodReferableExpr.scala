@@ -8,7 +8,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import scala.Some
 
 case class CallMethodReferableExpr(instanceExpr: Expr, methodName: Name, parameters: List[Expr]) extends ReferableExpr {
-  override def eval(implicit ctx: Context) = callMethod.value
+  override def eval(implicit ctx: Context) = callMethod.asVal
 
   override def evalVar(implicit ctx: Context) = callMethod
 

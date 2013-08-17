@@ -7,7 +7,7 @@ trait ArrayLike {
   def size: Int
 
   def getAt(index: PAny)(implicit ctx: Context, position: NodePosition): Option[PAny] =
-    index.value match {
+    index.asVal match {
       case IntegerVal(idx) => getAt(idx)
       case NumericVal(idx) => getAt(idx.toLong)
       case StringVal(idx) => getAt(idx)
@@ -26,7 +26,7 @@ trait ArrayLike {
   }
 
   def setAt(index: PVal, value: PAny)(implicit ctx: Context, position: NodePosition) {
-    index.value match {
+    index.asVal match {
       case IntegerVal(idx) => setAt(idx, value)
       case NumericVal(idx) => setAt(idx.toLong, value)
       case StringVal(idx) => setAt(idx, value)

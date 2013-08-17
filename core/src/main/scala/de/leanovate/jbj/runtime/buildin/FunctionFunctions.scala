@@ -13,8 +13,8 @@ object FunctionFunctions extends WrappedFunctions {
       ctx.log.warn(position, "call_user_func() expects parameter 1 to be a valid callback, array must have exactly two members")
       NullVal
     case array: ArrayVal =>
-      val objOrClassName = array.keyValues.head._2.value
-      val methodName = array.keyValues.last._2.value.toStr.asString
+      val objOrClassName = array.keyValues.head._2.asVal
+      val methodName = array.keyValues.last._2.asVal.toStr.asString
       objOrClassName match {
         case obj: ObjectVal =>
           obj.pClass.findMethod(methodName).map {

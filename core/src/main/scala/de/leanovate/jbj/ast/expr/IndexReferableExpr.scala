@@ -44,7 +44,7 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
               ctx.log.notice(position, "Undefined index: %s".format(idx.toStr.asString))
           }
         }
-        result.map(_.value).getOrElse(NullVal)
+        result.map(_.asVal).getOrElse(NullVal)
       case _ =>
         NullVal
     }
@@ -98,7 +98,7 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
     reference.assignVar(array)
     Some(array)
   } else {
-    reference.eval.value match {
+    reference.eval.asVal match {
       case array: ArrayLike =>
         Some(array)
       case NullVal =>

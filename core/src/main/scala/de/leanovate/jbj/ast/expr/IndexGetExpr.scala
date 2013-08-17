@@ -11,7 +11,7 @@ case class IndexGetExpr(expr: Expr, indexExpr: Option[Expr]) extends Expr {
       throw new FatalErrorJbjException("Cannot use [] for reading")
 
     expr.eval match {
-      case array: ArrayLike => array.getAt(indexExpr.get.eval).map(_.value).getOrElse(NullVal)
+      case array: ArrayLike => array.getAt(indexExpr.get.eval).map(_.asVal).getOrElse(NullVal)
       case _ => NullVal
     }
   }

@@ -7,13 +7,13 @@ import de.leanovate.jbj.runtime.value.{PAny, PVar}
 import java.io.PrintStream
 
 case class CallFunctionReferableExpr(functionName: Name, parameters: List[Expr]) extends ReferableExpr {
-  override def eval(implicit ctx: Context) = callFunction.value
+  override def eval(implicit ctx: Context) = callFunction.asVal
 
   override def evalVar(implicit ctx: Context) = callFunction
 
   override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
     callFunction match {
-      case valueRef: PVar => valueRef.value = valueOrRef.value
+      case valueRef: PVar => valueRef.value = valueOrRef.asVal
       case _ => throw new RuntimeException("Function does not have reference result")
     }
   }

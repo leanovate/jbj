@@ -5,7 +5,9 @@ import de.leanovate.jbj.runtime.Context
 trait PAny {
   def toOutput(implicit ctx: Context): String
 
-  def value: PVal
+  def asVal: PVal
+
+  def asVar: PVar
 
   def incrRefCount()
 

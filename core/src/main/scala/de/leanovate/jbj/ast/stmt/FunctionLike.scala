@@ -23,7 +23,7 @@ trait FunctionLike extends BlockLike {
                 case pVar: PVar => pVar
                 case pAny =>
                   callerContext.log.strict(callerPosition, "Only variables should be passed by reference")
-                  PVar(pAny.value)
+                  pAny.asVar
               }
               funcCtx.defineVariable(parameterDecl.variableName, pVar)(callerPosition)
             case _ if parameterDecl.byRef =>

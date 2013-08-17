@@ -19,6 +19,10 @@ class PVar(private var current: Option[PVal] = None) extends PAny {
 
   def refCount = _refCount
 
+  override def asVal = value
+
+  override def asVar = this
+
   override def incrRefCount() {
     _refCount += 1
   }
@@ -33,5 +37,5 @@ object PVar {
 
   def apply(v: PVal): PVar = new PVar(Some(v))
 
-  def apply(optVal: Option[PAny]) = new PVar(optVal.map(_.value))
+  def apply(optVal: Option[PAny]) = new PVar(optVal.map(_.asVal))
 }

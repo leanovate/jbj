@@ -5,6 +5,6 @@ import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.ast.NodePosition
 
 case class RuntimeJbjException(exception: ObjectVal)(implicit ctx: Context, position: NodePosition)
-  extends JbjException(exception.getProperty("message").map(_.value.toStr.asString).getOrElse("")) {
+  extends JbjException(exception.getProperty("message").map(_.asVal.toStr.asString).getOrElse("")) {
 
 }

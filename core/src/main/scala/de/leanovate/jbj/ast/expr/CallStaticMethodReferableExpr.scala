@@ -6,7 +6,7 @@ import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class CallStaticMethodReferableExpr(className: Name, methodName: Name, parameters: List[Expr]) extends ReferableExpr {
-  override def eval(implicit ctx: Context) = callMethod.value
+  override def eval(implicit ctx: Context) = callMethod.asVal
 
   override def evalVar(implicit ctx: Context) = callMethod
 

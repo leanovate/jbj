@@ -9,5 +9,5 @@ object ValueOrRefConverter extends Converter[PAny, PVal] {
 
   override def toScala(value: PVal)(implicit ctx: Context) = value
 
-  override def toJbj(valueOrRef: PAny)(implicit ctx: Context) = valueOrRef.value
+  override def toJbj(valueOrRef: PAny)(implicit ctx: Context) = valueOrRef.asVal
 }

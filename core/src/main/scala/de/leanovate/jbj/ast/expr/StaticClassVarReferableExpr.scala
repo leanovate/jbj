@@ -31,11 +31,11 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
     }
   }
 
-  override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
+  override def assignVar(pAny: PAny)(implicit ctx: Context) {
     val name = className.evalNamespaceName
     ctx.global.findClass(name).map {
       pClass =>
-        pClass.defineVariable(variableName.evalName, PVar(valueOrRef.value))
+        pClass.defineVariable(variableName.evalName, pAny.asVar)
     }.getOrElse {
       throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))
     }

@@ -21,7 +21,7 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
               case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__set" =>
                 false
               case _ =>
-                obj.pClass.findMethod("__get").map(_.invoke(ctx, position, obj, ScalarExpr(StringVal(name)) :: Nil)).exists(_.value.isNull)
+                obj.pClass.findMethod("__get").map(_.invoke(ctx, position, obj, ScalarExpr(StringVal(name)) :: Nil)).exists(_.asVal.isNull)
             }
           }
         case _ => false
@@ -35,13 +35,13 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
     reference.eval match {
       case obj: ObjectVal =>
         val name = propertyName.evalName
-        obj.getProperty(name).map(_.value).getOrElse {
+        obj.getProperty(name).map(_.asVal).getOrElse {
           ctx match {
             case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__get" =>
               ctx.log.notice(position, "Undefined property: %s::%s".format(obj.pClass.name.toString, name))
               NullVal
             case _ =>
-              obj.pClass.findMethod("__get").map(_.invoke(ctx, position, obj, ScalarExpr(StringVal(name)) :: Nil)).map(_.value).getOrElse {
+              obj.pClass.findMethod("__get").map(_.invoke(ctx, position, obj, ScalarExpr(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
                 ctx.log.notice(position, "Undefined property: %s::%s".format(obj.pClass.name.toString, name))
                 NullVal
               }
@@ -80,14 +80,14 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
       case obj: ObjectVal =>
         val name = propertyName.evalName
         if (obj.getProperty(name).isDefined) {
-          obj.setProperty(propertyName.evalName, valueOrRef.value)
+          obj.setProperty(propertyName.evalName, valueOrRef.asVal)
         } else {
           ctx match {
             case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__set" =>
-              obj.setProperty(name, valueOrRef.value)
+              obj.setProperty(name, valueOrRef.asVal)
             case _ =>
-              obj.pClass.findMethod("__set").map(_.invoke(ctx, position, obj, ScalarExpr(StringVal(name)) :: ScalarExpr(valueOrRef.value) :: Nil)).getOrElse {
-                obj.setProperty(name, valueOrRef.value)
+              obj.pClass.findMethod("__set").map(_.invoke(ctx, position, obj, ScalarExpr(StringVal(name)) :: ScalarExpr(valueOrRef.asVal) :: Nil)).getOrElse {
+                obj.setProperty(name, valueOrRef.asVal)
               }
           }
         }

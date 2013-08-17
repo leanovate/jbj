@@ -25,7 +25,9 @@ trait PVal extends PAny {
 
   def decr: PVal
 
-  final override def value = this
+  final override def asVal = this
+
+  final override def asVar = PVar(this)
 
   final override def incrRefCount() {}
 

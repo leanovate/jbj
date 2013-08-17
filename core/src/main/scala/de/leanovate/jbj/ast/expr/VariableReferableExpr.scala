@@ -3,7 +3,7 @@ package de.leanovate.jbj.ast.expr
 import de.leanovate.jbj.ast.{Name, ReferableExpr}
 import de.leanovate.jbj.runtime.Context
 import java.io.PrintStream
-import de.leanovate.jbj.runtime.value.{PAny, PVar, NullVal}
+import de.leanovate.jbj.runtime.value.{PVal, PAny, PVar, NullVal}
 
 case class VariableReferableExpr(variableName: Name) extends ReferableExpr {
   override def isDefined(implicit ctx: Context) = ctx.findVariable(variableName.evalName).isDefined
@@ -30,10 +30,10 @@ case class VariableReferableExpr(variableName: Name) extends ReferableExpr {
     pAny match {
       case pVar: PVar =>
         ctx.defineVariable(name, pVar)
-      case _ =>
+      case pVal: PVal =>
         ctx.findVariable(name) match {
-          case Some(valueRef) => valueRef.value = pAny.value
-          case None => ctx.defineVariable(name, PVar(pAny.value))
+          case Some(valueRef) => valueRef.value = pVal
+          case None => ctx.defineVariable(name, PVar(pVal))
           case _ =>
         }
     }
