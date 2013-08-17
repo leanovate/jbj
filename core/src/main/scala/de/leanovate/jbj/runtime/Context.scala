@@ -29,7 +29,7 @@ trait Context {
 
   def defineVariable(name: String, valueRef: PVar)(implicit position: NodePosition)
 
-  def undefineVariable(name: String)
+  def undefineVariable(name: String)(implicit position: NodePosition)
 
   def findFunction(name: NamespaceName): Option[PFunction]
 

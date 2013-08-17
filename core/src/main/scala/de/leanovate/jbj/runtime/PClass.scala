@@ -56,7 +56,7 @@ trait PClass extends StaticContext {
     staticVariables.put(name, valueRef)
   }
 
-  def undefineVariable(name: String) {
+  def undefineVariable(name: String)(implicit position: NodePosition) {
     staticVariables.remove(name)
   }
 }

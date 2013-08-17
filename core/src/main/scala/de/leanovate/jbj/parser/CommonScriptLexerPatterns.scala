@@ -51,7 +51,11 @@ trait CommonScriptLexerPatterns extends CommonLexerPatterns {
   }
 
   def processIdent(name: String) =
-    if (reserved contains name) Keyword(name) else Identifier(name)
+    if (name.startsWith("__")) {
+      if (reserved contains name) Keyword(name) else Identifier(name)
+    } else {
+      if (reserved contains name.toLowerCase) Keyword(name.toLowerCase) else Identifier(name)
+    }
 
   def convertNum(chars: String, radix: Int): Token = {
     try {

@@ -12,8 +12,8 @@ object OutputFunctions extends WrappedFunctions {
     if (values.isEmpty)
       ctx.log.warn(position, "var_dump() expects at least 1 parameter, 0 given")
 
-    def dump(valueOfRef: PAny, ident: String) {
-      val (value, isRef) = valueOfRef match {
+    def dump(stack: List[PAny], ident: String) {
+      val (value, isRef) = stack.head match {
         case valueRef: PVar => valueRef.value -> "&"
         case value: PVal => value -> ""
       }
@@ -24,10 +24,16 @@ object OutputFunctions extends WrappedFunctions {
           keyValues.foreach {
             case (IntegerVal(key), v) =>
               ctx.out.println("%s[%d]=>".format(nextIdent, key))
-              dump(v, nextIdent)
+              if (stack.exists(_.eq(v)))
+                ctx.out.println("%s*RECURSION*".format(nextIdent))
+              else
+                dump(v :: stack, nextIdent)
             case (StringVal(key), v) =>
               ctx.out.println( """%s["%s"]=>""".format(nextIdent, key))
-              dump(v, nextIdent)
+              if (stack.exists(_.eq(v)))
+                ctx.out.println("%s*RECURSION*".format(nextIdent))
+              else
+                dump(v :: stack, nextIdent)
           }
           ctx.out.println("%s}".format(ident))
         case BooleanVal(bool) =>
@@ -44,10 +50,16 @@ object OutputFunctions extends WrappedFunctions {
           keyValues.foreach {
             case (IntegerVal(key), v) =>
               ctx.out.println("%s[%d]=>".format(nextIdent, key))
-              dump(v, nextIdent)
+              if (stack.exists(_.eq(v)))
+                ctx.out.println("%s*RECURSION*".format(nextIdent))
+              else
+                dump(v :: stack, nextIdent)
             case (StringVal(key), v) =>
               ctx.out.println( """%s["%s"]=>""".format(nextIdent, key))
-              dump(v, nextIdent)
+              if (stack.exists(_.eq(v)))
+                ctx.out.println("%s*RECURSION*".format(nextIdent))
+              else
+                dump(v :: stack, nextIdent)
           }
           ctx.out.println("%s}".format(ident))
         case str: StringVal =>
@@ -55,32 +67,36 @@ object OutputFunctions extends WrappedFunctions {
       }
     }
 
-    values.foreach(dump(_, ""))
+    values.foreach(v => dump(v :: Nil, ""))
   }
 
   @GlobalFunction
   def print_r(value: PVal, ret: Option[Boolean])(implicit ctx: Context, position: NodePosition): PVal = {
-    def dump(value: PAny): List[String] = {
-      value match {
+    def dump(stack: List[PAny]): List[String] = {
+      stack.head match {
         case ArrayVal(keyValues) =>
           "Array" :: "(" :: keyValues.flatMap {
+            case (_, v) if stack.exists(_.eq(v)) =>
+              "*RECURSION*" :: Nil
             case (IntegerVal(key), v) =>
-              val lines = dump(v)
+              val lines = dump(v :: stack)
               "    [%d] => %s".format(key, lines.head) :: (
                 if (lines.tail.isEmpty) Nil else lines.tail.map("        " + _) ::: "" :: Nil)
             case (StringVal(key), v) =>
-              val lines = dump(v)
+              val lines = dump(v :: stack)
               """    [%s] => %s""".format(key, lines.head) :: (
                 if (lines.tail.isEmpty) Nil else lines.tail.map("        " + _) ::: "" :: Nil)
           }.toList ::: ")" :: Nil
         case ObjectVal(pClass, _, keyValues) =>
           "%s Object".format(pClass.name.toString) :: "(" :: keyValues.flatMap {
+            case (_, v) if stack.exists(_.eq(v)) =>
+              "*RECURSION*" :: Nil
             case (IntegerVal(key), v) =>
-              val lines = dump(v)
+              val lines = dump(v :: stack)
               "    [%d] => %s".format(key, lines.head) :: (
                 if (lines.tail.isEmpty) Nil else lines.tail.map("        " + _) ::: "" :: Nil)
             case (StringVal(key), v) =>
-              val lines = dump(v)
+              val lines = dump(v :: stack)
               """    [%s] => %s""".format(key, lines.head) :: (
                 if (lines.tail.isEmpty) Nil else lines.tail.map("        " + _) ::: "" :: Nil)
           }.toList ::: ")" :: Nil
@@ -89,9 +105,9 @@ object OutputFunctions extends WrappedFunctions {
     }
 
     if (ret.getOrElse(false))
-      StringVal(dump(value).mkString("\n") + "\n")
+      StringVal(dump(value :: Nil).mkString("\n") + "\n")
     else {
-      dump(value).foreach(ctx.out.println)
+      dump(value :: Nil).foreach(ctx.out.println)
       BooleanVal.TRUE
     }
   }

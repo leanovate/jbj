@@ -19,6 +19,8 @@ class GenericStaticContext(var global: GlobalContext) extends Context with Stati
 
   def stack: Stack[NodePosition] = Stack.empty[NodePosition]
 
+  variables.put("GLOBALS", PVar(global.GLOBALS))
+
   def findConstant(name: String): Option[PVal] = global.findConstant(name)
 
   def defineConstant(name: String, value: PVal, caseInsensitive: Boolean) {
@@ -33,7 +35,7 @@ class GenericStaticContext(var global: GlobalContext) extends Context with Stati
     valueRef.incrRefCount()
   }
 
-  def undefineVariable(name: String) {
+  def undefineVariable(name: String)(implicit position: NodePosition) {
     variables.remove(name).foreach(_.decrRefCount())
   }
 

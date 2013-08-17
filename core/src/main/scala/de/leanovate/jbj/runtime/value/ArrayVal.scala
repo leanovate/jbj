@@ -12,8 +12,8 @@ class ArrayVal(keyValueMap: mutable.LinkedHashMap[Any, PAny]) extends PVal with 
   }.toList).max
 
   def keyValues(implicit ctx: Context): Seq[(PVal, PAny)] = keyValueMap.toSeq.map {
-    case (key:Long, value) => IntegerVal(key) -> value
-    case (key:String, value) => StringVal(key) -> value
+    case (key: Long, value) => IntegerVal(key) -> value
+    case (key: String, value) => StringVal(key) -> value
   }
 
   override def toOutput(implicit ctx: Context) = "Array"
@@ -82,6 +82,8 @@ class ArrayVal(keyValueMap: mutable.LinkedHashMap[Any, PAny]) extends PVal with 
 }
 
 object ArrayVal {
+  def apply(): ArrayVal = new ArrayVal(mutable.LinkedHashMap.empty[Any, PAny])
+
   def apply(keyValues: (Option[PVal], PAny)*)(implicit ctx: Context): ArrayVal = {
     var nextIndex: Long = -1
 

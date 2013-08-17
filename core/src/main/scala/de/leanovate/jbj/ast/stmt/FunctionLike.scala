@@ -45,11 +45,11 @@ trait FunctionLike extends BlockLike {
           case pVar: PVar => pVar
           case pAny =>
             funcCtx.log.notice(ret.position, "Only variable references should be returned by reference")
-            pAny
+            pAny.asVar
         }
         case Some(expr) if returnByRef =>
           funcCtx.log.notice(ret.position, "Only variable references should be returned by reference")
-          expr.eval(funcCtx)
+          expr.eval(funcCtx).asVar
         case Some(expr) => expr.eval(funcCtx)
         case None => NullVal
       }

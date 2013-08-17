@@ -4,20 +4,17 @@ import java.io.PrintStream
 import scala.collection.mutable
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.buildin
-import de.leanovate.jbj.ast.{Prog, NodePosition}
+import de.leanovate.jbj.ast.{NoNodePosition, Prog, NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
 import de.leanovate.jbj.JbjEnv
 import de.leanovate.jbj.runtime.exception.CompileErrorException
-import de.leanovate.jbj.ast.NamespaceName
-import de.leanovate.jbj.runtime.value.{PVar, PVal, StringVal}
+import de.leanovate.jbj.runtime.value.{ArrayVal, PVar, PVal, StringVal}
 import de.leanovate.jbj.ast.expr.value.ScalarExpr
 
 case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settings: Settings) extends Context {
   private val classes = mutable.Map.empty[Seq[String], PClass]
 
   private val constants = mutable.Map.empty[ConstantKey, PVal]
-
-  private val variables = mutable.Map.empty[String, PVar]
 
   private val functions = mutable.Map.empty[Seq[String], PFunction]
 
@@ -32,6 +29,10 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
   def static = staticContext("global")
 
   def stack: Stack[NodePosition] = Stack.empty[NodePosition]
+
+  val GLOBALS = ArrayVal()
+
+  GLOBALS.setAt("GLOBALS", GLOBALS)(this, NoNodePosition)
 
   def include(file: String)(implicit ctx: Context, position: NodePosition): Option[(Prog, Boolean)] = jbj.parse(file) match {
     case Some(Left(prog)) =>
@@ -85,16 +86,18 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
       constants.put(CaseSensitiveConstantKey(name), value)
   }
 
-  def findVariable(name: String)(implicit position: NodePosition): Option[PVar] = variables.get(name)
+  def findVariable(name: String)(implicit position: NodePosition): Option[PVar] =
+    GLOBALS.getAt(name)(this, position).map(_.asVar)
 
   def defineVariable(name: String, pVar: PVar)(implicit position: NodePosition) {
-    variables.get(name).foreach(_.decrRefCount())
-    variables.put(name, pVar)
+    GLOBALS.getAt(name)(this, position).foreach(_.decrRefCount())
+    GLOBALS.setAt(name, pVar)(this, position)
     pVar.incrRefCount()
   }
 
-  def undefineVariable(name: String) {
-    variables.remove(name).foreach(_.decrRefCount())
+  def undefineVariable(name: String)(implicit position: NodePosition) {
+    GLOBALS.getAt(name)(this, position).foreach(_.decrRefCount())
+    GLOBALS.unsetAt(name)(this, position)
   }
 
   def findFunction(name: NamespaceName) =

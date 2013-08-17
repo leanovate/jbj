@@ -34,7 +34,7 @@ case class InstanceContext(instance: ObjectVal, callerPosition: NodePosition, ca
     instance.setProperty(name, valueRef.value)
   }
 
-  def undefineVariable(name: String) {
+  def undefineVariable(name: String)(implicit position: NodePosition) {
     instance.unsetProperty(name)
   }
 

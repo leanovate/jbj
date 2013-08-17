@@ -23,6 +23,8 @@ case class StaticMethodContext(pClass: PClass, methodName: String, callerPositio
 
   lazy val stack: Stack[NodePosition] = callerCtx.stack.push(callerPosition)
 
+  localVariables.put("GLOBALS", PVar(global.GLOBALS))
+
   def findConstant(name: String): Option[PVal] = global.findConstant(name)
 
   def defineConstant(name: String, value: PVal, caseInsensitive: Boolean) {
@@ -38,7 +40,7 @@ case class StaticMethodContext(pClass: PClass, methodName: String, callerPositio
     valueRef.incrRefCount()
   }
 
-  def undefineVariable(name: String) {
+  def undefineVariable(name: String)(implicit position: NodePosition) {
     localVariables.remove(name).foreach(_.decrRefCount())
   }
 
