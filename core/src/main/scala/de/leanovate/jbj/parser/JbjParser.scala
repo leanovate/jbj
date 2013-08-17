@@ -39,7 +39,7 @@ import de.leanovate.jbj.ast.expr.calc.ConcatExpr
 import de.leanovate.jbj.ast.stmt.CatchBlock
 import de.leanovate.jbj.ast.expr.calc.NegExpr
 import de.leanovate.jbj.parser.JbjTokens.StringCast
-import de.leanovate.jbj.ast.expr.calc.SubFromExpr
+import de.leanovate.jbj.ast.expr.calc.SubFromReferableExpr
 import de.leanovate.jbj.ast.expr.IsSetExpr
 import de.leanovate.jbj.ast.expr.calc.MulExpr
 import de.leanovate.jbj.ast.name.DynamicName
@@ -101,8 +101,8 @@ import de.leanovate.jbj.ast.expr.comp.LtExpr
 import de.leanovate.jbj.ast.stmt.loop.DoWhileStmt
 import de.leanovate.jbj.ast.expr.comp.GeExpr
 import de.leanovate.jbj.ast.stmt.loop.WhileStmt
-import de.leanovate.jbj.ast.expr.calc.AddToExpr
-import de.leanovate.jbj.ast.expr.calc.DivByExpr
+import de.leanovate.jbj.ast.expr.calc.AddToReferableExpr
+import de.leanovate.jbj.ast.expr.calc.DivByReferableExpr
 import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
 import de.leanovate.jbj.ast.stmt.ClassConstDeclStmt
 import de.leanovate.jbj.ast.expr.value.ScalarExpr
@@ -125,7 +125,7 @@ import de.leanovate.jbj.ast.expr.IncrAndGetExpr
 import de.leanovate.jbj.ast.expr.calc.ConcatWithReferableExpr
 import de.leanovate.jbj.ast.expr.ClassNameExpr
 import de.leanovate.jbj.ast.expr.DecrAndGetExpr
-import de.leanovate.jbj.ast.expr.calc.MulByExpr
+import de.leanovate.jbj.ast.expr.calc.MulByReferableExpr
 import de.leanovate.jbj.ast.expr.include.RequireOnceExpr
 import de.leanovate.jbj.ast.expr.ArrayCreateExpr
 import de.leanovate.jbj.ast.stmt.InlineStmt
@@ -394,13 +394,13 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     } | "clone" ~> expr ^^ {
       e => CloneExpr(e)
     } | variable ~ "+=" ~ expr ^^ {
-      case v ~ _ ~ e => AddToExpr(v, e)
+      case v ~ _ ~ e => AddToReferableExpr(v, e)
     } | variable ~ "-=" ~ expr ^^ {
-      case v ~ _ ~ e => SubFromExpr(v, e)
+      case v ~ _ ~ e => SubFromReferableExpr(v, e)
     } | variable ~ "*=" ~ expr ^^ {
-      case v ~ _ ~ e => MulByExpr(v, e)
+      case v ~ _ ~ e => MulByReferableExpr(v, e)
     } | variable ~ "/=" ~ expr ^^ {
-      case v ~ _ ~ e => DivByExpr(v, e)
+      case v ~ _ ~ e => DivByReferableExpr(v, e)
     } | variable ~ ".=" ~ expr ^^ {
       case v ~ _ ~ e => ConcatWithReferableExpr(v, e)
     } | binary(minPrec) | termWithoutVariable
