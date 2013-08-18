@@ -24,4 +24,6 @@ object NullVal extends PVal {
   override def incr = IntegerVal(1)
 
   override def decr = NullVal
+
+  override def typeName = "null"
 }

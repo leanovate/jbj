@@ -35,6 +35,8 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, keyValueMap: mutable.
 
   override def decr = this
 
+  override def typeName = "object"
+
   final def instanceOf(other: PClass): Boolean = other.isAssignableFrom(pClass)
 
   def getProperty(name: String)(implicit ctx: Context): Option[PAny] = keyValueMap.get(name)

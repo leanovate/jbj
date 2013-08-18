@@ -14,6 +14,10 @@ case class CallMethodReferableExpr(instanceExpr: Expr, methodName: Name, paramet
 
   override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {}
 
+  override def unsetVar(implicit ctx:Context) {
+    throw new FatalErrorJbjException("Can't use function return value in write context")
+  }
+
   override def dump(out: PrintStream, ident: String) {
     out.println(ident + getClass.getSimpleName + " " + methodName + " " + position)
     instanceExpr.dump(out, ident + "  ")
@@ -23,9 +27,6 @@ case class CallMethodReferableExpr(instanceExpr: Expr, methodName: Name, paramet
     }
   }
 
-  override def unsetVar(implicit ctx:Context) {
-    throw new FatalErrorJbjException("Can't use function return value in write context")
-  }
 
   private def callMethod(implicit ctx: Context): PAny = instanceExpr.eval match {
     case instance: ObjectVal =>

@@ -42,6 +42,8 @@ class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
 
   override def decr = this
 
+  override def typeName = "string"
+
   override def size: Int = chars.length
 
   override def getAt(index: Long)(implicit ctx: Context, position: NodePosition) = {

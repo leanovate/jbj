@@ -35,4 +35,28 @@ object ArrayFunctions extends WrappedFunctions {
       new ArrayVal(builder.result())
     }
   }
+
+  @GlobalFunction
+  def array_shift(ref: PVar)(implicit ctx: Context, callerPosition: NodePosition): PVal = {
+    ref.value match {
+      case array: ArrayVal =>
+        var count: Long = -1
+        val keyValues = array.keyValues
+        var builder = mutable.LinkedHashMap.newBuilder[Any, PAny]
+        if (!keyValues.isEmpty) {
+          keyValues.tail.foreach {
+            case (IntegerVal(_), value) =>
+              count += 1
+              builder += count -> value
+            case (StringVal(key), value) =>
+              builder += key -> value
+          }
+        }
+        ref.value = new ArrayVal(builder.result())
+        keyValues.headOption.map(_._2.asVal).getOrElse(NullVal)
+      case v =>
+        ctx.log.warn(callerPosition, "array_shift() expects parameter 1 to be array, %s given".format(v.typeName))
+        NullVal
+    }
+  }
 }

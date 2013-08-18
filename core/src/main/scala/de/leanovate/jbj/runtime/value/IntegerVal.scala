@@ -18,6 +18,8 @@ case class IntegerVal(asLong: Long) extends NumericVal {
 
   override def decr = if (asLong > Long.MinValue) IntegerVal(asLong - 1) else DoubleVal(asLong.toDouble - 1)
 
+  override def typeName = "integer"
+
   override def unary_- = if (asLong > Long.MinValue) IntegerVal(-asLong) else DoubleVal(-asLong.toDouble)
 
   def asInt = asLong.toInt

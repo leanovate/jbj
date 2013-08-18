@@ -18,6 +18,8 @@ abstract class BooleanVal extends PVal {
   override def incr = this
 
   override def decr = this
+
+  override def typeName = "boolean"
 }
 
 object BooleanVal {

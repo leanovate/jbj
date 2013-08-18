@@ -43,18 +43,46 @@ object TestBed {
   //A main method for testing
   def main(args: Array[String]) {
     test( """<?php
-            |error_reporting(E_ALL | E_STRICT | E_NOTICE);
             |
-            |// Simplified array_shift_variation5.phpt
-            |// Showing warning:
-            |// "Only variables should be passed by reference in %s on line %d"
-            |$stack = array ( array ( 'two' ));
-            |var_dump(array_shift(array_shift($stack)));
+            |echo "Simple test for standard compare object handler\n";
             |
-            |// This should show the identical warning
-            |$original = array ( array ( 'one' ));
-            |$stack = $original;
-            |var_dump(array_shift(array_shift($stack)));
-            |?>""".stripMargin)
+            |class class1{}
+            |
+            |class class2{}
+            |
+            |class class3{
+            |	public $aaa;
+            |	private $bbb;
+            |	protected $ccc;
+            |}
+            |
+            |class class4 extends class3{
+            |}
+            |
+            |class class5 extends class3{
+            |	public $ddd;
+            |	private $eee;
+            |}
+            |
+            |// Define a bunch of objects all of which will use standard compare object handler
+            |$obj1 = new class1();
+            |$obj2 = new class2();
+            |$obj3 = new class3();
+            |$obj4 = new class4();
+            |$obj5 = new class5();
+            |
+            |echo "\n-- The following compare should return TRUE --\n";
+            |var_dump($obj1 == $obj1);
+            |
+            |echo "\n-- All the following compares should return FALSE --\n";
+            |var_dump($obj1 == $obj2);
+            |var_dump($obj1 == $obj3);
+            |var_dump($obj1 == $obj4);
+            |var_dump($obj1 == $obj5);
+            |var_dump($obj4 == $obj3);
+            |var_dump($obj5 == $obj3);
+            |
+            |?>
+            |===DONE===""".stripMargin)
   }
 }

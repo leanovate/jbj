@@ -40,6 +40,8 @@ class ArrayVal(keyValueMap: mutable.LinkedHashMap[Any, PAny]) extends PVal with 
 
   override def decr = this
 
+  override def typeName: String = "array"
+
   override def size: Int = keyValueMap.size
 
   override def getAt(index: Long)(implicit ctx: Context, position: NodePosition): Option[PAny] =

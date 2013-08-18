@@ -112,7 +112,7 @@ import de.leanovate.jbj.ast.expr.EvalExpr
 import de.leanovate.jbj.ast.stmt.ThrowStmt
 import de.leanovate.jbj.ast.stmt.LabelStmt
 import de.leanovate.jbj.parser.JbjTokens.EncapsAndWhitespace
-import de.leanovate.jbj.ast.expr.NewExpr
+import de.leanovate.jbj.ast.expr.NewReferableExpr
 import de.leanovate.jbj.ast.expr.value.FileNameConstExpr
 import de.leanovate.jbj.ast.expr.CallFunctionReferableExpr
 import de.leanovate.jbj.ast.stmt.StaticAssignment
@@ -382,12 +382,14 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val forExpr: PackratParser[List[Expr]] = repsep(expr, ",")
 
-  lazy val newExpr: PackratParser[NewExpr] = "new" ~> classNameReference ~ ctorArguments ^^ {
-    case name ~ args => NewExpr(name, args)
+  lazy val newExpr: PackratParser[NewReferableExpr] = "new" ~> classNameReference ~ ctorArguments ^^ {
+    case name ~ args => NewReferableExpr(name, args)
   }
 
   lazy val exprWithoutVariable: PackratParser[Expr] =
-    variable ~ "=" ~ expr ^^ {
+    expr ~ "?" ~ expr ~ ":" ~ expr ^^ {
+      case cond ~ _ ~ tExpr ~ _ ~ fExpr => TernaryExpr(cond, tExpr, fExpr)
+    } | variable ~ "=" ~ expr ^^ {
       case v ~ _ ~ e => AssignReferableExpr(v, e)
     } | variable ~ "=" ~ "&" ~ variable ^^ {
       case v ~ _ ~ _ ~ ref => AssignRefReferableExpr(v, ref)
@@ -457,9 +459,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       e => BitNotExpr(e)
     } | expr ~ "instanceof" ~ classNameReference ^^ {
       case e ~ _ ~ cname => InstanceOfExpr(e, cname)
-    } | parenthesisExpr | expr ~ "?" ~ expr ~ ":" ~ expr ^^ {
-      case cond ~ _ ~ tExpr ~ _ ~ fExpr => TernaryExpr(cond, tExpr, fExpr)
-    } | newExpr | internalFunctionsInYacc | integerCastLit ~> term ^^ {
+    } | parenthesisExpr | newExpr | internalFunctionsInYacc | integerCastLit ~> term ^^ {
       e => IntegerCastExpr(e)
     } | doubleCastLit ~> term ^^ {
       e => DoubleCastExpr(e)
@@ -601,7 +601,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val staticArrayPairList: PackratParser[List[ArrayKeyValue]] = repsep(
     opt(staticScalar <~ "=>") ~ staticScalar ^^ {
-      case keyExpr ~ valueExpr => ArrayKeyValue(keyExpr,valueExpr, isRef = false)
+      case keyExpr ~ valueExpr => ArrayKeyValue(keyExpr, valueExpr, isRef = false)
     }, ",") <~ opt(",")
 
   lazy val expr: PackratParser[Expr] = exprWithoutVariable ||| rVariable

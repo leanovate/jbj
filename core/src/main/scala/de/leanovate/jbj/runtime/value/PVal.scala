@@ -25,6 +25,8 @@ trait PVal extends PAny {
 
   def decr: PVal
 
+  def typeName:String
+
   final override def asVal = this
 
   final override def asVar = PVar(this)

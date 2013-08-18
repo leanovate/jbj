@@ -24,6 +24,8 @@ case class DoubleVal(asDouble: Double) extends NumericVal {
 
   override def decr = DoubleVal(asDouble - 1)
 
+  override def typeName = "double"
+
   def unary_- = DoubleVal(-asDouble)
 
   private def compatbleStr = {
