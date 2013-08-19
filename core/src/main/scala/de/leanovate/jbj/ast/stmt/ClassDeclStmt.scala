@@ -37,6 +37,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
             "Class %s may not inherit from final class (%s)".format(name.toString, superClassName.get.toString))
       }
 
+      methods.values.foreach(_.checkRules(this))
       staticInitializers.foreach(_.initializeStatic(this))
       ctx.global.defineClass(this)
     }

@@ -79,6 +79,40 @@ class SetGetSpec extends SpecificationWithJUnit with TestJbjExecutor {
       )
     }
 
+    "ZE2 __get() signature check" in {
+      // classes/__set_get_002
+      script(
+        """<?php
+          |class Test {
+          |	function __get($x,$y) {
+          |	}
+          |}
+          |
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Method Test::__get() must take exactly 1 argument in /classes/SetGetSpec.inlinePhp on line 3
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 __set() signature check" in {
+      // classes/__set_get_003
+      script(
+        """<?php
+          |class Test {
+          |	function __set() {
+          |	}
+          |}
+          |
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Method Test::__set() must take exactly 2 arguments in /classes/SetGetSpec.inlinePhp on line 3
+          |""".stripMargin
+      )
+    }
+
     "ZE2 __set() and __get() 4" in {
       // classes/__set_get_004
       script(

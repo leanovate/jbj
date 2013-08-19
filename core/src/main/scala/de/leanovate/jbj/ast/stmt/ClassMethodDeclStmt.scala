@@ -47,6 +47,21 @@ case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: Strin
     perform(methodCtx, returnByRef, stmts)
   }
 
+  override def checkRules(pClass: PClass)(implicit ctx: Context) {
+    name match {
+      case "__call" =>
+        if (parameterDecls.size != 2)
+          throw new FatalErrorJbjException("Method %s::__call() must take exactly 2 arguments".format(pClass.name.toString))
+      case "__get" =>
+        if (parameterDecls.size != 1)
+          throw new FatalErrorJbjException("Method %s::__get() must take exactly 1 argument".format(pClass.name.toString))
+      case "__set" =>
+        if (parameterDecls.size != 2)
+          throw new FatalErrorJbjException("Method %s::__set() must take exactly 2 arguments".format(pClass.name.toString))
+      case _ =>
+    }
+  }
+
   override def dump(out: PrintStream, ident: String) {
     out.println(ident + getClass.getSimpleName + " " + name.toString + " " + position)
     stmts.foreach {
