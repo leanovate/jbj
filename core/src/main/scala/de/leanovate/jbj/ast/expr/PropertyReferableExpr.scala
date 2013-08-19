@@ -18,12 +18,7 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
           if (obj.getProperty(name).isDefined) {
             true
           } else {
-            ctx match {
-              case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__set" =>
-                false
-              case _ =>
-                obj.pClass.findMethod("__get").map(_.invoke(ctx, position, obj, ScalarExpr(StringVal(name)) :: Nil)).exists(_.asVal.isNull)
-            }
+            obj.pClass.findMethod("__get").isDefined
           }
         case _ => false
       }

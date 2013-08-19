@@ -49,6 +49,7 @@ object TestBed {
             |
             |	function __get($name) {
             |		echo __METHOD__ . "\n";
+            |   echo ">>> Actually\n";
             |		if (isset($this->x[$name])) {
             |			return $this->x[$name];
             |		}
