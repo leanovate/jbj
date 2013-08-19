@@ -15,6 +15,50 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
     reference.position = pos
   }
 
+  override def evalRef(implicit ctx: Context) = new Reference {
+    val optParent = parentArray
+    val optArrayKey = indexExpr.map(_.eval)
+
+    def asVar = optParent.map {
+      array =>
+        optArrayKey match {
+          case Some(arrayKey) =>
+            array.getAt(arrayKey) match {
+              case Some(valueRef: PVar) =>
+                valueRef
+              case someValue =>
+                val result = PVar(someValue)
+                array.setAt(arrayKey, result)
+                result
+            }
+          case None =>
+            val result = PVar()
+            array.setAt(None, result)
+            result
+        }
+    }.getOrElse {
+      ctx.log.warn(position, "Cannot use a scalar value as an array")
+      PVar()
+    }
+
+    def assign(pAny: PAny) = {
+      optParent.map {
+        array =>
+          array.setAt(optArrayKey, pAny)
+      }.getOrElse {
+        ctx.log.warn(position, "Cannot use a scalar value as an array")
+      }
+      pAny
+    }
+
+
+    def unset() {
+      if (optParent.isDefined && optArrayKey.isDefined) {
+        optParent.get.unsetAt(optArrayKey.get)
+      }
+    }
+  }
+
   override def isDefined(implicit ctx: Context) = {
     if (reference.isDefined) {
       indexExpr.exists {
@@ -50,47 +94,14 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
     }
   }
 
-  override def evalVar(implicit ctx: Context) = {
-    parentArray.map {
-      array =>
-        indexExpr match {
-          case Some(expr) =>
-            val arrayKey = expr.eval
-            array.getAt(arrayKey) match {
-              case Some(valueRef: PVar) =>
-                valueRef
-              case someValue =>
-                val result = PVar(someValue)
-                array.setAt(arrayKey, result)
-                result
-            }
-          case None =>
-            val result = PVar()
-            array.setAt(None, result)
-            result
-        }
-    }.getOrElse {
-      ctx.log.warn(position, "Cannot use a scalar value as an array")
-      PVar()
-    }
-  }
+  override def evalVar(implicit ctx: Context) = evalRef.asVar
 
   override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
-    parentArray.map {
-      array =>
-        array.setAt(indexExpr.map(_.eval), valueOrRef)
-    }.getOrElse {
-      ctx.log.warn(position, "Cannot use a scalar value as an array")
-    }
+    evalRef.assign(valueOrRef)
   }
 
   override def unsetVar(implicit ctx: Context) {
-    if (indexExpr.isDefined) {
-      reference.eval match {
-        case array: ArrayLike => array.getAt(indexExpr.get.eval).isDefined
-        case _ =>
-      }
-    }
+    evalRef.unset()
   }
 
   private def parentArray(implicit ctx: Context) = if (!reference.isDefined) {

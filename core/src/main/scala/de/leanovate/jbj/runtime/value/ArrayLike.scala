@@ -30,7 +30,7 @@ trait ArrayLike {
       case IntegerVal(idx) => setAt(idx, value)
       case NumericVal(idx) => setAt(idx.toLong, value)
       case StringVal(idx) => setAt(idx, value)
-      case v => getAt(v.toStr.asString)
+      case v => setAt(v.toStr.asString, value)
     }
   }
 
@@ -39,6 +39,15 @@ trait ArrayLike {
   def setAt(index: String, value: PAny)(implicit ctx: Context, position: NodePosition)
 
   def append(value: PAny)(implicit ctx: Context, position: NodePosition)
+
+  def unsetAt(index: PVal)(implicit ctx: Context, position: NodePosition) {
+    index.asVal match {
+      case IntegerVal(idx) => unsetAt(idx)
+      case NumericVal(idx) => unsetAt(idx.toLong)
+      case StringVal(idx) => unsetAt(idx)
+      case v => unsetAt(v.toStr.asString)
+    }
+  }
 
   def unsetAt(index: Long)(implicit ctx: Context, position: NodePosition)
 

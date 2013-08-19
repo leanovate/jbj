@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{NoNodePosition, Name, ReferableExpr}
-import de.leanovate.jbj.runtime.Context
+import de.leanovate.jbj.runtime.{Reference, Context}
 import de.leanovate.jbj.runtime.value._
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.value.StringVal
@@ -49,13 +49,14 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
     }
   }
 
-  def evalVar(implicit ctx: Context) = {
-    parentObject match {
+  override def evalRef(implicit ctx: Context) = new Reference {
+    val optParent = parentObject
+    val name = propertyName.evalName
+
+    def asVar = optParent match {
       case Some(obj) =>
-        val name = propertyName.evalName
         obj.getProperty(name).map {
-          case valueRef: PVar =>
-            valueRef
+          case pVar: PVar => pVar
           case value: PVal =>
             val result = PVar(value)
             obj.setProperty(name, None, result)
@@ -69,34 +70,42 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
         ctx.log.notice(position, "Trying to get property of non-object")
         PVar(NullVal)
     }
+
+    def assign(pAny: PAny) = {
+      optParent match {
+        case Some(obj) =>
+          if (obj.getProperty(name).isDefined) {
+            obj.setProperty(propertyName.evalName, None, pAny.asVal)
+          } else {
+            ctx match {
+              case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__set" =>
+                obj.setProperty(name, None, pAny.asVal)
+              case _ =>
+                obj.pClass.findMethod("__set").map(_.invoke(ctx, position, obj, ScalarExpr(StringVal(name)) :: ScalarExpr(pAny.asVal) :: Nil)).getOrElse {
+                  obj.setProperty(name, None, pAny.asVal)
+                }
+            }
+          }
+        case None =>
+          ctx.log.warn(position, "Attempt to assign property of non-object")
+      }
+      pAny
+    }
+
+    def unset() {
+      if (optParent.isDefined)
+        optParent.get.unsetProperty(name)
+    }
   }
 
-  override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
-    parentObject match {
-      case Some(obj) =>
-        val name = propertyName.evalName
-        if (obj.getProperty(name).isDefined) {
-          obj.setProperty(propertyName.evalName, None, valueOrRef.asVal)
-        } else {
-          ctx match {
-            case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__set" =>
-              obj.setProperty(name, None, valueOrRef.asVal)
-            case _ =>
-              obj.pClass.findMethod("__set").map(_.invoke(ctx, position, obj, ScalarExpr(StringVal(name)) :: ScalarExpr(valueOrRef.asVal) :: Nil)).getOrElse {
-                obj.setProperty(name, None, valueOrRef.asVal)
-              }
-          }
-        }
-      case None =>
-        ctx.log.warn(position, "Attempt to assign property of non-object")
-    }
+  override def evalVar(implicit ctx: Context) = evalRef.asVar
+
+  override def assignVar(pAny: PAny)(implicit ctx: Context) {
+    evalRef.assign(pAny)
   }
 
   override def unsetVar(implicit ctx: Context) {
-    reference.eval match {
-      case obj: ObjectVal => obj.unsetProperty(propertyName.evalName)
-      case _ =>
-    }
+    evalRef.unset()
   }
 
   override def dump(out: PrintStream, ident: String) {

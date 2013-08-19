@@ -8,9 +8,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class AssignReferableExpr(reference: ReferableExpr, expr: Expr) extends ReferableExpr {
   override def eval(implicit ctx: Context) = {
-    val value = expr.eval
-    reference.assignVar(value)
-    value
+    reference.evalRef.assign(expr.eval).asVal
   }
 
   override def evalVar(implicit ctx: Context) = eval

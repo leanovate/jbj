@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Name, ReferableExpr}
-import de.leanovate.jbj.runtime.Context
+import de.leanovate.jbj.runtime.{Reference, Context}
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.value.{PVal, PAny, PVar, NullVal}
 
@@ -16,31 +16,42 @@ case class VariableReferableExpr(variableName: Name) extends ReferableExpr {
     }
   }
 
-  override def evalVar(implicit ctx: Context) = {
+  override def evalRef(implicit ctx: Context) = new Reference {
     val name = variableName.evalName
-    ctx.findVariable(name).getOrElse {
+
+    def asVar = ctx.findVariable(name).getOrElse {
       val result = PVar()
       ctx.defineVariable(name, result)
       result
     }
-  }
 
-  override def assignVar(pAny: PAny)(implicit ctx: Context) {
-    val name = variableName.evalName
-    pAny match {
-      case pVar: PVar =>
-        ctx.defineVariable(name, pVar)
-      case pVal: PVal =>
-        ctx.findVariable(name) match {
-          case Some(valueRef) => valueRef.value = pVal
-          case None => ctx.defineVariable(name, PVar(pVal))
-          case _ =>
-        }
+    def assign(pAny: PAny) :PAny = {
+      pAny match {
+        case pVar: PVar =>
+          ctx.defineVariable(name, pVar)
+        case pVal : PVal =>
+          ctx.findVariable(name) match {
+            case Some(valueRef) => valueRef.value = pVal
+            case None => ctx.defineVariable(name, PVar(pVal))
+            case _ =>
+          }
+      }
+      pAny
+    }
+
+    def unset() {
+      ctx.undefineVariable(name)
     }
   }
 
+  override def evalVar(implicit ctx: Context) = evalRef.asVar
+
+  override def assignVar(pAny: PAny)(implicit ctx: Context) {
+    evalRef.assign(pAny)
+  }
+
   override def unsetVar(implicit ctx: Context) {
-    ctx.undefineVariable(variableName.evalName)
+    evalRef.unset()
   }
 
   override def dump(out: PrintStream, ident: String) {
