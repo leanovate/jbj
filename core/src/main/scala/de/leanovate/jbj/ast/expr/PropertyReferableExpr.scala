@@ -53,6 +53,25 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
     val optParent = parentObject
     val name = propertyName.evalName
 
+    def asVal = {
+      reference.eval match {
+        case obj: ObjectVal =>
+          val name = propertyName.evalName
+          obj.getProperty(name).map(_.asVal).getOrElse {
+            ctx match {
+              case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__get" =>
+                NullVal
+              case _ =>
+                obj.pClass.findMethod("__get").map(_.invoke(ctx, position, obj, ScalarExpr(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
+                  NullVal
+                }
+            }
+          }
+        case _ =>
+          NullVal
+      }
+    }
+
     def asVar = optParent match {
       case Some(obj) =>
         obj.getProperty(name).map {

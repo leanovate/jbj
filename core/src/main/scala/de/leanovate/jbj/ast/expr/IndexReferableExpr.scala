@@ -16,29 +16,43 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
   }
 
   override def evalRef(implicit ctx: Context) = new Reference {
-    val optParent = parentArray
+    val parentRef = reference.evalRef
     val optArrayKey = indexExpr.map(_.eval)
 
-    def asVar = optParent.map {
-      array =>
-        optArrayKey match {
-          case Some(arrayKey) =>
-            array.getAt(arrayKey) match {
-              case Some(valueRef: PVar) =>
-                valueRef
-              case someValue =>
-                val result = PVar(someValue)
-                array.setAt(arrayKey, result)
-                result
-            }
-          case None =>
-            val result = PVar()
-            array.setAt(None, result)
-            result
+    def asVal = {
+      if (optArrayKey.isEmpty)
+        NullVal
+      else
+        parentRef.asVal match {
+          case array: ArrayLike =>
+            val result = array.getAt(optArrayKey.get)
+            result.map(_.asVal).getOrElse(NullVal)
+          case _ => NullVal
         }
-    }.getOrElse {
-      ctx.log.warn(position, "Cannot use a scalar value as an array")
-      PVar()
+    }
+
+    def asVar = {
+      optParent.map {
+        array =>
+          optArrayKey match {
+            case Some(arrayKey) =>
+              array.getAt(arrayKey) match {
+                case Some(valueRef: PVar) =>
+                  valueRef
+                case someValue =>
+                  val result = PVar(someValue)
+                  array.setAt(arrayKey, result)
+                  result
+              }
+            case None =>
+              val result = PVar()
+              array.setAt(None, result)
+              result
+          }
+      }.getOrElse {
+        ctx.log.warn(position, "Cannot use a scalar value as an array")
+        PVar()
+      }
     }
 
     def assign(pAny: PAny) = {
@@ -51,12 +65,20 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
       pAny
     }
 
-
     def unset() {
       if (optParent.isDefined && optArrayKey.isDefined) {
         optParent.get.unsetAt(optArrayKey.get)
       }
     }
+
+    private def optParent = parentRef.asVal match {
+      case array: ArrayLike => Some(array)
+      case NullVal =>
+        val array = ArrayVal()
+        parentRef.assign(array)
+        Some(array)
+    }
+
   }
 
   override def isDefined(implicit ctx: Context) = {
@@ -79,7 +101,7 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
     reference.eval match {
       case array: ArrayLike =>
         val arrayKey = indexExpr.get.eval
-        val result = array.getAt(indexExpr.get.eval)
+        val result = array.getAt(arrayKey)
         if (!result.isDefined) {
           arrayKey match {
             case NumericVal(idx) =>

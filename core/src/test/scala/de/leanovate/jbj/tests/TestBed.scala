@@ -43,74 +43,84 @@ object TestBed {
   //A main method for testing
   def main(args: Array[String]) {
     test( """<?php
+            |$b = "bb";
+            |$a = "aa";
             |
-            |function f() {
-            |	echo "in f()\n";
-            |	return "name";
+            |function foo()
+            |{
+            |echo "Bad call\n";
             |}
             |
-            |function g() {
-            |	echo "in g()\n";
-            |	return "assigned value";
+            |function baa()
+            |{
+            |echo "Good call\n";
             |}
             |
+            |$bb = "baa";
             |
-            |echo "\n\nOrder with local assignment:\n";
-            |${f()} = g();
-            |var_dump($name);
+            |$aa = "foo";
             |
-            |echo "\n\nOrder with array assignment:\n";
-            |$a[f()] = g();
-            |var_dump($a);
+            |$c = ${$a=$b};
             |
-            |echo "\n\nOrder with object property assignment:\n";
-            |$oa = new stdClass;
-            |$oa->${f()} = g();
-            |var_dump($oa);
+            |$c();
             |
-            |echo "\n\nOrder with nested object property assignment:\n";
-            |$ob = new stdClass;
-            |$ob->o1 = new stdClass;
-            |$ob->o1->o2 = new stdClass;
-            |$ob->o1->o2->${f()} = g();
-            |var_dump($ob);
+            |$a1 = array("dead","dead","dead");
+            |$a2 = array("dead","dead","live");
+            |$a3 = array("dead","dead","dead");
             |
-            |echo "\n\nOrder with dim_list property assignment:\n";
-            |$oc = new stdClass;
-            |$oc->a[${f()}] = g();
-            |var_dump($oc);
+            |$a = array($a1,$a2,$a3);
             |
-            |
-            |class C {
-            |	public static $name = "original";
-            |	public static $a = array();
-            |	public static $string = "hello";
+            |function live()
+            |{
+            |echo "Good call\n";
             |}
-            |echo "\n\nOrder with static property assignment:\n";
-            |C::${f()} = g();
-            |var_dump(C::$name);
             |
-            |echo "\n\nOrder with static array property assignment:\n";
-            |C::$a[f()] = g();
-            |var_dump(C::$a);
-            |
-            |echo "\n\nOrder with indexed string assignment:\n";
-            |$string = "hello";
-            |function getOffset() {
-            |	echo "in getOffset()\n";
-            |	return 0;
+            |function dead()
+            |{
+            |echo "Bad call\n";
             |}
-            |function newChar() {
-            |	echo "in newChar()\n";
-            |	return 'j';
+            |
+            |$i = 0;
+            |
+            |$a[$i=1][++$i]();
+            |
+            |$a = -1;
+            |
+            |function foo1()
+            |{
+            |  global $a;
+            |  return ++$a;
             |}
-            |$string[getOffset()] = newChar();
-            |var_dump($string);
             |
-            |echo "\n\nOrder with static string property assignment:\n";
-            |C::$string[getOffset()] = newChar();
-            |var_dump(C::$string);
+            |$arr = array(array(0,0),0);
             |
+            |$brr = array(0,0,array(0,0,0,5),0);
+            |$crr = array(0,0,0,0,array(0,0,0,0,0,10),0,0);
+            |
+            |$arr[foo1()][foo1()] = $brr[foo1()][foo1()] +
+            |                     $crr[foo1()][foo1()];
+            |
+            |$val = $arr[0][1];
+            |echo "Expect 15 and get...$val\n";
+            |
+            |$x = array(array(0),0);
+            |function mod($b)
+            |{
+            |global $x;
+            |$x = $b;
+            |return 0;
+            |}
+            |
+            |$x1 = array(array(1),1);
+            |$x2 = array(array(2),2);
+            |$x3 = array(array(3),3);
+            |$bx = array(10);
+            |
+            |$x[mod($x1)][mod($x2)] = $bx[mod($x3)];
+            |
+            |// expecting 10,3
+            |
+            |var_dump($x);
             |?>""".stripMargin)
   }
 }

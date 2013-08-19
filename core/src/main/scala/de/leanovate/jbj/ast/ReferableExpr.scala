@@ -6,6 +6,8 @@ import de.leanovate.jbj.runtime.value.{PVal, PVar, PAny}
 trait ReferableExpr extends Expr {
 
   def evalRef(implicit ctx: Context): Reference = new Reference {
+    def asVal = eval
+
     def asVar = evalVar
 
     def assign(pAny: PAny) = {

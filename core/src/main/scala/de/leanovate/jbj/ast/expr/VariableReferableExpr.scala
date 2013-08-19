@@ -19,17 +19,19 @@ case class VariableReferableExpr(variableName: Name) extends ReferableExpr {
   override def evalRef(implicit ctx: Context) = new Reference {
     val name = variableName.evalName
 
+    def asVal = ctx.findVariable(name).map(_.value).getOrElse(NullVal)
+
     def asVar = ctx.findVariable(name).getOrElse {
       val result = PVar()
       ctx.defineVariable(name, result)
       result
     }
 
-    def assign(pAny: PAny) :PAny = {
+    def assign(pAny: PAny): PAny = {
       pAny match {
         case pVar: PVar =>
           ctx.defineVariable(name, pVar)
-        case pVal : PVal =>
+        case pVal: PVal =>
           ctx.findVariable(name) match {
             case Some(valueRef) => valueRef.value = pVal
             case None => ctx.defineVariable(name, PVar(pVal))

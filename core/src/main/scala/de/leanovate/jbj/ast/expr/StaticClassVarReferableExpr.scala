@@ -21,6 +21,8 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
     val optClass = ctx.global.findClass(name)
     val varName = variableName.evalName
 
+    def asVal = eval
+
     def asVar = optClass.map {
       pClass =>
         pClass.findVariable(varName).getOrElse {
