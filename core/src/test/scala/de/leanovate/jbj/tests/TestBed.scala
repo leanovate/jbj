@@ -43,53 +43,74 @@ object TestBed {
   //A main method for testing
   def main(args: Array[String]) {
     test( """<?php
-            |class Test
-            |{
-            |	protected $x;
             |
-            |	function __get($name) {
-            |		echo __METHOD__ . "\n";
-            |   echo ">>> Actually\n";
-            |		if (isset($this->x[$name])) {
-            |			return $this->x[$name];
-            |		}
-            |		else
-            |		{
-            |			return NULL;
-            |		}
-            |	}
-            |
-            |	function __set($name, $val) {
-            |		echo __METHOD__ . "\n";
-            |		$this->x[$name] = $val;
-            |	}
+            |function f() {
+            |	echo "in f()\n";
+            |	return "name";
             |}
             |
-            |class AutoGen
-            |{
-            |	protected $x;
-            |
-            |	function __get($name) {
-            |		echo __METHOD__ . "\n";
-            |		if (!isset($this->x[$name])) {
-            |			$this->x[$name] = new Test();
-            |		}
-            |		return $this->x[$name];
-            |	}
-            |
-            |	function __set($name, $val) {
-            |		echo __METHOD__ . "\n";
-            |		$this->x[$name] = $val;
-            |	}
+            |function g() {
+            |	echo "in g()\n";
+            |	return "assigned value";
             |}
             |
-            |$foo = new AutoGen();
-            |$foo->bar->baz = "Check";
             |
-            |var_dump($foo->bar);
-            |var_dump($foo->bar->baz);
+            |echo "\n\nOrder with local assignment:\n";
+            |${f()} = g();
+            |var_dump($name);
             |
-            |?>
-            |===DONE===""".stripMargin)
+            |echo "\n\nOrder with array assignment:\n";
+            |$a[f()] = g();
+            |var_dump($a);
+            |
+            |echo "\n\nOrder with object property assignment:\n";
+            |$oa = new stdClass;
+            |$oa->${f()} = g();
+            |var_dump($oa);
+            |
+            |echo "\n\nOrder with nested object property assignment:\n";
+            |$ob = new stdClass;
+            |$ob->o1 = new stdClass;
+            |$ob->o1->o2 = new stdClass;
+            |$ob->o1->o2->${f()} = g();
+            |var_dump($ob);
+            |
+            |echo "\n\nOrder with dim_list property assignment:\n";
+            |$oc = new stdClass;
+            |$oc->a[${f()}] = g();
+            |var_dump($oc);
+            |
+            |
+            |class C {
+            |	public static $name = "original";
+            |	public static $a = array();
+            |	public static $string = "hello";
+            |}
+            |echo "\n\nOrder with static property assignment:\n";
+            |C::${f()} = g();
+            |var_dump(C::$name);
+            |
+            |echo "\n\nOrder with static array property assignment:\n";
+            |C::$a[f()] = g();
+            |var_dump(C::$a);
+            |
+            |echo "\n\nOrder with indexed string assignment:\n";
+            |$string = "hello";
+            |function getOffset() {
+            |	echo "in getOffset()\n";
+            |	return 0;
+            |}
+            |function newChar() {
+            |	echo "in newChar()\n";
+            |	return 'j';
+            |}
+            |$string[getOffset()] = newChar();
+            |var_dump($string);
+            |
+            |echo "\n\nOrder with static string property assignment:\n";
+            |C::$string[getOffset()] = newChar();
+            |var_dump(C::$string);
+            |
+            |?>""".stripMargin)
   }
 }

@@ -54,7 +54,7 @@ import de.leanovate.jbj.ast.expr.include.RequireExpr
 import de.leanovate.jbj.parser.JbjTokens.LongNumLit
 import de.leanovate.jbj.ast.expr.calc.PosExpr
 import de.leanovate.jbj.ast.expr.comp.EqExpr
-import de.leanovate.jbj.ast.stmt.TraitUseStmt
+import de.leanovate.jbj.ast.stmt.TraitUseDecl
 import de.leanovate.jbj.ast.name.StaticNamespaceName
 import de.leanovate.jbj.ast.expr.value.MethodNameConstExpr
 import de.leanovate.jbj.ast.expr.comp.NotEqExpr
@@ -64,7 +64,7 @@ import de.leanovate.jbj.ast.stmt.GlobalVarDeclAssignStmt
 import de.leanovate.jbj.ast.expr.value.FunctionNameConstExpr
 import de.leanovate.jbj.ast.expr.include.IncludeOnceExpr
 import de.leanovate.jbj.runtime.value.IntegerVal
-import de.leanovate.jbj.ast.stmt.ClassVarDeclStmt
+import de.leanovate.jbj.ast.stmt.ClassVarDecl
 import de.leanovate.jbj.ast.expr.StaticClassVarReferableExpr
 import de.leanovate.jbj.ast.expr.comp.GtExpr
 import de.leanovate.jbj.ast.expr.calc.DivExpr
@@ -80,7 +80,7 @@ import de.leanovate.jbj.ast.expr.comp.BoolAndExpr
 import de.leanovate.jbj.ast.stmt.cond.IfStmt
 import de.leanovate.jbj.ast.expr.cast.BooleanCastExpr
 import de.leanovate.jbj.ast.stmt.FunctionDeclStmt
-import de.leanovate.jbj.ast.stmt.ClassMethodDeclStmt
+import de.leanovate.jbj.ast.stmt.ClassMethodDecl
 import de.leanovate.jbj.ast.expr.CallMethodReferableExpr
 import de.leanovate.jbj.ast.expr.comp.TernaryExpr
 import de.leanovate.jbj.ast.expr.value.ClassConstantExpr
@@ -104,7 +104,7 @@ import de.leanovate.jbj.ast.stmt.loop.WhileStmt
 import de.leanovate.jbj.ast.expr.calc.AddToReferableExpr
 import de.leanovate.jbj.ast.expr.calc.DivByReferableExpr
 import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
-import de.leanovate.jbj.ast.stmt.ClassConstDeclStmt
+import de.leanovate.jbj.ast.stmt.ClassConstDecl
 import de.leanovate.jbj.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.parser.JbjTokens.IntegerCast
 import de.leanovate.jbj.ast.expr.CloneExpr
@@ -253,8 +253,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val untickedClassDeclarationStatement: PackratParser[ClassDeclStmt] =
     classEntryType ~ identLit ~ extendsFrom ~ implementsList ~ "{" ~ classStatementList <~ "}" ^^ {
-      case entry ~ name ~ exts ~ impls ~ _ ~ stmts =>
-        ClassDeclStmt(entry, NamespaceName(relative = true, name), exts, impls, stmts)
+      case entry ~ name ~ exts ~ impls ~ _ ~ decls =>
+        ClassDeclStmt(entry, NamespaceName(relative = true, name), exts, impls, decls)
     }
 
   lazy val classEntryType: PackratParser[ClassEntry.Type] =
@@ -332,20 +332,20 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     case v ~ optScalar => StaticAssignment(v, optScalar)
   }, ",")
 
-  lazy val classStatementList: PackratParser[List[Stmt]] = rep(classStatement)
+  lazy val classStatementList: PackratParser[List[ClassMemberDecl]] = rep(classStatement)
 
-  lazy val classStatement: PackratParser[Stmt] = variableModifiers ~ classVariableDeclaration <~ ";" ^^ {
-    case modifiers ~ assignments => ClassVarDeclStmt(modifiers, assignments)
+  lazy val classStatement: PackratParser[ClassMemberDecl] = variableModifiers ~ classVariableDeclaration <~ ";" ^^ {
+    case modifiers ~ assignments => ClassVarDecl(modifiers, assignments)
   } | classConstantDeclaration ^^ {
-    assignments => ClassConstDeclStmt(assignments)
+    assignments => ClassConstDecl(assignments)
   } | traitUseStatement |
     methodModifiers ~ "function" ~ opt("&") ~ identLit ~ "(" ~ parameterList ~ ")" ~ methodBody ^^ {
       case modifiers ~ _ ~ isRef ~ name ~ _ ~ params ~ _ ~ stmts =>
-        ClassMethodDeclStmt(modifiers, name, isRef.isDefined, params, stmts)
+        ClassMethodDecl(modifiers, name, isRef.isDefined, params, stmts)
     }
 
-  lazy val traitUseStatement: PackratParser[TraitUseStmt] = "use" ~> traitList <~ ";" ^^ {
-    traits => TraitUseStmt(traits)
+  lazy val traitUseStatement: PackratParser[TraitUseDecl] = "use" ~> traitList <~ ";" ^^ {
+    traits => TraitUseDecl(traits)
   }
 
   lazy val traitList: PackratParser[List[NamespaceName]] = rep1(fullyQualifiedClassName)

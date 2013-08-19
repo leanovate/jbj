@@ -8,9 +8,11 @@ import de.leanovate.jbj.ast.NodePosition
 class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueMap: mutable.LinkedHashMap[Any, PAny])
   extends PVal with ArrayLike {
 
-  def keyValues(implicit ctx: Context): Seq[(PVal, PAny)] = keyValueMap.toSeq.map {
-    case (key: Long, value) => IntegerVal(key) -> value
-    case (key: String, value) => StringVal(key) -> value
+  private val visibilities = mutable.Map.empty[Any, PVisibility.Type]
+
+  def keyValues(implicit ctx: Context): Seq[(PVal, (PVisibility.Type, PAny))] = keyValueMap.toSeq.map {
+    case (key: Long, value) => IntegerVal(key) -> (visibilities.get(key).getOrElse(PVisibility.PUBLIC), value)
+    case (key: String, value) => StringVal(key) -> (visibilities.get(key).getOrElse(PVisibility.PUBLIC), value)
   }
 
   override def toOutput(implicit ctx: Context) = "Array"
@@ -67,7 +69,8 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
 
   def getProperty(name: String)(implicit ctx: Context): Option[PAny] = keyValueMap.get(name)
 
-  def setProperty(name: String, value: PAny) {
+  def setProperty(name: String, visibility:Option[PVisibility.Type], value: PAny) {
+    visibility.foreach(visibilities.put(name, _))
     keyValueMap.get(name).foreach(_.decrRefCount())
     keyValueMap.put(name, value)
     value.incrRefCount()

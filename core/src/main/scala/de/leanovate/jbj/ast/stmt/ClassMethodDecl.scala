@@ -9,13 +9,9 @@ import de.leanovate.jbj.runtime.context.StaticMethodContext
 import de.leanovate.jbj.runtime.ReturnExecResult
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
-case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: String, returnByRef: Boolean, parameterDecls: List[ParameterDecl],
-                               stmts: List[Stmt]) extends Stmt with PMethod with BlockLike with FunctionLike {
+case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, returnByRef: Boolean, parameterDecls: List[ParameterDecl],
+                               stmts: List[Stmt]) extends ClassMemberDecl with PMethod with BlockLike with FunctionLike {
   private lazy val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
-
-  override def exec(implicit ctx: Context) = {
-    SuccessExecResult
-  }
 
   override lazy val isStatic = modifieres.contains(MemberModifier.STATIC)
 
@@ -69,4 +65,5 @@ case class ClassMethodDeclStmt(modifieres: Set[MemberModifier.Type], name: Strin
         stmt.dump(out, ident + "  ")
     }
   }
+
 }

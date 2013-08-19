@@ -3,7 +3,6 @@ package de.leanovate.jbj.runtime
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.ast.{Expr, ClassEntry, NamespaceName, NodePosition}
 import scala.collection.Map
-import scala.collection.mutable
 import de.leanovate.jbj.runtime.value.IntegerVal
 
 package object buildin {
@@ -50,11 +49,11 @@ package object buildin {
     override def superClass = None
 
     override def initializeInstance(instance: ObjectVal)(implicit ctx: Context, callerPosition: NodePosition) {
-      instance.setProperty("message", StringVal(Array.emptyByteArray))
-      instance.setProperty("code", IntegerVal(0))
-      instance.setProperty("previous", NullVal)
-      instance.setProperty("file", StringVal(callerPosition.fileName))
-      instance.setProperty("line", IntegerVal(callerPosition.line))
+      instance.setProperty("message", None, StringVal(Array.emptyByteArray))
+      instance.setProperty("code", None, IntegerVal(0))
+      instance.setProperty("previous", None, NullVal)
+      instance.setProperty("file", None, StringVal(callerPosition.fileName))
+      instance.setProperty("line", None, IntegerVal(callerPosition.line))
     }
 
     override def newInstance(parameters: List[Expr])(implicit ctx: Context, callerPosition: NodePosition) = {

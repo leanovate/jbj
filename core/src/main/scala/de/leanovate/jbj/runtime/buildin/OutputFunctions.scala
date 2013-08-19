@@ -1,7 +1,7 @@
 package de.leanovate.jbj.runtime.buildin
 
 import de.leanovate.jbj.runtime.value._
-import de.leanovate.jbj.runtime.Context
+import de.leanovate.jbj.runtime.{PVisibility, Context}
 import de.leanovate.jbj.ast.NodePosition
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 
@@ -48,14 +48,26 @@ object OutputFunctions extends WrappedFunctions {
           val nextIdent = ident + "  "
           ctx.out.println("%sobject(%s)#%d (%d) {".format(ident, pClass.name.toString, instanceNum, keyValues.size))
           keyValues.foreach {
-            case (IntegerVal(key), v) =>
+            case (IntegerVal(key), (visibility, v)) =>
               ctx.out.println("%s[%d]=>".format(nextIdent, key))
               if (stack.exists(_.eq(v)))
                 ctx.out.println("%s*RECURSION*".format(nextIdent))
               else
                 dump(v :: stack, nextIdent)
-            case (StringVal(key), v) =>
+            case (StringVal(key), (PVisibility.PUBLIC, v)) =>
               ctx.out.println( """%s["%s"]=>""".format(nextIdent, key))
+              if (stack.exists(_.eq(v)))
+                ctx.out.println("%s*RECURSION*".format(nextIdent))
+              else
+                dump(v :: stack, nextIdent)
+            case (StringVal(key), (PVisibility.PROTECTED, v)) =>
+              ctx.out.println( """%s["%s":protected]=>""".format(nextIdent, key))
+              if (stack.exists(_.eq(v)))
+                ctx.out.println("%s*RECURSION*".format(nextIdent))
+              else
+                dump(v :: stack, nextIdent)
+            case (StringVal(key), (PVisibility.PRIVATE, v)) =>
+              ctx.out.println( """%s["%s":private]=>""".format(nextIdent, key))
               if (stack.exists(_.eq(v)))
                 ctx.out.println("%s*RECURSION*".format(nextIdent))
               else
@@ -91,11 +103,11 @@ object OutputFunctions extends WrappedFunctions {
           "%s Object".format(pClass.name.toString) :: "(" :: keyValues.flatMap {
             case (_, v) if stack.exists(_.eq(v)) =>
               "*RECURSION*" :: Nil
-            case (IntegerVal(key), v) =>
+            case (IntegerVal(key), (visibility, v)) =>
               val lines = dump(v :: stack)
               "    [%d] => %s".format(key, lines.head) :: (
                 if (lines.tail.isEmpty) Nil else lines.tail.map("        " + _) ::: "" :: Nil)
-            case (StringVal(key), v) =>
+            case (StringVal(key), (visibility, v)) =>
               val lines = dump(v :: stack)
               """    [%s] => %s""".format(key, lines.head) :: (
                 if (lines.tail.isEmpty) Nil else lines.tail.map("        " + _) ::: "" :: Nil)

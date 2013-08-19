@@ -13,16 +13,17 @@ import scala.Some
 import scala.collection.immutable.List
 
 case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
-                         superClassName: Option[NamespaceName], implements: List[NamespaceName], stmts: List[Stmt])
+                         superClassName: Option[NamespaceName], implements: List[NamespaceName],
+                         decls: List[ClassMemberDecl])
   extends Stmt with PClass {
 
-  private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
+  private val staticInitializers = decls.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
   private var _superClass: Option[PClass] = None
 
   override def superClass = _superClass
 
-  private lazy val instanceAssinments = stmts.filter(_.isInstanceOf[ClassVarDeclStmt])
+  private lazy val instanceAssinments = decls.filter(_.isInstanceOf[ClassVarDecl])
 
   override def exec(implicit ctx: Context) = {
     if (ctx.global.findClass(name).isDefined)
@@ -51,7 +52,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   override def initializeInstance(instance: ObjectVal)(implicit ctx: Context, callerPosition: NodePosition) {
     implicit val classCtx = InstanceContext(instance, callerPosition, ctx)
 
-    instanceAssinments.foreach(_.exec)
+    instanceAssinments.foreach(_.initializeInstance(instance))
 
     superClass.foreach(_.initializeInstance(instance)(ctx, callerPosition))
   }
@@ -70,7 +71,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     val result = mutable.LinkedHashMap.empty[String, PMethod]
 
     superClass.foreach(result ++= _.methods)
-    stmts.foreach {
+    decls.foreach {
       case method: PMethod =>
         result -= method.name.toLowerCase
         result += method.name.toLowerCase -> method
@@ -82,7 +83,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   override def dump(out: PrintStream, ident: String) {
     out.println(ident + getClass.getSimpleName + " " + name.toString + " " + position)
     out.println(ident + "  " + name.toString)
-    stmts.foreach {
+    decls.foreach {
       stmt =>
         stmt.dump(out, ident + "  ")
     }

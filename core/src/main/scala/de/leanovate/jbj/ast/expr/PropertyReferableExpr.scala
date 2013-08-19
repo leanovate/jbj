@@ -58,11 +58,11 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
             valueRef
           case value: PVal =>
             val result = PVar(value)
-            obj.setProperty(name, result)
+            obj.setProperty(name, None, result)
             result
         }.getOrElse {
           val result = PVar()
-          obj.setProperty(name, result)
+          obj.setProperty(name, None, result)
           result
         }
       case None =>
@@ -76,14 +76,14 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
       case Some(obj) =>
         val name = propertyName.evalName
         if (obj.getProperty(name).isDefined) {
-          obj.setProperty(propertyName.evalName, valueOrRef.asVal)
+          obj.setProperty(propertyName.evalName, None, valueOrRef.asVal)
         } else {
           ctx match {
             case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__set" =>
-              obj.setProperty(name, valueOrRef.asVal)
+              obj.setProperty(name, None, valueOrRef.asVal)
             case _ =>
               obj.pClass.findMethod("__set").map(_.invoke(ctx, position, obj, ScalarExpr(StringVal(name)) :: ScalarExpr(valueOrRef.asVal) :: Nil)).getOrElse {
-                obj.setProperty(name, valueOrRef.asVal)
+                obj.setProperty(name, None, valueOrRef.asVal)
               }
           }
         }
