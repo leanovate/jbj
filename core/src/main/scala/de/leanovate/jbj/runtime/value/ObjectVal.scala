@@ -5,12 +5,12 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.ast.NodePosition
 
-class ObjectVal(var pClass: PClass, var instanceNum: Long, keyValueMap: mutable.LinkedHashMap[Any, PAny])
+class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueMap: mutable.LinkedHashMap[Any, PAny])
   extends PVal with ArrayLike {
 
   def keyValues(implicit ctx: Context): Seq[(PVal, PAny)] = keyValueMap.toSeq.map {
-    case (key:Long, value) => IntegerVal(key) -> value
-    case (key:String, value) => StringVal(key) -> value
+    case (key: Long, value) => IntegerVal(key) -> value
+    case (key: String, value) => StringVal(key) -> value
   }
 
   override def toOutput(implicit ctx: Context) = "Array"
@@ -29,13 +29,39 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, keyValueMap: mutable.
 
   override def isNull = false
 
-  override def copy(implicit ctx:Context) = new ObjectVal(pClass, ctx.global.instanceCounter.incrementAndGet(), keyValueMap.clone())
+  override def copy(implicit ctx: Context) = new ObjectVal(pClass, ctx.global.instanceCounter.incrementAndGet(), keyValueMap.clone())
 
   override def incr = this
 
   override def decr = this
 
   override def typeName = "object"
+
+  override def compare(other: PVal)(implicit ctx: Context): Int = other match {
+    case otherObj: ObjectVal =>
+      if (pClass != otherObj.pClass)
+        return Int.MinValue
+      val keyIt = keyValueMap.keysIterator
+      while (keyIt.hasNext) {
+        val key = keyIt.next()
+        val thisVal = keyValueMap(key)
+        val otherVal = otherObj.keyValueMap.get(key)
+
+        if (otherVal.isEmpty) {
+          if (keyIt.hasNext)
+            return Int.MinValue
+          else
+            return -1
+        } else {
+          val comp = thisVal.asVal.compare(otherVal.get.asVal)
+
+          if (comp != null)
+            return comp
+        }
+      }
+      0
+    case _ => 1
+  }
 
   final def instanceOf(other: PClass): Boolean = other.isAssignableFrom(pClass)
 

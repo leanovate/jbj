@@ -4,7 +4,7 @@ import de.leanovate.jbj.runtime._
 import scala.collection.mutable
 import de.leanovate.jbj.ast.NodePosition
 
-class ArrayVal(keyValueMap: mutable.LinkedHashMap[Any, PAny]) extends PVal with ArrayLike {
+class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extends PVal with ArrayLike {
 
   private var maxIndex: Long = (0L :: keyValueMap.keys.map {
     case idx: Long => idx
@@ -43,6 +43,30 @@ class ArrayVal(keyValueMap: mutable.LinkedHashMap[Any, PAny]) extends PVal with 
   override def typeName: String = "array"
 
   override def size: Int = keyValueMap.size
+
+  override def compare(other: PVal)(implicit ctx: Context): Int = other match {
+    case otherArray: ArrayVal =>
+      val keyIt = keyValueMap.keysIterator
+      while (keyIt.hasNext) {
+        val key = keyIt.next()
+        val thisVal = keyValueMap(key)
+        val otherVal = otherArray.keyValueMap.get(key)
+
+        if (otherVal.isEmpty) {
+          if (keyIt.hasNext)
+            return Int.MinValue
+          else
+            return -1
+        } else {
+          val comp = thisVal.asVal.compare(otherVal.get.asVal)
+
+          if (comp != null)
+            return comp
+        }
+      }
+      0
+    case _ => 1
+  }
 
   override def getAt(index: Long)(implicit ctx: Context, position: NodePosition): Option[PAny] =
     keyValueMap.get(index)

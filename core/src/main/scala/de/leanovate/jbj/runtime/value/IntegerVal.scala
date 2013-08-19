@@ -20,6 +20,12 @@ case class IntegerVal(asLong: Long) extends NumericVal {
 
   override def typeName = "integer"
 
+  override def compare(other: PVal)(implicit ctx: Context): Int = other match {
+    case IntegerVal(otherLong) => asLong.compare(otherLong)
+    case NumericVal(otherDouble) => asLong.toDouble.compare(otherDouble)
+    case _ => StringVal.compare(asLong.toString.getBytes, other.toStr.chars)
+  }
+
   override def unary_- = if (asLong > Long.MinValue) IntegerVal(-asLong) else DoubleVal(-asLong.toDouble)
 
   def asInt = asLong.toInt

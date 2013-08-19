@@ -12,13 +12,13 @@ case class DoubleVal(asDouble: Double) extends NumericVal {
 
   override def toDouble(implicit ctx: Context) = this
 
-  override def toInteger(implicit ctx:Context): IntegerVal =
+  override def toInteger(implicit ctx: Context): IntegerVal =
     if (asDouble > Long.MinValue.toDouble && asDouble < Long.MaxValue.toDouble)
       IntegerVal(asDouble.toLong)
     else
       IntegerVal(Long.MinValue)
 
-  override def toBool(implicit ctx:Context) = BooleanVal(asDouble != 0.0)
+  override def toBool(implicit ctx: Context) = BooleanVal(asDouble != 0.0)
 
   override def incr = DoubleVal(asDouble + 1)
 
@@ -26,7 +26,12 @@ case class DoubleVal(asDouble: Double) extends NumericVal {
 
   override def typeName = "double"
 
-  def unary_- = DoubleVal(-asDouble)
+  override def compare(other: PVal)(implicit ctx: Context): Int = other match {
+    case NumericVal(otherDouble) => asDouble.compare(otherDouble)
+    case _ => StringVal.compare(asDouble.toString.getBytes, other.toStr.chars)
+  }
+
+  override def unary_- = DoubleVal(-asDouble)
 
   private def compatbleStr = {
     val str = new math.BigDecimal(asDouble, DoubleVal.mathContext).toString

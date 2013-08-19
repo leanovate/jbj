@@ -27,6 +27,8 @@ trait PVal extends PAny {
 
   def typeName:String
 
+  def compare(other:PVal)(implicit ctx:Context): Int
+
   final override def asVal = this
 
   final override def asVar = PVar(this)
@@ -34,13 +36,4 @@ trait PVal extends PAny {
   final override def incrRefCount() {}
 
   final override def decrRefCount() {}
-}
-
-object PVal {
-  def compare(left: PVal, right: PVal)(implicit ctx:Context): Int = (left, right) match {
-    case (IntegerVal(leftVal), IntegerVal(rightVal)) => leftVal.compare(rightVal)
-    case (NumericVal(leftVal), NumericVal(rightVal)) => leftVal.compare(rightVal)
-    case (BooleanVal(leftVal), BooleanVal(rightVal)) => leftVal.compare(rightVal)
-    case (anyLeft, anyRight) => anyLeft.toStr.asString.compare(anyRight.toStr.asString)
-  }
 }

@@ -46,6 +46,50 @@ class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
 
   override def size: Int = chars.length
 
+  override def compare(other: PVal)(implicit ctx: Context): Int = other match {
+    case otherStr: StringVal if isStrongNumericPattern && otherStr.isStrongNumericPattern =>
+      new String(chars).toDouble.compare(new String(chars).toDouble)
+    case otherStr: StringVal => StringVal.compare(chars, otherStr.chars)
+    case NumericVal(otherNum) =>
+      this match {
+        case NumericVal(thisNum) => thisNum.compare(otherNum)
+        case _ => StringVal.compare(chars, otherNum.toString.getBytes)
+      }
+    case _ => StringVal.compare(chars, other.toStr.chars)
+  }
+
+  def isStrongNumericPattern: Boolean = {
+    var idx = 0
+    var sign = false
+    var digits = false
+    var dot = false
+    var exp = false
+
+    while (idx < chars.length) {
+      val ch = chars(idx)
+      if (ch == '+'.toByte || ch == '-'.toByte) {
+        if (sign || digits || dot || exp)
+          return false
+        sign = true
+      } else if (ch == '.'.toByte) {
+        if (dot || exp)
+          return false
+        dot = true
+      } else if (ch == 'e'.toByte || ch == 'E'.toByte) {
+        if (exp || !digits)
+          return false
+        exp = true
+      } else if (ch >= '0'.toByte && ch <= '9'.toByte) {
+        digits = true
+      } else {
+        return false
+      }
+
+      idx += 1
+    }
+    digits
+  }
+
   override def getAt(index: Long)(implicit ctx: Context, position: NodePosition) = {
     Some(StringVal(Array(chars(index.toInt))))
   }
@@ -138,4 +182,20 @@ object StringVal {
   def apply(str: String)(implicit ctx: Context) = new StringVal(str.getBytes(ctx.settings.charset))
 
   def unapply(str: StringVal)(implicit ctx: Context): Option[String] = Some(str.asString)
+
+  def compare(v1: Array[Byte], v2: Array[Byte]): Int = {
+    val len = Math.min(v1.length, v2.length)
+
+    var k = 0
+
+    while (k < len) {
+      val c1 = v1(k)
+      val c2 = v2(k)
+      if (c1 != c2) {
+        return (c1 & 0xff) - (c2 & 0xff)
+      }
+      k += 1
+    }
+    v1.length - v2.length
+  }
 }

@@ -33,6 +33,14 @@ object BooleanVal {
     override def toInteger(implicit ctx: Context) = IntegerVal(1)
 
     override def toStr(implicit ctx: Context) = StringVal("1")
+
+    override def compare(other: PVal)(implicit ctx: Context): Int = other match {
+      case BooleanVal(otherBool) => if (otherBool) 0 else 1
+      case NumericVal(otherDouble) => 1.0.compare(otherDouble)
+      case str:StringVal => if (str.chars.length > 0) 0 else 1
+      case array: ArrayVal => if (!array.isEmpty) 0 else 1
+      case _ => 1
+    }
   }
 
   val FALSE = new BooleanVal {
@@ -45,6 +53,14 @@ object BooleanVal {
     override def toInteger(implicit ctx: Context) = IntegerVal(0)
 
     override def toStr(implicit ctx: Context) = StringVal(Array.emptyByteArray)
+
+    override def compare(other: PVal)(implicit ctx: Context): Int = other match {
+      case BooleanVal(otherBool) => if (otherBool) -1 else 0
+      case NumericVal(otherDouble) => 0.0.compare(otherDouble)
+      case str:StringVal => if (str.chars.length > 0) -1 else 0
+      case array: ArrayVal => if (!array.isEmpty) -1 else 0
+      case _ => 0
+    }
   }
 
   def apply(value: Boolean): BooleanVal = if (value) TRUE else FALSE
