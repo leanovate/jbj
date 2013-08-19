@@ -50,11 +50,11 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
   }
 
   override def evalRef(implicit ctx: Context) = new Reference {
-    val optParent = parentObject
+    val parentRef = reference.evalRef
     val name = propertyName.evalName
 
     def asVal = {
-      reference.eval match {
+      parentRef.asVal match {
         case obj: ObjectVal =>
           val name = propertyName.evalName
           obj.getProperty(name).map(_.asVal).getOrElse {
@@ -115,6 +115,18 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
       if (optParent.isDefined)
         optParent.get.unsetProperty(name)
     }
+
+    private def optParent =
+      parentRef.asVal match {
+        case obj: ObjectVal =>
+          Some(obj)
+        case NullVal =>
+          val obj = StdClass.newInstance(Nil)(ctx, NoNodePosition)
+          parentRef.assign(obj)
+          Some(obj)
+        case _ =>
+          None
+      }
   }
 
   override def evalVar(implicit ctx: Context) = evalRef.asVar
@@ -131,22 +143,5 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
     super.dump(out, ident)
     reference.dump(out, ident + "  ")
     propertyName.dump(out, ident + "  ")
-  }
-
-  private def parentObject(implicit ctx: Context) = if (!reference.isDefined) {
-    val obj = StdClass.newInstance(Nil)(ctx, NoNodePosition)
-    reference.assignVar(obj)
-    Some(obj)
-  } else {
-    reference.eval.asVal match {
-      case obj: ObjectVal =>
-        Some(obj)
-      case NullVal =>
-        val obj = StdClass.newInstance(Nil)(ctx, NoNodePosition)
-        reference.assignVar(obj)
-        Some(obj)
-      case _ =>
-        None
-    }
   }
 }

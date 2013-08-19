@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Name, ReferableExpr, Expr}
-import de.leanovate.jbj.runtime.Context
+import de.leanovate.jbj.runtime.{Reference, Context}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.value.{PAny, PVar}
 import java.io.PrintStream
@@ -9,17 +9,28 @@ import java.io.PrintStream
 case class CallFunctionReferableExpr(functionName: Name, parameters: List[Expr]) extends ReferableExpr {
   override def eval(implicit ctx: Context) = callFunction.asVal
 
-  override def evalVar(implicit ctx: Context) = callFunction
+  override def evalRef(implicit ctx: Context) = new Reference {
+    val result = callFunction
 
-  override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
-    callFunction match {
-      case valueRef: PVar => valueRef.value = valueOrRef.asVal
-      case _ => throw new RuntimeException("Function does not have reference result")
+    def asVal = result.asVal
+
+    def asVar = result
+
+    def assign(pAny: PAny) = pAny
+
+    def unset() {
+      throw new FatalErrorJbjException("Can't use function return value in write context")
     }
   }
 
+  override def evalVar(implicit ctx: Context) = evalRef.asVar
+
+  override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
+    evalRef.assign(valueOrRef)
+  }
+
   override def unsetVar(implicit ctx: Context) {
-    throw new FatalErrorJbjException("Can't use function return value in write context")
+    evalRef.unset()
   }
 
   private def callFunction(implicit ctx: Context): PAny = {

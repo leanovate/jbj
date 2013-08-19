@@ -126,23 +126,6 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
     evalRef.unset()
   }
 
-  private def parentArray(implicit ctx: Context) = if (!reference.isDefined) {
-    val array = ArrayVal()
-    reference.assignVar(array)
-    Some(array)
-  } else {
-    reference.eval.asVal match {
-      case array: ArrayLike =>
-        Some(array)
-      case NullVal =>
-        val array = ArrayVal()
-        reference.assignVar(array)
-        Some(array)
-      case _ =>
-        None
-    }
-  }
-
   override def dump(out: PrintStream, ident: String) {
     super.dump(out, ident)
     reference.dump(out, ident + "  ")

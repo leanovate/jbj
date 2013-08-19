@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Expr, ReferableExpr}
-import de.leanovate.jbj.runtime.Context
+import de.leanovate.jbj.runtime.{Reference, Context}
 import de.leanovate.jbj.runtime.value.{PVar, PAny}
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
@@ -11,12 +11,29 @@ case class AssignReferableExpr(reference: ReferableExpr, expr: Expr) extends Ref
     reference.evalRef.assign(expr.eval).asVal
   }
 
-  override def evalVar(implicit ctx: Context) = eval
+  override def evalRef(implicit ctx: Context) = new Reference {
+    val result = eval
 
-  override def assignVar(pAny: PAny)(implicit ctx: Context) {
+    def asVal = result.asVal
+
+    def asVar = result
+
+    def assign(pAny: PAny) = pAny
+
+    def unset() {
+      throw new FatalErrorJbjException("Can't use function return value in write context")
+    }
   }
 
-  override def unsetVar(implicit ctx: Context) {}
+  override def evalVar(implicit ctx: Context) = evalRef.asVar
+
+  override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
+    evalRef.assign(valueOrRef)
+  }
+
+  override def unsetVar(implicit ctx: Context) {
+    evalRef.unset()
+  }
 
   override def dump(out: PrintStream, ident: String) {
     out.println(ident + getClass.getSimpleName + " " + position)

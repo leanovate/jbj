@@ -18,39 +18,27 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
 
   override def evalRef(implicit ctx: Context) = new Reference {
     val name = className.evalNamespaceName
-    val optClass = ctx.global.findClass(name)
+    val pClass = ctx.global.findClass(name).getOrElse {
+      throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))
+    }
     val varName = variableName.evalName
 
-    def asVal = eval
+    def asVal = pClass.findVariable(variableName.evalName).map(_.value).getOrElse(NullVal)
 
-    def asVar = optClass.map {
-      pClass =>
-        pClass.findVariable(varName).getOrElse {
-          val result = PVar()
-          pClass.defineVariable(varName, result)
-          result
-        }
-    }.getOrElse {
-      throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))
+
+    def asVar = pClass.findVariable(varName).getOrElse {
+      val result = PVar()
+      pClass.defineVariable(varName, result)
+      result
     }
 
     def assign(pAny: PAny) = {
-      ctx.global.findClass(name).map {
-        pClass =>
-          pClass.defineVariable(varName, pAny.asVar)
-      }.getOrElse {
-        throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))
-      }
+      pClass.defineVariable(varName, pAny.asVar)
       pAny
     }
 
     def unset() {
-      ctx.global.findClass(name).map {
-        pClass =>
-          pClass.undefineVariable(varName)
-      }.getOrElse {
-        throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))
-      }
+      pClass.undefineVariable(varName)
     }
   }
 

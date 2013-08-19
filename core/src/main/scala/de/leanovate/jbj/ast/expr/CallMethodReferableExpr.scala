@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Name, ReferableExpr, Expr}
-import de.leanovate.jbj.runtime.Context
+import de.leanovate.jbj.runtime.{Reference, Context}
 import de.leanovate.jbj.runtime.value._
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
@@ -10,12 +10,28 @@ import scala.Some
 case class CallMethodReferableExpr(instanceExpr: Expr, methodName: Name, parameters: List[Expr]) extends ReferableExpr {
   override def eval(implicit ctx: Context) = callMethod.asVal
 
-  override def evalVar(implicit ctx: Context) = callMethod
+  override def evalRef(implicit ctx: Context) = new Reference {
+    val result = callMethod
 
-  override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {}
+    def asVal = result.asVal
 
-  override def unsetVar(implicit ctx:Context) {
-    throw new FatalErrorJbjException("Can't use function return value in write context")
+    def asVar = result
+
+    def assign(pAny: PAny) = pAny
+
+    def unset() {
+      throw new FatalErrorJbjException("Can't use function return value in write context")
+    }
+  }
+
+  override def evalVar(implicit ctx: Context) = evalRef.asVar
+
+  override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
+    evalRef.assign(valueOrRef)
+  }
+
+  override def unsetVar(implicit ctx: Context) {
+    evalRef.unset()
   }
 
   override def dump(out: PrintStream, ident: String) {
