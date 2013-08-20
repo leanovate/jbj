@@ -12,7 +12,7 @@ case class AssignReferableExpr(reference: ReferableExpr, expr: Expr) extends Ref
   }
 
   override def evalRef(implicit ctx: Context) = new Reference {
-    val result = eval
+    val result = reference.evalRef.assign(expr.eval)
 
     def asVal = result.asVal
 
