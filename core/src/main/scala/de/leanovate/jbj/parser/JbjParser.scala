@@ -220,6 +220,11 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       e => ExprStmt(e)
     } | "unset" ~> "(" ~> unsetVariables <~ ")" ^^ {
       case vars => UnsetStmt(vars)
+    } | "foreach" ~> "(" ~> variable ~ "as" ~ foreachVariable ~ foreachOptionalArg ~ ")" ~ foreachStatement ^^ {
+      case array ~ _ ~ valueVar ~ None ~ _ ~ stmts =>
+        ForeachValueStmt(array, valueVar, stmts)
+      case array ~ _ ~ keyVar ~ Some(valueVar) ~ _ ~ stmts =>
+        ForeachKeyValueStmt(array, keyVar, valueVar, stmts)
     } | "foreach" ~> "(" ~> exprWithoutVariable ~ "as" ~ foreachVariable ~ foreachOptionalArg ~ ")" ~ foreachStatement ^^ {
       case array ~ _ ~ valueVar ~ None ~ _ ~ stmts =>
         ForeachValueStmt(array, valueVar, stmts)
@@ -271,7 +276,10 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val foreachOptionalArg: PackratParser[Option[ReferableExpr]] = opt("=>" ~> variable)
 
-  lazy val foreachVariable: PackratParser[ReferableExpr] = variable
+  lazy val foreachVariable: PackratParser[ReferableExpr] =
+    variable | "&" ~> variable | "list" ~> "(" ~> assignmentList <~ ")" ^^ {
+      refs => ListReferableExpr(refs)
+    }
 
   lazy val forStatement: PackratParser[List[Stmt]] =
     ":" ~> innerStatementList <~ "endfor" <~ ";" | statement ^^ (List(_))
@@ -389,7 +397,9 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val exprWithoutVariable: PackratParser[Expr] =
     expr ~ "?" ~ expr ~ ":" ~ expr ^^ {
       case cond ~ _ ~ tExpr ~ _ ~ fExpr => TernaryExpr(cond, tExpr, fExpr)
-    } | variable ~ "=" ~ expr ^^ {
+    } | "list" ~> "(" ~> assignmentList ~ ")" ~ "=" ~ expr ^^ {
+      case refs ~ _ ~ _ ~e => AssignReferableExpr(ListReferableExpr(refs), e)
+    }| variable ~ "=" ~ expr ^^ {
       case v ~ _ ~ e => AssignReferableExpr(v, e)
     } | variable ~ "=" ~ "&" ~ variable ^^ {
       case v ~ _ ~ _ ~ ref => AssignRefReferableExpr(v, ref)
@@ -738,6 +748,11 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       e: Expr => VariableReferableExpr(DynamicName(e))
     })
 
+  lazy val assignmentList: PackratParser[List[ReferableExpr]] = rep1sep(assignmentListElement, ",")
+
+  lazy val assignmentListElement: PackratParser[ReferableExpr] = variable | "list" ~> "(" ~> assignmentList <~ ")" ^^ {
+    refs => ListReferableExpr(refs)
+  }
 
   lazy val arrayPairList: PackratParser[List[ArrayKeyValue]] = repsep(
     opt(expr <~ "=>") ~ expr ^^ {

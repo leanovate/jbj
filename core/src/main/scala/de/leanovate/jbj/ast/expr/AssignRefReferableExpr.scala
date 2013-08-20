@@ -1,11 +1,16 @@
 package de.leanovate.jbj.ast.expr
 
-import de.leanovate.jbj.ast.ReferableExpr
+import de.leanovate.jbj.ast.{NodePosition, ReferableExpr}
 import de.leanovate.jbj.runtime.{Reference, Context}
 import de.leanovate.jbj.runtime.value.{PAny, PVar}
 import java.io.PrintStream
 
 case class AssignRefReferableExpr(reference: ReferableExpr, otherRef: ReferableExpr) extends ReferableExpr {
+  override def position_=(pos: NodePosition) {
+    super.position_=(pos)
+
+    reference.position = pos
+  }
 
   override def eval(implicit ctx: Context) = evalRef.asVal
 
