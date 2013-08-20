@@ -3,7 +3,6 @@ package de.leanovate.jbj.runtime.context
 import java.io.PrintStream
 import scala.collection.mutable
 import de.leanovate.jbj.runtime._
-import de.leanovate.jbj.runtime.buildin
 import de.leanovate.jbj.ast.{NoNodePosition, Prog, NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
 import de.leanovate.jbj.JbjEnv
@@ -55,7 +54,7 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
   }
 
   def findClass(name: NamespaceName): Option[PClass] =
-    buildin.buildinClasses.get(name.lowercase).map(Some.apply).getOrElse(classes.get(name.lowercase))
+    jbj.predefinedClasses.get(name.lowercase).map(Some.apply).getOrElse(classes.get(name.lowercase))
 
   def findClassOrAutoload(name: NamespaceName)(implicit position: NodePosition): Option[PClass] =
     findClass(name).map(Some.apply).getOrElse {
@@ -76,7 +75,7 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
   }
 
   def findConstant(name: String): Option[PVal] =
-    buildin.buildinConstants.get(name.toUpperCase).map(Some.apply).getOrElse {
+    jbj.preedfinedConstants.get(name.toUpperCase).map(Some.apply).getOrElse {
       constants.get(CaseSensitiveConstantKey(name)).map(Some.apply).getOrElse {
         constants.get(CaseInsensitiveConstantKey(name.toLowerCase))
       }
@@ -104,7 +103,7 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
   }
 
   def findFunction(name: NamespaceName) =
-    buildin.buildinFunctions.get(name.lowercase).map(Some.apply).getOrElse(functions.get(name.lowercase))
+    jbj.predefinedFunctions.get(name.lowercase).map(Some.apply).getOrElse(functions.get(name.lowercase))
 
   def defineFunction(function: PFunction) {
     functions.put(function.name.lowercase, function)

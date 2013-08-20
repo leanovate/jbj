@@ -6,7 +6,7 @@ import scala.collection.Map
 import de.leanovate.jbj.runtime.value.IntegerVal
 
 package object buildin {
-  val buildinFunctions: Map[Seq[String], PFunction] = (
+  val buildinFunctions: Seq[PFunction] =
     ArrayFunctions.functions ++
       ClassFunctions.functions ++
       DateFunctions.functions ++
@@ -14,11 +14,9 @@ package object buildin {
       FunctionFunctions.functions ++
       StringFunctions.functions ++
       OutputFunctions.functions ++
-      RuntimeFunctions.functions).map {
-    function => function.name.lowercase -> function
-  }.toMap
+      RuntimeFunctions.functions
 
-  val buildinConstants: Map[String, PVal] = Seq(
+  val buildinConstants: Seq[(String, PVal)] = Seq(
     "TRUE" -> BooleanVal.TRUE,
     "FALSE" -> BooleanVal.FALSE,
     "NULL" -> NullVal,
@@ -38,7 +36,7 @@ package object buildin {
     "E_DEPRECATED" -> IntegerVal(Settings.E_DEPRECATED),
     "E_USER_DEPRECATED" -> IntegerVal(Settings.E_USER_DEPRECATED),
     "E_ALL" -> IntegerVal(Settings.E_ALL)
-  ).toMap
+  )
 
 
   val Exception = new PClass {
@@ -77,10 +75,5 @@ package object buildin {
     override def methods = Map.empty
   }
 
-  val buildinClasses: Map[Seq[String], PClass] = Seq(
-    StdClass, Exception
-  ).map {
-    c =>
-      c.name.lowercase -> c
-  }.toMap
+  val buildinClasses: Seq[PClass] = Seq(StdClass, Exception)
 }
