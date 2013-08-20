@@ -19,7 +19,7 @@ trait FunctionLike extends BlockLike {
         if (parameterIt.hasNext) {
           parameterIt.next() match {
             case reference: ReferableExpr if parameterDecl.byRef =>
-              val pVar = reference.evalVar(callerContext) match {
+              val pVar = reference.evalRef(callerContext).asVar match {
                 case pVar: PVar => pVar
                 case pAny =>
                   callerContext.log.strict(callerPosition, "Only variables should be passed by reference")
@@ -41,7 +41,7 @@ trait FunctionLike extends BlockLike {
     execStmts(stmts)(funcCtx) match {
       case SuccessExecResult => NullVal
       case ret: ReturnExecResult => ret.expr match {
-        case Some(referable: ReferableExpr) if returnByRef => referable.evalVar(funcCtx) match {
+        case Some(referable: ReferableExpr) if returnByRef => referable.evalRef(funcCtx).asVar match {
           case pVar: PVar => pVar
           case pAny =>
             funcCtx.log.notice(ret.position, "Only variable references should be returned by reference")

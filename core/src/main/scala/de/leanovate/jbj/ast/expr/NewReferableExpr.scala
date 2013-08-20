@@ -31,8 +31,6 @@ case class NewReferableExpr(className: Name, parameters: List[Expr]) extends Ref
     }
   }
 
-  override def evalVar(implicit ctx: Context) = PVar(eval)
-
   override def dump(out: PrintStream, ident: String) {
     super.dump(out, ident)
     out.println(ident + "  " + className.toString)

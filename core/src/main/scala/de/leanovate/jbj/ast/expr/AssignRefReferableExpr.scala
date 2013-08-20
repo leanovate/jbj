@@ -8,7 +8,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class AssignRefReferableExpr(reference: ReferableExpr, otherRef: ReferableExpr) extends ReferableExpr {
 
-  override def eval(implicit ctx: Context) = evalVar.asVal
+  override def eval(implicit ctx: Context) = evalRef.asVar.asVal
 
   override def evalRef(implicit ctx: Context) = new Reference {
     val resultRef = otherRef.evalRef
@@ -17,11 +17,11 @@ case class AssignRefReferableExpr(reference: ReferableExpr, otherRef: ReferableE
 
     def asVar = resultRef.asVar match {
       case pVar: PVar =>
-        reference.assignVar(pVar)
+        reference.evalRef.assign(pVar)
         pVar
       case pAny =>
         ctx.log.strict(position, "Only variables should be assigned by reference")
-        reference.assignVar(pAny)
+        reference.evalRef.assign(pAny)
         pAny.asVal
     }
 

@@ -13,7 +13,7 @@ object RefParameterAdapter extends ParameterAdapter[PVar] {
       case head :: tail =>
         val pVar = head match {
           case reference: ReferableExpr =>
-            reference.evalVar match {
+            reference.evalRef.asVar match {
               case pVar: PVar => pVar
               case pAny =>
                 ctx.log.strict(position, "Only variables should be passed by reference")

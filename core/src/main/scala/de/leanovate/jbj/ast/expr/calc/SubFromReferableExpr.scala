@@ -8,7 +8,7 @@ import java.io.PrintStream
 case class SubFromReferableExpr(reference: ReferableExpr, expr: Expr) extends ReferableExpr {
   override def eval(implicit ctx: Context) = {
     val result = reference.eval.toNum - expr.eval.toNum
-    reference.assignVar(result)
+    reference.evalRef.assign(result)
     result
   }
 
