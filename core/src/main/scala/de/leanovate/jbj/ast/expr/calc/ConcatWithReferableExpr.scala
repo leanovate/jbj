@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.expr.calc
 
 import de.leanovate.jbj.ast.{Expr, ReferableExpr}
-import de.leanovate.jbj.runtime.Context
+import de.leanovate.jbj.runtime.{Reference, Context}
 import de.leanovate.jbj.runtime.value.PAny
 import java.io.PrintStream
 
@@ -10,6 +10,21 @@ case class ConcatWithReferableExpr(reference: ReferableExpr, expr: Expr) extends
     val result = reference.eval.toStr dot expr.eval.toStr
     reference.assignVar(result)
     result
+  }
+
+  override def evalRef(implicit ctx: Context): Reference = new Reference {
+    val result = eval
+
+    def asVal = result
+
+    def asVar = result
+
+    def assign(pAny: PAny) = {
+      pAny
+    }
+
+    def unset() {
+    }
   }
 
   override def evalVar(implicit ctx: Context) = eval

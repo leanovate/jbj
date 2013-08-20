@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{ReferableExpr, Name, Expr}
-import de.leanovate.jbj.runtime.Context
+import de.leanovate.jbj.runtime.{Reference, Context}
 import de.leanovate.jbj.runtime.value.{PVar, PAny, NullVal}
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
@@ -13,6 +13,21 @@ case class NewReferableExpr(className: Name, parameters: List[Expr]) extends Ref
     case None =>
       ctx.log.fatal(position, "Class '%s' not found".format(className.toString))
       NullVal
+  }
+
+  override def evalRef(implicit ctx: Context) = new Reference {
+    def asVal = eval
+
+    def asVar = evalVar
+
+    def assign(pAny: PAny) = {
+      assignVar(pAny)
+      pAny
+    }
+
+    def unset() {
+      unsetVar
+    }
   }
 
   override def evalVar(implicit ctx: Context) = PVar(eval)
