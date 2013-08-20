@@ -31,10 +31,6 @@ case class AssignReferableExpr(reference: ReferableExpr, expr: Expr) extends Ref
     evalRef.assign(valueOrRef)
   }
 
-  override def unsetVar(implicit ctx: Context) {
-    evalRef.unset()
-  }
-
   override def dump(out: PrintStream, ident: String) {
     out.println(ident + getClass.getSimpleName + " " + position)
     reference.dump(out, ident + "  ")

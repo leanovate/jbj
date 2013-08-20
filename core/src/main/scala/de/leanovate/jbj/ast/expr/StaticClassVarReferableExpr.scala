@@ -49,8 +49,4 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
   override def assignVar(pAny: PAny)(implicit ctx: Context) {
     evalRef.assign(pAny)
   }
-
-  override def unsetVar(implicit ctx: Context) {
-    evalRef.unset()
-  }
 }

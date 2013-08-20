@@ -122,10 +122,6 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
     evalRef.assign(valueOrRef)
   }
 
-  override def unsetVar(implicit ctx: Context) {
-    evalRef.unset()
-  }
-
   override def dump(out: PrintStream, ident: String) {
     super.dump(out, ident)
     reference.dump(out, ident + "  ")

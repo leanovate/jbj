@@ -5,7 +5,7 @@ import de.leanovate.jbj.runtime.{SuccessExecResult, Context}
 
 case class UnsetStmt(references: List[ReferableExpr]) extends Stmt {
   def exec(implicit ctx: Context) = {
-    references.foreach(_.unsetVar)
+    references.foreach(_.evalRef.unset())
     SuccessExecResult
   }
 }

@@ -29,10 +29,6 @@ case class CallFunctionReferableExpr(functionName: Name, parameters: List[Expr])
     evalRef.assign(valueOrRef)
   }
 
-  override def unsetVar(implicit ctx: Context) {
-    evalRef.unset()
-  }
-
   private def callFunction(implicit ctx: Context): PAny = {
     val name = functionName.evalNamespaceName
     ctx.findFunction(name).map {

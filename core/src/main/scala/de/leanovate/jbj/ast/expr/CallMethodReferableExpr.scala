@@ -30,10 +30,6 @@ case class CallMethodReferableExpr(instanceExpr: Expr, methodName: Name, paramet
     evalRef.assign(valueOrRef)
   }
 
-  override def unsetVar(implicit ctx: Context) {
-    evalRef.unset()
-  }
-
   override def dump(out: PrintStream, ident: String) {
     out.println(ident + getClass.getSimpleName + " " + methodName + " " + position)
     instanceExpr.dump(out, ident + "  ")

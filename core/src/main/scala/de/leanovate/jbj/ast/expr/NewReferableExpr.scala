@@ -16,27 +16,24 @@ case class NewReferableExpr(className: Name, parameters: List[Expr]) extends Ref
   }
 
   override def evalRef(implicit ctx: Context) = new Reference {
-    def asVal = eval
+    val result = eval
 
-    def asVar = evalVar
+    def asVal = result
+
+    def asVar = PVar(result)
 
     def assign(pAny: PAny) = {
-      assignVar(pAny)
-      pAny
+      throw new FatalErrorJbjException("Can't use new result in write context")
     }
 
     def unset() {
-      unsetVar
+      throw new FatalErrorJbjException("Can't use new result in write context")
     }
   }
 
   override def evalVar(implicit ctx: Context) = PVar(eval)
 
   override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
-    throw new FatalErrorJbjException("Can't use new result in write context")
-  }
-
-  override def unsetVar(implicit ctx: Context) {
     throw new FatalErrorJbjException("Can't use new result in write context")
   }
 
