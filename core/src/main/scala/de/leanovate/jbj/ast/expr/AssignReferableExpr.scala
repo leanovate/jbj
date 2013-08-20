@@ -25,12 +25,6 @@ case class AssignReferableExpr(reference: ReferableExpr, expr: Expr) extends Ref
     }
   }
 
-  override def evalVar(implicit ctx: Context) = evalRef.asVar
-
-  override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
-    evalRef.assign(valueOrRef)
-  }
-
   override def dump(out: PrintStream, ident: String) {
     out.println(ident + getClass.getSimpleName + " " + position)
     reference.dump(out, ident + "  ")

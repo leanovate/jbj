@@ -22,12 +22,6 @@ case class CallStaticMethodReferableExpr(className: Name, methodName: Name, para
     }
   }
 
-  override def evalVar(implicit ctx: Context) = evalRef.asVar
-
-  override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
-    evalRef.assign(valueOrRef)
-  }
-
   private def callMethod(implicit ctx: Context): PAny = {
     val name = className.evalNamespaceName
     ctx.global.findClass(name).map {

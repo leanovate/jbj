@@ -116,12 +116,6 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
     }
   }
 
-  override def evalVar(implicit ctx: Context) = evalRef.asVar
-
-  override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
-    evalRef.assign(valueOrRef)
-  }
-
   override def dump(out: PrintStream, ident: String) {
     super.dump(out, ident)
     reference.dump(out, ident + "  ")

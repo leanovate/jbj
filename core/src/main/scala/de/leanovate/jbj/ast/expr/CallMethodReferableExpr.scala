@@ -24,12 +24,6 @@ case class CallMethodReferableExpr(instanceExpr: Expr, methodName: Name, paramet
     }
   }
 
-  override def evalVar(implicit ctx: Context) = evalRef.asVar
-
-  override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
-    evalRef.assign(valueOrRef)
-  }
-
   override def dump(out: PrintStream, ident: String) {
     out.println(ident + getClass.getSimpleName + " " + methodName + " " + position)
     instanceExpr.dump(out, ident + "  ")

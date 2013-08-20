@@ -129,12 +129,6 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
       }
   }
 
-  override def evalVar(implicit ctx: Context) = evalRef.asVar
-
-  override def assignVar(pAny: PAny)(implicit ctx: Context) {
-    evalRef.assign(pAny)
-  }
-
   override def dump(out: PrintStream, ident: String) {
     super.dump(out, ident)
     reference.dump(out, ident + "  ")

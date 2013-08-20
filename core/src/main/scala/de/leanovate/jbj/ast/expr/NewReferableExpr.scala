@@ -33,10 +33,6 @@ case class NewReferableExpr(className: Name, parameters: List[Expr]) extends Ref
 
   override def evalVar(implicit ctx: Context) = PVar(eval)
 
-  override def assignVar(valueOrRef: PAny)(implicit ctx: Context) {
-    throw new FatalErrorJbjException("Can't use new result in write context")
-  }
-
   override def dump(out: PrintStream, ident: String) {
     super.dump(out, ident)
     out.println(ident + "  " + className.toString)

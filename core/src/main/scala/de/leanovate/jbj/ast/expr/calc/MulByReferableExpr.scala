@@ -27,11 +27,6 @@ case class MulByReferableExpr(reference: ReferableExpr, expr: Expr) extends Refe
     }
   }
 
-  override def evalVar(implicit ctx: Context) = eval
-
-  override def assignVar(pAny: PAny)(implicit ctx: Context) {
-  }
-
   override def dump(out: PrintStream, ident: String) {
     out.println(ident + getClass.getSimpleName + " " + position)
     reference.dump(out, ident + "  ")
