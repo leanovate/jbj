@@ -12,41 +12,41 @@ import de.leanovate.jbj.runtime.exception.ParseJbjException
 import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.ast.NamespaceName
 import de.leanovate.jbj.runtime.Settings
-import de.leanovate.jbj.ast.expr._
-import de.leanovate.jbj.ast.expr.VariableReferableExpr
+import de.leanovate.jbj.ast.stmt.loop._
 import de.leanovate.jbj.parser.JbjTokens.ArrayCast
 import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
+import de.leanovate.jbj.ast.stmt.TraitUseDecl
 import de.leanovate.jbj.ast.expr.calc.AddExpr
 import de.leanovate.jbj.ast.expr.comp.InstanceOfExpr
 import de.leanovate.jbj.ast.name.StaticName
 import de.leanovate.jbj.parser.JbjTokens.DoubleCast
 import de.leanovate.jbj.ast.stmt.ReturnStmt
+import de.leanovate.jbj.ast.expr.AssignReferableExpr
 import de.leanovate.jbj.ast.expr.calc.SubExpr
 import de.leanovate.jbj.ast.stmt.cond.SwitchStmt
 import scala.Some
 import de.leanovate.jbj.ast.stmt.ClassTypeHint
-import de.leanovate.jbj.ast.expr.AssignReferableExpr
-import de.leanovate.jbj.ast.expr.IndexReferableExpr
+import de.leanovate.jbj.ast.expr.VariableReferableExpr
+import de.leanovate.jbj.ast.expr.calc.AddToReferableExpr
 import de.leanovate.jbj.ast.expr.value.ClassNameConstExpr
 import de.leanovate.jbj.parser.JbjTokens.Inline
-import de.leanovate.jbj.ast.expr.AssignRefReferableExpr
 import de.leanovate.jbj.ast.stmt.UnsetStmt
 import de.leanovate.jbj.ast.stmt.StaticVarDeclStmt
 import de.leanovate.jbj.ast.Prog
+import de.leanovate.jbj.ast.expr.ListReferableExpr
 import de.leanovate.jbj.ast.expr.calc.BitAndExpr
 import de.leanovate.jbj.ast.stmt.ExprStmt
 import de.leanovate.jbj.ast.expr.calc.ConcatExpr
 import de.leanovate.jbj.ast.stmt.CatchBlock
 import de.leanovate.jbj.ast.expr.calc.NegExpr
 import de.leanovate.jbj.parser.JbjTokens.StringCast
-import de.leanovate.jbj.ast.expr.calc.SubFromReferableExpr
+import de.leanovate.jbj.ast.expr.calc.ConcatWithReferableExpr
+import de.leanovate.jbj.ast.expr.CallFunctionReferableExpr
+import de.leanovate.jbj.ast.expr.NewReferableExpr
 import de.leanovate.jbj.ast.expr.IsSetExpr
 import de.leanovate.jbj.ast.expr.calc.MulExpr
 import de.leanovate.jbj.ast.name.DynamicName
-import de.leanovate.jbj.ast.expr.CallStaticMethodReferableExpr
 import de.leanovate.jbj.ast.expr.cast.StringCastExpr
-import de.leanovate.jbj.ast.expr.PropertyReferableExpr
-import de.leanovate.jbj.ast.stmt.loop.ForeachValueStmt
 import de.leanovate.jbj.parser.JbjTokens.Identifier
 import de.leanovate.jbj.ast.expr.PrintExpr
 import de.leanovate.jbj.ast.expr.comp.LeExpr
@@ -54,38 +54,37 @@ import de.leanovate.jbj.ast.expr.include.RequireExpr
 import de.leanovate.jbj.parser.JbjTokens.LongNumLit
 import de.leanovate.jbj.ast.expr.calc.PosExpr
 import de.leanovate.jbj.ast.expr.comp.EqExpr
-import de.leanovate.jbj.ast.stmt.TraitUseDecl
 import de.leanovate.jbj.ast.name.StaticNamespaceName
 import de.leanovate.jbj.ast.expr.value.MethodNameConstExpr
 import de.leanovate.jbj.ast.expr.comp.NotEqExpr
-import de.leanovate.jbj.ast.stmt.loop.ForeachKeyValueStmt
+import de.leanovate.jbj.ast.expr.PropertyReferableExpr
+import de.leanovate.jbj.ast.stmt.ClassConstDecl
 import de.leanovate.jbj.ast.expr.comp.BoolOrExpr
 import de.leanovate.jbj.ast.stmt.GlobalVarDeclAssignStmt
 import de.leanovate.jbj.ast.expr.value.FunctionNameConstExpr
 import de.leanovate.jbj.ast.expr.include.IncludeOnceExpr
 import de.leanovate.jbj.runtime.value.IntegerVal
-import de.leanovate.jbj.ast.stmt.ClassVarDecl
-import de.leanovate.jbj.ast.expr.StaticClassVarReferableExpr
 import de.leanovate.jbj.ast.expr.comp.GtExpr
-import de.leanovate.jbj.ast.expr.calc.DivExpr
 import de.leanovate.jbj.ast.stmt.EchoStmt
+import de.leanovate.jbj.ast.expr.calc.DivExpr
 import de.leanovate.jbj.ast.expr.IndexGetExpr
 import de.leanovate.jbj.parser.JbjTokens.HereDocStart
 import de.leanovate.jbj.ast.FileNodePosition
 import de.leanovate.jbj.ast.stmt.loop.ForStmt
 import de.leanovate.jbj.ast.stmt.ParameterDecl
 import de.leanovate.jbj.ast.expr.calc.BitNotExpr
+import de.leanovate.jbj.ast.expr.IndexReferableExpr
 import de.leanovate.jbj.ast.stmt.ConstDeclStmt
 import de.leanovate.jbj.ast.expr.comp.BoolAndExpr
 import de.leanovate.jbj.ast.stmt.cond.IfStmt
 import de.leanovate.jbj.ast.expr.cast.BooleanCastExpr
 import de.leanovate.jbj.ast.stmt.FunctionDeclStmt
-import de.leanovate.jbj.ast.stmt.ClassMethodDecl
-import de.leanovate.jbj.ast.expr.CallMethodReferableExpr
+import de.leanovate.jbj.ast.stmt.ClassVarDecl
 import de.leanovate.jbj.ast.expr.comp.TernaryExpr
 import de.leanovate.jbj.ast.expr.value.ClassConstantExpr
-import de.leanovate.jbj.ast.expr.cast.ArrayCastExpr
+import de.leanovate.jbj.ast.expr.calc.SubFromReferableExpr
 import de.leanovate.jbj.parser.JbjTokens.HereDocEnd
+import de.leanovate.jbj.ast.expr.cast.ArrayCastExpr
 import de.leanovate.jbj.ast.expr.calc.ModExpr
 import de.leanovate.jbj.ast.stmt.TryCatchStmt
 import de.leanovate.jbj.ast.expr.value.InterpolatedStringExpr
@@ -100,11 +99,13 @@ import de.leanovate.jbj.ast.expr.include.IncludeExpr
 import de.leanovate.jbj.ast.expr.comp.LtExpr
 import de.leanovate.jbj.ast.stmt.loop.DoWhileStmt
 import de.leanovate.jbj.ast.expr.comp.GeExpr
+import de.leanovate.jbj.ast.expr.calc.MulByReferableExpr
 import de.leanovate.jbj.ast.stmt.loop.WhileStmt
-import de.leanovate.jbj.ast.expr.calc.AddToReferableExpr
-import de.leanovate.jbj.ast.expr.calc.DivByReferableExpr
 import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
-import de.leanovate.jbj.ast.stmt.ClassConstDecl
+import de.leanovate.jbj.ast.expr.calc.DivByReferableExpr
+import de.leanovate.jbj.ast.stmt.ClassMethodDecl
+import de.leanovate.jbj.ast.stmt.loop.ForeachStmt
+import de.leanovate.jbj.ast.expr.AssignRefReferableExpr
 import de.leanovate.jbj.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.parser.JbjTokens.IntegerCast
 import de.leanovate.jbj.ast.expr.CloneExpr
@@ -112,30 +113,30 @@ import de.leanovate.jbj.ast.expr.EvalExpr
 import de.leanovate.jbj.ast.stmt.ThrowStmt
 import de.leanovate.jbj.ast.stmt.LabelStmt
 import de.leanovate.jbj.parser.JbjTokens.EncapsAndWhitespace
-import de.leanovate.jbj.ast.expr.NewReferableExpr
+import de.leanovate.jbj.ast.expr.ArrayKeyValue
 import de.leanovate.jbj.ast.expr.value.FileNameConstExpr
-import de.leanovate.jbj.ast.expr.CallFunctionReferableExpr
 import de.leanovate.jbj.ast.stmt.StaticAssignment
 import de.leanovate.jbj.ast.expr.calc.BitOrExpr
 import de.leanovate.jbj.ast.stmt.cond.CaseBlock
 import de.leanovate.jbj.ast.expr.GetAndDecrExpr
 import de.leanovate.jbj.ast.stmt.ContinueStmt
+import de.leanovate.jbj.ast.expr.StaticClassVarReferableExpr
 import de.leanovate.jbj.ast.expr.calc.BitXorExpr
 import de.leanovate.jbj.ast.expr.IncrAndGetExpr
-import de.leanovate.jbj.ast.expr.calc.ConcatWithReferableExpr
 import de.leanovate.jbj.ast.expr.ClassNameExpr
 import de.leanovate.jbj.ast.expr.DecrAndGetExpr
-import de.leanovate.jbj.ast.expr.calc.MulByReferableExpr
 import de.leanovate.jbj.ast.expr.include.RequireOnceExpr
 import de.leanovate.jbj.ast.expr.ArrayCreateExpr
 import de.leanovate.jbj.ast.stmt.InlineStmt
 import de.leanovate.jbj.ast.expr.value.LineNumberConstExpr
+import de.leanovate.jbj.ast.expr.CallStaticMethodReferableExpr
 import de.leanovate.jbj.ast.expr.cast.DoubleCastExpr
 import de.leanovate.jbj.parser.JbjTokens.Keyword
 import de.leanovate.jbj.ast.expr.cast.IntegerCastExpr
 import de.leanovate.jbj.parser.JbjTokens.StringLit
 import de.leanovate.jbj.ast.expr.comp.BoolXorExpr
 import de.leanovate.jbj.ast.expr.GetAndIncrExpr
+import de.leanovate.jbj.ast.expr.CallMethodReferableExpr
 
 class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   type Elem = JbjTokens.Token
@@ -221,15 +222,15 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     } | "unset" ~> "(" ~> unsetVariables <~ ")" ^^ {
       case vars => UnsetStmt(vars)
     } | "foreach" ~> "(" ~> variable ~ "as" ~ foreachVariable ~ foreachOptionalArg ~ ")" ~ foreachStatement ^^ {
-      case array ~ _ ~ valueVar ~ None ~ _ ~ stmts =>
-        ForeachValueStmt(array, valueVar, stmts)
-      case array ~ _ ~ keyVar ~ Some(valueVar) ~ _ ~ stmts =>
-        ForeachKeyValueStmt(array, keyVar, valueVar, stmts)
+      case array ~ _ ~ valueAssign ~ None ~ _ ~ stmts =>
+        ForeachStmt(array, None, valueAssign, stmts)
+      case array ~ _ ~ keyAssign ~ Some(valueAssign) ~ _ ~ stmts =>
+        ForeachStmt(array, Some(keyAssign), valueAssign, stmts)
     } | "foreach" ~> "(" ~> exprWithoutVariable ~ "as" ~ foreachVariable ~ foreachOptionalArg ~ ")" ~ foreachStatement ^^ {
-      case array ~ _ ~ valueVar ~ None ~ _ ~ stmts =>
-        ForeachValueStmt(array, valueVar, stmts)
-      case array ~ _ ~ keyVar ~ Some(valueVar) ~ _ ~ stmts =>
-        ForeachKeyValueStmt(array, keyVar, valueVar, stmts)
+      case array ~ _ ~ valueAssign ~ None ~ _ ~ stmts =>
+        ForeachStmt(array, None, valueAssign, stmts)
+      case array ~ _ ~ keyAssign ~ Some(valueAssign) ~ _ ~ stmts =>
+        ForeachStmt(array, Some(keyAssign), valueAssign, stmts)
     } | "try" ~> "{" ~> innerStatementList ~ "}" ~ catchStatement ~ finallyStatement ^^ {
       case tryStmts ~ _ ~ catchBlocks ~ finallyStmts => TryCatchStmt(tryStmts, catchBlocks, finallyStmts)
     } | "throw" ~> expr ^^ {
@@ -274,11 +275,15 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val interfaceList: PackratParser[List[NamespaceName]] = rep1sep(fullyQualifiedClassName, ",")
 
-  lazy val foreachOptionalArg: PackratParser[Option[ReferableExpr]] = opt("=>" ~> variable)
+  lazy val foreachOptionalArg: PackratParser[Option[ForeachAssignment]] = opt("=>" ~> foreachVariable)
 
-  lazy val foreachVariable: PackratParser[ReferableExpr] =
-    variable | "&" ~> variable | "list" ~> "(" ~> assignmentList <~ ")" ^^ {
-      refs => ListReferableExpr(refs)
+  lazy val foreachVariable: PackratParser[ForeachAssignment] =
+    variable ^^ {
+      ref => ValueForeachAssignment(ref)
+    } | "&" ~> variable ^^ {
+      ref => RefForeachAssignment(ref)
+    }| "list" ~> "(" ~> assignmentList <~ ")" ^^ {
+      refs => ListForeachAssignment(ListReferableExpr(refs))
     }
 
   lazy val forStatement: PackratParser[List[Stmt]] =

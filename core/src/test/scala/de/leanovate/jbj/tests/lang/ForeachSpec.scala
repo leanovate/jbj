@@ -32,5 +32,42 @@ class ForeachSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |===DONE===""".stripMargin
       )
     }
+
+    "foreach() with references" in {
+      // lang/foreach_with_reference_001
+      script(
+        """<?php
+          |
+          |$arr = array(1 => "one", 2 => "two", 3 => "three");
+          |
+          |foreach($arr as $key => $val) {
+          |	$val = $key;
+          |}
+          |
+          |print_r($arr);
+          |
+          |foreach($arr as $key => &$val) {
+          |	$val = $key;
+          |}
+          |
+          |print_r($arr);
+          |
+          |""".stripMargin
+      ).result must haveOutput(
+        """Array
+          |(
+          |    [1] => one
+          |    [2] => two
+          |    [3] => three
+          |)
+          |Array
+          |(
+          |    [1] => 1
+          |    [2] => 2
+          |    [3] => 3
+          |)
+          |""".stripMargin
+      )
+    }
   }
 }

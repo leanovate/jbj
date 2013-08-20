@@ -1,6 +1,6 @@
 package de.leanovate.jbj.ast.stmt.loop
 
-import de.leanovate.jbj.ast.{ReferableExpr, StaticInitializer, Stmt, Expr}
+import de.leanovate.jbj.ast.{StaticInitializer, Stmt, Expr}
 import de.leanovate.jbj.runtime._
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.value.{PAny, PVal, ArrayVal}
@@ -9,14 +9,16 @@ import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.ast.stmt.BlockLike
 import de.leanovate.jbj.runtime.context.StaticContext
 
-case class ForeachKeyValueStmt(arrayExpr: Expr, keyVar: ReferableExpr, valueVar: ReferableExpr,
-                               stmts: List[Stmt]) extends Stmt with BlockLike with StaticInitializer {
+case class ForeachStmt(arrayExpr: Expr,
+                       keyAssign: Option[ForeachAssignment],
+                       valueAssign: ForeachAssignment,
+                       stmts: List[Stmt]) extends Stmt with BlockLike with StaticInitializer {
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
   def exec(implicit ctx: Context) = {
     arrayExpr.eval match {
       case array: ArrayVal =>
-        execValues(array.keyValues.toList)
+        execValues(array, array.keyValues.toList)
       case _ =>
     }
     SuccessExecResult
@@ -27,18 +29,18 @@ case class ForeachKeyValueStmt(arrayExpr: Expr, keyVar: ReferableExpr, valueVar:
   }
 
   @tailrec
-  private def execValues(keyValues: List[(PVal, PAny)])(implicit context: Context): ExecResult =
-    keyValues match {
+  private def execValues(array: ArrayVal, remain: List[(PVal, PAny)])(implicit context: Context): ExecResult =
+    remain match {
       case head :: tail =>
-        keyVar.evalRef.assign(head._1)
-        valueVar.evalRef.assign(head._2)
+        keyAssign.foreach(_.assignKey(head._1))
+        valueAssign.assignValue(head._2, head._1, array)
         execStmts(stmts) match {
           case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
           case BreakExecResult(_) => SuccessExecResult
           case ContinueExecResult(depth) if depth > 1 => ContinueExecResult(depth - 1)
-          case ContinueExecResult(_) => execValues(tail)
+          case ContinueExecResult(_) => execValues(array, tail)
           case result: ReturnExecResult => result
-          case _ => execValues(tail)
+          case _ => execValues(array, tail)
         }
       case Nil => SuccessExecResult
     }
