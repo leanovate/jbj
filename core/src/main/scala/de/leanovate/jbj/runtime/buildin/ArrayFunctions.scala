@@ -5,6 +5,7 @@ import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.ast.NodePosition
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
+import de.leanovate.jbj.runtime.context.Context
 
 object ArrayFunctions extends WrappedFunctions {
   @GlobalFunction

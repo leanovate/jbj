@@ -1,7 +1,6 @@
 package de.leanovate.jbj.ast.expr.value
 
-import de.leanovate.jbj.runtime.Context
-import de.leanovate.jbj.runtime.context.MethodContext
+import de.leanovate.jbj.runtime.context.{Context, MethodContext}
 import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.ast.Expr
 

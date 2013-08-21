@@ -1,9 +1,9 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.Expr
-import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.value.{ArrayLike, NullVal}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.context.Context
 
 case class IndexGetExpr(expr: Expr, indexExpr: Option[Expr]) extends Expr {
   override def eval(implicit ctx: Context) = {

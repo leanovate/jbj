@@ -7,7 +7,7 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime.value.{PVal, ObjectVal}
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.runtime.context.InstanceContext
+import de.leanovate.jbj.runtime.context.{Context, InstanceContext}
 import de.leanovate.jbj.ast.NamespaceName
 import scala.Some
 import scala.collection.immutable.List

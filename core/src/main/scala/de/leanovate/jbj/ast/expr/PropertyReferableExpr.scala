@@ -1,11 +1,11 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{NoNodePosition, Name, ReferableExpr}
-import de.leanovate.jbj.runtime.{Reference, Context}
+import de.leanovate.jbj.runtime.{Reference}
 import de.leanovate.jbj.runtime.value._
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.value.StringVal
-import de.leanovate.jbj.runtime.context.MethodContext
+import de.leanovate.jbj.runtime.context.{Context, MethodContext}
 import de.leanovate.jbj.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.runtime.buildin.StdClass
 

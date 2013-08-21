@@ -1,11 +1,12 @@
 package de.leanovate.jbj.runtime.buildin
 
-import de.leanovate.jbj.runtime.{Context, PFunction}
+import de.leanovate.jbj.runtime.{PFunction}
 import de.leanovate.jbj.ast.{Expr, NodePosition, NamespaceName}
 import scala.reflect.runtime.universe._
 import de.leanovate.jbj.runtime.adapter.{Converter, ParameterAdapter}
 import de.leanovate.jbj.runtime.value.PAny
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.context.Context
 
 case class WrappedReflectMethodFunction[T, S <: PAny](name: NamespaceName,
                                                       methodMirror: MethodMirror,

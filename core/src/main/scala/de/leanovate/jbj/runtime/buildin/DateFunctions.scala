@@ -1,9 +1,9 @@
 package de.leanovate.jbj.runtime.buildin
 
 import de.leanovate.jbj.ast.NodePosition
-import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import java.util.Calendar
+import de.leanovate.jbj.runtime.context.Context
 
 object DateFunctions extends WrappedFunctions {
   @GlobalFunction

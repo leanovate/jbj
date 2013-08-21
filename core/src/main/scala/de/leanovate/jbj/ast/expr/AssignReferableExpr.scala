@@ -1,10 +1,11 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{NodePosition, Expr, ReferableExpr}
-import de.leanovate.jbj.runtime.{Reference, Context}
+import de.leanovate.jbj.runtime.{Reference}
 import de.leanovate.jbj.runtime.value.{PVar, PAny}
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.context.Context
 
 case class AssignReferableExpr(reference: ReferableExpr, expr: Expr) extends ReferableExpr {
   override def eval(implicit ctx: Context) = {

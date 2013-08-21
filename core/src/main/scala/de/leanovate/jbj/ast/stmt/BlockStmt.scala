@@ -4,7 +4,7 @@ import de.leanovate.jbj.ast.{StaticInitializer, Stmt}
 import de.leanovate.jbj.runtime._
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.SuccessExecResult
-import de.leanovate.jbj.runtime.context.StaticContext
+import de.leanovate.jbj.runtime.context.{Context, StaticContext}
 
 case class BlockStmt(stmts: List[Stmt]) extends Stmt with StaticInitializer with BlockLike {
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])

@@ -2,8 +2,8 @@ package de.leanovate.jbj.runtime.adapter
 
 import de.leanovate.jbj.runtime.value.PVar
 import de.leanovate.jbj.ast.{ReferableExpr, NodePosition, Expr}
-import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.context.Context
 
 object RefParameterAdapter extends ParameterAdapter[PVar] {
   def requiredCount = 1

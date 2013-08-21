@@ -1,8 +1,8 @@
 package de.leanovate.jbj.ast.name
 
 import de.leanovate.jbj.ast.Name
-import de.leanovate.jbj.runtime.Context
 import java.io.PrintStream
+import de.leanovate.jbj.runtime.context.Context
 
 case class StaticName(name: String) extends Name {
   override def evalName(implicit ctx: Context) = name

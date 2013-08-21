@@ -1,8 +1,7 @@
 package de.leanovate.jbj.ast.expr.value
 
 import de.leanovate.jbj.ast.Expr
-import de.leanovate.jbj.runtime.Context
-import de.leanovate.jbj.runtime.context.{MethodContext, InstanceContext}
+import de.leanovate.jbj.runtime.context.{Context, MethodContext, InstanceContext}
 import de.leanovate.jbj.runtime.value.StringVal
 
 case class ClassNameConstExpr() extends Expr {

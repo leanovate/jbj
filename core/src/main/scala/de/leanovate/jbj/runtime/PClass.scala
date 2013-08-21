@@ -6,10 +6,9 @@ import java.util.concurrent.atomic.AtomicLong
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import scala.annotation.tailrec
 import scala.collection.mutable
-import de.leanovate.jbj.runtime.context.{MethodContext, StaticContext}
+import de.leanovate.jbj.runtime.context.{Context, MethodContext, StaticContext}
 import de.leanovate.jbj.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.ast.expr.value.ScalarExpr
-import de.leanovate.jbj.runtime.context.MethodContext
 import scala.Some
 
 trait PClass extends StaticContext {

@@ -6,6 +6,7 @@ import de.leanovate.jbj.runtime.value._
 import scala.Some
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.context.Context
 
 case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr]) extends ReferableExpr {
   override def evalRef(implicit ctx: Context) = new Reference {

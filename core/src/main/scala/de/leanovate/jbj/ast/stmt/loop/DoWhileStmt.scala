@@ -6,7 +6,7 @@ import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.ast.stmt.BlockLike
-import de.leanovate.jbj.runtime.context.StaticContext
+import de.leanovate.jbj.runtime.context.{Context, StaticContext}
 
 case class DoWhileStmt(stmts: List[Stmt], condition: Expr) extends Stmt with BlockLike with StaticInitializer {
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])

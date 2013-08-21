@@ -7,6 +7,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.ReturnExecResult
 import scala.Some
+import de.leanovate.jbj.runtime.context.Context
 
 trait FunctionLike extends BlockLike {
 

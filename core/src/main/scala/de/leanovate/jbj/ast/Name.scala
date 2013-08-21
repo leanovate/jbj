@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast
 
-import de.leanovate.jbj.runtime.Context
 import java.io.PrintStream
+import de.leanovate.jbj.runtime.context.Context
 
 trait Name {
   def evalName(implicit ctx: Context): String

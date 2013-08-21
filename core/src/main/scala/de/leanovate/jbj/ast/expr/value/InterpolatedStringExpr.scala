@@ -1,8 +1,8 @@
 package de.leanovate.jbj.ast.expr.value
 
 import de.leanovate.jbj.ast.Expr
-import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.value.StringVal
+import de.leanovate.jbj.runtime.context.Context
 
 case class InterpolatedStringExpr(interpolatedStr: List[Either[String, Expr]]) extends Expr {
   lazy val format = interpolatedStr.map {

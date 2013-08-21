@@ -1,9 +1,9 @@
 package de.leanovate.jbj.runtime.buildin
 
 import de.leanovate.jbj.runtime.value._
-import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.ast.{NamespaceName, NodePosition}
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
+import de.leanovate.jbj.runtime.context.Context
 
 object ClassFunctions extends WrappedFunctions {
 

@@ -1,6 +1,6 @@
 package de.leanovate.jbj.runtime.value
 
-import de.leanovate.jbj.runtime.Context
+import de.leanovate.jbj.runtime.context.Context
 
 abstract class BooleanVal extends PVal {
   def asBoolean: Boolean

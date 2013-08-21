@@ -5,11 +5,11 @@ import de.leanovate.jbj.runtime.value.PAny
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.value.ObjectVal
 import de.leanovate.jbj.ast.NodePosition
-import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.ast.NamespaceName
 import de.leanovate.jbj.ast.ClassEntry
 import de.leanovate.jbj.runtime.PClass
+import de.leanovate.jbj.runtime.context.Context
 
 object StdClass extends PClass {
   override def classEntry = ClassEntry.CLASS

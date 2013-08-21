@@ -1,8 +1,7 @@
 package de.leanovate.jbj.ast.stmt.cond
 
 import de.leanovate.jbj.ast.{StaticInitializer, Stmt, Expr}
-import de.leanovate.jbj.runtime.Context
-import de.leanovate.jbj.runtime.context.StaticContext
+import de.leanovate.jbj.runtime.context.{Context, StaticContext}
 import de.leanovate.jbj.ast.stmt.BlockLike
 
 case class IfStmt(condition: Expr, thenStmts: List[Stmt], elseIfs: List[ElseIfBlock], elseStmts: List[Stmt])

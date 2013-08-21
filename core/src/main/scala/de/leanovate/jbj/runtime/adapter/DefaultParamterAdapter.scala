@@ -1,8 +1,8 @@
 package de.leanovate.jbj.runtime.adapter
 
 import de.leanovate.jbj.runtime.value.{PAny, PVal}
-import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.ast.{Expr, NodePosition}
+import de.leanovate.jbj.runtime.context.Context
 
 case class DefaultParamterAdapter[T, S <: PAny](converter: Converter[T, S]) extends ParameterAdapter[T] {
   override def requiredCount = 1

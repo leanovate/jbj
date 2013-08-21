@@ -3,8 +3,8 @@ package de.leanovate.jbj.ast.stmt.loop
 import de.leanovate.jbj.runtime.value.{PVar, ArrayVal, PVal, PAny}
 import de.leanovate.jbj.ast.{NodePosition, Node, ReferableExpr}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.ast.expr.ListReferableExpr
+import de.leanovate.jbj.runtime.context.Context
 
 sealed trait ForeachAssignment extends Node {
   def assignKey(key: PVal)(implicit ctx: Context)

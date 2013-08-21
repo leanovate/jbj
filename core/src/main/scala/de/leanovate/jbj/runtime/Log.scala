@@ -2,6 +2,7 @@ package de.leanovate.jbj.runtime
 
 import java.io.PrintStream
 import de.leanovate.jbj.ast.{FileNodePosition, NodePosition}
+import de.leanovate.jbj.runtime.context.Context
 
 class Log(context:Context, out: PrintStream, err: PrintStream) {
   def fatal(msg: String) {

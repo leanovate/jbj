@@ -1,8 +1,7 @@
 package de.leanovate.jbj.runtime.value
 
 import org.specs2.mutable.SpecificationWithJUnit
-import de.leanovate.jbj.runtime.Context
-import de.leanovate.jbj.runtime.context.GlobalContext
+import de.leanovate.jbj.runtime.context.{Context, GlobalContext}
 import de.leanovate.jbj.JbjEnv
 
 class NumericPatternSpec extends SpecificationWithJUnit {

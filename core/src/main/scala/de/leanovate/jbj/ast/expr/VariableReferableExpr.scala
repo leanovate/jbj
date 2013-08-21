@@ -1,9 +1,10 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Name, ReferableExpr}
-import de.leanovate.jbj.runtime.{Reference, Context}
+import de.leanovate.jbj.runtime.{Reference}
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.value.{PVal, PAny, PVar, NullVal}
+import de.leanovate.jbj.runtime.context.Context
 
 case class VariableReferableExpr(variableName: Name) extends ReferableExpr {
   override def isDefined(implicit ctx: Context) = ctx.findVariable(variableName.evalName).isDefined

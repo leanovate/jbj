@@ -4,6 +4,7 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.ast.{Expr, ClassEntry, NamespaceName, NodePosition}
 import scala.collection.Map
 import de.leanovate.jbj.runtime.value.IntegerVal
+import de.leanovate.jbj.runtime.context.Context
 
 package object buildin {
   val buildinFunctions: Seq[PFunction] =

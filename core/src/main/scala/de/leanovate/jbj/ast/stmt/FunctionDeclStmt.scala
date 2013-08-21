@@ -6,7 +6,7 @@ import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.runtime.value.{PVar, NullVal}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import java.io.PrintStream
-import de.leanovate.jbj.runtime.context.FunctionContext
+import de.leanovate.jbj.runtime.context.{Context, FunctionContext}
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.ReturnExecResult
 import de.leanovate.jbj.runtime.ContinueExecResult

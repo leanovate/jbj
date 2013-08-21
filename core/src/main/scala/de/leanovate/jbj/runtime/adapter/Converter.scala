@@ -1,8 +1,8 @@
 package de.leanovate.jbj.runtime.adapter
 
 import de.leanovate.jbj.runtime.value.{PAny, PVal}
-import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.ast.Expr
+import de.leanovate.jbj.runtime.context.Context
 
 trait Converter[ScalaType, JbjType <: PAny] {
   def toScalaWithConversion(expr: Expr)(implicit ctx: Context): ScalaType

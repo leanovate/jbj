@@ -2,7 +2,7 @@ package de.leanovate.jbj.runtime.context
 
 import de.leanovate.jbj.runtime.value.{PVar, PVal}
 import de.leanovate.jbj.ast.{NamespaceName, NodePosition}
-import de.leanovate.jbj.runtime.{PClass, PFunction, Context}
+import de.leanovate.jbj.runtime.{PClass, PFunction}
 import scala.collection.mutable
 import scala.collection.immutable.Stack
 

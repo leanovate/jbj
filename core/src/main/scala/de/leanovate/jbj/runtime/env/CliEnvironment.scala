@@ -1,8 +1,8 @@
 package de.leanovate.jbj.runtime.env
 
-import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.value.{PVar, PVal, StringVal, ArrayVal}
 import de.leanovate.jbj.ast.NoNodePosition
+import de.leanovate.jbj.runtime.context.Context
 
 object CliEnvironment {
   implicit val position = NoNodePosition

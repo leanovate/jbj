@@ -4,8 +4,7 @@ import de.leanovate.jbj.ast._
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.value._
 import java.io.PrintStream
-import de.leanovate.jbj.runtime.context.MethodContext
-import de.leanovate.jbj.runtime.context.StaticMethodContext
+import de.leanovate.jbj.runtime.context.{Context, MethodContext, StaticMethodContext}
 import de.leanovate.jbj.runtime.ReturnExecResult
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 

@@ -1,12 +1,13 @@
 package de.leanovate.jbj.runtime.buildin
 
-import de.leanovate.jbj.runtime.{Context, PFunction}
+import de.leanovate.jbj.runtime.{PFunction}
 import scala.reflect.runtime.universe._
 import de.leanovate.jbj.runtime.adapter._
 import de.leanovate.jbj.runtime.value.{PVar, PAny, PVal}
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.adapter.VarargParameterAdapter
 import de.leanovate.jbj.ast.{NamespaceName, NodePosition}
+import de.leanovate.jbj.runtime.context.Context
 
 trait WrappedFunctions {
 

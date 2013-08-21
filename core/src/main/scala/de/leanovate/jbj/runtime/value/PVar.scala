@@ -1,6 +1,6 @@
 package de.leanovate.jbj.runtime.value
 
-import de.leanovate.jbj.runtime.Context
+import de.leanovate.jbj.runtime.context.Context
 
 class PVar(private var current: Option[PVal] = None) extends PAny {
   private var prev = this

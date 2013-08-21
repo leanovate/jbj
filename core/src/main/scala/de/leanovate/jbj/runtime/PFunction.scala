@@ -2,6 +2,7 @@ package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.ast.{Expr, NamespaceName, NodePosition}
 import de.leanovate.jbj.runtime.value.{PAny, PVar, PVal}
+import de.leanovate.jbj.runtime.context.Context
 
 trait PFunction {
   def name: NamespaceName

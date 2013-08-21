@@ -7,6 +7,7 @@ import de.leanovate.jbj.ast.NoNodePosition
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.value.StringVal
 import scala.Some
+import de.leanovate.jbj.runtime.context.Context
 
 object CgiEnvironment {
   val numberPattern = "([0-9]+)".r

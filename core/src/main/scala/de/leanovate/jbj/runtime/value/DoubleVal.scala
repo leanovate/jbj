@@ -3,7 +3,7 @@ package de.leanovate.jbj.runtime.value
 import scala.Predef._
 import java.math.MathContext
 import java.math
-import de.leanovate.jbj.runtime.Context
+import de.leanovate.jbj.runtime.context.Context
 
 case class DoubleVal(asDouble: Double) extends NumericVal {
   override def toOutput(implicit ctx: Context) = compatbleStr
