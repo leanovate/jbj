@@ -43,7 +43,7 @@ case class VariableReferableExpr(variableName: Name) extends ReferableExpr {
     }
 
     def unset() {
-      ctx.undefineVariable(name)
+      ctx.getVariable(name).unset()
     }
   }
 

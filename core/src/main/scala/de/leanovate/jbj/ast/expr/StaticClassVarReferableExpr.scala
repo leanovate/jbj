@@ -39,7 +39,7 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
     }
 
     def unset() {
-      pClass.undefineVariable(varName)
+      pClass.getVariable(varName).unset()
     }
   }
 }

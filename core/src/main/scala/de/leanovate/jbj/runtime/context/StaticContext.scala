@@ -18,10 +18,6 @@ trait StaticContext {
     getVariable(name).ref = pVar
   }
 
-  def undefineVariable(name: String) {
-    getVariable(name).unset()
-  }
-
   def getVariable(name: String): StaticVariable = ???
 
   protected[context] def defineVariableInt(name:String, variable:StaticVariable) {}

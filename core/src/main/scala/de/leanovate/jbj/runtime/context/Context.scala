@@ -40,10 +40,6 @@ trait Context {
     getVariable(name).ref = pVar
   }
 
-  def undefineVariable(name: String) {
-    getVariable(name).unset()
-  }
-
   def findFunction(name: NamespaceName): Option[PFunction]
 
   def defineFunction(function: PFunction)
