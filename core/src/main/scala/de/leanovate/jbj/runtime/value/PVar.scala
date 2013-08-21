@@ -3,8 +3,8 @@ package de.leanovate.jbj.runtime.value
 import de.leanovate.jbj.runtime.context.Context
 
 class PVar(private var current: Option[PVal] = None) extends PAny {
-  private var prev = this
-  private var next = this
+  var prev = this
+  var next = this
 
   def toOutput(implicit ctx: Context): String = current.map(_.toOutput).getOrElse("")
 
@@ -21,7 +21,8 @@ class PVar(private var current: Option[PVal] = None) extends PAny {
   def ref = this
 
   def ref_=(pVar: PVar) {
-    if ( pVar != this) {
+    if (pVar != this) {
+      unlink()
       value_=(pVar.asVal)
       prev = pVar.prev
       next = pVar
@@ -48,6 +49,19 @@ class PVar(private var current: Option[PVal] = None) extends PAny {
     prev.next = next
     prev = this
     next = this
+  }
+
+  override def toString: String = {
+    val builder = new StringBuilder("PVar(")
+    builder.append(value)
+    var other = this
+    do {
+      builder.append(", ")
+      builder.append(other.hashCode())
+      other = other.next
+    } while (other != this)
+    builder.append(")")
+    builder.result()
   }
 }
 

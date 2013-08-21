@@ -3,7 +3,7 @@ package de.leanovate.jbj.runtime.context
 import java.io.PrintStream
 import scala.collection.mutable
 import de.leanovate.jbj.runtime._
-import de.leanovate.jbj.ast.{NoNodePosition, Prog, NodePosition, NamespaceName}
+import de.leanovate.jbj.ast.{Prog, NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
 import de.leanovate.jbj.JbjEnv
 import de.leanovate.jbj.runtime.exception.CompileErrorException
@@ -88,17 +88,42 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
       constants.put(CaseSensitiveConstantKey(name), value)
   }
 
-  def findVariable(name: String): Option[PVar] =
-    GLOBALS.getAt(name)(this).map(_.asVar)
+
+  def findVariable(name: String): Option[PVar] = {
+    val variable = getVariable(name)
+    if (variable.isDefined) {
+      Some(variable)
+    } else {
+      None
+    }
+  }
 
   def defineVariable(name: String, pVar: PVar) {
-    GLOBALS.getAt(name)(this).foreach(_.cleanup())
-    GLOBALS.setAt(name, pVar)(this)
+    getVariable(name).ref = pVar
   }
 
   def undefineVariable(name: String) {
     GLOBALS.getAt(name)(this).foreach(_.cleanup())
     GLOBALS.unsetAt(name)(this)
+  }
+
+  override def getVariable(name: String): Variable = GLOBALS.getAt(name)(this) match {
+    case Some(variable: Variable) => variable
+    case Some(pVar: PVar) =>
+      val variable = Variable(name, this, defined = true)
+      variable.ref = pVar
+      variable
+    case Some(pVal: PVal) =>
+      val variable = Variable(name, this, defined = true)
+      variable.value = pVal
+      variable
+    case None =>
+      Variable(name, this)
+  }
+
+  protected[context] override def defineVariableInt(name: String, variable: Variable) {
+    GLOBALS.getAt(name)(this).foreach(_.cleanup())
+    GLOBALS.setAt(name, variable)(this)
   }
 
   def findFunction(name: NamespaceName) =

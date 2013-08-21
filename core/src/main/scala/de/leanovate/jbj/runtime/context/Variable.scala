@@ -2,8 +2,9 @@ package de.leanovate.jbj.runtime.context
 
 import de.leanovate.jbj.runtime.value.{PVal, NullVal, PVar}
 
-case class Variable(name: String, owner: Context) extends PVar {
-  private var defined = false
+case class Variable(name: String,
+                    owner: Context,
+                    private var defined: Boolean = false) extends PVar {
 
   def isDefined = defined
 
@@ -36,5 +37,18 @@ case class Variable(name: String, owner: Context) extends PVar {
     super.unset()
     owner.undefineVariable(name)
     defined = false
+  }
+
+  override def toString: String = {
+    val builder = new StringBuilder("Variable(")
+    builder.append(value)
+    var other: PVar = this
+    do {
+      builder.append(", ")
+      builder.append(other.hashCode())
+      other = other.next
+    } while (other != this)
+    builder.append(")")
+    builder.result()
   }
 }
