@@ -17,5 +17,11 @@ trait PAny {
 
   def -(other: PAny)(implicit ctx: Context): PAny = this.asVal.toNum - other.asVal.toNum
 
+  def *(other: PAny)(implicit ctx: Context): PAny = this.asVal.toNum * other.asVal.toNum
+
+  def /(other: PAny)(implicit ctx: Context): PAny = this.asVal.toNum / other.asVal.toNum
+
+  def %(other: PAny)(implicit ctx: Context): PAny = this.asVal.toInteger % other.asVal.toInteger
+
   def dot(other:PAny)(implicit ctx: Context): PAny = this.asVal.toStr dot other.asVal.toStr
 }
