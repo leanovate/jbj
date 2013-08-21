@@ -8,7 +8,7 @@ import java.io.PrintStream
 
 case class RequireOnceExpr(file:Expr) extends Expr {
   def eval(implicit ctx: Context) = {
-    val filename = file.eval.toStr.asString
+    val filename = file.evalOld.toStr.asString
 
     ctx.global.include(filename) match {
       case Some((prog, true)) =>

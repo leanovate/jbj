@@ -8,7 +8,7 @@ case class EchoStmt(parameters: Seq[Expr]) extends Stmt {
   override def exec(implicit ctx: Context) = {
     parameters.foreach {
       expr =>
-        ctx.out.print(expr.eval.toOutput)
+        ctx.out.print(expr.evalOld.toOutput)
     }
     SuccessExecResult
   }

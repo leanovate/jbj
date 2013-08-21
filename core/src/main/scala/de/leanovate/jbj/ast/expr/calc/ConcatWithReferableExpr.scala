@@ -7,7 +7,7 @@ import java.io.PrintStream
 
 case class ConcatWithReferableExpr(reference: ReferableExpr, expr: Expr) extends ReferableExpr {
   override def eval(implicit ctx: Context) = {
-    val result = reference.eval.toStr dot expr.eval.toStr
+    val result = reference.evalOld.toStr dot expr.evalOld.toStr
     reference.evalRef.assign(result)
     result
   }

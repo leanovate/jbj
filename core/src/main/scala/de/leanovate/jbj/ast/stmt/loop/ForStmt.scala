@@ -14,10 +14,10 @@ case class ForStmt(befores: List[Expr], conditions: List[Expr], afters: List[Exp
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
   override def exec(implicit ctx: Context): ExecResult = {
-    befores.foreach(_.eval)
+    befores.foreach(_.evalOld)
     while (conditions.foldLeft(true) {
       (result, cond) =>
-        cond.eval.toBool.asBoolean
+        cond.evalOld.toBool.asBoolean
     }) {
       execStmts(stmts) match {
         case BreakExecResult(depth) if depth > 1 => return BreakExecResult(depth - 1)
@@ -27,7 +27,7 @@ case class ForStmt(befores: List[Expr], conditions: List[Expr], afters: List[Exp
         case result: ReturnExecResult => return result
         case _ =>
       }
-      afters.foreach(_.eval)
+      afters.foreach(_.evalOld)
     }
     SuccessExecResult
   }

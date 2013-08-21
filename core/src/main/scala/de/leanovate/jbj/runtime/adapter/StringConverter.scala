@@ -5,7 +5,7 @@ import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.ast.Expr
 
 object StringConverter extends Converter[String, StringVal] {
-  override def toScalaWithConversion(expr: Expr)(implicit ctx: Context) = toScala(expr.eval.toStr)
+  override def toScalaWithConversion(expr: Expr)(implicit ctx: Context) = toScala(expr.evalOld.toStr)
 
   override def toScala(value: StringVal)(implicit ctx: Context) = value.asString
 

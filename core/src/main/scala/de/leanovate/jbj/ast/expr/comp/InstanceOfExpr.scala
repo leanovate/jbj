@@ -5,7 +5,7 @@ import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.value.{BooleanVal, ObjectVal}
 
 case class InstanceOfExpr(expr: Expr, className: Name) extends Expr {
-  def eval(implicit ctx: Context) = expr.eval match {
+  def eval(implicit ctx: Context) = expr.evalOld match {
     case obj: ObjectVal =>
       ctx.global.findClass(className.evalNamespaceName).map {
         pClass => BooleanVal(obj.instanceOf(pClass))

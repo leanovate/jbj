@@ -12,7 +12,7 @@ case class SwitchStmt(expr: Expr, cases: List[SwitchCase]) extends Stmt with Sta
     cases.map(_.stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])).flatten
 
   override def exec(implicit ctx: Context) = {
-    val value = expr.eval
+    val value = expr.evalOld
 
     execStmts(cases.dropWhile(!_.matches(value)).map(_.stmts).flatten) match {
       case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)

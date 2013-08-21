@@ -5,7 +5,7 @@ import de.leanovate.jbj.runtime.Context
 
 case class IncrAndGetExpr(reference: ReferableExpr) extends Expr {
   override def eval(implicit ctx: Context) = {
-    val result = reference.eval.incr
+    val result = reference.evalOld.incr
     reference.evalRef.assign(result)
     result
   }

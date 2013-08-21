@@ -34,7 +34,7 @@ case class CallMethodReferableExpr(instanceExpr: Expr, methodName: Name, paramet
   }
 
 
-  private def callMethod(implicit ctx: Context): PAny = instanceExpr.eval match {
+  private def callMethod(implicit ctx: Context): PAny = instanceExpr.evalOld match {
     case instance: ObjectVal =>
       instance.pClass.invokeMethod(ctx, position, Some(instance), methodName.evalName, parameters)
     case _ =>

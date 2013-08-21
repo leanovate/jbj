@@ -8,14 +8,14 @@ import de.leanovate.jbj.runtime.exception.ParseJbjException
 
 case class EvalExpr(scriptExpr: Expr) extends Expr {
   def eval(implicit ctx: Context) = {
-    val script = scriptExpr.eval.toStr.asString
+    val script = scriptExpr.evalOld.toStr.asString
 
     try {
       val parser = new JbjParser(ParseContext("%s(%d) : eval()'d code".format(position.fileName, position.line), ctx.settings))
       val prog = parser.parseStmt(script)
 
       prog.exec match {
-        case ReturnExecResult(returnExpr) => returnExpr.map(_.eval).getOrElse(NullVal)
+        case ReturnExecResult(returnExpr) => returnExpr.map(_.evalOld).getOrElse(NullVal)
         case _ => NullVal
       }
     } catch {

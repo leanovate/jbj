@@ -7,7 +7,7 @@ import java.io.PrintStream
 
 case class PrintExpr(expr: Expr) extends Expr {
   override def eval(implicit ctx: Context) = {
-    ctx.out.print(expr.eval.toOutput)
+    ctx.out.print(expr.evalOld.toOutput)
     IntegerVal(1)
   }
 

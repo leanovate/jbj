@@ -57,7 +57,7 @@ package object buildin {
     override def newInstance(parameters: List[Expr])(implicit ctx: Context, callerPosition: NodePosition) = {
       val instance = newEmptyInstance(this)
 
-      parameters.map(_.eval(ctx)) match {
+      parameters.map(_.evalOld(ctx)) match {
         case msg :: Nil =>
           instance.setAt("message", msg.toStr)(ctx, callerPosition)
         case msg :: c :: Nil => (msg.toStr, c.toInteger, NullVal)

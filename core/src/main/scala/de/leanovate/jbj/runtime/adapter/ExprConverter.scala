@@ -10,5 +10,5 @@ object ExprConverter extends Converter[Expr, PVal] {
 
   def toScala(value: PVal)(implicit ctx: Context) = ScalarExpr(value)
 
-  def toJbj(expr: Expr)(implicit ctx: Context) = expr.eval
+  def toJbj(expr: Expr)(implicit ctx: Context) = expr.evalOld
 }

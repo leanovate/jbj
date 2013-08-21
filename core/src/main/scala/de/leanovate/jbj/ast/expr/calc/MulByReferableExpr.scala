@@ -7,7 +7,7 @@ import java.io.PrintStream
 
 case class MulByReferableExpr(reference: ReferableExpr, expr: Expr) extends ReferableExpr {
   override def eval(implicit ctx: Context) = {
-    val result = reference.eval.toNum * expr.eval.toNum
+    val result = reference.evalOld.toNum * expr.evalOld.toNum
     reference.evalRef.assign(result)
     result
   }

@@ -16,7 +16,7 @@ case class ForeachStmt(arrayExpr: Expr,
   private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
   def exec(implicit ctx: Context) = {
-    arrayExpr.eval match {
+    arrayExpr.evalOld match {
       case array: ArrayVal =>
         execValues(array, array.keyValues.toList)
       case _ =>

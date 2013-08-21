@@ -5,7 +5,7 @@ import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.ast.Expr
 
 object ByteArrayConverter extends Converter[Array[Byte], StringVal] {
-  def toScalaWithConversion(expr: Expr)(implicit ctx: Context) = expr.eval.toStr.chars
+  def toScalaWithConversion(expr: Expr)(implicit ctx: Context) = expr.evalOld.toStr.chars
 
   def toScala(value: StringVal)(implicit ctx: Context) = value.chars
 

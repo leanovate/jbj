@@ -6,5 +6,5 @@ import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.ast.expr.BinaryExpr
 
 case class ConcatExpr(left: Expr, right: Expr) extends BinaryExpr {
-  override def eval(implicit ctx: Context) = left.eval.toStr dot right.eval.toStr
+  override def eval(implicit ctx: Context) = left.evalOld.toStr dot right.evalOld.toStr
 }

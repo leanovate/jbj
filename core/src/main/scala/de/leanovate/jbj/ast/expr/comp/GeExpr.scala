@@ -6,5 +6,5 @@ import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.ast.expr.BinaryExpr
 
 case class GeExpr(left: Expr, right: Expr) extends BinaryExpr {
-  override def eval(implicit ctx: Context) = BooleanVal(left.eval.compare(right.eval) >= 0)
+  override def eval(implicit ctx: Context) = BooleanVal(left.evalOld.compare(right.evalOld) >= 0)
 }
