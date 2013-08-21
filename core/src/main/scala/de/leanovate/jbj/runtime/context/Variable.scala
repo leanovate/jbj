@@ -3,10 +3,12 @@ package de.leanovate.jbj.runtime.context
 import de.leanovate.jbj.runtime.value.{PVal, NullVal, PVar}
 
 case class Variable(name: String, owner: Context) extends PVar {
-  private var undefined = true
+  private var defined = false
+
+  def isDefined = defined
 
   override def value = {
-    if (undefined) {
+    if (!defined) {
       owner.log.notice("Undefined variable: %s".format(name))
       NullVal
     } else {
@@ -15,17 +17,17 @@ case class Variable(name: String, owner: Context) extends PVar {
   }
 
   override def value_=(v: PVal) {
-    if (undefined) {
+    if (!defined) {
       owner.defineVariableInt(name, this)
-      undefined = false
+      defined = true
     }
     super.value_=(v)
   }
 
   override def ref_=(v: PVar) {
-    if (undefined) {
+    if (!defined) {
       owner.defineVariableInt(name, this)
-      undefined = false
+      defined = true
     }
     super.ref_=(v)
   }
@@ -33,6 +35,6 @@ case class Variable(name: String, owner: Context) extends PVar {
   override def unset() {
     super.unset()
     owner.undefineVariable(name)
-    undefined = true
+    defined = false
   }
 }

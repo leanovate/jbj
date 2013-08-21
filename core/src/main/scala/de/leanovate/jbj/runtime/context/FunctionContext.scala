@@ -8,7 +8,7 @@ import de.leanovate.jbj.runtime.value.{PVar, PVal}
 
 case class FunctionContext(functionName: NamespaceName,
                            callerCtx: Context) extends Context {
-  private val localVariables = mutable.Map.empty[String, PVar]
+  private val localVariables = mutable.Map.empty[String, Variable]
 
   private val identifier = "Function_" + functionName.toString
 
@@ -24,7 +24,7 @@ case class FunctionContext(functionName: NamespaceName,
 
   lazy val stack: Stack[NodePosition] = callerCtx.stack.push(callerCtx.currentPosition)
 
-  localVariables.put("GLOBALS", PVar(global.GLOBALS))
+  Variable("GLOBALS", this).value = global.GLOBALS
 
   def findConstant(name: String): Option[PVal] = global.findConstant(name)
 
@@ -32,15 +32,28 @@ case class FunctionContext(functionName: NamespaceName,
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  def findVariable(name: String): Option[PVar] = localVariables.get(name)
+  def findVariable(name: String): Option[PVar] = {
+    val variable = getVariable(name)
+    if (variable.isDefined) {
+      Some(variable)
+    } else {
+      None
+    }
+  }
 
   def defineVariable(name: String, pVar: PVar) {
-    localVariables.get(name).foreach(_.cleanup())
-    localVariables.put(name, pVar)
+    getVariable(name).ref = pVar
   }
 
   def undefineVariable(name: String) {
     localVariables.remove(name).foreach(_.cleanup())
+  }
+
+  override def getVariable(name: String): Variable = localVariables.getOrElse(name, Variable(name, this))
+
+  protected[context] override def defineVariableInt(name: String, variable: Variable) {
+    localVariables.get(name).foreach(_.cleanup())
+    localVariables.put(name, variable)
   }
 
   def findFunction(name: NamespaceName) = global.findFunction(name)

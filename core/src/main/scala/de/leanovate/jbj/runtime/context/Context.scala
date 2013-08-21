@@ -17,7 +17,7 @@ trait Context {
 
   def err: PrintStream
 
-  var currentPosition:NodePosition = NoNodePosition
+  var currentPosition: NodePosition = NoNodePosition
 
   lazy val log: Log = new Log(this, out, err)
 
@@ -37,5 +37,7 @@ trait Context {
 
   def defineFunction(function: PFunction)
 
-  protected[context] def defineVariableInt(name:String, variable:Variable) {}
+  def getVariable(name: String): Variable = ???
+
+  protected[context] def defineVariableInt(name: String, variable: Variable) {}
 }
