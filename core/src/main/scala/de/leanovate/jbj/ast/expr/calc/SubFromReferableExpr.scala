@@ -13,7 +13,7 @@ case class SubFromReferableExpr(reference: ReferableExpr, expr: Expr) extends Re
   }
 
   override def evalRef(implicit ctx: Context): Reference = new Reference {
-    val result = eval
+    val result = evalOld
 
     def asVal = result
 

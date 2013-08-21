@@ -6,7 +6,7 @@ import java.io.PrintStream
 
 case class ExprStmt(expr: Expr) extends Stmt {
   override def exec(implicit ctx: Context) = {
-    expr.eval
+    expr.evalOld
     SuccessExecResult
   }
 

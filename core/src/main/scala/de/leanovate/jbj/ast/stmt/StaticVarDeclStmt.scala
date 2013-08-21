@@ -20,7 +20,7 @@ case class StaticVarDeclStmt(assignments: List[StaticAssignment])
   override def initializeStatic(staticCtx: StaticContext)(implicit ctx:Context) {
     assignments.foreach {
       assignment =>
-        staticCtx.defineVariable(assignment.variableName, PVar(assignment.initial.map(_.eval)))
+        staticCtx.defineVariable(assignment.variableName, PVar(assignment.initial.map(_.evalOld)))
     }
   }
 }

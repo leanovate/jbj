@@ -12,4 +12,10 @@ trait PAny {
   def incrRefCount()
 
   def decrRefCount()
+
+  def +(other: PAny)(implicit ctx: Context): PAny = this.asVal.toNum + other.asVal.toNum
+
+  def -(other: PAny)(implicit ctx: Context): PAny = this.asVal.toNum - other.asVal.toNum
+
+  def dot(other:PAny)(implicit ctx: Context): PAny = this.asVal.toStr dot other.asVal.toStr
 }

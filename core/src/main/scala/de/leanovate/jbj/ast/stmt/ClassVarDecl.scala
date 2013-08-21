@@ -13,7 +13,7 @@ case class ClassVarDecl(modifieres: Set[MemberModifier.Type],
   override def initializeInstance(instance: ObjectVal)(implicit ctx:Context) {
     assignments.foreach {
       assignment =>
-        instance.setProperty(assignment.variableName, Some(getVisibility), assignment.initial.map(_.eval).getOrElse(NullVal))
+        instance.setProperty(assignment.variableName, Some(getVisibility), assignment.initial.map(_.evalOld).getOrElse(NullVal))
     }
   }
 
@@ -21,7 +21,7 @@ case class ClassVarDecl(modifieres: Set[MemberModifier.Type],
     if (isStatic) {
       assignments.foreach {
         assignment =>
-          staticCtx.defineVariable(assignment.variableName, PVar(assignment.initial.map(_.eval)))
+          staticCtx.defineVariable(assignment.variableName, PVar(assignment.initial.map(_.evalOld)))
       }
     }
   }
