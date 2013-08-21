@@ -9,9 +9,8 @@ trait PAny {
 
   def asVar: PVar
 
-  def incrRefCount()
-
-  def decrRefCount()
+  def cleanup() {
+  }
 
   def +(other: PAny)(implicit ctx: Context): PAny = this.asVal.toNum + other.asVal.toNum
 
@@ -23,5 +22,5 @@ trait PAny {
 
   def %(other: PAny)(implicit ctx: Context): PAny = this.asVal.toInteger % other.asVal.toInteger
 
-  def dot(other:PAny)(implicit ctx: Context): PAny = this.asVal.toStr dot other.asVal.toStr
+  def dot(other: PAny)(implicit ctx: Context): PAny = this.asVal.toStr dot other.asVal.toStr
 }

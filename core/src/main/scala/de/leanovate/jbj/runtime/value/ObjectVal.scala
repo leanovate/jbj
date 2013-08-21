@@ -71,13 +71,12 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
 
   def setProperty(name: String, visibility:Option[PVisibility.Type], value: PAny) {
     visibility.foreach(visibilities.put(name, _))
-    keyValueMap.get(name).foreach(_.decrRefCount())
+    keyValueMap.get(name).foreach(_.cleanup())
     keyValueMap.put(name, value)
-    value.incrRefCount()
   }
 
   def unsetProperty(name: String) = {
-    keyValueMap.remove(name).foreach(_.decrRefCount())
+    keyValueMap.remove(name).foreach(_.cleanup())
   }
 
   override def size: Int = keyValueMap.size
@@ -132,7 +131,6 @@ object ObjectVal {
             nextIndex
           }
 
-          keyValue._2.incrRefCount()
           builder += (key -> keyValue._2)
       }.result())
   }

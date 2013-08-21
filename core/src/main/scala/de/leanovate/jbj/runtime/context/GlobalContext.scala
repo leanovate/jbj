@@ -92,13 +92,12 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
     GLOBALS.getAt(name)(this, position).map(_.asVar)
 
   def defineVariable(name: String, pVar: PVar)(implicit position: NodePosition) {
-    GLOBALS.getAt(name)(this, position).foreach(_.decrRefCount())
+    GLOBALS.getAt(name)(this, position).foreach(_.cleanup())
     GLOBALS.setAt(name, pVar)(this, position)
-    pVar.incrRefCount()
   }
 
   def undefineVariable(name: String)(implicit position: NodePosition) {
-    GLOBALS.getAt(name)(this, position).foreach(_.decrRefCount())
+    GLOBALS.getAt(name)(this, position).foreach(_.cleanup())
     GLOBALS.unsetAt(name)(this, position)
   }
 

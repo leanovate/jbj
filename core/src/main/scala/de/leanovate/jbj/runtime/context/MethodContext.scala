@@ -35,13 +35,12 @@ case class MethodContext(instance: ObjectVal, methodName: String, callerPosition
     if (name == "this") Some(PVar(instance)) else localVariables.get(name)
 
   def defineVariable(name: String, valueRef: PVar)(implicit position: NodePosition)  {
-    localVariables.get(name).foreach(_.decrRefCount())
+    localVariables.get(name).foreach(_.cleanup())
     localVariables.put(name, valueRef)
-    valueRef.incrRefCount()
   }
 
   def undefineVariable(name: String)(implicit position: NodePosition) {
-    localVariables.remove(name).foreach(_.decrRefCount())
+    localVariables.remove(name).foreach(_.cleanup())
   }
 
   def findFunction(name: NamespaceName) = callerCtx.findFunction(name)
