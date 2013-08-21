@@ -30,7 +30,7 @@ trait PClass extends StaticContext {
 
   def newInstance(parameters: List[Expr])(implicit ctx: Context): ObjectVal
 
-  def invokeMethod(ctx: Context,optInstance: Option[ObjectVal], methodName: String,
+  def invokeMethod(ctx: Context, optInstance: Option[ObjectVal], methodName: String,
                    parameters: List[Expr]) = {
     findMethod(methodName) match {
       case Some(method) =>
@@ -70,27 +70,14 @@ trait PClass extends StaticContext {
     case Some(s) => isAssignableFrom(s)
   })
 
-  def findVariable(name: String): Option[PVar] = {
-    val variable = getVariable(name)
-    if (variable.isDefined) {
-      Some(variable)
-    } else {
-      None
-    }
-  }
-
-  def defineVariable(name: String, pVar: PVar) {
-    getVariable(name).ref = pVar
-  }
-
-  def undefineVariable(name: String) {
-    staticVariables.remove(name).foreach(_.cleanup())
-  }
-
   override def getVariable(name: String): StaticVariable = staticVariables.getOrElse(name, StaticVariable(name, this))
 
   override def defineVariableInt(name: String, variable: StaticVariable) {
     staticVariables.get(name).foreach(_.cleanup())
     staticVariables.put(name, variable)
+  }
+
+  override def undefineVariableInt(name: String) {
+    staticVariables.remove(name).foreach(_.cleanup())
   }
 }

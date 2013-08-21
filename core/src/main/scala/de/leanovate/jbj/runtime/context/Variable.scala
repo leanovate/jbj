@@ -35,7 +35,7 @@ case class Variable(name: String,
 
   override def unset() {
     super.unset()
-    owner.undefineVariable(name)
+    owner.undefineVariableInt(name)
     defined = false
   }
 

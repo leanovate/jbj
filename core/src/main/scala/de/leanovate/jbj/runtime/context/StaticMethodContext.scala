@@ -31,28 +31,15 @@ case class StaticMethodContext(pClass: PClass, methodName: String, callerCtx: Co
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  def findVariable(name: String): Option[PVar] = {
-    val variable = getVariable(name)
-    if (variable.isDefined) {
-      Some(variable)
-    } else {
-      None
-    }
-  }
-
-  def defineVariable(name: String, pVar: PVar) {
-    getVariable(name).ref = pVar
-  }
-
-  def undefineVariable(name: String) {
-    localVariables.remove(name).foreach(_.cleanup())
-  }
-
   override def getVariable(name: String): Variable = localVariables.getOrElse(name, Variable(name, this))
 
   protected[context] override def defineVariableInt(name: String, variable: Variable) {
     localVariables.get(name).foreach(_.cleanup())
     localVariables.put(name, variable)
+  }
+
+  protected[context] override def undefineVariableInt(name: String) {
+    localVariables.remove(name).foreach(_.cleanup())
   }
 
   def findFunction(name: NamespaceName) = callerCtx.findFunction(name)

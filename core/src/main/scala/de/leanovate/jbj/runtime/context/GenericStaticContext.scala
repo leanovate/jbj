@@ -15,27 +15,14 @@ class GenericStaticContext(var global: GlobalContext) extends StaticContext {
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  def findVariable(name: String): Option[PVar] = {
-    val variable = getVariable(name)
-    if (variable.isDefined) {
-      Some(variable)
-    } else {
-      None
-    }
-  }
-
-  def defineVariable(name: String, pVar: PVar) {
-    getVariable(name).ref = pVar
-  }
-
-  def undefineVariable(name: String) {
-    variables.remove(name).foreach(_.cleanup())
-  }
-
   override def getVariable(name: String): StaticVariable = variables.getOrElse(name, StaticVariable(name, this))
 
   protected[context] override def defineVariableInt(name: String, variable: StaticVariable) {
     variables.get(name).foreach(_.cleanup())
     variables.put(name, variable)
+  }
+
+  protected[context] override def undefineVariableInt(name: String) {
+    variables.remove(name).foreach(_.cleanup())
   }
 }

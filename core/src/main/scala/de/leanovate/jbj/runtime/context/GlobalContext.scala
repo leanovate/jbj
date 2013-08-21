@@ -88,25 +88,6 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
       constants.put(CaseSensitiveConstantKey(name), value)
   }
 
-
-  def findVariable(name: String): Option[PVar] = {
-    val variable = getVariable(name)
-    if (variable.isDefined) {
-      Some(variable)
-    } else {
-      None
-    }
-  }
-
-  def defineVariable(name: String, pVar: PVar) {
-    getVariable(name).ref = pVar
-  }
-
-  def undefineVariable(name: String) {
-    GLOBALS.getAt(name)(this).foreach(_.cleanup())
-    GLOBALS.unsetAt(name)(this)
-  }
-
   override def getVariable(name: String): Variable = GLOBALS.getAt(name)(this) match {
     case Some(variable: Variable) => variable
     case Some(pVar: PVar) =>
@@ -117,13 +98,18 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
       val variable = Variable(name, this, defined = true)
       variable.value = pVal
       variable
-    case None =>
+    case _ =>
       Variable(name, this)
   }
 
   protected[context] override def defineVariableInt(name: String, variable: Variable) {
     GLOBALS.getAt(name)(this).foreach(_.cleanup())
     GLOBALS.setAt(name, variable)(this)
+  }
+
+  protected[context] override def undefineVariableInt(name: String) {
+    GLOBALS.getAt(name)(this).foreach(_.cleanup())
+    GLOBALS.unsetAt(name)(this)
   }
 
   def findFunction(name: NamespaceName) =

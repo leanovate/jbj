@@ -27,17 +27,30 @@ trait Context {
 
   def defineConstant(name: String, value: PVal, caseInsensitive: Boolean)
 
-  def findVariable(name: String): Option[PVar]
+  def findVariable(name: String): Option[PVar] = {
+    val variable = getVariable(name)
+    if (variable.isDefined) {
+      Some(variable)
+    } else {
+      None
+    }
+  }
 
-  def defineVariable(name: String, valueRef: PVar)
+  def defineVariable(name: String, pVar: PVar) {
+    getVariable(name).ref = pVar
+  }
 
-  def undefineVariable(name: String)
+  def undefineVariable(name: String) {
+    getVariable(name).unset()
+  }
 
   def findFunction(name: NamespaceName): Option[PFunction]
 
   def defineFunction(function: PFunction)
 
-  def getVariable(name: String): Variable = ???
+  def getVariable(name: String): Variable
 
-  protected[context] def defineVariableInt(name: String, variable: Variable) {}
+  protected[context] def defineVariableInt(name: String, variable: Variable)
+
+  protected[context] def undefineVariableInt(name: String)
 }

@@ -24,19 +24,9 @@ case class InstanceContext(instance: ObjectVal, callerCtx: Context) extends Cont
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  def findVariable(name: String): Option[PVar] =
-    instance.getProperty(name)(this).map {
-      case valueRef: PVar => valueRef
-      case value: PVal => PVar(value)
-    }
+  override def getVariable(name: String): Variable = Variable(name, this)
 
-  def defineVariable(name: String, valueRef: PVar) {
-    instance.setProperty(name, None, valueRef.value)
-  }
-
-  def undefineVariable(name: String) {
-    instance.unsetProperty(name)
-  }
+  protected[context] override def defineVariableInt(name: String, variable: Variable) {}
 
   def findFunction(name: NamespaceName) = callerCtx.findFunction(name)
 
@@ -44,4 +34,6 @@ case class InstanceContext(instance: ObjectVal, callerCtx: Context) extends Cont
     callerCtx.defineFunction(function)
   }
 
+  protected[context] override  def undefineVariableInt(name: String) {
+  }
 }

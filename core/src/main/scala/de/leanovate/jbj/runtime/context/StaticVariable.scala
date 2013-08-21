@@ -33,7 +33,7 @@ case class StaticVariable(name: String, owner: StaticContext) extends PVar {
 
   override def unset() {
     super.unset()
-    owner.undefineVariable(name)
+    owner.undefineVariableInt(name)
     defined = false
   }
 }
