@@ -71,6 +71,8 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
         val array = ArrayVal()
         parentRef.assign(array)
         Some(array)
+      case _ =>
+        None
     }
 
   }

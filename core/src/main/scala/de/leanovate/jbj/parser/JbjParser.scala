@@ -753,7 +753,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       e: Expr => VariableReferableExpr(DynamicName(e))
     })
 
-  lazy val assignmentList: PackratParser[List[ReferableExpr]] = rep1sep(assignmentListElement, ",")
+  lazy val assignmentList: PackratParser[List[Option[ReferableExpr]]] = rep1sep(opt(assignmentListElement), ",")
 
   lazy val assignmentListElement: PackratParser[ReferableExpr] = variable | "list" ~> "(" ~> assignmentList <~ ")" ^^ {
     refs => ListReferableExpr(refs)

@@ -10,7 +10,6 @@ case class Variable(name: String,
 
   override def asVal = {
     if (!defined) {
-      Thread.dumpStack()
       owner.log.notice("Undefined variable: %s".format(name))
       NullVal
     } else {
