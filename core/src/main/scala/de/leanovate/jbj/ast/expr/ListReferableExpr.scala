@@ -18,14 +18,18 @@ case class ListReferableExpr(references: List[Option[ReferableExpr]]) extends Re
     def assign(pAny: PAny) = {
       pAny.asVal match {
         case array: ArrayVal =>
-          refs.zipWithIndex.reverse.foreach {
-            case (Some(ref), idx) =>
-              val elem = array.getAt(idx.toLong).getOrElse {
+          // this is a bit sub-optimal, but it seems to be the order the original engine likes
+          var values = Range(0, refs.size).reverse.map {
+            idx =>
+              array.getAt(idx.toLong).getOrElse {
                 ctx.log.notice("Undefined offset: %d".format(idx))
                 NullVal
               }
-              ref.assign(elem)
-            case _ =>
+          }.toList
+          refs.foreach {
+            ref =>
+              ref.foreach(_.assign(values.last))
+              values = values.dropRight(1)
           }
         case _ =>
           refs.foreach(_.foreach(_.assign(NullVal)))

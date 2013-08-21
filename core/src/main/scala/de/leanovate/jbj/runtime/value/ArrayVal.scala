@@ -7,9 +7,9 @@ import de.leanovate.jbj.runtime.context.Context
 
 class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extends PVal with ArrayLike {
 
-  private var maxIndex: Long = (0L :: keyValueMap.keys.map {
+  private var maxIndex: Long = (-1L :: keyValueMap.keys.map {
     case idx: Long => idx
-    case _ => 0L
+    case _ => -1L
   }.toList).max
 
   def keyValues(implicit ctx: Context): Seq[(PVal, PAny)] = keyValueMap.toSeq.map {
@@ -89,9 +89,9 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
   }
 
   override def append(value: PAny)(implicit ctx: Context) {
+    maxIndex += 1
     keyValueMap.get(maxIndex).foreach(_.cleanup())
     keyValueMap.put(maxIndex, value)
-    maxIndex += 1
   }
 
   override def unsetAt(index: Long)(implicit ctx: Context) {

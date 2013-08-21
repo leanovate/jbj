@@ -221,12 +221,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       e => ExprStmt(e)
     } | "unset" ~> "(" ~> unsetVariables <~ ")" ^^ {
       case vars => UnsetStmt(vars)
-    } | "foreach" ~> "(" ~> variable ~ "as" ~ foreachVariable ~ foreachOptionalArg ~ ")" ~ foreachStatement ^^ {
-      case array ~ _ ~ valueAssign ~ None ~ _ ~ stmts =>
-        ForeachStmt(array, None, valueAssign, stmts)
-      case array ~ _ ~ keyAssign ~ Some(valueAssign) ~ _ ~ stmts =>
-        ForeachStmt(array, Some(keyAssign), valueAssign, stmts)
-    } | "foreach" ~> "(" ~> exprWithoutVariable ~ "as" ~ foreachVariable ~ foreachOptionalArg ~ ")" ~ foreachStatement ^^ {
+    } | "foreach" ~> "(" ~> expr ~ "as" ~ foreachVariable ~ foreachOptionalArg ~ ")" ~ foreachStatement ^^ {
       case array ~ _ ~ valueAssign ~ None ~ _ ~ stmts =>
         ForeachStmt(array, None, valueAssign, stmts)
       case array ~ _ ~ keyAssign ~ Some(valueAssign) ~ _ ~ stmts =>
@@ -329,7 +324,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val optionalClassType: PackratParser[Option[TypeHint]] = opt("array" ^^^ ArrayTypeHint |
     "callable" ^^^ CallableTypeHint | fullyQualifiedClassName ^^ (name => ClassTypeHint(name)))
 
-  lazy val functionCallParameterList: PackratParser[List[Expr]] = "(" ~> repsep(exprWithoutVariable | variable, ",") <~ ")"
+  lazy val functionCallParameterList: PackratParser[List[Expr]] = "(" ~> repsep(expr, ",") <~ ")"
 
   lazy val globalVar: PackratParser[Name] = variableLit ^^ {
     v => StaticName(v)
@@ -399,7 +394,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     case name ~ args => NewReferableExpr(name, args)
   }
 
-  lazy val exprWithoutVariable: PackratParser[Expr] =
+  lazy val expr: PackratParser[Expr] =
     expr ~ "?" ~ expr ~ ":" ~ expr ^^ {
       case cond ~ _ ~ tExpr ~ _ ~ fExpr => TernaryExpr(cond, tExpr, fExpr)
     } | "list" ~> "(" ~> assignmentList ~ ")" ~ "=" ~ expr ^^ {
@@ -420,7 +415,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       case v ~ _ ~ e => DivByReferableExpr(v, e)
     } | variable ~ ".=" ~ expr ^^ {
       case v ~ _ ~ e => ConcatWithReferableExpr(v, e)
-    } | binary(minPrec) | termWithoutVariable
+    } | binary(minPrec) | term
 
   def binaryOp(level: Int): PackratParser[((Expr, Expr) => Expr)] = {
     level match {
@@ -465,7 +460,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       binary(level + 1) * binaryOp(level)
     }
 
-  lazy val termWithoutVariable: PackratParser[Expr] =
+  lazy val term: PackratParser[Expr] =
     "+" ~> term | "-" ~> term ^^ {
       expr => NegExpr(expr)
     } | "!" ~> term ^^ {
@@ -492,7 +487,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       ref => IncrAndGetExpr(ref)
     } | "--" ~> rwVariable ^^ {
       ref => DecrAndGetExpr(ref)
-    } | scalar | combinedScalarOffset |
+    } | variable | scalar | combinedScalarOffset |
       "print" ~> expr ^^ {
         e => PrintExpr(e)
       } | parenthesisExpr
@@ -618,10 +613,6 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     opt(staticScalar <~ "=>") ~ staticScalar ^^ {
       case keyExpr ~ valueExpr => ArrayKeyValue(keyExpr, valueExpr, isRef = false)
     }, ",") <~ opt(",")
-
-  lazy val expr: PackratParser[Expr] = exprWithoutVariable ||| rVariable
-
-  lazy val term: PackratParser[Expr] = termWithoutVariable ||| rVariable
 
   lazy val parenthesisExpr: PackratParser[Expr] = "(" ~> expr <~ ")"
 
@@ -809,7 +800,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val issetVariables: PackratParser[List[Expr]] = rep1sep(issetVariable, ",")
 
-  lazy val issetVariable: PackratParser[Expr] = exprWithoutVariable ||| rVariable
+  lazy val issetVariable: PackratParser[Expr] = expr
 
   lazy val classConstant: PackratParser[Expr] = className ~ "::" ~ identLit ^^ {
     case cname ~ _ ~ n => ClassConstantExpr(cname, n)
