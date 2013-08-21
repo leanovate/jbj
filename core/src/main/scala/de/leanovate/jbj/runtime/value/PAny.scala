@@ -23,4 +23,19 @@ trait PAny {
   def %(other: PAny)(implicit ctx: Context): PAny = this.asVal.toInteger % other.asVal.toInteger
 
   def dot(other: PAny)(implicit ctx: Context): PAny = this.asVal.toStr dot other.asVal.toStr
+
+  def &(other:PAny)(implicit ctx:Context):PAny = (this.asVal, other.asVal) match {
+    case (leftVal: StringVal, rightVal:StringVal) => leftVal & rightVal
+    case (leftVal, rightVal) => leftVal.toInteger & rightVal.toInteger
+  }
+
+  def |(other:PAny)(implicit ctx:Context):PAny = (this.asVal, other.asVal) match {
+    case (leftVal: StringVal, rightVal:StringVal) => leftVal | rightVal
+    case (leftVal, rightVal) => leftVal.toInteger | rightVal.toInteger
+  }
+
+  def ^(other:PAny)(implicit ctx:Context):PAny = (this.asVal, other.asVal) match {
+    case (leftVal: StringVal, rightVal:StringVal) => leftVal ^ rightVal
+    case (leftVal, rightVal) => leftVal.toInteger ^ rightVal.toInteger
+  }
 }
