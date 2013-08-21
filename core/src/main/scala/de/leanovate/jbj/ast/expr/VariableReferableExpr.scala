@@ -22,22 +22,14 @@ case class VariableReferableExpr(variableName: Name) extends ReferableExpr {
 
     def asVal = ctx.findVariable(name).map(_.value).getOrElse(NullVal)
 
-    def asVar = ctx.findVariable(name).getOrElse {
-      val result = PVar()
-      ctx.defineVariable(name, result)
-      result
-    }
+    def asVar =  ctx.getVariable(name)
 
     def assign(pAny: PAny): PAny = {
       pAny match {
         case pVar: PVar =>
-          ctx.defineVariable(name, pVar)
+          ctx.getVariable(name).ref = pVar
         case pVal: PVal =>
-          ctx.findVariable(name) match {
-            case Some(valueRef) => valueRef.value = pVal
-            case None => ctx.defineVariable(name, PVar(pVal))
-            case _ =>
-          }
+          ctx.getVariable(name).value = pVal
       }
       pAny
     }

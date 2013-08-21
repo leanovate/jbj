@@ -8,29 +8,22 @@ case class Variable(name: String,
 
   def isDefined = defined
 
-  override def value = {
+  override def asVal = {
     if (!defined) {
+      Thread.dumpStack()
       owner.log.notice("Undefined variable: %s".format(name))
       NullVal
     } else {
-      super.value
+      value
     }
   }
 
-  override def value_=(v: PVal) {
+  override protected def set(pVal: Option[PVal]) {
     if (!defined) {
       owner.defineVariableInt(name, this)
       defined = true
     }
-    super.value_=(v)
-  }
-
-  override def ref_=(v: PVar) {
-    if (!defined) {
-      owner.defineVariableInt(name, this)
-      defined = true
-    }
-    super.ref_=(v)
+    super.set(pVal)
   }
 
   override def unset() {
@@ -39,16 +32,7 @@ case class Variable(name: String,
     defined = false
   }
 
-  override def toString: String = {
-    val builder = new StringBuilder("Variable(")
-    builder.append(value)
-    var other: PVar = this
-    do {
-      builder.append(", ")
-      builder.append(other.hashCode())
-      other = other.next
-    } while (other != this)
-    builder.append(")")
-    builder.result()
+  override def toString = {
+    "Variable(" + name + ", " + super.toString + ")"
   }
 }

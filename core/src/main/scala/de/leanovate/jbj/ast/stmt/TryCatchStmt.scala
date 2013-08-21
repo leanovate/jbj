@@ -23,7 +23,7 @@ case class TryCatchStmt(tryStmts: List[Stmt], catchBlocks: List[CatchBlock], fin
           ctx.global.findClass(catchBlock.exceptionName).exists(e.exception.instanceOf)
       }.map {
         catchBlock =>
-          ctx.defineVariable(catchBlock.variableName, PVar(e.exception))
+          ctx.getVariable(catchBlock.variableName).value = e.exception
           execStmts(catchBlock.stmts)
       }.getOrElse(SuccessExecResult)
   } finally {

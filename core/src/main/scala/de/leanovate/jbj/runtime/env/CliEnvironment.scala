@@ -11,9 +11,9 @@ object CliEnvironment {
     val serverArgv = ArrayVal(Option.empty[PVal] -> StringVal(fileName) :: args.map {
       str => Option.empty[PVal] -> StringVal(str)
     }.toList: _*)
-    ctx.defineVariable("_SERVER", PVar(ArrayVal(
+    ctx.getVariable("_SERVER").value = ArrayVal(
       Some(StringVal("argv")) -> serverArgv,
       Some(StringVal("argc")) -> serverArgv.count
-    )))
+    )
   }
 }

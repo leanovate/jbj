@@ -10,14 +10,8 @@ case class GlobalVarDeclAssignStmt(variableNames: List[Name]) extends Stmt {
     variableNames.foreach {
       variableName =>
         val name = variableName.evalName
-        val valueRef = ctx.global.findVariable(name) match {
-          case Some(ref) => ref
-          case None =>
-            val initial = PVar()
-            ctx.global.defineVariable(name, initial)
-            initial
-        }
-        ctx.defineVariable(name, valueRef)
+        val valueRef = ctx.global.getVariable(name)
+        ctx.getVariable(name).ref = valueRef
     }
     SuccessExecResult
   }

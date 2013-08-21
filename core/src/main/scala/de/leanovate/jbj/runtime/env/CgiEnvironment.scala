@@ -1,6 +1,5 @@
 package de.leanovate.jbj.runtime.env
 
-import de.leanovate.jbj.runtime._
 import java.net.{URLDecoder, URI}
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.ast.NoNodePosition
@@ -20,17 +19,17 @@ object CgiEnvironment {
     val serverArgv = ArrayVal(URLDecoder.decode(queryString.getOrElse(""), "UTF-8").split(" ").map {
       str => None -> StringVal(str)
     }: _*)
-    ctx.defineVariable("_SERVER", PVar(ArrayVal(
+    ctx.getVariable("_SERVER").value = ArrayVal(
       Some(StringVal("PHP_SELF")) -> StringVal(uriStr),
       Some(StringVal("argv")) -> serverArgv,
       Some(StringVal("argc")) -> serverArgv.count,
       Some(StringVal("REQUEST_METHOD")) -> StringVal("GET"),
       Some(StringVal("QUERY_STRING")) -> StringVal(queryString.getOrElse(""))
-    )))
+    )
 
     val requestArray = decodeFormData(queryString.getOrElse(""))(ctx)
-    ctx.defineVariable("_GET", PVar(requestArray.copy))
-    ctx.defineVariable("_REQUEST", PVar(requestArray.copy))
+    ctx.getVariable("_GET").value = requestArray.copy
+    ctx.getVariable("_REQUEST").value = requestArray.copy
   }
 
   def httpPostForm(uriStr: String, formData: String)(implicit ctx: Context) {
@@ -39,19 +38,19 @@ object CgiEnvironment {
     val serverArgv = ArrayVal(URLDecoder.decode(queryString.getOrElse(""), "UTF-8").split(" ").map {
       str => None -> StringVal(str)
     }: _*)
-    ctx.defineVariable("_SERVER", PVar(ArrayVal(
+    ctx.getVariable("_SERVER").value = ArrayVal(
       Some(StringVal("PHP_SELF")) -> StringVal(uriStr),
       Some(StringVal("argv")) -> serverArgv,
       Some(StringVal("argc")) -> serverArgv.count,
       Some(StringVal("REQUEST_METHOD")) -> StringVal("POST"),
       Some(StringVal("QUERY_STRING")) -> StringVal(queryString.getOrElse(""))
-    )))
+    )
 
     val getRequestArray = decodeFormData(queryString.getOrElse(""))(ctx)
-    ctx.defineVariable("_GET", PVar(getRequestArray.copy))
+    ctx.getVariable("_GET").value = getRequestArray.copy
     val postRequestArray = decodeFormData(formData)(ctx)
-    ctx.defineVariable("_POST", PVar(postRequestArray.copy))
-    ctx.defineVariable("_REQUEST", PVar(postRequestArray.copy))
+    ctx.getVariable("_POST").value = postRequestArray.copy
+    ctx.getVariable("_REQUEST").value = postRequestArray.copy
   }
 
   def decodeKeyValues(keyValues: Seq[(String, String)])(implicit ctx: Context) = {

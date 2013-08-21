@@ -44,14 +44,19 @@ object TestBed {
   def main(args: Array[String]) {
     test( """<?php
             |
-            |$arr = array(1 => "one", 2 => "two", 3 => "three");
-            |
-            |foreach($arr as $key => &$val) {
-            |	$val = $key;
+            |function v($val) {
+            |  $val = "Val changed";
             |}
             |
-            |print_r($arr);
+            |function r(&$ref) {
+            |  $ref = "Ref changed";
+            |}
             |
-            |""".stripMargin)
+            |echo "\n ---- Pass by ref / pass by val: functions ----\n";
+            |unset($u1, $u2);
+            |v($u1);
+            |r($u2);
+            |var_dump($u1, $u2);
+            |?>""".stripMargin)
   }
 }

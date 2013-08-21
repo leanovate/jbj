@@ -2,14 +2,11 @@ package controllers
 
 import play.api.mvc.{AnyContent, Action, Controller, Request}
 import java.io.{PrintStream, ByteArrayOutputStream, File}
-import play.api.{Logger, Play}
-import play.api.Play.current
-import de.leanovate.jbj.parser.JbjParser
-import de.leanovate.jbj.runtime.context.{Context, GlobalContext}
-import scala.io.Source
+import play.api.Logger
+import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.env.CgiEnvironment
 import de.leanovate.jbj.ast.{NodePosition, NoNodePosition}
-import de.leanovate.jbj.runtime.value.{PVar, StringVal, ArrayVal}
+import de.leanovate.jbj.runtime.value.{StringVal, ArrayVal}
 import java.net.URLDecoder
 import de.leanovate.jbj.JbjEnv
 
@@ -46,8 +43,8 @@ object JbjPhp extends Controller {
               val requestArray = CgiEnvironment.decodeKeyValues(request.queryString.toSeq.flatMap {
                 case (key, values) => values.map(key -> _)
               })
-              ctx.defineVariable("_REQUEST", PVar(requestArray.copy))
-              ctx.defineVariable("_GET", PVar(requestArray.copy))
+              ctx.getVariable("_REQUEST").value = requestArray.copy
+              ctx.getVariable("_GET").value = requestArray.copy
             case "POST" =>
               val requestArray = request.body.asFormUrlEncoded.map {
                 keyValues =>
@@ -55,8 +52,8 @@ object JbjPhp extends Controller {
                     case (key, values) => values.map(key -> _)
                   })
               }.getOrElse(ArrayVal())
-              ctx.defineVariable("_REQUEST", PVar(requestArray.copy))
-              ctx.defineVariable("_POST", PVar(requestArray.copy))
+              ctx.getVariable("_REQUEST").value = requestArray.copy
+              ctx.getVariable("_POST").value = requestArray.copy
           }
 
           prog.exec
@@ -77,12 +74,12 @@ object JbjPhp extends Controller {
     val serverArgv = ArrayVal(URLDecoder.decode(request.rawQueryString, "UTF-8").split(" ").map {
       str => None -> StringVal(str)
     }: _*)
-    ctx.defineVariable("_SERVER", PVar(ArrayVal(
+    ctx.getVariable("_SERVER").value = ArrayVal(
       Some(StringVal("PHP_SELF")) -> StringVal(request.uri),
       Some(StringVal("argv")) -> serverArgv,
       Some(StringVal("argc")) -> serverArgv.count,
       Some(StringVal("REQUEST_METHOD")) -> StringVal(request.method),
       Some(StringVal("QUERY_STRING")) -> StringVal(request.rawQueryString)
-    )))
+    )
   }
 }

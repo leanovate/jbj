@@ -1,6 +1,6 @@
 package de.leanovate.jbj.ast.stmt
 
-import de.leanovate.jbj.ast.{Stmt, ReferableExpr, NodePosition, Expr}
+import de.leanovate.jbj.ast.{Stmt, ReferableExpr, Expr}
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.value.{NullVal, PVar}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
@@ -26,14 +26,14 @@ trait FunctionLike extends BlockLike {
                   callerContext.log.strict("Only variables should be passed by reference")
                   pAny.asVar
               }
-              funcCtx.defineVariable(parameterDecl.variableName, pVar)
+              funcCtx.getVariable(parameterDecl.variableName).ref = pVar
             case _ if parameterDecl.byRef =>
               throw new FatalErrorJbjException("Only variables can be passed by reference")(callerContext)
             case expr =>
-              funcCtx.defineVariable(parameterDecl.variableName, PVar(expr.evalOld(callerContext)))
+              funcCtx.getVariable(parameterDecl.variableName).value = expr.evalOld(callerContext)
           }
         } else {
-          funcCtx.defineVariable(parameterDecl.variableName, PVar(parameterDecl.defaultVal(callerContext)))
+          funcCtx.getVariable(parameterDecl.variableName).value = parameterDecl.defaultVal(callerContext)
         }
     }
   }

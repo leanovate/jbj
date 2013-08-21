@@ -36,10 +36,6 @@ trait Context {
     }
   }
 
-  def defineVariable(name: String, pVar: PVar) {
-    getVariable(name).ref = pVar
-  }
-
   def findFunction(name: NamespaceName): Option[PFunction]
 
   def defineFunction(function: PFunction)
