@@ -81,29 +81,29 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
 
   override def size: Int = keyValueMap.size
 
-  override def getAt(index: Long)(implicit ctx: Context, position: NodePosition): Option[PAny] =
+  override def getAt(index: Long)(implicit ctx: Context): Option[PAny] =
     throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
 
-  override def getAt(index: String)(implicit ctx: Context, position: NodePosition): Option[PAny] =
+  override def getAt(index: String)(implicit ctx: Context): Option[PAny] =
     throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
 
-  override def setAt(index: Long, value: PAny)(implicit ctx: Context, position: NodePosition) {
-    throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
-  }
-
-  override def setAt(index: String, value: PAny)(implicit ctx: Context, position: NodePosition) {
+  override def setAt(index: Long, value: PAny)(implicit ctx: Context) {
     throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
   }
 
-  override def append(value: PAny)(implicit ctx: Context, position: NodePosition) {
+  override def setAt(index: String, value: PAny)(implicit ctx: Context) {
     throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
   }
 
-  override def unsetAt(index: Long)(implicit ctx: Context, position: NodePosition) {
+  override def append(value: PAny)(implicit ctx: Context) {
     throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
   }
 
-  override def unsetAt(index: String)(implicit ctx: Context, position: NodePosition) {
+  override def unsetAt(index: Long)(implicit ctx: Context) {
+    throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
+  }
+
+  override def unsetAt(index: String)(implicit ctx: Context) {
     throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
   }
 }

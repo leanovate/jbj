@@ -6,9 +6,9 @@ import de.leanovate.jbj.runtime.value.PVar
 trait StaticContext {
   var initialized = false
 
-  def findVariable(name: String)(implicit position: NodePosition):Option[PVar]
+  def findVariable(name: String):Option[PVar]
 
-  def defineVariable(name: String, valueRef: PVar)(implicit position: NodePosition)
+  def defineVariable(name: String, valueRef: PVar)
 
-  def undefineVariable(name: String)(implicit position: NodePosition)
+  def undefineVariable(name: String)
 }

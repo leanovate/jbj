@@ -68,13 +68,13 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
     case _ => 1
   }
 
-  override def getAt(index: Long)(implicit ctx: Context, position: NodePosition): Option[PAny] =
+  override def getAt(index: Long)(implicit ctx: Context): Option[PAny] =
     keyValueMap.get(index)
 
-  override def getAt(index: String)(implicit ctx: Context, position: NodePosition): Option[PAny] =
+  override def getAt(index: String)(implicit ctx: Context): Option[PAny] =
     keyValueMap.get(index)
 
-  override def setAt(index: Long, value: PAny)(implicit ctx: Context, position: NodePosition) {
+  override def setAt(index: Long, value: PAny)(implicit ctx: Context) {
     if (index > maxIndex) {
       maxIndex = index
     }
@@ -82,22 +82,22 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
     keyValueMap.put(index, value)
   }
 
-  override def setAt(index: String, value: PAny)(implicit ctx: Context, position: NodePosition) {
+  override def setAt(index: String, value: PAny)(implicit ctx: Context) {
     keyValueMap.get(index).foreach(_.cleanup())
     keyValueMap.put(index, value)
   }
 
-  override def append(value: PAny)(implicit ctx: Context, position: NodePosition) {
+  override def append(value: PAny)(implicit ctx: Context) {
     keyValueMap.get(maxIndex).foreach(_.cleanup())
     keyValueMap.put(maxIndex, value)
     maxIndex += 1
   }
 
-  override def unsetAt(index: Long)(implicit ctx: Context, position: NodePosition) {
+  override def unsetAt(index: Long)(implicit ctx: Context) {
     keyValueMap.remove(index).foreach(_.cleanup())
   }
 
-  override def unsetAt(index: String)(implicit ctx: Context, position: NodePosition) {
+  override def unsetAt(index: String)(implicit ctx: Context) {
     keyValueMap.remove(index).foreach(_.cleanup())
   }
 

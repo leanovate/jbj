@@ -14,7 +14,7 @@ object ArrayFunctions extends WrappedFunctions {
   }
 
   @GlobalFunction
-  def array_merge(values: PVal*)(implicit ctx: Context, callerPosition: NodePosition): PVal = {
+  def array_merge(values: PVal*)(implicit ctx: Context): PVal = {
     if (values.isEmpty) {
       ctx.log.warn("array_merge() expects at least 1 parameter, 0 given")
       NullVal
@@ -37,7 +37,7 @@ object ArrayFunctions extends WrappedFunctions {
   }
 
   @GlobalFunction
-  def array_shift(ref: PVar)(implicit ctx: Context, callerPosition: NodePosition): PVal = {
+  def array_shift(ref: PVar)(implicit ctx: Context): PVal = {
     ref.value match {
       case array: ArrayVal =>
         var count: Long = -1

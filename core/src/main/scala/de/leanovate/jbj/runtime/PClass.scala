@@ -49,11 +49,11 @@ trait PClass extends StaticContext {
             method.invoke(ctx, callerPosition, optInstance.get,
               ScalarExpr(StringVal(methodName)(ctx)) :: ScalarExpr(parameterArray) :: Nil)
           case None =>
-            throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))(ctx, callerPosition)
+            throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))(ctx)
 
         }
       case None =>
-        throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))(ctx, callerPosition)
+        throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))(ctx)
     }
   }
 
@@ -67,13 +67,13 @@ trait PClass extends StaticContext {
     case Some(s) => isAssignableFrom(s)
   })
 
-  def findVariable(name: String)(implicit position: NodePosition) = staticVariables.get(name)
+  def findVariable(name: String) = staticVariables.get(name)
 
-  def defineVariable(name: String, valueRef: PVar)(implicit position: NodePosition) {
+  def defineVariable(name: String, valueRef: PVar) {
     staticVariables.put(name, valueRef)
   }
 
-  def undefineVariable(name: String)(implicit position: NodePosition) {
+  def undefineVariable(name: String) {
     staticVariables.remove(name)
   }
 }

@@ -24,17 +24,17 @@ case class InstanceContext(instance: ObjectVal, callerPosition: NodePosition, ca
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  def findVariable(name: String)(implicit position: NodePosition): Option[PVar] =
+  def findVariable(name: String): Option[PVar] =
     instance.getProperty(name)(this).map {
       case valueRef: PVar => valueRef
       case value: PVal => PVar(value)
     }
 
-  def defineVariable(name: String, valueRef: PVar)(implicit position: NodePosition) {
+  def defineVariable(name: String, valueRef: PVar) {
     instance.setProperty(name, None, valueRef.value)
   }
 
-  def undefineVariable(name: String)(implicit position: NodePosition) {
+  def undefineVariable(name: String) {
     instance.unsetProperty(name)
   }
 

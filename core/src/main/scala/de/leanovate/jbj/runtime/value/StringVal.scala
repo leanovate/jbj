@@ -90,15 +90,15 @@ class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
     digits
   }
 
-  override def getAt(index: Long)(implicit ctx: Context, position: NodePosition) = {
+  override def getAt(index: Long)(implicit ctx: Context) = {
     Some(StringVal(Array(chars(index.toInt))))
   }
 
-  override def getAt(index: String)(implicit ctx: Context, position: NodePosition) = {
+  override def getAt(index: String)(implicit ctx: Context) = {
     Some(StringVal(Array(chars(0))))
   }
 
-  override def setAt(index: Long, value: PAny)(implicit ctx: Context, position: NodePosition) {
+  override def setAt(index: Long, value: PAny)(implicit ctx: Context) {
     if (index < 0) {
       ctx.log.warn("Illegal string offset:  %d".format(index))
     } else {
@@ -118,19 +118,19 @@ class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
     }
   }
 
-  override def setAt(index: String, value: PAny)(implicit ctx: Context, position: NodePosition) {
+  override def setAt(index: String, value: PAny)(implicit ctx: Context) {
     setAt(0, value)
   }
 
-  override def append(value: PAny)(implicit ctx: Context, position: NodePosition) {
+  override def append(value: PAny)(implicit ctx: Context) {
     throw new FatalErrorJbjException("[] operator not supported for strings")
   }
 
-  override def unsetAt(index: Long)(implicit ctx: Context, position: NodePosition) {
+  override def unsetAt(index: Long)(implicit ctx: Context) {
     throw new FatalErrorJbjException("Cannot unset string offsets")
   }
 
-  override def unsetAt(index: String)(implicit ctx: Context, position: NodePosition) {
+  override def unsetAt(index: String)(implicit ctx: Context) {
     throw new FatalErrorJbjException("Cannot unset string offsets")
   }
 

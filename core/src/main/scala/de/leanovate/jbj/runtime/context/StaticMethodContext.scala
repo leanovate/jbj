@@ -31,15 +31,15 @@ case class StaticMethodContext(pClass: PClass, methodName: String, callerPositio
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  def findVariable(name: String)(implicit position: NodePosition): Option[PVar] =
+  def findVariable(name: String): Option[PVar] =
     localVariables.get(name)
 
-  def defineVariable(name: String, valueRef: PVar)(implicit position: NodePosition) {
+  def defineVariable(name: String, valueRef: PVar) {
     localVariables.get(name).foreach(_.cleanup())
     localVariables.put(name, valueRef)
   }
 
-  def undefineVariable(name: String)(implicit position: NodePosition) {
+  def undefineVariable(name: String) {
     localVariables.remove(name).foreach(_.cleanup())
   }
 

@@ -27,14 +27,14 @@ class GenericStaticContext(var global: GlobalContext) extends Context with Stati
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  def findVariable(name: String)(implicit position: NodePosition) = variables.get(name)
+  def findVariable(name: String) = variables.get(name)
 
-  def defineVariable(name: String, valueRef: PVar)(implicit position: NodePosition)  {
+  def defineVariable(name: String, valueRef: PVar) {
     variables.get(name).foreach(_.cleanup())
     variables.put(name, valueRef)
   }
 
-  def undefineVariable(name: String)(implicit position: NodePosition) {
+  def undefineVariable(name: String) {
     variables.remove(name).foreach(_.cleanup())
   }
 

@@ -25,14 +25,14 @@ trait FunctionLike extends BlockLike {
                   callerContext.log.strict("Only variables should be passed by reference")
                   pAny.asVar
               }
-              funcCtx.defineVariable(parameterDecl.variableName, pVar)(callerPosition)
+              funcCtx.defineVariable(parameterDecl.variableName, pVar)
             case _ if parameterDecl.byRef =>
-              throw new FatalErrorJbjException("Only variables can be passed by reference")(callerContext, callerPosition)
+              throw new FatalErrorJbjException("Only variables can be passed by reference")(callerContext)
             case expr =>
-              funcCtx.defineVariable(parameterDecl.variableName, PVar(expr.evalOld(callerContext)))(callerPosition)
+              funcCtx.defineVariable(parameterDecl.variableName, PVar(expr.evalOld(callerContext)))
           }
         } else {
-          funcCtx.defineVariable(parameterDecl.variableName, PVar(parameterDecl.defaultVal(callerContext)))(callerPosition)
+          funcCtx.defineVariable(parameterDecl.variableName, PVar(parameterDecl.defaultVal(callerContext)))
         }
     }
   }
@@ -54,9 +54,9 @@ trait FunctionLike extends BlockLike {
         case None => NullVal
       }
       case result: BreakExecResult =>
-        throw new FatalErrorJbjException("Cannot break/continue %d level".format(result.depth))(funcCtx, result.position)
+        throw new FatalErrorJbjException("Cannot break/continue %d level".format(result.depth))(funcCtx)
       case result: ContinueExecResult =>
-        throw new FatalErrorJbjException("Cannot break/continue %d level".format(result.depth))(funcCtx, result.position)
+        throw new FatalErrorJbjException("Cannot break/continue %d level".format(result.depth))(funcCtx)
     }
 
 }

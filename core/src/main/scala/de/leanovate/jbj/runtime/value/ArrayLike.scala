@@ -6,7 +6,7 @@ import de.leanovate.jbj.ast.NodePosition
 trait ArrayLike {
   def size: Int
 
-  def getAt(index: PAny)(implicit ctx: Context, position: NodePosition): Option[PAny] =
+  def getAt(index: PAny)(implicit ctx: Context): Option[PAny] =
     index.asVal match {
       case IntegerVal(idx) => getAt(idx)
       case NumericVal(idx) => getAt(idx.toLong)
@@ -14,18 +14,18 @@ trait ArrayLike {
       case v => getAt(v.toStr.asString)
     }
 
-  def getAt(index: Long)(implicit ctx: Context, position: NodePosition): Option[PAny]
+  def getAt(index: Long)(implicit ctx: Context): Option[PAny]
 
-  def getAt(index: String)(implicit ctx: Context, position: NodePosition): Option[PAny]
+  def getAt(index: String)(implicit ctx: Context): Option[PAny]
 
-  def setAt(optIndex: Option[PVal], value: PAny)(implicit ctx: Context, position: NodePosition) {
+  def setAt(optIndex: Option[PVal], value: PAny)(implicit ctx: Context) {
     if (optIndex.isDefined)
       setAt(optIndex.get, value)
     else
       append(value)
   }
 
-  def setAt(index: PVal, value: PAny)(implicit ctx: Context, position: NodePosition) {
+  def setAt(index: PVal, value: PAny)(implicit ctx: Context) {
     index.asVal match {
       case IntegerVal(idx) => setAt(idx, value)
       case NumericVal(idx) => setAt(idx.toLong, value)
@@ -34,13 +34,13 @@ trait ArrayLike {
     }
   }
 
-  def setAt(index: Long, value: PAny)(implicit ctx: Context, position: NodePosition)
+  def setAt(index: Long, value: PAny)(implicit ctx: Context)
 
-  def setAt(index: String, value: PAny)(implicit ctx: Context, position: NodePosition)
+  def setAt(index: String, value: PAny)(implicit ctx: Context)
 
-  def append(value: PAny)(implicit ctx: Context, position: NodePosition)
+  def append(value: PAny)(implicit ctx: Context)
 
-  def unsetAt(index: PVal)(implicit ctx: Context, position: NodePosition) {
+  def unsetAt(index: PVal)(implicit ctx: Context) {
     index.asVal match {
       case IntegerVal(idx) => unsetAt(idx)
       case NumericVal(idx) => unsetAt(idx.toLong)
@@ -49,7 +49,7 @@ trait ArrayLike {
     }
   }
 
-  def unsetAt(index: Long)(implicit ctx: Context, position: NodePosition)
+  def unsetAt(index: Long)(implicit ctx: Context)
 
-  def unsetAt(index: String)(implicit ctx: Context, position: NodePosition)
+  def unsetAt(index: String)(implicit ctx: Context)
 }

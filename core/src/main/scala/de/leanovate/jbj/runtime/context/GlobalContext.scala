@@ -34,7 +34,7 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
 
   val GLOBALS = ArrayVal()
 
-  GLOBALS.setAt("GLOBALS", GLOBALS)(this, NoNodePosition)
+  GLOBALS.setAt("GLOBALS", GLOBALS)(this)
 
   def include(file: String)(implicit ctx: Context, position: NodePosition): Option[(Prog, Boolean)] = jbj.parse(file) match {
     case Some(Left(prog)) =>
@@ -88,17 +88,17 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
       constants.put(CaseSensitiveConstantKey(name), value)
   }
 
-  def findVariable(name: String)(implicit position: NodePosition): Option[PVar] =
-    GLOBALS.getAt(name)(this, position).map(_.asVar)
+  def findVariable(name: String): Option[PVar] =
+    GLOBALS.getAt(name)(this).map(_.asVar)
 
-  def defineVariable(name: String, pVar: PVar)(implicit position: NodePosition) {
-    GLOBALS.getAt(name)(this, position).foreach(_.cleanup())
-    GLOBALS.setAt(name, pVar)(this, position)
+  def defineVariable(name: String, pVar: PVar) {
+    GLOBALS.getAt(name)(this).foreach(_.cleanup())
+    GLOBALS.setAt(name, pVar)(this)
   }
 
-  def undefineVariable(name: String)(implicit position: NodePosition) {
-    GLOBALS.getAt(name)(this, position).foreach(_.cleanup())
-    GLOBALS.unsetAt(name)(this, position)
+  def undefineVariable(name: String) {
+    GLOBALS.getAt(name)(this).foreach(_.cleanup())
+    GLOBALS.unsetAt(name)(this)
   }
 
   def findFunction(name: NamespaceName) =

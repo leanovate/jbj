@@ -32,14 +32,14 @@ case class FunctionContext(functionName: NamespaceName, callerPosition: NodePosi
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  def findVariable(name: String)(implicit position: NodePosition): Option[PVar] = localVariables.get(name)
+  def findVariable(name: String): Option[PVar] = localVariables.get(name)
 
-  def defineVariable(name: String, pVar: PVar)(implicit position: NodePosition)  {
+  def defineVariable(name: String, pVar: PVar) {
     localVariables.get(name).foreach(_.cleanup())
     localVariables.put(name, pVar)
   }
 
-  def undefineVariable(name: String)(implicit position: NodePosition) {
+  def undefineVariable(name: String) {
     localVariables.remove(name).foreach(_.cleanup())
   }
 
