@@ -422,7 +422,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       case v ~ _ ~ e => ConcatWithReferableExpr(v, e)
     } | binary(minPrec) | termWithoutVariable
 
-  def binaryOp(level: Int): Parser[((Expr, Expr) => Expr)] = {
+  def binaryOp(level: Int): PackratParser[((Expr, Expr) => Expr)] = {
     level match {
       case 1 => "or" ^^^ ((a: Expr, b: Expr) => BoolOrExpr(a, b))
       case 2 => "xor" ^^^ ((a: Expr, b: Expr) => BoolXorExpr(a, b))
@@ -457,7 +457,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   val maxPrec = 12
 
-  def binary(level: Int): Parser[Expr] =
+  def binary(level: Int): PackratParser[Expr] =
     if (level > maxPrec) {
       term
     }
@@ -647,9 +647,9 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
         }
     }
 
-  lazy val variableProperties: Parser[List[ReferableExpr => ReferableExpr]] = rep(variableProperty)
+  lazy val variableProperties: PackratParser[List[ReferableExpr => ReferableExpr]] = rep(variableProperty)
 
-  lazy val variableProperty: Parser[ReferableExpr => ReferableExpr] = "->" ~> objectProperty ~ methodOrNot ^^ {
+  lazy val variableProperty: PackratParser[ReferableExpr => ReferableExpr] = "->" ~> objectProperty ~ methodOrNot ^^ {
     case refMaps ~ optMethod =>
       v: ReferableExpr =>
         val ref = refMaps.foldLeft(v) {

@@ -9,6 +9,8 @@ case class ListReferableExpr(references: List[Option[ReferableExpr]]) extends Re
   override def eval(implicit ctx: Context) = throw new RuntimeException("List can only be used in assignment")
 
   override def evalRef(implicit ctx: Context) = new Reference {
+    val refs = references.map(_.map(_.evalRef)).toSeq
+
     def asVal = throw new RuntimeException("List can only be used in assignment")
 
     def asVar = throw new RuntimeException("List can only be used in assignment")
@@ -16,25 +18,23 @@ case class ListReferableExpr(references: List[Option[ReferableExpr]]) extends Re
     def assign(pAny: PAny) = {
       pAny.asVal match {
         case array: ArrayVal =>
-          references.zipWithIndex.reverse.foreach {
-            case (Some(reference), idx) =>
+          refs.zipWithIndex.reverse.foreach {
+            case (Some(ref), idx) =>
               val elem = array.getAt(idx.toLong).getOrElse {
                 ctx.log.notice("Undefined offset: %d".format(idx))
                 NullVal
               }
-              reference.evalRef.assign(elem)
+              ref.assign(elem)
             case _ =>
           }
         case _ =>
-          unset()
+          refs.foreach(_.foreach(_.assign(NullVal)))
       }
       pAny
     }
 
     def unset() {
-      references.foreach {
-        reference => reference.foreach(_.evalRef.unset())
-      }
+      refs.foreach(_.foreach(_.unset()))
     }
   }
 
