@@ -11,19 +11,46 @@ class PVar(private var current: Option[PVal] = None) extends PAny {
   def value = current.getOrElse(NullVal)
 
   def value_=(v: PVal) {
-    current = Some(v)
+    var pVar = this
+    do {
+      pVar.current = Some(v)
+      pVar = pVar.next
+    } while (pVar != this)
+  }
+
+  def ref = this
+
+  def ref_=(pVar: PVar) {
+    if ( pVar != this) {
+      value_=(pVar.asVal)
+      prev = pVar.prev
+      next = pVar
+      pVar.prev = this
+    }
   }
 
   def unset() {
+    unlink()
     current = None
   }
 
   override def cleanup() {
+    unlink()
   }
 
   override def asVal = value
 
   override def asVar = this
+
+  private def unlink() {
+    val oldNext = next
+    val oldPrev = prev
+
+    oldNext.prev = oldPrev
+    oldPrev.next = oldNext
+    prev = this
+    next = this
+  }
 }
 
 object PVar {
