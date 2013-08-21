@@ -16,7 +16,7 @@ object ArrayFunctions extends WrappedFunctions {
   @GlobalFunction
   def array_merge(values: PVal*)(implicit ctx: Context, callerPosition: NodePosition): PVal = {
     if (values.isEmpty) {
-      ctx.log.warn(callerPosition, "array_merge() expects at least 1 parameter, 0 given")
+      ctx.log.warn("array_merge() expects at least 1 parameter, 0 given")
       NullVal
     } else {
       var count: Long = -1
@@ -55,7 +55,7 @@ object ArrayFunctions extends WrappedFunctions {
         ref.value = new ArrayVal(builder.result())
         keyValues.headOption.map(_._2.asVal).getOrElse(NullVal)
       case v =>
-        ctx.log.warn(callerPosition, "array_shift() expects parameter 1 to be array, %s given".format(v.typeName))
+        ctx.log.warn("array_shift() expects parameter 1 to be array, %s given".format(v.typeName))
         NullVal
     }
   }

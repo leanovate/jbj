@@ -20,7 +20,7 @@ case class AssignRefReferableExpr(reference: ReferableExpr, otherRef: ReferableE
       case pVar: PVar =>
         resultRef.assign(pVar)
       case pAny =>
-        ctx.log.strict(position, "Only variables should be assigned by reference")
+        ctx.log.strict("Only variables should be assigned by reference")
         resultRef.assign(pAny)
     }
 

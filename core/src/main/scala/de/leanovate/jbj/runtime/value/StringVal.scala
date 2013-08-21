@@ -100,7 +100,7 @@ class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
 
   override def setAt(index: Long, value: PAny)(implicit ctx: Context, position: NodePosition) {
     if (index < 0) {
-      ctx.log.warn(position, "Illegal string offset:  %d".format(index))
+      ctx.log.warn("Illegal string offset:  %d".format(index))
     } else {
       val chs = value.asVal.toStr.chars
       val ch: Byte = if (!chs.isEmpty) chs(0) else 0

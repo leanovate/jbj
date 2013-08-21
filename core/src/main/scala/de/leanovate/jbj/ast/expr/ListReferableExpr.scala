@@ -24,7 +24,7 @@ case class ListReferableExpr(references: List[ReferableExpr]) extends ReferableE
           references.zipWithIndex.reverse.foreach {
             case (reference, idx) =>
               val elem = array.getAt(idx.toLong).getOrElse {
-                ctx.log.notice(position, "Undefined offset: %d".format(idx))
+                ctx.log.notice("Undefined offset: %d".format(idx))
                 NullVal
               }
               reference.evalRef.assign(elem)

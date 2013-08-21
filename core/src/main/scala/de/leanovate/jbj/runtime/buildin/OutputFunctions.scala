@@ -10,7 +10,7 @@ object OutputFunctions extends WrappedFunctions {
   @GlobalFunction
   def var_dump(values: PAny*)(implicit ctx: Context, position: NodePosition) {
     if (values.isEmpty)
-      ctx.log.warn(position, "var_dump() expects at least 1 parameter, 0 given")
+      ctx.log.warn("var_dump() expects at least 1 parameter, 0 given")
 
     def dump(stack: List[PAny], ident: String) {
       val (value, isRef) = stack.head match {

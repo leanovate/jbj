@@ -16,8 +16,7 @@ case class IncludeExpr(file: Expr) extends Expr {
           case _ => BooleanVal.TRUE
         }
       case _ =>
-        ctx.log.warn(position,
-          "include(): Failed opening '%s' for inclusion (include_path='%s')".format(filename, position.fileName))
+        ctx.log.warn("include(): Failed opening '%s' for inclusion (include_path='%s')".format(filename, position.fileName))
         BooleanVal.FALSE
     }
   }

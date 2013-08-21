@@ -11,7 +11,7 @@ object DateFunctions extends WrappedFunctions {
              month: Option[Int], day: Option[Int], year: Option[Int],
              isDst: Option[Int])(ctx: Context, position: NodePosition): Long = {
     if (hour.isEmpty) {
-      ctx.log.strict(position, "mktime(): You should be using the time() function instead")
+      ctx.log.strict("mktime(): You should be using the time() function instead")
       time()
     } else {
       val calendar = Calendar.getInstance(ctx.settings.timezone)

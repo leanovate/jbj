@@ -27,7 +27,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
 
   override def exec(implicit ctx: Context) = {
     if (ctx.global.findClass(name).isDefined)
-      ctx.log.fatal(position, "Cannot redeclare class %s".format(name))
+      ctx.log.fatal("Cannot redeclare class %s".format(name))
     else {
       if (superClassName.isDefined) {
         _superClass = ctx.global.findClassOrAutoload(superClassName.get)
@@ -38,7 +38,11 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
             "Class %s may not inherit from final class (%s)".format(name.toString, superClassName.get.toString))
       }
 
-      methods.values.foreach(_.checkRules(this))
+      decls.filter(_.isInstanceOf[ClassMethodDecl]).map(_.asInstanceOf[ClassMethodDecl]).foreach {
+        method =>
+          ctx.currentPosition = method.position
+          method.checkRules(this)
+      }
       staticInitializers.foreach(_.initializeStatic(this))
       ctx.global.defineClass(this)
     }

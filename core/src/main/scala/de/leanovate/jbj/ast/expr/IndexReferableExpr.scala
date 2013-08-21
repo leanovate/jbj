@@ -50,7 +50,7 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
               result
           }
       }.getOrElse {
-        ctx.log.warn(position, "Cannot use a scalar value as an array")
+        ctx.log.warn("Cannot use a scalar value as an array")
         PVar()
       }
     }
@@ -60,7 +60,7 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
         array =>
           array.setAt(optArrayKey, pAny)
       }.getOrElse {
-        ctx.log.warn(position, "Cannot use a scalar value as an array")
+        ctx.log.warn("Cannot use a scalar value as an array")
       }
       pAny
     }
@@ -105,9 +105,9 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
         if (!result.isDefined) {
           arrayKey match {
             case NumericVal(idx) =>
-              ctx.log.notice(position, "Undefined offset: %d".format(idx.toLong))
+              ctx.log.notice("Undefined offset: %d".format(idx.toLong))
             case idx =>
-              ctx.log.notice(position, "Undefined index: %s".format(idx.toStr.asString))
+              ctx.log.notice("Undefined index: %s".format(idx.toStr.asString))
           }
         }
         result.map(_.asVal).getOrElse(NullVal)

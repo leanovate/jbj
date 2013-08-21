@@ -6,5 +6,5 @@ import de.leanovate.jbj.ast.NodePosition
 class CompileErrorException(message: String)(implicit ctx: Context, position: NodePosition)
   extends JbjException(message) {
 
-  ctx.log.compileError(position, message)
+  ctx.log.compileError(message)
 }

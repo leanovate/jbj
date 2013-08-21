@@ -38,7 +38,7 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
     setParameters(methodCtx, ctx, callerPosition, parameters)
 
     if (!isStatic)
-      ctx.log.strict(callerPosition, "Non-static method %s::%s() should not be called statically".format(pClass.name.toString, name))
+      ctx.log.strict("Non-static method %s::%s() should not be called statically".format(pClass.name.toString, name))
 
     perform(methodCtx, returnByRef, stmts)
   }

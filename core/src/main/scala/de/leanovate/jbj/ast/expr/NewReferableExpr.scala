@@ -11,7 +11,7 @@ case class NewReferableExpr(className: Name, parameters: List[Expr]) extends Ref
     case Some(pClass) =>
       pClass.newInstance(parameters)
     case None =>
-      ctx.log.fatal(position, "Class '%s' not found".format(className.toString))
+      ctx.log.fatal("Class '%s' not found".format(className.toString))
       NullVal
   }
 

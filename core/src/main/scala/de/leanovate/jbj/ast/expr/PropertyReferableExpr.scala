@@ -34,17 +34,17 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
         obj.getProperty(name).map(_.asVal).getOrElse {
           ctx match {
             case MethodContext(inst, methodName, _, _) if inst.pClass == obj.pClass && methodName == "__get" =>
-              ctx.log.notice(position, "Undefined property: %s::%s".format(obj.pClass.name.toString, name))
+              ctx.log.notice("Undefined property: %s::%s".format(obj.pClass.name.toString, name))
               NullVal
             case _ =>
               obj.pClass.findMethod("__get").map(_.invoke(ctx, position, obj, ScalarExpr(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
-                ctx.log.notice(position, "Undefined property: %s::%s".format(obj.pClass.name.toString, name))
+                ctx.log.notice("Undefined property: %s::%s".format(obj.pClass.name.toString, name))
                 NullVal
               }
           }
         }
       case _ =>
-        ctx.log.notice(position, "Trying to get property of non-object")
+        ctx.log.notice("Trying to get property of non-object")
         NullVal
     }
   }
@@ -86,7 +86,7 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
           result
         }
       case None =>
-        ctx.log.notice(position, "Trying to get property of non-object")
+        ctx.log.notice("Trying to get property of non-object")
         PVar(NullVal)
     }
 
@@ -106,7 +106,7 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
             }
           }
         case None =>
-          ctx.log.warn(position, "Attempt to assign property of non-object")
+          ctx.log.warn("Attempt to assign property of non-object")
       }
       pAny
     }

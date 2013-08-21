@@ -11,7 +11,7 @@ case class VariableReferableExpr(variableName: Name) extends ReferableExpr {
   override def eval(implicit ctx: Context) = {
     val name = variableName.evalName
     ctx.findVariable(name).getOrElse {
-      ctx.log.notice(position, "Undefined variable: %s".format(name))
+      ctx.log.notice("Undefined variable: %s".format(name))
       NullVal
     }
   }

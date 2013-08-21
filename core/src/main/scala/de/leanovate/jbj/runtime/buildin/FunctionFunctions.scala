@@ -10,7 +10,7 @@ object FunctionFunctions extends WrappedFunctions {
   def call_user_func(callable: PVal, parameters: Expr*)(implicit ctx: Context,
                                                           position: NodePosition): PAny = callable match {
     case array: ArrayVal if array.keyValues.size != 2 =>
-      ctx.log.warn(position, "call_user_func() expects parameter 1 to be a valid callback, array must have exactly two members")
+      ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, array must have exactly two members")
       NullVal
     case array: ArrayVal =>
       val objOrClassName = array.keyValues.head._2.asVal
@@ -21,7 +21,7 @@ object FunctionFunctions extends WrappedFunctions {
             method =>
               method.invoke(ctx, position, obj, parameters.toList)
           }.getOrElse {
-            ctx.log.warn(position, "call_user_func() expects parameter 1 to be a valid callback, class '%s' does not have a method '%s'".format(obj.pClass.name.toString, methodName))
+            ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, class '%s' does not have a method '%s'".format(obj.pClass.name.toString, methodName))
             NullVal
           }
         case name =>
@@ -31,11 +31,11 @@ object FunctionFunctions extends WrappedFunctions {
                 method =>
                   method.invokeStatic(ctx, position, pClass, parameters.toList)
               }.getOrElse {
-                ctx.log.warn(position, "call_user_func() expects parameter 1 to be a valid callback, class '%s' does not have a method '%s'".format(pClass.name.toString, methodName))
+                ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, class '%s' does not have a method '%s'".format(pClass.name.toString, methodName))
                 NullVal
               }
           }.getOrElse {
-            ctx.log.warn(position, "call_user_func() expects parameter 1 to be a valid callback, first array member is not a valid class name or object")
+            ctx.log.warn( "call_user_func() expects parameter 1 to be a valid callback, first array member is not a valid class name or object")
             NullVal
           }
       }
@@ -45,7 +45,7 @@ object FunctionFunctions extends WrappedFunctions {
         func =>
           func.call(parameters.toList)
       }.getOrElse {
-        ctx.log.warn(position, "call_user_func() expects parameter 1 to be a valid callback, function '%s' not found or invalid function name".format(functionName))
+        ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, function '%s' not found or invalid function name".format(functionName))
         NullVal
       }
   }

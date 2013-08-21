@@ -11,7 +11,7 @@ object ClassFunctions extends WrappedFunctions {
   def get_class(value: PVal)(implicit ctx: Context, position: NodePosition): PVal = value match {
     case obj: ObjectVal => StringVal(obj.pClass.name.toString)
     case _ =>
-      ctx.log.warn(position, "get_class() expects parameter 1 to be object, string given")
+      ctx.log.warn("get_class() expects parameter 1 to be object, string given")
       BooleanVal.FALSE
   }
 

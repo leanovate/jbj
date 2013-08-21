@@ -16,7 +16,7 @@ object RefParameterAdapter extends ParameterAdapter[PVar] {
             reference.evalRef.asVar match {
               case pVar: PVar => pVar
               case pAny =>
-                ctx.log.strict(position, "Only variables should be passed by reference")
+                ctx.log.strict("Only variables should be passed by reference")
                 pAny.asVar
             }
           case _ =>
