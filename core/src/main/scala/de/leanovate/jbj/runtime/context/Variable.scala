@@ -16,7 +16,7 @@ case class Variable(name: String, owner: Context) extends PVar {
 
   override def value_=(v: PVal) {
     if (undefined) {
-      owner.defineVariable(name, this)
+      owner.defineVariableInt(name, this)
       undefined = false
     }
     super.value_=(v)
@@ -24,7 +24,7 @@ case class Variable(name: String, owner: Context) extends PVar {
 
   override def ref_=(v: PVar) {
     if (undefined) {
-      owner.defineVariable(name, this)
+      owner.defineVariableInt(name, this)
       undefined = false
     }
     super.ref_=(v)

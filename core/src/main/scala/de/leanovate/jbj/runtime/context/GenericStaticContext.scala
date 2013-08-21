@@ -6,20 +6,8 @@ import de.leanovate.jbj.ast.{Prog, NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
 import de.leanovate.jbj.runtime.value.{PVar, PVal}
 
-class GenericStaticContext(var global: GlobalContext) extends Context with StaticContext {
+class GenericStaticContext(var global: GlobalContext) extends StaticContext {
   private val variables = mutable.Map.empty[String, PVar]
-
-  def static = this
-
-  lazy val settings = global.settings
-
-  def out = global.out
-
-  def err = global.err
-
-  def stack: Stack[NodePosition] = Stack.empty[NodePosition]
-
-  variables.put("GLOBALS", PVar(global.GLOBALS))
 
   def findConstant(name: String): Option[PVal] = global.findConstant(name)
 
@@ -36,11 +24,5 @@ class GenericStaticContext(var global: GlobalContext) extends Context with Stati
 
   def undefineVariable(name: String) {
     variables.remove(name).foreach(_.cleanup())
-  }
-
-  def findFunction(name: NamespaceName) = global.findFunction(name)
-
-  def defineFunction(function: PFunction) {
-    global.defineFunction(function)
   }
 }

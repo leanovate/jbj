@@ -25,6 +25,7 @@ class PVar(private var current: Option[PVal] = None) extends PAny {
       value_=(pVar.asVal)
       prev = pVar.prev
       next = pVar
+      prev.next = this
       pVar.prev = this
     }
   }
@@ -43,11 +44,8 @@ class PVar(private var current: Option[PVal] = None) extends PAny {
   override def asVar = this
 
   private def unlink() {
-    val oldNext = next
-    val oldPrev = prev
-
-    oldNext.prev = oldPrev
-    oldPrev.next = oldNext
+    next.prev = prev
+    prev.next = next
     prev = this
     next = this
   }

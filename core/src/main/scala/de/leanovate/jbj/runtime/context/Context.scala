@@ -36,4 +36,6 @@ trait Context {
   def findFunction(name: NamespaceName): Option[PFunction]
 
   def defineFunction(function: PFunction)
+
+  protected[context] def defineVariableInt(name:String, variable:Variable) {}
 }

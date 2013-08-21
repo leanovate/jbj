@@ -1,6 +1,5 @@
 package de.leanovate.jbj.runtime.context
 
-import de.leanovate.jbj.ast.NodePosition
 import de.leanovate.jbj.runtime.value.PVar
 
 trait StaticContext {
@@ -11,4 +10,6 @@ trait StaticContext {
   def defineVariable(name: String, valueRef: PVar)
 
   def undefineVariable(name: String)
+
+  protected[context] def defineVariableInt(name:String, variable:Variable) {}
 }
