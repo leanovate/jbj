@@ -11,5 +11,7 @@ trait StaticContext {
 
   def undefineVariable(name: String)
 
-  protected[context] def defineVariableInt(name:String, variable:Variable) {}
+  def getVariable(name: String): StaticVariable = ???
+
+  protected[context] def defineVariableInt(name:String, variable:StaticVariable) {}
 }
