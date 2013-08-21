@@ -27,15 +27,6 @@ trait Context {
 
   def defineConstant(name: String, value: PVal, caseInsensitive: Boolean)
 
-  def findVariable(name: String): Option[PVar] = {
-    val variable = getVariable(name)
-    if (variable.isDefined) {
-      Some(variable)
-    } else {
-      None
-    }
-  }
-
   def findFunction(name: NamespaceName): Option[PFunction]
 
   def defineFunction(function: PFunction)

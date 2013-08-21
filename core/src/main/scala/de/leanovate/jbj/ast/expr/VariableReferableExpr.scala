@@ -7,22 +7,19 @@ import de.leanovate.jbj.runtime.value.{PVal, PAny, PVar, NullVal}
 import de.leanovate.jbj.runtime.context.Context
 
 case class VariableReferableExpr(variableName: Name) extends ReferableExpr {
-  override def isDefined(implicit ctx: Context) = ctx.findVariable(variableName.evalName).isDefined
+  override def isDefined(implicit ctx: Context) = ctx.getVariable(variableName.evalName).isDefined
 
   override def eval(implicit ctx: Context) = {
     val name = variableName.evalName
-    ctx.findVariable(name).getOrElse {
-      ctx.log.notice("Undefined variable: %s".format(name))
-      NullVal
-    }
+    ctx.getVariable(name)
   }
 
   override def evalRef(implicit ctx: Context) = new Reference {
     val name = variableName.evalName
 
-    def asVal = ctx.findVariable(name).map(_.value).getOrElse(NullVal)
+    def asVal = ctx.getVariable(name).value
 
-    def asVar =  ctx.getVariable(name)
+    def asVar = ctx.getVariable(name)
 
     def assign(pAny: PAny): PAny = {
       pAny match {
