@@ -328,7 +328,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val globalVar: PackratParser[Name] = variableLit ^^ {
     v => StaticName(v)
-  } | "$" ~> rVariable ^^ {
+  } | "$" ~> variable ^^ {
     e => DynamicName(e)
   } | "$" ~> "{" ~> expr <~ "}" ^^ {
     e => DynamicName(e)
@@ -479,13 +479,13 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       e => ArrayCastExpr(e)
     } | booleanCastLit ~> term ^^ {
       e => BooleanCastExpr(e)
-    } | rwVariable <~ "++" ^^ {
+    } | variable <~ "++" ^^ {
       ref => GetAndIncrExpr(ref)
-    } | rwVariable <~ "--" ^^ {
+    } | variable <~ "--" ^^ {
       ref => GetAndDecrExpr(ref)
-    } | "++" ~> rwVariable ^^ {
+    } | "++" ~> variable ^^ {
       ref => IncrAndGetExpr(ref)
-    } | "--" ~> rwVariable ^^ {
+    } | "--" ~> variable ^^ {
       ref => DecrAndGetExpr(ref)
     } | variable | scalar | combinedScalarOffset |
       "print" ~> expr ^^ {
@@ -615,10 +615,6 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     }, ",") <~ opt(",")
 
   lazy val parenthesisExpr: PackratParser[Expr] = "(" ~> expr <~ ")"
-
-  lazy val rVariable: PackratParser[ReferableExpr] = variable
-
-  lazy val rwVariable: PackratParser[ReferableExpr] = variable
 
   lazy val variable: PackratParser[ReferableExpr] =
     baseVariableWithFunctionCalls ~ rep("->" ~> objectProperty) ~ methodOrNot ~ variableProperties ^^ {
