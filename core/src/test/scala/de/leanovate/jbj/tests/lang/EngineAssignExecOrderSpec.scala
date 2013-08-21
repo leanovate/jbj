@@ -455,5 +455,225 @@ class EngineAssignExecOrderSpec extends SpecificationWithJUnit with TestJbjExecu
           |""".stripMargin
       )
     }
+
+    "Evaluation order during assignments. 5" in {
+      // lang/engine_assignExecutionOrder_005
+      script(
+        """<?php
+          |
+          |function i1() {
+          |        echo "i1\n";
+          |        return 0;
+          |}
+          |
+          |function i2() {
+          |        echo "i2\n";
+          |        return 0;
+          |}
+          |
+          |function i3() {
+          |        echo "i3\n";
+          |        return 0;
+          |}
+          |
+          |function i4() {
+          |        echo "i4\n";
+          |        return 0;
+          |}
+          |
+          |function i5() {
+          |        echo "i5\n";
+          |        return 0;
+          |}
+          |
+          |function i6() {
+          |        echo "i6\n";
+          |        return 0;
+          |}
+          |
+          |$a = array(array(0));
+          |$b = array(array(1));
+          |$c = array(array(2));
+          |
+          |$a[i1()][i2()] = $b[i3()][i4()] = $c[i5()][i6()];
+          |
+          |var_dump($a);
+          |var_dump($b);
+          |var_dump($c);
+          |
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """i1
+          |i2
+          |i3
+          |i4
+          |i5
+          |i6
+          |array(1) {
+          |  [0]=>
+          |  array(1) {
+          |    [0]=>
+          |    int(2)
+          |  }
+          |}
+          |array(1) {
+          |  [0]=>
+          |  array(1) {
+          |    [0]=>
+          |    int(2)
+          |  }
+          |}
+          |array(1) {
+          |  [0]=>
+          |  array(1) {
+          |    [0]=>
+          |    int(2)
+          |  }
+          |}
+          |""".stripMargin
+      )
+    }
+
+    "Evaluation order during assignments. 6" in {
+      // lang/engine_assignExecutionOrder_006
+      script(
+        """<?php
+          |
+          |function i1() {
+          |        echo "i1\n";
+          |        return 0;
+          |}
+          |
+          |function i2() {
+          |        echo "i2\n";
+          |        return 0;
+          |}
+          |
+          |function i3() {
+          |        echo "i3\n";
+          |        return 0;
+          |}
+          |
+          |function i4() {
+          |        echo "i4\n";
+          |        return 0;
+          |}
+          |
+          |function i5() {
+          |        echo "i5\n";
+          |        return 0;
+          |}
+          |
+          |function i6() {
+          |        echo "i6\n";
+          |        return 0;
+          |}
+          |
+          |$a = array(array(0));
+          |$b = array(array(1));
+          |$c = array(array(2));
+          |
+          |$a[i1()][i2()] = ($b[i3()][i4()] = $c[i5()][i6()]);
+          |var_dump($a);
+          |var_dump($b);
+          |var_dump($c);
+          |
+          |$a[i1()][i2()] = $b[i3()][i4()] = -$c[i5()][i6()];
+          |var_dump($a);
+          |var_dump($b);
+          |var_dump($c);
+          |
+          |$a[i1()][i2()] = -($b[i3()][i4()] = +($c[i5()][i6()]));
+          |var_dump($a);
+          |var_dump($b);
+          |var_dump($c);
+          |
+          |
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """i1
+          |i2
+          |i3
+          |i4
+          |i5
+          |i6
+          |array(1) {
+          |  [0]=>
+          |  array(1) {
+          |    [0]=>
+          |    int(2)
+          |  }
+          |}
+          |array(1) {
+          |  [0]=>
+          |  array(1) {
+          |    [0]=>
+          |    int(2)
+          |  }
+          |}
+          |array(1) {
+          |  [0]=>
+          |  array(1) {
+          |    [0]=>
+          |    int(2)
+          |  }
+          |}
+          |i1
+          |i2
+          |i3
+          |i4
+          |i5
+          |i6
+          |array(1) {
+          |  [0]=>
+          |  array(1) {
+          |    [0]=>
+          |    int(-2)
+          |  }
+          |}
+          |array(1) {
+          |  [0]=>
+          |  array(1) {
+          |    [0]=>
+          |    int(-2)
+          |  }
+          |}
+          |array(1) {
+          |  [0]=>
+          |  array(1) {
+          |    [0]=>
+          |    int(2)
+          |  }
+          |}
+          |i1
+          |i2
+          |i3
+          |i4
+          |i5
+          |i6
+          |array(1) {
+          |  [0]=>
+          |  array(1) {
+          |    [0]=>
+          |    int(-2)
+          |  }
+          |}
+          |array(1) {
+          |  [0]=>
+          |  array(1) {
+          |    [0]=>
+          |    int(2)
+          |  }
+          |}
+          |array(1) {
+          |  [0]=>
+          |  array(1) {
+          |    [0]=>
+          |    int(2)
+          |  }
+          |}
+          |""".stripMargin
+      )
+    }
   }
 }
