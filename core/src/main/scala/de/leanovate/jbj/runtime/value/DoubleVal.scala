@@ -45,6 +45,8 @@ case class DoubleVal(asDouble: Double) extends NumericVal {
     } else
       str
   }
+
+  override def toXml = <double value={asDouble.toString}/>
 }
 
 object DoubleVal {

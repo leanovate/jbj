@@ -8,9 +8,13 @@ trait BinaryExpr extends Expr {
 
   def right: Expr
 
-  override def dump(out: PrintStream, ident: String) {
-    out.println(ident + getClass.getSimpleName)
-    left.dump(out, ident + "  ")
-    right.dump(out, ident + "  ")
-  }
+  override def toXml =
+    <binary>
+      <left>
+        {left.toXml}
+      </left>
+      <right>
+        {right.toXml}
+      </right>
+    </binary>.copy(label = getClass.getSimpleName)
 }

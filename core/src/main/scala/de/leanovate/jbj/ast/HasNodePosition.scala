@@ -1,6 +1,7 @@
 package de.leanovate.jbj.ast
 
 import java.io.PrintStream
+import scala.xml.{Elem, NodeSeq}
 
 trait HasNodePosition {
   self: Node =>
@@ -13,6 +14,8 @@ trait HasNodePosition {
     if (_position == NoNodePosition)
       _position = pos
   }
+
+  override def toXml: Elem = <node line={position.line.toString} file={position.fileName}/>.copy(label = getClass.getSimpleName)
 
   override def dump(out: PrintStream, ident: String) {
     out.println(ident + getClass.getSimpleName + " " + position)

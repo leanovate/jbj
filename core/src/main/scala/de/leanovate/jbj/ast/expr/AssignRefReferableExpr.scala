@@ -30,9 +30,13 @@ case class AssignRefReferableExpr(reference: ReferableExpr, otherRef: ReferableE
     }
   }
 
-  override def dump(out: PrintStream, ident: String) {
-    out.println(ident + getClass.getSimpleName)
-    reference.dump(out, ident + "  ")
-    otherRef.dump(out, ident + "  ")
-  }
+  override def toXml =
+    <AssignReferableExpr>
+      <reference>
+        {reference.toXml}
+      </reference>
+      <otherRef>
+        {otherRef.toXml}
+      </otherRef>
+    </AssignReferableExpr>
 }

@@ -37,4 +37,12 @@ case class ListReferableExpr(references: List[Option[ReferableExpr]]) extends Re
       }
     }
   }
+
+  override def toXml =
+    <ListReferableExpr>
+      {references.map {
+      case Some(reference) => reference.toXml
+      case None => <empty/>
+    }}
+    </ListReferableExpr>
 }

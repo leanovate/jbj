@@ -32,4 +32,6 @@ object NullVal extends PVal {
     case NumericVal(otherDouble) => 0.0.compare(otherDouble)
     case _ => StringVal.compare(Array[Byte](), other.toStr.chars)
   }
+
+  override def toXml = <null/>
 }

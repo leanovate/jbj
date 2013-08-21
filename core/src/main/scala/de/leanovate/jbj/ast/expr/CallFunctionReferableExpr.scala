@@ -33,9 +33,15 @@ case class CallFunctionReferableExpr(functionName: Name, parameters: List[Expr])
     }
   }
 
-  override def dump(out: PrintStream, ident: String) {
-    super.dump(out, ident)
-    functionName.dump(out, ident + "  ")
-    parameters.foreach(_.dump(out, ident + "  "))
-  }
+  override def toXml =
+    <CallFunctionReferableExpr>
+      <functionName>
+        {functionName.toXml}
+      </functionName>
+      <parameters>
+        {parameters.map {
+        _.toXml
+      }}
+      </parameters>
+    </CallFunctionReferableExpr>
 }

@@ -1,6 +1,7 @@
 package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.context.Context
+import scala.xml.NodeSeq
 
 trait PVal extends PAny {
   def toOutput(implicit ctx:Context): String
@@ -32,4 +33,6 @@ trait PVal extends PAny {
   final override def asVal = this
 
   final override def asVar = PVar(this)
+
+  def toXml:NodeSeq = NodeSeq.Empty
 }

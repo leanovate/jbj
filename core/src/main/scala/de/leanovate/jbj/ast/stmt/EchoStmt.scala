@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.stmt
 
 import de.leanovate.jbj.ast.{Expr, Stmt}
-import de.leanovate.jbj.runtime.{SuccessExecResult}
+import de.leanovate.jbj.runtime.SuccessExecResult
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.context.Context
 
@@ -21,4 +21,9 @@ case class EchoStmt(parameters: Seq[Expr]) extends Stmt {
         parameter.dump(out, ident + "  ")
     }
   }
+
+  override def toXml =
+    <EchoStmt line={position.line.toString} file={position.fileName}>
+      { parameters.map {parameter => <parameter> { parameter.toXml } </parameter>} }
+    </EchoStmt>
 }

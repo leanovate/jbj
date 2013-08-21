@@ -16,6 +16,11 @@ case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike 
     execStmts(stmts.toList)
   }
 
+  override def toXml =
+    <Prog>
+      {stmts.map(_.toXml)}
+    </Prog>
+
   override def dump(out: PrintStream, ident: String) {
     super.dump(out, ident)
     stmts.foreach(_.dump(out, ident + "  "))

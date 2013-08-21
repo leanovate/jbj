@@ -3,6 +3,7 @@ package de.leanovate.jbj.ast.name
 import de.leanovate.jbj.ast.Name
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.context.Context
+import scala.xml.{Text, NodeSeq}
 
 case class StaticName(name: String) extends Name {
   override def evalName(implicit ctx: Context) = name
@@ -11,4 +12,6 @@ case class StaticName(name: String) extends Name {
     super.dump(out, ident)
     out.println(ident + "  " + name)
   }
+
+  def toXml: NodeSeq = Text(name)
 }

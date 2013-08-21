@@ -9,4 +9,9 @@ case class InlineStmt(text: String) extends Stmt {
     ctx.out.print(text)
     SuccessExecResult
   }
+
+  override def toXml =
+    <InlineStmt line={position.line.toString} file={position.fileName}>
+      { text }
+    </InlineStmt>
 }

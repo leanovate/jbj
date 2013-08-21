@@ -41,6 +41,8 @@ object BooleanVal {
       case array: ArrayVal => if (!array.isEmpty) 0 else 1
       case _ => 1
     }
+
+    override def toXml = <true/>
   }
 
   val FALSE = new BooleanVal {
@@ -61,6 +63,8 @@ object BooleanVal {
       case array: ArrayVal => if (!array.isEmpty) -1 else 0
       case _ => 0
     }
+
+    override def toXml = <false/>
   }
 
   def apply(value: Boolean): BooleanVal = if (value) TRUE else FALSE

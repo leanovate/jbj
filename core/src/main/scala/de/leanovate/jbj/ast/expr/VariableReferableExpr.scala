@@ -40,4 +40,11 @@ case class VariableReferableExpr(variableName: Name) extends ReferableExpr {
     super.dump(out, ident)
     variableName.dump(out, ident + "  ")
   }
+
+  override def toXml =
+    <VariableReferableExpr>
+      <name>
+        {variableName.toXml}
+      </name>
+    </VariableReferableExpr>
 }

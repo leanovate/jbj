@@ -1,6 +1,7 @@
 package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.context.Context
+import scala.xml.NodeSeq
 
 
 case class IntegerVal(asLong: Long) extends NumericVal {
@@ -42,4 +43,6 @@ case class IntegerVal(asLong: Long) extends NumericVal {
     case (_, IntegerVal(0)) => BooleanVal.FALSE
     case (IntegerVal(leftVal), IntegerVal(rightVal)) => IntegerVal(leftVal % rightVal)
   }
+
+  override def toXml = <int value={asLong.toString}/>
 }

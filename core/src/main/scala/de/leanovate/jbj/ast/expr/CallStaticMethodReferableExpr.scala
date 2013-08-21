@@ -32,4 +32,19 @@ case class CallStaticMethodReferableExpr(className: Name, methodName: Name, para
       throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))
     }
   }
+
+  override def toXml =
+    <CallStaticMethodReferableExpr>
+      <className>
+        {className.toXml}
+      </className>
+      <methodName>
+        {methodName.toXml}
+      </methodName>
+      <parameters>
+        {parameters.map {
+        _.toXml
+      }}
+      </parameters>
+    </CallStaticMethodReferableExpr>
 }
