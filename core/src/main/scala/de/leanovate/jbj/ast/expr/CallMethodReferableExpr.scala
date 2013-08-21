@@ -25,7 +25,7 @@ case class CallMethodReferableExpr(instanceExpr: Expr, methodName: Name, paramet
   }
 
   override def dump(out: PrintStream, ident: String) {
-    out.println(ident + getClass.getSimpleName + " " + methodName + " " + position)
+    out.println(ident + getClass.getSimpleName + " " + methodName)
     instanceExpr.dump(out, ident + "  ")
     parameters.foreach {
       parameter =>
@@ -36,7 +36,7 @@ case class CallMethodReferableExpr(instanceExpr: Expr, methodName: Name, paramet
 
   private def callMethod(implicit ctx: Context): PAny = instanceExpr.evalOld match {
     case instance: ObjectVal =>
-      instance.pClass.invokeMethod(ctx, position, Some(instance), methodName.evalName, parameters)
+      instance.pClass.invokeMethod(ctx, Some(instance), methodName.evalName, parameters)
     case _ =>
       throw new FatalErrorJbjException("Call to a member function %s() on a non-object".format(methodName.evalName))
   }

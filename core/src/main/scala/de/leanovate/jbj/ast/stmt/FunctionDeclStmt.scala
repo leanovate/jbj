@@ -20,15 +20,15 @@ case class FunctionDeclStmt(name: NamespaceName, returnByRef: Boolean, parameter
     SuccessExecResult
   }
 
-  override def call(parameters: List[Expr])(implicit callerCtx: Context, callerPosition: NodePosition) = {
-    implicit val funcCtx = FunctionContext(name, callerPosition, callerCtx)
+  override def call(parameters: List[Expr])(implicit callerCtx: Context) = {
+    implicit val funcCtx = FunctionContext(name, callerCtx)
 
     if (!funcCtx.static.initialized) {
       staticInitializers.foreach(_.initializeStatic(funcCtx.static))
       funcCtx.static.initialized = true
     }
 
-    setParameters(funcCtx, callerCtx, callerPosition, parameters)
+    setParameters(funcCtx, callerCtx, parameters)
     perform(funcCtx, returnByRef, stmts)
   }
 

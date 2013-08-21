@@ -8,7 +8,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 object RefParameterAdapter extends ParameterAdapter[PVar] {
   def requiredCount = 1
 
-  def adapt(parameters: List[Expr])(implicit ctx: Context, position: NodePosition) =
+  def adapt(parameters: List[Expr])(implicit ctx: Context) =
     parameters match {
       case head :: tail =>
         val pVar = head match {

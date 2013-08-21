@@ -6,12 +6,6 @@ import de.leanovate.jbj.runtime.value.{PAny, PVar}
 import java.io.PrintStream
 
 case class AssignRefReferableExpr(reference: ReferableExpr, otherRef: ReferableExpr) extends ReferableExpr {
-  override def position_=(pos: NodePosition) {
-    super.position_=(pos)
-
-    reference.position = pos
-  }
-
   override def eval(implicit ctx: Context) = evalRef.asVal
 
   override def evalRef(implicit ctx: Context) = new Reference {
@@ -36,7 +30,7 @@ case class AssignRefReferableExpr(reference: ReferableExpr, otherRef: ReferableE
   }
 
   override def dump(out: PrintStream, ident: String) {
-    out.println(ident + getClass.getSimpleName + " " + position)
+    out.println(ident + getClass.getSimpleName)
     reference.dump(out, ident + "  ")
     otherRef.dump(out, ident + "  ")
   }

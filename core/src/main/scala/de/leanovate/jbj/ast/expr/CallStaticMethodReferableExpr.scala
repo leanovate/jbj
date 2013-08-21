@@ -26,7 +26,7 @@ case class CallStaticMethodReferableExpr(className: Name, methodName: Name, para
     val name = className.evalNamespaceName
     ctx.global.findClass(name).map {
       pClass =>
-        pClass.invokeMethod(ctx, position, None, methodName.evalName, parameters)
+        pClass.invokeMethod(ctx, None, methodName.evalName, parameters)
     }.getOrElse {
       throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))
     }

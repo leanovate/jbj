@@ -7,12 +7,6 @@ import java.io.PrintStream
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class AssignReferableExpr(reference: ReferableExpr, expr: Expr) extends ReferableExpr {
-  override def position_=(pos: NodePosition) {
-    super.position_=(pos)
-
-    reference.position = pos
-  }
-
   override def eval(implicit ctx: Context) = {
     reference.evalRef.assign(expr.evalOld).asVal
   }
@@ -32,7 +26,7 @@ case class AssignReferableExpr(reference: ReferableExpr, expr: Expr) extends Ref
   }
 
   override def dump(out: PrintStream, ident: String) {
-    out.println(ident + getClass.getSimpleName + " " + position)
+    out.println(ident + getClass.getSimpleName)
     reference.dump(out, ident + "  ")
     expr.dump(out, ident + "  ")
   }

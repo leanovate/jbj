@@ -6,6 +6,6 @@ import de.leanovate.jbj.ast.{Expr, NodePosition}
 object ContextParameterAdapter extends ParameterAdapter[Context] {
   override def requiredCount = 0
 
-  override def adapt(parameters: List[Expr])(implicit ctx: Context, position: NodePosition) =
+  override def adapt(parameters: List[Expr])(implicit ctx: Context) =
     Some(ctx, parameters)
 }

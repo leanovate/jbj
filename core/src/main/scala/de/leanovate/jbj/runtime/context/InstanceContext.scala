@@ -5,7 +5,7 @@ import de.leanovate.jbj.runtime.value.{PVar, PVal, ObjectVal}
 import de.leanovate.jbj.runtime._
 import scala.collection.immutable.Stack
 
-case class InstanceContext(instance: ObjectVal, callerPosition: NodePosition, callerCtx: Context) extends Context {
+case class InstanceContext(instance: ObjectVal, callerCtx: Context) extends Context {
   lazy val global = callerCtx.global
 
   lazy val static = instance.pClass
@@ -16,7 +16,7 @@ case class InstanceContext(instance: ObjectVal, callerPosition: NodePosition, ca
 
   val err = callerCtx.err
 
-  lazy val stack: Stack[NodePosition] = callerCtx.stack.push(callerPosition)
+  lazy val stack: Stack[NodePosition] = callerCtx.stack.push(callerCtx.currentPosition)
 
   def findConstant(name: String): Option[PVal] = global.findConstant(name)
 

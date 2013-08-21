@@ -5,5 +5,5 @@ import de.leanovate.jbj.runtime.Context
 import de.leanovate.jbj.runtime.value.IntegerVal
 
 case class LineNumberConstExpr() extends Expr {
-  override def eval(implicit ctx: Context) = IntegerVal(position.line)
+  override def eval(implicit ctx: Context) = IntegerVal(ctx.currentPosition.line)
 }

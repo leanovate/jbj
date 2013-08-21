@@ -13,12 +13,6 @@ sealed trait ForeachAssignment extends Node {
 }
 
 case class ValueForeachAssignment(reference: ReferableExpr) extends ForeachAssignment {
-  override def position_=(pos: NodePosition) {
-    super.position_=(pos)
-
-    reference.position = pos
-  }
-
   override def assignKey(key: PVal)(implicit ctx: Context) {
     reference.evalRef.assign(key)
   }
@@ -29,12 +23,6 @@ case class ValueForeachAssignment(reference: ReferableExpr) extends ForeachAssig
 }
 
 case class RefForeachAssignment(reference: ReferableExpr) extends ForeachAssignment {
-  override def position_=(pos: NodePosition) {
-    super.position_=(pos)
-
-    reference.position = pos
-  }
-
   override def assignKey(key: PVal)(implicit ctx: Context) {
     throw new FatalErrorJbjException("Key element cannot be a reference")
   }

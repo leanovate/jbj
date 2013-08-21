@@ -6,7 +6,7 @@ import de.leanovate.jbj.ast.{NoNodePosition, Prog, NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
 import de.leanovate.jbj.runtime.value.{PVar, PVal}
 
-case class FunctionContext(functionName: NamespaceName, callerPosition: NodePosition,
+case class FunctionContext(functionName: NamespaceName,
                            callerCtx: Context) extends Context {
   private val localVariables = mutable.Map.empty[String, PVar]
 
@@ -22,7 +22,7 @@ case class FunctionContext(functionName: NamespaceName, callerPosition: NodePosi
 
   val err = callerCtx.err
 
-  lazy val stack: Stack[NodePosition] = callerCtx.stack.push(callerPosition)
+  lazy val stack: Stack[NodePosition] = callerCtx.stack.push(callerCtx.currentPosition)
 
   localVariables.put("GLOBALS", PVar(global.GLOBALS))
 

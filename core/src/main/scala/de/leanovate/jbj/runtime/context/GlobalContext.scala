@@ -36,17 +36,17 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
 
   GLOBALS.setAt("GLOBALS", GLOBALS)(this)
 
-  def include(file: String)(implicit ctx: Context, position: NodePosition): Option[(Prog, Boolean)] = jbj.parse(file) match {
+  def include(file: String)(implicit ctx: Context): Option[(Prog, Boolean)] = jbj.parse(file) match {
     case Some(Left(prog)) =>
       Some(prog, includedFiles.add(prog.fileName))
     case Some(Right(t)) => throw new CompileErrorException(t.getMessage)
     case None if file.startsWith("/") => None
     case None =>
-      val idx = position.fileName.lastIndexOf('/')
+      val idx = ctx.currentPosition.fileName.lastIndexOf('/')
       if (idx < 0)
         None
       else
-        jbj.parse(position.fileName.substring(0, idx + 1) + file) match {
+        jbj.parse(ctx.currentPosition.fileName.substring(0, idx + 1) + file) match {
           case Some(Left(prog)) => Some(prog, includedFiles.add(prog.fileName))
           case Some(Right(t)) => throw new CompileErrorException(t.getMessage)
           case None => None

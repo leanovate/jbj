@@ -5,12 +5,6 @@ import de.leanovate.jbj.runtime.{Reference, Context}
 import de.leanovate.jbj.runtime.value.{NullVal, ArrayVal, PAny}
 
 case class ListReferableExpr(references: List[ReferableExpr]) extends ReferableExpr {
-  override def position_=(pos: NodePosition) {
-    super.position_=(pos)
-
-    references.foreach(_.position = pos)
-  }
-
   override def eval(implicit ctx: Context) = throw new RuntimeException("List can only be used in assignment")
 
   override def evalRef(implicit ctx: Context) = new Reference {

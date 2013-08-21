@@ -6,5 +6,5 @@ import de.leanovate.jbj.runtime.value.{PAny, PVar, PVal}
 trait PFunction {
   def name: NamespaceName
 
-  def call(parameters: List[Expr])(implicit callerCtx: Context, callerPosition: NodePosition): PAny
+  def call(parameters: List[Expr])(implicit callerCtx: Context): PAny
 }

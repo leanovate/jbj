@@ -28,7 +28,7 @@ case class SubFromReferableExpr(reference: ReferableExpr, expr: Expr) extends Re
   }
 
   override def dump(out: PrintStream, ident: String) {
-    out.println(ident + getClass.getSimpleName + " " + position)
+    out.println(ident + getClass.getSimpleName)
     reference.dump(out, ident + "  ")
     expr.dump(out, ident + "  ")
   }

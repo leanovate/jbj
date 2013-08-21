@@ -12,7 +12,7 @@ trait FunctionLike extends BlockLike {
 
   def parameterDecls: List[ParameterDecl]
 
-  def setParameters(funcCtx: Context, callerContext: Context, callerPosition: NodePosition, parameters: List[Expr]) {
+  def setParameters(funcCtx: Context, callerContext: Context, parameters: List[Expr]) {
     val parameterIt = parameters.iterator
     parameterDecls.foreach {
       parameterDecl =>

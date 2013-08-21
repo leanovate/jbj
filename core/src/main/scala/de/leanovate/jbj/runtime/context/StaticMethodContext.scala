@@ -6,7 +6,7 @@ import de.leanovate.jbj.runtime.{PClass, PFunction, Context}
 import scala.collection.mutable
 import scala.collection.immutable.Stack
 
-case class StaticMethodContext(pClass: PClass, methodName: String, callerPosition: NodePosition, callerCtx: Context) extends Context {
+case class StaticMethodContext(pClass: PClass, methodName: String, callerCtx: Context) extends Context {
   private val localVariables = mutable.Map.empty[String, PVar]
 
   private val identifier = "Method_" + pClass.name.toString + "::" + methodName
@@ -21,7 +21,7 @@ case class StaticMethodContext(pClass: PClass, methodName: String, callerPositio
 
   val err = callerCtx.err
 
-  lazy val stack: Stack[NodePosition] = callerCtx.stack.push(callerPosition)
+  lazy val stack: Stack[NodePosition] = callerCtx.stack.push(callerCtx.currentPosition)
 
   localVariables.put("GLOBALS", PVar(global.GLOBALS))
 

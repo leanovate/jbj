@@ -21,21 +21,21 @@ trait PClass extends StaticContext {
 
   def superClass: Option[PClass]
 
-  def newEmptyInstance(pClass: PClass)(implicit ctx: Context, callerPosition: NodePosition): ObjectVal = ObjectVal(pClass)
+  def newEmptyInstance(pClass: PClass)(implicit ctx: Context): ObjectVal = ObjectVal(pClass)
 
-  def initializeInstance(instance: ObjectVal)(implicit ctx: Context, callerPosition: NodePosition) {}
+  def initializeInstance(instance: ObjectVal)(implicit ctx: Context) {}
 
-  def newInstance(parameters: List[Expr])(implicit ctx: Context, callerPosition: NodePosition): ObjectVal
+  def newInstance(parameters: List[Expr])(implicit ctx: Context): ObjectVal
 
-  def invokeMethod(ctx: Context, callerPosition: NodePosition, optInstance: Option[ObjectVal], methodName: String,
+  def invokeMethod(ctx: Context,optInstance: Option[ObjectVal], methodName: String,
                    parameters: List[Expr]) = {
     findMethod(methodName) match {
       case Some(method) =>
         optInstance.map {
           instance =>
-            method.invoke(ctx, callerPosition, instance, parameters)
+            method.invoke(ctx, instance, parameters)
         }.getOrElse {
-          method.invokeStatic(ctx, callerPosition, this, parameters)
+          method.invokeStatic(ctx, this, parameters)
         }
       case None if optInstance.isDefined && (!ctx.isInstanceOf[MethodContext] ||
         ctx.asInstanceOf[MethodContext].methodName != "__call" ||
@@ -46,7 +46,7 @@ trait PClass extends StaticContext {
               expr =>
                 None -> expr.evalOld(ctx).copy(ctx)
             }: _*)(ctx)
-            method.invoke(ctx, callerPosition, optInstance.get,
+            method.invoke(ctx, optInstance.get,
               ScalarExpr(StringVal(methodName)(ctx)) :: ScalarExpr(parameterArray) :: Nil)
           case None =>
             throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))(ctx)

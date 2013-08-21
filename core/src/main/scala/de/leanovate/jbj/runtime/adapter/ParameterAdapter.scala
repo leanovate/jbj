@@ -6,5 +6,5 @@ import de.leanovate.jbj.ast.{Expr, NodePosition}
 trait ParameterAdapter[T] {
   def requiredCount: Int
 
-  def adapt(parameters: List[Expr])(implicit ctx: Context, position: NodePosition): Option[(T, List[Expr])]
+  def adapt(parameters: List[Expr])(implicit ctx: Context): Option[(T, List[Expr])]
 }

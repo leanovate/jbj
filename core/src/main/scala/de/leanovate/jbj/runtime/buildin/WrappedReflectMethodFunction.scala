@@ -13,7 +13,7 @@ case class WrappedReflectMethodFunction[T, S <: PAny](name: NamespaceName,
                                                       resultConverter: Converter[T, S]) extends PFunction {
   lazy val requiredParameterCount = parameterAdapters.map(_.requiredCount).sum
 
-  override def call(parameters: List[Expr])(implicit callerCtx: Context, callerPosition: NodePosition) = {
+  override def call(parameters: List[Expr])(implicit callerCtx: Context) = {
     val argBuilder = Seq.newBuilder[Any]
 
     parameterAdapters.foldLeft(parameters) {

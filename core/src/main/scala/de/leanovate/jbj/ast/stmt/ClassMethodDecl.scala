@@ -15,27 +15,27 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
 
   override lazy val isStatic = modifieres.contains(MemberModifier.STATIC)
 
-  override def invoke(ctx: Context, callerPosition: NodePosition, instance: ObjectVal, parameters: List[Expr]) = {
-    implicit val methodCtx = MethodContext(instance, name, callerPosition, ctx)
+  override def invoke(ctx: Context, instance: ObjectVal, parameters: List[Expr]) = {
+    implicit val methodCtx = MethodContext(instance, name, ctx)
 
     if (!methodCtx.static.initialized) {
       staticInitializers.foreach(_.initializeStatic(methodCtx.static))
       methodCtx.static.initialized = true
     }
 
-    setParameters(methodCtx, ctx, callerPosition, parameters)
+    setParameters(methodCtx, ctx, parameters)
     perform(methodCtx, returnByRef, stmts)
   }
 
-  override def invokeStatic(ctx: Context, callerPosition: NodePosition, pClass: PClass, parameters: List[Expr]) = {
-    implicit val methodCtx = StaticMethodContext(pClass, name, callerPosition, ctx)
+  override def invokeStatic(ctx: Context, pClass: PClass, parameters: List[Expr]) = {
+    implicit val methodCtx = StaticMethodContext(pClass, name, ctx)
 
     if (!methodCtx.static.initialized) {
       staticInitializers.foreach(_.initializeStatic(methodCtx.static))
       methodCtx.static.initialized = true
     }
 
-    setParameters(methodCtx, ctx, callerPosition, parameters)
+    setParameters(methodCtx, ctx, parameters)
 
     if (!isStatic)
       ctx.log.strict("Non-static method %s::%s() should not be called statically".format(pClass.name.toString, name))

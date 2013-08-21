@@ -19,7 +19,7 @@ object FunctionFunctions extends WrappedFunctions {
         case obj: ObjectVal =>
           obj.pClass.findMethod(methodName).map {
             method =>
-              method.invoke(ctx, position, obj, parameters.toList)
+              method.invoke(ctx, obj, parameters.toList)
           }.getOrElse {
             ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, class '%s' does not have a method '%s'".format(obj.pClass.name.toString, methodName))
             NullVal
@@ -29,7 +29,7 @@ object FunctionFunctions extends WrappedFunctions {
             pClass =>
               pClass.findMethod(methodName).map {
                 method =>
-                  method.invokeStatic(ctx, position, pClass, parameters.toList)
+                  method.invokeStatic(ctx, pClass, parameters.toList)
               }.getOrElse {
                 ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, class '%s' does not have a method '%s'".format(pClass.name.toString, methodName))
                 NullVal

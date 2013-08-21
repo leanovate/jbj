@@ -11,7 +11,7 @@ case class EvalExpr(scriptExpr: Expr) extends Expr {
     val script = scriptExpr.evalOld.toStr.asString
 
     try {
-      val parser = new JbjParser(ParseContext("%s(%d) : eval()'d code".format(position.fileName, position.line), ctx.settings))
+      val parser = new JbjParser(ParseContext("%s(%d) : eval()'d code".format(ctx.currentPosition.fileName, ctx.currentPosition.line), ctx.settings))
       val prog = parser.parseStmt(script)
 
       prog.exec match {

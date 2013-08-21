@@ -18,7 +18,7 @@ object StdClass extends PClass {
 
   override def superClass = None
 
-  override def newInstance(parameters: List[Expr])(implicit ctx: Context, callerPosition: NodePosition) =
+  override def newInstance(parameters: List[Expr])(implicit ctx: Context) =
     new ObjectVal(this, ctx.global.instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[Any, PAny])
 
   override def methods = Map.empty

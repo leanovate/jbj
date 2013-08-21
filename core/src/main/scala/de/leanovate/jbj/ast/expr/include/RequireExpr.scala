@@ -1,6 +1,6 @@
 package de.leanovate.jbj.ast.expr.include
 
-import de.leanovate.jbj.ast.Expr
+import de.leanovate.jbj.ast.{HasNodePosition, Expr}
 import de.leanovate.jbj.runtime.{ReturnExecResult, Context}
 import de.leanovate.jbj.runtime.value.{NullVal, BooleanVal}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
@@ -18,12 +18,12 @@ case class RequireExpr(file: Expr) extends Expr {
         }
       case _ =>
         throw new FatalErrorJbjException("require(): Failed opening required '%s' for inclusion (include_path='%s')".
-          format(filename, position.fileName))
+          format(filename, ctx.currentPosition.fileName))
     }
   }
 
   override def dump(out: PrintStream, ident: String) {
-    out.println(ident + getClass.getSimpleName + " " + position)
+    out.println(ident + getClass.getSimpleName)
     file.dump(out, ident + "  ")
   }
 }

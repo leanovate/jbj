@@ -882,7 +882,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val booleanCastLit: PackratParser[String] =
     elem("booleanCast", _.isInstanceOf[BooleanCast]) ^^ (_.chars)
 
-  implicit def parser2packrat1[T <: Node](p: => super.Parser[T]): PackratParser[T] = {
+  implicit def parser2packrat1[T <: HasNodePosition](p: => super.Parser[T]): PackratParser[T] = {
     lazy val q = p
     memo(super.Parser {
       in => q(in) match {

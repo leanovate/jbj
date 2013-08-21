@@ -8,13 +8,6 @@ import java.io.PrintStream
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr]) extends ReferableExpr {
-
-  override def position_=(pos: NodePosition) {
-    super.position_=(pos)
-
-    reference.position = pos
-  }
-
   override def evalRef(implicit ctx: Context) = new Reference {
     val parentRef = reference.evalRef
     val optArrayKey = indexExpr.map(_.evalOld)
