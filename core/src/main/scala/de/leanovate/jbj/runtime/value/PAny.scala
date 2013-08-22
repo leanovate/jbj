@@ -14,6 +14,22 @@ trait PAny {
 
   def ==(other:PAny):PAny = BooleanVal(asVal.compare(other.asVal) == 0)
 
+  def !=(other:PAny):PAny = BooleanVal(asVal.compare(other.asVal) != 0)
+
+  def <(other:PAny):PAny = {
+    val comp = asVal.compare(other.asVal)
+    BooleanVal(comp < 0 && comp != Int.MinValue)
+  }
+
+  def <=(other:PAny):PAny = {
+    val comp = asVal.compare(other.asVal)
+    BooleanVal(comp <= 0 && comp != Int.MinValue)
+  }
+
+  def >(other:PAny):PAny = BooleanVal(asVal.compare(other.asVal) > 0)
+
+  def >=(other:PAny):PAny = BooleanVal(asVal.compare(other.asVal) >= 0)
+
   def +(other: PAny): PAny = this.asVal.toNum + other.asVal.toNum
 
   def -(other: PAny): PAny = this.asVal.toNum - other.asVal.toNum
