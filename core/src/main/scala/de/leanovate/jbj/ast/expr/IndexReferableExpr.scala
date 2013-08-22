@@ -81,8 +81,8 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
     if (reference.isDefined) {
       indexExpr.exists {
         expr =>
-          reference.evalOld match {
-            case array: ArrayLike => array.getAt(expr.evalOld).isDefined
+          reference.eval.asVal match {
+            case array: ArrayLike => array.getAt(expr.eval.asVal).isDefined
             case _ => false
           }
       }
@@ -94,9 +94,9 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
   override def eval(implicit ctx: Context) = {
     if (indexExpr.isEmpty)
       throw new FatalErrorJbjException("Cannot use [] for reading")
-    reference.evalOld match {
+    reference.eval.asVal match {
       case array: ArrayLike =>
-        val arrayKey = indexExpr.get.evalOld
+        val arrayKey = indexExpr.get.eval.asVal
         val result = array.getAt(arrayKey)
         if (!result.isDefined) {
           arrayKey match {

@@ -12,23 +12,23 @@ trait PAny {
   def cleanup() {
   }
 
-  def ==(other:PAny):PAny = BooleanVal(asVal.compare(other.asVal) == 0)
+  def ==(other: PAny): PAny = BooleanVal(asVal.compare(other.asVal) == 0)
 
-  def !=(other:PAny):PAny = BooleanVal(asVal.compare(other.asVal) != 0)
+  def !=(other: PAny): PAny = BooleanVal(asVal.compare(other.asVal) != 0)
 
-  def <(other:PAny):PAny = {
+  def <(other: PAny): PAny = {
     val comp = asVal.compare(other.asVal)
     BooleanVal(comp < 0 && comp != Int.MinValue)
   }
 
-  def <=(other:PAny):PAny = {
+  def <=(other: PAny): PAny = {
     val comp = asVal.compare(other.asVal)
     BooleanVal(comp <= 0 && comp != Int.MinValue)
   }
 
-  def >(other:PAny):PAny = BooleanVal(asVal.compare(other.asVal) > 0)
+  def >(other: PAny): PAny = BooleanVal(asVal.compare(other.asVal) > 0)
 
-  def >=(other:PAny):PAny = BooleanVal(asVal.compare(other.asVal) >= 0)
+  def >=(other: PAny): PAny = BooleanVal(asVal.compare(other.asVal) >= 0)
 
   def +(other: PAny): PAny = this.asVal.toNum + other.asVal.toNum
 
@@ -56,6 +56,10 @@ trait PAny {
     case (leftVal: StringVal, rightVal: StringVal) => leftVal ^ rightVal
     case (leftVal, rightVal) => leftVal.toInteger ^ rightVal.toInteger
   }
+
+  def unary_-(): NumericVal = -asVal.toNum
+
+  def unary_+(): NumericVal = asVal.toNum
 
   def unary_~(): PAny = this.asVal match {
     case value: StringVal => ~value

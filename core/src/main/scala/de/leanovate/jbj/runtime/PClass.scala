@@ -47,7 +47,7 @@ trait PClass extends StaticContext {
           case Some(method) =>
             val parameterArray = ArrayVal(parameters.map {
               expr =>
-                None -> expr.evalOld(ctx).copy(ctx)
+                None -> expr.eval(ctx).asVal.copy(ctx)
             }: _*)(ctx)
             method.invoke(ctx, optInstance.get,
               ScalarExpr(StringVal(methodName)(ctx)) :: ScalarExpr(parameterArray) :: Nil)

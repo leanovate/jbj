@@ -13,7 +13,7 @@ case class InterpolatedStringExpr(interpolatedStr: List[Either[String, Expr]]) e
   lazy val interpolations = interpolatedStr.filter(_.isRight).map(_.right.get)
 
   override def eval(implicit ctx: Context) = {
-    val values = interpolations.map(_.evalOld.toStr.asString)
+    val values = interpolations.map(_.eval.asVal.toStr.asString)
     StringVal(format.format(values: _*))
   }
 }

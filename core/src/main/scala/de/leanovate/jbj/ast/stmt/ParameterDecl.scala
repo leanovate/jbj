@@ -7,5 +7,5 @@ import de.leanovate.jbj.runtime.context.Context
 case class ParameterDecl(typeHint: Option[TypeHint], variableName: String, byRef: Boolean, default: Option[Expr])
   extends Node {
 
-  def defaultVal(implicit ctx: Context): PVal = default.map(_.evalOld).getOrElse(NullVal)
+  def defaultVal(implicit ctx: Context): PVal = default.map(_.eval.asVal).getOrElse(NullVal)
 }
