@@ -7,7 +7,7 @@ import de.leanovate.jbj.runtime.exception.{FatalErrorJbjException, RuntimeJbjExc
 import de.leanovate.jbj.runtime.context.Context
 
 case class ThrowStmt(expr: Expr) extends Stmt {
-  override def exec(implicit ctx: Context) = expr.evalOld match {
+  override def exec(implicit ctx: Context) = expr.eval.asVal match {
     case obj: ObjectVal if obj.instanceOf(buildin.Exception) =>
       throw new RuntimeJbjException(obj)
     case obj: ObjectVal =>

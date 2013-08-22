@@ -8,10 +8,10 @@ case class IfStmt(condition: Expr, thenStmts: List[Stmt], elseIfs: List[ElseIfBl
   extends Stmt  with BlockLike {
 
   override def exec(implicit ctx: Context) = {
-    if (condition.evalOld.toBool.asBoolean) {
+    if (condition.eval.asVal.toBool.asBoolean) {
       execStmts(thenStmts)
     } else {
-      elseIfs.find(_.condition.evalOld.toBool.asBoolean).map {
+      elseIfs.find(_.condition.eval.asVal.toBool.asBoolean).map {
         elseIf => execStmts(elseIf.themStmts)
       }.getOrElse {
         execStmts(elseStmts)

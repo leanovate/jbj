@@ -11,7 +11,7 @@ import de.leanovate.jbj.runtime.ContinueExecResult
 
 case class WhileStmt(condition: Expr, stmts: List[Stmt]) extends Stmt with BlockLike {
   override def exec(implicit ctx: Context): ExecResult = {
-    while (condition.evalOld.toBool.asBoolean) {
+    while (condition.eval.asVal.toBool.asBoolean) {
       execStmts(stmts) match {
         case BreakExecResult(depth) if depth > 1 => return BreakExecResult(depth - 1)
         case BreakExecResult(_) => return SuccessExecResult

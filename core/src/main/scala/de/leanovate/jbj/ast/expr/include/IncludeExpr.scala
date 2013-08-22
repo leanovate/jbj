@@ -8,7 +8,7 @@ import de.leanovate.jbj.runtime.context.Context
 
 case class IncludeExpr(file: Expr) extends Expr {
   override def eval(implicit ctx: Context) = {
-    val filename = file.evalOld.toStr.asString
+    val filename = file.eval.asVal.toStr.asString
 
     ctx.global.include(filename) match {
       case Some((prog, _)) =>
