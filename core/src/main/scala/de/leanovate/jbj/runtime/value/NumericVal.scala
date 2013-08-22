@@ -4,7 +4,7 @@ import de.leanovate.jbj.runtime.context.Context
 
 
 trait NumericVal extends PVal {
-  override def toNum(implicit ctx:Context): NumericVal = this
+  override def toNum: NumericVal = this
 
   override def toArray(implicit ctx:Context) = ArrayVal(None -> this)
 
@@ -14,7 +14,7 @@ trait NumericVal extends PVal {
 
   def unary_- : NumericVal
 
-  def +(other: PVal)(implicit ctx:Context): PVal = (this, other) match {
+  def +(other: PVal): PVal = (this, other) match {
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal > 0 && leftVal <= Long.MaxValue - rightVal =>
       IntegerVal(leftVal + rightVal)
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal <= 0 && leftVal >= Long.MinValue - rightVal =>
@@ -22,7 +22,7 @@ trait NumericVal extends PVal {
     case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal + rightVal)
   }
 
-  def -(other: PVal)(implicit ctx:Context): PVal = (this, other) match {
+  def -(other: PVal): PVal = (this, other) match {
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal > 0 && leftVal >= Long.MinValue + rightVal =>
       IntegerVal(leftVal - rightVal)
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal <= 0 && leftVal <= Long.MaxValue + rightVal =>
@@ -30,14 +30,14 @@ trait NumericVal extends PVal {
     case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal - rightVal)
   }
 
-  def *(other: PVal)(implicit ctx:Context): PVal = (this, other) match {
+  def *(other: PVal): PVal = (this, other) match {
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal == 0 => IntegerVal(0)
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal > 0 && leftVal <= Long.MaxValue / rightVal && leftVal >= Long.MinValue / rightVal => IntegerVal(leftVal * rightVal)
     case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal < 0 && leftVal <= Long.MinValue / rightVal && leftVal >= Long.MaxValue / rightVal => IntegerVal(leftVal * rightVal)
     case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal * rightVal)
   }
 
-  def /(other: PVal)(implicit ctx:Context): PVal = (this, other) match {
+  def /(other: PVal): PVal = (this, other) match {
     case (NumericVal(leftVal), NumericVal(0.0)) => BooleanVal.FALSE
     case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal / rightVal)
   }
@@ -50,7 +50,7 @@ object NumericVal {
   val truePattern = "[tT][rR][uU][eE]".r
   val falsePattern = "[fF][aA][lL][sS][eE]".r
 
-  def unapply(numeric: PVal)(implicit ctx:Context): Option[Double] = numeric match {
+  def unapply(numeric: PVal): Option[Double] = numeric match {
     case IntegerVal(value) => Some(value.toDouble)
     case DoubleVal(value) => Some(value)
     case BooleanVal(value) => Some(if (value) 1.0 else 0.0)

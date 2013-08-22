@@ -12,34 +12,36 @@ trait PAny {
   def cleanup() {
   }
 
-  def +(other: PAny)(implicit ctx: Context): PAny = this.asVal.toNum + other.asVal.toNum
+  def ==(other:PAny):PAny = BooleanVal(asVal.compare(other.asVal) == 0)
 
-  def -(other: PAny)(implicit ctx: Context): PAny = this.asVal.toNum - other.asVal.toNum
+  def +(other: PAny): PAny = this.asVal.toNum + other.asVal.toNum
 
-  def *(other: PAny)(implicit ctx: Context): PAny = this.asVal.toNum * other.asVal.toNum
+  def -(other: PAny): PAny = this.asVal.toNum - other.asVal.toNum
 
-  def /(other: PAny)(implicit ctx: Context): PAny = this.asVal.toNum / other.asVal.toNum
+  def *(other: PAny): PAny = this.asVal.toNum * other.asVal.toNum
 
-  def %(other: PAny)(implicit ctx: Context): PAny = this.asVal.toInteger % other.asVal.toInteger
+  def /(other: PAny): PAny = this.asVal.toNum / other.asVal.toNum
 
-  def !(other: PAny)(implicit ctx: Context): PAny = this.asVal.toStr ! other.asVal.toStr
+  def %(other: PAny): PAny = this.asVal.toInteger % other.asVal.toInteger
 
-  def &(other: PAny)(implicit ctx: Context): PAny = (this.asVal, other.asVal) match {
+  def !(other: PAny): PAny = this.asVal.toStr ! other.asVal.toStr
+
+  def &(other: PAny): PAny = (this.asVal, other.asVal) match {
     case (leftVal: StringVal, rightVal: StringVal) => leftVal & rightVal
     case (leftVal, rightVal) => leftVal.toInteger & rightVal.toInteger
   }
 
-  def |(other: PAny)(implicit ctx: Context): PAny = (this.asVal, other.asVal) match {
+  def |(other: PAny): PAny = (this.asVal, other.asVal) match {
     case (leftVal: StringVal, rightVal: StringVal) => leftVal | rightVal
     case (leftVal, rightVal) => leftVal.toInteger | rightVal.toInteger
   }
 
-  def ^(other: PAny)(implicit ctx: Context): PAny = (this.asVal, other.asVal) match {
+  def ^(other: PAny): PAny = (this.asVal, other.asVal) match {
     case (leftVal: StringVal, rightVal: StringVal) => leftVal ^ rightVal
     case (leftVal, rightVal) => leftVal.toInteger ^ rightVal.toInteger
   }
 
-  def unary_~()(implicit ctx: Context): PAny = this.asVal match {
+  def unary_~(): PAny = this.asVal match {
     case value: StringVal => ~value
     case value => ~value.toInteger
   }

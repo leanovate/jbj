@@ -6,13 +6,13 @@ import de.leanovate.jbj.runtime.context.Context
 case class IntegerVal(asLong: Long) extends NumericVal {
   override def toOutput(implicit ctx: Context) = asLong.toString
 
-  override def toStr(implicit ctx: Context): StringVal = StringVal(asLong.toString)
+  override def toStr: StringVal = StringVal(asLong.toString.getBytes("UTF-8"))
 
-  override def toDouble(implicit ctx: Context): DoubleVal = DoubleVal(asLong)
+  override def toDouble: DoubleVal = DoubleVal(asLong)
 
-  override def toInteger(implicit ctx: Context): IntegerVal = this
+  override def toInteger: IntegerVal = this
 
-  override def toBool(implicit ctx: Context) = BooleanVal(asLong != 0)
+  override def toBool = BooleanVal(asLong != 0)
 
   override def incr = if (asLong < Long.MaxValue) IntegerVal(asLong + 1) else DoubleVal(asLong.toDouble + 1)
 
@@ -20,7 +20,7 @@ case class IntegerVal(asLong: Long) extends NumericVal {
 
   override def typeName = "integer"
 
-  override def compare(other: PVal)(implicit ctx: Context): Int = other match {
+  override def compare(other: PVal): Int = other match {
     case IntegerVal(otherLong) => asLong.compare(otherLong)
     case NumericVal(otherDouble) => asLong.toDouble.compare(otherDouble)
     case _ => StringVal.compare(asLong.toString.getBytes, other.toStr.chars)
@@ -36,7 +36,7 @@ case class IntegerVal(asLong: Long) extends NumericVal {
 
   def ^(other: IntegerVal): PVal = IntegerVal(this.asLong ^ other.asLong)
 
-  def unary_~(): PVal = IntegerVal(~asLong)
+  override def unary_~(): PVal = IntegerVal(~asLong)
 
   def %(other: PVal): PVal = (this, other) match {
     case (_, IntegerVal(0)) => BooleanVal.FALSE

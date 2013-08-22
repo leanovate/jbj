@@ -6,11 +6,13 @@ import de.leanovate.jbj.runtime.context.Context
 class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
   def asString(implicit ctx: Context) = new String(chars, ctx.settings.charset)
 
+  def asUtf8String = new String(chars, "UTF-8")
+
   override def toOutput(implicit ctx: Context) = asString
 
-  override def toStr(implicit ctx: Context): StringVal = this
+  override def toStr: StringVal = this
 
-  override def toNum(implicit ctx: Context): NumericVal = asString match {
+  override def toNum: NumericVal = asUtf8String match {
     case NumericVal.numericPattern(num, null, null) if !num.isEmpty && num != "-" && num != "." =>
       IntegerVal(num.toLong)
     case NumericVal.numericPattern(num, _, _) if !num.isEmpty && num != "-" && num != "." =>
@@ -18,18 +20,18 @@ class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
     case _ => IntegerVal(0)
   }
 
-  override def toDouble(implicit ctx: Context): DoubleVal = asString match {
+  override def toDouble: DoubleVal = asUtf8String match {
     case NumericVal.numericPattern(num, _, _) if !num.isEmpty && num != "-" && num != "." =>
       DoubleVal(num.toDouble)
     case _ => DoubleVal(0.0)
   }
 
-  override def toInteger(implicit ctx: Context): IntegerVal = asString match {
+  override def toInteger: IntegerVal = asUtf8String match {
     case NumericVal.integerPattern(num) => IntegerVal(num.toLong)
     case _ => IntegerVal(0)
   }
 
-  override def toBool(implicit ctx: Context): BooleanVal = BooleanVal(!asString.isEmpty)
+  override def toBool: BooleanVal = BooleanVal(!chars.isEmpty)
 
   override def toArray(implicit ctx: Context) = ArrayVal(None -> this)
 
@@ -45,7 +47,7 @@ class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
 
   override def size: Int = chars.length
 
-  override def compare(other: PVal)(implicit ctx: Context): Int = other match {
+  override def compare(other: PVal): Int = other match {
     case otherStr: StringVal if isStrongNumericPattern && otherStr.isStrongNumericPattern =>
       new String(chars).toDouble.compare(new String(chars).toDouble)
     case otherStr: StringVal => StringVal.compare(chars, otherStr.chars)
@@ -166,7 +168,7 @@ class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
     StringVal(result)
   }
 
-  def unary_~(): PVal = {
+  override def unary_~(): PVal = {
     val result = new Array[Byte](chars.length)
     for (i <- Range(0, result.length)) {
       result(i) = (~chars(i)).toByte
@@ -185,7 +187,7 @@ object StringVal {
 
   def apply(str: String)(implicit ctx: Context) = new StringVal(str.getBytes(ctx.settings.charset))
 
-  def unapply(str: StringVal)(implicit ctx: Context): Option[String] = Some(str.asString)
+  def unapply(str: StringVal): Option[String] = Some(new String(str.chars, "UTF-8"))
 
   def compare(v1: Array[Byte], v2: Array[Byte]): Int = {
     val len = Math.min(v1.length, v2.length)

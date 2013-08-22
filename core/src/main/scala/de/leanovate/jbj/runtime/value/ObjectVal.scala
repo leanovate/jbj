@@ -17,15 +17,15 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
 
   override def toOutput(implicit ctx: Context) = "Array"
 
-  override def toStr(implicit ctx: Context) = StringVal("object".getBytes(ctx.settings.charset))
+  override def toStr= StringVal("object".getBytes("UTF-8"))
 
-  override def toNum(implicit ctx: Context) = toInteger
+  override def toNum = toInteger
 
-  override def toDouble(implicit ctx: Context) = DoubleVal(0.0)
+  override def toDouble = DoubleVal(0.0)
 
-  override def toInteger(implicit ctx: Context) = IntegerVal(0)
+  override def toInteger = IntegerVal(0)
 
-  override def toBool(implicit ctx: Context) = BooleanVal.FALSE
+  override def toBool = BooleanVal.FALSE
 
   override def toArray(implicit ctx: Context) = new ArrayVal(keyValueMap.clone())
 
@@ -39,7 +39,7 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
 
   override def typeName = "object"
 
-  override def compare(other: PVal)(implicit ctx: Context): Int = other match {
+  override def compare(other: PVal): Int = other match {
     case otherObj: ObjectVal =>
       if (pClass != otherObj.pClass)
         return Int.MinValue

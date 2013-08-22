@@ -6,15 +6,15 @@ import scala.xml.NodeSeq
 trait PVal extends PAny {
   def toOutput(implicit ctx:Context): String
 
-  def toStr(implicit ctx:Context): StringVal
+  def toStr: StringVal
 
-  def toNum(implicit ctx:Context): NumericVal
+  def toNum: NumericVal
 
-  def toInteger(implicit ctx:Context): IntegerVal
+  def toInteger: IntegerVal
 
-  def toDouble(implicit ctx:Context): DoubleVal
+  def toDouble: DoubleVal
 
-  def toBool(implicit ctx:Context): BooleanVal
+  def toBool: BooleanVal
 
   def toArray(implicit ctx:Context): ArrayVal
 
@@ -28,7 +28,7 @@ trait PVal extends PAny {
 
   def typeName:String
 
-  def compare(other:PVal)(implicit ctx:Context): Int
+  def compare(other:PVal): Int
 
   final override def asVal = this
 

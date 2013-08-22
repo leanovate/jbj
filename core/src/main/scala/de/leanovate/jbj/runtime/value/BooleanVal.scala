@@ -5,9 +5,9 @@ import de.leanovate.jbj.runtime.context.Context
 abstract class BooleanVal extends PVal {
   def asBoolean: Boolean
 
-  override def toBool(implicit ctx: Context) = this
+  override def toBool = this
 
-  override def toNum(implicit ctx: Context) = toInteger
+  override def toNum= toInteger
 
   override def toArray(implicit ctx: Context) = ArrayVal(None -> this)
 
@@ -28,13 +28,13 @@ object BooleanVal {
 
     override def toOutput(implicit ctx: Context) = "1"
 
-    override def toDouble(implicit ctx: Context) = DoubleVal(1.0)
+    override def toDouble = DoubleVal(1.0)
 
-    override def toInteger(implicit ctx: Context) = IntegerVal(1)
+    override def toInteger = IntegerVal(1)
 
-    override def toStr(implicit ctx: Context) = StringVal("1")
+    override def toStr = StringVal("1".getBytes("UTF-8"))
 
-    override def compare(other: PVal)(implicit ctx: Context): Int = other match {
+    override def compare(other: PVal): Int = other match {
       case BooleanVal(otherBool) => if (otherBool) 0 else 1
       case NumericVal(otherDouble) => 1.0.compare(otherDouble)
       case str:StringVal => if (str.chars.length > 0) 0 else 1
@@ -50,13 +50,13 @@ object BooleanVal {
 
     override def toOutput(implicit ctx: Context) = ""
 
-    override def toDouble(implicit ctx: Context) = DoubleVal(0.0)
+    override def toDouble = DoubleVal(0.0)
 
-    override def toInteger(implicit ctx: Context) = IntegerVal(0)
+    override def toInteger = IntegerVal(0)
 
-    override def toStr(implicit ctx: Context) = StringVal(Array.emptyByteArray)
+    override def toStr = StringVal(Array.emptyByteArray)
 
-    override def compare(other: PVal)(implicit ctx: Context): Int = other match {
+    override def compare(other: PVal): Int = other match {
       case BooleanVal(otherBool) => if (otherBool) -1 else 0
       case NumericVal(otherDouble) => 0.0.compare(otherDouble)
       case str:StringVal => if (str.chars.length > 0) -1 else 0
