@@ -4,26 +4,13 @@ import de.leanovate.jbj.ast.{Expr, ReferableExpr}
 import de.leanovate.jbj.runtime.Reference
 import de.leanovate.jbj.runtime.value.PAny
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.ast.expr.BinaryReferableExpr
 
-case class AddToReferableExpr(reference: ReferableExpr, expr: Expr) extends ReferableExpr {
+case class AddToReferableExpr(reference: ReferableExpr, expr: Expr) extends BinaryReferableExpr {
   override def eval(implicit ctx: Context) = {
     val result = reference.evalOld.toNum + expr.evalOld.toNum
     reference.evalRef.assign(result)
     result
   }
 
-  override def evalRef(implicit ctx: Context): Reference = new Reference {
-    val result = eval
-
-    def asVal = result
-
-    def asVar = result
-
-    def assign(pAny: PAny) = {
-      pAny
-    }
-
-    def unset() {
-    }
-  }
 }
