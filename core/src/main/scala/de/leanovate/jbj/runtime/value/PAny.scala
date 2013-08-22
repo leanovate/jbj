@@ -24,18 +24,24 @@ trait PAny {
 
   def !(other: PAny)(implicit ctx: Context): PAny = this.asVal.toStr ! other.asVal.toStr
 
-  def &(other:PAny)(implicit ctx:Context):PAny = (this.asVal, other.asVal) match {
-    case (leftVal: StringVal, rightVal:StringVal) => leftVal & rightVal
+  def &(other: PAny)(implicit ctx: Context): PAny = (this.asVal, other.asVal) match {
+    case (leftVal: StringVal, rightVal: StringVal) => leftVal & rightVal
     case (leftVal, rightVal) => leftVal.toInteger & rightVal.toInteger
   }
 
-  def |(other:PAny)(implicit ctx:Context):PAny = (this.asVal, other.asVal) match {
-    case (leftVal: StringVal, rightVal:StringVal) => leftVal | rightVal
+  def |(other: PAny)(implicit ctx: Context): PAny = (this.asVal, other.asVal) match {
+    case (leftVal: StringVal, rightVal: StringVal) => leftVal | rightVal
     case (leftVal, rightVal) => leftVal.toInteger | rightVal.toInteger
   }
 
-  def ^(other:PAny)(implicit ctx:Context):PAny = (this.asVal, other.asVal) match {
-    case (leftVal: StringVal, rightVal:StringVal) => leftVal ^ rightVal
+  def ^(other: PAny)(implicit ctx: Context): PAny = (this.asVal, other.asVal) match {
+    case (leftVal: StringVal, rightVal: StringVal) => leftVal ^ rightVal
     case (leftVal, rightVal) => leftVal.toInteger ^ rightVal.toInteger
   }
+
+  def unary_~()(implicit ctx: Context): PAny = this.asVal match {
+    case value: StringVal => ~value
+    case value => ~value.toInteger
+  }
+
 }

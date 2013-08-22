@@ -5,9 +5,5 @@ import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.runtime.context.Context
 
 case class BitNotExpr(expr: Expr) extends Expr {
-  override def eval(implicit ctx: Context) = expr.evalOld match {
-    case value: StringVal => ~value
-    case value => ~value.toInteger
-  }
-
+  override def eval(implicit ctx: Context) = ~expr.eval
 }

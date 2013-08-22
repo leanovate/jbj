@@ -5,5 +5,5 @@ import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.context.Context
 
 case class BreakStmt(depth: Option[Expr]) extends Stmt {
-  override def exec(implicit ctx: Context) = BreakExecResult(depth.map(_.evalOld.toInteger.asLong).getOrElse(1))
+  override def exec(implicit ctx: Context) = BreakExecResult(depth.map(_.eval.asVal.toInteger.asLong).getOrElse(1))
 }

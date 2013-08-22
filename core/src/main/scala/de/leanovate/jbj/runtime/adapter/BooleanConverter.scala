@@ -5,7 +5,7 @@ import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.runtime.context.Context
 
 object BooleanConverter extends Converter[Boolean, BooleanVal] {
-  override def toScalaWithConversion(expr: Expr)(implicit ctx: Context) = toScala(expr.evalOld.toBool)
+  override def toScalaWithConversion(expr: Expr)(implicit ctx: Context) = toScala(expr.eval.asVal.toBool)
 
   override def toScala(value: BooleanVal)(implicit ctx: Context) = value.asBoolean
 
