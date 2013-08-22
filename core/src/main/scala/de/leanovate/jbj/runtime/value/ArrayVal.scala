@@ -10,6 +10,8 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
     case _ => -1L
   }.toList).max
 
+  private var iteratorState: Option[Iterator[(Any, PAny)]] = None
+
   def keyValues(implicit ctx: Context): Seq[(PVal, PAny)] = keyValueMap.toSeq.map {
     case (key: Long, value) => IntegerVal(key) -> value
     case (key: String, value) => StringVal(key) -> value
@@ -23,9 +25,9 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
 
   override def toDouble = DoubleVal(0.0)
 
-  override def toInteger= IntegerVal(keyValueMap.size)
+  override def toInteger = IntegerVal(keyValueMap.size)
 
-  override def toBool = BooleanVal.FALSE
+  override def toBool = BooleanVal(!keyValueMap.isEmpty)
 
   override def toArray(implicit ctx: Context) = this
 
@@ -101,6 +103,32 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
   }
 
   def count: IntegerVal = IntegerVal(keyValueMap.size)
+
+  def iteratorHasNext: Boolean = {
+    if (iteratorState.isEmpty) {
+      val it = keyValueMap.iterator
+      iteratorState = Some(it)
+    }
+    iteratorState.get.hasNext
+  }
+
+  def iteratorNext(implicit ctx: Context): PVal =
+    if (!iteratorHasNext) {
+      BooleanVal.FALSE
+    } else {
+      iteratorState.get.next() match {
+        case (key: Long, value) =>
+          ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
+            Some(IntegerVal(0)) -> IntegerVal(key), Some(StringVal("key")) -> IntegerVal(key))
+        case (key: String, value) =>
+          ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
+            Some(IntegerVal(0)) -> StringVal(key), Some(StringVal("key")) -> StringVal(key))
+      }
+    }
+
+  def iteratorReset() {
+    iteratorState = None
+  }
 }
 
 object ArrayVal {

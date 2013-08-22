@@ -10,6 +10,8 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
 
   private val visibilities = mutable.Map.empty[Any, PVisibility.Type]
 
+  private var iteratorState: Option[Iterator[(Any, PAny)]] = None
+
   def keyValues(implicit ctx: Context): Seq[(PVal, (PVisibility.Type, PAny))] = keyValueMap.toSeq.map {
     case (key: Long, value) => IntegerVal(key) -> (visibilities.get(key).getOrElse(PVisibility.PUBLIC), value)
     case (key: String, value) => StringVal(key) -> (visibilities.get(key).getOrElse(PVisibility.PUBLIC), value)
@@ -105,6 +107,32 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
 
   override def unsetAt(index: String)(implicit ctx: Context) {
     throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
+  }
+
+  def iteratorHasNext: Boolean = {
+    if (iteratorState.isEmpty) {
+      val it = keyValueMap.iterator
+      iteratorState = Some(it)
+    }
+    iteratorState.get.hasNext
+  }
+
+  def iteratorNext(implicit ctx: Context): PVal =
+    if (!iteratorHasNext) {
+      BooleanVal.FALSE
+    } else {
+      iteratorState.get.next() match {
+        case (key: Long, value) =>
+          ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
+            Some(IntegerVal(0)) -> IntegerVal(key), Some(StringVal("key")) -> IntegerVal(key))
+        case (key: String, value) =>
+          ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
+            Some(IntegerVal(0)) -> StringVal(key), Some(StringVal("key")) -> StringVal(key))
+      }
+    }
+
+  def iteratorReset() {
+    iteratorState = None
   }
 }
 

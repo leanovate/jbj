@@ -51,7 +51,7 @@ object ScriptLexer extends Lexer with CommonScriptLexerPatterns {
       s => StringCast(s)
     } | '(' ~> tabsOrSpaces ~> str("array") <~ tabsOrSpaces <~ ')' ^^ {
       s => ArrayCast(s)
-    } | '(' ~> tabsOrSpaces ~> (str("bool") | str("boolean")) <~ tabsOrSpaces <~ ')' ^^ {
+    } | '(' ~> tabsOrSpaces ~> str("bool") <~ opt(str("ean")) <~ tabsOrSpaces <~ ')' ^^ {
       s => BooleanCast(s)
     } | '(' ~> tabsOrSpaces ~> str("unset") <~ tabsOrSpaces <~ ')' ^^ {
       s => UnsetCast(s)

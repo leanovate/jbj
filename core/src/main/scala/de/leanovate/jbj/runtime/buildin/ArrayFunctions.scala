@@ -58,4 +58,24 @@ object ArrayFunctions extends WrappedFunctions {
         NullVal
     }
   }
+
+  @GlobalFunction
+  def each(value: PVal)(implicit ctx: Context): PVal = value match {
+    case array: ArrayVal => array.iteratorNext
+    case obj: ObjectVal => obj.iteratorNext
+    case _ =>
+      ctx.log.warn("Variable passed to each() is not an array or object")
+      NullVal
+  }
+
+  @GlobalFunction
+  def reset(value: PVal)(implicit ctx: Context) {
+    value match {
+      case array: ArrayVal => array.iteratorReset()
+      case obj: ObjectVal => obj.iteratorReset()
+      case _ =>
+        ctx.log.warn("Variable passed to each() is not an array or object")
+        NullVal
+    }
+  }
 }
