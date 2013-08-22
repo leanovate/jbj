@@ -20,7 +20,7 @@ case class DoWhileStmt(stmts: List[Stmt], condition: Expr) extends Stmt with Blo
         case result: ReturnExecResult => return result
         case _ =>
       }
-    } while (condition.evalOld.toBool.asBoolean)
+    } while (condition.eval.asVal.toBool.asBoolean)
     SuccessExecResult
   }
 

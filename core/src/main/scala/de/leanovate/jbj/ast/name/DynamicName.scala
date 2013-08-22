@@ -6,7 +6,7 @@ import de.leanovate.jbj.runtime.context.Context
 import scala.xml.NodeSeq
 
 case class DynamicName(expr: Expr) extends Name {
-  override def evalName(implicit ctx: Context) = expr.evalOld.toStr.asString
+  override def evalName(implicit ctx: Context) = expr.eval.asVal.toStr.asString
 
   override def dump(out: PrintStream, ident: String) {
     super.dump(out, ident)

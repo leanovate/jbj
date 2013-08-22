@@ -5,7 +5,7 @@ import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.runtime.context.Context
 
 object DoubleConverter extends Converter[Double, DoubleVal] {
-  override def toScalaWithConversion(expr: Expr)(implicit ctx: Context) = toScala(expr.evalOld.asVal.toDouble)
+  override def toScalaWithConversion(expr: Expr)(implicit ctx: Context) = toScala(expr.eval.asVal.toDouble)
 
   override def toScala(value: DoubleVal)(implicit ctx: Context) = value.asDouble
 
