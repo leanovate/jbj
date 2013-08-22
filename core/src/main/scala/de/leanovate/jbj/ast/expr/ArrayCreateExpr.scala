@@ -27,8 +27,8 @@ case class ArrayKeyValue(key: Option[Expr], value: Expr, isRef: Boolean) {
 case class ArrayCreateExpr(keyValueExprs: List[ArrayKeyValue]) extends Expr {
   override def eval(implicit ctx: Context) = {
     ArrayVal(keyValueExprs.map {
-      case ArrayKeyValue(keyExpr, valueExpr: ReferableExpr, true) => (keyExpr.map(_.evalOld), valueExpr.evalRef.asVar)
-      case ArrayKeyValue(keyExpr, valueExpr: Expr, _) => (keyExpr.map(_.evalOld), valueExpr.evalOld)
+      case ArrayKeyValue(keyExpr, valueExpr: ReferableExpr, true) => (keyExpr.map(_.eval.asVal), valueExpr.evalRef.asVar)
+      case ArrayKeyValue(keyExpr, valueExpr: Expr, _) => (keyExpr.map(_.eval.asVal), valueExpr.eval.asVal)
     }: _*)
   }
 
