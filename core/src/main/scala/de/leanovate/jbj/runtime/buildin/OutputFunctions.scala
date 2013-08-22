@@ -85,42 +85,42 @@ object OutputFunctions extends WrappedFunctions {
 
   @GlobalFunction
   def print_r(value: PVal, ret: Option[Boolean])(implicit ctx: Context, position: NodePosition): PVal = {
-    def dump(stack: List[PAny]): List[String] = {
-      stack.head match {
+    def dump(stack: List[PAny]): List[Option[String]] = {
+      stack.head.asVal match {
         case ArrayVal(keyValues) =>
-          "Array" :: "(" :: keyValues.flatMap {
+          Some("Array") :: Some("(") :: keyValues.flatMap {
             case (_, v) if stack.exists(_.eq(v)) =>
-              "*RECURSION*" :: Nil
+              Some("*RECURSION*") :: Nil
             case (IntegerVal(key), v) =>
               val lines = dump(v :: stack)
-              "    [%d] => %s".format(key, lines.head) :: (
-                if (lines.tail.isEmpty) Nil else lines.tail.map("        " + _) ::: "" :: Nil)
+              Some("    [%d] => %s".format(key, lines.head.getOrElse(""))) :: (
+                if (lines.tail.isEmpty) Nil else lines.tail.map(_.map("        " + _)) ::: None :: Nil)
             case (StringVal(key), v) =>
               val lines = dump(v :: stack)
-              """    [%s] => %s""".format(key, lines.head) :: (
-                if (lines.tail.isEmpty) Nil else lines.tail.map("        " + _) ::: "" :: Nil)
-          }.toList ::: ")" :: Nil
+              Some( """    [%s] => %s""".format(key, lines.head.getOrElse(""))) :: (
+                if (lines.tail.isEmpty) Nil else lines.tail.map(_.map("        " + _)) ::: None :: Nil)
+          }.toList ::: Some(")") :: Nil
         case ObjectVal(pClass, _, keyValues) =>
-          "%s Object".format(pClass.name.toString) :: "(" :: keyValues.flatMap {
+          Some("%s Object".format(pClass.name.toString)) :: Some("(") :: keyValues.flatMap {
             case (_, v) if stack.exists(_.eq(v)) =>
-              "*RECURSION*" :: Nil
+              Some("*RECURSION*") :: Nil
             case (IntegerVal(key), (visibility, v)) =>
               val lines = dump(v :: stack)
-              "    [%d] => %s".format(key, lines.head) :: (
-                if (lines.tail.isEmpty) Nil else lines.tail.map("        " + _) ::: "" :: Nil)
+              Some("    [%d] => %s".format(key, lines.head.getOrElse(""))) :: (
+                if (lines.tail.isEmpty) Nil else lines.tail.map(_.map("        " + _)) ::: None :: Nil)
             case (StringVal(key), (visibility, v)) =>
               val lines = dump(v :: stack)
-              """    [%s] => %s""".format(key, lines.head) :: (
-                if (lines.tail.isEmpty) Nil else lines.tail.map("        " + _) ::: "" :: Nil)
-          }.toList ::: ")" :: Nil
-        case v => v.toOutput :: Nil
+              Some( """    [%s] => %s""".format(key, lines.head.getOrElse(""))) :: (
+                if (lines.tail.isEmpty) Nil else lines.tail.map(_.map("        " + _)) ::: None :: Nil)
+          }.toList ::: Some(")") :: Nil
+        case v => Some(v.toOutput) :: Nil
       }
     }
 
     if (ret.getOrElse(false))
-      StringVal(dump(value :: Nil).mkString("\n") + "\n")
+      StringVal(dump(value :: Nil).map(_.getOrElse("")).mkString("\n") + "\n")
     else {
-      dump(value :: Nil).foreach(ctx.out.println)
+      dump(value :: Nil).map(_.getOrElse("")).foreach(ctx.out.println)
       BooleanVal.TRUE
     }
   }

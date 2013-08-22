@@ -69,7 +69,7 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
       case array: ArrayLike => Some(array)
       case NullVal =>
         val array = ArrayVal()
-        parentRef.assign(array)
+        parentRef.asVar.asVar.value = array
         Some(array)
       case _ =>
         None

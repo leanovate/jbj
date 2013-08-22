@@ -33,7 +33,7 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
         val name = propertyName.evalName
         obj.getProperty(name).map(_.asVal).getOrElse {
           ctx match {
-            case MethodContext(inst, methodName,  _) if inst.pClass == obj.pClass && methodName == "__get" =>
+            case MethodContext(inst, methodName, _) if inst.pClass == obj.pClass && methodName == "__get" =>
               ctx.log.notice("Undefined property: %s::%s".format(obj.pClass.name.toString, name))
               NullVal
             case _ =>
@@ -72,26 +72,28 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
       }
     }
 
-    def asVar = optParent match {
-      case Some(obj) =>
-        obj.getProperty(name).map {
-          case pVar: PVar => pVar
-          case value: PVal =>
-            val result = PVar(value)
+    def asVar = {
+      optParent(false) match {
+        case Some(obj) =>
+          obj.getProperty(name).map {
+            case pVar: PVar => pVar
+            case value: PVal =>
+              val result = PVar(value)
+              obj.setProperty(name, None, result)
+              result
+          }.getOrElse {
+            val result = PVar()
             obj.setProperty(name, None, result)
             result
-        }.getOrElse {
-          val result = PVar()
-          obj.setProperty(name, None, result)
-          result
-        }
-      case None =>
-        ctx.log.notice("Trying to get property of non-object")
-        PVar(NullVal)
+          }
+        case None =>
+          ctx.log.notice("Trying to get property of non-object")
+          PVar(NullVal)
+      }
     }
 
     def assign(pAny: PAny) = {
-      optParent match {
+      optParent(true) match {
         case Some(obj) =>
           if (obj.getProperty(name).isDefined) {
             obj.setProperty(propertyName.evalName, None, pAny.asVal)
@@ -112,17 +114,19 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
     }
 
     def unset() {
-      if (optParent.isDefined)
-        optParent.get.unsetProperty(name)
+      if (optParent(false).isDefined)
+        optParent(false).get.unsetProperty(name)
     }
 
-    private def optParent =
+    private def optParent(withWarn: Boolean) =
       parentRef.asVal match {
         case obj: ObjectVal =>
           Some(obj)
         case NullVal =>
+          if (withWarn)
+            ctx.log.warn("Creating default object from empty value")
           val obj = StdClass.newInstance(Nil)(ctx)
-          parentRef.assign(obj)
+          parentRef.asVar.asVar.value = obj
           Some(obj)
         case _ =>
           None

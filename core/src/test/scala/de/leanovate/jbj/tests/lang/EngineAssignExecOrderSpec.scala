@@ -675,5 +675,141 @@ class EngineAssignExecOrderSpec extends SpecificationWithJUnit with TestJbjExecu
           |""".stripMargin
       )
     }
+
+    "Check key execution order with &new. " in {
+      // lang/angine_assignExecutionOrder_007
+      script(
+        """<?php
+          |$a[2][3] = 'stdClass';
+          |$a[$i=0][++$i] =& new $a[++$i][++$i];
+          |print_r($a);
+          |
+          |$o = new stdClass;
+          |$o->a =& new $a[$i=2][++$i];
+          |$o->a->b =& new $a[$i=2][++$i];
+          |print_r($o);
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """
+          |Deprecated: Assigning the return value of new by reference is deprecated in /lang/EngineAssignExecOrderSpec.inlinePhp on line 3
+          |
+          |Deprecated: Assigning the return value of new by reference is deprecated in /lang/EngineAssignExecOrderSpec.inlinePhp on line 7
+          |
+          |Deprecated: Assigning the return value of new by reference is deprecated in /lang/EngineAssignExecOrderSpec.inlinePhp on line 8
+          |Array
+          |(
+          |    [2] => Array
+          |        (
+          |            [3] => stdClass
+          |        )
+          |
+          |    [0] => Array
+          |        (
+          |            [1] => stdClass Object
+          |                (
+          |                )
+          |
+          |        )
+          |
+          |)
+          |stdClass Object
+          |(
+          |    [a] => stdClass Object
+          |        (
+          |            [b] => stdClass Object
+          |                (
+          |                )
+          |
+          |        )
+          |
+          |)
+          |""".stripMargin
+      )
+    }
+
+    "Ensure by value assignments leave temporaries on the stack, for all sorts of assignees." in {
+      // lang/engine_assignExecutionorder_008
+      script(
+        """<?php
+          |error_reporting(E_ALL & ~E_STRICT);
+          |
+          |function f() { return 0; }
+          |$a[0][1] = 'good';
+          |$a[1][1] = 'bad';
+          |
+          |echo "\n" . '$i=f() :';
+          |echo $a[$i=f()][++$i];
+          |unset($i);
+          |
+          |echo "\n" . '$$x=f() :';
+          |$x='i';
+          |echo $a[$$x=f()][++$$x];
+          |unset($i, $x);
+          |
+          |echo "\n" . '${\'i\'}=f() :';
+          |echo $a[${'i'}=f()][++${'i'}];
+          |unset(${'i'});
+          |
+          |echo "\n" . '$i[0]=f() :';
+          |echo $a[$i[0]=f()][++$i[0]];
+          |unset($i);
+          |
+          |echo "\n" . '$i[0][0]=f() :';
+          |echo $a[$i[0][0]=f()][++$i[0][0]];
+          |unset($i);
+          |
+          |echo "\n" . '$i->p=f() :';
+          |echo $a[$i->p=f()][++$i->p];
+          |unset($i);
+          |
+          |echo "\n" . '$i->p->q=f() :';
+          |echo $a[$i->p->q=f()][++$i->p->q];
+          |unset($i);
+          |
+          |echo "\n" . '$i->p[0]=f() :';
+          |echo $a[$i->p[0]=f()][++$i->p[0]];
+          |unset($i);
+          |
+          |echo "\n" . '$i->p[0]->p=f() :';
+          |echo $a[$i->p[0]->p=f()][++$i->p[0]->p];
+          |unset($i);
+          |
+          |Class C {
+          |	static $p;
+          |}
+          |
+          |echo "\n" . 'C::$p=f() :';
+          |echo $a[C::$p=f()][++C::$p];
+          |
+          |echo "\n" . 'C::$p[0]=f() :';
+          |C::$p = array();
+          |echo $a[C::$p[0]=f()][++C::$p[0]];
+          |
+          |echo "\n" . 'C::$p->q=f() :';
+          |C::$p = new stdclass;
+          |echo $a[C::$p->q=f()][++C::$p->q];
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """
+          |$i=f() :good
+          |$$x=f() :good
+          |${'i'}=f() :good
+          |$i[0]=f() :good
+          |$i[0][0]=f() :good
+          |$i->p=f() :
+          |Warning: Creating default object from empty value in /lang/EngineAssignExecOrderSpec.inlinePhp on line 30
+          |good
+          |$i->p->q=f() :
+          |Warning: Creating default object from empty value in /lang/EngineAssignExecOrderSpec.inlinePhp on line 34
+          |good
+          |$i->p[0]=f() :good
+          |$i->p[0]->p=f() :
+          |Warning: Creating default object from empty value in /lang/EngineAssignExecOrderSpec.inlinePhp on line 42
+          |good
+          |C::$p=f() :good
+          |C::$p[0]=f() :good
+          |C::$p->q=f() :good""".stripMargin
+      )
+    }
   }
 }
