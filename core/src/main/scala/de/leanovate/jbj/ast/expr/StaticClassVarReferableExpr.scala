@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Name, ReferableExpr}
-import de.leanovate.jbj.runtime.{Reference}
+import de.leanovate.jbj.runtime.Reference
 import de.leanovate.jbj.runtime.value.{PVar, NullVal, PAny}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.Context

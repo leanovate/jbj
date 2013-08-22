@@ -4,7 +4,6 @@ import scala.collection.Map
 import de.leanovate.jbj.runtime.value.PAny
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.value.ObjectVal
-import de.leanovate.jbj.ast.NodePosition
 import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.ast.NamespaceName
 import de.leanovate.jbj.ast.ClassEntry

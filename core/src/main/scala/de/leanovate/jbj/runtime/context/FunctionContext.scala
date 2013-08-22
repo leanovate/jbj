@@ -2,9 +2,9 @@ package de.leanovate.jbj.runtime.context
 
 import scala.collection.mutable
 import de.leanovate.jbj.runtime._
-import de.leanovate.jbj.ast.{NoNodePosition, Prog, NodePosition, NamespaceName}
+import de.leanovate.jbj.ast.{NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
-import de.leanovate.jbj.runtime.value.{PVar, PVal}
+import de.leanovate.jbj.runtime.value.PVal
 
 case class FunctionContext(functionName: NamespaceName,
                            callerCtx: Context) extends Context {

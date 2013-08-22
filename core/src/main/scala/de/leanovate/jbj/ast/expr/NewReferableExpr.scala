@@ -1,11 +1,12 @@
 package de.leanovate.jbj.ast.expr
 
-import de.leanovate.jbj.ast.{ReferableExpr, Name, Expr}
-import de.leanovate.jbj.runtime.{Reference}
+import de.leanovate.jbj.ast._
+import de.leanovate.jbj.runtime.Reference
 import de.leanovate.jbj.runtime.value.{PVar, PAny, NullVal}
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.Context
+import scala.Some
 
 case class NewReferableExpr(className: Name, parameters: List[Expr]) extends ReferableExpr {
   override def eval(implicit ctx: Context) = ctx.global.findClass(className.evalNamespaceName) match {
@@ -40,4 +41,6 @@ case class NewReferableExpr(className: Name, parameters: List[Expr]) extends Ref
         parameter.dump(out, ident + "  ")
     }
   }
+
+  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(parameters)
 }

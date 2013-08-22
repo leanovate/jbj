@@ -1,6 +1,5 @@
 package de.leanovate.jbj.parser
 
-import scala.util.parsing.combinator.Parsers
 
 trait CommonLexerPatterns extends Lexer {
   def str(str: String): Parser[String] = accept(str.toList) ^^ (_ mkString "")

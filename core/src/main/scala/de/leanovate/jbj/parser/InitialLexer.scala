@@ -1,8 +1,6 @@
 package de.leanovate.jbj.parser
 
-import scala.util.parsing.input.{CharArrayReader, Reader}
 import de.leanovate.jbj.parser.JbjTokens._
-import scala.util.parsing.combinator.Parsers
 import scala.util.parsing.input.CharArrayReader.EofCh
 import de.leanovate.jbj.parser.JbjTokens.Inline
 import de.leanovate.jbj.parser.JbjTokens.EOF

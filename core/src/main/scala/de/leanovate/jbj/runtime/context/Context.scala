@@ -3,7 +3,7 @@ package de.leanovate.jbj.runtime.context
 import java.io.PrintStream
 import de.leanovate.jbj.ast.{NoNodePosition, NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
-import de.leanovate.jbj.runtime.value.{PVar, PVal}
+import de.leanovate.jbj.runtime.value.PVal
 import de.leanovate.jbj.runtime.{PFunction, Log, Settings}
 
 trait Context {

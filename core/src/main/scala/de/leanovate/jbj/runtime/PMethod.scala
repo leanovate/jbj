@@ -1,7 +1,7 @@
 package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.runtime.value.{PAny, ObjectVal}
-import de.leanovate.jbj.ast.{Expr, NodePosition}
+import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.runtime.context.Context
 
 trait PMethod {

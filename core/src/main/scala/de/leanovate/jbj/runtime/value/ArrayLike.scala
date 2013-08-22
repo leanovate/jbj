@@ -1,6 +1,5 @@
 package de.leanovate.jbj.runtime.value
 
-import de.leanovate.jbj.ast.NodePosition
 import de.leanovate.jbj.runtime.context.Context
 
 trait ArrayLike {

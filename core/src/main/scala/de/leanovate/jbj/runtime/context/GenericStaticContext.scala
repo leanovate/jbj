@@ -1,10 +1,7 @@
 package de.leanovate.jbj.runtime.context
 
 import scala.collection.mutable
-import de.leanovate.jbj.runtime._
-import de.leanovate.jbj.ast.{Prog, NodePosition, NamespaceName}
-import scala.collection.immutable.Stack
-import de.leanovate.jbj.runtime.value.{PVar, PVal}
+import de.leanovate.jbj.runtime.value.PVal
 
 class GenericStaticContext(var global: GlobalContext) extends StaticContext {
   private val variables = mutable.Map.empty[String, StaticVariable]

@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.stmt.loop
 
 import de.leanovate.jbj.runtime.value.{PVar, ArrayVal, PVal, PAny}
-import de.leanovate.jbj.ast.{NodePosition, Node, ReferableExpr}
+import de.leanovate.jbj.ast.{NodeVisitor, Node, ReferableExpr}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.ast.expr.ListReferableExpr
 import de.leanovate.jbj.runtime.context.Context
@@ -20,6 +20,7 @@ case class ValueForeachAssignment(reference: ReferableExpr) extends ForeachAssig
   override def assignValue(value: PAny, key: PVal, array: ArrayVal)(implicit ctx: Context) {
     reference.evalRef.assign(value.asVal)
   }
+
 }
 
 case class RefForeachAssignment(reference: ReferableExpr) extends ForeachAssignment {
@@ -37,6 +38,8 @@ case class RefForeachAssignment(reference: ReferableExpr) extends ForeachAssignm
         reference.evalRef.assign(pVar)
     }
   }
+
+  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(reference)
 }
 
 case class ListForeachAssignment(reference: ListReferableExpr) extends ForeachAssignment {
@@ -47,4 +50,6 @@ case class ListForeachAssignment(reference: ListReferableExpr) extends ForeachAs
   def assignValue(value: PAny, key: PVal, array: ArrayVal)(implicit ctx: Context) {
     reference.evalRef.assign(value)
   }
+
+  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(reference)
 }

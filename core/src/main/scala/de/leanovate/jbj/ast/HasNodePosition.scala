@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast
 
 import java.io.PrintStream
-import scala.xml.{Elem, NodeSeq}
+import scala.xml.Elem
 
 trait HasNodePosition {
   self: Node =>

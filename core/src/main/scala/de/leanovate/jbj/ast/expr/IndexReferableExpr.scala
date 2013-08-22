@@ -1,6 +1,6 @@
 package de.leanovate.jbj.ast.expr
 
-import de.leanovate.jbj.ast.{NodePosition, Expr, ReferableExpr}
+import de.leanovate.jbj.ast.{Expr, ReferableExpr}
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.value._
 import scala.Some

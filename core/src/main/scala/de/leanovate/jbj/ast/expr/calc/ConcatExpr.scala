@@ -1,7 +1,6 @@
 package de.leanovate.jbj.ast.expr.calc
 
 import de.leanovate.jbj.ast.Expr
-import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.ast.expr.BinaryExpr
 import de.leanovate.jbj.runtime.context.Context
 

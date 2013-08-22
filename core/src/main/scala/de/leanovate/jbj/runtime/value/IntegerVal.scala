@@ -1,7 +1,6 @@
 package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.context.Context
-import scala.xml.NodeSeq
 
 
 case class IntegerVal(asLong: Long) extends NumericVal {

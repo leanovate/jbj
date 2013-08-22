@@ -1,6 +1,6 @@
 package de.leanovate.jbj.ast.expr
 
-import de.leanovate.jbj.ast.Expr
+import de.leanovate.jbj.ast.{NodeVisitor, Expr}
 import de.leanovate.jbj.runtime.value.IntegerVal
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.context.Context
@@ -15,4 +15,6 @@ case class PrintExpr(expr: Expr) extends Expr {
     super.dump(out, ident)
     expr.dump(out, ident + "  ")
   }
+
+  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(expr)
 }

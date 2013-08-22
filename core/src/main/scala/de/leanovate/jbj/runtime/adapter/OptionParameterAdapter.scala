@@ -1,7 +1,7 @@
 package de.leanovate.jbj.runtime.adapter
 
-import de.leanovate.jbj.runtime.value.{PVal, PAny}
-import de.leanovate.jbj.ast.{Expr, NodePosition}
+import de.leanovate.jbj.runtime.value.PAny
+import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.runtime.context.Context
 
 case class OptionParameterAdapter[T, S <: PAny](converter: Converter[T, S]) extends ParameterAdapter[Option[T]] {

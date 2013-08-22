@@ -1,18 +1,12 @@
 package de.leanovate.jbj.ast.stmt
 
-import de.leanovate.jbj.ast.{StaticInitializer, Stmt}
-import de.leanovate.jbj.runtime.{SuccessExecResult}
+import de.leanovate.jbj.ast.{NodeVisitor, Stmt}
+import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.runtime.exception.RuntimeJbjException
-import de.leanovate.jbj.runtime.value.PVar
-import de.leanovate.jbj.runtime.context.{Context, StaticContext}
+import de.leanovate.jbj.runtime.context.Context
 
 case class TryCatchStmt(tryStmts: List[Stmt], catchBlocks: List[CatchBlock], finallyStmts: List[Stmt])
-  extends Stmt with StaticInitializer with BlockLike {
-
-  private val staticInitializers =
-    tryStmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer]) ++
-      catchBlocks.map(_.stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])).flatten ++
-      finallyStmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
+  extends Stmt with BlockLike {
 
   override def exec(implicit ctx: Context) = try {
     execStmts(tryStmts)
@@ -30,7 +24,6 @@ case class TryCatchStmt(tryStmts: List[Stmt], catchBlocks: List[CatchBlock], fin
     execStmts(finallyStmts)
   }
 
-  override def initializeStatic(staticCtx: StaticContext)(implicit ctx: Context) {
-    staticInitializers.foreach(_.initializeStatic(staticCtx))
-  }
+  override def visit[R](visitor: NodeVisitor[R]) =
+    visitor(this).thenChildren(tryStmts).thenChildren(catchBlocks).thenChildren(finallyStmts)
 }

@@ -1,7 +1,7 @@
 package de.leanovate.jbj.runtime
 
 import java.io.PrintStream
-import de.leanovate.jbj.ast.{FileNodePosition, NodePosition}
+import de.leanovate.jbj.ast.FileNodePosition
 import de.leanovate.jbj.runtime.context.Context
 
 class Log(context:Context, out: PrintStream, err: PrintStream) {
@@ -49,6 +49,14 @@ class Log(context:Context, out: PrintStream, err: PrintStream) {
       err.println("PHP Parse error: %s in %s on line %d".format(msg, position.fileName, position.line))
       out.println()
       out.println("Parse error: %s in %s on line %d".format(msg, position.fileName, position.line))
+    }
+  }
+
+  def deprecated(msg:String) {
+    if ((context.settings.errorReporting & Settings.E_DEPRECATED) != 0) {
+      err.println("PHP Deprecated: %s in %s on line %d".format(msg, context.currentPosition.fileName, context.currentPosition.line))
+      out.println()
+      out.println("Deprecated: %s in %s on line %d".format(msg, context.currentPosition.fileName, context.currentPosition.line))
     }
   }
 }

@@ -1,6 +1,6 @@
 package de.leanovate.jbj.ast.expr
 
-import de.leanovate.jbj.ast.ReferableExpr
+import de.leanovate.jbj.ast.{NodeVisitor, ReferableExpr}
 import de.leanovate.jbj.runtime.Reference
 import de.leanovate.jbj.runtime.value.{NullVal, ArrayVal, PAny}
 import de.leanovate.jbj.runtime.context.Context
@@ -42,11 +42,5 @@ case class ListReferableExpr(references: List[Option[ReferableExpr]]) extends Re
     }
   }
 
-  override def toXml =
-    <ListReferableExpr>
-      {references.map {
-      case Some(reference) => reference.toXml
-      case None => <empty/>
-    }}
-    </ListReferableExpr>
+  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(references.flatten)
 }

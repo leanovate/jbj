@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.stmt
 
 import de.leanovate.jbj.ast.{Expr, Stmt}
-import de.leanovate.jbj.runtime.{buildin}
+import de.leanovate.jbj.runtime.buildin
 import de.leanovate.jbj.runtime.value.ObjectVal
 import de.leanovate.jbj.runtime.exception.{FatalErrorJbjException, RuntimeJbjException}
 import de.leanovate.jbj.runtime.context.Context

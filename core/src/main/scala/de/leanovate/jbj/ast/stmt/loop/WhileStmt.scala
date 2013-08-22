@@ -1,15 +1,15 @@
 package de.leanovate.jbj.ast.stmt.loop
 
-import de.leanovate.jbj.ast.{StaticInitializer, Stmt, Expr}
+import de.leanovate.jbj.ast._
 import de.leanovate.jbj.runtime._
-import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.ast.stmt.BlockLike
-import de.leanovate.jbj.runtime.context.{Context, StaticContext}
+import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.BreakExecResult
+import de.leanovate.jbj.runtime.ReturnExecResult
+import de.leanovate.jbj.runtime.ContinueExecResult
 
-case class WhileStmt(condition: Expr, stmts: List[Stmt]) extends Stmt with BlockLike with StaticInitializer {
-  private val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
-
+case class WhileStmt(condition: Expr, stmts: List[Stmt]) extends Stmt with BlockLike {
   override def exec(implicit ctx: Context): ExecResult = {
     while (condition.evalOld.toBool.asBoolean) {
       execStmts(stmts) match {
@@ -24,7 +24,5 @@ case class WhileStmt(condition: Expr, stmts: List[Stmt]) extends Stmt with Block
     SuccessExecResult
   }
 
-  override def initializeStatic(staticCtx: StaticContext)(implicit ctx: Context) {
-    staticInitializers.foreach(_.initializeStatic(staticCtx))
-  }
+  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(condition).thenChildren(stmts)
 }

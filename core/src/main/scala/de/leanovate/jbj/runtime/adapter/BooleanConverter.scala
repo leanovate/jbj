@@ -1,6 +1,6 @@
 package de.leanovate.jbj.runtime.adapter
 
-import de.leanovate.jbj.runtime.value.{PAny, BooleanVal}
+import de.leanovate.jbj.runtime.value.BooleanVal
 import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.runtime.context.Context
 

@@ -5,12 +5,11 @@ import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.value._
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.context.{Context, MethodContext, StaticMethodContext}
-import de.leanovate.jbj.runtime.ReturnExecResult
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, returnByRef: Boolean, parameterDecls: List[ParameterDecl],
                                stmts: List[Stmt]) extends ClassMemberDecl with PMethod with BlockLike with FunctionLike {
-  private lazy val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
+  private lazy val staticInitializers = StaticInitializer.collect(stmts:_*)
 
   override lazy val isStatic = modifieres.contains(MemberModifier.STATIC)
 
@@ -65,4 +64,5 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
     }
   }
 
+  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(parameterDecls).thenChildren(stmts)
 }

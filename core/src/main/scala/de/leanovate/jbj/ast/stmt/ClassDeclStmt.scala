@@ -4,7 +4,7 @@ import de.leanovate.jbj.ast._
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.SuccessExecResult
 import scala.collection.mutable
-import de.leanovate.jbj.runtime.value.{PVal, ObjectVal}
+import de.leanovate.jbj.runtime.value.ObjectVal
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.{Context, InstanceContext}
@@ -95,4 +95,6 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
 
   private def findConstructor: Option[PMethod] =
     findMethod(name.toString).map(Some.apply).getOrElse(findMethod("__construct"))
+
+  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(decls)
 }

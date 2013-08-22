@@ -1,6 +1,6 @@
 package de.leanovate.jbj.runtime.env
 
-import de.leanovate.jbj.runtime.value.{PVar, PVal, StringVal, ArrayVal}
+import de.leanovate.jbj.runtime.value.{PVal, StringVal, ArrayVal}
 import de.leanovate.jbj.ast.NoNodePosition
 import de.leanovate.jbj.runtime.context.Context
 

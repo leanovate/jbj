@@ -1,17 +1,11 @@
 package de.leanovate.jbj.ast.stmt.cond
 
-import de.leanovate.jbj.ast.{StaticInitializer, Stmt, Expr}
-import de.leanovate.jbj.runtime.context.{Context, StaticContext}
+import de.leanovate.jbj.ast._
+import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.ast.stmt.BlockLike
 
 case class IfStmt(condition: Expr, thenStmts: List[Stmt], elseIfs: List[ElseIfBlock], elseStmts: List[Stmt])
-  extends Stmt with StaticInitializer with BlockLike {
-
-  private val staticInitializers =
-    thenStmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer]) ++
-      elseIfs.map(_.themStmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])).flatten ++
-      elseStmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
-
+  extends Stmt  with BlockLike {
 
   override def exec(implicit ctx: Context) = {
     if (condition.evalOld.toBool.asBoolean) {
@@ -25,7 +19,6 @@ case class IfStmt(condition: Expr, thenStmts: List[Stmt], elseIfs: List[ElseIfBl
     }
   }
 
-  override def initializeStatic(staticCtx: StaticContext)(implicit ctx: Context) {
-    staticInitializers.foreach(_.initializeStatic(staticCtx))
-  }
+  override def visit[R](visitor: NodeVisitor[R]) =
+    visitor(this).thenChild(condition).thenChildren(thenStmts).thenChildren(elseIfs).thenChildren(elseStmts)
 }

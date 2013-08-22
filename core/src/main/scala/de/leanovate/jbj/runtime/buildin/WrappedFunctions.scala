@@ -1,6 +1,6 @@
 package de.leanovate.jbj.runtime.buildin
 
-import de.leanovate.jbj.runtime.{PFunction}
+import de.leanovate.jbj.runtime.PFunction
 import scala.reflect.runtime.universe._
 import de.leanovate.jbj.runtime.adapter._
 import de.leanovate.jbj.runtime.value.{PVar, PAny, PVal}

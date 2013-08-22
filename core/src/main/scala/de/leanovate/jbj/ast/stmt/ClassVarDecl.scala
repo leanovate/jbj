@@ -1,10 +1,9 @@
 package de.leanovate.jbj.ast.stmt
 
 import de.leanovate.jbj.ast.{StaticInitializer, MemberModifier}
-import de.leanovate.jbj.runtime.{PVisibility}
+import de.leanovate.jbj.runtime.PVisibility
 import de.leanovate.jbj.runtime.value.{NullVal, ObjectVal, PVar}
 import de.leanovate.jbj.runtime.context.{Context, StaticContext}
-import de.leanovate.jbj.runtime
 
 case class ClassVarDecl(modifieres: Set[MemberModifier.Type],
                             assignments: List[StaticAssignment]) extends ClassMemberDecl with StaticInitializer {

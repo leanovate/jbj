@@ -1,9 +1,7 @@
 package de.leanovate.jbj.ast.expr.value
 
 import de.leanovate.jbj.ast.Expr
-import java.io.PrintStream
 import de.leanovate.jbj.runtime.value.PVal
-import de.leanovate.jbj.runtime.buildin.OutputFunctions
 import de.leanovate.jbj.runtime.context.Context
 
 case class ScalarExpr(value: PVal) extends Expr {

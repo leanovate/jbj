@@ -1,10 +1,10 @@
 package de.leanovate.jbj.runtime.context
 
-import de.leanovate.jbj.ast.{Prog, NodePosition, NamespaceName}
+import de.leanovate.jbj.ast.{NodePosition, NamespaceName}
 import de.leanovate.jbj.runtime._
 import scala.collection.mutable
 import scala.collection.immutable.Stack
-import de.leanovate.jbj.runtime.value.{PVar, PVal, ObjectVal}
+import de.leanovate.jbj.runtime.value.{PVal, ObjectVal}
 
 case class MethodContext(instance: ObjectVal, methodName: String, callerCtx: Context) extends Context {
   private val localVariables = mutable.Map.empty[String, Variable]

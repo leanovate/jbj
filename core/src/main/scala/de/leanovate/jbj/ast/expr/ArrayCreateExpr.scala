@@ -3,7 +3,6 @@ package de.leanovate.jbj.ast.expr
 import de.leanovate.jbj.ast.{ReferableExpr, Expr}
 import de.leanovate.jbj.runtime.value.ArrayVal
 import de.leanovate.jbj.runtime.context.Context
-import scala.xml.NodeSeq
 
 case class ArrayKeyValue(key: Option[Expr], value: Expr, isRef: Boolean) {
   def toXml = Seq(

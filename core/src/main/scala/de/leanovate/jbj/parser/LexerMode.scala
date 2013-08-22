@@ -1,8 +1,5 @@
 package de.leanovate.jbj.parser
 
-import scala.util.parsing.input.Reader
-import de.leanovate.jbj.parser.JbjTokens.Token
-import de.leanovate.jbj.runtime.exception.ParseJbjException
 
 sealed trait LexerMode {
   def newLexer(): Lexer

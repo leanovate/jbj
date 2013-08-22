@@ -1,7 +1,7 @@
 package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.runtime.value._
-import de.leanovate.jbj.ast.{Expr, ClassEntry, NamespaceName, NodePosition}
+import de.leanovate.jbj.ast.{Expr, ClassEntry, NamespaceName}
 import scala.collection.Map
 import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.runtime.context.Context

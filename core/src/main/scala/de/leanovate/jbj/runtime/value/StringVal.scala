@@ -1,9 +1,7 @@
 package de.leanovate.jbj.runtime.value
 
-import de.leanovate.jbj.ast.NodePosition
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.Context
-import scala.xml.NodeSeq
 
 class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
   def asString(implicit ctx: Context) = new String(chars, ctx.settings.charset)

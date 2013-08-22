@@ -58,6 +58,7 @@ import de.leanovate.jbj.ast.name.StaticNamespaceName
 import de.leanovate.jbj.ast.expr.value.MethodNameConstExpr
 import de.leanovate.jbj.ast.expr.comp.NotEqExpr
 import de.leanovate.jbj.ast.expr.PropertyReferableExpr
+import de.leanovate.jbj.ast.stmt.loop.RefForeachAssignment
 import de.leanovate.jbj.ast.stmt.ClassConstDecl
 import de.leanovate.jbj.ast.expr.comp.BoolOrExpr
 import de.leanovate.jbj.ast.stmt.GlobalVarDeclAssignStmt
@@ -104,6 +105,7 @@ import de.leanovate.jbj.ast.stmt.loop.WhileStmt
 import de.leanovate.jbj.ast.stmt.cond.ElseIfBlock
 import de.leanovate.jbj.ast.expr.calc.DivByReferableExpr
 import de.leanovate.jbj.ast.stmt.ClassMethodDecl
+import de.leanovate.jbj.ast.stmt.loop.ValueForeachAssignment
 import de.leanovate.jbj.ast.stmt.loop.ForeachStmt
 import de.leanovate.jbj.ast.expr.AssignRefReferableExpr
 import de.leanovate.jbj.ast.expr.value.ScalarExpr
@@ -123,6 +125,7 @@ import de.leanovate.jbj.ast.stmt.ContinueStmt
 import de.leanovate.jbj.ast.expr.StaticClassVarReferableExpr
 import de.leanovate.jbj.ast.expr.calc.BitXorExpr
 import de.leanovate.jbj.ast.expr.IncrAndGetExpr
+import de.leanovate.jbj.ast.stmt.loop.ListForeachAssignment
 import de.leanovate.jbj.ast.expr.ClassNameExpr
 import de.leanovate.jbj.ast.expr.DecrAndGetExpr
 import de.leanovate.jbj.ast.expr.include.RequireOnceExpr
@@ -277,7 +280,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       ref => ValueForeachAssignment(ref)
     } | "&" ~> variable ^^ {
       ref => RefForeachAssignment(ref)
-    }| "list" ~> "(" ~> assignmentList <~ ")" ^^ {
+    } | "list" ~> "(" ~> assignmentList <~ ")" ^^ {
       refs => ListForeachAssignment(ListReferableExpr(refs))
     }
 
@@ -398,11 +401,16 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     expr ~ "?" ~ expr ~ ":" ~ expr ^^ {
       case cond ~ _ ~ tExpr ~ _ ~ fExpr => TernaryExpr(cond, tExpr, fExpr)
     } | "list" ~> "(" ~> assignmentList ~ ")" ~ "=" ~ expr ^^ {
-      case refs ~ _ ~ _ ~e => AssignReferableExpr(ListReferableExpr(refs), e)
-    }| variable ~ "=" ~ expr ^^ {
+      case refs ~ _ ~ _ ~ e => AssignReferableExpr(ListReferableExpr(refs), e)
+    } | variable ~ "=" ~ expr ^^ {
       case v ~ _ ~ e => AssignReferableExpr(v, e)
     } | variable ~ "=" ~ "&" ~ variable ^^ {
       case v ~ _ ~ _ ~ ref => AssignRefReferableExpr(v, ref)
+    } | variable ~ "=" ~ "&" ~ "new" ~ classNameReference ~ ctorArguments ^^ {
+      case v ~ _ ~ _ ~ _ ~ name ~ args =>
+        val result = AssignRefReferableExpr(v, NewReferableExpr(name, args))
+        result.deprecated = Some("Assigning the return value of new by reference is deprecated")
+        result
     } | "clone" ~> expr ^^ {
       e => CloneExpr(e)
     } | variable ~ "+=" ~ expr ^^ {
@@ -872,12 +880,14 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   implicit def parser2packrat1[T <: HasNodePosition](p: => super.Parser[T]): PackratParser[T] = {
     lazy val q = p
     memo(super.Parser {
-      in => q(in) match {
-        case Success(n, in1) =>
-          n.position = FileNodePosition(parseCtx.fileName, in.pos.line)
-          Success(n, in1)
-        case ns: NoSuccess => ns
-      }
+      in =>
+        val pos = FileNodePosition(parseCtx.fileName, in.pos.line)
+        q(in) match {
+          case Success(n, in1) =>
+            n.position = pos
+            Success(n, in1)
+          case ns: NoSuccess => ns
+        }
     })
   }
 }

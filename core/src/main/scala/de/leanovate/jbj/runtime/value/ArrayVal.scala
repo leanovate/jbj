@@ -1,8 +1,6 @@
 package de.leanovate.jbj.runtime.value
 
-import de.leanovate.jbj.runtime._
 import scala.collection.mutable
-import de.leanovate.jbj.ast.NodePosition
 import de.leanovate.jbj.runtime.context.Context
 
 class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extends PVal with ArrayLike {

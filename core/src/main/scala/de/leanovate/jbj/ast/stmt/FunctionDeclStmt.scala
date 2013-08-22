@@ -3,17 +3,12 @@ package de.leanovate.jbj.ast.stmt
 import de.leanovate.jbj.ast._
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.SuccessExecResult
-import de.leanovate.jbj.runtime.value.{PVar, NullVal}
-import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.context.{Context, FunctionContext}
-import de.leanovate.jbj.runtime.BreakExecResult
-import de.leanovate.jbj.runtime.ReturnExecResult
-import de.leanovate.jbj.runtime.ContinueExecResult
 
 case class FunctionDeclStmt(name: NamespaceName, returnByRef: Boolean, parameterDecls: List[ParameterDecl], stmts: List[Stmt])
   extends Stmt with PFunction with BlockLike with FunctionLike {
-  private lazy val staticInitializers = stmts.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
+  private lazy val staticInitializers = StaticInitializer.collect(stmts:_*)
 
   override def exec(implicit ctx: Context) = {
     ctx.defineFunction(this)
@@ -39,4 +34,6 @@ case class FunctionDeclStmt(name: NamespaceName, returnByRef: Boolean, parameter
         stmt.dump(out, ident + "  ")
     }
   }
+
+  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(parameterDecls).thenChildren(stmts)
 }
