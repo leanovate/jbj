@@ -6,7 +6,7 @@ import de.leanovate.jbj.runtime.context.Context
 
 object IntConverter extends Converter[Int, IntegerVal] {
 
-  def toScalaWithConversion(expr: Expr)(implicit ctx: Context) = toScala(expr.evalOld.asVal.toInteger)
+  def toScalaWithConversion(expr: Expr)(implicit ctx: Context) = toScala(expr.eval.asVal.toInteger)
 
   def toScala(value: IntegerVal)(implicit ctx: Context) = value.asInt
 

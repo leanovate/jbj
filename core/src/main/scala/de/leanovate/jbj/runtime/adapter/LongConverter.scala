@@ -5,7 +5,7 @@ import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.runtime.context.Context
 
 object LongConverter extends Converter[Long, IntegerVal] {
-  override def toScalaWithConversion(expr: Expr)(implicit ctx: Context) = toScala(expr.evalOld.toInteger)
+  override def toScalaWithConversion(expr: Expr)(implicit ctx: Context) = toScala(expr.eval.asVal.toInteger)
 
   override def toScala(value: IntegerVal)(implicit ctx: Context) = value.asLong
 

@@ -17,7 +17,7 @@ case class ForeachStmt(arrayExpr: Expr,
                        stmts: List[Stmt]) extends Stmt with BlockLike {
 
   def exec(implicit ctx: Context) = {
-    arrayExpr.evalOld match {
+    arrayExpr.eval.asVal match {
       case array: ArrayVal =>
         execValues(array, array.keyValues.toList)
       case _ =>

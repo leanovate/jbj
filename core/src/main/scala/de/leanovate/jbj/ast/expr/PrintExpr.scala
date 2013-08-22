@@ -7,7 +7,7 @@ import de.leanovate.jbj.runtime.context.Context
 
 case class PrintExpr(expr: Expr) extends Expr {
   override def eval(implicit ctx: Context) = {
-    ctx.out.print(expr.evalOld.toOutput)
+    ctx.out.print(expr.eval.toOutput)
     IntegerVal(1)
   }
 

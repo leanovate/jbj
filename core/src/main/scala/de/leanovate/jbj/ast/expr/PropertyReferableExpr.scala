@@ -12,7 +12,7 @@ import de.leanovate.jbj.runtime.buildin.StdClass
 case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) extends ReferableExpr {
   override def isDefined(implicit ctx: Context) = {
     if (reference.isDefined) {
-      reference.evalOld match {
+      reference.eval.asVal match {
         case obj: ObjectVal =>
           val name = propertyName.evalName
           if (obj.getProperty(name).isDefined) {
@@ -28,7 +28,7 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
   }
 
   override def eval(implicit ctx: Context) = {
-    reference.evalOld match {
+    reference.eval.asVal match {
       case obj: ObjectVal =>
         val name = propertyName.evalName
         obj.getProperty(name).map(_.asVal).getOrElse {

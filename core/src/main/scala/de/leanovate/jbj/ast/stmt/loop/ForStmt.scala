@@ -13,10 +13,10 @@ case class ForStmt(befores: List[Expr], conditions: List[Expr], afters: List[Exp
   extends Stmt with BlockLike {
 
   override def exec(implicit ctx: Context): ExecResult = {
-    befores.foreach(_.evalOld)
+    befores.foreach(_.eval)
     while (conditions.foldLeft(true) {
       (result, cond) =>
-        cond.evalOld.toBool.asBoolean
+        cond.eval.asVal.toBool.asBoolean
     }) {
       execStmts(stmts) match {
         case BreakExecResult(depth) if depth > 1 => return BreakExecResult(depth - 1)
@@ -26,7 +26,7 @@ case class ForStmt(befores: List[Expr], conditions: List[Expr], afters: List[Exp
         case result: ReturnExecResult => return result
         case _ =>
       }
-      afters.foreach(_.evalOld)
+      afters.foreach(_.eval)
     }
     SuccessExecResult
   }

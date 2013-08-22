@@ -7,7 +7,7 @@ import de.leanovate.jbj.runtime.context.Context
 
 case class ExprStmt(expr: Expr) extends Stmt {
   override def exec(implicit ctx: Context) = {
-    expr.evalOld
+    expr.eval
     SuccessExecResult
   }
 
