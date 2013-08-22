@@ -11,7 +11,7 @@ import de.leanovate.jbj.runtime.context.Context
 case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr]) extends ReferableExpr {
   override def evalRef(implicit ctx: Context) = new Reference {
     val parentRef = reference.evalRef
-    val optArrayKey = indexExpr.map(_.evalOld)
+    val optArrayKey = indexExpr.map(_.eval.asVal)
 
     def asVal = {
       if (optArrayKey.isEmpty)
