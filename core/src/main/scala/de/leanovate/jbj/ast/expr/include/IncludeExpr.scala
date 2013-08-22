@@ -13,7 +13,7 @@ case class IncludeExpr(file: Expr) extends Expr {
     ctx.global.include(filename) match {
       case Some((prog, _)) =>
         prog.exec match {
-          case ReturnExecResult(returnExpr) => returnExpr.map(_.evalOld).getOrElse(NullVal)
+          case ReturnExecResult(returnExpr) => returnExpr.map(_.eval.asVal).getOrElse(NullVal)
           case _ => BooleanVal.TRUE
         }
       case _ =>

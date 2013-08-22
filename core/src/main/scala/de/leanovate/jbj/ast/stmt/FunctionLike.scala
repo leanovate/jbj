@@ -30,7 +30,7 @@ trait FunctionLike extends BlockLike {
             case _ if parameterDecl.byRef =>
               throw new FatalErrorJbjException("Only variables can be passed by reference")(callerContext)
             case expr =>
-              funcCtx.getVariable(parameterDecl.variableName).value = expr.evalOld(callerContext)
+              funcCtx.getVariable(parameterDecl.variableName).value = expr.eval(callerContext).asVal
           }
         } else {
           funcCtx.getVariable(parameterDecl.variableName).value = parameterDecl.defaultVal(callerContext)
@@ -50,8 +50,8 @@ trait FunctionLike extends BlockLike {
         }
         case Some(expr) if returnByRef =>
           funcCtx.log.notice("Only variable references should be returned by reference")
-          expr.evalOld(funcCtx).asVar
-        case Some(expr) => expr.evalOld(funcCtx)
+          expr.eval(funcCtx).asVar
+        case Some(expr) => expr.eval(funcCtx).asVal
         case None => NullVal
       }
       case result: BreakExecResult =>

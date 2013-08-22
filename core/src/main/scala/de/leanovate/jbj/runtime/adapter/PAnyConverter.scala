@@ -5,7 +5,7 @@ import de.leanovate.jbj.ast.Expr
 import de.leanovate.jbj.runtime.context.Context
 
 object PAnyConverter extends Converter[PAny, PAny] {
-  override def toScalaWithConversion(expr: Expr)(implicit ctx: Context) =  expr.evalOld
+  override def toScalaWithConversion(expr: Expr)(implicit ctx: Context) =  expr.eval.asVal
 
   override def toScala(value: PAny)(implicit ctx: Context) = value
 
