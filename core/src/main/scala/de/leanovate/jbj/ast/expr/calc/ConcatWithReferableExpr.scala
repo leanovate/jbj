@@ -8,13 +8,13 @@ import de.leanovate.jbj.runtime.context.Context
 
 case class ConcatWithReferableExpr(reference: ReferableExpr, expr: Expr) extends ReferableExpr {
   override def eval(implicit ctx: Context) = {
-    val result = reference.evalOld.toStr dot expr.evalOld.toStr
+    val result = reference.evalOld.toStr __ expr.evalOld.toStr
     reference.evalRef.assign(result)
     result
   }
 
   override def evalRef(implicit ctx: Context): Reference = new Reference {
-    val result = evalOld
+    val result = eval
 
     def asVal = result
 

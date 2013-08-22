@@ -67,6 +67,27 @@ class PVar(private var current: Option[PVal] = None) extends PAny {
     builder.append(")")
     builder.result()
   }
+
+  def +=(other: PAny)(implicit ctx: Context): PAny = {
+    value_=(this.asVal.toNum + other.asVal.toNum)
+    value
+  }
+
+  def -=(other: PAny)(implicit ctx: Context): PAny = {
+    value_=(this.asVal.toNum - other.asVal.toNum)
+    value
+  }
+
+  def *=(other: PAny)(implicit ctx: Context): PAny = {
+    value_=(this.asVal.toNum * other.asVal.toNum)
+    value
+  }
+
+  def /=(other: PAny)(implicit ctx: Context): PAny = {
+    value_=(this.asVal.toNum / other.asVal.toNum)
+    value
+  }
+
 }
 
 object PVar {
