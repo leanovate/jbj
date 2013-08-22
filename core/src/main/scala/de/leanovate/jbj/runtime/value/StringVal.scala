@@ -133,7 +133,7 @@ class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
     throw new FatalErrorJbjException("Cannot unset string offsets")
   }
 
-  def __(other: StringVal): PVal = StringVal(Array.concat(chars, other.chars))
+  def !(other: StringVal): PVal = StringVal(Array.concat(chars, other.chars))
 
   def &(other: StringVal): PVal = {
     val resultLength = Math.min(chars.length, other.chars.length)

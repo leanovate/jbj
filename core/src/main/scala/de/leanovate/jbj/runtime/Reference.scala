@@ -13,20 +13,13 @@ trait Reference {
   def unset()
 
 
-  def +=(other: PAny)(implicit ctx: Context): PAny = {
-    assign(this.asVal.toNum + other.asVal.toNum)
-  }
+  def +=(other: PAny)(implicit ctx: Context): PAny = assign(this.asVal.toNum + other.asVal.toNum)
 
-  def -=(other: PAny)(implicit ctx: Context): PAny = {
-    assign(this.asVal.toNum - other.asVal.toNum)
-  }
+  def -=(other: PAny)(implicit ctx: Context): PAny = assign(this.asVal.toNum - other.asVal.toNum)
 
-  def *=(other: PAny)(implicit ctx: Context): PAny = {
-    assign(this.asVal.toNum * other.asVal.toNum)
-  }
+  def *=(other: PAny)(implicit ctx: Context): PAny = assign(this.asVal.toNum * other.asVal.toNum)
 
-  def /=(other: PAny)(implicit ctx: Context): PAny = {
-    assign(this.asVal.toNum / other.asVal.toNum)
-  }
+  def /=(other: PAny)(implicit ctx: Context): PAny = assign(this.asVal.toNum / other.asVal.toNum)
 
+  def !=(other: PAny)(implicit ctx: Context): PAny = assign(this.asVal.toStr ! other.asVal.toStr)
 }
