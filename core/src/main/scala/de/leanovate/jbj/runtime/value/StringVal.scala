@@ -39,7 +39,49 @@ class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
 
   override def copy = new StringVal(chars.clone())
 
-  override def incr = this
+  override def incr: PVal = {
+    if (isStrongNumericPattern)
+      toNum.incr
+    else {
+      val tail = Array.newBuilder[Byte]
+      for (i <- Range(0, chars.length).reverse) {
+        val ch = chars(i)
+
+        if (ch == 'z') {
+          tail += 'a'
+          if (i == 0) {
+            tail += 'a'
+            return new StringVal(tail.result().reverse)
+          }
+        } else if ('a' <= ch && ch < 'z') {
+          tail += (ch + 1).toByte
+          return new StringVal(chars.take(i) ++ tail.result().reverse)
+        } else if (ch == 'Z') {
+          tail += 'A'
+          if (i == 0) {
+            tail += 'A'
+            return new StringVal(tail.result().reverse)
+          }
+        } else if ('A' <= ch && ch < 'Z') {
+          tail += (ch + 1).toByte
+          new StringVal(chars.take(i) ++ tail.result().reverse)
+        } else if (ch == '9') {
+          tail += '0'
+          if (i == 0) {
+            tail += '1'
+            return new StringVal(tail.result().reverse)
+          }
+        } else if ('0' <= ch && ch < '9') {
+          tail += (ch + 1).toByte
+          return new StringVal(chars.take(i) ++ tail.result().reverse)
+        } else {
+          return new StringVal(chars.take(i + 1) ++ tail.result().reverse)
+        }
+      }
+
+      new StringVal(tail.result().reverse)
+    }
+  }
 
   override def decr = if (isStrongNumericPattern) toNum.decr else this
 

@@ -3,10 +3,10 @@ package de.leanovate.jbj.tests.lang.operators
 import org.specs2.mutable.SpecificationWithJUnit
 import de.leanovate.jbj.tests.TestJbjExecutor
 
-class PreIncrSpec extends SpecificationWithJUnit with TestJbjExecutor {
-  "Pre increment operator" should {
-    "Test ++N operator : various numbers as strings" in {
-      // lang/operators/preinc_varaitionStr
+class PostIncrSpec extends SpecificationWithJUnit with TestJbjExecutor {
+  "Post increment operator ($x++)" should {
+    "Test N++ operator : various numbers as strings" in {
+      // lang/operators/postinc_variationStr
       script(
         """<?php
           |
@@ -18,7 +18,8 @@ class PreIncrSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |
           |foreach ($strVals as $strVal) {
           |   echo "--- testing: '$strVal' ---\n";
-          |   var_dump(++$strVal);
+          |   $strVal++;
+          |   var_dump($strVal);
           |}
           |
           |?>
@@ -55,8 +56,9 @@ class PreIncrSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |===DONE===""".stripMargin
       )
     }
-    "Test ++N operator : 64bit long tests" in {
-      // lang/operators/preinc_basiclong_64bit
+
+    "Test N++ operator : 64bit long tests" in {
+      // lang/operators/postinc_basiclong_64bit
       script(
         """<?php
           |
@@ -74,7 +76,8 @@ class PreIncrSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |
           |foreach ($longVals as $longVal) {
           |   echo "--- testing: $longVal ---\n";
-          |   var_dump(++$longVal);
+          |   $longVal++;
+          |   var_dump($longVal);
           |}
           |
           |?>

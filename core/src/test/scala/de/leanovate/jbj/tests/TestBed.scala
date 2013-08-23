@@ -46,22 +46,15 @@ object TestBed {
     test(
       """<?php
         |
-        |define("MAX_64Bit", 9223372036854775807);
-        |define("MAX_32Bit", 2147483647);
-        |define("MIN_64Bit", -9223372036854775807 - 1);
-        |define("MIN_32Bit", -2147483647 - 1);
-        |
-        |$longVals = array(
-        |    MAX_64Bit, MIN_64Bit, MAX_32Bit, MIN_32Bit, MAX_64Bit - MAX_32Bit, MIN_64Bit - MIN_32Bit,
-        |    MAX_32Bit + 1, MIN_32Bit - 1, MAX_32Bit * 2, (MAX_32Bit * 2) + 1, (MAX_32Bit * 2) - 1,
-        |    MAX_64Bit -1, MAX_64Bit + 1, MIN_64Bit + 1, MIN_64Bit - 1
+        |$strVals = array(
+        |   "0","65","-44", "1.2", "-7.7", "abc", "123abc", "123e5", "123e5xyz", " 123abc", "123 abc", "123abc ", "3.4a",
+        |   "a5.9"
         |);
         |
         |
-        |foreach ($longVals as $longVal) {
-        |   echo "--- testing: $longVal ---\n";
-        |   $longVal--;
-        |   var_dump($longVal);
+        |foreach ($strVals as $strVal) {
+        |   echo "--- testing: '$strVal' ---\n";
+        |   var_dump(++$strVal);
         |}
         |
         |?>
