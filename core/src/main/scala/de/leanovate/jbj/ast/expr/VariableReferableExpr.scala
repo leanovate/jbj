@@ -7,8 +7,6 @@ import de.leanovate.jbj.runtime.value.{PVal, PAny, PVar}
 import de.leanovate.jbj.runtime.context.Context
 
 case class VariableReferableExpr(variableName: Name) extends ReferableExpr {
-  override def isDefined(implicit ctx: Context) = ctx.getVariable(variableName.evalName).isDefined
-
   override def eval(implicit ctx: Context) = {
     val name = variableName.evalName
     ctx.getVariable(name)
