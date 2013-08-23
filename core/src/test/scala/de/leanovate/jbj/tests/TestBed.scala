@@ -45,19 +45,27 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
+        |class par {
+        |	private $id = "foo";
         |
-        |$strVals = array(
-        |   "0","65","-44", "1.2", "-7.7", "abc", "123abc", "123e5", "123e5xyz", " 123abc", "123 abc", "123abc ", "3.4a",
-        |   "a5.9"
-        |);
+        |	function displayMe()
+        |	{
+        |		print $this->id;
+        |	}
+        |};
+        |
+        |class chld extends par {
+        |	public $id = "bar";
+        |	function displayHim()
+        |	{
+        |		parent::displayMe();
+        |	}
+        |};
         |
         |
-        |foreach ($strVals as $strVal) {
-        |   echo "--- testing: '$strVal' ---\n";
-        |   var_dump(++$strVal);
-        |}
-        |
+        |$obj = new chld();
+        |$obj->displayHim();
         |?>
-        |===DONE===""".stripMargin)
+        |""".stripMargin)
   }
 }

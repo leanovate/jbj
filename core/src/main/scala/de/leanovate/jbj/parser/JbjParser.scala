@@ -13,6 +13,8 @@ import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.ast.NamespaceName
 import de.leanovate.jbj.runtime.Settings
 import de.leanovate.jbj.ast.stmt.loop._
+import de.leanovate.jbj.ast.expr._
+import de.leanovate.jbj.ast.Prog
 import de.leanovate.jbj.parser.JbjTokens.ArrayCast
 import de.leanovate.jbj.ast.stmt.cond.DefaultCaseBlock
 import de.leanovate.jbj.ast.stmt.TraitUseDecl
@@ -32,7 +34,6 @@ import de.leanovate.jbj.ast.expr.value.ClassNameConstExpr
 import de.leanovate.jbj.parser.JbjTokens.Inline
 import de.leanovate.jbj.ast.stmt.UnsetStmt
 import de.leanovate.jbj.ast.stmt.StaticVarDeclStmt
-import de.leanovate.jbj.ast.Prog
 import de.leanovate.jbj.ast.expr.ListReferableExpr
 import de.leanovate.jbj.ast.expr.calc.BitAndExpr
 import de.leanovate.jbj.ast.stmt.ExprStmt
@@ -519,13 +520,14 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   } | "\\" ~> namespaceName ~ functionCallParameterList ^^ {
     case name ~ params => CallFunctionReferableExpr(StaticNamespaceName(NamespaceName(relative = false, name.path: _*)), params)
   } | className ~ "::" ~ variableName ~ functionCallParameterList ^^ {
-    case cname ~ _ ~ method ~ params => CallStaticMethodReferableExpr(cname, method, params)
+    case NamespaceName("parent") ~ _ ~ method ~ params => CallParentMethodReferableExpr(method, params)
+    case cname ~ _ ~ method ~ params => CallStaticMethodReferableExpr(StaticNamespaceName(cname), method, params)
   } | className ~ "::" ~ variableWithoutObjects ~ functionCallParameterList ^^ {
     case cname ~ _ ~ ((n, dims)) ~ params =>
       val method = DynamicName(dims.foldLeft(VariableReferableExpr(n).asInstanceOf[ReferableExpr]) {
         (ref, dim) => IndexReferableExpr(ref, dim)
       })
-      CallStaticMethodReferableExpr(cname, method, params)
+      CallStaticMethodReferableExpr(StaticNamespaceName(cname), method, params)
   } | variableClassName ~ "::" ~ variableName ~ functionCallParameterList ^^ {
     case cname ~ _ ~ method ~ params => CallStaticMethodReferableExpr(cname, method, params)
   } | variableClassName ~ "::" ~ variableWithoutObjects ~ functionCallParameterList ^^ {
@@ -542,11 +544,11 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       CallFunctionReferableExpr(func, params)
   }
 
-  lazy val className: PackratParser[Name] =
-    namespaceName ^^ StaticNamespaceName.apply | "namespace" ~> "\\" ~> namespaceName ^^ {
-      n => StaticNamespaceName(NamespaceName(relative = false, n.path: _*))
+  lazy val className: PackratParser[NamespaceName] =
+    namespaceName | "namespace" ~> "\\" ~> namespaceName ^^ {
+      n => NamespaceName(relative = false, n.path: _*)
     } | "\\" ~> namespaceName ^^ {
-      n => StaticNamespaceName(NamespaceName(relative = false, n.path: _*))
+      n => NamespaceName(relative = false, n.path: _*)
     }
 
   lazy val fullyQualifiedClassName: PackratParser[NamespaceName] =
@@ -557,7 +559,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       n => NamespaceName(relative = false, n.path: _*)
     }
 
-  lazy val classNameReference: PackratParser[Name] = className | dynamicClassNameReference
+  lazy val classNameReference: PackratParser[Name] = className ^^ StaticNamespaceName.apply | dynamicClassNameReference
+
 
   lazy val dynamicClassNameReference: PackratParser[Name] =
     baseVariable ~ rep("->" ~> objectProperty) ^^ {
@@ -602,7 +605,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     } | staticClassConstant | "__CLASS__" ^^^ ClassNameConstExpr()
 
   lazy val staticClassConstant: PackratParser[Expr] = className ~ "::" ~ identLit ^^ {
-    case cname ~ _ ~ name => ClassConstantExpr(cname, name)
+    case cname ~ _ ~ name => ClassConstantExpr(StaticNamespaceName(cname), name)
   }
 
   lazy val scalar: PackratParser[Expr] = classNameScalar | classConstant | namespaceName ^^ {
@@ -673,7 +676,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val staticMember: PackratParser[ReferableExpr] = className ~ "::" ~ variableWithoutObjects ^^ {
     case cname ~ _ ~ ((n, dims)) =>
-      dims.foldLeft(StaticClassVarReferableExpr(cname, n).asInstanceOf[ReferableExpr]) {
+      dims.foldLeft(StaticClassVarReferableExpr(StaticNamespaceName(cname), n).asInstanceOf[ReferableExpr]) {
         (ref, dim) => IndexReferableExpr(ref, dim)
       }
   } | variableClassName ~ "::" ~ variableWithoutObjects ^^ {
@@ -807,17 +810,17 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val issetVariable: PackratParser[Expr] = expr
 
   lazy val classConstant: PackratParser[Expr] = className ~ "::" ~ identLit ^^ {
-    case cname ~ _ ~ n => ClassConstantExpr(cname, n)
+    case cname ~ _ ~ n => ClassConstantExpr(StaticNamespaceName(cname), n)
   } | variableClassName ~ "::" ~ identLit ^^ {
     case cname ~ _ ~ n => ClassConstantExpr(cname, n)
   }
 
   lazy val staticClassNameScalar: PackratParser[Expr] = className <~ "::" <~ "class" ^^ {
-    cname => ClassNameExpr(cname)
+    cname => ClassNameExpr(StaticNamespaceName(cname))
   }
 
   lazy val classNameScalar: PackratParser[Expr] = className <~ "::" <~ "class" ^^ {
-    cname => ClassNameExpr(cname)
+    cname => ClassNameExpr(StaticNamespaceName(cname))
   }
 
   lazy val inlineHtml: PackratParser[InlineStmt] =
