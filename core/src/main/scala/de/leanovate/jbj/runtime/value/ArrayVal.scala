@@ -35,7 +35,10 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
 
   def isEmpty = keyValueMap.isEmpty
 
-  override def copy(implicit ctx: Context) = new ArrayVal(keyValueMap.clone())
+  override def copy = {
+    iteratorState = None
+    new ArrayVal(keyValueMap.clone())
+  }
 
   override def incr = this
 

@@ -13,7 +13,7 @@ abstract class BooleanVal extends PVal {
 
   override def isNull = false
 
-  override def copy(implicit ctx: Context) = this
+  override def copy = this
 
   override def incr = this
 

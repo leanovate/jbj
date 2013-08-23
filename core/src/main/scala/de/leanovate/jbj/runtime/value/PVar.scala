@@ -15,9 +15,10 @@ class PVar(private var current: Option[PVal] = None) extends PAny {
   def value = current.getOrElse(NullVal)
 
   def value_=(v: PVal) {
+    val toSet = Some(v)
     var pVar = this
     do {
-      pVar.set(Some(v))
+      pVar.set(toSet)
       pVar = pVar.next
     } while (pVar != this)
   }

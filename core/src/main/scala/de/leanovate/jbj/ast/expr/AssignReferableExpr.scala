@@ -8,11 +8,11 @@ import de.leanovate.jbj.runtime.context.Context
 
 case class AssignReferableExpr(reference: ReferableExpr, expr: Expr) extends ReferableExpr {
   override def eval(implicit ctx: Context) = {
-    reference.evalRef.assign(expr.eval.asVal)
+    reference.evalRef.assign(expr.eval.asVal.copy)
   }
 
   override def evalRef(implicit ctx: Context) = new Reference {
-    val result = reference.evalRef.assign(expr.eval.asVal)
+    val result = reference.evalRef.assign(expr.eval.asVal.copy)
 
     def asVal = result.asVal
 

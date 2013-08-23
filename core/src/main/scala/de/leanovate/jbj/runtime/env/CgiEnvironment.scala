@@ -28,8 +28,8 @@ object CgiEnvironment {
     )
 
     val requestArray = decodeFormData(queryString.getOrElse(""))(ctx)
-    ctx.getVariable("_GET").value = requestArray.copy
-    ctx.getVariable("_REQUEST").value = requestArray.copy
+    ctx.getVariable("_GET").value = requestArray
+    ctx.getVariable("_REQUEST").value = requestArray
   }
 
   def httpPostForm(uriStr: String, formData: String)(implicit ctx: Context) {
@@ -47,10 +47,10 @@ object CgiEnvironment {
     )
 
     val getRequestArray = decodeFormData(queryString.getOrElse(""))(ctx)
-    ctx.getVariable("_GET").value = getRequestArray.copy
+    ctx.getVariable("_GET").value = getRequestArray
     val postRequestArray = decodeFormData(formData)(ctx)
-    ctx.getVariable("_POST").value = postRequestArray.copy
-    ctx.getVariable("_REQUEST").value = postRequestArray.copy
+    ctx.getVariable("_POST").value = postRequestArray
+    ctx.getVariable("_REQUEST").value = postRequestArray
   }
 
   def decodeKeyValues(keyValues: Seq[(String, String)])(implicit ctx: Context) = {

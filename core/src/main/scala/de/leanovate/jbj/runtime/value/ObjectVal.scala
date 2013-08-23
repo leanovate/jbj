@@ -33,7 +33,9 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
 
   override def isNull = false
 
-  override def copy(implicit ctx: Context) = new ObjectVal(pClass, ctx.global.instanceCounter.incrementAndGet(), keyValueMap.clone())
+  override def copy = this
+
+  override def clone(implicit ctx: Context) = new ObjectVal(pClass, ctx.global.instanceCounter.incrementAndGet(), keyValueMap.clone())
 
   override def incr = this
 

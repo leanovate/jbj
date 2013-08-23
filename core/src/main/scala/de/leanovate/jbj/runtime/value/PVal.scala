@@ -20,7 +20,9 @@ trait PVal extends PAny {
 
   def isNull: Boolean
 
-  def copy(implicit ctx:Context): PVal
+  def copy: PVal
+
+  def clone(implicit ctx:Context): PVal = copy
 
   def incr: PVal
 

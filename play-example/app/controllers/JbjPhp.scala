@@ -43,8 +43,8 @@ object JbjPhp extends Controller {
               val requestArray = CgiEnvironment.decodeKeyValues(request.queryString.toSeq.flatMap {
                 case (key, values) => values.map(key -> _)
               })
-              ctx.getVariable("_REQUEST").value = requestArray.copy
-              ctx.getVariable("_GET").value = requestArray.copy
+              ctx.getVariable("_REQUEST").value = requestArray
+              ctx.getVariable("_GET").value = requestArray
             case "POST" =>
               val requestArray = request.body.asFormUrlEncoded.map {
                 keyValues =>
@@ -52,8 +52,8 @@ object JbjPhp extends Controller {
                     case (key, values) => values.map(key -> _)
                   })
               }.getOrElse(ArrayVal())
-              ctx.getVariable("_REQUEST").value = requestArray.copy
-              ctx.getVariable("_POST").value = requestArray.copy
+              ctx.getVariable("_REQUEST").value = requestArray
+              ctx.getVariable("_POST").value = requestArray
           }
 
           prog.exec
