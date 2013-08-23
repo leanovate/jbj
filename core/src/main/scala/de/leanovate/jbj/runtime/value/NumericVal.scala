@@ -30,11 +30,12 @@ trait NumericVal extends PVal {
     case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal - rightVal)
   }
 
-  def *(other: PVal): PVal = (this, other) match {
-    case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal == 0 => IntegerVal(0)
-    case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal > 0 && leftVal <= Long.MaxValue / rightVal && leftVal >= Long.MinValue / rightVal => IntegerVal(leftVal * rightVal)
-    case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal < 0 && leftVal <= Long.MinValue / rightVal && leftVal >= Long.MaxValue / rightVal => IntegerVal(leftVal * rightVal)
-    case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal * rightVal)
+  def *(other: PVal): PVal =     (this, other) match {
+      case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal == 0 => IntegerVal(0)
+      case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal == Long.MinValue && leftVal == 1 => IntegerVal(Long.MinValue)
+      case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal > 0 && leftVal <= Long.MaxValue / rightVal && leftVal >= Long.MinValue / rightVal => IntegerVal(leftVal * rightVal)
+      case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal < 0 && leftVal <= -Long.MaxValue / rightVal && leftVal >= Long.MaxValue / rightVal => IntegerVal(leftVal * rightVal)
+      case (NumericVal(leftVal), NumericVal(rightVal)) =>        DoubleVal(leftVal * rightVal)
   }
 
   def /(other: PVal): PVal = (this, other) match {
