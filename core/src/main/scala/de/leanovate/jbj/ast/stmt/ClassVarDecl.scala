@@ -1,18 +1,32 @@
 package de.leanovate.jbj.ast.stmt
 
 import de.leanovate.jbj.ast.{StaticInitializer, MemberModifier}
-import de.leanovate.jbj.runtime.PVisibility
+import de.leanovate.jbj.runtime.PClass
 import de.leanovate.jbj.runtime.value.{NullVal, ObjectVal, PVar}
 import de.leanovate.jbj.runtime.context.{Context, StaticContext}
 
 case class ClassVarDecl(modifieres: Set[MemberModifier.Type],
-                            assignments: List[StaticAssignment]) extends ClassMemberDecl with StaticInitializer {
+                        assignments: List[StaticAssignment]) extends ClassMemberDecl with StaticInitializer {
   lazy val isStatic = modifieres.contains(MemberModifier.STATIC)
 
-  override def initializeInstance(instance: ObjectVal)(implicit ctx:Context) {
-    assignments.foreach {
-      assignment =>
-        instance.setProperty(assignment.variableName, Some(getVisibility), assignment.initial.map(_.eval.asVal).getOrElse(NullVal))
+  override def initializeInstance(instance: ObjectVal, pClass: PClass)(implicit ctx: Context) {
+    if (modifieres.contains(MemberModifier.PROTECTED)) {
+      assignments.foreach {
+        assignment =>
+          instance.defineProtectedProperty(assignment.variableName, assignment.initial.map(_.eval.asVal).getOrElse(NullVal))
+      }
+    } else if (modifieres.contains(MemberModifier.PRIVATE)) {
+      val className = pClass.name.toString
+
+      assignments.foreach {
+        assignment =>
+          instance.definePrivateProperty(assignment.variableName, className, assignment.initial.map(_.eval.asVal).getOrElse(NullVal))
+      }
+    } else {
+      assignments.foreach {
+        assignment =>
+          instance.definePublicProperty(assignment.variableName, assignment.initial.map(_.eval.asVal).getOrElse(NullVal))
+      }
     }
   }
 
@@ -23,14 +37,5 @@ case class ClassVarDecl(modifieres: Set[MemberModifier.Type],
           staticCtx.defineVariable(assignment.variableName, PVar(assignment.initial.map(_.eval.asVal)))
       }
     }
-  }
-
-  private val getVisibility : PVisibility.Type = {
-    if ( modifieres.contains(MemberModifier.PROTECTED))
-      PVisibility.PROTECTED
-    else if ( modifieres.contains(MemberModifier.PRIVATE))
-      PVisibility.PRIVATE
-    else
-      PVisibility.PUBLIC
   }
 }

@@ -2,24 +2,19 @@ package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime._
 import scala.collection.mutable
-import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.Context
+import ObjectPropertyKey.{Key, IntKey, PublicKey, ProtectedKey, PrivateKey}
 
-class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueMap: mutable.LinkedHashMap[Any, PAny])
-  extends PVal with ArrayLike {
-
-  private val visibilities = mutable.Map.empty[Any, PVisibility.Type]
+class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueMap: mutable.LinkedHashMap[Key, PAny])
+  extends PVal {
 
   private var iteratorState: Option[Iterator[(Any, PAny)]] = None
 
-  def keyValues(implicit ctx: Context): Seq[(PVal, (PVisibility.Type, PAny))] = keyValueMap.toSeq.map {
-    case (key: Long, value) => IntegerVal(key) -> (visibilities.get(key).getOrElse(PVisibility.PUBLIC), value)
-    case (key: String, value) => StringVal(key) -> (visibilities.get(key).getOrElse(PVisibility.PUBLIC), value)
-  }
+  def keyValues(implicit ctx: Context): Seq[(Key, PAny)] = keyValueMap.toSeq
 
   override def toOutput(implicit ctx: Context) = "Array"
 
-  override def toStr= StringVal("object".getBytes("UTF-8"))
+  override def toStr = StringVal("object".getBytes("UTF-8"))
 
   override def toNum = toInteger
 
@@ -29,7 +24,12 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
 
   override def toBool = BooleanVal.FALSE
 
-  override def toArray(implicit ctx: Context) = new ArrayVal(keyValueMap.clone())
+  override def toArray(implicit ctx: Context) = new ArrayVal(keyValueMap.map {
+    case (IntKey(key), value) => key -> value
+    case (ProtectedKey(key), value) => "\0*\0" + key -> value
+    case (PrivateKey(key, className), value) => "\0" + className + "\0" + key -> value
+    case (PublicKey(key), value) => key -> value
+  })
 
   override def isNull = false
 
@@ -71,44 +71,66 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
 
   final def instanceOf(other: PClass): Boolean = other.isAssignableFrom(pClass)
 
-  def getProperty(name: String)(implicit ctx: Context): Option[PAny] = keyValueMap.get(name)
-
-  def setProperty(name: String, visibility:Option[PVisibility.Type], value: PAny) {
-    visibility.foreach(visibilities.put(name, _))
-    keyValueMap.get(name).foreach(_.cleanup())
-    keyValueMap.put(name, value)
+  def getProperty(name: String, className: Option[String])(implicit ctx: Context): Option[PAny] = {
+    if (className.isDefined) {
+      keyValueMap.get(PrivateKey(name, className.get)).map(Some.apply).getOrElse {
+        keyValueMap.get(ProtectedKey(name)).map(Some.apply).getOrElse {
+          keyValueMap.get(PublicKey(name))
+        }
+      }
+    } else {
+      keyValueMap.get(PublicKey(name))
+    }
   }
 
-  def unsetProperty(name: String) = {
-    keyValueMap.remove(name).foreach(_.cleanup())
+  def definePrivateProperty(name: String, className: String, value: PAny) {
+    val key = PrivateKey(name, className)
+    keyValueMap.get(key).foreach(_.cleanup())
+    keyValueMap.put(key, value)
   }
 
-  override def size: Int = keyValueMap.size
-
-  override def getAt(index: Long)(implicit ctx: Context): Option[PAny] =
-    throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
-
-  override def getAt(index: String)(implicit ctx: Context): Option[PAny] =
-    throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
-
-  override def setAt(index: Long, value: PAny)(implicit ctx: Context) {
-    throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
+  def defineProtectedProperty(name: String, value: PAny) {
+    val key = ProtectedKey(name)
+    keyValueMap.get(key).foreach(_.cleanup())
+    keyValueMap.put(key, value)
   }
 
-  override def setAt(index: String, value: PAny)(implicit ctx: Context) {
-    throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
+  def definePublicProperty(name: String, value: PAny) {
+    val key = PublicKey(name)
+    keyValueMap.get(key).foreach(_.cleanup())
+    keyValueMap.put(key, value)
   }
 
-  override def append(value: PAny)(implicit ctx: Context) {
-    throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
+  def setProperty(name: String, className: Option[String], value: PAny) {
+    if (className.isDefined) {
+      val privateKey = PrivateKey(name, className.get)
+      if (keyValueMap.contains(privateKey)) {
+        keyValueMap.get(privateKey).foreach(_.cleanup())
+        keyValueMap.put(privateKey, value)
+      } else {
+        val protectedKey = ProtectedKey(name)
+        if (keyValueMap.contains(protectedKey)) {
+          keyValueMap.get(protectedKey).foreach(_.cleanup())
+          keyValueMap.put(protectedKey, value)
+        } else {
+          val key = PublicKey(name)
+          keyValueMap.get(key).foreach(_.cleanup())
+          keyValueMap.put(key, value)
+        }
+      }
+    } else {
+      val key = PublicKey(name)
+      keyValueMap.get(key).foreach(_.cleanup())
+      keyValueMap.put(key, value)
+    }
   }
 
-  override def unsetAt(index: Long)(implicit ctx: Context) {
-    throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
-  }
-
-  override def unsetAt(index: String)(implicit ctx: Context) {
-    throw new FatalErrorJbjException("Cannot use object of type %s as array".format(pClass.name.toString))
+  def unsetProperty(name: String, className: Option[String]) = {
+    keyValueMap.remove(PublicKey(name)).foreach(_.cleanup())
+    if (className.isDefined) {
+      keyValueMap.remove(ProtectedKey(name)).foreach(_.cleanup())
+      keyValueMap.remove(PrivateKey(name, className.get)).foreach(_.cleanup())
+    }
   }
 
   def iteratorHasNext: Boolean = {
@@ -143,22 +165,22 @@ object ObjectVal {
     var nextIndex: Long = -1
 
     new ObjectVal(pClass, ctx.global.instanceCounter.incrementAndGet,
-      keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[Any, PAny]) {
+      keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[Key, PAny]) {
         (builder, keyValue) =>
-          val key = keyValue._1.map {
+          val key: Key = keyValue._1.map {
             case IntegerVal(value) =>
               if (value > nextIndex)
                 nextIndex = value
-              value
+              IntKey(value)
             case NumericVal(value) =>
               if (value > nextIndex)
                 nextIndex = value.toLong
-              value.toLong
+              IntKey(value.toLong)
             case value =>
-              value.toStr.asString
+              PublicKey(value.toStr.asString)
           }.getOrElse {
             nextIndex += 1
-            nextIndex
+            IntKey(nextIndex)
           }
 
           builder += (key -> keyValue._2)

@@ -57,7 +57,6 @@ object TestBed {
         |
         |class chld extends par {
         |	private $id = "bar";
-        | private $bla = "bla";
         |
         |	function displayChild()
         |	{
@@ -65,17 +64,10 @@ object TestBed {
         |	}
         |};
         |
-        |class D {
-        |protected $hu="hu";
-        |private $blob="blob";
-        |}
         |
         |$obj = new chld();
         |$obj->displayMe();
         |
-        |var_dump($obj);
-        |
-        |var_dump(new D);
         |?>""".stripMargin)
   }
 }

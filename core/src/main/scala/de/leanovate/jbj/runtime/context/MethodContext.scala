@@ -6,7 +6,7 @@ import scala.collection.mutable
 import scala.collection.immutable.Stack
 import de.leanovate.jbj.runtime.value.{PVal, ObjectVal}
 
-case class MethodContext(instance: ObjectVal, methodName: String, callerCtx: Context) extends Context {
+case class MethodContext(instance: ObjectVal, pClass: PClass, methodName: String, callerCtx: Context) extends Context {
   private val localVariables = mutable.Map.empty[String, Variable]
 
   private val identifier = "Method_" + instance.pClass.name.toString + "::" + methodName

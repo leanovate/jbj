@@ -273,5 +273,38 @@ class Lang4Spec extends SpecificationWithJUnit with TestJbjExecutor {
         """foo""".stripMargin
       )
     }
+
+    "'Static' binding for private variables" in {
+      // lang/037
+      script(
+        """<?php
+          |
+          |class par {
+          |	private $id="foo";
+          |
+          |	function displayMe()
+          |	{
+          |		$this->displayChild();
+          |	}
+          |};
+          |
+          |class chld extends par {
+          |	private $id = "bar";
+          |
+          |	function displayChild()
+          |	{
+          |		print $this->id;
+          |	}
+          |};
+          |
+          |
+          |$obj = new chld();
+          |$obj->displayMe();
+          |
+          |?>""".stripMargin
+      ).result must haveOutput(
+        """bar""".stripMargin
+      )
+    }
   }
 }

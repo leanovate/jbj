@@ -36,7 +36,7 @@ trait PClass extends StaticContext {
       case Some(method) =>
         optInstance.map {
           instance =>
-            method.invoke(ctx, instance, parameters)
+            method.invoke(ctx, instance, this, parameters)
         }.getOrElse {
           method.invokeStatic(ctx, this, parameters)
         }
@@ -49,7 +49,7 @@ trait PClass extends StaticContext {
               expr =>
                 None -> expr.eval(ctx).asVal.copy
             }: _*)(ctx)
-            method.invoke(ctx, optInstance.get,
+            method.invoke(ctx, optInstance.get, this,
               ScalarExpr(StringVal(methodName)(ctx)) :: ScalarExpr(parameterArray) :: Nil)
           case None =>
             throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))(ctx)

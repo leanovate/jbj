@@ -13,8 +13,8 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
 
   override lazy val isStatic = modifieres.contains(MemberModifier.STATIC)
 
-  override def invoke(ctx: Context, instance: ObjectVal, parameters: List[Expr]) = {
-    implicit val methodCtx = MethodContext(instance, name, ctx)
+  override def invoke(ctx: Context, instance: ObjectVal, pClass: PClass, parameters: List[Expr]) = {
+    implicit val methodCtx = MethodContext(instance, pClass, name, ctx)
 
     if (!methodCtx.static.initialized) {
       staticInitializers.foreach(_.initializeStatic(methodCtx.static))

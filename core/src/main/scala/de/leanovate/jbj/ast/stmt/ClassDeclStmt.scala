@@ -56,7 +56,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   override def initializeInstance(instance: ObjectVal)(implicit ctx: Context) {
     implicit val classCtx = InstanceContext(instance, ctx)
 
-    instanceAssinments.foreach(_.initializeInstance(instance))
+    instanceAssinments.foreach(_.initializeInstance(instance, this))
 
     superClass.foreach(_.initializeInstance(instance)(ctx))
   }
@@ -67,7 +67,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     val instance = newEmptyInstance(this)(ctx)
 
     initializeInstance(instance)(ctx)
-    findConstructor.foreach(_.invoke(ctx, instance, parameters))
+    findConstructor.foreach(_.invoke(ctx, instance, this, parameters))
     instance
   }
 

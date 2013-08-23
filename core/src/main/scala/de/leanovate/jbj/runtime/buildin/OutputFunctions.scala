@@ -49,26 +49,26 @@ object OutputFunctions extends WrappedFunctions {
           val nextIdent = ident + "  "
           ctx.out.println("%sobject(%s)#%d (%d) {".format(ident, pClass.name.toString, instanceNum, keyValues.size))
           keyValues.foreach {
-            case (IntegerVal(key), (visibility, v)) =>
+            case (ObjectPropertyKey.IntKey(key), v) =>
               ctx.out.println("%s[%d]=>".format(nextIdent, key))
               if (stack.exists(_.eq(v)))
                 ctx.out.println("%s*RECURSION*".format(nextIdent))
               else
                 dump(v :: stack, nextIdent)
-            case (StringVal(key), (PVisibility.PUBLIC, v)) =>
+            case (ObjectPropertyKey.PublicKey(key), v) =>
               ctx.out.println( """%s["%s"]=>""".format(nextIdent, key))
               if (stack.exists(_.eq(v)))
                 ctx.out.println("%s*RECURSION*".format(nextIdent))
               else
                 dump(v :: stack, nextIdent)
-            case (StringVal(key), (PVisibility.PROTECTED, v)) =>
+            case (ObjectPropertyKey.ProtectedKey(key), v) =>
               ctx.out.println( """%s["%s":protected]=>""".format(nextIdent, key))
               if (stack.exists(_.eq(v)))
                 ctx.out.println("%s*RECURSION*".format(nextIdent))
               else
                 dump(v :: stack, nextIdent)
-            case (StringVal(key), (PVisibility.PRIVATE, v)) =>
-              ctx.out.println( """%s["%s":private]=>""".format(nextIdent, key))
+            case (ObjectPropertyKey.PrivateKey(key, className), v) =>
+              ctx.out.println( """%s["%s":"%s":private]=>""".format(nextIdent, key, className))
               if (stack.exists(_.eq(v)))
                 ctx.out.println("%s*RECURSION*".format(nextIdent))
               else
@@ -104,13 +104,13 @@ object OutputFunctions extends WrappedFunctions {
           Some("%s Object".format(pClass.name.toString)) :: Some("(") :: keyValues.flatMap {
             case (_, v) if stack.exists(_.eq(v)) =>
               Some("*RECURSION*") :: Nil
-            case (IntegerVal(key), (visibility, v)) =>
+            case (ObjectPropertyKey.IntKey(key), v) =>
               val lines = dump(v :: stack)
               Some("    [%d] => %s".format(key, lines.head.getOrElse(""))) :: (
                 if (lines.tail.isEmpty) Nil else lines.tail.map(_.map("        " + _)) ::: None :: Nil)
-            case (StringVal(key), (visibility, v)) =>
+            case (key, v) =>
               val lines = dump(v :: stack)
-              Some( """    [%s] => %s""".format(key, lines.head.getOrElse(""))) :: (
+              Some( """    [%s] => %s""".format(key.name, lines.head.getOrElse(""))) :: (
                 if (lines.tail.isEmpty) Nil else lines.tail.map(_.map("        " + _)) ::: None :: Nil)
           }.toList ::: Some(")") :: Nil
         case v => Some(v.toOutput) :: Nil

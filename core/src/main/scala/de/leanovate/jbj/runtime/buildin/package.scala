@@ -48,11 +48,11 @@ package object buildin {
     override def superClass = None
 
     override def initializeInstance(instance: ObjectVal)(implicit ctx: Context) {
-      instance.setProperty("message", None, StringVal(Array.emptyByteArray))
-      instance.setProperty("code", None, IntegerVal(0))
-      instance.setProperty("previous", None, NullVal)
-      instance.setProperty("file", None, StringVal(ctx.currentPosition.fileName))
-      instance.setProperty("line", None, IntegerVal(ctx.currentPosition.line))
+      instance.definePublicProperty("message", StringVal(Array.emptyByteArray))
+      instance.definePublicProperty("code", IntegerVal(0))
+      instance.definePublicProperty("previous", NullVal)
+      instance.definePublicProperty("file", StringVal(ctx.currentPosition.fileName))
+      instance.definePublicProperty("line", IntegerVal(ctx.currentPosition.line))
     }
 
     override def newInstance(parameters: List[Expr])(implicit ctx: Context) = {
@@ -60,14 +60,14 @@ package object buildin {
 
       parameters.map(_.eval(ctx).asVal) match {
         case msg :: Nil =>
-          instance.setAt("message", msg.toStr)(ctx)
+          instance.definePublicProperty("message", msg.toStr)
         case msg :: c :: Nil => (msg.toStr, c.toInteger, NullVal)
-          instance.setAt("message", msg.toStr)(ctx)
-          instance.setAt("code", c.toInteger)(ctx)
+          instance.definePublicProperty("message", msg.toStr)
+          instance.definePublicProperty("code", c.toInteger)
         case msg :: c :: prev :: tail => (msg.toStr, c.toInteger, prev)
-          instance.setAt("message", msg.toStr)(ctx)
-          instance.setAt("code", c.toInteger)(ctx)
-          instance.setAt("previous", prev)(ctx)
+          instance.definePublicProperty("message", msg.toStr)
+          instance.definePublicProperty("code", c.toInteger)
+          instance.definePublicProperty("previous", prev)
         case _ =>
       }
       instance

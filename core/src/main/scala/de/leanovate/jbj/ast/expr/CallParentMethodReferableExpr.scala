@@ -7,8 +7,8 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class CallParentMethodReferableExpr(methodName: Name, parameters: List[Expr]) extends CallReferableExpr {
   def call(implicit ctx: Context): PAny = ctx match {
-    case MethodContext(instance, _, _) =>
-      instance.pClass.superClass.map {
+    case MethodContext(instance, pClass, _, _) =>
+      pClass.superClass.map {
         parent =>
           parent.invokeMethod(ctx, Some(instance), methodName.evalName, parameters)
       }.getOrElse {

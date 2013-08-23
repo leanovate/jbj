@@ -9,7 +9,7 @@ trait PMethod {
 
   def isStatic: Boolean
 
-  def invoke(ctx: Context, instance: ObjectVal, parameters: List[Expr]): PAny
+  def invoke(ctx: Context, instance: ObjectVal, pClass: PClass, parameters: List[Expr]): PAny
 
   def invokeStatic(ctx: Context, pClass: PClass, parameters: List[Expr]): PAny
 

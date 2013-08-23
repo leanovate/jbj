@@ -15,7 +15,12 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
       reference.eval.asVal match {
         case obj: ObjectVal =>
           val name = propertyName.evalName
-          if (obj.getProperty(name).isDefined) {
+          if ((ctx match {
+            case MethodContext(_, pClass, _, _) =>
+              obj.getProperty(name, Some(pClass.name.toString))
+            case _ =>
+              obj.getProperty(name, None)
+          }).isDefined) {
             true
           } else {
             obj.pClass.findMethod("__get").isDefined
@@ -31,17 +36,26 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
     reference.eval.asVal match {
       case obj: ObjectVal =>
         val name = propertyName.evalName
-        obj.getProperty(name).map(_.asVal).getOrElse {
-          ctx match {
-            case MethodContext(inst, methodName, _) if inst.pClass == obj.pClass && methodName == "__get" =>
-              ctx.log.notice("Undefined property: %s::%s".format(obj.pClass.name.toString, name))
-              NullVal
-            case _ =>
-              obj.pClass.findMethod("__get").map(_.invoke(ctx, obj, ScalarExpr(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
+        ctx match {
+          case MethodContext(inst, pClass, methodName, _) =>
+            obj.getProperty(name, Some(pClass.name.toString)).map(_.asVal).getOrElse {
+              if (inst.pClass == obj.pClass && methodName == "__get") {
+                ctx.log.notice("Undefined property: %s::%s".format(obj.pClass.name.toString, name))
+                NullVal
+              } else {
+                obj.pClass.findMethod("__get").map(_.invoke(ctx, obj, obj.pClass, ScalarExpr(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
+                  ctx.log.notice("Undefined property: %s::%s".format(obj.pClass.name.toString, name))
+                  NullVal
+                }
+              }
+            }
+          case _ =>
+            obj.getProperty(name, None).map(_.asVal).getOrElse {
+              obj.pClass.findMethod("__get").map(_.invoke(ctx, obj, obj.pClass, ScalarExpr(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
                 ctx.log.notice("Undefined property: %s::%s".format(obj.pClass.name.toString, name))
                 NullVal
               }
-          }
+            }
         }
       case _ =>
         ctx.log.notice("Trying to get property of non-object")
@@ -57,15 +71,23 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
       parentRef.asVal match {
         case obj: ObjectVal =>
           val name = propertyName.evalName
-          obj.getProperty(name).map(_.asVal).getOrElse {
-            ctx match {
-              case MethodContext(inst, methodName, _) if inst.pClass == obj.pClass && methodName == "__get" =>
-                NullVal
-              case _ =>
-                obj.pClass.findMethod("__get").map(_.invoke(ctx, obj, ScalarExpr(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
+          ctx match {
+            case MethodContext(_, pClass, methodName, _) =>
+              obj.getProperty(name, Some(pClass.name.toString)).map(_.asVal).getOrElse {
+                if (methodName == "__get") {
+                  NullVal
+                } else {
+                  obj.pClass.findMethod("__get").map(_.invoke(ctx, obj, obj.pClass, ScalarExpr(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
+                    NullVal
+                  }
+                }
+              }
+            case _ =>
+              obj.getProperty(name, None).map(_.asVal).getOrElse {
+                obj.pClass.findMethod("__get").map(_.invoke(ctx, obj, obj.pClass, ScalarExpr(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
                   NullVal
                 }
-            }
+              }
           }
         case _ =>
           NullVal
@@ -75,16 +97,31 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
     def asVar = {
       optParent(false) match {
         case Some(obj) =>
-          obj.getProperty(name).map {
-            case pVar: PVar => pVar
-            case value: PVal =>
-              val result = PVar(value)
-              obj.setProperty(name, None, result)
-              result
-          }.getOrElse {
-            val result = PVar()
-            obj.setProperty(name, None, result)
-            result
+          ctx match {
+            case MethodContext(_, pClass, _, _) =>
+              obj.getProperty(name, Some(pClass.name.toString)).map {
+                case pVar: PVar => pVar
+                case value: PVal =>
+                  val result = PVar(value)
+                  obj.setProperty(name, Some(pClass.name.toString), result)
+                  result
+              }.getOrElse {
+                val result = PVar()
+                obj.setProperty(name, Some(pClass.name.toString), result)
+                result
+              }
+            case _ =>
+              obj.getProperty(name, None).map {
+                case pVar: PVar => pVar
+                case value: PVal =>
+                  val result = PVar(value)
+                  obj.setProperty(name, None, result)
+                  result
+              }.getOrElse {
+                val result = PVar()
+                obj.setProperty(name, None, result)
+                result
+              }
           }
         case None =>
           ctx.log.notice("Trying to get property of non-object")
@@ -95,17 +132,27 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
     def assign(pAny: PAny) = {
       optParent(true) match {
         case Some(obj) =>
-          if (obj.getProperty(name).isDefined) {
-            obj.setProperty(propertyName.evalName, None, pAny.asVal)
-          } else {
-            ctx match {
-              case MethodContext(inst, methodName, _) if inst.pClass == obj.pClass && methodName == "__set" =>
-                obj.setProperty(name, None, pAny.asVal)
-              case _ =>
-                obj.pClass.findMethod("__set").map(_.invoke(ctx, obj, ScalarExpr(StringVal(name)) :: ScalarExpr(pAny.asVal) :: Nil)).getOrElse {
+          ctx match {
+            case MethodContext(inst, pClass, methodName, _) =>
+              if (obj.getProperty(name, Some(pClass.name.toString)).isDefined) {
+                obj.setProperty(propertyName.evalName, Some(pClass.name.toString), pAny.asVal)
+              } else {
+                if (inst.pClass == obj.pClass && methodName == "__set") {
+                  obj.setProperty(name, Some(pClass.name.toString), pAny.asVal)
+                } else {
+                  obj.pClass.findMethod("__set").map(_.invoke(ctx, obj, obj.pClass, ScalarExpr(StringVal(name)) :: ScalarExpr(pAny.asVal) :: Nil)).getOrElse {
+                    obj.setProperty(name, Some(pClass.name.toString), pAny.asVal)
+                  }
+                }
+              }
+            case _ =>
+              if (obj.getProperty(name, None).isDefined) {
+                obj.setProperty(propertyName.evalName, None, pAny.asVal)
+              } else {
+                obj.pClass.findMethod("__set").map(_.invoke(ctx, obj, obj.pClass, ScalarExpr(StringVal(name)) :: ScalarExpr(pAny.asVal) :: Nil)).getOrElse {
                   obj.setProperty(name, None, pAny.asVal)
                 }
-            }
+              }
           }
         case None =>
           ctx.log.warn("Attempt to assign property of non-object")
@@ -114,8 +161,14 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
     }
 
     def unset() {
-      if (optParent(false).isDefined)
-        optParent(false).get.unsetProperty(name)
+      if (optParent(false).isDefined) {
+        ctx match {
+          case MethodContext(_, pClass, _, _) =>
+            optParent(false).get.unsetProperty(name, Some(pClass.name.toString))
+          case _ =>
+            optParent(false).get.unsetProperty(name, None)
+        }
+      }
     }
 
     private def optParent(withWarn: Boolean) =
