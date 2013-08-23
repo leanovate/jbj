@@ -45,27 +45,37 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
+        |
         |class par {
-        |	private $id = "foo";
+        |	private $id="foo";
         |
         |	function displayMe()
+        |	{
+        |		$this->displayChild();
+        |	}
+        |};
+        |
+        |class chld extends par {
+        |	private $id = "bar";
+        | private $bla = "bla";
+        |
+        |	function displayChild()
         |	{
         |		print $this->id;
         |	}
         |};
         |
-        |class chld extends par {
-        |	public $id = "bar";
-        |	function displayHim()
-        |	{
-        |		parent::displayMe();
-        |	}
-        |};
-        |
+        |class D {
+        |protected $hu="hu";
+        |private $blob="blob";
+        |}
         |
         |$obj = new chld();
-        |$obj->displayHim();
-        |?>
-        |""".stripMargin)
+        |$obj->displayMe();
+        |
+        |var_dump($obj);
+        |
+        |var_dump(new D);
+        |?>""".stripMargin)
   }
 }
