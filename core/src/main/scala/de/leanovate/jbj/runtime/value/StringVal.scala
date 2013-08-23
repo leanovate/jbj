@@ -41,7 +41,7 @@ class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
 
   override def incr = this
 
-  override def decr = this
+  override def decr = if (isStrongNumericPattern) toNum.decr else this
 
   override def typeName = "string"
 

@@ -45,52 +45,26 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |// reported by php.net@alienbill.com
-        |$arrayOuter = array("key1","key2");
-        |$arrayInner = array("0","1");
         |
-        |print "Correct - with inner loop reset.\n";
+        |define("MAX_64Bit", 9223372036854775807);
+        |define("MAX_32Bit", 2147483647);
+        |define("MIN_64Bit", -9223372036854775807 - 1);
+        |define("MIN_32Bit", -2147483647 - 1);
         |
-        |while(list(,$o) = each($arrayOuter)){
-        |	reset($arrayInner);
-        |	while(list(,$i) = each($arrayInner)){
-        |	    	print "inloop $i for $o\n";
-        |	}
+        |$longVals = array(
+        |    MAX_64Bit, MIN_64Bit, MAX_32Bit, MIN_32Bit, MAX_64Bit - MAX_32Bit, MIN_64Bit - MIN_32Bit,
+        |    MAX_32Bit + 1, MIN_32Bit - 1, MAX_32Bit * 2, (MAX_32Bit * 2) + 1, (MAX_32Bit * 2) - 1,
+        |    MAX_64Bit -1, MAX_64Bit + 1, MIN_64Bit + 1, MIN_64Bit - 1
+        |);
+        |
+        |
+        |foreach ($longVals as $longVal) {
+        |   echo "--- testing: $longVal ---\n";
+        |   $longVal--;
+        |   var_dump($longVal);
         |}
-        |reset($arrayOuter);
-        |reset($arrayInner);
         |
-        |print "What happens without inner loop reset.\n";
-        |
-        |while(list(,$o) = each($arrayOuter)){
-        |	while(list(,$i) = each($arrayInner)){
-        |		print "inloop $i for $o\n";
-        |	}
-        |}
-        |reset($arrayOuter);
-        |reset($arrayInner);
-        |
-        |print "What happens without inner loop reset but copy.\n";
-        |
-        |while(list(,$o) = each($arrayOuter)){
-        |	$placeholder = $arrayInner;
-        |	while(list(,$i) = each($arrayInner)){
-        |		print "inloop $i for $o\n";
-        |	}
-        |}
-        |reset($arrayOuter);
-        |reset($arrayInner);
-        |
-        |print "What happens with inner loop reset over copy.\n";
-        |
-        |while(list(,$o) = each($arrayOuter)){
-        |	$placeholder = $arrayInner;
-        |	while(list(,$i) = each($placeholder)){
-        |		print "inloop $i for $o\n";
-        |	}
-        |}
-        |reset($arrayOuter);
-        |reset($arrayInner);
-        |?>""".stripMargin)
+        |?>
+        |===DONE===""".stripMargin)
   }
 }
