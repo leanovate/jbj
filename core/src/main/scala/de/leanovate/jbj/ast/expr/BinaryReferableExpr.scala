@@ -14,6 +14,8 @@ trait BinaryReferableExpr extends ReferableExpr {
   override def evalRef(implicit ctx: Context): Reference = new Reference {
     val result = eval
 
+    def isDefined = !asVal.isNull
+
     def asVal = result.asVal
 
     def asVar = result

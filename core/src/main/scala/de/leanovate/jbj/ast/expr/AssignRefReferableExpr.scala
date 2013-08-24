@@ -10,6 +10,7 @@ case class AssignRefReferableExpr(reference: ReferableExpr, otherRef: ReferableE
 
   override def evalRef(implicit ctx: Context) = new Reference {
     val resultRef = reference.evalRef
+
     val result = otherRef.evalRef.asVar match {
       case pVar: PVar =>
         resultRef.assign(pVar)
@@ -17,6 +18,8 @@ case class AssignRefReferableExpr(reference: ReferableExpr, otherRef: ReferableE
         ctx.log.strict("Only variables should be assigned by reference")
         resultRef.assign(pAny)
     }
+
+    def isDefined = !asVal.isNull
 
     def asVal = result.asVal
 

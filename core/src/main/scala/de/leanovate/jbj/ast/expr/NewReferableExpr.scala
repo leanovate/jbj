@@ -20,6 +20,8 @@ case class NewReferableExpr(className: Name, parameters: List[Expr]) extends Ref
   override def evalRef(implicit ctx: Context) = new Reference {
     val result = eval
 
+    def isDefined = !asVal.isNull
+
     def asVal = result.asVal
 
     def asVar = result.asVar

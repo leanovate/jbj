@@ -15,27 +15,7 @@ case class VariableReferableExpr(variableName: Name) extends ReferableExpr {
     }
   }
 
-  override def evalRef(implicit ctx: Context) = new Reference {
-    val name = variableName.evalName
-
-    def asVal = ctx.findVariable(name).map(_.value).getOrElse(NullVal)
-
-    def asVar = ctx.findOrDefineVariable(name)
-
-    def assign(pAny: PAny): PAny = {
-      pAny match {
-        case pVar: PVar =>
-          ctx.defineVariable(name, pVar)
-        case pVal: PVal =>
-          ctx.findOrDefineVariable(name).value = pVal
-      }
-      pAny
-    }
-
-    def unset() {
-      ctx.undefineVariable(name)
-    }
-  }
+  override def evalRef(implicit ctx: Context) = ctx.getVariable(variableName.evalName)
 
   override def dump(out: PrintStream, ident: String) {
     super.dump(out, ident)

@@ -24,6 +24,8 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
     }
     val varName = variableName.evalName
 
+    def isDefined = !asVal.isNull
+
     def asVal = pClass.findVariable(variableName.evalName).map(_.value).getOrElse(NullVal)
 
     def asVar = pClass.findVariable(varName).getOrElse {

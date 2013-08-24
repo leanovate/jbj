@@ -13,6 +13,8 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
     val parentRef = reference.evalRef
     val optArrayKey = indexExpr.map(_.eval.asVal)
 
+    def isDefined = !asVal.isNull
+
     def asVal = {
       if (optArrayKey.isEmpty)
         NullVal

@@ -3,8 +3,8 @@ package de.leanovate.jbj.runtime.context
 import java.io.PrintStream
 import de.leanovate.jbj.ast.{NoNodePosition, NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
-import de.leanovate.jbj.runtime.value.{PVar, PVal}
-import de.leanovate.jbj.runtime.{PFunction, Log, Settings}
+import de.leanovate.jbj.runtime.value.{PAny, NullVal, PVar, PVal}
+import de.leanovate.jbj.runtime.{Reference, PFunction, Log, Settings}
 
 trait Context {
   def global: GlobalContext
@@ -31,7 +31,29 @@ trait Context {
 
   def defineFunction(function: PFunction)
 
-  def findOrDefineVariable(name:String): PVar = {
+  def getVariable(name: String): Reference = new Reference {
+    def isDefined = findVariable(name).exists(!_.value.isNull)
+
+    def asVal = findVariable(name).map(_.value).getOrElse(NullVal)
+
+    def asVar = findOrDefineVariable(name)
+
+    def assign(pAny: PAny): PAny = {
+      pAny match {
+        case pVar: PVar =>
+          defineVariable(name, pVar)
+        case pVal: PVal =>
+          findOrDefineVariable(name).value = pVal
+      }
+      pAny
+    }
+
+    def unset() {
+      undefineVariable(name)
+    }
+  }
+
+  def findOrDefineVariable(name: String): PVar = {
     val optVar = findVariable(name)
     if (optVar.isDefined)
       optVar.get

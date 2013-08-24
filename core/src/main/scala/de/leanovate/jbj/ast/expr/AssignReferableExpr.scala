@@ -14,6 +14,8 @@ case class AssignReferableExpr(reference: ReferableExpr, expr: Expr) extends Ref
   override def evalRef(implicit ctx: Context) = new Reference {
     val result = reference.evalRef.assign(expr.eval.asVal.copy)
 
+    def isDefined = !asVal.isNull
+
     def asVal = result.asVal
 
     def asVar = result

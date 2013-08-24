@@ -4,6 +4,8 @@ import de.leanovate.jbj.runtime.value.{PAny, PVal}
 import de.leanovate.jbj.runtime.context.Context
 
 trait Reference {
+  def isDefined:Boolean
+
   def asVal: PVal
 
   def asVar: PAny

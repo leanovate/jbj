@@ -11,6 +11,8 @@ case class ListReferableExpr(references: List[Option[ReferableExpr]]) extends Re
   override def evalRef(implicit ctx: Context) = new Reference {
     val refs = references.map(_.map(_.evalRef)).toSeq
 
+    def isDefined = false
+
     def asVal = throw new RuntimeException("List can only be used in assignment")
 
     def asVar = throw new RuntimeException("List can only be used in assignment")

@@ -12,6 +12,8 @@ trait CallReferableExpr extends ReferableExpr {
   override def evalRef(implicit ctx: Context) = new Reference {
     val result = call
 
+    def isDefined = !asVal.isNull
+
     def asVal = result.asVal
 
     def asVar = result

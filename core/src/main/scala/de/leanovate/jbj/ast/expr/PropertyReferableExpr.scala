@@ -10,28 +10,6 @@ import de.leanovate.jbj.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.runtime.buildin.StdClass
 
 case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) extends ReferableExpr {
-  override def isDefined(implicit ctx: Context) = {
-    if (reference.isDefined) {
-      reference.eval.asVal match {
-        case obj: ObjectVal =>
-          val name = propertyName.evalName
-          if ((ctx match {
-            case MethodContext(_, pClass, _, _) =>
-              obj.getProperty(name, Some(pClass.name.toString))
-            case _ =>
-              obj.getProperty(name, None)
-          }).isDefined) {
-            true
-          } else {
-            obj.pClass.findMethod("__get").isDefined
-          }
-        case _ => false
-      }
-    } else {
-      false
-    }
-  }
-
   override def eval(implicit ctx: Context) = {
     reference.eval.asVal match {
       case obj: ObjectVal =>
@@ -66,6 +44,28 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
   override def evalRef(implicit ctx: Context) = new Reference {
     val parentRef = reference.evalRef
     val name = propertyName.evalName
+
+    def isDefined = {
+      if (reference.isDefined) {
+        reference.eval.asVal match {
+          case obj: ObjectVal =>
+            val name = propertyName.evalName
+            if ((ctx match {
+              case MethodContext(_, pClass, _, _) =>
+                obj.getProperty(name, Some(pClass.name.toString))
+              case _ =>
+                obj.getProperty(name, None)
+            }).isDefined) {
+              true
+            } else {
+              obj.pClass.findMethod("__get").isDefined
+            }
+          case _ => false
+        }
+      } else {
+        false
+      }
+    }
 
     def asVal = {
       parentRef.asVal match {
