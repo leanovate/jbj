@@ -5,15 +5,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-    <groupId>de.leanovate.jbj</groupId>
-    <artifactId>jbj-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+        <groupId>de.leanovate.jbj</groupId>
+        <artifactId>jbj-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
     <artifactId>jbj-core</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>jbj-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>

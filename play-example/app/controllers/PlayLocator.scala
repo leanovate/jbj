@@ -1,11 +1,11 @@
 package controllers
 
-import de.leanovate.jbj.Locator
 import java.net.JarURLConnection
 import java.io.File
 import play.api.Play
 import play.api.Play.current
 import scala.io.Source
+import de.leanovate.jbj.core.Locator
 
 object PlayLocator extends Locator {
   def getETag(fileName: String) = {

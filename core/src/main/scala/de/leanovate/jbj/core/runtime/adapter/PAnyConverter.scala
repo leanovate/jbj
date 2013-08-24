@@ -1,0 +1,13 @@
+package de.leanovate.jbj.core.runtime.adapter
+
+import de.leanovate.jbj.core.runtime.value.PAny
+import de.leanovate.jbj.core.ast.Expr
+import de.leanovate.jbj.core.runtime.context.Context
+
+object PAnyConverter extends Converter[PAny, PAny] {
+  override def toScalaWithConversion(expr: Expr)(implicit ctx: Context) =  expr.eval.asVal
+
+  override def toScala(value: PAny)(implicit ctx: Context) = value
+
+  override def toJbj(valueOrRef: PAny)(implicit ctx: Context) = valueOrRef
+}
