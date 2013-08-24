@@ -1,7 +1,7 @@
 package de.leanovate.jbj.ast.name
 
 import de.leanovate.jbj.ast.Name
-import de.leanovate.jbj.runtime.context.{MethodContext, Context}
+import de.leanovate.jbj.runtime.context.{StaticMethodContext, MethodContext, Context}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 object ParentName extends Name {
@@ -9,6 +9,10 @@ object ParentName extends Name {
 
   override def evalNamespaceName(implicit ctx: Context) = ctx match {
     case MethodContext(instance, pClass, _, _) =>
+      pClass.superClass.map(_.name).getOrElse {
+        throw new FatalErrorJbjException("Cannot access parent:: when current class scope has no parent")
+      }
+    case StaticMethodContext(pClass, _, _) =>
       pClass.superClass.map(_.name).getOrElse {
         throw new FatalErrorJbjException("Cannot access parent:: when current class scope has no parent")
       }

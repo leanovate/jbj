@@ -47,28 +47,16 @@ object TestBed {
     test(
       """<?php
         |class A {
-        |	function __call($strMethod, $arrArgs) {
-        |		echo "In " . __METHOD__ . "($strMethod, array(" . implode(',',$arrArgs) . "))\n";
-        |		var_dump($this);
-        |	}
+        |    public    static $b = 'foo';
         |}
         |
-        |class B extends A {
-        |	function __call($strMethod, $arrArgs) {
-        |		echo "In " . __METHOD__ . "($strMethod, array(" . implode(',',$arrArgs) . "))\n";
-        |		var_dump($this);
-        |	}
+        |$classname       =  'A';
+        |$wrongClassname  =  'B';
         |
-        |	function test() {
-        |		A::test1(1,'a');
-        |		B::test2(1,'a');
-        |		self::test3(1,'a');
-        |		parent::test4(1,'a');
-        |	}
-        |}
+        |echo $classname::$b."\n";
+        |echo $wrongClassname::$b."\n";
         |
-        |$b = new B();
-        |$b->test();
-        |?>""".stripMargin)
+        |?>
+        |===DONE===""".stripMargin)
   }
 }
