@@ -6,7 +6,7 @@ import play.api.Logger
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.env.CgiEnvironment
 import de.leanovate.jbj.ast.{NodePosition, NoNodePosition}
-import de.leanovate.jbj.runtime.value.{StringVal, ArrayVal}
+import de.leanovate.jbj.runtime.value.{PVar, StringVal, ArrayVal}
 import java.net.URLDecoder
 import de.leanovate.jbj.JbjEnv
 
@@ -43,8 +43,8 @@ object JbjPhp extends Controller {
               val requestArray = CgiEnvironment.decodeKeyValues(request.queryString.toSeq.flatMap {
                 case (key, values) => values.map(key -> _)
               })
-              ctx.getVariable("_REQUEST").value = requestArray
-              ctx.getVariable("_GET").value = requestArray
+              ctx.defineVariable("_REQUEST", PVar(requestArray))
+              ctx.defineVariable("_GET", PVar(requestArray.copy))
             case "POST" =>
               val requestArray = request.body.asFormUrlEncoded.map {
                 keyValues =>
@@ -52,8 +52,8 @@ object JbjPhp extends Controller {
                     case (key, values) => values.map(key -> _)
                   })
               }.getOrElse(ArrayVal())
-              ctx.getVariable("_REQUEST").value = requestArray
-              ctx.getVariable("_POST").value = requestArray
+              ctx.defineVariable("_REQUEST", PVar(requestArray))
+              ctx.defineVariable("_POST", PVar(requestArray.copy))
           }
 
           prog.exec
@@ -74,12 +74,12 @@ object JbjPhp extends Controller {
     val serverArgv = ArrayVal(URLDecoder.decode(request.rawQueryString, "UTF-8").split(" ").map {
       str => None -> StringVal(str)
     }: _*)
-    ctx.getVariable("_SERVER").value = ArrayVal(
+    ctx.defineVariable("_SERVER", PVar(ArrayVal(
       Some(StringVal("PHP_SELF")) -> StringVal(request.uri),
       Some(StringVal("argv")) -> serverArgv,
       Some(StringVal("argc")) -> serverArgv.count,
       Some(StringVal("REQUEST_METHOD")) -> StringVal(request.method),
       Some(StringVal("QUERY_STRING")) -> StringVal(request.rawQueryString)
-    )
+    )))
   }
 }
