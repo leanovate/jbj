@@ -19,7 +19,7 @@ public interface RequestInfo {
     Method getMethod();
 
     @Nonnull
-    String getPath();
+    String getUri();
 
     @Nonnull
     Map<String, List<String>> getQuery();

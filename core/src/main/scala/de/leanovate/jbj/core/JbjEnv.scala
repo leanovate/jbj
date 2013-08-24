@@ -2,13 +2,13 @@ package de.leanovate.jbj.core
 
 import de.leanovate.jbj.core.ast.Prog
 import de.leanovate.jbj.core.runtime.{PFunction, PClass, buildin, Settings}
-import java.io.PrintStream
+import java.io.{OutputStream, PrintStream}
 import de.leanovate.jbj.core.runtime.context.GlobalContext
 import de.leanovate.jbj.core.parser.{JbjParser, ParseContext}
 import scala.collection.JavaConverters._
 import scala.collection.Map
 import de.leanovate.jbj.core.runtime.value.PVal
-import de.leanovate.jbj.api.JbjEnvironment
+import de.leanovate.jbj.api.{RequestInfo, JbjEnvironment}
 
 case class JbjEnv(locator: Locator = DefaultLocator, extensions: Seq[JbjExtension] = Seq.empty) extends JbjEnvironment {
 
@@ -52,4 +52,10 @@ case class JbjEnv(locator: Locator = DefaultLocator, extensions: Seq[JbjExtensio
         result
     }
   }
+
+  override def run(phpScript: String, output: OutputStream) {}
+
+  override def run(phpScript: String, args: Array[String], output: OutputStream) {}
+
+  override def run(phpScript: String, request: RequestInfo, output: OutputStream) {}
 }
