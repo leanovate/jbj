@@ -21,4 +21,6 @@ trait StaticContext {
   def defineVariable(name: String, pVar: PVar)
 
   def undefineVariable(name: String)
+
+  def cleanup()
 }

@@ -15,7 +15,8 @@ object OutputFunctions extends WrappedFunctions {
 
     def dump(stack: List[PAny], ident: String) {
       val (value, isRef) = stack.head match {
-        case valueRef: PVar => valueRef.value -> "&"
+        case valueRef: PVar if valueRef.refCount > 1 => valueRef.value -> "&"
+        case valueRef: PVar => valueRef.value -> ""
         case value: PVal => value -> ""
       }
       value match {
@@ -76,7 +77,7 @@ object OutputFunctions extends WrappedFunctions {
           }
           ctx.out.println("%s}".format(ident))
         case str: StringVal =>
-          ctx.out.println( """%sstring(%s) "%s"""".format(ident, str.chars.length, str.asString))
+          ctx.out.println( """%s%sstring(%s) "%s"""".format(ident, isRef, str.chars.length, str.asString))
       }
     }
 

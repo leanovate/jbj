@@ -23,4 +23,8 @@ class GenericStaticContext(var global: GlobalContext) extends StaticContext {
   override def undefineVariable(name: String) {
     variables.remove(name).foreach(_.release())
   }
+
+  def cleanup() {
+    variables.values.foreach(_.release())
+  }
 }

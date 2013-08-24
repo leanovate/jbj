@@ -135,6 +135,10 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
   def iteratorReset() {
     iteratorState = None
   }
+
+  def cleanup() {
+    keyValueMap.values.foreach(_.release())
+  }
 }
 
 object ArrayVal {

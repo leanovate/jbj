@@ -49,5 +49,9 @@ case class MethodContext(instance: ObjectVal, pClass: PClass, methodName: String
   def defineFunction(function: PFunction) {
     callerCtx.defineFunction(function)
   }
+
+  def cleanup() {
+    localVariables.values.foreach(_.release())
+  }
 }
 

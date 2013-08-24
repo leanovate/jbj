@@ -69,4 +69,6 @@ trait Context {
   def defineVariable(name: String, variable: PVar)
 
   def undefineVariable(name: String)
+
+  def cleanup()
 }

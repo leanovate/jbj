@@ -44,6 +44,8 @@ trait TestJbjExecutor {
       } catch {
         case e: Throwable =>
           thrown = Some(e)
+      } finally {
+        context.cleanup()
       }
 
       out.flush()

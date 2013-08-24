@@ -113,4 +113,10 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
 
   def staticContext(identifier: String): GenericStaticContext =
     staticContexts.getOrElseUpdate(identifier, new GenericStaticContext(this))
+
+  def cleanup() {
+    staticContexts.values.foreach(_.cleanup())
+    classes.values.foreach(_.cleanup())
+    GLOBALS.cleanup()
+  }
 }

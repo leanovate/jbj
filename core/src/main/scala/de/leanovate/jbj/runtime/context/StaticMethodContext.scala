@@ -48,4 +48,8 @@ case class StaticMethodContext(pClass: PClass, methodName: String, callerCtx: Co
   def defineFunction(function: PFunction) {
     callerCtx.defineFunction(function)
   }
+
+  def cleanup() {
+    localVariables.values.foreach(_.release())
+  }
 }

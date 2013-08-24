@@ -76,4 +76,8 @@ trait PClass extends StaticContext {
   override def undefineVariable(name: String) {
     staticVariables.remove(name).foreach(_.release())
   }
+
+  def cleanup() {
+    staticVariables.values.foreach(_.release())
+  }
 }

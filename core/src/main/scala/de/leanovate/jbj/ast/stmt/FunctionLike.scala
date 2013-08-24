@@ -38,8 +38,8 @@ trait FunctionLike extends BlockLike {
     }
   }
 
-  def perform(funcCtx: Context, returnByRef: Boolean, stmts: List[Stmt]) =
-    execStmts(stmts)(funcCtx) match {
+  def perform(funcCtx: Context, returnByRef: Boolean, stmts: List[Stmt]) = {
+    val result = execStmts(stmts)(funcCtx) match {
       case SuccessExecResult => NullVal
       case ret: ReturnExecResult => ret.expr match {
         case Some(referable: ReferableExpr) if returnByRef => referable.evalRef(funcCtx).asVar match {
@@ -59,5 +59,8 @@ trait FunctionLike extends BlockLike {
       case result: ContinueExecResult =>
         throw new FatalErrorJbjException("Cannot break/continue %d level".format(result.depth))(funcCtx)
     }
+    funcCtx.cleanup()
+    result
+  }
 
 }

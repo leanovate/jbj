@@ -164,6 +164,10 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
   def iteratorReset() {
     iteratorState = None
   }
+
+  def cleanup() {
+    keyValueMap.values.foreach(_.release())
+  }
 }
 
 object ObjectVal {

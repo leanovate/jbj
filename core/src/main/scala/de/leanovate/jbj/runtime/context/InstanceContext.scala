@@ -36,4 +36,5 @@ case class InstanceContext(instance: ObjectVal, callerCtx: Context) extends Cont
     callerCtx.defineFunction(function)
   }
 
+  def cleanup() {}
 }

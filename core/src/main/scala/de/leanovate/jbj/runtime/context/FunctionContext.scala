@@ -50,4 +50,8 @@ case class FunctionContext(functionName: NamespaceName,
   def defineFunction(function: PFunction) {
     global.defineFunction(function)
   }
+
+  def cleanup() {
+    localVariables.values.foreach(_.release())
+  }
 }
