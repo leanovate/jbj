@@ -12,11 +12,7 @@ case class StaticVarDeclStmt(assignments: List[StaticAssignment])
     assignments.foreach {
       assignment =>
         val name = assignment.variableName
-        val valueRef = ctx.static.findVariable(name).getOrElse {
-          val pVar = PVar()
-          ctx.static.defineVariable(name, pVar)
-          pVar
-        }
+        val valueRef = ctx.static.findOrDefineVariable(name)
         ctx.defineVariable(name, valueRef)
     }
     SuccessExecResult

@@ -41,6 +41,7 @@ trait Context {
       pVar
     }
   }
+
   def findVariable(name: String): Option[PVar]
 
   def defineVariable(name: String, variable: PVar)
