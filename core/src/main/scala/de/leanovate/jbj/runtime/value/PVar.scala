@@ -3,8 +3,7 @@ package de.leanovate.jbj.runtime.value
 import de.leanovate.jbj.runtime.context.Context
 
 class PVar(private var current: Option[PVal] = None) extends PAny {
-  private var prev = this
-  private var next = this
+  private var refCount = 0
 
   def toOutput(implicit ctx: Context): String = current.map(_.toOutput).getOrElse("")
 
@@ -15,56 +14,28 @@ class PVar(private var current: Option[PVal] = None) extends PAny {
   def value = current.getOrElse(NullVal)
 
   def value_=(v: PVal) {
-    val toSet = Some(v)
-    var pVar = this
-    do {
-      pVar.set(toSet)
-      pVar = pVar.next
-    } while (pVar != this)
-  }
-
-  def ref = this
-
-  def ref_=(pVar: PVar) {
-    if (pVar != this) {
-      unlink()
-      set(pVar.current)
-      prev = pVar.prev
-      next = pVar
-      prev.next = this
-      pVar.prev = this
-    }
+    current = Some(v)
   }
 
   def unset() {
-    unlink()
     current = None
   }
 
-  override def cleanup() {
-    unlink()
+  override def retain( ) {
+    refCount += 1
+  }
+
+  override def release() {
+    refCount -= 1
   }
 
   override def asVal = value
 
   override def asVar = this
 
-  private def unlink() {
-    next.prev = prev
-    prev.next = next
-    prev = this
-    next = this
-  }
-
   override def toString: String = {
     val builder = new StringBuilder("PVar(")
     builder.append(value)
-    var other = this
-    do {
-      builder.append(", ")
-      builder.append(other.hashCode())
-      other = other.next
-    } while (other != this)
     builder.append(")")
     builder.result()
   }

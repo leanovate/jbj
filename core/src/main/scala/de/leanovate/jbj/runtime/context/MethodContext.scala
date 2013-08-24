@@ -4,10 +4,10 @@ import de.leanovate.jbj.ast.{NodePosition, NamespaceName}
 import de.leanovate.jbj.runtime._
 import scala.collection.mutable
 import scala.collection.immutable.Stack
-import de.leanovate.jbj.runtime.value.{PVal, ObjectVal}
+import de.leanovate.jbj.runtime.value.{PVar, PVal, ObjectVal}
 
 case class MethodContext(instance: ObjectVal, pClass: PClass, methodName: String, callerCtx: Context) extends Context {
-  private val localVariables = mutable.Map.empty[String, Variable]
+  private val localVariables = mutable.Map.empty[String, PVar]
 
   private val identifier = "Method_" + instance.pClass.name.toString + "::" + methodName
 
@@ -23,8 +23,8 @@ case class MethodContext(instance: ObjectVal, pClass: PClass, methodName: String
 
   lazy val stack: Stack[NodePosition] = callerCtx.stack.push(callerCtx.currentPosition)
 
-  Variable("GLOBALS", this).value = global.GLOBALS
-  Variable("this", this).value = instance
+  localVariables.put("GLOBALS", PVar(global.GLOBALS))
+  localVariables.put("this", PVar(instance))
 
   def findConstant(name: String): Option[PVal] = global.findConstant(name)
 
@@ -32,15 +32,16 @@ case class MethodContext(instance: ObjectVal, pClass: PClass, methodName: String
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  override def getVariable(name: String): Variable = localVariables.getOrElse(name, Variable(name, this))
+  override def findVariable(name: String): Option[PVar] = localVariables.get(name)
 
-  protected[context] override def defineVariableInt(name: String, variable: Variable) {
-    localVariables.get(name).foreach(_.cleanup())
+  override def defineVariable(name: String, variable: PVar) {
+    variable.retain()
+    localVariables.get(name).foreach(_.release())
     localVariables.put(name, variable)
   }
 
-  protected[context] override def undefineVariableInt(name: String) {
-    localVariables.remove(name).foreach(_.cleanup())
+  override def undefineVariable(name: String) {
+    localVariables.remove(name).foreach(_.release())
   }
 
   def findFunction(name: NamespaceName) = callerCtx.findFunction(name)

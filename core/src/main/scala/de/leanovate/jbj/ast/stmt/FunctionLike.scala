@@ -26,14 +26,14 @@ trait FunctionLike extends BlockLike {
                   callerContext.log.strict("Only variables should be passed by reference")
                   pAny.asVar
               }
-              funcCtx.getVariable(parameterDecl.variableName).ref = pVar
+              funcCtx.defineVariable(parameterDecl.variableName, pVar)
             case _ if parameterDecl.byRef =>
               throw new FatalErrorJbjException("Only variables can be passed by reference")(callerContext)
             case expr =>
-              funcCtx.getVariable(parameterDecl.variableName).value = expr.eval(callerContext).asVal
+              funcCtx.defineVariable(parameterDecl.variableName, PVar(expr.eval(callerContext).asVal))
           }
         } else {
-          funcCtx.getVariable(parameterDecl.variableName).value = parameterDecl.defaultVal(callerContext)
+          funcCtx.defineVariable(parameterDecl.variableName, PVar(parameterDecl.defaultVal(callerContext)))
         }
     }
   }

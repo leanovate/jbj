@@ -85,19 +85,21 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
 
   def definePrivateProperty(name: String, className: String, value: PAny) {
     val key = PrivateKey(name, className)
-    keyValueMap.get(key).foreach(_.cleanup())
+    value.retain()
+    keyValueMap.get(key).foreach(_.release())
     keyValueMap.put(key, value)
   }
 
   def defineProtectedProperty(name: String, value: PAny) {
     val key = ProtectedKey(name)
-    keyValueMap.get(key).foreach(_.cleanup())
+    value.retain()
+    keyValueMap.get(key).foreach(_.release())
     keyValueMap.put(key, value)
   }
 
   def definePublicProperty(name: String, value: PAny) {
     val key = PublicKey(name)
-    keyValueMap.get(key).foreach(_.cleanup())
+    keyValueMap.get(key).foreach(_.release())
     keyValueMap.put(key, value)
   }
 
@@ -105,31 +107,35 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
     if (className.isDefined) {
       val privateKey = PrivateKey(name, className.get)
       if (keyValueMap.contains(privateKey)) {
-        keyValueMap.get(privateKey).foreach(_.cleanup())
+        value.retain()
+        keyValueMap.get(privateKey).foreach(_.release())
         keyValueMap.put(privateKey, value)
       } else {
         val protectedKey = ProtectedKey(name)
         if (keyValueMap.contains(protectedKey)) {
-          keyValueMap.get(protectedKey).foreach(_.cleanup())
+          value.retain()
+          keyValueMap.get(protectedKey).foreach(_.release())
           keyValueMap.put(protectedKey, value)
         } else {
           val key = PublicKey(name)
-          keyValueMap.get(key).foreach(_.cleanup())
+          value.retain()
+          keyValueMap.get(key).foreach(_.release())
           keyValueMap.put(key, value)
         }
       }
     } else {
       val key = PublicKey(name)
-      keyValueMap.get(key).foreach(_.cleanup())
+      value.retain()
+      keyValueMap.get(key).foreach(_.release())
       keyValueMap.put(key, value)
     }
   }
 
   def unsetProperty(name: String, className: Option[String]) = {
-    keyValueMap.remove(PublicKey(name)).foreach(_.cleanup())
+    keyValueMap.remove(PublicKey(name)).foreach(_.release())
     if (className.isDefined) {
-      keyValueMap.remove(ProtectedKey(name)).foreach(_.cleanup())
-      keyValueMap.remove(PrivateKey(name, className.get)).foreach(_.cleanup())
+      keyValueMap.remove(ProtectedKey(name)).foreach(_.release())
+      keyValueMap.remove(PrivateKey(name, className.get)).foreach(_.release())
     }
   }
 

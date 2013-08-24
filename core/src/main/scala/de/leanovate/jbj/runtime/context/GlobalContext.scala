@@ -88,27 +88,19 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: PrintStream, settin
       constants.put(CaseSensitiveConstantKey(name), value)
   }
 
-  override def getVariable(name: String): Variable = GLOBALS.getAt(name)(this) match {
-    case Some(variable: Variable) => variable
-    case Some(pVar: PVar) =>
-      val variable = Variable(name, this, defined = true)
-      variable.ref = pVar
+  override def findVariable(name: String) = GLOBALS.getAt(name)(this).map {
+    case variable: PVar => variable
+    case pVal: PVal =>
+      val variable = PVar(pVal)
+      GLOBALS.setAt(name, variable)(this)
       variable
-    case Some(pVal: PVal) =>
-      val variable = Variable(name, this, defined = true)
-      variable.value = pVal
-      variable
-    case _ =>
-      Variable(name, this)
   }
 
-  protected[context] override def defineVariableInt(name: String, variable: Variable) {
-    GLOBALS.getAt(name)(this).foreach(_.cleanup())
+  override def defineVariable(name: String, variable: PVar) {
     GLOBALS.setAt(name, variable)(this)
   }
 
-  protected[context] override def undefineVariableInt(name: String) {
-    GLOBALS.getAt(name)(this).foreach(_.cleanup())
+  override def undefineVariable(name: String) {
     GLOBALS.unsetAt(name)(this)
   }
 

@@ -45,6 +45,16 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |var_dump(9223372036854775807 * -1);""".stripMargin)
+        |error_reporting(0);
+        |
+        |function Test()
+        |{
+        |	global $b;
+        |	$b = 5;
+        |}
+        |
+        |Test();
+        |echo "$b";
+        |?>""".stripMargin)
   }
 }

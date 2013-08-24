@@ -9,8 +9,9 @@ trait PAny {
 
   def asVar: PVar
 
-  def cleanup() {
-  }
+  def retain() {}
+
+  def release() {}
 
   def ==(other: PAny): PAny = BooleanVal(asVal.compare(other.asVal) == 0)
 

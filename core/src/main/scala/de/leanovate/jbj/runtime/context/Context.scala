@@ -3,7 +3,7 @@ package de.leanovate.jbj.runtime.context
 import java.io.PrintStream
 import de.leanovate.jbj.ast.{NoNodePosition, NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
-import de.leanovate.jbj.runtime.value.PVal
+import de.leanovate.jbj.runtime.value.{PVar, PVal}
 import de.leanovate.jbj.runtime.{PFunction, Log, Settings}
 
 trait Context {
@@ -31,9 +31,19 @@ trait Context {
 
   def defineFunction(function: PFunction)
 
-  def getVariable(name: String): Variable
+  def findOrDefineVariable(name:String): PVar = {
+    val optVar = findVariable(name)
+    if (optVar.isDefined)
+      optVar.get
+    else {
+      val pVar = PVar()
+      defineVariable(name, pVar)
+      pVar
+    }
+  }
+  def findVariable(name: String): Option[PVar]
 
-  protected[context] def defineVariableInt(name: String, variable: Variable)
+  def defineVariable(name: String, variable: PVar)
 
-  protected[context] def undefineVariableInt(name: String)
+  def undefineVariable(name: String)
 }

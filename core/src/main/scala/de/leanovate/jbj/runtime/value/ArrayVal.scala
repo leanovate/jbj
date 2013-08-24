@@ -82,27 +82,30 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
     if (index > maxIndex) {
       maxIndex = index
     }
-    keyValueMap.get(index).foreach(_.cleanup())
+    value.retain()
+    keyValueMap.get(index).foreach(_.release())
     keyValueMap.put(index, value)
   }
 
   override def setAt(index: String, value: PAny)(implicit ctx: Context) {
-    keyValueMap.get(index).foreach(_.cleanup())
+    value.retain()
+    keyValueMap.get(index).foreach(_.release())
     keyValueMap.put(index, value)
   }
 
   override def append(value: PAny)(implicit ctx: Context) {
     maxIndex += 1
-    keyValueMap.get(maxIndex).foreach(_.cleanup())
+    value.retain()
+    keyValueMap.get(maxIndex).foreach(_.release())
     keyValueMap.put(maxIndex, value)
   }
 
   override def unsetAt(index: Long)(implicit ctx: Context) {
-    keyValueMap.remove(index).foreach(_.cleanup())
+    keyValueMap.remove(index).foreach(_.release())
   }
 
   override def unsetAt(index: String)(implicit ctx: Context) {
-    keyValueMap.remove(index).foreach(_.cleanup())
+    keyValueMap.remove(index).foreach(_.release())
   }
 
   def count: IntegerVal = IntegerVal(keyValueMap.size)

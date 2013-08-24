@@ -19,17 +19,17 @@ object CgiEnvironment {
     val serverArgv = ArrayVal(URLDecoder.decode(queryString.getOrElse(""), "UTF-8").split(" ").map {
       str => None -> StringVal(str)
     }: _*)
-    ctx.getVariable("_SERVER").value = ArrayVal(
+    ctx.defineVariable("_SERVER", PVar(ArrayVal(
       Some(StringVal("PHP_SELF")) -> StringVal(uriStr),
       Some(StringVal("argv")) -> serverArgv,
       Some(StringVal("argc")) -> serverArgv.count,
       Some(StringVal("REQUEST_METHOD")) -> StringVal("GET"),
       Some(StringVal("QUERY_STRING")) -> StringVal(queryString.getOrElse(""))
-    )
+    )))
 
     val requestArray = decodeFormData(queryString.getOrElse(""))(ctx)
-    ctx.getVariable("_GET").value = requestArray
-    ctx.getVariable("_REQUEST").value = requestArray
+    ctx.defineVariable("_GET", PVar(requestArray))
+    ctx.defineVariable("_REQUEST", PVar(requestArray.copy))
   }
 
   def httpPostForm(uriStr: String, formData: String)(implicit ctx: Context) {
@@ -38,19 +38,19 @@ object CgiEnvironment {
     val serverArgv = ArrayVal(URLDecoder.decode(queryString.getOrElse(""), "UTF-8").split(" ").map {
       str => None -> StringVal(str)
     }: _*)
-    ctx.getVariable("_SERVER").value = ArrayVal(
+    ctx.defineVariable("_SERVER", PVar(ArrayVal(
       Some(StringVal("PHP_SELF")) -> StringVal(uriStr),
       Some(StringVal("argv")) -> serverArgv,
       Some(StringVal("argc")) -> serverArgv.count,
       Some(StringVal("REQUEST_METHOD")) -> StringVal("POST"),
       Some(StringVal("QUERY_STRING")) -> StringVal(queryString.getOrElse(""))
-    )
+    )))
 
     val getRequestArray = decodeFormData(queryString.getOrElse(""))(ctx)
-    ctx.getVariable("_GET").value = getRequestArray
+    ctx.defineVariable("_GET", PVar(getRequestArray))
     val postRequestArray = decodeFormData(formData)(ctx)
-    ctx.getVariable("_POST").value = postRequestArray
-    ctx.getVariable("_REQUEST").value = postRequestArray
+    ctx.defineVariable("_POST", PVar(postRequestArray))
+    ctx.defineVariable("_REQUEST", PVar(postRequestArray.copy))
   }
 
   def decodeKeyValues(keyValues: Seq[(String, String)])(implicit ctx: Context) = {

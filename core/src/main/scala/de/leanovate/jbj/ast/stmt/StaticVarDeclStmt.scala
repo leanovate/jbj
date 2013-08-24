@@ -11,13 +11,18 @@ case class StaticVarDeclStmt(assignments: List[StaticAssignment])
   override def exec(implicit ctx: Context) = {
     assignments.foreach {
       assignment =>
-        val valueRef = ctx.static.findVariable(assignment.variableName).getOrElse(PVar())
-        ctx.getVariable(assignment.variableName).ref = valueRef
+        val name = assignment.variableName
+        val valueRef = ctx.static.findVariable(name).getOrElse {
+          val pVar = PVar()
+          ctx.static.defineVariable(name, pVar)
+          pVar
+        }
+        ctx.defineVariable(name, valueRef)
     }
     SuccessExecResult
   }
 
-  override def initializeStatic(staticCtx: StaticContext)(implicit ctx:Context) {
+  override def initializeStatic(staticCtx: StaticContext)(implicit ctx: Context) {
     assignments.foreach {
       assignment =>
         staticCtx.defineVariable(assignment.variableName, PVar(assignment.initial.map(_.eval.asVal)))

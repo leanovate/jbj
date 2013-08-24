@@ -1,7 +1,7 @@
 package de.leanovate.jbj.runtime.context
 
 import de.leanovate.jbj.ast.{NodePosition, NamespaceName}
-import de.leanovate.jbj.runtime.value.{PVal, ObjectVal}
+import de.leanovate.jbj.runtime.value.{PVar, PVal, ObjectVal}
 import de.leanovate.jbj.runtime._
 import scala.collection.immutable.Stack
 
@@ -24,16 +24,16 @@ case class InstanceContext(instance: ObjectVal, callerCtx: Context) extends Cont
     global.defineConstant(name, value, caseInsensitive)
   }
 
-  override def getVariable(name: String): Variable = Variable(name, this)
+  override def findVariable(name: String) = None
 
-  protected[context] override def defineVariableInt(name: String, variable: Variable) {}
+  override def defineVariable(name: String, variable: PVar) {}
 
-  def findFunction(name: NamespaceName) = callerCtx.findFunction(name)
+  override def undefineVariable(name: String) {}
 
-  def defineFunction(function: PFunction) {
+  override def findFunction(name: NamespaceName) = callerCtx.findFunction(name)
+
+  override def defineFunction(function: PFunction) {
     callerCtx.defineFunction(function)
   }
 
-  protected[context] override  def undefineVariableInt(name: String) {
-  }
 }

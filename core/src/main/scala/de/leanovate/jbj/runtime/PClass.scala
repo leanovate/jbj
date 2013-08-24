@@ -1,22 +1,17 @@
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.ast.{Expr, ClassEntry, NamespaceName, NodePosition}
+import de.leanovate.jbj.ast.{Expr, ClassEntry, NamespaceName}
 import de.leanovate.jbj.runtime.value._
-import java.util.concurrent.atomic.AtomicLong
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import scala.annotation.tailrec
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.context._
 import de.leanovate.jbj.ast.expr.value.ScalarExpr
-import de.leanovate.jbj.ast.expr.value.ScalarExpr
-import scala.Some
-import de.leanovate.jbj.ast.expr.value.ScalarExpr
-import de.leanovate.jbj.runtime.context.StaticVariable
 import de.leanovate.jbj.runtime.context.MethodContext
 import scala.Some
 
 trait PClass extends StaticContext {
-  private val staticVariables = mutable.Map.empty[String, StaticVariable]
+  private val staticVariables = mutable.Map.empty[String, PVar]
 
   def classEntry: ClassEntry.Type
 
@@ -70,14 +65,15 @@ trait PClass extends StaticContext {
     case Some(s) => isAssignableFrom(s)
   })
 
-  override def getVariable(name: String): StaticVariable = staticVariables.getOrElse(name, StaticVariable(name, this))
+  override def findVariable(name: String) = staticVariables.get(name)
 
-  override def defineVariableInt(name: String, variable: StaticVariable) {
-    staticVariables.get(name).foreach(_.cleanup())
+  override def defineVariable(name: String, variable: PVar) {
+    variable.retain()
+    staticVariables.get(name).foreach(_.release())
     staticVariables.put(name, variable)
   }
 
-  override def undefineVariableInt(name: String) {
-    staticVariables.remove(name).foreach(_.cleanup())
+  override def undefineVariable(name: String) {
+    staticVariables.remove(name).foreach(_.release())
   }
 }

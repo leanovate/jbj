@@ -5,22 +5,9 @@ import de.leanovate.jbj.runtime.value.PVar
 trait StaticContext {
   var initialized = false
 
-  def findVariable(name: String): Option[PVar] = {
-    val variable = getVariable(name)
-    if (variable.isDefined) {
-      Some(variable)
-    } else {
-      None
-    }
-  }
+  def findVariable(name: String): Option[PVar]
 
-  def defineVariable(name: String, pVar: PVar) {
-    getVariable(name).ref = pVar
-  }
+  def defineVariable(name: String, pVar: PVar)
 
-  def getVariable(name: String): StaticVariable = ???
-
-  protected[context] def defineVariableInt(name:String, variable:StaticVariable) {}
-
-  protected[context] def undefineVariableInt(name: String)
+  def undefineVariable(name: String)
 }

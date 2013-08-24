@@ -26,7 +26,6 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
 
     def asVal = pClass.findVariable(variableName.evalName).map(_.value).getOrElse(NullVal)
 
-
     def asVar = pClass.findVariable(varName).getOrElse {
       val result = PVar()
       pClass.defineVariable(varName, result)
@@ -39,7 +38,7 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
     }
 
     def unset() {
-      pClass.getVariable(varName).unset()
+      pClass.undefineVariable(varName)
     }
   }
 }

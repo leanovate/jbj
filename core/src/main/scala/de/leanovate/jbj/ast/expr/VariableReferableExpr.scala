@@ -3,34 +3,52 @@ package de.leanovate.jbj.ast.expr
 import de.leanovate.jbj.ast.{Name, ReferableExpr}
 import de.leanovate.jbj.runtime.Reference
 import java.io.PrintStream
-import de.leanovate.jbj.runtime.value.{PVal, PAny, PVar}
+import de.leanovate.jbj.runtime.value.{NullVal, PVal, PAny, PVar}
 import de.leanovate.jbj.runtime.context.Context
 
 case class VariableReferableExpr(variableName: Name) extends ReferableExpr {
   override def eval(implicit ctx: Context) = {
     val name = variableName.evalName
-    ctx.getVariable(name)
+    ctx.findVariable(name).getOrElse {
+      ctx.log.notice("Undefined variable: %s".format(name))
+      val pVar = PVar()
+//      ctx.defineVariable(name, pVar)
+      pVar
+    }
   }
 
   override def evalRef(implicit ctx: Context) = new Reference {
     val name = variableName.evalName
 
-    def asVal = ctx.getVariable(name).value
+    def asVal = ctx.findVariable(name).getOrElse {
+      val pVar = PVar()
+//      ctx.defineVariable(name, pVar)
+      pVar
+    }.value
 
-    def asVar = ctx.getVariable(name)
+    def asVar = ctx.findVariable(name).getOrElse {
+      val pVar = PVar()
+      ctx.defineVariable(name, pVar)
+      pVar
+    }
 
     def assign(pAny: PAny): PAny = {
       pAny match {
         case pVar: PVar =>
-          ctx.getVariable(name).ref = pVar
+          ctx.defineVariable(name, pVar)
         case pVal: PVal =>
-          ctx.getVariable(name).value = pVal
+          ctx.findVariable(name).map {
+            pVar =>
+              pVar.value = pVal
+          }.getOrElse {
+            ctx.defineVariable(name, PVar(pVal))
+          }
       }
       pAny
     }
 
     def unset() {
-      ctx.getVariable(name).unset()
+      ctx.undefineVariable(name)
     }
   }
 
