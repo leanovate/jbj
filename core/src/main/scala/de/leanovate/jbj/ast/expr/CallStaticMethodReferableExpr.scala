@@ -1,10 +1,9 @@
 package de.leanovate.jbj.ast.expr
 
-import de.leanovate.jbj.ast.{Expr, ReferableExpr, Name}
+import de.leanovate.jbj.ast.{Expr, Name}
 import de.leanovate.jbj.runtime.value.PAny
-import de.leanovate.jbj.runtime.Reference
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.context.{MethodContext, Context}
 
 case class CallStaticMethodReferableExpr(className: Name, methodName: Name, parameters: List[Expr])
   extends CallReferableExpr {
@@ -12,7 +11,12 @@ case class CallStaticMethodReferableExpr(className: Name, methodName: Name, para
     val name = className.evalNamespaceName
     ctx.global.findClass(name).map {
       pClass =>
-        pClass.invokeMethod(ctx, None, methodName.evalName, parameters)
+        ctx match {
+          case MethodContext(instance, currentClass, _, _) if pClass.isAssignableFrom(currentClass)=>
+            pClass.invokeMethod(ctx, Some(instance), methodName.evalName, parameters)
+          case _ =>
+            pClass.invokeMethod(ctx, None, methodName.evalName, parameters)
+        }
     }.getOrElse {
       throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))
     }

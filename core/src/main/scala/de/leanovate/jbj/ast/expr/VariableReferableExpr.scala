@@ -1,9 +1,8 @@
 package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast.{Name, ReferableExpr}
-import de.leanovate.jbj.runtime.Reference
 import java.io.PrintStream
-import de.leanovate.jbj.runtime.value.{NullVal, PVal, PAny, PVar}
+import de.leanovate.jbj.runtime.value.NullVal
 import de.leanovate.jbj.runtime.context.Context
 
 case class VariableReferableExpr(variableName: Name) extends ReferableExpr {

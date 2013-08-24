@@ -78,4 +78,41 @@ object ArrayFunctions extends WrappedFunctions {
         NullVal
     }
   }
+
+  @GlobalFunction
+  def implode(glueOrPieces: PVal, optPieces: Option[PVal])(implicit ctx: Context): PVal = {
+    def mkstring(delim: StringVal, array: ArrayVal): StringVal = {
+      val builder = Array.newBuilder[Byte]
+      var first = true
+
+      for (x <- array.keyValues) {
+        if (first) {
+          builder ++= x._2.asVal.toStr.chars
+          first = false
+        }
+        else {
+          builder ++= delim.chars
+          builder ++= x._2.asVal.toStr.chars
+        }
+      }
+
+      new StringVal(builder.result())
+    }
+
+    optPieces match {
+      case Some(array: ArrayVal) =>
+        mkstring(glueOrPieces.toStr, array)
+      case Some(_) =>
+        ctx.log.warn("implode(): Invalid arguments passed")
+        NullVal
+      case None =>
+        glueOrPieces match {
+          case array: ArrayVal =>
+            mkstring(StringVal(""), array)
+          case _ =>
+            ctx.log.warn("implode(): Argument must be an array")
+            NullVal
+        }
+    }
+  }
 }

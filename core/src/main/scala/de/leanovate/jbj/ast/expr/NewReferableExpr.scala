@@ -2,7 +2,7 @@ package de.leanovate.jbj.ast.expr
 
 import de.leanovate.jbj.ast._
 import de.leanovate.jbj.runtime.Reference
-import de.leanovate.jbj.runtime.value.{PVar, PAny, NullVal}
+import de.leanovate.jbj.runtime.value.{PAny, NullVal}
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.Context

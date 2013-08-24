@@ -8,7 +8,6 @@ import de.leanovate.jbj.ast.NamespaceName
 import de.leanovate.jbj.ast.ClassEntry
 import de.leanovate.jbj.runtime.PClass
 import de.leanovate.jbj.runtime.context.Context
-import sun.org.mozilla.javascript.internal.ast.ObjectProperty
 
 object StdClass extends PClass {
   override def classEntry = ClassEntry.CLASS
