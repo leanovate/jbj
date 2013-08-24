@@ -33,7 +33,7 @@ ARGV.each do |f|
           puts "      // #{f.sub(/.*php-src\/tests\//, '')}"
           mode = :initial
         when :testscript
-          if ( line =~ /--EXPECT--.*/ )
+          if ( line =~ /--EXPECT(F)?--.*/ )
             puts "\"\"\".stripMargin"
             puts "      ).result must haveOutput("
             print "         \"\"\""

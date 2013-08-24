@@ -37,7 +37,12 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
 
   override def copy = {
     iteratorState = None
-    new ArrayVal(keyValueMap.clone())
+    new ArrayVal(keyValueMap.map {
+      case (key, pVar:PVar) =>
+        pVar.retain()
+        key -> pVar
+      case (key, pVal: PVal) => key -> pVal.copy
+    })
   }
 
   override def incr = this

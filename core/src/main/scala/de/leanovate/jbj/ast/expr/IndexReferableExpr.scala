@@ -54,7 +54,17 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
     def assign(pAny: PAny) = {
       optParent.map {
         array =>
-          array.setAt(optArrayKey, pAny)
+          optArrayKey match {
+            case Some(arrayKey) =>
+              array.getAt(arrayKey) match {
+                case Some(pVar: PVar) if pAny.isInstanceOf[PVal] =>
+                  pVar.value = pAny.asInstanceOf[PVal]
+                case _ =>
+                  array.setAt(optArrayKey, pAny)
+              }
+            case None =>
+              array.setAt(optArrayKey, pAny)
+          }
       }.getOrElse {
         ctx.log.warn("Cannot use a scalar value as an array")
       }
