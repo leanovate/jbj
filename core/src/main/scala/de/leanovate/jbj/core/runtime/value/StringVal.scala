@@ -4,7 +4,7 @@ import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.runtime.context.Context
 
 class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
-  def asString(implicit ctx: Context) = new String(chars, ctx.settings.charset)
+  def asString(implicit ctx: Context) = new String(chars, ctx.settings.getCharset)
 
   def asUtf8String = new String(chars, "UTF-8")
 
@@ -227,7 +227,7 @@ class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
 object StringVal {
   def apply(chars: Array[Byte]) = new StringVal(chars)
 
-  def apply(str: String)(implicit ctx: Context) = new StringVal(str.getBytes(ctx.settings.charset))
+  def apply(str: String)(implicit ctx: Context) = new StringVal(str.getBytes(ctx.settings.getCharset))
 
   def unapply(str: StringVal): Option[String] = Some(new String(str.chars, "UTF-8"))
 

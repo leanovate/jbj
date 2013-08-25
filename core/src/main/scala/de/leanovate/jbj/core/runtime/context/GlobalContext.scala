@@ -10,8 +10,10 @@ import de.leanovate.jbj.core.runtime.value.{ArrayVal, PVar, PVal, StringVal}
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 import java.util.concurrent.atomic.AtomicLong
 import de.leanovate.jbj.core.JbjEnv
+import de.leanovate.jbj.api.JbjSettings
 
-case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: Option[PrintStream], settings: Settings) extends Context {
+case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: Option[PrintStream], settings: JbjSettings)
+  extends Context {
   private val classes = mutable.Map.empty[Seq[String], PClass]
 
   private val constants = mutable.Map.empty[ConstantKey, PVal]

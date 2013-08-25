@@ -4,9 +4,8 @@ import scala.util.parsing.input.Reader
 import de.leanovate.jbj.core.parser.JbjTokens.Token
 import de.leanovate.jbj.core.parser.{JbjParser, ParseContext, InitialLexer, TokenReader}
 import de.leanovate.jbj.core.ast.Prog
-import de.leanovate.jbj.core.runtime.Settings
-import de.leanovate.jbj.core.runtime.env.CgiEnvironment
 import de.leanovate.jbj.core.JbjEnv
+import de.leanovate.jbj.api.JbjSettings
 
 object TestBed {
   //Simplify testing
@@ -32,7 +31,7 @@ object TestBed {
 
         implicit val context = jbj.newGlobalContext(System.out)
 
-        context.settings.errorReporting = Settings.E_ALL
+        context.settings.setErrorReporting(JbjSettings.E_ALL)
         tree.exec(context)
         context.cleanup()
       case e: parser.NoSuccess =>

@@ -1,7 +1,6 @@
 package de.leanovate.jbj.core.parser
 
-import de.leanovate.jbj.core.runtime.Settings
+import de.leanovate.jbj.api.JbjSettings
 
-
-case class ParseContext(fileName: String, settings: Settings) {
+case class ParseContext(fileName: String, settings: JbjSettings) {
 }

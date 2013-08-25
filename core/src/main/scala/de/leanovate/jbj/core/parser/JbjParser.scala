@@ -11,7 +11,6 @@ import scala.language.implicitConversions
 import de.leanovate.jbj.core.runtime.exception.ParseJbjException
 import de.leanovate.jbj.core.runtime.value.StringVal
 import de.leanovate.jbj.core.ast.NamespaceName
-import de.leanovate.jbj.core.runtime.Settings
 import de.leanovate.jbj.core.ast.stmt.loop._
 import de.leanovate.jbj.core.ast.Prog
 import de.leanovate.jbj.core.ast.name._
@@ -141,6 +140,7 @@ import de.leanovate.jbj.core.parser.JbjTokens.StringLit
 import de.leanovate.jbj.core.ast.expr.comp.BoolXorExpr
 import de.leanovate.jbj.core.ast.expr.GetAndIncrExpr
 import de.leanovate.jbj.core.ast.expr.CallMethodReferableExpr
+import de.leanovate.jbj.api.JbjSettings
 
 class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   type Elem = JbjTokens.Token
@@ -581,13 +581,13 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     } | doubleNumLit ^^ {
       s => ScalarExpr(DoubleVal(s))
     } | stringLit ^^ {
-      s => ScalarExpr(StringVal(s.getBytes(parseCtx.settings.charset)))
+      s => ScalarExpr(StringVal(s.getBytes(parseCtx.settings.getCharset)))
     } | "__FILE__" ^^^ FileNameConstExpr() |
       "__LINE__" ^^^ LineNumberConstExpr() |
       "__FUNCTION__" ^^^ FunctionNameConstExpr() |
       "__METHOD__" ^^^ MethodNameConstExpr() |
       hereDocStartLit ~> opt(encapsAndWhitespaceLit) <~ hereDocEndLit ^^ {
-        s => ScalarExpr(StringVal(s.getOrElse("").getBytes(parseCtx.settings.charset)))
+        s => ScalarExpr(StringVal(s.getOrElse("").getBytes(parseCtx.settings.getCharset)))
       }
 
   lazy val staticScalar: PackratParser[Expr] =
@@ -789,7 +789,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       } | "{$" ~> variable <~ "}"
 
   lazy val encapsVarOffset: PackratParser[Expr] = identLit ^^ {
-    idx => ScalarExpr(StringVal(idx.getBytes(parseCtx.settings.charset)))
+    idx => ScalarExpr(StringVal(idx.getBytes(parseCtx.settings.getCharset)))
   } | longNumLit ^^ {
     idx => ScalarExpr(IntegerVal(idx))
   } | variable
@@ -899,7 +899,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 }
 
 object JbjParser {
-  def apply(fileName: String, s: String, settings: Settings): Prog = {
+  def apply(fileName: String, s: String, settings: JbjSettings): Prog = {
     val parser = new JbjParser(ParseContext(fileName, settings))
     parser.parse(s)
   }

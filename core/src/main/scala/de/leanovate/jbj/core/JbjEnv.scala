@@ -1,7 +1,7 @@
 package de.leanovate.jbj.core
 
 import de.leanovate.jbj.core.ast.Prog
-import de.leanovate.jbj.core.runtime.{PFunction, PClass, buildin, Settings}
+import de.leanovate.jbj.core.runtime.{PFunction, PClass, buildin}
 import java.io.{OutputStream, PrintStream}
 import de.leanovate.jbj.core.runtime.context.Context
 import de.leanovate.jbj.core.parser.JbjParser
@@ -16,6 +16,7 @@ import scala.Some
 import de.leanovate.jbj.core.runtime.context.GlobalContext
 
 case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
+                  settings: JbjSettings = new JbjSettings,
                   extensions: Seq[JbjExtension] = Seq.empty,
                   errorStream: Option[PrintStream] = None) extends JbjEnvironment {
 
@@ -36,8 +37,6 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
       c =>
         c.name.lowercase -> c
     }.toMap
-
-  val settings: Settings = new Settings
 
   def newGlobalContext(out: PrintStream) = GlobalContext(this, out, errorStream, settings.clone)
 

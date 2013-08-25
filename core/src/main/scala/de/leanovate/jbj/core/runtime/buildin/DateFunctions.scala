@@ -14,7 +14,7 @@ object DateFunctions extends WrappedFunctions {
       ctx.log.strict("mktime(): You should be using the time() function instead")
       time()
     } else {
-      val calendar = Calendar.getInstance(ctx.settings.timezone)
+      val calendar = Calendar.getInstance(ctx.settings.getTimeZone)
       calendar.setTimeInMillis(System.currentTimeMillis)
       hour.foreach(calendar.set(Calendar.HOUR_OF_DAY, _))
       minute.foreach(calendar.set(Calendar.MINUTE, _))

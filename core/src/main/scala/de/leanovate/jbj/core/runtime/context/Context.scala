@@ -4,14 +4,15 @@ import java.io.PrintStream
 import de.leanovate.jbj.core.ast.{NoNodePosition, NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
 import de.leanovate.jbj.core.runtime.value.{PAny, NullVal, PVar, PVal}
-import de.leanovate.jbj.core.runtime.{Reference, PFunction, Log, Settings}
+import de.leanovate.jbj.core.runtime.{Reference, PFunction, Log}
+import de.leanovate.jbj.api.JbjSettings
 
 trait Context {
   def global: GlobalContext
 
   def static: StaticContext
 
-  def settings: Settings
+  def settings: JbjSettings
 
   def out: PrintStream
 

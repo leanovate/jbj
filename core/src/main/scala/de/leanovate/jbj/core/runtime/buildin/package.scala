@@ -5,6 +5,8 @@ import de.leanovate.jbj.core.ast.{Expr, ClassEntry, NamespaceName}
 import scala.collection.Map
 import de.leanovate.jbj.core.runtime.value.IntegerVal
 import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.api.JbjSettings
+import scala.collection.JavaConverters._
 
 package object buildin {
   val buildinFunctions: Seq[PFunction] =
@@ -21,22 +23,24 @@ package object buildin {
     "TRUE" -> BooleanVal.TRUE,
     "FALSE" -> BooleanVal.FALSE,
     "NULL" -> NullVal,
-    "E_ERROR" -> IntegerVal(Settings.E_ERROR),
-    "E_WARNING" -> IntegerVal(Settings.E_WARNING),
-    "E_PARSE" -> IntegerVal(Settings.E_PARSE),
-    "E_NOTICE" -> IntegerVal(Settings.E_NOTICE),
-    "E_CORE_ERROR" -> IntegerVal(Settings.E_CORE_ERROR),
-    "E_CORE_WARNING" -> IntegerVal(Settings.E_CORE_WARNING),
-    "E_COMPILE_ERROR" -> IntegerVal(Settings.E_COMPILE_ERROR),
-    "E_COMPILE_WARNING" -> IntegerVal(Settings.E_COMPILE_WARNING),
-    "E_USER_ERROR" -> IntegerVal(Settings.E_USER_ERROR),
-    "E_USER_WARNING" -> IntegerVal(Settings.E_USER_WARNING),
-    "E_USER_NOTICE" -> IntegerVal(Settings.E_USER_NOTICE),
-    "E_STRICT" -> IntegerVal(Settings.E_STRICT),
-    "E_RECOVERABLE_ERROR" -> IntegerVal(Settings.E_RECOVERABLE_ERROR),
-    "E_DEPRECATED" -> IntegerVal(Settings.E_DEPRECATED),
-    "E_USER_DEPRECATED" -> IntegerVal(Settings.E_USER_DEPRECATED),
-    "E_ALL" -> IntegerVal(Settings.E_ALL)
+    "E_ERROR" -> IntegerVal(JbjSettings.ErrorLevel.E_ERROR.getValue),
+    "E_WARNING" -> IntegerVal(JbjSettings.ErrorLevel.E_WARNING.getValue),
+    "E_PARSE" -> IntegerVal(JbjSettings.ErrorLevel.E_PARSE.getValue),
+    "E_NOTICE" -> IntegerVal(JbjSettings.ErrorLevel.E_NOTICE.getValue),
+    "E_CORE_ERROR" -> IntegerVal(JbjSettings.ErrorLevel.E_CORE_ERROR.getValue),
+    "E_CORE_WARNING" -> IntegerVal(JbjSettings.ErrorLevel.E_CORE_WARNING.getValue),
+    "E_COMPILE_ERROR" -> IntegerVal(JbjSettings.ErrorLevel.E_COMPILE_ERROR.getValue),
+    "E_COMPILE_WARNING" -> IntegerVal(JbjSettings.ErrorLevel.E_COMPILE_WARNING.getValue),
+    "E_USER_ERROR" -> IntegerVal(JbjSettings.ErrorLevel.E_USER_ERROR.getValue),
+    "E_USER_WARNING" -> IntegerVal(JbjSettings.ErrorLevel.E_USER_WARNING.getValue),
+    "E_USER_NOTICE" -> IntegerVal(JbjSettings.ErrorLevel.E_USER_NOTICE.getValue),
+    "E_STRICT" -> IntegerVal(JbjSettings.ErrorLevel.E_STRICT.getValue),
+    "E_RECOVERABLE_ERROR" -> IntegerVal(JbjSettings.ErrorLevel.E_RECOVERABLE_ERROR.getValue),
+    "E_DEPRECATED" -> IntegerVal(JbjSettings.ErrorLevel.E_DEPRECATED.getValue),
+    "E_USER_DEPRECATED" -> IntegerVal(JbjSettings.ErrorLevel.E_USER_DEPRECATED.getValue),
+    "E_ALL" -> IntegerVal(JbjSettings.E_ALL.asScala.foldLeft(0) {
+      (v, enum) => v | enum.getValue
+    })
   )
 
 

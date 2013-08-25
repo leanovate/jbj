@@ -3,10 +3,10 @@ package de.leanovate.jbj.core.tests
 import java.io.{ByteArrayOutputStream, PrintStream}
 import de.leanovate.jbj.core.parser.JbjParser
 import de.leanovate.jbj.core.runtime.env.{CliEnvironment, CgiEnvironment}
-import de.leanovate.jbj.core.runtime.Settings
 import org.specs2.matcher.{MatchResult, BeEqualTo, Expectable, Matcher}
 import de.leanovate.jbj.core.JbjEnv
 import scala.Some
+import de.leanovate.jbj.api.JbjSettings
 
 trait TestJbjExecutor {
 
@@ -21,7 +21,7 @@ trait TestJbjExecutor {
     val out = new PrintStream(bOut, false, "UTF-8")
     implicit val context = jbj.newGlobalContext(out)
 
-    context.settings.errorReporting = Settings.E_ALL
+    context.settings.setErrorReporting(JbjSettings.E_ALL)
 
     def withGet(uriStr: String) = {
       CgiEnvironment.httpRequest(TestRequestInfo.get(uriStr))
