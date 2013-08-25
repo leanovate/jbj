@@ -3,14 +3,16 @@ package de.leanovate.jbj.core
 import de.leanovate.jbj.core.ast.Prog
 import de.leanovate.jbj.core.runtime.{PFunction, PClass, buildin, Settings}
 import java.io.{OutputStream, PrintStream}
-import de.leanovate.jbj.core.runtime.context.GlobalContext
+import de.leanovate.jbj.core.runtime.context.{Context, GlobalContext}
 import de.leanovate.jbj.core.parser.{JbjParser, ParseContext}
 import scala.collection.JavaConverters._
 import scala.collection.Map
 import de.leanovate.jbj.core.runtime.value.PVal
-import de.leanovate.jbj.api.{RequestInfo, JbjEnvironment}
+import de.leanovate.jbj.api.{JbjException, RequestInfo, JbjEnvironment}
+import de.leanovate.jbj.core.runtime.exception.NotFoundJbjException
+import de.leanovate.jbj.core.runtime.env.{CliEnvironment, CgiEnvironment}
 
-case class JbjEnv(locator: Locator = DefaultLocator, extensions: Seq[JbjExtension] = Seq.empty) extends JbjEnvironment {
+case class JbjEnv(locator: Locator = DefaultLocator, extensions: Seq[JbjExtension] = Seq.empty, errorStream: Option[PrintStream] = None) extends JbjEnvironment {
 
   case class CacheEntry(etag: String, entry: Either[Prog, Throwable])
 
@@ -32,7 +34,7 @@ case class JbjEnv(locator: Locator = DefaultLocator, extensions: Seq[JbjExtensio
 
   val settings: Settings = new Settings
 
-  def newGlobalContext(out: PrintStream, err: Option[PrintStream]) = GlobalContext(this, out, err, settings.clone)
+  def newGlobalContext(out: PrintStream) = GlobalContext(this, out, errorStream, settings.clone)
 
   def parse(fileName: String): Option[Either[Prog, Throwable]] = cache.get(fileName) match {
     case Some(cacheEntry) if locator.getETag(fileName).exists(_ == cacheEntry.etag) =>
@@ -54,9 +56,39 @@ case class JbjEnv(locator: Locator = DefaultLocator, extensions: Seq[JbjExtensio
   }
 
   override def run(phpScript: String, output: OutputStream) {
+    implicit val ctx: Context = newGlobalContext(new PrintStream(output))
+
+    runImpl(phpScript)
   }
 
-  override def run(phpScript: String, args: Array[String], output: OutputStream) {}
+  override def run(phpScript: String, args: Array[String], output: OutputStream) {
+    implicit val ctx: Context = newGlobalContext(new PrintStream(output))
 
-  override def run(phpScript: String, request: RequestInfo, output: OutputStream) {}
+    CliEnvironment.commandLine(phpScript, args)
+    runImpl(phpScript)
+  }
+
+  override def run(phpScript: String, request: RequestInfo, output: OutputStream) {
+    implicit val ctx: Context = newGlobalContext(new PrintStream(output))
+
+    CgiEnvironment.httpRequest(request)
+    runImpl(phpScript)
+  }
+
+  private def runImpl(phpScript:String)(implicit ctx:Context) {
+    try {
+      parse(phpScript) match {
+        case Some(Left(prog)) =>
+          prog.exec
+        case Some(Right(exception:JbjException)) =>
+          throw exception
+        case Some(Right(exception)) =>
+          throw new JbjException("General error", exception)
+        case None =>
+          throw new NotFoundJbjException(phpScript)
+      }
+    } finally {
+      ctx.cleanup()
+    }
+  }
 }

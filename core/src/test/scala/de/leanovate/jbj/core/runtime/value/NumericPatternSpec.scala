@@ -1,7 +1,7 @@
 package de.leanovate.jbj.core.runtime.value
 
 import org.specs2.mutable.SpecificationWithJUnit
-import de.leanovate.jbj.core.runtime.context.{Context, GlobalContext}
+import de.leanovate.jbj.core.runtime.context.Context
 import de.leanovate.jbj.core.JbjEnv
 
 class NumericPatternSpec extends SpecificationWithJUnit {
@@ -38,7 +38,7 @@ class NumericPatternSpec extends SpecificationWithJUnit {
 
     "string conversion" in {
       val env = JbjEnv()
-      implicit val ctx = env.newGlobalContext(null, null)
+      implicit val ctx = env.newGlobalContext(null)
 
       convert("679") must beSome(679.0)
       convert("679abc") must beSome(679.0)

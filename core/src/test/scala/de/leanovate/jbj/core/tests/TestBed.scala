@@ -21,7 +21,7 @@ object TestBed {
       count += 1
     }
 
-    val jbj = JbjEnv(TestLocator)
+    val jbj = JbjEnv(TestLocator, errorStream = Some(System.err))
     val tokens2 = new TokenReader(exprstr, InitialLexer)
     val parser = new JbjParser(ParseContext("/classes/bla.php", jbj.settings))
     parser.phrase(parser.start)(tokens2) match {
@@ -30,7 +30,7 @@ object TestBed {
         val pp = new scala.xml.PrettyPrinter(80, 2)
         println(pp.format(tree.toXml))
 
-        implicit val context = jbj.newGlobalContext(System.out, Some(System.err))
+        implicit val context = jbj.newGlobalContext(System.out)
 
         context.settings.errorReporting = Settings.E_ALL
         CgiEnvironment.httpGet("?ab+cd+ef+123+test")

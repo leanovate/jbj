@@ -4,7 +4,6 @@ import java.net.{URLDecoder, URI}
 import de.leanovate.jbj.core.runtime.value._
 import de.leanovate.jbj.core.ast.NoNodePosition
 import scala.annotation.tailrec
-import scala.Some
 import de.leanovate.jbj.core.runtime.context.Context
 import de.leanovate.jbj.api.{FormRequestBody, RequestInfo}
 import scala.Some

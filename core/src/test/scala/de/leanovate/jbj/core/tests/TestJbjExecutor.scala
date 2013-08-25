@@ -2,21 +2,25 @@ package de.leanovate.jbj.core.tests
 
 import java.io.{ByteArrayOutputStream, PrintStream}
 import de.leanovate.jbj.core.parser.JbjParser
-import scala.Some
-import de.leanovate.jbj.core.ast.Prog
 import de.leanovate.jbj.core.runtime.env.{CliEnvironment, CgiEnvironment}
 import de.leanovate.jbj.core.runtime.Settings
 import org.specs2.matcher.{MatchResult, BeEqualTo, Expectable, Matcher}
 import de.leanovate.jbj.core.JbjEnv
+import scala.Some
 
 trait TestJbjExecutor {
 
-  case class Script(prog: Prog, jbj: JbjEnv) {
-    val bOut = new ByteArrayOutputStream()
+  case class Script(progString: String) {
     val bErr = new ByteArrayOutputStream()
-    val out = new PrintStream(bOut, false, "UTF-8")
     val err = new PrintStream(bErr, false, "UTF-8")
-    implicit val context = jbj.newGlobalContext(out, Some(err))
+
+    val jbj = JbjEnv(TestLocator, errorStream = Some(err))
+    val pseudoFileName = TestJbjExecutor.this.getClass.getName.replace("de.leanovate.jbj.core.tests", "").replace('.', '/') + ".inlinePhp"
+    val prog = JbjParser(pseudoFileName, progString, jbj.settings)
+
+    val bOut = new ByteArrayOutputStream()
+    val out = new PrintStream(bOut, false, "UTF-8")
+    implicit val context = jbj.newGlobalContext(out)
 
     context.settings.errorReporting = Settings.E_ALL
 
@@ -60,9 +64,7 @@ trait TestJbjExecutor {
   case class ScriptResult(out: String, err: String, exception: Option[Throwable])
 
   def script(progStr: String): Script = {
-    val jbj = JbjEnv(TestLocator)
-    val pseudoFileName = getClass.getName.replace("de.leanovate.jbj.core.tests", "").replace('.', '/') + ".inlinePhp"
-    Script(JbjParser(pseudoFileName, progStr, jbj.settings), jbj)
+    Script(progStr)
   }
 
   def haveOutput(expected: String) = new Matcher[ScriptResult] {

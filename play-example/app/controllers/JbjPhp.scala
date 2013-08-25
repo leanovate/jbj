@@ -12,7 +12,7 @@ import de.leanovate.jbj.core.JbjEnv
 
 object JbjPhp extends Controller {
 
-  private val jbj = JbjEnv(PlayLocator)
+  private val jbj = JbjEnv(PlayLocator, errorStream =  Some(System.err))
 
   def get(path: String, file: String, pathInfo: String) = Action {
     request =>
@@ -34,7 +34,7 @@ object JbjPhp extends Controller {
         case Some(Left(prog)) =>
           val bOut = new ByteArrayOutputStream()
           val out = new PrintStream(bOut, false, "UTF-8")
-          implicit val ctx = jbj.newGlobalContext(out, System.err)
+          implicit val ctx = jbj.newGlobalContext(out)
           implicit val position = NoNodePosition
 
           handleCommonParameters(request)
