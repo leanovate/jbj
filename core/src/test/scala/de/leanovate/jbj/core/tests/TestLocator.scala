@@ -1,24 +1,25 @@
 package de.leanovate.jbj.core.tests
 
 import scala.io.Source
-import de.leanovate.jbj.core.Locator
+import de.leanovate.jbj.api.JbjScriptLocator
 
-object TestLocator extends Locator {
+object TestLocator extends JbjScriptLocator {
   def getETag(fileName: String) = {
     Option(if (fileName.startsWith("/"))
-      getClass.getResource(fileName.substring(1))
+      TestLocator.getClass.getResource(fileName.substring(1))
     else
-      getClass.getResource(fileName)
-    ).map(_.toString)
+      TestLocator.getClass.getResource(fileName)
+    ).map(_.toString).orNull
   }
 
   def readScript(fileName: String) = {
     Option(if (fileName.startsWith("/"))
-      getClass.getResource(fileName.substring(1))
+      TestLocator.getClass.getResource(fileName.substring(1))
     else
-      getClass.getResource(fileName)
+      TestLocator.getClass.getResource(fileName)
     ).map {
-      url => Script(Source.fromInputStream(url.openStream()).mkString, fileName, url.toString)
-    }
+      url =>
+        new JbjScriptLocator.Script(fileName, url.toString, Source.fromInputStream(url.openStream()).mkString)
+    }.orNull
   }
 }

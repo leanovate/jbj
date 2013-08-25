@@ -5,9 +5,9 @@ import java.io.File
 import play.api.Play
 import play.api.Play.current
 import scala.io.Source
-import de.leanovate.jbj.core.Locator
+import de.leanovate.jbj.api.JbjScriptLocator
 
-object PlayLocator extends Locator {
+object PlayJbjScriptLocator extends JbjScriptLocator {
   def getETag(fileName: String) = {
     val resource = Play.resource(fileName)
 
@@ -16,7 +16,7 @@ object PlayLocator extends Locator {
         None
       case url =>
         lastModifiedFor(url)
-    }
+    }.orNull
   }
 
   def readScript(fileName: String) = {
@@ -28,9 +28,9 @@ object PlayLocator extends Locator {
       case url =>
         lastModifiedFor(url).map {
           lastModified =>
-            Script(Source.fromInputStream(url.openStream()).mkString, fileName, lastModified)
+            new JbjScriptLocator.Script(fileName, lastModified, Source.fromInputStream(url.openStream()).mkString)
         }
-    }
+    }.orNull
   }
 
   private def lastModifiedFor(resource: java.net.URL): Option[String] = resource.getProtocol match {

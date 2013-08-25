@@ -3,16 +3,21 @@ package de.leanovate.jbj.core
 import de.leanovate.jbj.core.ast.Prog
 import de.leanovate.jbj.core.runtime.{PFunction, PClass, buildin, Settings}
 import java.io.{OutputStream, PrintStream}
-import de.leanovate.jbj.core.runtime.context.{Context, GlobalContext}
-import de.leanovate.jbj.core.parser.{JbjParser, ParseContext}
+import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.core.parser.JbjParser
 import scala.collection.JavaConverters._
 import scala.collection.Map
 import de.leanovate.jbj.core.runtime.value.PVal
-import de.leanovate.jbj.api.{JbjException, RequestInfo, JbjEnvironment}
+import de.leanovate.jbj.api._
 import de.leanovate.jbj.core.runtime.exception.NotFoundJbjException
 import de.leanovate.jbj.core.runtime.env.{CliEnvironment, CgiEnvironment}
+import de.leanovate.jbj.core.parser.ParseContext
+import scala.Some
+import de.leanovate.jbj.core.runtime.context.GlobalContext
 
-case class JbjEnv(locator: Locator = DefaultLocator, extensions: Seq[JbjExtension] = Seq.empty, errorStream: Option[PrintStream] = None) extends JbjEnvironment {
+case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
+                  extensions: Seq[JbjExtension] = Seq.empty,
+                  errorStream: Option[PrintStream] = None) extends JbjEnvironment {
 
   case class CacheEntry(etag: String, entry: Either[Prog, Throwable])
 
@@ -37,20 +42,20 @@ case class JbjEnv(locator: Locator = DefaultLocator, extensions: Seq[JbjExtensio
   def newGlobalContext(out: PrintStream) = GlobalContext(this, out, errorStream, settings.clone)
 
   def parse(fileName: String): Option[Either[Prog, Throwable]] = cache.get(fileName) match {
-    case Some(cacheEntry) if locator.getETag(fileName).exists(_ == cacheEntry.etag) =>
+    case Some(cacheEntry) if Option(locator.getETag(fileName)).exists(_ == cacheEntry.etag) =>
       Some(cacheEntry.entry)
-    case Some(_) if !locator.getETag(fileName).isDefined =>
+    case Some(_) if !Option(locator.getETag(fileName)).isDefined =>
       cache.remove(fileName)
       None
-    case None => locator.readScript(fileName).map {
+    case None => Option(locator.readScript(fileName)).map {
       script =>
-        val parser = new JbjParser(ParseContext(script.fileName, settings))
+        val parser = new JbjParser(ParseContext(script.getFilename, settings))
         val result = try {
-          Left(parser.parse(script.content))
+          Left(parser.parse(script.getContent))
         } catch {
           case e: Throwable => Right(e)
         }
-        cache.put(fileName, CacheEntry(script.etag, result))
+        cache.put(fileName, CacheEntry(script.getEtag, result))
         result
     }
   }
@@ -75,12 +80,12 @@ case class JbjEnv(locator: Locator = DefaultLocator, extensions: Seq[JbjExtensio
     runImpl(phpScript)
   }
 
-  private def runImpl(phpScript:String)(implicit ctx:Context) {
+  private def runImpl(phpScript: String)(implicit ctx: Context) {
     try {
       parse(phpScript) match {
         case Some(Left(prog)) =>
           prog.exec
-        case Some(Right(exception:JbjException)) =>
+        case Some(Right(exception: JbjException)) =>
           throw exception
         case Some(Right(exception)) =>
           throw new JbjException("General error", exception)

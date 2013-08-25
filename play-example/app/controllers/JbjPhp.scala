@@ -13,7 +13,7 @@ import de.leanovate.jbj.core.runtime.exception.NotFoundJbjException
 
 object JbjPhp extends Controller {
 
-  private val jbj = JbjEnv(PlayLocator, errorStream = Some(System.err))
+  private val jbj = JbjEnv(PlayJbjScriptLocator, errorStream = Some(System.err))
 
   def get(path: String, file: String, pathInfo: String) = Action {
     request =>
