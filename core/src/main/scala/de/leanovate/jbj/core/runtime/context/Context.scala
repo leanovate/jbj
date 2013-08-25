@@ -15,7 +15,7 @@ trait Context {
 
   def out: PrintStream
 
-  def err: PrintStream
+  def err: Option[PrintStream]
 
   var currentPosition: NodePosition = NoNodePosition
 

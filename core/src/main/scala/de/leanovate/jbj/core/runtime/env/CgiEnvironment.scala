@@ -4,14 +4,52 @@ import java.net.{URLDecoder, URI}
 import de.leanovate.jbj.core.runtime.value._
 import de.leanovate.jbj.core.ast.NoNodePosition
 import scala.annotation.tailrec
-import de.leanovate.jbj.core.runtime.value.StringVal
 import scala.Some
 import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.api.{FormRequestBody, RequestInfo}
+import scala.Some
+import de.leanovate.jbj.core.runtime.value.IntegerVal
+import scala.collection.JavaConversions._
 
 object CgiEnvironment {
   val numberPattern = "([0-9]+)".r
 
   implicit val position = NoNodePosition
+
+  def httpRequest(request: RequestInfo)(implicit ctx: Context) {
+    val serverArgv = ArrayVal(URLDecoder.decode(request.getRawQuery, "UTF-8").split(" ").map {
+      str => None -> StringVal(str)
+    }: _*)
+    ctx.defineVariable("_SERVER", PVar(ArrayVal(
+      Some(StringVal("PHP_SELF")) -> StringVal(request.getUri),
+      Some(StringVal("argv")) -> serverArgv,
+      Some(StringVal("argc")) -> serverArgv.count,
+      Some(StringVal("REQUEST_METHOD")) -> StringVal(request.getMethod.toString),
+      Some(StringVal("QUERY_STRING")) -> StringVal(request.getRawQuery)
+    )))
+
+    val queryKeyValues = request.getQuery.toSeq.flatMap {
+      case (key, values) => values.map(key -> _)
+    }
+    val getRequestArray = decodeKeyValues(queryKeyValues)
+    ctx.defineVariable("_GET", PVar(getRequestArray))
+    request.getMethod match {
+      case RequestInfo.Method.GET =>
+        ctx.defineVariable("_REQUEST", PVar(getRequestArray.copy))
+      case RequestInfo.Method.POST =>
+        Option(request.getBody) match {
+          case Some(formBody: FormRequestBody) =>
+            val formKeyValues = formBody.getFormData.toSeq.flatMap {
+              case (key, values) => values.map(key -> _)
+            }
+            val postRequestArray = decodeKeyValues(formKeyValues)
+            ctx.defineVariable("_POST", PVar(postRequestArray))
+            ctx.defineVariable("_REQUEST", PVar(postRequestArray.copy))
+          case _ =>
+            ctx.defineVariable("_REQUEST", PVar(getRequestArray.copy))
+        }
+    }
+  }
 
   def httpGet(uriStr: String)(implicit ctx: Context) {
     val uri = new URI(uriStr)

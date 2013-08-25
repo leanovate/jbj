@@ -41,9 +41,21 @@ public interface JbjEnvironment {
      */
     abstract class Builder {
         protected JbjSettings settings = new JbjSettings();
+        protected JbjScriptLocator scriptLocator = new DefaultJbjScriptLocator();
+        protected OutputStream errorStream = null;
 
         Builder withSettings(JbjSettings settings) {
             this.settings = settings;
+            return this;
+        }
+
+        Builder withScriptLocator(JbjScriptLocator scriptLocator) {
+            this.scriptLocator = scriptLocator;
+            return this;
+        }
+
+        Builder withErrStream(OutputStream errorStream) {
+            this.errorStream = errorStream;
             return this;
         }
 

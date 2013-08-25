@@ -16,7 +16,7 @@ trait TestJbjExecutor {
     val bErr = new ByteArrayOutputStream()
     val out = new PrintStream(bOut, false, "UTF-8")
     val err = new PrintStream(bErr, false, "UTF-8")
-    implicit val context = jbj.newGlobalContext(out, err)
+    implicit val context = jbj.newGlobalContext(out, Some(err))
 
     context.settings.errorReporting = Settings.E_ALL
 

@@ -30,7 +30,7 @@ object TestBed {
         val pp = new scala.xml.PrettyPrinter(80, 2)
         println(pp.format(tree.toXml))
 
-        implicit val context = jbj.newGlobalContext(System.out, System.err)
+        implicit val context = jbj.newGlobalContext(System.out, Some(System.err))
 
         context.settings.errorReporting = Settings.E_ALL
         CgiEnvironment.httpGet("?ab+cd+ef+123+test")

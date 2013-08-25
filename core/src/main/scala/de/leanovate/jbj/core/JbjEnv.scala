@@ -32,7 +32,7 @@ case class JbjEnv(locator: Locator = DefaultLocator, extensions: Seq[JbjExtensio
 
   val settings: Settings = new Settings
 
-  def newGlobalContext(out: PrintStream, err: PrintStream) = GlobalContext(this, out, err, settings.clone)
+  def newGlobalContext(out: PrintStream, err: Option[PrintStream]) = GlobalContext(this, out, err, settings.clone)
 
   def parse(fileName: String): Option[Either[Prog, Throwable]] = cache.get(fileName) match {
     case Some(cacheEntry) if locator.getETag(fileName).exists(_ == cacheEntry.etag) =>
@@ -53,7 +53,8 @@ case class JbjEnv(locator: Locator = DefaultLocator, extensions: Seq[JbjExtensio
     }
   }
 
-  override def run(phpScript: String, output: OutputStream) {}
+  override def run(phpScript: String, output: OutputStream) {
+  }
 
   override def run(phpScript: String, args: Array[String], output: OutputStream) {}
 
