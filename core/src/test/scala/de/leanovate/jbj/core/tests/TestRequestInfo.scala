@@ -30,7 +30,7 @@ object TestRequestInfo {
   }
 
   def post(uri: String, formData: String): RequestInfo = {
-    new TestRequestInfo(RequestInfo.Method.GET, uri, new TestFormRequestBody(formData))
+    new TestRequestInfo(RequestInfo.Method.POST, uri, new TestFormRequestBody(formData))
   }
 
   def parseFormData(formData: String) = {

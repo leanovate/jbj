@@ -50,46 +50,6 @@ object CgiEnvironment {
     }
   }
 
-  def httpGet(uriStr: String)(implicit ctx: Context) {
-    val uri = new URI(uriStr)
-    val queryString = Option(uri.getQuery)
-    val serverArgv = ArrayVal(URLDecoder.decode(queryString.getOrElse(""), "UTF-8").split(" ").map {
-      str => None -> StringVal(str)
-    }: _*)
-    ctx.defineVariable("_SERVER", PVar(ArrayVal(
-      Some(StringVal("PHP_SELF")) -> StringVal(uriStr),
-      Some(StringVal("argv")) -> serverArgv,
-      Some(StringVal("argc")) -> serverArgv.count,
-      Some(StringVal("REQUEST_METHOD")) -> StringVal("GET"),
-      Some(StringVal("QUERY_STRING")) -> StringVal(queryString.getOrElse(""))
-    )))
-
-    val requestArray = decodeFormData(queryString.getOrElse(""))(ctx)
-    ctx.defineVariable("_GET", PVar(requestArray))
-    ctx.defineVariable("_REQUEST", PVar(requestArray.copy))
-  }
-
-  def httpPostForm(uriStr: String, formData: String)(implicit ctx: Context) {
-    val uri = new URI(uriStr)
-    val queryString = Option(uri.getQuery)
-    val serverArgv = ArrayVal(URLDecoder.decode(queryString.getOrElse(""), "UTF-8").split(" ").map {
-      str => None -> StringVal(str)
-    }: _*)
-    ctx.defineVariable("_SERVER", PVar(ArrayVal(
-      Some(StringVal("PHP_SELF")) -> StringVal(uriStr),
-      Some(StringVal("argv")) -> serverArgv,
-      Some(StringVal("argc")) -> serverArgv.count,
-      Some(StringVal("REQUEST_METHOD")) -> StringVal("POST"),
-      Some(StringVal("QUERY_STRING")) -> StringVal(queryString.getOrElse(""))
-    )))
-
-    val getRequestArray = decodeFormData(queryString.getOrElse(""))(ctx)
-    ctx.defineVariable("_GET", PVar(getRequestArray))
-    val postRequestArray = decodeFormData(formData)(ctx)
-    ctx.defineVariable("_POST", PVar(postRequestArray))
-    ctx.defineVariable("_REQUEST", PVar(postRequestArray.copy))
-  }
-
   def decodeKeyValues(keyValues: Seq[(String, String)])(implicit ctx: Context) = {
     val result = ArrayVal()
     keyValues.foreach {
@@ -147,21 +107,5 @@ object CgiEnvironment {
         }
       }
     }
-  }
-
-  private def decodeFormData(formData: String)(implicit ctx: Context) = {
-    decodeKeyValues(formData.split("&").flatMap {
-      param =>
-        val eqIdx = param.indexOf('=')
-
-        if (eqIdx > 0) {
-          val key = URLDecoder.decode(param.substring(0, eqIdx), "UTF-8")
-          val value = URLDecoder.decode(param.substring(eqIdx + 1), "UTF-8")
-
-          Seq(key -> value)
-        } else {
-          Seq.empty
-        }
-    })
   }
 }

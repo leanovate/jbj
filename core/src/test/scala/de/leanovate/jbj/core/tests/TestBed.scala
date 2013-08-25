@@ -33,7 +33,6 @@ object TestBed {
         implicit val context = jbj.newGlobalContext(System.out)
 
         context.settings.errorReporting = Settings.E_ALL
-        CgiEnvironment.httpGet("?ab+cd+ef+123+test")
         tree.exec(context)
         context.cleanup()
       case e: parser.NoSuccess =>

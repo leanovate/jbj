@@ -17,7 +17,6 @@ trait TestJbjExecutor {
     val jbj = JbjEnv(TestLocator, errorStream = Some(err))
     val pseudoFileName = TestJbjExecutor.this.getClass.getName.replace("de.leanovate.jbj.core.tests", "").replace('.', '/') + ".inlinePhp"
     val prog = JbjParser(pseudoFileName, progString, jbj.settings)
-
     val bOut = new ByteArrayOutputStream()
     val out = new PrintStream(bOut, false, "UTF-8")
     implicit val context = jbj.newGlobalContext(out)
@@ -25,12 +24,12 @@ trait TestJbjExecutor {
     context.settings.errorReporting = Settings.E_ALL
 
     def withGet(uriStr: String) = {
-      CgiEnvironment.httpGet(uriStr)
+      CgiEnvironment.httpRequest(TestRequestInfo.get(uriStr))
       this
     }
 
     def withPost(uriStr: String, formData: String) = {
-      CgiEnvironment.httpPostForm(uriStr, formData)
+      CgiEnvironment.httpRequest(TestRequestInfo.post(uriStr, formData))
       this
     }
 

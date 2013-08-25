@@ -56,20 +56,20 @@ case class JbjEnv(locator: Locator = DefaultLocator, extensions: Seq[JbjExtensio
   }
 
   override def run(phpScript: String, output: OutputStream) {
-    implicit val ctx: Context = newGlobalContext(new PrintStream(output))
+    implicit val ctx: Context = newGlobalContext(new PrintStream(output, false, "UTF-8"))
 
     runImpl(phpScript)
   }
 
   override def run(phpScript: String, args: Array[String], output: OutputStream) {
-    implicit val ctx: Context = newGlobalContext(new PrintStream(output))
+    implicit val ctx: Context = newGlobalContext(new PrintStream(output, false, "UTF-8"))
 
     CliEnvironment.commandLine(phpScript, args)
     runImpl(phpScript)
   }
 
   override def run(phpScript: String, request: RequestInfo, output: OutputStream) {
-    implicit val ctx: Context = newGlobalContext(new PrintStream(output))
+    implicit val ctx: Context = newGlobalContext(new PrintStream(output, false, "UTF-8"))
 
     CgiEnvironment.httpRequest(request)
     runImpl(phpScript)
