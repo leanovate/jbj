@@ -19,7 +19,10 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
         case MethodContext(_, invokingClass, _, _) if pClass == invokingClass =>
         case StaticMethodContext(invokingClass, _, _) if pClass == invokingClass =>
         case _ =>
-          throw new FatalErrorJbjException("Call to private %s::%s() from invalid context".format(pClass.name.toString, name))(ctx)
+          if (name == "__destruct")
+            throw new FatalErrorJbjException("Call to private %s::%s() from context ''".format(pClass.name.toString, name))(ctx)
+          else
+            throw new FatalErrorJbjException("Call to private %s::%s() from invalid context".format(pClass.name.toString, name))(ctx)
       }
     }
     if (isProtected) {
@@ -29,7 +32,10 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
         case MethodContext(_, invokingClass, _, _) if pClass.isAssignableFrom(invokingClass) =>
         case StaticMethodContext(invokingClass, _, _) if pClass.isAssignableFrom(invokingClass) =>
         case _ =>
-          throw new FatalErrorJbjException("Call to protected %s::%s() from invalid context".format(pClass.name.toString, name))(ctx)
+          if (name == "__destruct")
+            throw new FatalErrorJbjException("Call to protected %s::%s() from context ''".format(pClass.name.toString, name))(ctx)
+          else
+            throw new FatalErrorJbjException("Call to protected %s::%s() from invalid context".format(pClass.name.toString, name))(ctx)
       }
     }
 

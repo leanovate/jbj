@@ -270,5 +270,73 @@ class FactorySpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "ZE2 factory and singleton, test 4" in {
+      // classes/factory_and_singleton_004.phpt
+      script(
+        """<?php
+          |class test {
+          |
+          |  private function __construct($x) {
+          |  }
+          |}
+          |
+          |$obj = new test;
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Call to private test::__construct() from invalid context in /classes/FactorySpec.inlinePhp on line 8
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 factory and singleton, test 5" in {
+      // classes/factory_and_singleton_005.phpt
+      script(
+        """<?php
+          |class test {
+          |
+          |  protected function __destruct() {
+          |  }
+          |}
+          |
+          |$obj = new test;
+          |$obj = NULL;
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Call to protected test::__destruct() from context '' in /classes/FactorySpec.inlinePhp on line 9
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 factory and singleton, test 6" in {
+      // classes/factory_and_singleton_006.phpt
+      script(
+        """<?php
+          |class test {
+          |
+          |  private function __destruct() {
+          |  }
+          |}
+          |
+          |$obj = new test;
+          |$obj = NULL;
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Call to private test::__destruct() from context '' in /classes/FactorySpec.inlinePhp on line 9
+          |""".stripMargin
+      )
+    }
   }
 }
