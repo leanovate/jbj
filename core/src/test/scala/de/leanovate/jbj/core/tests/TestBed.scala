@@ -43,32 +43,24 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
+        |class base {
+        |   function __construct() {
+        |      echo __METHOD__ . "\n";
+        |   }
         |
-        |class pass {
-        |	private function show() {
-        |		echo "Call show()\n";
-        |	}
-        |
-        |	protected function good() {
-        |		$this->show();
-        |	}
+        |   function __destruct() {
+        |      echo __METHOD__ . "\n";
+        |   }
         |}
         |
-        |class fail extends pass {
-        |	public function ok() {
-        |		$this->good();
-        |	}
-        |
-        |	public function not_ok() {
-        |		$this->show();
-        |	}
+        |class derived extends base {
         |}
         |
-        |$t = new fail();
-        |$t->ok();
-        |$t->not_ok(); // calling a private function
+        |$obj = new derived;
         |
-        |echo "Done\n"; // shouldn't be displayed
+        |unset($obj);
+        |
+        |echo 'Done';
         |?>""".stripMargin)
   }
 }

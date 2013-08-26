@@ -71,6 +71,45 @@ class PrivateSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
-  }
 
+    "ZE2 A private method cannot be called in a derived class" in {
+      // classes/private_003b.phpt
+      script(
+        """<?php
+          |
+          |class pass {
+          |	private function show() {
+          |		echo "Call show()\n";
+          |	}
+          |
+          |	protected function good() {
+          |		$this->show();
+          |	}
+          |}
+          |
+          |class fail extends pass {
+          |	public function ok() {
+          |		$this->good();
+          |	}
+          |
+          |	public function not_ok() {
+          |		$this->show();
+          |	}
+          |}
+          |
+          |$t = new fail();
+          |$t->ok();
+          |$t->not_ok(); // calling a private function
+          |
+          |echo "Done\n"; // shouldn't be displayed
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """Call show()
+          |
+          |Fatal error: Call to private method pass::show() from context 'fail' in /classes/PrivateSpec.inlinePhp on line 19
+          |""".stripMargin
+      )
+    }
+  }
 }

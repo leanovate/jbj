@@ -66,15 +66,15 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     val instance = newEmptyInstance(this)(ctx)
 
     initializeInstance(instance)(ctx)
-    findConstructor.foreach(_.invoke(ctx, instance, this, parameters))
+    findConstructor.foreach(_.invoke(ctx, instance, parameters))
     instance
   }
 
   override def destructInstance(instance: ObjectVal)(implicit ctx: Context) {
     ctx match {
-      case MethodContext(inst, pMethod, _) if pMethod.declaringClass == this && pMethod.name == "__destruct" =>
+      case MethodContext(inst, pMethod, _) if instance.pClass == this && pMethod.name == "__destruct" =>
       case _ =>
-        findDestructor.foreach(_.invoke(ctx, instance, this, Nil))
+        findDestructor.foreach(_.invoke(ctx, instance, Nil))
     }
     instance.cleanup()
   }

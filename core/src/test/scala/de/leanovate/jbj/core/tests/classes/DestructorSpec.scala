@@ -125,5 +125,36 @@ class DestructorSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "ZE2 The inherited destructor is called" in {
+      // classes/destructor_inheritance.phpt
+      script(
+        """<?php
+          |class base {
+          |   function __construct() {
+          |      echo __METHOD__ . "\n";
+          |   }
+          |
+          |   function __destruct() {
+          |      echo __METHOD__ . "\n";
+          |   }
+          |}
+          |
+          |class derived extends base {
+          |}
+          |
+          |$obj = new derived;
+          |
+          |unset($obj);
+          |
+          |echo 'Done';
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """base::__construct
+          |base::__destruct
+          |Done""".stripMargin
+      )
+    }
   }
 }

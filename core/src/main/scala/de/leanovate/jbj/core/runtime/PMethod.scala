@@ -17,9 +17,9 @@ trait PMethod {
 
   lazy val isStatic = modifieres.contains(MemberModifier.STATIC)
 
-  def invoke(ctx: Context, instance: ObjectVal, pClass: PClass, parameters: List[Expr]): PAny
+  def invoke(ctx: Context, instance: ObjectVal, parameters: List[Expr]): PAny
 
-  def invokeStatic(ctx: Context, pClass: PClass, parameters: List[Expr]): PAny
+  def invokeStatic(ctx: Context, parameters: List[Expr]): PAny
 
   def checkRules(pClass: PClass)(implicit ctx: Context) {}
 }
