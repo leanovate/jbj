@@ -10,9 +10,7 @@ import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.core.runtime.context.MethodContext
 import scala.Some
 
-trait PClass extends StaticContext {
-  private val staticVariables = mutable.Map.empty[String, PVar]
-
+trait PClass {
   def classEntry: ClassEntry.Type
 
   def name: NamespaceName
@@ -66,22 +64,4 @@ trait PClass extends StaticContext {
     case None => false
     case Some(s) => isAssignableFrom(s)
   })
-
-  override def findVariable(name: String) = staticVariables.get(name)
-
-  override def defineVariable(name: String, variable: PVar) {
-    variable.retain()
-    staticVariables.get(name).foreach(_.release()(global))
-    staticVariables.put(name, variable)
-  }
-
-  override def undefineVariable(name: String) {
-    staticVariables.remove(name).foreach(_.release()(global))
-  }
-
-  def cleanup() {
-    staticVariables.values.foreach(_.release()(global))
-  }
-
-  def global:GlobalContext = null
 }

@@ -43,7 +43,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
           ctx.currentPosition = method.position
           method.checkRules(this)
       }
-      staticInitializers.foreach(_.initializeStatic(this))
+      staticInitializers.foreach(_.initializeStatic(ctx.global.staticContext(this)))
       ctx.global.defineClass(this)
     }
     SuccessExecResult

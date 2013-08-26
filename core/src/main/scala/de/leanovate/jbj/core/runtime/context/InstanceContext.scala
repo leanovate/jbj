@@ -8,7 +8,7 @@ import scala.collection.immutable.Stack
 case class InstanceContext(instance: ObjectVal, callerCtx: Context) extends Context {
   lazy val global = callerCtx.global
 
-  lazy val static = instance.pClass
+  lazy val static = global.staticContext(instance.pClass)
 
   lazy val settings = global.settings
 

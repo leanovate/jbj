@@ -11,7 +11,8 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
     val name = className.evalNamespaceName
     ctx.global.findClass(name).map {
       pClass =>
-        pClass.findVariable(variableName.evalName).map(_.value).getOrElse(NullVal)
+        val staticClassContext = ctx.global.staticContext(pClass)
+        staticClassContext.findVariable(variableName.evalName).map(_.value).getOrElse(NullVal)
     }.getOrElse {
       throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))
     }
@@ -22,25 +23,26 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
     val pClass = ctx.global.findClass(name).getOrElse {
       throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))
     }
+    val staticClassContext = ctx.global.staticContext(pClass)
     val varName = variableName.evalName
 
     def isDefined = !asVal.isNull
 
-    def asVal = pClass.findVariable(variableName.evalName).map(_.value).getOrElse(NullVal)
+    def asVal = staticClassContext.findVariable(variableName.evalName).map(_.value).getOrElse(NullVal)
 
-    def asVar = pClass.findVariable(varName).getOrElse {
+    def asVar = staticClassContext.findVariable(varName).getOrElse {
       val result = PVar()
-      pClass.defineVariable(varName, result)
+      staticClassContext.defineVariable(varName, result)
       result
     }
 
-    def assign(pAny: PAny)(implicit ctx:Context) = {
-      pClass.defineVariable(varName, pAny.asVar)
+    def assign(pAny: PAny)(implicit ctx: Context) = {
+      staticClassContext.defineVariable(varName, pAny.asVar)
       pAny
     }
 
     def unset() {
-      pClass.undefineVariable(varName)
+      staticClassContext.undefineVariable(varName)
     }
   }
 }
