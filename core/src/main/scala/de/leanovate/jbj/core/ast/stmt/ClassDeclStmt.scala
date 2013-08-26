@@ -71,6 +71,11 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     instance
   }
 
+  override def destructInstance(instance: ObjectVal)(implicit ctx: Context) {
+    findDestructor.foreach(_.invoke(ctx, instance, this, Nil))
+    instance.cleanup()
+  }
+
   override lazy val methods: Map[String, PMethod] = {
     val result = mutable.LinkedHashMap.empty[String, PMethod]
 

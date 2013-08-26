@@ -16,15 +16,15 @@ class GenericStaticContext(var global: GlobalContext) extends StaticContext {
 
   override def defineVariable(name: String, variable: PVar) {
     variable.retain()
-    variables.get(name).foreach(_.release())
+    variables.get(name).foreach(_.release()(global))
     variables.put(name, variable)
   }
 
   override def undefineVariable(name: String) {
-    variables.remove(name).foreach(_.release())
+    variables.remove(name).foreach(_.release()(global))
   }
 
   def cleanup() {
-    variables.values.foreach(_.release())
+    variables.values.foreach(_.release()(global))
   }
 }

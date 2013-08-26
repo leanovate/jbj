@@ -25,7 +25,7 @@ case class AssignRefReferableExpr(reference: ReferableExpr, otherRef: ReferableE
 
     def asVar = result
 
-    def assign(pAny: PAny) = resultRef.assign(pAny)
+    def assign(pAny: PAny)(implicit ctx:Context) = resultRef.assign(pAny)
 
     def unset() {
       resultRef.unset()

@@ -42,7 +42,7 @@ trait Context {
 
     def asVar = findOrDefineVariable(name)
 
-    def assign(pAny: PAny): PAny = {
+    def assign(pAny: PAny)(implicit ctx: Context): PAny = {
       pAny match {
         case pVar: PVar =>
           defineVariable(name, pVar)
@@ -80,7 +80,7 @@ trait Context {
   }
 
   def autoRelease() {
-    _autoReleasePool.foreach(_.release())
+    _autoReleasePool.foreach(_.release()(this))
     _autoReleasePool.clear()
   }
 

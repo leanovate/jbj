@@ -129,7 +129,7 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
       }
     }
 
-    def assign(pAny: PAny) = {
+    def assign(pAny: PAny)(implicit ctx:Context) = {
       optParent(true) match {
         case Some(obj) =>
           ctx match {

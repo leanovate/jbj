@@ -119,6 +119,6 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: Option[PrintStream]
   def cleanup() {
     staticContexts.values.foreach(_.cleanup())
     classes.values.foreach(_.cleanup())
-    GLOBALS.cleanup()
+    GLOBALS.cleanup()(this)
   }
 }

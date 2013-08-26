@@ -17,13 +17,13 @@ class PVar(private var current: Option[PVal] = None) extends PAny {
 
   def value = current.getOrElse(NullVal)
 
-  def value_=(v: PVal) {
+  def value_=(v: PVal)(implicit ctx: Context) {
     v.retain()
     current.foreach(_.release())
     current = Some(v)
   }
 
-  def unset() {
+  def unset(implicit ctx: Context) {
     current.foreach(_.release())
     current = None
   }
@@ -32,9 +32,9 @@ class PVar(private var current: Option[PVal] = None) extends PAny {
     _refCount += 1
   }
 
-  override def release() {
+  override def release()(implicit ctx: Context) {
     _refCount -= 1
-    if ( _refCount < 1) {
+    if (_refCount < 1) {
       current.foreach(_.release())
       current = None
     }

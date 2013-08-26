@@ -76,8 +76,10 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
     _refCount += 1
   }
 
-  override def release() {
+  override def release()(implicit ctx: Context) {
     _refCount -= 1
+    if (_refCount == 0)
+      cleanup()
   }
 
   final def instanceOf(other: PClass): Boolean = other.isAssignableFrom(pClass)
@@ -94,27 +96,27 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
     }
   }
 
-  def definePrivateProperty(name: String, className: String, value: PAny) {
+  def definePrivateProperty(name: String, className: String, value: PAny)(implicit ctx: Context) {
     val key = PrivateKey(name, className)
     value.retain()
     keyValueMap.get(key).foreach(_.release())
     keyValueMap.put(key, value)
   }
 
-  def defineProtectedProperty(name: String, value: PAny) {
+  def defineProtectedProperty(name: String, value: PAny)(implicit ctx: Context) {
     val key = ProtectedKey(name)
     value.retain()
     keyValueMap.get(key).foreach(_.release())
     keyValueMap.put(key, value)
   }
 
-  def definePublicProperty(name: String, value: PAny) {
+  def definePublicProperty(name: String, value: PAny)(implicit ctx: Context) {
     val key = PublicKey(name)
     keyValueMap.get(key).foreach(_.release())
     keyValueMap.put(key, value)
   }
 
-  def setProperty(name: String, className: Option[String], value: PAny) {
+  def setProperty(name: String, className: Option[String], value: PAny)(implicit ctx:Context) {
     if (className.isDefined) {
       val privateKey = PrivateKey(name, className.get)
       if (keyValueMap.contains(privateKey)) {
@@ -142,7 +144,7 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
     }
   }
 
-  def unsetProperty(name: String, className: Option[String]) = {
+  def unsetProperty(name: String, className: Option[String])(implicit ctx:Context)  = {
     keyValueMap.remove(PublicKey(name)).foreach(_.release())
     if (className.isDefined) {
       keyValueMap.remove(ProtectedKey(name)).foreach(_.release())
@@ -176,7 +178,7 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
     iteratorState = None
   }
 
-  def cleanup() {
+  def cleanup()(implicit ctx:Context)  {
     keyValueMap.values.foreach(_.release())
   }
 }

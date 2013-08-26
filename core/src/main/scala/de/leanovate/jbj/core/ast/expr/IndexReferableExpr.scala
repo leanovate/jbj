@@ -51,7 +51,7 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
       }
     }
 
-    def assign(pAny: PAny) = {
+    def assign(pAny: PAny)(implicit ctx:Context) = {
       optParent.map {
         array =>
           optArrayKey match {

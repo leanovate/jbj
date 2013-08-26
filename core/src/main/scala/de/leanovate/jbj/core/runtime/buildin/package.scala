@@ -77,6 +77,8 @@ package object buildin {
       instance
     }
 
+    override def destructInstance(instance: ObjectVal)(implicit ctx: Context) {}
+
     override def methods = Map.empty
   }
 

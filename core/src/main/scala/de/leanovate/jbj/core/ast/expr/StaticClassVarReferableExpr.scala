@@ -34,7 +34,7 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
       result
     }
 
-    def assign(pAny: PAny) = {
+    def assign(pAny: PAny)(implicit ctx:Context) = {
       pClass.defineVariable(varName, pAny.asVar)
       pAny
     }

@@ -141,7 +141,7 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
     iteratorState = None
   }
 
-  def cleanup() {
+  def cleanup()(implicit ctx:Context) {
     keyValueMap.values.foreach(_.release())
   }
 }

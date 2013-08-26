@@ -19,5 +19,7 @@ object StdClass extends PClass {
   override def newInstance(parameters: List[Expr])(implicit ctx: Context) =
     new ObjectVal(this, ctx.global.instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ObjectPropertyKey.Key, PAny])
 
+  override def destructInstance(instance: ObjectVal)(implicit ctx: Context) {}
+
   override def methods = Map.empty
 }

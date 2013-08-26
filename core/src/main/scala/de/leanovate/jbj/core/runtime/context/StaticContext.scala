@@ -5,7 +5,9 @@ import de.leanovate.jbj.core.runtime.value.PVar
 trait StaticContext {
   var initialized = false
 
-  def findOrDefineVariable(name:String): PVar = {
+  def global: GlobalContext
+
+  def findOrDefineVariable(name: String): PVar = {
     val optVar = findVariable(name)
     if (optVar.isDefined)
       optVar.get

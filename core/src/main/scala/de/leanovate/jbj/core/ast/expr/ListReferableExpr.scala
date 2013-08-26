@@ -17,7 +17,7 @@ case class ListReferableExpr(references: List[Option[ReferableExpr]]) extends Re
 
     def asVar = throw new RuntimeException("List can only be used in assignment")
 
-    def assign(pAny: PAny) = {
+    def assign(pAny: PAny)(implicit ctx:Context) = {
       pAny.asVal match {
         case array: ArrayVal =>
           // this is a bit sub-optimal, but it seems to be the order the original engine likes

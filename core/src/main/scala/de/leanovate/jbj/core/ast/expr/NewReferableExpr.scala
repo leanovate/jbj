@@ -26,7 +26,7 @@ case class NewReferableExpr(className: Name, parameters: List[Expr]) extends Ref
 
     def asVar = result.asVar
 
-    def assign(pAny: PAny) = {
+    def assign(pAny: PAny)(implicit ctx:Context) = {
       throw new FatalErrorJbjException("Can't use new result in write context")
     }
 

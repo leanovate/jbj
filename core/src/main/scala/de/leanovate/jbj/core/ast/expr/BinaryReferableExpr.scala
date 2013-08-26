@@ -20,7 +20,7 @@ trait BinaryReferableExpr extends ReferableExpr {
 
     def asVar = result
 
-    def assign(pAny: PAny) = {
+    def assign(pAny: PAny)(implicit ctx:Context) = {
       pAny
     }
 

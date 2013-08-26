@@ -11,7 +11,7 @@ trait PAny {
 
   def retain() {}
 
-  def release() {}
+  def release()(implicit ctx:Context) {}
 
   def ==(other: PAny): PAny = BooleanVal(asVal.compare(other.asVal) == 0)
 

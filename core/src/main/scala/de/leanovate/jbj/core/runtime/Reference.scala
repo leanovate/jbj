@@ -4,13 +4,13 @@ import de.leanovate.jbj.core.runtime.value.{PAny, PVal}
 import de.leanovate.jbj.core.runtime.context.Context
 
 trait Reference {
-  def isDefined:Boolean
+  def isDefined: Boolean
 
   def asVal: PVal
 
   def asVar: PAny
 
-  def assign(pAny: PAny): PAny
+  def assign(pAny: PAny)(implicit ctx: Context): PAny
 
   def unset()
 
@@ -39,8 +39,8 @@ trait Reference {
 }
 
 object Reference {
-  def ++(ref: Reference): PAny = ref.assign(ref.asVal.incr)
+  def ++(ref: Reference)(implicit ctx: Context): PAny = ref.assign(ref.asVal.incr)
 
-  def --(ref: Reference): PAny = ref.assign(ref.asVal.decr)
+  def --(ref: Reference)(implicit ctx: Context): PAny = ref.assign(ref.asVal.decr)
 
 }

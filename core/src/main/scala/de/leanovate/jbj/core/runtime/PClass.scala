@@ -25,6 +25,8 @@ trait PClass extends StaticContext {
 
   def newInstance(parameters: List[Expr])(implicit ctx: Context): ObjectVal
 
+  def destructInstance(instance: ObjectVal)(implicit ctx: Context)
+
   def invokeMethod(ctx: Context, optInstance: Option[ObjectVal], methodName: String,
                    parameters: List[Expr]) = {
     findMethod(methodName) match {
@@ -69,15 +71,17 @@ trait PClass extends StaticContext {
 
   override def defineVariable(name: String, variable: PVar) {
     variable.retain()
-    staticVariables.get(name).foreach(_.release())
+    staticVariables.get(name).foreach(_.release()(global))
     staticVariables.put(name, variable)
   }
 
   override def undefineVariable(name: String) {
-    staticVariables.remove(name).foreach(_.release())
+    staticVariables.remove(name).foreach(_.release()(global))
   }
 
   def cleanup() {
-    staticVariables.values.foreach(_.release())
+    staticVariables.values.foreach(_.release()(global))
   }
+
+  def global:GlobalContext = null
 }

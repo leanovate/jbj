@@ -35,13 +35,13 @@ case class FunctionContext(functionName: NamespaceName, callerContext: Context) 
 
   override def defineVariable(name: String, variable: PVar) {
     variable.retain()
-    localVariables.get(name).foreach(_.release())
+    localVariables.get(name).foreach(_.release()(this))
     localVariables.put(name, variable)
 
   }
 
   override def undefineVariable(name: String) {
-    localVariables.remove(name).foreach(_.release())
+    localVariables.remove(name).foreach(_.release()(this))
   }
 
   def findFunction(name: NamespaceName) = global.findFunction(name)
@@ -51,6 +51,6 @@ case class FunctionContext(functionName: NamespaceName, callerContext: Context) 
   }
 
   def cleanup() {
-    localVariables.values.foreach(_.release())
+    localVariables.values.foreach(_.release()(this))
   }
 }
