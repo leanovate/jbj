@@ -79,7 +79,7 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
   override def release()(implicit ctx: Context) {
     _refCount -= 1
     if (_refCount == 0)
-      cleanup()
+      pClass.destructInstance(this)
   }
 
   final def instanceOf(other: PClass): Boolean = other.isAssignableFrom(pClass)

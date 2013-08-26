@@ -7,7 +7,7 @@ import scala.collection.mutable
 import de.leanovate.jbj.core.runtime.value.ObjectVal
 import java.io.PrintStream
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.core.runtime.context.{Context, InstanceContext}
+import de.leanovate.jbj.core.runtime.context.{MethodContext, Context, InstanceContext}
 import de.leanovate.jbj.core.ast.NamespaceName
 import scala.Some
 import scala.collection.immutable.List
@@ -72,7 +72,11 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   }
 
   override def destructInstance(instance: ObjectVal)(implicit ctx: Context) {
-    findDestructor.foreach(_.invoke(ctx, instance, this, Nil))
+    ctx match {
+      case MethodContext(inst, pClass, "__destruct", _) if pClass == this =>
+      case _ =>
+        findDestructor.foreach(_.invoke(ctx, instance, this, Nil))
+    }
     instance.cleanup()
   }
 
