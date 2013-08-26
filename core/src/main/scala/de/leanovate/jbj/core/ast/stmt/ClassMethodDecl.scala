@@ -4,16 +4,35 @@ import de.leanovate.jbj.core.ast._
 import de.leanovate.jbj.core.runtime._
 import de.leanovate.jbj.core.runtime.value._
 import java.io.PrintStream
-import de.leanovate.jbj.core.runtime.context.{Context, MethodContext, StaticMethodContext}
+import de.leanovate.jbj.core.runtime.context.{GlobalContext, Context, MethodContext, StaticMethodContext}
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 
 case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, returnByRef: Boolean, parameterDecls: List[ParameterDecl],
-                               stmts: List[Stmt]) extends ClassMemberDecl with PMethod with BlockLike with FunctionLike {
-  private lazy val staticInitializers = StaticInitializer.collect(stmts:_*)
-
-  override lazy val isStatic = modifieres.contains(MemberModifier.STATIC)
+                           stmts: List[Stmt]) extends ClassMemberDecl with PMethod with BlockLike with FunctionLike {
+  private lazy val staticInitializers = StaticInitializer.collect(stmts: _*)
 
   override def invoke(ctx: Context, instance: ObjectVal, pClass: PClass, parameters: List[Expr]) = {
+    if (isPrivate) {
+      ctx match {
+        case global: GlobalContext if global.inShutdown =>
+          global.log.warn("Call to private %s::%s() from context '' during shutdown ignored".format(pClass.name.toString, name))
+        case MethodContext(_, invokingClass, _, _) if pClass == invokingClass =>
+        case StaticMethodContext(invokingClass, _, _) if pClass == invokingClass =>
+        case _ =>
+          throw new FatalErrorJbjException("Call to private %s::%s() from invalid context".format(pClass.name.toString, name))(ctx)
+      }
+    }
+    if (isProtected) {
+      ctx match {
+        case global: GlobalContext if global.inShutdown =>
+          global.log.warn("Call to protected %s::%s() from context '' during shutdown ignored".format(pClass.name.toString, name))
+        case MethodContext(_, invokingClass, _, _) if pClass.isAssignableFrom(invokingClass) =>
+        case StaticMethodContext(invokingClass, _, _) if pClass.isAssignableFrom(invokingClass) =>
+        case _ =>
+          throw new FatalErrorJbjException("Call to protected %s::%s() from invalid context".format(pClass.name.toString, name))(ctx)
+      }
+    }
+
     implicit val methodCtx = MethodContext(instance, pClass, name, ctx)
 
     if (!methodCtx.static.initialized) {

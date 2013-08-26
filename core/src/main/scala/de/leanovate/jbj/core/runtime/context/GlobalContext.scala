@@ -3,7 +3,7 @@ package de.leanovate.jbj.core.runtime.context
 import java.io.PrintStream
 import scala.collection.mutable
 import de.leanovate.jbj.core.runtime._
-import de.leanovate.jbj.core.ast.{Prog, NodePosition, NamespaceName}
+import de.leanovate.jbj.core.ast.{NoNodePosition, Prog, NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
 import de.leanovate.jbj.core.runtime.exception.CompileErrorException
 import de.leanovate.jbj.core.runtime.value.{ArrayVal, PVar, PVal, StringVal}
@@ -14,6 +14,8 @@ import de.leanovate.jbj.api.JbjSettings
 
 case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: Option[PrintStream], settings: JbjSettings)
   extends Context {
+  private var _inShutdown = false
+
   private val classes = mutable.Map.empty[Seq[String], PClass]
 
   private val constants = mutable.Map.empty[ConstantKey, PVal]
@@ -114,15 +116,19 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: Option[PrintStream]
   }
 
   def staticContext(identifier: String): GenericStaticContext =
-    staticContexts.getOrElseUpdate(identifier, new GenericStaticContext(this))
+    staticContexts.getOrElseUpdate(identifier, new GenericStaticContext)
 
-  def staticContext(pClass:PClass): GenericStaticContext = {
+  def staticContext(pClass: PClass): GenericStaticContext = {
     val identifier = "Class_" + pClass.toString
     staticContext(identifier)
   }
 
+  def inShutdown = _inShutdown
+
   def cleanup() {
-    staticContexts.values.foreach(_.cleanup())
+    currentPosition = NoNodePosition
+    _inShutdown = true
+    staticContexts.values.foreach(_.cleanup()(this))
     GLOBALS.cleanup()(this)
   }
 }

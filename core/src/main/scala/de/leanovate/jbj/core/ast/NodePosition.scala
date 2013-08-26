@@ -11,7 +11,7 @@ case class FileNodePosition(fileName: String, line: Int) extends NodePosition {
 }
 
 object NoNodePosition extends NodePosition {
-  val fileName = ""
+  val fileName = "Unknown"
   val line = 0
 
   override def toString = "<no position>"
