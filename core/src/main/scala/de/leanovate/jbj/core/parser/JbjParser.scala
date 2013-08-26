@@ -14,6 +14,8 @@ import de.leanovate.jbj.core.ast.NamespaceName
 import de.leanovate.jbj.core.ast.stmt.loop._
 import de.leanovate.jbj.core.ast.Prog
 import de.leanovate.jbj.core.ast.name._
+import de.leanovate.jbj.core.ast.expr.comp._
+import de.leanovate.jbj.api.JbjSettings
 import de.leanovate.jbj.core.parser.JbjTokens.ArrayCast
 import de.leanovate.jbj.core.ast.stmt.cond.DefaultCaseBlock
 import de.leanovate.jbj.core.ast.stmt.TraitUseDecl
@@ -100,6 +102,7 @@ import de.leanovate.jbj.core.ast.expr.include.IncludeExpr
 import de.leanovate.jbj.core.ast.expr.comp.LtExpr
 import de.leanovate.jbj.core.ast.stmt.loop.DoWhileStmt
 import de.leanovate.jbj.core.ast.expr.comp.GeExpr
+import de.leanovate.jbj.core.ast.expr.calc.BitShiftRightExpr
 import de.leanovate.jbj.core.ast.expr.calc.MulByReferableExpr
 import de.leanovate.jbj.core.ast.stmt.loop.WhileStmt
 import de.leanovate.jbj.core.ast.stmt.cond.ElseIfBlock
@@ -108,6 +111,7 @@ import de.leanovate.jbj.core.ast.stmt.ClassMethodDecl
 import de.leanovate.jbj.core.ast.stmt.loop.ValueForeachAssignment
 import de.leanovate.jbj.core.ast.stmt.loop.ForeachStmt
 import de.leanovate.jbj.core.ast.expr.AssignRefReferableExpr
+import de.leanovate.jbj.core.ast.expr.calc.BitShiftLeftExpr
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.core.parser.JbjTokens.IntegerCast
 import de.leanovate.jbj.core.ast.expr.CloneExpr
@@ -140,7 +144,6 @@ import de.leanovate.jbj.core.parser.JbjTokens.StringLit
 import de.leanovate.jbj.core.ast.expr.comp.BoolXorExpr
 import de.leanovate.jbj.core.ast.expr.GetAndIncrExpr
 import de.leanovate.jbj.core.ast.expr.CallMethodReferableExpr
-import de.leanovate.jbj.api.JbjSettings
 
 class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   type Elem = JbjTokens.Token
@@ -439,17 +442,22 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       case 9 =>
         "==" ^^^ ((a: Expr, b: Expr) => EqExpr(a, b)) |
           "!=" ^^^ ((a: Expr, b: Expr) => NotEqExpr(a, b)) |
-          "<>" ^^^ ((a: Expr, b: Expr) => NotEqExpr(a, b))
+          "<>" ^^^ ((a: Expr, b: Expr) => NotEqExpr(a, b)) |
+          "===" ^^^ ((a: Expr, b: Expr) => IdenticalExpr(a, b)) |
+          "!==" ^^^ ((a: Expr, b: Expr) => NotIdenticalExpr(a, b))
       case 10 =>
         ">" ^^^ ((a: Expr, b: Expr) => GtExpr(a, b)) |
           ">=" ^^^ ((a: Expr, b: Expr) => GeExpr(a, b)) |
           "<" ^^^ ((a: Expr, b: Expr) => LtExpr(a, b)) |
           "<=" ^^^ ((a: Expr, b: Expr) => LeExpr(a, b))
       case 11 =>
+        ">>" ^^^ ((a: Expr, b: Expr) => BitShiftRightExpr(a, b)) |
+          "<<" ^^^ ((a: Expr, b: Expr) => BitShiftLeftExpr(a, b))
+      case 12 =>
         "." ^^^ ((a: Expr, b: Expr) => ConcatExpr(a, b)) |
           "+" ^^^ ((a: Expr, b: Expr) => AddExpr(a, b)) |
           "-" ^^^ ((a: Expr, b: Expr) => SubExpr(a, b))
-      case 12 =>
+      case 13 =>
         "*" ^^^ ((a: Expr, b: Expr) => MulExpr(a, b)) |
           "/" ^^^ ((a: Expr, b: Expr) => DivExpr(a, b)) |
           "%" ^^^ ((a: Expr, b: Expr) => ModExpr(a, b))
@@ -459,7 +467,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   val minPrec = 1
 
-  val maxPrec = 12
+  val maxPrec = 13
 
   def binary(level: Int): PackratParser[Expr] =
     if (level > maxPrec) {
