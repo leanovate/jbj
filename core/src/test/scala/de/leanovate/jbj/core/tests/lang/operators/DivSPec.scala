@@ -3,7 +3,7 @@ package de.leanovate.jbj.core.tests.lang.operators
 import org.specs2.mutable.SpecificationWithJUnit
 import de.leanovate.jbj.core.tests.TestJbjExecutor
 
-class DivSPec extends SpecificationWithJUnit with TestJbjExecutor {
+class DivSpec extends SpecificationWithJUnit with TestJbjExecutor {
   "/ operator" should {
     "Test / operator : 64bit long tests" in {
       // lang/operators/divide_basiclong_64bit.phpt
