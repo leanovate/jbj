@@ -5,7 +5,7 @@ import de.leanovate.jbj.core.runtime.Reference
 import de.leanovate.jbj.core.runtime.value._
 import java.io.PrintStream
 import de.leanovate.jbj.core.runtime.value.StringVal
-import de.leanovate.jbj.core.runtime.context.{Context, MethodContext}
+import de.leanovate.jbj.core.runtime.context.{StaticMethodContext, Context, MethodContext}
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.core.runtime.buildin.StdClass
 
@@ -25,6 +25,13 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
                   ctx.log.notice("Undefined property: %s::%s".format(obj.pClass.name.toString, name))
                   NullVal
                 }
+              }
+            }
+          case StaticMethodContext(pClass, _, _) =>
+            obj.getProperty(name, Some(pClass.name.toString)).map(_.asVal).getOrElse {
+              obj.pClass.findMethod("__get").map(_.invoke(ctx, obj, obj.pClass, ScalarExpr(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
+                ctx.log.notice("Undefined property: %s::%s".format(obj.pClass.name.toString, name))
+                NullVal
               }
             }
           case _ =>
@@ -82,6 +89,12 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
                   }
                 }
               }
+            case StaticMethodContext(pClass, _, _) =>
+              obj.getProperty(name, Some(pClass.name.toString)).map(_.asVal).getOrElse {
+                obj.pClass.findMethod("__get").map(_.invoke(ctx, obj, obj.pClass, ScalarExpr(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
+                  NullVal
+                }
+              }
             case _ =>
               obj.getProperty(name, None).map(_.asVal).getOrElse {
                 obj.pClass.findMethod("__get").map(_.invoke(ctx, obj, obj.pClass, ScalarExpr(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
@@ -108,6 +121,18 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
               }.getOrElse {
                 val result = PVar()
                 obj.setProperty(name, Some(pClass.name.toString), result)
+                result
+              }
+            case StaticMethodContext(pClass, _, _) =>
+              obj.getProperty(name, Some(pClass.name.toString)).map {
+                case pVar: PVar => pVar
+                case value: PVal =>
+                  val result = PVar(value)
+                  obj.setProperty(name, None, result)
+                  result
+              }.getOrElse {
+                val result = PVar()
+                obj.setProperty(name, None, result)
                 result
               }
             case _ =>
@@ -145,6 +170,14 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
                   }
                 }
               }
+            case StaticMethodContext(pClass, _, _) =>
+              if (obj.getProperty(name, Some(pClass.name.toString)).isDefined) {
+                obj.setProperty(propertyName.evalName, Some(pClass.name.toString), pAny.asVal)
+              } else {
+                obj.pClass.findMethod("__set").map(_.invoke(ctx, obj, obj.pClass, ScalarExpr(StringVal(name)) :: ScalarExpr(pAny.asVal) :: Nil)).getOrElse {
+                  obj.setProperty(name, Some(pClass.name.toString), pAny.asVal)
+                }
+              }
             case _ =>
               if (obj.getProperty(name, None).isDefined) {
                 obj.setProperty(propertyName.evalName, None, pAny.asVal)
@@ -164,6 +197,8 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
       if (optParent(false).isDefined) {
         ctx match {
           case MethodContext(_, pClass, _, _) =>
+            optParent(false).get.unsetProperty(name, Some(pClass.name.toString))
+          case StaticMethodContext(pClass, _, _) =>
             optParent(false).get.unsetProperty(name, Some(pClass.name.toString))
           case _ =>
             optParent(false).get.unsetProperty(name, None)
