@@ -40,6 +40,7 @@ trait NumericVal extends PVal {
 
   def /(other: PVal): PVal = (this, other) match {
     case (NumericVal(leftVal), NumericVal(0.0)) => BooleanVal.FALSE
+    case (IntegerVal(leftVal), IntegerVal(rightVal)) if (leftVal != Long.MinValue || rightVal != -1) && leftVal % rightVal == 0 => IntegerVal(leftVal / rightVal)
     case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal / rightVal)
   }
 
