@@ -2,6 +2,8 @@ package de.leanovate.jbj.api;
 
 import javax.annotation.Nonnull;
 import java.io.OutputStream;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 
 /**
  * JBJ runtime environment.
@@ -42,19 +44,31 @@ public interface JbjEnvironment {
     abstract class Builder {
         protected JbjSettings settings = new JbjSettings();
         protected JbjScriptLocator scriptLocator = new DefaultJbjScriptLocator();
+        protected JbjProcessExecutor processExecutor = new DefaultJbjProcessExecutor();
+        protected FileSystem fileSystem = FileSystems.getDefault();
         protected OutputStream errorStream = null;
 
-        Builder withSettings(JbjSettings settings) {
+        public Builder withSettings(JbjSettings settings) {
             this.settings = settings;
             return this;
         }
 
-        Builder withScriptLocator(JbjScriptLocator scriptLocator) {
+        public Builder withScriptLocator(JbjScriptLocator scriptLocator) {
             this.scriptLocator = scriptLocator;
             return this;
         }
 
-        Builder withErrStream(OutputStream errorStream) {
+        public Builder withProcessExecutor(JbjProcessExecutor processExecutor) {
+            this.processExecutor = processExecutor;
+            return this;
+        }
+
+        public Builder withFileSystem(FileSystem fileSystem) {
+            this.fileSystem = fileSystem;
+            return this;
+        }
+
+        public Builder withErrStream(OutputStream errorStream) {
             this.errorStream = errorStream;
             return this;
         }
@@ -63,6 +77,6 @@ public interface JbjEnvironment {
          * Build the environment.
          */
         @Nonnull
-        abstract JbjEnvironment build();
+        public abstract JbjEnvironment build();
     }
 }

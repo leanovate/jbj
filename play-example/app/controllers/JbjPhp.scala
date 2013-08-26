@@ -8,12 +8,12 @@ import de.leanovate.jbj.core.runtime.env.CgiEnvironment
 import de.leanovate.jbj.core.ast.{NodePosition, NoNodePosition}
 import de.leanovate.jbj.core.runtime.value.{PVar, StringVal, ArrayVal}
 import java.net.URLDecoder
-import de.leanovate.jbj.core.JbjEnv
+import de.leanovate.jbj.core.{JbjEnvironmentBuilder, JbjEnv}
 import de.leanovate.jbj.core.runtime.exception.NotFoundJbjException
 
 object JbjPhp extends Controller {
 
-  private val jbj = JbjEnv(PlayJbjScriptLocator, errorStream = Some(System.err))
+  private val jbj = JbjEnvironmentBuilder().withScriptLocator(PlayJbjScriptLocator).withErrStream(System.err).build()
 
   def get(path: String, file: String, pathInfo: String) = Action {
     request =>
