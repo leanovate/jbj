@@ -36,7 +36,7 @@ trait PClass {
           method.invokeStatic(ctx, this, parameters)
         }
       case None if optInstance.isDefined && (!ctx.isInstanceOf[MethodContext] ||
-        ctx.asInstanceOf[MethodContext].methodName != "__call" ||
+        ctx.asInstanceOf[MethodContext].pMethod.name != "__call" ||
         ctx.asInstanceOf[MethodContext].instance.pClass != this) =>
         findMethod("__call") match {
           case Some(method) =>

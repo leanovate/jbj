@@ -72,7 +72,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
 
   override def destructInstance(instance: ObjectVal)(implicit ctx: Context) {
     ctx match {
-      case MethodContext(inst, pClass, "__destruct", _) if pClass == this =>
+      case MethodContext(inst, pMethod, _) if pMethod.declaringClass == this && pMethod.name == "__destruct" =>
       case _ =>
         findDestructor.foreach(_.invoke(ctx, instance, this, Nil))
     }
@@ -84,7 +84,8 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
 
     superClass.foreach(result ++= _.methods)
     decls.foreach {
-      case method: PMethod =>
+      case method: ClassMethodDecl =>
+        method.declaringClass = this
         result -= method.name.toLowerCase
         result += method.name.toLowerCase -> method
       case _ =>

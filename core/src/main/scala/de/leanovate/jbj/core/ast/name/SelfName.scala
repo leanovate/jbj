@@ -8,8 +8,8 @@ object SelfName extends Name {
   override def evalName(implicit ctx: Context) = evalNamespaceName.toString
 
   override def evalNamespaceName(implicit ctx: Context) = ctx match {
-    case MethodContext(instance, pClass, _, _) =>
-      pClass.name
+    case MethodContext(instance, pMethod, _) =>
+      pMethod.declaringClass.name
     case StaticMethodContext(pClass, _, _) =>
       pClass.name
     case _ =>

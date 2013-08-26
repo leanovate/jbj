@@ -6,13 +6,13 @@ import scala.collection.mutable
 import scala.collection.immutable.Stack
 import de.leanovate.jbj.core.runtime.value.{PVar, PVal, ObjectVal}
 
-case class MethodContext(instance: ObjectVal, pClass: PClass, methodName: String, callerContext: Context)
+case class MethodContext(instance: ObjectVal, pMethod: PMethod, callerContext: Context)
   extends FunctionLikeContext {
   private val localVariables = mutable.Map.empty[String, PVar]
 
-  private val identifier = "Method_" + instance.pClass.name.toString + "::" + methodName
+  private val identifier = "Method_" + pMethod.declaringClass.name.toString + "::" + pMethod.name
 
-  def name = pClass.name.toString
+  def name = pMethod.declaringClass.name.toString
 
   lazy val global = callerContext.global
 

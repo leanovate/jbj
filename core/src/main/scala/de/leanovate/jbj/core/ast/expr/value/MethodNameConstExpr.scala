@@ -6,7 +6,7 @@ import de.leanovate.jbj.core.ast.Expr
 
 case class MethodNameConstExpr() extends Expr {
   override def eval(implicit ctx: Context) = ctx match {
-    case MethodContext(inst, pClass, name,  _) => StringVal(pClass.name.toString + "::" + name)
+    case MethodContext(inst, pMethod,  _) => StringVal(pMethod.declaringClass.name.toString + "::" + pMethod.name)
     case _ => StringVal("")
   }
 

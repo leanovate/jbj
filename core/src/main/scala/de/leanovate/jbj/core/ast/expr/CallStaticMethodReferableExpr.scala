@@ -12,7 +12,7 @@ case class CallStaticMethodReferableExpr(className: Name, methodName: Name, para
     ctx.global.findClass(name).map {
       pClass =>
         ctx match {
-          case MethodContext(instance, currentClass, _, _) if pClass.isAssignableFrom(currentClass)=>
+          case MethodContext(instance, currentMethod, _) if pClass.isAssignableFrom(currentMethod.declaringClass)=>
             pClass.invokeMethod(ctx, Some(instance), methodName.evalName, parameters)
           case _ =>
             pClass.invokeMethod(ctx, None, methodName.evalName, parameters)
