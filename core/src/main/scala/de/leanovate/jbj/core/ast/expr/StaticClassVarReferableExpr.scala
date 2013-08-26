@@ -45,4 +45,14 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
       staticClassContext.undefineVariable(varName)
     }
   }
+
+  override def toXml() =
+    <StaticClassVarReferableExpr>
+      <class>
+        {className.toXml}
+      </class>
+      <name>
+        {variableName.toXml}
+      </name>
+    </StaticClassVarReferableExpr>
 }

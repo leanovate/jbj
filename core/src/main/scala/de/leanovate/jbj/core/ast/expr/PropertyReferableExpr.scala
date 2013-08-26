@@ -129,7 +129,7 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
       }
     }
 
-    def assign(pAny: PAny)(implicit ctx:Context) = {
+    def assign(pAny: PAny)(implicit ctx: Context) = {
       optParent(true) match {
         case Some(obj) =>
           ctx match {
@@ -185,6 +185,16 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
           None
       }
   }
+
+  override def toXml() =
+    <PropertyReferableExpr>
+      <reference>
+        {reference.toXml}
+      </reference>
+      <name>
+        {propertyName.toXml}
+      </name>
+    </PropertyReferableExpr>
 
   override def dump(out: PrintStream, ident: String) {
     super.dump(out, ident)

@@ -107,5 +107,10 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
 
   private def findDestructor: Option[PMethod] = findMethod("__destruct")
 
+  override def toXml =
+    <ClassDeclStmt name={name.toString} entryType={classEntry.toString} line={position.line.toString} file={position.fileName}>
+      {decls.map(_.toXml)}
+    </ClassDeclStmt>
+
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(decls)
 }

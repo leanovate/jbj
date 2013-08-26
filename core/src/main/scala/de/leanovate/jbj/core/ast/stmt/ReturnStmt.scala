@@ -8,4 +8,6 @@ case class ReturnStmt(expr: Option[Expr]) extends Stmt {
   override def exec(implicit ctx: Context) = {
     ReturnExecResult(expr)
   }
+
+  override def toXml() = <return>{expr.toSeq.map(_.toXml)}</return>
 }

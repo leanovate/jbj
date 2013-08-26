@@ -8,5 +8,7 @@ case class BlockStmt(stmts: List[Stmt]) extends Stmt with BlockLike {
     execStmts(stmts)
   }
 
+  override def toXml() = <block>{stmts.map(_.toXml)}</block>
+
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(stmts)
 }

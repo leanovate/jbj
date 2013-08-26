@@ -64,5 +64,15 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
     }
   }
 
+  override def toXml =
+    <ClassMethodDecl name={name.toString} returnByRef={returnByRef.toString} line={position.line.toString} file={position.fileName}>
+      <parameters>
+        {parameterDecls.map(_.toXml)}
+      </parameters>
+      <body>
+        {stmts.map(_.toXml)}
+      </body>
+    </ClassMethodDecl>
+
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(parameterDecls).thenChildren(stmts)
 }

@@ -25,7 +25,7 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
 
   override def toInteger = IntegerVal(0)
 
-  override def toBool = BooleanVal.FALSE
+  override def toBool = BooleanVal.TRUE
 
   override def toArray(implicit ctx: Context) = new ArrayVal(keyValueMap.map {
     case (IntKey(key), value) => key -> value
