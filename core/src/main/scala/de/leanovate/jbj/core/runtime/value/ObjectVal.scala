@@ -7,8 +7,11 @@ import ObjectPropertyKey.{Key, IntKey, PublicKey, ProtectedKey, PrivateKey}
 
 class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueMap: mutable.LinkedHashMap[Key, PAny])
   extends PVal {
+  private var _refCount = 0
 
   private var iteratorState: Option[Iterator[(Any, PAny)]] = None
+
+  def refCount = _refCount
 
   def keyValues(implicit ctx: Context): Seq[(Key, PAny)] = keyValueMap.toSeq
 
@@ -67,6 +70,14 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
       }
       0
     case _ => 1
+  }
+
+  override def retain() {
+    _refCount += 1
+  }
+
+  override def release() {
+    _refCount -= 1
   }
 
   final def instanceOf(other: PClass): Boolean = other.isAssignableFrom(pClass)
@@ -174,7 +185,7 @@ object ObjectVal {
   def apply(pClass: PClass, keyValues: (Option[PVal], PVal)*)(implicit ctx: Context): ObjectVal = {
     var nextIndex: Long = -1
 
-    new ObjectVal(pClass, ctx.global.instanceCounter.incrementAndGet,
+    val result = new ObjectVal(pClass, ctx.global.instanceCounter.incrementAndGet,
       keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[Key, PAny]) {
         (builder, keyValue) =>
           val key: Key = keyValue._1.map {
@@ -195,6 +206,8 @@ object ObjectVal {
 
           builder += (key -> keyValue._2)
       }.result())
+    ctx.poolAutoRelease(result)
+    result
   }
 
   def unapply(obj: ObjectVal)(implicit ctx: Context) = Some(obj.pClass, obj.instanceNum, obj.keyValues)

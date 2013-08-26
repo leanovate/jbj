@@ -96,5 +96,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   private def findConstructor: Option[PMethod] =
     findMethod(name.toString).map(Some.apply).getOrElse(findMethod("__construct"))
 
+  private def findDestructor: Option[PMethod] = findMethod("__destruct")
+
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(decls)
 }

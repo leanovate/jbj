@@ -43,18 +43,33 @@ object TestBed {
   //A main method for testing
   def main(args: Array[String]) {
     test(
-      """<?php
-        |class A {
-        |    public    static $b = 'foo';
+      """"<?php
+        |
+        |class early {
+        |	function early() {
+        |		echo __CLASS__ . "::" . __FUNCTION__ . "\n";
+        |	}
+        |	function __destruct() {
+        |		echo __CLASS__ . "::" . __FUNCTION__ . "\n";
+        |	}
         |}
         |
-        |$classname       =  'A';
-        |$wrongClassname  =  'B';
+        |class late {
+        |	function __construct() {
+        |		echo __CLASS__ . "::" . __FUNCTION__ . "\n";
+        |	}
+        |	function __destruct() {
+        |		echo __CLASS__ . "::" . __FUNCTION__ . "\n";
+        |	}
+        |}
         |
-        |echo $classname::$b."\n";
-        |echo $wrongClassname::$b."\n";
+        |$t = new early();
+        |$t->early();
+        |unset($t);
+        |$t = new late();
+        |//unset($t); delay to end of script
         |
-        |?>
-        |===DONE===""".stripMargin)
+        |echo "Done\n";
+        |?>""".stripMargin)
   }
 }

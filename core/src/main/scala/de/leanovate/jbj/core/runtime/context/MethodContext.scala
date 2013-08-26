@@ -6,25 +6,26 @@ import scala.collection.mutable
 import scala.collection.immutable.Stack
 import de.leanovate.jbj.core.runtime.value.{PVar, PVal, ObjectVal}
 
-case class MethodContext(instance: ObjectVal, pClass: PClass, methodName: String, callerCtx: Context) extends Context {
+case class MethodContext(instance: ObjectVal, pClass: PClass, methodName: String, callerContext: Context)
+  extends FunctionLikeContext {
   private val localVariables = mutable.Map.empty[String, PVar]
 
   private val identifier = "Method_" + instance.pClass.name.toString + "::" + methodName
 
-  lazy val global = callerCtx.global
+  lazy val global = callerContext.global
 
   lazy val static = global.staticContext(identifier)
 
   lazy val settings = global.settings
 
-  val out = callerCtx.out
+  val out = callerContext.out
 
-  val err = callerCtx.err
+  val err = callerContext.err
 
-  lazy val stack: Stack[NodePosition] = callerCtx.stack.push(callerCtx.currentPosition)
+  lazy val stack: Stack[NodePosition] = callerContext.stack.push(callerContext.currentPosition)
 
-  localVariables.put("GLOBALS", PVar(global.GLOBALS))
-  localVariables.put("this", PVar(instance))
+  defineVariable("GLOBALS", PVar(global.GLOBALS))
+  defineVariable("this", PVar(instance))
 
   def findConstant(name: String): Option[PVal] = global.findConstant(name)
 
@@ -44,10 +45,10 @@ case class MethodContext(instance: ObjectVal, pClass: PClass, methodName: String
     localVariables.remove(name).foreach(_.release())
   }
 
-  def findFunction(name: NamespaceName) = callerCtx.findFunction(name)
+  def findFunction(name: NamespaceName) = callerContext.findFunction(name)
 
   def defineFunction(function: PFunction) {
-    callerCtx.defineFunction(function)
+    callerContext.defineFunction(function)
   }
 
   def cleanup() {

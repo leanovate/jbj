@@ -10,7 +10,9 @@ trait BlockLike {
   final def execStmts(statements: List[Stmt])(implicit context: Context): ExecResult = statements match {
     case head :: tail => {
       context.currentPosition = head.position
-      head.exec match {
+      val result = head.exec
+      context.autoRelease()
+      result match {
         case SuccessExecResult => execStmts(tail)
         case result => result
       }

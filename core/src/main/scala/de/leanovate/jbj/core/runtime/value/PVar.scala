@@ -3,6 +3,8 @@ package de.leanovate.jbj.core.runtime.value
 import de.leanovate.jbj.core.runtime.context.Context
 
 class PVar(private var current: Option[PVal] = None) extends PAny {
+  current.foreach(_.retain())
+
   private var _refCount = 0
 
   def refCount = _refCount
@@ -16,10 +18,13 @@ class PVar(private var current: Option[PVal] = None) extends PAny {
   def value = current.getOrElse(NullVal)
 
   def value_=(v: PVal) {
+    v.retain()
+    current.foreach(_.release())
     current = Some(v)
   }
 
   def unset() {
+    current.foreach(_.release())
     current = None
   }
 
@@ -29,6 +34,10 @@ class PVar(private var current: Option[PVal] = None) extends PAny {
 
   override def release() {
     _refCount -= 1
+    if ( _refCount < 1) {
+      current.foreach(_.release())
+      current = None
+    }
   }
 
   override def asVal = value

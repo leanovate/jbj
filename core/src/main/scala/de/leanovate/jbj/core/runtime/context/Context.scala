@@ -6,8 +6,11 @@ import scala.collection.immutable.Stack
 import de.leanovate.jbj.core.runtime.value.{PAny, NullVal, PVar, PVal}
 import de.leanovate.jbj.core.runtime.{Reference, PFunction, Log}
 import de.leanovate.jbj.api.JbjSettings
+import scala.collection.mutable
 
 trait Context {
+  private val _autoReleasePool = mutable.ListBuffer.empty[PAny]
+
   def global: GlobalContext
 
   def static: StaticContext
@@ -70,6 +73,16 @@ trait Context {
   def defineVariable(name: String, variable: PVar)
 
   def undefineVariable(name: String)
+
+  def poolAutoRelease(pAny: PAny) {
+    pAny.retain()
+    _autoReleasePool += pAny
+  }
+
+  def autoRelease() {
+    _autoReleasePool.foreach(_.release())
+    _autoReleasePool.clear()
+  }
 
   def cleanup()
 }
