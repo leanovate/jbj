@@ -14,27 +14,27 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
     if (isPrivate) {
       ctx match {
         case global: GlobalContext if global.inShutdown =>
-          global.log.warn("Call to private %s::%s() from context '' during shutdown ignored".format(pClass.name.toString, name))
+          global.log.warn("Call to private %s::%s() from context '%s' during shutdown ignored".format(pClass.name.toString, name, ctx.name))
         case MethodContext(_, invokingClass, _, _) if pClass == invokingClass =>
         case StaticMethodContext(invokingClass, _, _) if pClass == invokingClass =>
         case _ =>
-          if (name == "__destruct")
-            throw new FatalErrorJbjException("Call to private %s::%s() from context ''".format(pClass.name.toString, name))(ctx)
-          else
+          if (name == "__construct")
             throw new FatalErrorJbjException("Call to private %s::%s() from invalid context".format(pClass.name.toString, name))(ctx)
+          else
+            throw new FatalErrorJbjException("Call to private %s::%s() from context '%s'".format(pClass.name.toString, name, ctx.name))(ctx)
       }
     }
     if (isProtected) {
       ctx match {
         case global: GlobalContext if global.inShutdown =>
-          global.log.warn("Call to protected %s::%s() from context '' during shutdown ignored".format(pClass.name.toString, name))
+          global.log.warn("Call to protected %s::%s() from context '%s' during shutdown ignored".format(pClass.name.toString, name, ctx.name))
         case MethodContext(_, invokingClass, _, _) if pClass.isAssignableFrom(invokingClass) =>
         case StaticMethodContext(invokingClass, _, _) if pClass.isAssignableFrom(invokingClass) =>
         case _ =>
-          if (name == "__destruct")
-            throw new FatalErrorJbjException("Call to protected %s::%s() from context ''".format(pClass.name.toString, name))(ctx)
-          else
+          if (name == "__construct")
             throw new FatalErrorJbjException("Call to protected %s::%s() from invalid context".format(pClass.name.toString, name))(ctx)
+          else
+            throw new FatalErrorJbjException("Call to protected %s::%s() from context '%s'".format(pClass.name.toString, name, ctx.name))(ctx)
       }
     }
 
@@ -50,6 +50,27 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
   }
 
   override def invokeStatic(ctx: Context, pClass: PClass, parameters: List[Expr]) = {
+    if (isPrivate) {
+      ctx match {
+        case global: GlobalContext if global.inShutdown =>
+          global.log.warn("Call to private %s::%s() from context '%s' during shutdown ignored".format(pClass.name.toString, name, ctx.name))
+        case MethodContext(_, invokingClass, _, _) if pClass == invokingClass =>
+        case StaticMethodContext(invokingClass, _, _) if pClass == invokingClass =>
+        case _ =>
+          throw new FatalErrorJbjException("Call to private method %s::%s() from context '%s'".format(pClass.name.toString, name, ctx.name))(ctx)
+      }
+    }
+    if (isProtected) {
+      ctx match {
+        case global: GlobalContext if global.inShutdown =>
+          global.log.warn("Call to protected %s::%s() from context '%s' during shutdown ignored".format(pClass.name.toString, name, ctx.name))
+        case MethodContext(_, invokingClass, _, _) if pClass.isAssignableFrom(invokingClass) =>
+        case StaticMethodContext(invokingClass, _, _) if pClass.isAssignableFrom(invokingClass) =>
+        case _ =>
+          throw new FatalErrorJbjException("Call to protected method %s::%s() from context '%s'".format(pClass.name.toString, name, ctx.name))(ctx)
+      }
+    }
+
     implicit val methodCtx = StaticMethodContext(pClass, name, ctx)
 
     if (!methodCtx.static.initialized) {

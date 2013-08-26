@@ -11,6 +11,8 @@ case class StaticMethodContext(pClass: PClass, methodName: String, callerContext
 
   private val identifier = "Method_" + pClass.name.toString + "::" + methodName
 
+  def name = pClass.name.toString
+
   lazy val global = callerContext.global
 
   lazy val static = global.staticContext(identifier)

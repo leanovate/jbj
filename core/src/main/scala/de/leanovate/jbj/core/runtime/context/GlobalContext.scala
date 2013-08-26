@@ -28,6 +28,8 @@ case class GlobalContext(jbj: JbjEnv, out: PrintStream, err: Option[PrintStream]
 
   private val autoloading = mutable.Set.empty[String]
 
+  def name = ""
+
   def global = this
 
   def static = staticContext("global")

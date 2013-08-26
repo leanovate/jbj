@@ -11,6 +11,8 @@ import scala.collection.mutable
 trait Context {
   private val _autoReleasePool = mutable.ListBuffer.empty[PAny]
 
+  def name: String
+
   def global: GlobalContext
 
   def static: StaticContext

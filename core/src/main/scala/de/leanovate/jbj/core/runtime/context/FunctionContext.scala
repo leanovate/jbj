@@ -11,6 +11,8 @@ case class FunctionContext(functionName: NamespaceName, callerContext: Context) 
 
   private val identifier = "Function_" + functionName.toString
 
+  def name = ""
+
   lazy val global = callerContext.global
 
   lazy val static = global.staticContext(identifier)
