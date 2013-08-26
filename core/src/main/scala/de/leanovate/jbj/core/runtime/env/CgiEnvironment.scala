@@ -1,6 +1,6 @@
 package de.leanovate.jbj.core.runtime.env
 
-import java.net.{URLDecoder, URI}
+import java.net.URLDecoder
 import de.leanovate.jbj.core.runtime.value._
 import de.leanovate.jbj.core.ast.NoNodePosition
 import scala.annotation.tailrec

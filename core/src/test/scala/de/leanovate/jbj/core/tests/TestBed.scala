@@ -26,8 +26,7 @@ object TestBed {
     parser.phrase(parser.start)(tokens2) match {
       case parser.Success(tree: Prog, _) =>
         println("Tree")
-        val pp = new scala.xml.PrettyPrinter(80, 2)
-        println(pp.format(tree.toXml))
+        println( AstAsXmlNodeVisitor.dump(tree))
 
         implicit val context = jbj.newGlobalContext(System.out)
 

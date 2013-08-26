@@ -19,20 +19,6 @@ case class IfStmt(condition: Expr, thenStmts: List[Stmt], elseIfs: List[ElseIfBl
     }
   }
 
-  override def toXml =
-    <IfStmt line={position.line.toString} file={position.fileName}>
-      <condition>
-        {condition.toXml}
-      </condition>
-      <then>
-        {thenStmts.map(_.toXml)}
-      </then>
-      {elseIfs.map(_.toXml)}
-      <else>
-        {elseStmts.map(_.toXml)}
-      </else>
-    </IfStmt>
-
   override def visit[R](visitor: NodeVisitor[R]) =
     visitor(this).thenChild(condition).thenChildren(thenStmts).thenChildren(elseIfs).thenChildren(elseStmts)
 }

@@ -4,7 +4,6 @@ import de.leanovate.jbj.core.ast.{ReferableExpr, Expr}
 import de.leanovate.jbj.core.runtime.context.Context
 import de.leanovate.jbj.core.runtime.Reference
 import de.leanovate.jbj.core.runtime.value.PAny
-import java.io.PrintStream
 
 trait BinaryReferableExpr extends ReferableExpr {
   def reference: ReferableExpr
@@ -26,11 +25,5 @@ trait BinaryReferableExpr extends ReferableExpr {
 
     def unset() {
     }
-  }
-
-  override def dump(out: PrintStream, ident: String) {
-    out.println(ident + getClass.getSimpleName)
-    reference.dump(out, ident + "  ")
-    expr.dump(out, ident + "  ")
   }
 }

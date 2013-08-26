@@ -5,23 +5,6 @@ import de.leanovate.jbj.core.runtime.value.ArrayVal
 import de.leanovate.jbj.core.runtime.context.Context
 
 case class ArrayKeyValue(key: Option[Expr], value: Expr, isRef: Boolean) {
-  def toXml = Seq(
-  {
-    key.map {
-      key =>
-        <key>
-          {key.toXml}
-        </key>
-    }.orNull
-  }, if (isRef) {
-    <ref>
-      {value.toXml}
-    </ref>
-  } else {
-    <value>
-      {value.toXml}
-    </value>
-  })
 }
 
 case class ArrayCreateExpr(keyValueExprs: List[ArrayKeyValue]) extends Expr {
@@ -31,9 +14,4 @@ case class ArrayCreateExpr(keyValueExprs: List[ArrayKeyValue]) extends Expr {
       case ArrayKeyValue(keyExpr, valueExpr: Expr, _) => (keyExpr.map(_.eval.asVal), valueExpr.eval.asVal)
     }: _*)
   }
-
-  override def toXml =
-    <ArrayKeyValue>
-      {keyValueExprs.map(_.toXml)}
-    </ArrayKeyValue>
 }

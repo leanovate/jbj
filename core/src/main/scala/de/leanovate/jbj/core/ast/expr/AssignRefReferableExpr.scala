@@ -31,14 +31,4 @@ case class AssignRefReferableExpr(reference: ReferableExpr, otherRef: ReferableE
       resultRef.unset()
     }
   }
-
-  override def toXml =
-    <AssignReferableExpr>
-      <reference>
-        {reference.toXml}
-      </reference>
-      <otherRef>
-        {otherRef.toXml}
-      </otherRef>
-    </AssignReferableExpr>
 }

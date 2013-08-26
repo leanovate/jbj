@@ -1,7 +1,6 @@
 package de.leanovate.jbj.core.ast
 
 import de.leanovate.jbj.core.runtime.ExecResult
-import java.io.PrintStream
 import de.leanovate.jbj.core.ast.stmt.BlockLike
 import de.leanovate.jbj.core.runtime.context.Context
 
@@ -20,16 +19,6 @@ case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike 
     }
 
     execStmts(stmts.toList)
-  }
-
-  override def toXml =
-    <Prog>
-      {stmts.map(_.toXml)}
-    </Prog>
-
-  override def dump(out: PrintStream, ident: String) {
-    super.dump(out, ident)
-    stmts.foreach(_.dump(out, ident + "  "))
   }
 
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(stmts)

@@ -6,9 +6,4 @@ import de.leanovate.jbj.core.runtime.context.Context
 
 case class ScalarExpr(value: PVal) extends Expr {
   override def eval(implicit ctx: Context) = value
-
-  override def toXml =
-    <ScalarExpr>
-      {value.toXml}
-    </ScalarExpr>
 }

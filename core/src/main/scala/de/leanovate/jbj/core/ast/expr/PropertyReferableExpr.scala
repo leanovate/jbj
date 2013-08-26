@@ -3,7 +3,6 @@ package de.leanovate.jbj.core.ast.expr
 import de.leanovate.jbj.core.ast.{Name, ReferableExpr}
 import de.leanovate.jbj.core.runtime.Reference
 import de.leanovate.jbj.core.runtime.value._
-import java.io.PrintStream
 import de.leanovate.jbj.core.runtime.value.StringVal
 import de.leanovate.jbj.core.runtime.context.{StaticMethodContext, Context, MethodContext}
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
@@ -221,19 +220,4 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
       }
   }
 
-  override def toXml() =
-    <PropertyReferableExpr>
-      <reference>
-        {reference.toXml}
-      </reference>
-      <name>
-        {propertyName.toXml}
-      </name>
-    </PropertyReferableExpr>
-
-  override def dump(out: PrintStream, ident: String) {
-    super.dump(out, ident)
-    reference.dump(out, ident + "  ")
-    propertyName.dump(out, ident + "  ")
-  }
 }

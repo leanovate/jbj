@@ -14,16 +14,4 @@ case class CallFunctionReferableExpr(functionName: Name, parameters: List[Expr])
       throw new FatalErrorJbjException("Call to undefined function %s()".format(name.toString))
     }
   }
-
-  override def toXml =
-    <CallFunctionReferableExpr>
-      <functionName>
-        {functionName.toXml}
-      </functionName>
-      <parameters>
-        {parameters.map {
-        _.toXml
-      }}
-      </parameters>
-    </CallFunctionReferableExpr>
 }

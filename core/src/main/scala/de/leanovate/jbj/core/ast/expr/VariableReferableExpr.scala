@@ -1,7 +1,6 @@
 package de.leanovate.jbj.core.ast.expr
 
 import de.leanovate.jbj.core.ast.{Name, ReferableExpr}
-import java.io.PrintStream
 import de.leanovate.jbj.core.runtime.value.NullVal
 import de.leanovate.jbj.core.runtime.context.Context
 
@@ -15,16 +14,4 @@ case class VariableReferableExpr(variableName: Name) extends ReferableExpr {
   }
 
   override def evalRef(implicit ctx: Context) = ctx.getVariable(variableName.evalName)
-
-  override def dump(out: PrintStream, ident: String) {
-    super.dump(out, ident)
-    variableName.dump(out, ident + "  ")
-  }
-
-  override def toXml =
-    <VariableReferableExpr>
-      <name>
-        {variableName.toXml}
-      </name>
-    </VariableReferableExpr>
 }

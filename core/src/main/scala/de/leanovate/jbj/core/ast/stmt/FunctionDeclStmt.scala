@@ -3,7 +3,6 @@ package de.leanovate.jbj.core.ast.stmt
 import de.leanovate.jbj.core.ast._
 import de.leanovate.jbj.core.runtime._
 import de.leanovate.jbj.core.runtime.SuccessExecResult
-import java.io.PrintStream
 import de.leanovate.jbj.core.runtime.context.{Context, FunctionContext}
 
 case class FunctionDeclStmt(name: NamespaceName, returnByRef: Boolean, parameterDecls: List[ParameterDecl], stmts: List[Stmt])
@@ -25,14 +24,6 @@ case class FunctionDeclStmt(name: NamespaceName, returnByRef: Boolean, parameter
 
     setParameters(funcCtx, callerCtx, parameters)
     perform(funcCtx, returnByRef, stmts)
-  }
-
-  override def dump(out: PrintStream, ident: String) {
-    out.println(ident + getClass.getSimpleName + " " + name.toString + parameterDecls.map(_.variableName).mkString(" (", ", ", ") ") + position)
-    stmts.foreach {
-      stmt =>
-        stmt.dump(out, ident + "  ")
-    }
   }
 
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(parameterDecls).thenChildren(stmts)

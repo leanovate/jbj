@@ -14,19 +14,4 @@ case class CallMethodReferableExpr(instanceExpr: Expr, methodName: Name, paramet
     case _ =>
       throw new FatalErrorJbjException("Call to a member function %s() on a non-object".format(methodName.evalName))
   }
-
-  override def toXml =
-    <CallMethodReferableExpr>
-      <instanceExpr>
-        {instanceExpr.toXml}
-      </instanceExpr>
-      <methodName>
-        {methodName.toXml}
-      </methodName>
-      <parameters>
-        {parameters.map {
-        _.toXml
-      }}
-      </parameters>
-    </CallMethodReferableExpr>
 }

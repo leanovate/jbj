@@ -5,7 +5,6 @@ import de.leanovate.jbj.core.runtime._
 import de.leanovate.jbj.core.runtime.SuccessExecResult
 import scala.collection.mutable
 import de.leanovate.jbj.core.runtime.value.ObjectVal
-import java.io.PrintStream
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.runtime.context.{MethodContext, Context, InstanceContext}
 import de.leanovate.jbj.core.ast.NamespaceName
@@ -93,24 +92,10 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     result.toMap
   }
 
-  override def dump(out: PrintStream, ident: String) {
-    out.println(ident + getClass.getSimpleName + " " + name.toString + " " + position)
-    out.println(ident + "  " + name.toString)
-    decls.foreach {
-      stmt =>
-        stmt.dump(out, ident + "  ")
-    }
-  }
-
   private def findConstructor: Option[PMethod] =
     findMethod(name.toString).map(Some.apply).getOrElse(findMethod("__construct"))
 
   private def findDestructor: Option[PMethod] = findMethod("__destruct")
-
-  override def toXml =
-    <ClassDeclStmt name={name.toString} entryType={classEntry.toString} line={position.line.toString} file={position.fileName}>
-      {decls.map(_.toXml)}
-    </ClassDeclStmt>
 
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(decls)
 }

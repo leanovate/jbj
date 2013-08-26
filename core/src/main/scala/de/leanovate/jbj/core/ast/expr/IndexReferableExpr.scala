@@ -4,7 +4,6 @@ import de.leanovate.jbj.core.ast.{Expr, ReferableExpr}
 import de.leanovate.jbj.core.runtime._
 import de.leanovate.jbj.core.runtime.value._
 import scala.Some
-import java.io.PrintStream
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.runtime.context.Context
 
@@ -107,14 +106,6 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
         result.map(_.asVal).getOrElse(NullVal)
       case _ =>
         NullVal
-    }
-  }
-
-  override def dump(out: PrintStream, ident: String) {
-    super.dump(out, ident)
-    reference.dump(out, ident + "  ")
-    indexExpr.map(_.dump(out, ident + "  ")).getOrElse {
-      out.println(ident + "  <empty>")
     }
   }
 }

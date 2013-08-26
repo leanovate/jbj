@@ -15,6 +15,4 @@ object SelfName extends Name {
     case _ =>
       throw new FatalErrorJbjException("Cannot access self:: when no class scope is active")
   }
-
-  def toXml = <selfName/>
 }

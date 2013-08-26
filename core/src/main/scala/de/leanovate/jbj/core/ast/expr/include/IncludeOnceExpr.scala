@@ -2,7 +2,6 @@ package de.leanovate.jbj.core.ast.expr.include
 
 import de.leanovate.jbj.core.ast.Expr
 import de.leanovate.jbj.core.runtime.value.BooleanVal
-import java.io.PrintStream
 import de.leanovate.jbj.core.runtime.context.Context
 
 case class IncludeOnceExpr(file: Expr) extends Expr {
@@ -21,8 +20,4 @@ case class IncludeOnceExpr(file: Expr) extends Expr {
     }
   }
 
-  override def dump(out: PrintStream, ident: String) {
-    out.println(ident + getClass.getSimpleName)
-    file.dump(out, ident + "  ")
-  }
 }

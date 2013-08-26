@@ -19,6 +19,4 @@ object ParentName extends Name {
     case _ =>
       throw new FatalErrorJbjException("Cannot access parent:: when no class scope is active")
   }
-
-  def toXml = <parentName/>
 }

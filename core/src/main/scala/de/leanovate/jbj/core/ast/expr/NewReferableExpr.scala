@@ -3,7 +3,6 @@ package de.leanovate.jbj.core.ast.expr
 import de.leanovate.jbj.core.ast._
 import de.leanovate.jbj.core.runtime.Reference
 import de.leanovate.jbj.core.runtime.value.{PAny, NullVal}
-import java.io.PrintStream
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.runtime.context.Context
 import scala.Some
@@ -32,15 +31,6 @@ case class NewReferableExpr(className: Name, parameters: List[Expr]) extends Ref
 
     def unset() {
       throw new FatalErrorJbjException("Can't use new result in write context")
-    }
-  }
-
-  override def dump(out: PrintStream, ident: String) {
-    super.dump(out, ident)
-    out.println(ident + "  " + className.toString)
-    parameters.foreach {
-      parameter =>
-        parameter.dump(out, ident + "  ")
     }
   }
 

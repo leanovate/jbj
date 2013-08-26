@@ -3,7 +3,6 @@ package de.leanovate.jbj.core.ast.stmt
 import de.leanovate.jbj.core.ast._
 import de.leanovate.jbj.core.runtime._
 import de.leanovate.jbj.core.runtime.value._
-import java.io.PrintStream
 import de.leanovate.jbj.core.runtime.context.{GlobalContext, Context, MethodContext, StaticMethodContext}
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 
@@ -80,24 +79,6 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
       case _ =>
     }
   }
-
-  override def dump(out: PrintStream, ident: String) {
-    out.println(ident + getClass.getSimpleName + " " + name.toString + " " + position)
-    stmts.foreach {
-      stmt =>
-        stmt.dump(out, ident + "  ")
-    }
-  }
-
-  override def toXml =
-    <ClassMethodDecl name={name.toString} returnByRef={returnByRef.toString} line={position.line.toString} file={position.fileName}>
-      <parameters>
-        {parameterDecls.map(_.toXml)}
-      </parameters>
-      <body>
-        {stmts.map(_.toXml)}
-      </body>
-    </ClassMethodDecl>
 
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(parameterDecls).thenChildren(stmts)
 }

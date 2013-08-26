@@ -26,14 +26,4 @@ case class AssignReferableExpr(reference: ReferableExpr, expr: Expr) extends Ref
       throw new FatalErrorJbjException("Can't use function return value in write context")
     }
   }
-
-  override def toXml =
-    <AssignReferableExpr>
-      <reference>
-        {reference.toXml}
-      </reference>
-      <expr>
-        {expr.toXml}
-      </expr>
-    </AssignReferableExpr>
 }
