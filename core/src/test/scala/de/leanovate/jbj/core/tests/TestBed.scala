@@ -42,37 +42,58 @@ object TestBed {
   //A main method for testing
   def main(args: Array[String]) {
     test(
-      """"<?php
-        |
-        |define("MAX_64Bit", 9223372036854775807);
-        |define("MAX_32Bit", 2147483647);
-        |define("MIN_64Bit", -9223372036854775807 - 1);
-        |define("MIN_32Bit", -2147483647 - 1);
-        |
-        |$longVals = array(
-        |    MAX_64Bit, MIN_64Bit, MAX_32Bit, MIN_32Bit, MAX_64Bit - MAX_32Bit, MIN_64Bit - MIN_32Bit,
-        |    MAX_32Bit + 1, MIN_32Bit - 1, MAX_32Bit * 2, (MAX_32Bit * 2) + 1, (MAX_32Bit * 2) - 1,
-        |    MAX_64Bit -1, MAX_64Bit + 1, MIN_64Bit + 1, MIN_64Bit - 1
-        |);
-        |
-        |$otherVals = array(0, 1, -1, 7, 9, 65, -44, MAX_32Bit, MAX_64Bit);
-        |
-        |error_reporting(E_ERROR);
-        |
-        |foreach ($longVals as $longVal) {
-        |   foreach($otherVals as $otherVal) {
-        |	   echo "--- testing: $longVal << $otherVal ---\n";
-        |      var_dump($longVal<<$otherVal);
-        |   }
+      """<?php
+        |class Base_php4 {
+        |  function Base_php4() {
+        |    var_dump('Base constructor');
+        |  }
         |}
         |
-        |foreach ($otherVals as $otherVal) {
-        |   foreach($longVals as $longVal) {
-        |	   echo "--- testing: $otherVal << $longVal ---\n";
-        |      var_dump($otherVal<<$longVal);
-        |   }
+        |class Child_php4 extends Base_php4 {
+        |  function Child_php4() {
+        |    var_dump('Child constructor');
+        |    parent::Base_php4();
+        |  }
         |}
         |
+        |class Base_php5 {
+        |  function __construct() {
+        |    var_dump('Base constructor');
+        |  }
+        |  }
+        |
+        |class Child_php5 extends Base_php5 {
+        |  function __construct() {
+        |    var_dump('Child constructor');
+        |    parent::__construct();
+        |  }
+        |  }
+        |
+        |class Child_mx1 extends Base_php4 {
+        |  function __construct() {
+        |    var_dump('Child constructor');
+        |    parent::Base_php4();
+        |  }
+        |}
+        |
+        |class Child_mx2 extends Base_php5 {
+        |  function Child_mx2() {
+        |    var_dump('Child constructor');
+        |    parent::__construct();
+        |  }
+        |}
+        |
+        |echo "### PHP 4 style\n";
+        |$c4= new Child_php4();
+        |
+        |echo "### PHP 5 style\n";
+        |$c5= new Child_php5();
+        |
+        |echo "### Mixed style 1\n";
+        |$cm= new Child_mx1();
+        |
+        |echo "### Mixed style 2\n";
+        |$cm= new Child_mx2();
         |?>""".stripMargin)
   }
 }
