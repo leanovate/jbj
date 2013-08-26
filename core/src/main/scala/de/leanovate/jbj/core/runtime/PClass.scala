@@ -38,7 +38,7 @@ trait PClass {
       case None if optInstance.isDefined && (!ctx.isInstanceOf[MethodContext] ||
         ctx.asInstanceOf[MethodContext].pMethod.name != "__call" ||
         ctx.asInstanceOf[MethodContext].instance.pClass != this) =>
-        findMethod("__call") match {
+        optInstance.get.pClass.findMethod("__call") match {
           case Some(method) =>
             val parameterArray = ArrayVal(parameters.map {
               expr =>

@@ -103,5 +103,94 @@ class CallSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "When __call() is invoked via ::, ensure current scope's __call() is favoured over the specified class's  __call()." in {
+      // classes/__call_004.phpt
+      script(
+        """<?php
+          |class A {
+          |	function __call($strMethod, $arrArgs) {
+          |		echo "In " . __METHOD__ . "($strMethod, array(" . implode(',',$arrArgs) . "))\n";
+          |		var_dump($this);
+          |	}
+          |}
+          |
+          |class B extends A {
+          |	function __call($strMethod, $arrArgs) {
+          |		echo "In " . __METHOD__ . "($strMethod, array(" . implode(',',$arrArgs) . "))\n";
+          |		var_dump($this);
+          |	}
+          |
+          |	function test() {
+          |		A::test1(1,'a');
+          |		B::test2(1,'a');
+          |		self::test3(1,'a');
+          |		parent::test4(1,'a');
+          |	}
+          |}
+          |
+          |$b = new B();
+          |$b->test();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """In B::__call(test1, array(1,a))
+          |object(B)#1 (0) {
+          |}
+          |In B::__call(test2, array(1,a))
+          |object(B)#1 (0) {
+          |}
+          |In B::__call(test3, array(1,a))
+          |object(B)#1 (0) {
+          |}
+          |In B::__call(test4, array(1,a))
+          |object(B)#1 (0) {
+          |}
+          |""".stripMargin
+      )
+    }
+
+    "When __call() is invoked via ::, ensure private implementation of __call() in superclass is accessed without error." in {
+      // classes/__call_005.phpt
+      script(
+        """<?php
+          |class A {
+          |	private function __call($strMethod, $arrArgs) {
+          |		echo "In " . __METHOD__ . "($strMethod, array(" . implode(',',$arrArgs) . "))\n";
+          |		var_dump($this);
+          |	}
+          |}
+          |
+          |class B extends A {
+          |	function test() {
+          |		A::test1(1,'a');
+          |		B::test2(1,'a');
+          |		self::test3(1,'a');
+          |		parent::test4(1,'a');
+          |	}
+          |}
+          |
+          |$b = new B();
+          |$b->test();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Warning: The magic method __call() must have public visibility and cannot be static in /classes/CallSpec.inlinePhp on line 3
+          |In A::__call(test1, array(1,a))
+          |object(B)#1 (0) {
+          |}
+          |In A::__call(test2, array(1,a))
+          |object(B)#1 (0) {
+          |}
+          |In A::__call(test3, array(1,a))
+          |object(B)#1 (0) {
+          |}
+          |In A::__call(test4, array(1,a))
+          |object(B)#1 (0) {
+          |}
+          |""".stripMargin
+      )
+    }
   }
 }

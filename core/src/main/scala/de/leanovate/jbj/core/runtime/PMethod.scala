@@ -11,11 +11,13 @@ trait PMethod {
 
   def modifieres: Set[MemberModifier.Type]
 
-  lazy val isPrivate = modifieres.contains(MemberModifier.PRIVATE)
+  def activeModifieres: Set[MemberModifier.Type]
 
-  lazy val isProtected = modifieres.contains(MemberModifier.PROTECTED)
+  lazy val isPrivate = activeModifieres.contains(MemberModifier.PRIVATE)
 
-  lazy val isStatic = modifieres.contains(MemberModifier.STATIC)
+  lazy val isProtected = activeModifieres.contains(MemberModifier.PROTECTED)
+
+  lazy val isStatic = activeModifieres.contains(MemberModifier.STATIC)
 
   def invoke(ctx: Context, instance: ObjectVal, parameters: List[Expr]): PAny
 

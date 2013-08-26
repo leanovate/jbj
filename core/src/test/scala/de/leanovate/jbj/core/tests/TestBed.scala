@@ -43,24 +43,54 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |class base {
-        |   function __construct() {
-        |      echo __METHOD__ . "\n";
-        |   }
-        |
-        |   function __destruct() {
-        |      echo __METHOD__ . "\n";
-        |   }
+        |class A {
+        |	function __call($strMethod, $arrArgs) {
+        |		var_dump($this);
+        |		throw new Exception;
+        |		echo "You should not see this";
+        |	}
+        |	function test() {
+        |		A::unknownCalledWithSRO(1,2,3);
+        |	}
         |}
         |
-        |class derived extends base {
+        |class B extends A {
+        |	function test() {
+        |		B::unknownCalledWithSROFromChild(1,2,3);
+        |	}
         |}
         |
-        |$obj = new derived;
+        |$a = new A();
         |
-        |unset($obj);
+        |echo "---> Invoke __call via simple method call.\n";
+        |try {
+        |	$a->unknown();
+        |} catch (Exception $e) {
+        |	echo "Exception caught OK; continuing.\n";
+        |}
         |
-        |echo 'Done';
-        |?>""".stripMargin)
+        |echo "\n\n---> Invoke __call via scope resolution operator within instance.\n";
+        |try {
+        |	$a->test();
+        |} catch (Exception $e) {
+        |	echo "Exception caught OK; continuing.\n";
+        |}
+        |
+        |echo "\n\n---> Invoke __call via scope resolution operator within child instance.\n";
+        |$b = new B();
+        |try {
+        |	$b->test();
+        |} catch (Exception $e) {
+        |	echo "Exception caught OK; continuing.\n";
+        |}
+        |
+        |echo "\n\n---> Invoke __call via callback.\n";
+        |try {
+        |	call_user_func(array($b, 'unknownCallback'), 1,2,3);
+        |} catch (Exception $e) {
+        |	echo "Exception caught OK; continuing.\n";
+        |}
+        |?>
+        |==DONE==""".stripMargin)
   }
 }

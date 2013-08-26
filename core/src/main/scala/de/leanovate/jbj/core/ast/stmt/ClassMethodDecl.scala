@@ -10,6 +10,7 @@ import de.leanovate.jbj.core.runtime.buildin.StdClass
 case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, returnByRef: Boolean, parameterDecls: List[ParameterDecl],
                            stmts: List[Stmt]) extends ClassMemberDecl with PMethod with BlockLike with FunctionLike {
   private var _declaringClass: PClass = StdClass
+  private var _activeModifiers : Set[MemberModifier.Type] = modifieres
 
   private lazy val staticInitializers = StaticInitializer.collect(stmts: _*)
 
@@ -18,6 +19,8 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
   protected[stmt] def declaringClass_=(pClass: PClass) {
     _declaringClass = pClass
   }
+
+  override def activeModifieres = _activeModifiers
 
   override def invoke(ctx: Context, instance: ObjectVal, parameters: List[Expr]) = {
     if (isPrivate) {
@@ -102,6 +105,10 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
       case "__call" =>
         if (parameterDecls.size != 2)
           throw new FatalErrorJbjException("Method %s::__call() must take exactly 2 arguments".format(pClass.name.toString))
+        if (modifieres.contains(MemberModifier.STATIC) || modifieres.contains(MemberModifier.PRIVATE) || modifieres.contains(MemberModifier.PROTECTED)) {
+          ctx.log.warn("The magic method __call() must have public visibility and cannot be static")
+          _activeModifiers = modifieres - MemberModifier.STATIC - MemberModifier.PRIVATE - MemberModifier.PROTECTED
+        }
       case "__get" =>
         if (parameterDecls.size != 1)
           throw new FatalErrorJbjException("Method %s::__get() must take exactly 1 argument".format(pClass.name.toString))
