@@ -12,10 +12,32 @@ import java.util.TimeZone;
 public class JbjSettings implements Cloneable {
     public final static EnumSet<ErrorLevel> E_ALL = EnumSet.allOf(ErrorLevel.class);
 
+    /**
+     * The initial charset.
+     */
     private Charset charset = Charset.forName("UTF-8");
 
+    /**
+     * The initial timezone.
+     * (Can be changed within a script.)
+     */
     private TimeZone timeZone = TimeZone.getTimeZone("UTC");
 
+    /**
+     * Maximum size for output buffers.
+     *
+     * <ul>
+     *     <li>-1 means unlimited (use with care)</li>
+     *     <li>0 means disabled (i.e. all output is send directly)</li>
+     * </ul>
+     * See <a href="http://php.net/output-buffering">http://php.net/output-buffering</a> for details.
+     */
+    private int outputBuffering = 4096;
+
+    /**
+     * The initial logging level.
+     * (Can be changed within a script.)
+     */
     private EnumSet<ErrorLevel> errorReporting = EnumSet.of(ErrorLevel.E_ERROR, ErrorLevel.E_WARNING,
             ErrorLevel.E_PARSE, ErrorLevel.E_CORE_ERROR, ErrorLevel.E_CORE_WARNING, ErrorLevel.E_COMPILE_ERROR,
             ErrorLevel.E_COMPILE_WARNING, ErrorLevel.E_USER_ERROR, ErrorLevel.E_USER_WARNING, ErrorLevel.E_USER_NOTICE,
@@ -35,6 +57,14 @@ public class JbjSettings implements Cloneable {
 
     public void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
+    }
+
+    public int getOutputBuffering() {
+        return outputBuffering;
+    }
+
+    public void setOutputBuffering(int outputBuffering) {
+        this.outputBuffering = outputBuffering;
     }
 
     public EnumSet<ErrorLevel> getErrorReporting() {

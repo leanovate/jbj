@@ -14,6 +14,7 @@ import de.leanovate.jbj.core.runtime.env.{CliEnvironment, CgiEnvironment}
 import de.leanovate.jbj.core.parser.ParseContext
 import scala.Some
 import de.leanovate.jbj.core.runtime.context.GlobalContext
+import de.leanovate.jbj.core.runtime.output.BufferingPrintStream
 
 case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
                   settings: JbjSettings = new JbjSettings,
@@ -38,7 +39,7 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
         c.name.lowercase -> c
     }.toMap
 
-  def newGlobalContext(out: PrintStream) = GlobalContext(this, out, errorStream, settings.clone)
+  def newGlobalContext(out: PrintStream) = GlobalContext(this, BufferingPrintStream(out), errorStream, settings.clone)
 
   def parse(fileName: String): Option[Either[Prog, Throwable]] = cache.get(fileName) match {
     case Some(cacheEntry) if Option(locator.getETag(fileName)).exists(_ == cacheEntry.etag) =>
