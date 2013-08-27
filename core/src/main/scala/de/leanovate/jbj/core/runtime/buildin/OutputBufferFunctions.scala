@@ -1,6 +1,6 @@
 package de.leanovate.jbj.core.runtime.buildin
 
-import de.leanovate.jbj.core.runtime.value.PVal
+import de.leanovate.jbj.core.runtime.value.{BooleanVal, StringVal, PVal}
 import de.leanovate.jbj.core.runtime.context.Context
 import de.leanovate.jbj.core.runtime.annotations.GlobalFunction
 
@@ -31,7 +31,7 @@ object OutputBufferFunctions extends WrappedFunctions {
   }
 
   @GlobalFunction
-  def ob_end_flush()(implicit ctx:Context): Boolean = {
+  def ob_end_flush()(implicit ctx: Context): Boolean = {
     if (!ctx.out.bufferEndFlush()) {
       ctx.log.notice("ob_end_clean(): failed to delete buffer. No buffer to delete")
       false
@@ -41,7 +41,26 @@ object OutputBufferFunctions extends WrappedFunctions {
   }
 
   @GlobalFunction
-  def ob_get_level()(implicit ctx:Context): Int = {
+  def ob_get_level()(implicit ctx: Context): Int = {
     ctx.out.bufferLevel
+  }
+
+  @GlobalFunction
+  def ob_get_contents()(implicit ctx: Context): PVal = {
+    ctx.out.bufferContents.map(new StringVal(_)).getOrElse(BooleanVal.FALSE)
+  }
+
+  @GlobalFunction
+  def ob_get_clean()(implicit ctx: Context): PVal = {
+    val result = ob_get_contents()
+    ob_end_clean()
+    result
+  }
+
+  @GlobalFunction
+  def ob_get_flush()(implicit ctx:Context):PVal = {
+    val result = ob_get_contents()
+    ob_end_flush()
+    result
   }
 }

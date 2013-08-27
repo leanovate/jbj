@@ -101,5 +101,54 @@ class OutputBufferSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "output buffering - ob_get_clean" in {
+      // output/ob_007.phpt
+      script(
+        """<?php
+          |ob_start();
+          |echo "foo\n";
+          |var_dump(ob_get_clean());
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """string(4) "foo
+          |"
+          |""".stripMargin
+      )
+    }
+
+    "output buffering - ob_get_contents" in {
+      // output/ob_008.phpt
+      script(
+        """<?php
+          |ob_start();
+          |echo "foo\n";
+          |echo ob_get_contents();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """foo
+          |foo
+          |""".stripMargin
+      )
+    }
+
+    "output buffering - ob_get_flush" in {
+      // output/ob_009.phpt
+      script(
+        """<?php
+          |ob_start();
+          |echo "foo\n";
+          |var_dump(ob_get_flush());
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """foo
+          |string(4) "foo
+          |"
+          |""".stripMargin
+      )
+    }
   }
 }

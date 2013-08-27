@@ -21,4 +21,6 @@ case class DirectOutputHandler(out: OutputStream) extends OutputStream with Outp
 
   override def clean() {
   }
+
+  override def contents = None
 }

@@ -62,6 +62,10 @@ case class OutputBuffer(out: OutputStream, settings: JbjSettings) {
 
   def bufferLevel: Int = bufferStack.size
 
+  def bufferContents: Option[Array[Byte]] = {
+    currentOut.contents
+  }
+
   def closeAll() {
     currentOut.flush()
     bufferStack.foreach(_.flush())

@@ -8,7 +8,7 @@ case class BufferedOutputHandler(out: OutputStream, optTransformer: Option[Outpu
   private val buffer: Array[Byte] = new Array[Byte](bufferSize)
   private var count = 0
 
-  def write(b: Int) {
+  override def write(b: Int) {
     if (count >= bufferSize)
       flushBuffer()
     buffer(count) = b.toByte
@@ -25,6 +25,12 @@ case class BufferedOutputHandler(out: OutputStream, optTransformer: Option[Outpu
 
   override def clean() {
     count = 0
+  }
+
+  override def contents = {
+    val result = new Array[Byte](count)
+    buffer.copyToArray(result)
+    Some(result)
   }
 
   private def flushBuffer() {
