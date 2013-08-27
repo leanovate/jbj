@@ -1,0 +1,41 @@
+package de.leanovate.jbj.core.runtime.output
+
+import java.io.OutputStream
+
+case class BufferedOutputHandler(out: OutputStream, optTransformer: Option[OutputTransformer], size: Int)
+  extends OutputStream with OutputHandler {
+  private val bufferSize = size
+  private val buffer: Array[Byte] = new Array[Byte](bufferSize)
+  private var count = 0
+
+  def write(b: Int) {
+    if (count >= bufferSize)
+      flushBuffer()
+    buffer(count) = b.toByte
+    count += 1
+  }
+
+  override def flush() {
+    flushBuffer()
+  }
+
+  override def close() {
+    flushBuffer()
+  }
+
+  override def clean() {
+    count = 0
+  }
+
+  private def flushBuffer() {
+    if (count > 0) {
+      optTransformer.map {
+        transformer =>
+          out.write(transformer.transform(buffer, 0, count))
+      }.getOrElse {
+        out.write(buffer, 0, count)
+      }
+      count = 0
+    }
+  }
+}

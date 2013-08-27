@@ -4,8 +4,9 @@ import java.io.PrintStream
 import de.leanovate.jbj.core.ast.{NodePosition, FileNodePosition}
 import de.leanovate.jbj.core.runtime.context.Context
 import de.leanovate.jbj.api.JbjSettings
+import de.leanovate.jbj.core.runtime.output.OutputBuffer
 
-class Log(context:Context, out: PrintStream, err: Option[PrintStream]) {
+class Log(context:Context, out: OutputBuffer, err: Option[PrintStream]) {
   def fatal(msg: String) {
     if (context.settings.getErrorReporting.contains(JbjSettings.ErrorLevel.E_ERROR)) {
       err.foreach(_.println("PHP Fatal error: %s in %s on line %d".format(msg, context.currentPosition.fileName, context.currentPosition.line)))

@@ -17,6 +17,7 @@ package object buildin {
       FunctionFunctions.functions ++
       StringFunctions.functions ++
       OutputFunctions.functions ++
+      OutputBufferFunctions.functions ++
       RuntimeFunctions.functions
 
   val buildinConstants: Seq[(String, PVal)] = Seq(

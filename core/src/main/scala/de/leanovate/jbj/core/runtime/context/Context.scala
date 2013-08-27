@@ -7,7 +7,7 @@ import de.leanovate.jbj.core.runtime.value.{PAny, NullVal, PVar, PVal}
 import de.leanovate.jbj.core.runtime.{Reference, PFunction, Log}
 import de.leanovate.jbj.api.JbjSettings
 import scala.collection.mutable
-import de.leanovate.jbj.core.runtime.output.BufferingPrintStream
+import de.leanovate.jbj.core.runtime.output.OutputBuffer
 
 trait Context {
   private val _autoReleasePool = mutable.ListBuffer.empty[PAny]
@@ -20,7 +20,7 @@ trait Context {
 
   def settings: JbjSettings
 
-  def out: BufferingPrintStream
+  def out: OutputBuffer
 
   def err: Option[PrintStream]
 

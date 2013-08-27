@@ -11,9 +11,9 @@ import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 import java.util.concurrent.atomic.AtomicLong
 import de.leanovate.jbj.core.JbjEnv
 import de.leanovate.jbj.api.JbjSettings
-import de.leanovate.jbj.core.runtime.output.BufferingPrintStream
+import de.leanovate.jbj.core.runtime.output.OutputBuffer
 
-case class GlobalContext(jbj: JbjEnv, out: BufferingPrintStream, err: Option[PrintStream], settings: JbjSettings)
+case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream], settings: JbjSettings)
   extends Context {
   private var _inShutdown = false
 
@@ -133,5 +133,7 @@ case class GlobalContext(jbj: JbjEnv, out: BufferingPrintStream, err: Option[Pri
     _inShutdown = true
     staticContexts.values.foreach(_.cleanup()(this))
     GLOBALS.cleanup()(this)
+
+    out.closeAll()
   }
 }
