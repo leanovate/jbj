@@ -3,6 +3,7 @@ package de.leanovate.jbj.core.runtime.output
 import java.io.OutputStream
 import scala.collection.mutable
 import de.leanovate.jbj.api.JbjSettings
+import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 
 case class OutputBuffer(out: OutputStream, settings: JbjSettings) {
   var currentOut: OutputStream with OutputHandler = if (settings.getOutputBuffering == 0)
@@ -26,7 +27,7 @@ case class OutputBuffer(out: OutputStream, settings: JbjSettings) {
   }
 
   def bufferStart(optTransformer: Option[OutputTransformer], size: Int): Boolean = {
-    val buffer = new BufferedOutputHandler(out, optTransformer, size)
+    val buffer = new BufferedOutputHandler(currentOut, optTransformer, size)
     bufferStack.push(currentOut)
     currentOut = buffer
     true
@@ -67,7 +68,9 @@ case class OutputBuffer(out: OutputStream, settings: JbjSettings) {
   }
 
   def closeAll() {
-    currentOut.flush()
+    val origCurrentOut = currentOut
+    currentOut = DirectOutputHandler(out)
+    origCurrentOut.flush()
     bufferStack.foreach(_.flush())
     out.close()
   }

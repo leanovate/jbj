@@ -150,5 +150,69 @@ class OutputBufferSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "output buffering - fatalism" in {
+      // output/ob_010.phpt
+      script(
+        """<?php
+          |function obh($s)
+          |{
+          |	print_r($s, 1);
+          |}
+          |ob_start("obh");
+          |echo "foo\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: print_r(): Cannot use output buffering in output buffering display handlers in /output/OutputBufferSpec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
+
+    "output buffering - fatalism" in {
+      // output/ob_011.phpt
+      script(
+        """<?php
+          |function obh($s)
+          |{
+          |	return ob_get_flush();
+          |}
+          |ob_start("obh");
+          |echo "foo\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: ob_get_flush(): Cannot use output buffering in output buffering display handlers in /output/OutputBufferSpec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
+
+    "output buffering - multiple" in {
+      // output/ob_012.phpt
+      script(
+        """<?php
+          |echo 0;
+          |	ob_start();
+          |		ob_start();
+          |			ob_start();
+          |				ob_start();
+          |					echo 1;
+          |				ob_end_flush();
+          |				echo 2;
+          |			$ob = ob_get_clean();
+          |		echo 3;
+          |		ob_flush();
+          |		ob_end_clean();
+          |	echo 4;
+          |	ob_end_flush();
+          |echo $ob;
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """03412""".stripMargin
+      )
+    }
   }
 }

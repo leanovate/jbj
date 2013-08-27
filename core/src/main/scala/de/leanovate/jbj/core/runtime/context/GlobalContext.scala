@@ -128,6 +128,8 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
 
   def inShutdown = _inShutdown
 
+  var isOutputBufferingCallback = false
+
   def cleanup() {
     currentPosition = NoNodePosition
     _inShutdown = true

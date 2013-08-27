@@ -1,6 +1,9 @@
 package de.leanovate.jbj.core.runtime.output
 
 import java.io.OutputStream
+import de.leanovate.jbj.core.JbjExtension
+import de.leanovate.jbj.api.JbjException
+import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 
 case class BufferedOutputHandler(out: OutputStream, optTransformer: Option[OutputTransformer], size: Int)
   extends OutputStream with OutputHandler {

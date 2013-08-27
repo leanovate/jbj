@@ -7,6 +7,7 @@ import de.leanovate.jbj.core.runtime.adapter.{Converter, ParameterAdapter}
 import de.leanovate.jbj.core.runtime.value.PAny
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.runtime.context.Context
+import java.lang.reflect.InvocationTargetException
 
 case class WrappedReflectMethodFunction[T, S <: PAny](name: NamespaceName,
                                                       methodMirror: MethodMirror,
@@ -27,7 +28,12 @@ case class WrappedReflectMethodFunction[T, S <: PAny](name: NamespaceName,
             throw new FatalErrorJbjException("%s() expects at least %d parameter, 0 given".format(name.toString, requiredParameterCount, parameters.size))
         }
     }
-    val result = methodMirror.apply(argBuilder.result(): _*).asInstanceOf[T]
-    resultConverter.toJbj(result)
+    try {
+      val result = methodMirror.apply(argBuilder.result(): _*).asInstanceOf[T]
+      resultConverter.toJbj(result)
+    } catch {
+      case e: InvocationTargetException =>
+        throw e.getCause
+    }
   }
 }

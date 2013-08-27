@@ -4,6 +4,7 @@ import de.leanovate.jbj.core.runtime.value._
 import de.leanovate.jbj.core.ast.NodePosition
 import de.leanovate.jbj.core.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 
 object OutputFunctions extends WrappedFunctions {
 
@@ -11,6 +12,8 @@ object OutputFunctions extends WrappedFunctions {
   def var_dump(values: PAny*)(implicit ctx: Context, position: NodePosition) {
     if (values.isEmpty)
       ctx.log.warn("var_dump() expects at least 1 parameter, 0 given")
+    if (ctx.global.isOutputBufferingCallback)
+      throw new FatalErrorJbjException("var_dump(): Cannot use output buffering in output buffering display handlers")
 
     def dump(stack: List[PAny], ident: String) {
       val (value, isRef) = stack.head match {
@@ -85,6 +88,9 @@ object OutputFunctions extends WrappedFunctions {
 
   @GlobalFunction
   def print_r(value: PVal, ret: Option[Boolean])(implicit ctx: Context, position: NodePosition): PVal = {
+    if (ctx.global.isOutputBufferingCallback)
+      throw new FatalErrorJbjException("print_r(): Cannot use output buffering in output buffering display handlers")
+
     def dump(stack: List[PAny]): List[Option[String]] = {
       stack.head.asVal match {
         case ArrayVal(keyValues) =>
