@@ -26,6 +26,26 @@ object CallbackHelper {
         ctx.findFunction(NamespaceName(functionName)).isDefined
     }
 
+  def callbackName(callable: PVal)(implicit ctx: Context): Option[String] =
+    callable match {
+      case array: ArrayVal if array.keyValues.size != 2 => None
+      case array: ArrayVal =>
+        val objOrClassName = array.keyValues.head._2.asVal
+        val methodName = array.keyValues.last._2.asVal.toStr.asString
+        objOrClassName match {
+          case obj: ObjectVal =>
+            obj.pClass.findMethod(methodName).map(_ => methodName)
+          case name =>
+            ctx.global.findClass(NamespaceName(name.toStr.asString)).flatMap {
+              pClass =>
+                pClass.findMethod(methodName).map(_ => methodName)
+            }
+        }
+      case name =>
+        val functionName = name.toStr.asString
+        ctx.findFunction(NamespaceName(functionName)).map(_ => functionName)
+    }
+
   def callCallabck(callable: PVal, parameters: PVal*)(implicit ctx: Context): PAny =
     callable match {
       case array: ArrayVal if array.keyValues.size != 2 =>

@@ -3,15 +3,14 @@ package de.leanovate.jbj.core.runtime.output
 import java.io.OutputStream
 import scala.collection.mutable
 import de.leanovate.jbj.api.JbjSettings
-import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 
 case class OutputBuffer(out: OutputStream, settings: JbjSettings) {
   var currentOut: OutputStream with OutputHandler = if (settings.getOutputBuffering == 0)
-    DirectOutputHandler(out)
+    DirectOutputHandler(out, -1)
   else
-    BufferedOutputHandler(out, None, settings.getOutputBuffering)
+    BufferedOutputHandler(out, -1, None, 0, settings.getOutputBuffering)
 
-  var bufferStack = new mutable.Stack[OutputStream with OutputHandler]
+  private val _bufferStack = new mutable.Stack[OutputStream with OutputHandler]
 
   def print(str: String) {
     currentOut.write(str.getBytes(settings.getCharset))
@@ -22,15 +21,19 @@ case class OutputBuffer(out: OutputStream, settings: JbjSettings) {
   }
 
   def println(str: String) {
-    currentOut.write(str.getBytes(settings.getCharset))
-    currentOut.write('\n')
+    currentOut.write(str.getBytes(settings.getCharset) :+ '\n'.toByte)
   }
 
-  def bufferStart(optTransformer: Option[OutputTransformer], size: Int): Boolean = {
-    val buffer = new BufferedOutputHandler(currentOut, optTransformer, size)
-    bufferStack.push(currentOut)
-    currentOut = buffer
-    true
+  def bufferStart(optTransformer: Option[OutputTransformer], chunkSize: Int): Boolean = {
+    if (settings.getOutputBuffering == 0)
+      false
+    else {
+      val buffer = new BufferedOutputHandler(currentOut, _bufferStack.size, optTransformer, chunkSize, settings.getOutputBuffering)
+      _bufferStack.push(currentOut)
+      currentOut.suspend()
+      currentOut = buffer
+      true
+    }
   }
 
   def bufferClean() {
@@ -41,8 +44,9 @@ case class OutputBuffer(out: OutputStream, settings: JbjSettings) {
     if (bufferStack.isEmpty)
       false
     else {
-      currentOut.clean()
-      currentOut = bufferStack.pop()
+      currentOut.endClean()
+      currentOut = _bufferStack.pop()
+      currentOut.resume()
       true
     }
   }
@@ -55,8 +59,8 @@ case class OutputBuffer(out: OutputStream, settings: JbjSettings) {
     if (bufferStack.isEmpty)
       false
     else {
-      currentOut.flush()
-      currentOut = bufferStack.pop()
+      currentOut.endFlush()
+      currentOut = _bufferStack.pop()
       true
     }
   }
@@ -67,11 +71,17 @@ case class OutputBuffer(out: OutputStream, settings: JbjSettings) {
     currentOut.contents
   }
 
+  def bufferStack: Seq[OutputHandler] =
+    if (_bufferStack.isEmpty)
+      Seq.empty
+    else
+      currentOut :: _bufferStack.dropRight(1).toList
+
   def closeAll() {
     val origCurrentOut = currentOut
-    currentOut = DirectOutputHandler(out)
+    currentOut = DirectOutputHandler(out, -1)
     origCurrentOut.flush()
-    bufferStack.foreach(_.flush())
+    _bufferStack.foreach(_.flush())
     out.close()
   }
 }

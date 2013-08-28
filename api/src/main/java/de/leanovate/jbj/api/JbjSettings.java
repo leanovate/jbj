@@ -32,7 +32,7 @@ public class JbjSettings implements Cloneable {
      * </ul>
      * See <a href="http://php.net/output-buffering">http://php.net/output-buffering</a> for details.
      */
-    private int outputBuffering = 4096;
+    private int outputBuffering = 16384;
 
     /**
      * The initial logging level.

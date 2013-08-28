@@ -1,10 +1,15 @@
 package de.leanovate.jbj.core.runtime.buildin
 
-import de.leanovate.jbj.core.runtime.value.{BooleanVal, StringVal, PVal}
+import de.leanovate.jbj.core.runtime.value._
 import de.leanovate.jbj.core.runtime.context.Context
 import de.leanovate.jbj.core.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.core.runtime.output.OutputTransformer
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.core.runtime.annotations.GlobalFunction
+import scala.Some
+import de.leanovate.jbj.core.runtime.annotations.GlobalFunction
+import scala.Some
+import de.leanovate.jbj.core.runtime.value.IntegerVal
 
 object OutputBufferFunctions extends WrappedFunctions {
   @GlobalFunction
@@ -12,20 +17,23 @@ object OutputBufferFunctions extends WrappedFunctions {
     if (callback.isDefined) {
       if (CallbackHelper.isValidCallback(callback.get)) {
         val outputTransformer = new OutputTransformer {
-          def transform(bytes: Array[Byte], offset: Int, length: Int) = {
+          def name = CallbackHelper.callbackName(callback.get).getOrElse("default output handler")
+
+          def transform(flags:Int,bytes: Array[Byte], offset: Int, length: Int) = {
             try {
               ctx.global.isOutputBufferingCallback = true
-              CallbackHelper.callCallabck(callback.get, new StringVal(bytes)).asVal.toStr.chars
+              CallbackHelper.callCallabck(callback.get,
+                new StringVal(bytes.slice(offset, offset + length)), IntegerVal(flags)).asVal.toStr.chars
             } finally {
               ctx.global.isOutputBufferingCallback = false
             }
           }
         }
-        ctx.out.bufferStart(Some(outputTransformer), size.getOrElse(ctx.settings.getOutputBuffering))
+        ctx.out.bufferStart(Some(outputTransformer), size.getOrElse(0))
       } else
         false
     } else
-      ctx.out.bufferStart(None, size.getOrElse(ctx.settings.getOutputBuffering))
+      ctx.out.bufferStart(None, size.getOrElse(0))
   }
 
   @GlobalFunction
@@ -82,5 +90,51 @@ object OutputBufferFunctions extends WrappedFunctions {
     val result = ob_get_contents()
     ob_end_flush()
     result
+  }
+
+  @GlobalFunction
+  def ob_list_handlers()(implicit ctx: Context): PVal = {
+    ArrayVal(
+      ctx.out.bufferStack.reverse.map {
+        outputHandler =>
+          None -> StringVal(outputHandler.name.getOrElse("default output handler").getBytes(ctx.settings.getCharset))
+      }: _*
+    )
+  }
+
+  @GlobalFunction
+  def ob_get_status(fullStatus: Option[Boolean])(implicit ctx: Context): PVal = {
+    val stack = ctx.out.bufferStack
+
+    if (stack.isEmpty) {
+      ArrayVal()
+    } else if (fullStatus.getOrElse(false)) {
+      ArrayVal(
+        stack.reverse.map {
+          outputHandler =>
+            None -> ArrayVal(
+              Some(StringVal("name")) -> StringVal(outputHandler.name.getOrElse("default output handler")),
+              Some(StringVal("type")) -> IntegerVal(outputHandler.bufferType),
+              Some(StringVal("flags")) -> IntegerVal(outputHandler.bufferFlags),
+              Some(StringVal("level")) -> IntegerVal(outputHandler.level),
+              Some(StringVal("chunk_size")) -> IntegerVal(outputHandler.bufferChunkSize),
+              Some(StringVal("buffer_size")) -> IntegerVal(outputHandler.bufferSize),
+              Some(StringVal("buffer_used")) -> IntegerVal(outputHandler.bufferUsed)
+            )
+
+        }: _*)
+
+    } else {
+      val head = stack.head
+      ArrayVal(
+        Some(StringVal("name")) -> StringVal(head.name.getOrElse("default output handler")),
+        Some(StringVal("type")) -> IntegerVal(head.bufferType),
+        Some(StringVal("flags")) -> IntegerVal(head.bufferFlags),
+        Some(StringVal("level")) -> IntegerVal(head.level),
+        Some(StringVal("chunk_size")) -> IntegerVal(head.bufferChunkSize),
+        Some(StringVal("buffer_size")) -> IntegerVal(head.bufferSize),
+        Some(StringVal("buffer_used")) -> IntegerVal(head.bufferUsed)
+      )
+    }
   }
 }
