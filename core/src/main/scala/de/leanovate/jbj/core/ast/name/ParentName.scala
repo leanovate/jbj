@@ -1,7 +1,7 @@
 package de.leanovate.jbj.core.ast.name
 
 import de.leanovate.jbj.core.ast.Name
-import de.leanovate.jbj.core.runtime.context.{StaticMethodContext, MethodContext, Context}
+import de.leanovate.jbj.core.runtime.context.{ClassContext, StaticMethodContext, MethodContext, Context}
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 
 object ParentName extends Name {
@@ -14,6 +14,10 @@ object ParentName extends Name {
       }
     case StaticMethodContext(pMethod, _) =>
       pMethod.declaringClass.superClass.map(_.name).getOrElse {
+        throw new FatalErrorJbjException("Cannot access parent:: when current class scope has no parent")
+      }
+    case ClassContext(pClass, _, _) =>
+      pClass.superClass.map(_.name).getOrElse {
         throw new FatalErrorJbjException("Cannot access parent:: when current class scope has no parent")
       }
     case _ =>

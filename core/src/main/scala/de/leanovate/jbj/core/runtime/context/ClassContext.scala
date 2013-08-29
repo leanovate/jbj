@@ -1,16 +1,16 @@
 package de.leanovate.jbj.core.runtime.context
 
-import de.leanovate.jbj.core.ast.{NodePosition, NamespaceName}
-import de.leanovate.jbj.core.runtime.value.{PVar, PVal, ObjectVal}
-import de.leanovate.jbj.core.runtime._
+import de.leanovate.jbj.core.runtime.{PFunction, PClass}
 import scala.collection.immutable.Stack
+import de.leanovate.jbj.core.ast.{NamespaceName, NodePosition}
+import de.leanovate.jbj.core.runtime.value.PVar
 
-case class InstanceContext(instance: ObjectVal, callerCtx: Context) extends Context {
-  def name = instance.pClass.name.toString
+case class ClassContext(pClass: PClass, callerCtx: Context, override val currentPosition: NodePosition) extends Context {
+  def name = pClass.name.toString
 
   lazy val global = callerCtx.global
 
-  lazy val static = global.staticContext(instance.pClass)
+  lazy val static = global.staticContext(pClass)
 
   lazy val settings = global.settings
 
@@ -33,4 +33,5 @@ case class InstanceContext(instance: ObjectVal, callerCtx: Context) extends Cont
   }
 
   def cleanup() {}
+
 }

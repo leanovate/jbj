@@ -4,9 +4,9 @@ import de.leanovate.jbj.core.ast._
 import de.leanovate.jbj.core.runtime._
 import de.leanovate.jbj.core.runtime.SuccessExecResult
 import scala.collection.mutable
-import de.leanovate.jbj.core.runtime.value.ObjectVal
+import de.leanovate.jbj.core.runtime.value.{ConstVal, PVar, PVal, ObjectVal}
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.core.runtime.context.{MethodContext, Context, InstanceContext}
+import de.leanovate.jbj.core.runtime.context.{ClassContext, MethodContext, Context, InstanceContext}
 import de.leanovate.jbj.core.ast.NamespaceName
 import scala.Some
 import scala.collection.immutable.List
@@ -18,11 +18,15 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
 
   private val staticInitializers = decls.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
+  protected[stmt] val _classConstants = mutable.Map.empty[String, ConstVal]
+
+  private lazy val instanceAssinments = decls.filter(_.isInstanceOf[ClassVarDecl])
+
   private var _superClass: Option[PClass] = None
 
   override def superClass = _superClass
 
-  private lazy val instanceAssinments = decls.filter(_.isInstanceOf[ClassVarDecl])
+  override def classConstants: Map[String, ConstVal] = _classConstants.toMap
 
   override def exec(implicit ctx: Context) = {
     if (ctx.global.findClass(name).isDefined)
@@ -35,14 +39,17 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
         else if (superClass.get.classEntry == ClassEntry.FINAL_CLASS)
           throw new FatalErrorJbjException(
             "Class %s may not inherit from final class (%s)".format(name.toString, superClassName.get.toString))
+
+        _classConstants ++= _superClass.get.classConstants
       }
 
-      decls.filter(_.isInstanceOf[ClassMethodDecl]).map(_.asInstanceOf[ClassMethodDecl]).foreach {
+      decls.foreach {
         method =>
           ctx.currentPosition = method.position
-          method.checkRules(this)
+          method.initializeClass(this)
       }
       staticInitializers.foreach(_.initializeStatic(ctx.global.staticContext(this)))
+
       ctx.global.defineClass(this)
     }
     SuccessExecResult

@@ -1,7 +1,6 @@
 package de.leanovate.jbj.core.runtime.buildin
 
-import scala.collection.Map
-import de.leanovate.jbj.core.runtime.value.{ObjectPropertyKey, PAny, ObjectVal}
+import de.leanovate.jbj.core.runtime.value._
 import scala.collection.mutable
 import de.leanovate.jbj.core.ast.Expr
 import de.leanovate.jbj.core.ast.NamespaceName
@@ -15,6 +14,8 @@ object StdClass extends PClass {
   override def name = NamespaceName(relative = false, "stdClass")
 
   override def superClass = None
+
+  override def classConstants: Map[String, ConstVal] = Map.empty
 
   override def newInstance(parameters: List[Expr])(implicit ctx: Context) =
     new ObjectVal(this, ctx.global.instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ObjectPropertyKey.Key, PAny])

@@ -4,7 +4,6 @@ import de.leanovate.jbj.core.ast.{Expr, ClassEntry, NamespaceName}
 import de.leanovate.jbj.core.runtime.value._
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 import scala.annotation.tailrec
-import scala.collection.mutable
 import de.leanovate.jbj.core.runtime.context._
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.core.runtime.context.MethodContext
@@ -16,6 +15,8 @@ trait PClass {
   def name: NamespaceName
 
   def superClass: Option[PClass]
+
+  def classConstants: Map[String, ConstVal]
 
   def newEmptyInstance(pClass: PClass)(implicit ctx: Context): ObjectVal = ObjectVal(pClass)
 

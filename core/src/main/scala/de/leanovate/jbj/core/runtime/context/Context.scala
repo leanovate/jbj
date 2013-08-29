@@ -11,6 +11,7 @@ import de.leanovate.jbj.core.runtime.output.OutputBuffer
 
 trait Context {
   private val _autoReleasePool = mutable.ListBuffer.empty[PAny]
+  private var _currentPosition: NodePosition = NoNodePosition
 
   def name: String
 
@@ -24,15 +25,15 @@ trait Context {
 
   def err: Option[PrintStream]
 
-  var currentPosition: NodePosition = NoNodePosition
+  def currentPosition: NodePosition = _currentPosition
+
+  def currentPosition_=(pos: NodePosition) {
+    _currentPosition = pos
+  }
 
   lazy val log: Log = new Log(this, out, err)
 
   def stack: Stack[NodePosition]
-
-  def findConstant(name: String): Option[PVal]
-
-  def defineConstant(name: String, value: PVal, caseInsensitive: Boolean)
 
   def findFunction(name: NamespaceName): Option[PFunction]
 

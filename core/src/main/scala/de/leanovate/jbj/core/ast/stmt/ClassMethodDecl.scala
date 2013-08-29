@@ -100,7 +100,7 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
     perform(methodCtx, returnByRef, stmts)
   }
 
-  override def checkRules(pClass: PClass)(implicit ctx: Context) {
+  override def initializeClass(pClass: ClassDeclStmt)(implicit ctx: Context) {
     name match {
       case "__call" =>
         if (parameterDecls.size != 2)

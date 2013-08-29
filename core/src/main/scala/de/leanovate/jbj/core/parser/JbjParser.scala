@@ -351,7 +351,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val classStatement: PackratParser[ClassMemberDecl] = variableModifiers ~ classVariableDeclaration <~ ";" ^^ {
     case modifiers ~ assignments => ClassVarDecl(modifiers, assignments)
-  } | classConstantDeclaration ^^ {
+  } | classConstantDeclaration <~ ";" ^^ {
     assignments => ClassConstDecl(assignments)
   } | traitUseStatement |
     methodModifiers ~ "function" ~ opt("&") ~ identLit ~ "(" ~ parameterList ~ ")" ~ methodBody ^^ {
@@ -599,7 +599,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       }
 
   lazy val staticScalar: PackratParser[Expr] =
-    commonScalar | staticClassNameScalar | namespaceName ^^ {
+    commonScalar | staticClassNameScalar | staticClassConstant | namespaceName ^^ {
       name => ConstGetExpr(name)
     } | "namespace" ~> "\\" ~> namespaceName ^^ {
       name => ConstGetExpr(name, relative = false)
@@ -613,7 +613,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       pairs => ArrayCreateExpr(pairs)
     } | "[" ~> staticArrayPairList <~ "]" ^^ {
       pairs => ArrayCreateExpr(pairs)
-    } | staticClassConstant | "__CLASS__" ^^^ ClassNameConstExpr()
+    } | "__CLASS__" ^^^ ClassNameConstExpr()
 
   lazy val staticClassConstant: PackratParser[Expr] = className ~ "::" ~ identLit ^^ {
     case cname ~ _ ~ name => ClassConstantExpr(cname, name)

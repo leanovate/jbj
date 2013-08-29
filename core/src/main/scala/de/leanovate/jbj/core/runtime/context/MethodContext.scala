@@ -29,12 +29,6 @@ case class MethodContext(instance: ObjectVal, pMethod: PMethod, callerContext: C
   defineVariable("GLOBALS", PVar(global.GLOBALS))
   defineVariable("this", PVar(instance))
 
-  def findConstant(name: String): Option[PVal] = global.findConstant(name)
-
-  def defineConstant(name: String, value: PVal, caseInsensitive: Boolean) {
-    global.defineConstant(name, value, caseInsensitive)
-  }
-
   override def findVariable(name: String): Option[PVar] = localVariables.get(name)
 
   override def defineVariable(name: String, variable: PVar) {

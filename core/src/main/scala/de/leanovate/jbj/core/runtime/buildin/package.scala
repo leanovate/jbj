@@ -2,7 +2,6 @@ package de.leanovate.jbj.core.runtime
 
 import de.leanovate.jbj.core.runtime.value._
 import de.leanovate.jbj.core.ast.{Expr, ClassEntry, NamespaceName}
-import scala.collection.Map
 import de.leanovate.jbj.core.runtime.value.IntegerVal
 import de.leanovate.jbj.core.runtime.context.Context
 import de.leanovate.jbj.api.JbjSettings
@@ -51,6 +50,8 @@ package object buildin {
     override def name = NamespaceName(relative = false, "Exception")
 
     override def superClass = None
+
+    override def classConstants: Map[String, ConstVal] = Map.empty
 
     override def initializeInstance(instance: ObjectVal)(implicit ctx: Context) {
       instance.definePublicProperty("message", StringVal(Array.emptyByteArray))

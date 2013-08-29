@@ -27,12 +27,6 @@ case class FunctionContext(functionName: NamespaceName, callerContext: Context) 
 
   defineVariable("GLOBALS", PVar(global.GLOBALS))
 
-  def findConstant(name: String): Option[PVal] = global.findConstant(name)
-
-  def defineConstant(name: String, value: PVal, caseInsensitive: Boolean) {
-    global.defineConstant(name, value, caseInsensitive)
-  }
-
   override def findVariable(name: String): Option[PVar] = localVariables.get(name)
 
   override def defineVariable(name: String, variable: PVar) {

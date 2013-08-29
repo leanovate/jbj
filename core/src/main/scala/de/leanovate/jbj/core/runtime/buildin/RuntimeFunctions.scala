@@ -21,7 +21,7 @@ object RuntimeFunctions extends WrappedFunctions {
 
   @GlobalFunction
   def define(name: String, value: PVal, caseInsensitive: Option[Boolean])(implicit ctx: Context) {
-    ctx.defineConstant(name, value, caseInsensitive.getOrElse(false))
+    ctx.global.defineConstant(name, value, caseInsensitive.getOrElse(false))
   }
 
   def main(args: Array[String]) {
