@@ -46,44 +46,21 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |  class X
-        |  {
-        |      // Static and instance array using class constants
-        |      public static $sa_x = array(B::KEY => B::VALUE);
-        |      public $a_x = array(B::KEY => B::VALUE);
-        |  }
+        |class C { public static $p = 'original'; }
+        |class D extends C {	}
+        |class E extends D {	}
         |
-        |  class B
-        |  {
-        |      const KEY = "key";
-        |      const VALUE = "value";
+        |echo "\nInherited static properties refer to the same value accross classes:\n";
+        |var_dump(C::$p, D::$p, E::$p);
         |
-        |      // Static and instance array using class constants with self
-        |      public static $sa_b = array(self::KEY => self::VALUE);
-        |      public $a_b = array(self::KEY => self::VALUE);
-        |  }
+        |echo "\nChanging one changes all the others:\n";
+        |D::$p = 'changed.all';
+        |var_dump(C::$p, D::$p, E::$p);
         |
-        |  class C extends B
-        |  {
-        |      // Static and instance array using class constants with parent
-        |      public static $sa_c_parent = array(parent::KEY => parent::VALUE);
-        |      public $a_c_parent = array(parent::KEY => parent::VALUE);
-        |
-        |      // Static and instance array using class constants with self (constants should be inherited)
-        |      public static $sa_c_self = array(self::KEY => self::VALUE);
-        |      public $a_c_self = array(self::KEY => self::VALUE);
-        |
-        |      // Should also include inherited properties from B.
-        |  }
-        |
-        |  echo "\nStatic properties:\n";
-        |  var_dump(X::$sa_x, B::$sa_b, C::$sa_b, C::$sa_c_parent, C::$sa_c_self);
-        |
-        |  echo "\nInstance properties:\n";
-        |  $x = new x;
-        |  $b = new B;
-        |  $c = new C;
-        |  var_dump($x, $b, $c);
+        |echo "\nBut because this is implemented using PHP references, the reference set can easily be split:\n";
+        |$ref = 'changed.one';
+        |D::$p =& $ref;
+        |var_dump(C::$p, D::$p, E::$p);
         |?>""".stripMargin)
   }
 }

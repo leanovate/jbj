@@ -47,8 +47,10 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
         case _ =>
           if (name == "__construct")
             throw new FatalErrorJbjException("Call to protected %s::%s() from invalid context".format(declaringClass.name.toString, name))(ctx)
-          else
+          else if (name.startsWith("__"))
             throw new FatalErrorJbjException("Call to protected %s::%s() from context '%s'".format(declaringClass.name.toString, name, ctx.name))(ctx)
+          else
+            throw new FatalErrorJbjException("Call to protected method %s::%s() from context '%s'".format(declaringClass.name.toString, name, ctx.name))(ctx)
       }
     }
 
