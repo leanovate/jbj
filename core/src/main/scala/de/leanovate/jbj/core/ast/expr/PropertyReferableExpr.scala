@@ -17,11 +17,11 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
           case MethodContext(inst, pMethod, _) =>
             obj.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
               if (inst.pClass == obj.pClass && pMethod.name == "__get") {
-                ctx.log.notice("Undefined property: %s::%s".format(obj.pClass.name.toString, name))
+                ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
                 NullVal
               } else {
                 obj.pClass.findMethod("__get").map(_.invoke(ctx, obj,  ScalarExpr(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
-                  ctx.log.notice("Undefined property: %s::%s".format(obj.pClass.name.toString, name))
+                  ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
                   NullVal
                 }
               }
@@ -29,14 +29,14 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
           case StaticMethodContext(pMethod, _) =>
             obj.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
               obj.pClass.findMethod("__get").map(_.invoke(ctx, obj, ScalarExpr(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
-                ctx.log.notice("Undefined property: %s::%s".format(obj.pClass.name.toString, name))
+                ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
                 NullVal
               }
             }
           case _ =>
             obj.getProperty(name, None).map(_.asVal).getOrElse {
               obj.pClass.findMethod("__get").map(_.invoke(ctx, obj,  ScalarExpr(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
-                ctx.log.notice("Undefined property: %s::%s".format(obj.pClass.name.toString, name))
+                ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
                 NullVal
               }
             }

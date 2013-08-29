@@ -18,6 +18,8 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
 
   private val staticInitializers = decls.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
 
+  private var _staticInitialized = false
+
   protected[stmt] val _classConstants = mutable.Map.empty[String, ConstVal]
 
   private lazy val instanceAssinments = decls.filter(_.isInstanceOf[ClassVarDecl])
@@ -48,11 +50,18 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
           ctx.currentPosition = method.position
           method.initializeClass(this)
       }
-      staticInitializers.foreach(_.initializeStatic(ctx.global.staticContext(this)))
 
       ctx.global.defineClass(this)
     }
     SuccessExecResult
+  }
+
+  override def initializeStatic()(implicit ctx:Context) {
+    if (!_staticInitialized) {
+      _staticInitialized = true
+
+      staticInitializers.foreach(_.initializeStatic(ctx.global.staticContext(this)))
+    }
   }
 
   override def newEmptyInstance(pClass: PClass)(implicit ctx: Context): ObjectVal =
@@ -104,6 +113,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     findMethod(name.toString).map(Some.apply).getOrElse(findMethod("__construct"))
 
   private def findDestructor: Option[PMethod] = findMethod("__destruct")
+
 
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(decls)
 }

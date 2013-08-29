@@ -53,6 +53,8 @@ package object buildin {
 
     override def classConstants: Map[String, ConstVal] = Map.empty
 
+    override def initializeStatic()(implicit ctx: Context) {}
+
     override def initializeInstance(instance: ObjectVal)(implicit ctx: Context) {
       instance.definePublicProperty("message", StringVal(Array.emptyByteArray))
       instance.definePublicProperty("code", IntegerVal(0))

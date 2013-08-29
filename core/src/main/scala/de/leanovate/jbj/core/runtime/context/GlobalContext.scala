@@ -123,6 +123,7 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
 
   def staticContext(pClass: PClass): GenericStaticContext = {
     val identifier = "Class_" + pClass.toString
+    pClass.initializeStatic()(this)
     staticContext(identifier)
   }
 

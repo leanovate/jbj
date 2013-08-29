@@ -17,6 +17,8 @@ object StdClass extends PClass {
 
   override def classConstants: Map[String, ConstVal] = Map.empty
 
+  override def initializeStatic()(implicit ctx: Context) {}
+
   override def newInstance(parameters: List[Expr])(implicit ctx: Context) =
     new ObjectVal(this, ctx.global.instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ObjectPropertyKey.Key, PAny])
 

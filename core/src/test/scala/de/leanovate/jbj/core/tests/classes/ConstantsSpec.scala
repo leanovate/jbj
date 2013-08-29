@@ -98,5 +98,75 @@ class ConstantsSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Basic class support - defining and reading a class constant." in {
+      // classes/constants_basic_002.phpt
+      script(
+        """<?php
+          |  class aclass
+          |  {
+          |      const myConst = "hello";
+          |  }
+          |
+          |  echo "\nRead class constant.\n";
+          |  var_dump(aclass::myConst);
+          |
+          |  echo "\nFail to read class constant from instance.\n";
+          |  $myInstance = new aclass();
+          |  var_dump($myInstance->myConst);
+          |
+          |  echo "\nClass constant not visible in object var_dump.\n";
+          |  var_dump($myInstance)
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Read class constant.
+          |string(5) "hello"
+          |
+          |Fail to read class constant from instance.
+          |
+          |Notice: Undefined property: aclass::$myConst in /classes/ConstantsSpec.inlinePhp on line 12
+          |NULL
+          |
+          |Class constant not visible in object var_dump.
+          |object(aclass)#1 (0) {
+          |}
+          |""".stripMargin
+      )
+    }
+
+    "Ensure class properties and constants can be defined in terms of constants that are not known at compile time." in {
+      // classes/constants_basic_003.phpt
+      script(
+        """<?php
+          |  include 'constants_basic_003.inc';
+          |  class B
+          |  {
+          |      public static $a = A::MY_CONST;
+          |      public static $c = C::MY_CONST;
+          |      const ca = A::MY_CONST;
+          |      const cc = C::MY_CONST;
+          |  }
+          |
+          |  class C
+          |  {
+          |      const MY_CONST = "hello from C";
+          |  }
+          |
+          |  var_dump(B::$a);
+          |  var_dump(B::$c);
+          |  var_dump(B::ca);
+          |  var_dump(B::cc);
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """string(12) "hello from A"
+          |string(12) "hello from C"
+          |string(12) "hello from A"
+          |string(12) "hello from C"
+          |""".stripMargin
+      )
+    }
   }
 }

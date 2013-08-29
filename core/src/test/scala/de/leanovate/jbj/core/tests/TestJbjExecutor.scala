@@ -6,7 +6,7 @@ import de.leanovate.jbj.core.runtime.env.{CliEnvironment, CgiEnvironment}
 import org.specs2.matcher.{MatchResult, BeEqualTo, Expectable, Matcher}
 import de.leanovate.jbj.core.JbjEnv
 import scala.Some
-import de.leanovate.jbj.api.JbjSettings
+import de.leanovate.jbj.api.{JbjException, JbjSettings}
 
 trait TestJbjExecutor {
 
@@ -45,7 +45,7 @@ trait TestJbjExecutor {
       try {
         prog.exec
       } catch {
-        case e: Throwable =>
+        case e: JbjException =>
           thrown = Some(e)
       } finally {
         try {
