@@ -9,7 +9,7 @@ import de.leanovate.jbj.core.runtime.context.InstanceContext
 
 case class ClassNameConstExpr() extends Expr {
   override def eval(implicit ctx: Context) = ctx match {
-    case InstanceContext(inst, _) => StringVal(inst.pClass.name.toString)
+    case InstanceContext(_, pClass, _) => StringVal(pClass.name.toString)
     case ClassContext(pClass, _, _) => StringVal(pClass.name.toString)
     case MethodContext(_, pMethod, _) => StringVal(pMethod.declaringClass.name.toString)
     case StaticMethodContext(pMethod, _) => StringVal(pMethod.declaringClass.name.toString)

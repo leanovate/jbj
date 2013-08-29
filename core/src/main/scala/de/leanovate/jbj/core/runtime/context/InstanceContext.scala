@@ -5,7 +5,7 @@ import de.leanovate.jbj.core.runtime.value.{PVar, PVal, ObjectVal}
 import de.leanovate.jbj.core.runtime._
 import scala.collection.immutable.Stack
 
-case class InstanceContext(instance: ObjectVal, callerCtx: Context) extends Context {
+case class InstanceContext(instance: ObjectVal, pClass:PClass, callerCtx: Context) extends Context {
   def name = instance.pClass.name.toString
 
   lazy val global = callerCtx.global

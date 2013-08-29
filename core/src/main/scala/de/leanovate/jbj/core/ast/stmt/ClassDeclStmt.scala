@@ -56,11 +56,15 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     SuccessExecResult
   }
 
-  override def initializeStatic()(implicit ctx:Context) {
+  override def initializeStatic()(implicit ctx: Context) {
     if (!_staticInitialized) {
       _staticInitialized = true
 
-      staticInitializers.foreach(_.initializeStatic(ctx.global.staticContext(this)))
+      staticInitializers.foreach {
+        staticInitializer =>
+          val classCtx = ClassContext(this, ctx, staticInitializer.position)
+          staticInitializer.initializeStatic(ctx.global.staticContext(this))(classCtx)
+      }
     }
   }
 
@@ -69,7 +73,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
 
 
   override def initializeInstance(instance: ObjectVal)(implicit ctx: Context) {
-    implicit val classCtx = InstanceContext(instance, ctx)
+    implicit val classCtx = InstanceContext(instance, this, ctx)
 
     instanceAssinments.foreach(_.initializeInstance(instance, this))
 

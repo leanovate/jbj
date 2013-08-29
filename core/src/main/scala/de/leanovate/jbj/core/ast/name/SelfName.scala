@@ -1,8 +1,11 @@
 package de.leanovate.jbj.core.ast.name
 
 import de.leanovate.jbj.core.ast.Name
-import de.leanovate.jbj.core.runtime.context.{ClassContext, StaticMethodContext, MethodContext, Context}
+import de.leanovate.jbj.core.runtime.context._
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.core.runtime.context.MethodContext
+import de.leanovate.jbj.core.runtime.context.StaticMethodContext
+import de.leanovate.jbj.core.runtime.context.ClassContext
 
 object SelfName extends Name {
   override def evalName(implicit ctx: Context) = evalNamespaceName.toString
@@ -13,6 +16,8 @@ object SelfName extends Name {
     case StaticMethodContext(pMethod, _) =>
       pMethod.declaringClass.name
     case ClassContext(pClass, _, _) =>
+      pClass.name
+    case InstanceContext(_, pClass, _) =>
       pClass.name
     case _ =>
       throw new FatalErrorJbjException("Cannot access self:: when no class scope is active")

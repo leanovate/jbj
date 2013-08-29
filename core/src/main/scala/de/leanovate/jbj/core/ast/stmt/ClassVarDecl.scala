@@ -10,22 +10,24 @@ case class ClassVarDecl(modifieres: Set[MemberModifier.Type],
   lazy val isStatic = modifieres.contains(MemberModifier.STATIC)
 
   override def initializeInstance(instance: ObjectVal, pClass: PClass)(implicit ctx: Context) {
-    if (modifieres.contains(MemberModifier.PROTECTED)) {
-      assignments.foreach {
-        assignment =>
-          instance.defineProtectedProperty(assignment.variableName, assignment.initial.map(_.eval.asVal).getOrElse(NullVal))
-      }
-    } else if (modifieres.contains(MemberModifier.PRIVATE)) {
-      val className = pClass.name.toString
+    if (!isStatic) {
+      if (modifieres.contains(MemberModifier.PROTECTED)) {
+        assignments.foreach {
+          assignment =>
+            instance.defineProtectedProperty(assignment.variableName, assignment.initial.map(_.eval.asVal).getOrElse(NullVal))
+        }
+      } else if (modifieres.contains(MemberModifier.PRIVATE)) {
+        val className = pClass.name.toString
 
-      assignments.foreach {
-        assignment =>
-          instance.definePrivateProperty(assignment.variableName, className, assignment.initial.map(_.eval.asVal).getOrElse(NullVal))
-      }
-    } else {
-      assignments.foreach {
-        assignment =>
-          instance.definePublicProperty(assignment.variableName, assignment.initial.map(_.eval.asVal).getOrElse(NullVal))
+        assignments.foreach {
+          assignment =>
+            instance.definePrivateProperty(assignment.variableName, className, assignment.initial.map(_.eval.asVal).getOrElse(NullVal))
+        }
+      } else {
+        assignments.foreach {
+          assignment =>
+            instance.definePublicProperty(assignment.variableName, assignment.initial.map(_.eval.asVal).getOrElse(NullVal))
+        }
       }
     }
   }

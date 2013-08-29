@@ -46,24 +46,44 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |  include 'constants_basic_003.inc';
+        |  class X
+        |  {
+        |      // Static and instance array using class constants
+        |      public static $sa_x = array(B::KEY => B::VALUE);
+        |      public $a_x = array(B::KEY => B::VALUE);
+        |  }
+        |
         |  class B
         |  {
-        |      public static $a = A::MY_CONST;
-        |      public static $c = C::MY_CONST;
-        |      const ca = A::MY_CONST;
-        |      const cc = C::MY_CONST;
+        |      const KEY = "key";
+        |      const VALUE = "value";
+        |
+        |      // Static and instance array using class constants with self
+        |      public static $sa_b = array(self::KEY => self::VALUE);
+        |      public $a_b = array(self::KEY => self::VALUE);
         |  }
         |
-        |  class C
+        |  class C extends B
         |  {
-        |      const MY_CONST = "hello from C";
+        |      // Static and instance array using class constants with parent
+        |      public static $sa_c_parent = array(parent::KEY => parent::VALUE);
+        |      public $a_c_parent = array(parent::KEY => parent::VALUE);
+        |
+        |      // Static and instance array using class constants with self (constants should be inherited)
+        |      public static $sa_c_self = array(self::KEY => self::VALUE);
+        |      public $a_c_self = array(self::KEY => self::VALUE);
+        |
+        |      // Should also include inherited properties from B.
         |  }
         |
-        |  var_dump(B::$a);
-        |  var_dump(B::$c);
-        |  var_dump(B::ca);
-        |  var_dump(B::cc);
+        |  echo "\nStatic properties:\n";
+        |  var_dump(X::$sa_x, B::$sa_b, C::$sa_b, C::$sa_c_parent, C::$sa_c_self);
+        |
+        |  echo "\nInstance properties:\n";
+        |  $x = new x;
+        |  $b = new B;
+        |  $c = new C;
+        |  var_dump($x, $b, $c);
         |?>""".stripMargin)
   }
 }

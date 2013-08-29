@@ -3,7 +3,8 @@ package de.leanovate.jbj.core.ast
 import de.leanovate.jbj.core.runtime.context.{Context, StaticContext}
 import de.leanovate.jbj.core.ast.stmt.{ClassDeclStmt, ClassMethodDecl, FunctionDeclStmt}
 
-trait StaticInitializer {
+trait StaticInitializer extends HasNodePosition {
+  self: Node =>
   def initializeStatic(staticCtx: StaticContext)(implicit ctx: Context)
 }
 
@@ -13,7 +14,7 @@ object StaticInitializer {
       def apply(node: Node) = {
         node match {
           case classDecl: ClassDeclStmt => NextSibling()
-          case funcDecl: FunctionDeclStmt =>            NextSibling()
+          case funcDecl: FunctionDeclStmt => NextSibling()
           case methodDecl: ClassMethodDecl => NextSibling()
           case staticInitializer: StaticInitializer => NextChild(staticInitializer)
           case _ => NextChild()
