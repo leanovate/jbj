@@ -43,19 +43,8 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |print_r(ob_list_handlers());
-        |
         |ob_start();
-        |print_r(ob_list_handlers());
-        |
-        |ob_start();
-        |print_r(ob_list_handlers());
-        |
-        |ob_end_flush();
-        |print_r(ob_list_handlers());
-        |
-        |ob_end_flush();
-        |print_r(ob_list_handlers());
-        |?>""".stripMargin)
+        |while(@ob_end_clean());
+        |var_dump(ob_get_clean());""".stripMargin)
   }
 }

@@ -19,7 +19,7 @@ object OutputBufferFunctions extends WrappedFunctions {
         val outputTransformer = new OutputTransformer {
           def name = CallbackHelper.callbackName(callback.get).getOrElse("default output handler")
 
-          def transform(flags:Int,bytes: Array[Byte], offset: Int, length: Int) = {
+          def transform(flags: Int, bytes: Array[Byte], offset: Int, length: Int) = {
             try {
               ctx.global.isOutputBufferingCallback = true
               CallbackHelper.callCallabck(callback.get,
@@ -42,8 +42,12 @@ object OutputBufferFunctions extends WrappedFunctions {
   }
 
   @GlobalFunction
-  def ob_clean()(implicit ctx: Context) {
-    ctx.out.bufferClean()
+  def ob_clean()(implicit ctx: Context): Boolean = {
+    if (!ctx.out.bufferClean()) {
+      ctx.log.notice("ob_clean(): failed to delete buffer. No buffer to delete")
+      false
+    } else
+      true
   }
 
   @GlobalFunction
@@ -78,9 +82,11 @@ object OutputBufferFunctions extends WrappedFunctions {
 
   @GlobalFunction
   def ob_get_clean()(implicit ctx: Context): PVal = {
-    val result = ob_get_contents()
-    ob_end_clean()
-    result
+    ctx.out.bufferContents.map {
+      contents =>
+        ctx.out.bufferEndClean()
+        StringVal(contents)
+    }.getOrElse(BooleanVal.FALSE)
   }
 
   @GlobalFunction

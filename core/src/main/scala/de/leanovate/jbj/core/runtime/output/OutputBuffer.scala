@@ -36,8 +36,13 @@ case class OutputBuffer(out: OutputStream, settings: JbjSettings) {
     }
   }
 
-  def bufferClean() {
-    currentOut.clean()
+  def bufferClean(): Boolean = {
+    if (_bufferStack.isEmpty)
+      false
+    else {
+      currentOut.clean()
+      true
+    }
   }
 
   def bufferEndClean(): Boolean = {
@@ -68,7 +73,10 @@ case class OutputBuffer(out: OutputStream, settings: JbjSettings) {
   def bufferLevel: Int = bufferStack.size
 
   def bufferContents: Option[Array[Byte]] = {
-    currentOut.contents
+    if (_bufferStack.isEmpty)
+      None
+    else
+      currentOut.contents
   }
 
   def bufferStack: Seq[OutputHandler] =
