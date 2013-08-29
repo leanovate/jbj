@@ -12,6 +12,7 @@
     </parent>
 
     <artifactId>jbj-core</artifactId>
+    <name>jbj :: core</name>
 
     <dependencies>
         <dependency>

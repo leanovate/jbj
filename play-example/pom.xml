@@ -12,6 +12,7 @@
     </parent>
 
     <artifactId>jbj-play-example</artifactId>
+    <name>jbj :: play-example</name>
     <packaging>play2</packaging>
 
     <dependencies>

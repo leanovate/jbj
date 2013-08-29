@@ -10,13 +10,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jbj-api</artifactId>
-    <name>jbj :: api</name>
+    <groupId>de.leanovate.jbj.utils</groupId>
+    <artifactId>utils-parent</artifactId>
+    <name>jbj :: utils</name>
+    <packaging>pom</packaging>
+    <modules>
+        <module>ramfs</module>
+    </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-        </dependency>
-    </dependencies>
 </project>
