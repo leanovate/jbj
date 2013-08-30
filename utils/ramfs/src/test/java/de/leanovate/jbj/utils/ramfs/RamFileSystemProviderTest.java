@@ -27,14 +27,6 @@ public class RamFileSystemProviderTest {
 
         assertThat(other).isSameAs(fileSystem);
 
-        FileSystem unknown = FileSystems.getFileSystem(new URI("ram://something"));
-
-        assertThat(unknown).isNull();
-
         fileSystem.close();
-
-        FileSystem unknownAgain = FileSystems.getFileSystem(new URI("ram://base"));
-
-        assertThat(unknownAgain).isNull();
     }
 }

@@ -11,11 +11,13 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.nio.file.spi.FileSystemProvider;
+import java.util.Collections;
 import java.util.Set;
 
 public class RamFileSystem extends FileSystem {
     private final RamFileSystemProvider provider;
     private final String name;
+    private boolean open = true;
 
     RamFileSystem(RamFileSystemProvider provider, String name) {
         this.provider = provider;
@@ -33,23 +35,23 @@ public class RamFileSystem extends FileSystem {
 
     @Override
     public void close() throws IOException {
+        open = false;
         provider.removeFileSystem(this);
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public boolean isOpen() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return open;
     }
 
     @Override
     public boolean isReadOnly() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return false;
     }
 
     @Override
     public String getSeparator() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return "/";
     }
 
     @Override
@@ -64,7 +66,7 @@ public class RamFileSystem extends FileSystem {
 
     @Override
     public Set<String> supportedFileAttributeViews() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return Collections.singleton("basic");
     }
 
     @Override

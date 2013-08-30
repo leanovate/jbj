@@ -38,12 +38,11 @@ public class RamFileSystemProvider extends FileSystemProvider {
     public FileSystem newFileSystem(URI uri, Map<String, ?> env) throws IOException {
         final String name = uri.getAuthority();
 
-        RamFileSystem fileSystem = fileSystems.get(name);
+        if (fileSystems.containsKey(name))
+            throw new FileSystemAlreadyExistsException("Ram filesystem already exists: " + uri);
 
-        if (fileSystem == null) {
-            fileSystem = new RamFileSystem(this, name);
-            fileSystems.put(name, fileSystem);
-        }
+        RamFileSystem fileSystem = new RamFileSystem(this, name);
+        fileSystems.put(name, fileSystem);
         return fileSystem;
     }
 
@@ -51,11 +50,22 @@ public class RamFileSystemProvider extends FileSystemProvider {
     public FileSystem getFileSystem(URI uri) {
         final String name = uri.getAuthority();
 
-        return fileSystems.get(name);
+        RamFileSystem fileSystem = fileSystems.get(name);
+
+        if (fileSystem == null)
+            throw new FileSystemNotFoundException("Ram filesystem does not exists: " + uri);
+        return fileSystem;
     }
 
     @Override
     public Path getPath(URI uri) {
+        final String name = uri.getAuthority();
+
+        RamFileSystem fileSystem = fileSystems.get(name);
+
+        if (fileSystem == null)
+            throw new FileSystemNotFoundException("Ram filesystem does not exists: " + uri);
+
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

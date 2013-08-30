@@ -1,3 +1,10 @@
+/*    _ _     _                                        *\
+**   (_) |__ (_)  License: MIT  (2013)                 **
+**   | |  _ \| |    http://opensource.org/licenses/MIT **
+**   | | |_) | |                                       **
+**  _/ |____// |  Author: Bodo Junglas                 **
+\* |__/    |__/                                        */
+
 package de.leanovate.jbj.utils.ramfs;
 
 import java.io.File;
@@ -8,9 +15,11 @@ import java.util.Iterator;
 
 public class RamPath implements Path {
     private final RamFileSystem fileSystem;
+    private final String[] names;
 
-    RamPath(RamFileSystem fileSystem) {
+    RamPath(RamFileSystem fileSystem, String... names) {
         this.fileSystem = fileSystem;
+        this.names = names;
     }
 
     @Override
@@ -20,12 +29,12 @@ public class RamPath implements Path {
 
     @Override
     public boolean isAbsolute() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return true;
     }
 
     @Override
     public Path getRoot() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return new RamPath(fileSystem);
     }
 
     @Override
