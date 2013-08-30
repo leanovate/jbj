@@ -10,7 +10,7 @@ package de.leanovate.jbj.core.runtime
 import de.leanovate.jbj.core.runtime.value._
 import de.leanovate.jbj.core.ast.{Expr, ClassEntry, NamespaceName}
 import de.leanovate.jbj.core.runtime.value.IntegerVal
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.core.runtime.context.{StaticContext, Context}
 import de.leanovate.jbj.api.JbjSettings
 import scala.collection.JavaConverters._
 
@@ -67,7 +67,7 @@ package object buildin {
 
     override def classConstants: Map[String, ConstVal] = Map.empty
 
-    override def initializeStatic()(implicit ctx: Context) {}
+    override def initializeStatic(staticContext: StaticContext)(implicit ctx: Context) {}
 
     override def initializeInstance(instance: ObjectVal)(implicit ctx: Context) {
       instance.definePublicProperty("message", StringVal(Array.emptyByteArray))

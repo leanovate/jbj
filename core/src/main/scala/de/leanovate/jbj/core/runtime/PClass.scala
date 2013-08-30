@@ -25,7 +25,7 @@ trait PClass {
 
   def classConstants: Map[String, ConstVal]
 
-  def initializeStatic()(implicit ctx:Context)
+  def initializeStatic(staticContext: StaticContext)(implicit ctx: Context)
 
   def newEmptyInstance(pClass: PClass)(implicit ctx: Context): ObjectVal = ObjectVal(pClass)
 

@@ -11,12 +11,15 @@ import de.leanovate.jbj.core.ast._
 import de.leanovate.jbj.core.runtime._
 import de.leanovate.jbj.core.runtime.SuccessExecResult
 import scala.collection.mutable
-import de.leanovate.jbj.core.runtime.value.{ConstVal, PVar, PVal, ObjectVal}
+import de.leanovate.jbj.core.runtime.value.{ConstVal, ObjectVal}
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.core.runtime.context.{ClassContext, MethodContext, Context, InstanceContext}
+import de.leanovate.jbj.core.runtime.context._
 import de.leanovate.jbj.core.ast.NamespaceName
-import scala.Some
 import scala.collection.immutable.List
+import de.leanovate.jbj.core.runtime.context.MethodContext
+import scala.Some
+import de.leanovate.jbj.core.runtime.context.InstanceContext
+import de.leanovate.jbj.core.runtime.context.ClassContext
 
 case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
                          superClassName: Option[NamespaceName], implements: List[NamespaceName],
@@ -63,14 +66,23 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     SuccessExecResult
   }
 
-  override def initializeStatic()(implicit ctx: Context) {
+  override def initializeStatic(staticContext: StaticContext)(implicit ctx: Context) {
     if (!_staticInitialized) {
       _staticInitialized = true
+
+      _superClass.foreach {
+        parent =>
+          val parentStaticCtx = ctx.global.staticContext(parent)
+          parentStaticCtx.variables.foreach {
+            case (name, value) =>
+              staticContext.defineVariable(name, value)
+          }
+      }
 
       staticInitializers.foreach {
         staticInitializer =>
           val classCtx = ClassContext(this, ctx, staticInitializer.position)
-          staticInitializer.initializeStatic(ctx.global.staticContext(this))(classCtx)
+          staticInitializer.initializeStatic(staticContext)(classCtx)
       }
     }
   }

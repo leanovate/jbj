@@ -39,6 +39,12 @@
             <groupId>org.specs2</groupId>
             <artifactId>specs2_${play2-scala.version}</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

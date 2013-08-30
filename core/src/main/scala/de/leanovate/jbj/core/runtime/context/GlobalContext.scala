@@ -130,8 +130,9 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
 
   def staticContext(pClass: PClass): StaticContext = {
     val identifier = "Class_" + pClass.toString
-    pClass.initializeStatic()(this)
-    staticContexts.getOrElseUpdate(identifier, new ClassStaticContext(pClass, this))
+    val classStaticContext = staticContexts.getOrElseUpdate(identifier, new ClassStaticContext(pClass, this))
+    pClass.initializeStatic(classStaticContext)(this)
+    classStaticContext
   }
 
   def inShutdown = _inShutdown

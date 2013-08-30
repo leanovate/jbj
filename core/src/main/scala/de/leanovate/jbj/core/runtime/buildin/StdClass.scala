@@ -13,7 +13,7 @@ import de.leanovate.jbj.core.ast.Expr
 import de.leanovate.jbj.core.ast.NamespaceName
 import de.leanovate.jbj.core.ast.ClassEntry
 import de.leanovate.jbj.core.runtime.PClass
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.core.runtime.context.{StaticContext, Context}
 
 object StdClass extends PClass {
   override def classEntry = ClassEntry.CLASS
@@ -24,7 +24,7 @@ object StdClass extends PClass {
 
   override def classConstants: Map[String, ConstVal] = Map.empty
 
-  override def initializeStatic()(implicit ctx: Context) {}
+  override def initializeStatic(staticContext: StaticContext)(implicit ctx: Context) {}
 
   override def newInstance(parameters: List[Expr])(implicit ctx: Context) =
     new ObjectVal(this, ctx.global.instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ObjectPropertyKey.Key, PAny])
