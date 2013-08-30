@@ -63,6 +63,7 @@ object TestBed {
         |
         |interface Throwable {
         |	public function getMessage();
+        |	public function getErrno();
         |}
         |
         |class Exception_foo implements Throwable {
@@ -73,8 +74,9 @@ object TestBed {
         |	}
         |}
         |
+        |// this should die -- Exception class must be abstract...
         |$foo = new Exception_foo;
-        |echo $foo->getMessage() . "\n";
+        |echo "Message: " . $foo->getMessage() . "\n";
         |
         |?>""".stripMargin)
   }

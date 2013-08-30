@@ -12,5 +12,7 @@ import de.leanovate.jbj.core.ast.NamespaceName
 trait PInterface {
   def name: NamespaceName
 
-  def extendedInterfaces: List[PInterface]
+  def interfaces: Seq[PInterface]
+
+  def methods: Map[String, PMethod]
 }

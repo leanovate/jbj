@@ -19,9 +19,13 @@ import scala.Some
 trait PClass {
   def classEntry: ClassEntry.Type
 
+  def isAbstract = classEntry == ClassEntry.ABSTRACT_CLASS
+
   def name: NamespaceName
 
   def superClass: Option[PClass]
+
+  def interfaces: Seq[PInterface]
 
   def classConstants: Map[String, ConstVal]
 

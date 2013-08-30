@@ -22,6 +22,8 @@ object StdClass extends PClass {
 
   override def superClass = None
 
+  override def interfaces = Seq.empty
+
   override def classConstants: Map[String, ConstVal] = Map.empty
 
   override def initializeStatic(staticContext: StaticContext)(implicit ctx: Context) {}

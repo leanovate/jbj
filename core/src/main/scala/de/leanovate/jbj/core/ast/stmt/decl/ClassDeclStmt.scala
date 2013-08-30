@@ -27,22 +27,21 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   extends Stmt with PClass {
 
   private val staticInitializers = decls.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
-
   private var _staticInitialized = false
-
   protected[decl] val _classConstants = mutable.Map.empty[String, ConstVal]
-
   private lazy val instanceAssinments = decls.filter(_.isInstanceOf[ClassVarDecl])
-
   private var _superClass: Option[PClass] = None
+  private var _interfaces: Seq[PInterface] = Seq.empty
 
   override def superClass = _superClass
+
+  override def interfaces = _interfaces
 
   override def classConstants: Map[String, ConstVal] = _classConstants.toMap
 
   override def exec(implicit ctx: Context) = {
     if (ctx.global.findInterfaceOrClass(name).isDefined)
-      ctx.log.fatal("Cannot redeclare class %s".format(name))
+      throw new FatalErrorJbjException("Cannot redeclare class %s".format(name))
     else {
       if (superClassName.isDefined) {
         _superClass = ctx.global.findClassOrAutoload(superClassName.get)
@@ -54,11 +53,36 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
 
         _classConstants ++= _superClass.get.classConstants
       }
+      _interfaces = implements.map {
+        interfaceName =>
+          ctx.global.findInterfaceOrClass(interfaceName) match {
+            case Some(Left(interface)) => interface
+            case Some(Right(_)) =>
+              throw new FatalErrorJbjException("%s cannot implement %s - it is not an interface".format(name.toString,
+                interfaceName.toString))
+            case None =>
+              throw new FatalErrorJbjException("Interface '%s' not found".format(interfaceName.toString))
+          }
+      }
 
       decls.foreach {
         method =>
           ctx.currentPosition = method.position
           method.initializeClass(this)
+      }
+      if (!isAbstract) {
+        val missingImplementations = _interfaces.flatMap {
+          interface =>
+            interface.methods.flatMap {
+              case (methodName, method) if !methods.contains(methodName) =>
+                Seq("%s::%s".format(interface.name.toString, method.name))
+              case _ => Seq.empty
+            }
+        }
+        if (!missingImplementations.isEmpty) {
+          throw new FatalErrorJbjException("Class %s contains %d abstract method and must therefore be declared abstract or implement the remaining methods (%s)".
+            format(name.toString, missingImplementations.size, missingImplementations.mkString(", ")))
+        }
       }
 
       ctx.global.defineClass(this)
