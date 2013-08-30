@@ -5,9 +5,9 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core.ast.stmt.decl
+package de.leanovate.jbj.core.ast.decl
 
-import de.leanovate.jbj.core.ast.{NamespaceName, Stmt}
+import de.leanovate.jbj.core.ast.{DeclStmt, NamespaceName}
 import de.leanovate.jbj.core.runtime.context.Context
 import de.leanovate.jbj.core.runtime.{PMethod, SuccessExecResult, PInterface}
 import scala.collection.immutable.List
@@ -16,13 +16,13 @@ import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 
 case class InterfaceDeclStmt(name: NamespaceName, superInterfaces: List[NamespaceName],
                              decls: List[ClassMemberDecl])
-  extends Stmt with PInterface {
+  extends DeclStmt with PInterface {
 
   private var _interfaces: List[PInterface] = Nil
 
   override def interfaces = _interfaces
 
-  override def exec(implicit ctx: Context) = {
+  override def register(implicit ctx: Context) {
     if (ctx.global.findInterfaceOrClass(name).isDefined)
       throw new FatalErrorJbjException("Cannot redeclare class %s".format(name))
     else {
@@ -46,7 +46,6 @@ case class InterfaceDeclStmt(name: NamespaceName, superInterfaces: List[Namespac
 
       ctx.global.defineInterface(this)
     }
-    SuccessExecResult
   }
 
   override lazy val methods: Map[String, PMethod] = {

@@ -82,7 +82,7 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
       findClass(name).map(Right(_))
     }
 
-  def findClassOrAutoload(name: NamespaceName)(implicit position: NodePosition): Option[PClass] =
+  def findClassOrAutoload(name: NamespaceName): Option[PClass] =
     findClass(name).map(Some.apply).getOrElse {
       implicit val ctx = this
 

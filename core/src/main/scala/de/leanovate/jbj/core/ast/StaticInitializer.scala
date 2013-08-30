@@ -8,8 +8,7 @@
 package de.leanovate.jbj.core.ast
 
 import de.leanovate.jbj.core.runtime.context.{Context, StaticContext}
-import de.leanovate.jbj.core.ast.stmt.{FunctionDeclStmt}
-import de.leanovate.jbj.core.ast.stmt.decl.{ClassMethodDecl, ClassDeclStmt}
+import de.leanovate.jbj.core.ast.decl.{ClassMethodDecl, FunctionDeclStmt, ClassDeclStmt}
 
 trait StaticInitializer extends HasNodePosition {
   self: Node =>

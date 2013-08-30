@@ -5,7 +5,7 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core.ast.stmt.decl
+package de.leanovate.jbj.core.ast.decl
 
 import de.leanovate.jbj.core.ast._
 import de.leanovate.jbj.core.runtime._
@@ -24,7 +24,7 @@ import de.leanovate.jbj.core.runtime.context.ClassContext
 case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
                          superClassName: Option[NamespaceName], implements: List[NamespaceName],
                          decls: List[ClassMemberDecl])
-  extends Stmt with PClass {
+  extends DeclStmt with PClass {
 
   private val staticInitializers = decls.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
   private var _staticInitialized = false
@@ -39,7 +39,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
 
   override def classConstants: Map[String, ConstVal] = _classConstants.toMap
 
-  override def exec(implicit ctx: Context) = {
+  override def register(implicit ctx: Context) {
     if (ctx.global.findInterfaceOrClass(name).isDefined)
       throw new FatalErrorJbjException("Cannot redeclare class %s".format(name))
     else {
@@ -88,7 +88,6 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
 
       ctx.global.defineClass(this)
     }
-    SuccessExecResult
   }
 
   override def initializeStatic(staticContext: StaticContext)(implicit ctx: Context) {

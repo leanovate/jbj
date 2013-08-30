@@ -15,6 +15,7 @@ import de.leanovate.jbj.core.runtime.BreakExecResult
 import de.leanovate.jbj.core.runtime.ReturnExecResult
 import scala.Some
 import de.leanovate.jbj.core.runtime.context.{FunctionLikeContext, Context}
+import de.leanovate.jbj.core.ast.decl.ParameterDecl
 
 trait FunctionLike extends BlockLike {
 

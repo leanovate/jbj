@@ -5,20 +5,20 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core.ast.stmt
+package de.leanovate.jbj.core.ast.decl
 
 import de.leanovate.jbj.core.ast._
 import de.leanovate.jbj.core.runtime._
 import de.leanovate.jbj.core.runtime.SuccessExecResult
 import de.leanovate.jbj.core.runtime.context.{Context, FunctionContext}
+import de.leanovate.jbj.core.ast.stmt.{FunctionLike, BlockLike}
 
 case class FunctionDeclStmt(name: NamespaceName, returnByRef: Boolean, parameterDecls: List[ParameterDecl], stmts: List[Stmt])
-  extends Stmt with PFunction with BlockLike with FunctionLike {
+  extends DeclStmt with PFunction with BlockLike with FunctionLike {
   private lazy val staticInitializers = StaticInitializer.collect(stmts:_*)
 
-  override def exec(implicit ctx: Context) = {
+  override def register(implicit ctx: Context) {
     ctx.defineFunction(this)
-    SuccessExecResult
   }
 
   override def call(parameters: List[Expr])(implicit callerCtx: Context) = {

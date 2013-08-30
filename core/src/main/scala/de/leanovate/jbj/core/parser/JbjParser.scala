@@ -8,6 +8,7 @@
 package de.leanovate.jbj.core.parser
 
 import de.leanovate.jbj.core.ast._
+import de.leanovate.jbj.core.ast.decl._
 import de.leanovate.jbj.core.ast.expr._
 import de.leanovate.jbj.core.ast.expr.cast._
 import de.leanovate.jbj.core.ast.expr.comp._
@@ -17,7 +18,6 @@ import de.leanovate.jbj.core.ast.expr.value._
 import de.leanovate.jbj.core.ast.name._
 import de.leanovate.jbj.core.ast.stmt._
 import de.leanovate.jbj.core.ast.stmt.cond._
-import de.leanovate.jbj.core.ast.stmt.decl._
 import de.leanovate.jbj.core.ast.stmt.loop._
 import de.leanovate.jbj.core.parser.JbjTokens._
 import de.leanovate.jbj.core.runtime.value._
