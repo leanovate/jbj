@@ -16,11 +16,11 @@ import de.leanovate.jbj.core.runtime.buildin.StdClass
 import de.leanovate.jbj.core.ast.stmt.{FunctionLike, BlockLike, ParameterDecl}
 
 case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, returnByRef: Boolean, parameterDecls: List[ParameterDecl],
-                           stmts: List[Stmt]) extends ClassMemberDecl with PMethod with BlockLike with FunctionLike {
+                           stmts: Option[List[Stmt]]) extends ClassMemberDecl with PMethod with BlockLike with FunctionLike {
   private var _declaringClass: PClass = StdClass
-  private var _activeModifiers : Set[MemberModifier.Type] = modifieres
+  private var _activeModifiers: Set[MemberModifier.Type] = modifieres
 
-  private lazy val staticInitializers = StaticInitializer.collect(stmts: _*)
+  private lazy val staticInitializers = StaticInitializer.collect(stmts.getOrElse(Nil): _*)
 
   override def declaringClass = _declaringClass
 
@@ -70,7 +70,7 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
     }
 
     setParameters(methodCtx, ctx, parameters)
-    perform(methodCtx, returnByRef, stmts)
+    perform(methodCtx, returnByRef, stmts.getOrElse(Nil))
   }
 
   override def invokeStatic(ctx: Context, parameters: List[Expr]) = {
@@ -107,14 +107,29 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
     if (!isStatic)
       ctx.log.strict("Non-static method %s::%s() should not be called statically".format(declaringClass.name.toString, name))
 
-    perform(methodCtx, returnByRef, stmts)
+    perform(methodCtx, returnByRef, stmts.getOrElse(Nil))
   }
 
 
   override def initializeInterface(pInterface: InterfaceDeclStmt)(implicit ctx: Context) {
+    if (isPrivate) {
+      throw new FatalErrorJbjException("Access type for interface method %s::%s() must be omitted".
+        format(pInterface.name.toString, name))
+    }
+    if (isFinal) {
+      throw new FatalErrorJbjException("Cannot use the final modifier on an abstract class member")
+    }
+    if (stmts.isDefined) {
+      throw new FatalErrorJbjException("Interface function %s::%s() cannot contain body".
+        format(pInterface.name.toString, name))
+    }
   }
 
   override def initializeClass(pClass: ClassDeclStmt)(implicit ctx: Context) {
+    if (isAbstract && isFinal) {
+      throw new FatalErrorJbjException("Cannot use the final modifier on an abstract class member")
+    }
+
     name match {
       case "__call" =>
         if (parameterDecls.size != 2)
@@ -133,5 +148,5 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
     }
   }
 
-  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(parameterDecls).thenChildren(stmts)
+  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(parameterDecls).thenChildren(stmts.getOrElse(Nil))
 }

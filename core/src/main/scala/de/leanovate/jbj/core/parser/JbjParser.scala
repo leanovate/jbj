@@ -239,7 +239,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     case v ~ optScalar => StaticAssignment(v, optScalar)
   }, ",")
 
-  lazy val classStatementList: PackratParser[List[ClassMemberDecl]] = rep(classStatement)
+  lazy val classStatementList: PackratParser[List[ClassMemberDecl]] = rep(classStatement <~ rep(";"))
 
   lazy val classStatement: PackratParser[ClassMemberDecl] = variableModifiers ~ classVariableDeclaration <~ ";" ^^ {
     case modifiers ~ assignments => ClassVarDecl(modifiers, assignments)
@@ -257,7 +257,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val traitList: PackratParser[List[NamespaceName]] = rep1(fullyQualifiedClassName)
 
-  lazy val methodBody: PackratParser[List[Stmt]] = ";" ^^^ Nil | "{" ~> innerStatementList <~ "}"
+  lazy val methodBody: PackratParser[Option[List[Stmt]]] = ";" ^^^ None |
+    "{" ~> innerStatementList <~ "}" ^^ Some.apply
 
   lazy val variableModifiers: PackratParser[Set[MemberModifier.Type]] = nonEmptyMemberModifiers |
     "var" ^^^ Set.empty[MemberModifier.Type]

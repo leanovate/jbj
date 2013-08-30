@@ -26,6 +26,10 @@ trait PMethod {
 
   lazy val isStatic = activeModifieres.contains(MemberModifier.STATIC)
 
+  lazy val isAbstract = activeModifieres.contains(MemberModifier.ABSTRACT)
+
+  lazy val isFinal = activeModifieres.contains(MemberModifier.FINAL)
+
   def invoke(ctx: Context, instance: ObjectVal, parameters: List[Expr]): PAny
 
   def invokeStatic(ctx: Context, parameters: List[Expr]): PAny

@@ -5,13 +5,6 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                 (Tests based on PHP)   */
 
-/*    _ _     _                                        *\
-**   (_) |__ (_)  License: MIT  (2013)                 **
-**   | |  _ \| |    http://opensource.org/licenses/MIT **
-**   | | |_) | |                                       **
-**  _/ |____// |  Author: Bodo Junglas                 **
-\* |__/    |__/                 (Tests based on PHP)   */
-
 package de.leanovate.jbj.core.tests
 
 import scala.util.parsing.input.Reader
@@ -61,19 +54,9 @@ object TestBed {
     test(
       """<?php
         |
-        |interface test {
-        |	public function bar();
+        |interface if_a {
+        |	function err() {};
         |}
-        |
-        |class foo implements test {
-        |
-        |	public function bar($arg = 2) {
-        |		var_dump($arg);
-        |	}
-        |}
-        |
-        |$foo = new foo;
-        |$foo->bar();
         |
         |?>""".stripMargin)
   }

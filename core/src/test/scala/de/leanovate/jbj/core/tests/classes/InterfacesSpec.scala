@@ -5,6 +5,81 @@ import de.leanovate.jbj.core.tests.TestJbjExecutor
 
 class InterfacesSpec extends SpecificationWithJUnit with TestJbjExecutor {
   "interfaces" should {
+    "ZE2 An interface method must be abstract" in {
+      // classes/interface_method.phpt
+      script(
+        """<?php
+          |
+          |interface if_a {
+          |	function err() {};
+          |}
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Interface function if_a::err() cannot contain body in /classes/InterfacesSpec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 An interface method cannot be final" in {
+      // classes/interface_method_final.phpt
+      script(
+        """<?php
+          |
+          |class if_a {
+          |	abstract final function err();
+          |}
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot use the final modifier on an abstract class member in /classes/InterfacesSpec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 An interface method cannot be private" in {
+      // classes/interface_method_private.phpt
+      script(
+        """<?php
+          |
+          |interface if_a {
+          |	abstract private function err();
+          |}
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Access type for interface method if_a::err() must be omitted in /classes/InterfacesSpec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 An interface must be implemented" in {
+      // classes/interface_must_be_implemented.phpt
+      script(
+        """<?php
+          |
+          |interface if_a {
+          |	function f_a();
+          |}
+          |
+          |class derived_a implements if_a {
+          |}
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Class derived_a contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (if_a::f_a) in /classes/InterfacesSpec.inlinePhp on line 7
+          |""".stripMargin
+      )
+    }
+
     "ZE2 An interface method allows additional default arguments" in {
       // classes/interface_optional_arg.phpt
       script(
