@@ -5,6 +5,84 @@ import de.leanovate.jbj.core.tests.TestJbjExecutor
 
 class InterfacesSpec extends SpecificationWithJUnit with TestJbjExecutor {
   "interfaces" should {
+    "ZE2 An interface method allows additional default arguments" in {
+      // classes/interface_optional_arg.phpt
+      script(
+        """<?php
+          |
+          |error_reporting(4095);
+          |
+          |interface test {
+          |	public function bar();
+          |}
+          |
+          |class foo implements test {
+          |
+          |	public function bar($foo = NULL) {
+          |		echo "foo\n";
+          |	}
+          |}
+          |
+          |$foo = new foo;
+          |$foo->bar();
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """foo
+          |""".stripMargin
+      )
+    }
+
+    "default argument value in interface implementation" in {
+      // classes/interface_optional_arg_002.phpt
+      script(
+        """<?php
+          |
+          |interface test {
+          |	public function bar();
+          |}
+          |
+          |class foo implements test {
+          |
+          |	public function bar($arg = 2) {
+          |		var_dump($arg);
+          |	}
+          |}
+          |
+          |$foo = new foo;
+          |$foo->bar();
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """int(2)
+          |""".stripMargin
+      )
+    }
+
+    "default argument value in and in implementing class with interface in included file" in {
+      // classes/interface_optional_arg_003.phpt
+      script(
+        """<?php
+          |include 'interface_optional_arg_003.inc';
+          |
+          |class C implements I {
+          |  function f($a = 2) {
+          |  	var_dump($a);
+          |  }
+          |}
+          |
+          |$c = new C;
+          |$c->f();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """int(2)
+          |""".stripMargin
+      )
+    }
+
     "ZE2 interfaces" in {
       // classes/interfaces_001.phpt
       script(
@@ -64,5 +142,6 @@ class InterfacesSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
   }
 }

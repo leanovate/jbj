@@ -61,22 +61,19 @@ object TestBed {
     test(
       """<?php
         |
-        |interface Throwable {
-        |	public function getMessage();
-        |	public function getErrno();
+        |interface test {
+        |	public function bar();
         |}
         |
-        |class Exception_foo implements Throwable {
-        |	public $foo = "foo";
+        |class foo implements test {
         |
-        |	public function getMessage() {
-        |		return $this->foo;
+        |	public function bar($arg = 2) {
+        |		var_dump($arg);
         |	}
         |}
         |
-        |// this should die -- Exception class must be abstract...
-        |$foo = new Exception_foo;
-        |echo "Message: " . $foo->getMessage() . "\n";
+        |$foo = new foo;
+        |$foo->bar();
         |
         |?>""".stripMargin)
   }

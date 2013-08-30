@@ -37,6 +37,13 @@ case class InterfaceDeclStmt(name: NamespaceName, superInterfaces: List[Namespac
               throw new FatalErrorJbjException("Interface '%s' not found".format(interfaceName.toString))
           }
       }
+
+      decls.foreach {
+        method =>
+          ctx.currentPosition = method.position
+          method.initializeInterface(this)
+      }
+
       ctx.global.defineInterface(this)
     }
     SuccessExecResult
