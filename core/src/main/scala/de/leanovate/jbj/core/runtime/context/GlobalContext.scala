@@ -24,6 +24,8 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
   extends Context {
   private var _inShutdown = false
 
+  private val interfaces = mutable.Map.empty[Seq[String], PInterface]
+
   private val classes = mutable.Map.empty[Seq[String], PClass]
 
   private val constants = mutable.Map.empty[ConstantKey, PVal]
@@ -67,8 +69,18 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
         }
   }
 
+  def findInterface(name: NamespaceName): Option[PInterface] =
+    jbj.predefinedInterfaces.get(name.lowercase).map(Some.apply).getOrElse(interfaces.get(name.lowercase))
+
   def findClass(name: NamespaceName): Option[PClass] =
     jbj.predefinedClasses.get(name.lowercase).map(Some.apply).getOrElse(classes.get(name.lowercase))
+
+  def findInterfaceOrClass(name: NamespaceName): Option[Either[PInterface, PClass]] =
+    findInterface(name).map {
+      interface => Some(Left(interface))
+    }.getOrElse {
+      findClass(name).map(Right(_))
+    }
 
   def findClassOrAutoload(name: NamespaceName)(implicit position: NodePosition): Option[PClass] =
     findClass(name).map(Some.apply).getOrElse {

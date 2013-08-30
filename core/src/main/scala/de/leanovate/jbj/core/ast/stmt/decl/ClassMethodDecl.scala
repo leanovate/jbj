@@ -5,7 +5,7 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core.ast.stmt
+package de.leanovate.jbj.core.ast.stmt.decl
 
 import de.leanovate.jbj.core.ast._
 import de.leanovate.jbj.core.runtime._
@@ -13,6 +13,7 @@ import de.leanovate.jbj.core.runtime.value._
 import de.leanovate.jbj.core.runtime.context.{GlobalContext, Context, MethodContext, StaticMethodContext}
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.runtime.buildin.StdClass
+import de.leanovate.jbj.core.ast.stmt.{FunctionLike, BlockLike, ParameterDecl}
 
 case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, returnByRef: Boolean, parameterDecls: List[ParameterDecl],
                            stmts: List[Stmt]) extends ClassMemberDecl with PMethod with BlockLike with FunctionLike {

@@ -5,7 +5,7 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core.ast.stmt
+package de.leanovate.jbj.core.ast.stmt.decl
 
 import de.leanovate.jbj.core.ast.{HasNodePosition, Node}
 import de.leanovate.jbj.core.runtime.value.ObjectVal

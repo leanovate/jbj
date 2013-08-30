@@ -8,7 +8,7 @@
 package de.leanovate.jbj.core
 
 import de.leanovate.jbj.core.ast.Prog
-import de.leanovate.jbj.core.runtime.{PFunction, PClass, buildin}
+import de.leanovate.jbj.core.runtime.{PInterface, PFunction, PClass, buildin}
 import java.io.{OutputStream, PrintStream}
 import de.leanovate.jbj.core.runtime.context.Context
 import de.leanovate.jbj.core.parser.JbjParser
@@ -39,6 +39,9 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
     (extensions.flatMap(_.function) ++ buildin.buildinFunctions).map {
       function => function.name.lowercase -> function
     }.toMap
+
+  val predefinedInterfaces: Map[Seq[String], PInterface] =
+    Map.empty
 
   val predefinedClasses: Map[Seq[String], PClass] =
     (extensions.flatMap(_.classes) ++ buildin.buildinClasses).map {

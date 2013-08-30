@@ -5,12 +5,13 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core.ast.stmt
+package de.leanovate.jbj.core.ast.stmt.decl
 
 import de.leanovate.jbj.core.ast.{StaticInitializer, MemberModifier}
 import de.leanovate.jbj.core.runtime.PClass
-import de.leanovate.jbj.core.runtime.value.{NullVal, ObjectVal, PVar}
+import de.leanovate.jbj.core.runtime.value.{PVar, NullVal, ObjectVal}
 import de.leanovate.jbj.core.runtime.context.{Context, StaticContext}
+import de.leanovate.jbj.core.ast.stmt.StaticAssignment
 
 case class ClassVarDecl(modifieres: Set[MemberModifier.Type],
                         assignments: List[StaticAssignment]) extends ClassMemberDecl with StaticInitializer {

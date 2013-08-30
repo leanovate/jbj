@@ -5,9 +5,14 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core.ast.stmt
+package de.leanovate.jbj.core.ast.stmt.decl
 
 import de.leanovate.jbj.core.ast.NamespaceName
 
-case class TraitUseDecl(traits:List[NamespaceName]) extends ClassMemberDecl {
-}
+sealed trait TypeHint
+
+object ArrayTypeHint extends TypeHint
+
+object CallableTypeHint extends TypeHint
+
+case class ClassTypeHint(className: NamespaceName) extends TypeHint

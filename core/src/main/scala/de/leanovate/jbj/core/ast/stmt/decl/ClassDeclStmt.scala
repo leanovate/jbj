@@ -5,7 +5,7 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core.ast.stmt
+package de.leanovate.jbj.core.ast.stmt.decl
 
 import de.leanovate.jbj.core.ast._
 import de.leanovate.jbj.core.runtime._
@@ -30,7 +30,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
 
   private var _staticInitialized = false
 
-  protected[stmt] val _classConstants = mutable.Map.empty[String, ConstVal]
+  protected[decl] val _classConstants = mutable.Map.empty[String, ConstVal]
 
   private lazy val instanceAssinments = decls.filter(_.isInstanceOf[ClassVarDecl])
 
