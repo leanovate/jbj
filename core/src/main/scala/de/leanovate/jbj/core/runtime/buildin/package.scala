@@ -14,18 +14,12 @@ import de.leanovate.jbj.core.runtime.context.{StaticContext, Context}
 import de.leanovate.jbj.api.JbjSettings
 import scala.collection.JavaConverters._
 
-/*    _ _     _                                        *\
-**   (_) |__ (_)  License: MIT  (2013)                 **
-**   | |  _ \| |    http://opensource.org/licenses/MIT **
-**   | | |_) | |                                       **
-**  _/ |____// |  Author: Bodo Junglas                 **
-\* |__/    |__/                                        */
-
 package object buildin {
   val buildinFunctions: Seq[PFunction] =
     ArrayFunctions.functions ++
       ClassFunctions.functions ++
       DateFunctions.functions ++
+      EnvironmentFunctions.functions ++
       FileFunctions.functions ++
       FunctionFunctions.functions ++
       StringFunctions.functions ++

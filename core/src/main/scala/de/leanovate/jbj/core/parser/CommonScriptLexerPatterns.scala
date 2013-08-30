@@ -28,7 +28,7 @@ trait CommonScriptLexerPatterns extends CommonLexerPatterns {
     "__FILE__", "__LINE__", "__FUNCTION__", "__CLASS__", "__METHOD__")
 
   /** The set of delimiters (ordering does not matter). */
-  val delimiters = Set("$", ",", ":", "::", "?", "!", "~", ";", "{", "}", "[", "]", "=>", "->",
+  val delimiters = Set("@", "$", ",", ":", "::", "?", "!", "~", ";", "{", "}", "[", "]", "=>", "->",
     ".", "+", "-", "*", "/", "%", "(", ")", ".=", "+=", "-=", "*=", "/=", "%=", "--", "++",
     "<<", ">>", "^", "|", "&", "<<=", ">>=", "^=", "&=", "|=",
     "=", ">", ">=", "<", "<=", "==", "!=", "<>", "===", "!==",

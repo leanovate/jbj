@@ -16,9 +16,10 @@ package de.leanovate.jbj.core.tests
 
 import de.leanovate.jbj.core.ast.{Prog, Node, NodeVisitor}
 import scala.xml.{Text, PCData, NodeSeq}
-import de.leanovate.jbj.core.ast.stmt.{ExprStmt, InlineStmt}
+import de.leanovate.jbj.core.ast.stmt.{EchoStmt, BlockStmt, ExprStmt, InlineStmt}
 import de.leanovate.jbj.core.ast.expr.{VariableReferableExpr, AssignReferableExpr, CallFunctionReferableExpr}
 import de.leanovate.jbj.core.ast.name.{StaticNamespaceName, StaticName}
+import de.leanovate.jbj.core.ast.stmt.loop.ForStmt
 
 object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
   def apply(node: Node) = node match {
@@ -33,6 +34,12 @@ object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
           </value>
         </assign>
       )
+    case block: BlockStmt =>
+      NextSibling(
+        <block>
+          {block.stmts.flatMap(_.visit(this).results)}
+        </block>
+      )
     case callFunction: CallFunctionReferableExpr =>
       NextSibling(
         <call-function>
@@ -43,6 +50,29 @@ object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
             {callFunction.parameters.flatMap(_.visit(this).results)}
           </parameters>
         </call-function>
+      )
+    case echoStmt: EchoStmt =>
+      NextSibling(
+        <echo>
+          {echoStmt.parameters.flatMap(_.visit(this).results)}
+        </echo>
+      )
+    case forStmt: ForStmt =>
+      NextSibling(
+        <for>
+          <start>
+            {forStmt.befores.flatMap(_.visit(this).results)}
+          </start>
+          <cond>
+            {forStmt.conditions.flatMap(_.visit(this).results)}
+          </cond>
+          <end>
+            {forStmt.afters.flatMap(_.visit(this).results)}
+          </end>
+          <stmts>
+            {forStmt.stmts.flatMap(_.visit(this).results)}
+          </stmts>
+        </for>
       )
     case inline: InlineStmt =>
       NextSibling(
@@ -66,11 +96,11 @@ object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
       NextSibling(
         Text(staticName.name)
       )
-    case staticNamespaceName : StaticNamespaceName =>
+    case staticNamespaceName: StaticNamespaceName =>
       NextSibling(
         Text(staticNamespaceName.namespaceName.toString)
       )
-    case variable :VariableReferableExpr =>
+    case variable: VariableReferableExpr =>
       NextSibling(
         <variable>
           {variable.variableName.visit(this).results}

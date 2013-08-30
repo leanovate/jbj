@@ -389,6 +389,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       e => ArrayCastExpr(e)
     } | booleanCastLit ~> term ^^ {
       e => BooleanCastExpr(e)
+    } | "@" ~> expr ^^ {
+      e => SilentExpr(e)
     } | variable <~ "++" ^^ {
       ref => GetAndIncrExpr(ref)
     } | variable <~ "--" ^^ {
