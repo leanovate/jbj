@@ -114,7 +114,7 @@ case class BufferedOutputHandler(out: OutputStream, level: Int, optTransformer: 
   }
 
   private def flushBuffer(flags: Int) {
-    if (count > 0) {
+    if (count > 0 || (flags & PHP_OUTPUT_HANDLER_FINAL) != 0 ) {
       pushBuffer(flags, buffer, 0, count)
       count = 0
     }
