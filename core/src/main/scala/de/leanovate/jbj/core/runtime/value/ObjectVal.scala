@@ -89,6 +89,8 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
       pClass.destructInstance(this)
   }
 
+  final def instanceOf(other: PInterface): Boolean = other.isAssignableFrom(pClass)
+
   final def instanceOf(other: PClass): Boolean = other.isAssignableFrom(pClass)
 
   def getProperty(name: String, className: Option[String])(implicit ctx: Context): Option[PAny] = {
@@ -123,7 +125,7 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
     keyValueMap.put(key, value)
   }
 
-  def setProperty(name: String, className: Option[String], value: PAny)(implicit ctx:Context) {
+  def setProperty(name: String, className: Option[String], value: PAny)(implicit ctx: Context) {
     if (className.isDefined) {
       val privateKey = PrivateKey(name, className.get)
       if (keyValueMap.contains(privateKey)) {
@@ -151,7 +153,7 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
     }
   }
 
-  def unsetProperty(name: String, className: Option[String])(implicit ctx:Context)  = {
+  def unsetProperty(name: String, className: Option[String])(implicit ctx: Context) = {
     keyValueMap.remove(PublicKey(name)).foreach(_.release())
     if (className.isDefined) {
       keyValueMap.remove(ProtectedKey(name)).foreach(_.release())
@@ -185,7 +187,7 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
     iteratorState = None
   }
 
-  def cleanup()(implicit ctx:Context)  {
+  def cleanup()(implicit ctx: Context) {
     keyValueMap.values.foreach(_.release())
   }
 }

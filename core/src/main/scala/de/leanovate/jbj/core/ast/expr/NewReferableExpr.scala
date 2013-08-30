@@ -9,18 +9,19 @@ package de.leanovate.jbj.core.ast.expr
 
 import de.leanovate.jbj.core.ast._
 import de.leanovate.jbj.core.runtime.Reference
-import de.leanovate.jbj.core.runtime.value.{PAny, NullVal}
+import de.leanovate.jbj.core.runtime.value.PAny
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.runtime.context.Context
 import scala.Some
 
 case class NewReferableExpr(className: Name, parameters: List[Expr]) extends ReferableExpr {
-  override def eval(implicit ctx: Context) = ctx.global.findClass(className.evalNamespaceName) match {
-    case Some(pClass) =>
+  override def eval(implicit ctx: Context) = ctx.global.findInterfaceOrClass(className.evalNamespaceName) match {
+    case Some(Right(pClass)) =>
       pClass.newInstance(parameters)
+    case Some(Left(pInterface)) =>
+      throw new FatalErrorJbjException("Cannot instantiate interface %s".format(pInterface.name.toString))
     case None =>
-      ctx.log.fatal("Class '%s' not found".format(className.toString))
-      NullVal
+      throw new FatalErrorJbjException("Class '%s' not found".format(className.evalNamespaceName.toString))
   }
 
   override def evalRef(implicit ctx: Context) = new Reference {

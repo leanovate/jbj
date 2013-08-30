@@ -12,6 +12,7 @@ import de.leanovate.jbj.core.runtime.PClass
 import de.leanovate.jbj.core.runtime.value.{PVar, NullVal, ObjectVal}
 import de.leanovate.jbj.core.runtime.context.{Context, StaticContext}
 import de.leanovate.jbj.core.ast.stmt.StaticAssignment
+import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 
 case class ClassVarDecl(modifieres: Set[MemberModifier.Type],
                         assignments: List[StaticAssignment]) extends ClassMemberDecl with StaticInitializer {
@@ -38,6 +39,10 @@ case class ClassVarDecl(modifieres: Set[MemberModifier.Type],
         }
       }
     }
+  }
+
+  override def initializeInterface(pInterface: InterfaceDeclStmt)(implicit ctx: Context) {
+    throw new FatalErrorJbjException("Interfaces may not include member variables")
   }
 
   override def initializeStatic(staticCtx: StaticContext)(implicit ctx: Context) {

@@ -8,6 +8,7 @@
 package de.leanovate.jbj.core.runtime
 
 import de.leanovate.jbj.core.ast.NamespaceName
+import scala.annotation.tailrec
 
 trait PInterface {
   def name: NamespaceName
@@ -15,4 +16,10 @@ trait PInterface {
   def interfaces: Seq[PInterface]
 
   def methods: Map[String, PMethod]
+
+  @tailrec
+  final def isAssignableFrom(other: PClass): Boolean = other.interfaces.contains(this) || (other.superClass match {
+    case None => false
+    case Some(s) => isAssignableFrom(s)
+  })
 }
