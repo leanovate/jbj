@@ -41,7 +41,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   override def classConstants: Map[String, ConstVal] = _classConstants.toMap
 
   override def exec(implicit ctx: Context) = {
-    if (ctx.global.findClass(name).isDefined)
+    if (ctx.global.findInterfaceOrClass(name).isDefined)
       ctx.log.fatal("Cannot redeclare class %s".format(name))
     else {
       if (superClassName.isDefined) {

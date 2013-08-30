@@ -100,6 +100,10 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
     classes.put(pClass.name.lowercase, pClass)
   }
 
+  def defineInterface(pInterface: PInterface) {
+    interfaces.put(pInterface.name.lowercase, pInterface)
+  }
+
   def findConstant(name: String): Option[PVal] =
     jbj.preedfinedConstants.get(name.toUpperCase).map(Some.apply).getOrElse {
       constants.get(CaseSensitiveConstantKey(name)).map(Some.apply).getOrElse {

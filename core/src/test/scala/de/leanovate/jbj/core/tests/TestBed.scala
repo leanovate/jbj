@@ -60,21 +60,22 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |class C { public static $p = 'original'; }
-        |class D extends C {	}
-        |class E extends D {	}
         |
-        |echo "\nInherited static properties refer to the same value accross classes:\n";
-        |var_dump(C::$p, D::$p, E::$p);
+        |interface Throwable {
+        |	public function getMessage();
+        |}
         |
-        |echo "\nChanging one changes all the others:\n";
-        |D::$p = 'changed.all';
-        |var_dump(C::$p, D::$p, E::$p);
+        |class Exception_foo implements Throwable {
+        |	public $foo = "foo";
         |
-        |echo "\nBut because this is implemented using PHP references, the reference set can easily be split:\n";
-        |$ref = 'changed.one';
-        |D::$p =& $ref;
-        |var_dump(C::$p, D::$p, E::$p);
+        |	public function getMessage() {
+        |		return $this->foo;
+        |	}
+        |}
+        |
+        |$foo = new Exception_foo;
+        |echo $foo->getMessage() . "\n";
+        |
         |?>""".stripMargin)
   }
 }

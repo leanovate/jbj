@@ -136,7 +136,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val functionDeclarationStatement: PackratParser[FunctionDeclStmt] = untickedFunctionDeclarationStatement <~ rep(";")
 
-  lazy val classDeclarationStatement: PackratParser[ClassDeclStmt] = untickedClassDeclarationStatement <~ rep(";")
+  lazy val classDeclarationStatement: PackratParser[Stmt] = untickedClassDeclarationStatement <~ rep(";")
 
   lazy val untickedFunctionDeclarationStatement: PackratParser[FunctionDeclStmt] =
     "function" ~ opt("&") ~ identLit ~ "(" ~ parameterList ~ ")" ~ "{" ~ innerStatementList <~ "}" ^^ {
@@ -144,10 +144,13 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
         FunctionDeclStmt(NamespaceName(relative = true, name), isRef.isDefined, params, body)
     }
 
-  lazy val untickedClassDeclarationStatement: PackratParser[ClassDeclStmt] =
+  lazy val untickedClassDeclarationStatement: PackratParser[Stmt] =
     classEntryType ~ identLit ~ extendsFrom ~ implementsList ~ "{" ~ classStatementList <~ "}" ^^ {
       case entry ~ name ~ exts ~ impls ~ _ ~ decls =>
         ClassDeclStmt(entry, NamespaceName(relative = true, name), exts, impls, decls)
+    } | "interface" ~> identLit ~ interfaceExtendsList ~ "{" ~ classStatementList <~ "}" ^^ {
+      case name ~ exts ~ _ ~ decls =>
+        InterfaceDeclStmt(NamespaceName(relative = true, name), exts, decls)
     }
 
   lazy val classEntryType: PackratParser[ClassEntry.Type] =
@@ -155,6 +158,10 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       "final" ~ "class" ^^^ ClassEntry.FINAL_CLASS | "trait" ^^^ ClassEntry.TRAIT
 
   lazy val extendsFrom: PackratParser[Option[NamespaceName]] = opt("extends" ~> fullyQualifiedClassName)
+
+  lazy val interfaceExtendsList: PackratParser[List[NamespaceName]] = opt("extends" ~> interfaceList) ^^ {
+    optInterfaces => optInterfaces.getOrElse(Nil)
+  }
 
   lazy val implementsList: PackratParser[List[NamespaceName]] = opt("implements" ~> interfaceList) ^^ {
     optInterfaces => optInterfaces.getOrElse(Nil)
