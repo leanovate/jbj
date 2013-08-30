@@ -41,7 +41,7 @@ trait FunctionLike extends BlockLike {
               funcCtx.defineVariable(parameterDecl.variableName, PVar(expr.eval(callerContext).asVal))
           }
         } else {
-          funcCtx.defineVariable(parameterDecl.variableName, PVar(parameterDecl.defaultVal(callerContext)))
+          funcCtx.defineVariable(parameterDecl.variableName, PVar(parameterDecl.defaultVal(funcCtx)))
         }
     }
   }

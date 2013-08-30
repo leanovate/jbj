@@ -53,22 +53,27 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |class Test {
-        |	function say_hello() {
-        |		echo "Hello world";
-        |	}
+        |class foo {
+        |    public $fubar = 'fubar';
         |}
         |
-        |class Factory {
-        |	public $name = "Test";
-        |	function create() {
-        |		$obj = new $this->name; /* Parse error */
-        |		return $obj;
-        |	}
+        |function &foo(){
+        |    $GLOBALS['foo'] = &new foo();
+        |    return $GLOBALS['foo'];
         |}
-        |$factory = new Factory;
-        |$test = $factory->create();
-        |$test->say_hello();
+        |$bar = &foo();
+        |var_dump($bar);
+        |var_dump($bar->fubar);
+        |unset($bar);
+        |$bar = &foo();
+        |var_dump($bar->fubar);
+        |
+        |$foo = &foo();
+        |var_dump($foo);
+        |var_dump($foo->fubar);
+        |unset($foo);
+        |$foo = &foo();
+        |var_dump($foo->fubar);
         |?>""".stripMargin)
   }
 }

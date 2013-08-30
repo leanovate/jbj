@@ -252,5 +252,133 @@ class Bug2xxxxSpec extends SpecificationWithJUnit with TestJbjExecutor{
         """Hello world""".stripMargin
       )
     }
+
+    "Bug #21849 (self::constant doesn't work as method's default parameter)" in {
+      // lang/bug21849.phpt
+      script(
+        """<?php
+          |class foo {
+          |	const bar = "fubar\n";
+          |
+          |	function foo($arg = self::bar) {
+          |		echo $arg;
+          |	}
+          |}
+          |
+          |new foo();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """fubar
+          |""".stripMargin
+      )
+    }
+
+    "Bug #21961 (get_parent_class() segfault)" in {
+      // lang/bug21961.phpt
+      script(
+        """<?php
+          |
+          |class man
+          |{
+          |	public $name, $bars;
+          |	function man()
+          |	{
+          |		$this->name = 'Mr. X';
+          |		$this->bars = array();
+          |	}
+          |
+          |	function getdrunk($where)
+          |	{
+          |		$this->bars[] = new bar($where);
+          |	}
+          |
+          |	function getName()
+          |	{
+          |		return $this->name;
+          |	}
+          |}
+          |
+          |class bar extends man
+          |{
+          |	public $name;
+          |
+          |	function bar($w)
+          |	{
+          |		$this->name = $w;
+          |	}
+          |
+          |	function getName()
+          |	{
+          |		return $this->name;
+          |	}
+          |
+          |	function whosdrunk()
+          |	{
+          |		$who = get_parent_class($this);
+          |		if($who == NULL)
+          |		{
+          |			return 'nobody';
+          |		}
+          |		return eval("return ".$who.'::getName();');
+          |	}
+          |}
+          |
+          |$x = new man;
+          |$x->getdrunk('The old Tavern');
+          |var_dump($x->bars[0]->whosdrunk());
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """string(14) "The old Tavern"
+          |""".stripMargin
+      )
+    }
+
+    "Bug #22231 (segfault when returning a global variable by reference)" in {
+      // lang/bug22231.phpt
+      script(
+        """<?php
+          |class foo {
+          |    public $fubar = 'fubar';
+          |}
+          |
+          |function &foo(){
+          |    $GLOBALS['foo'] = &new foo();
+          |    return $GLOBALS['foo'];
+          |}
+          |$bar = &foo();
+          |var_dump($bar);
+          |var_dump($bar->fubar);
+          |unset($bar);
+          |$bar = &foo();
+          |var_dump($bar->fubar);
+          |
+          |$foo = &foo();
+          |var_dump($foo);
+          |var_dump($foo->fubar);
+          |unset($foo);
+          |$foo = &foo();
+          |var_dump($foo->fubar);
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Deprecated: Assigning the return value of new by reference is deprecated in /lang/Bug2xxxxSpec.inlinePhp on line 7
+          |object(foo)#1 (1) {
+          |  ["fubar"]=>
+          |  string(5) "fubar"
+          |}
+          |string(5) "fubar"
+          |string(5) "fubar"
+          |object(foo)#3 (1) {
+          |  ["fubar"]=>
+          |  string(5) "fubar"
+          |}
+          |string(5) "fubar"
+          |string(5) "fubar"
+          |""".stripMargin
+      )
+    }
   }
 }
