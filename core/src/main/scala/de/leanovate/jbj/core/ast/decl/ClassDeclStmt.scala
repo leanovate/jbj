@@ -26,12 +26,14 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
                          decls: List[ClassMemberDecl])
   extends DeclStmt with PClass {
 
+  private var _initialized = false
   private val staticInitializers = decls.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
   private var _staticInitialized = false
   protected[decl] val _classConstants = mutable.Map.empty[String, ConstVal]
   private lazy val instanceAssinments = decls.filter(_.isInstanceOf[ClassVarDecl])
   private var _superClass: Option[PClass] = None
   private var _interfaces: Set[PInterface] = Set.empty
+
 
   override def superClass = _superClass
 
@@ -40,6 +42,9 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   override def classConstants: Map[String, ConstVal] = _classConstants.toMap
 
   override def register(implicit ctx: Context) {
+  }
+
+  override def exec(implicit ctx: Context) = {
     if (ctx.global.findInterfaceOrClass(name).isDefined)
       throw new FatalErrorJbjException("Cannot redeclare class %s".format(name))
     else {
@@ -88,6 +93,8 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
 
       ctx.global.defineClass(this)
     }
+    _initialized = true
+    SuccessExecResult
   }
 
   override def initializeStatic(staticContext: StaticContext)(implicit ctx: Context) {

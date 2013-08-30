@@ -25,6 +25,7 @@ case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike 
         ctx.log.deprecated(pos, n.deprecated.get)
     }
 
+    registerDecls
     execStmts(stmts.toList)
   }
 

@@ -18,11 +18,15 @@ case class InterfaceDeclStmt(name: NamespaceName, superInterfaces: List[Namespac
                              decls: List[ClassMemberDecl])
   extends DeclStmt with PInterface {
 
+  private var _initialized = false
   private var _interfaces: List[PInterface] = Nil
 
   override def interfaces = _interfaces
 
   override def register(implicit ctx: Context) {
+  }
+
+  override def exec(implicit ctx: Context) = {
     if (ctx.global.findInterfaceOrClass(name).isDefined)
       throw new FatalErrorJbjException("Cannot redeclare class %s".format(name))
     else {
@@ -46,6 +50,8 @@ case class InterfaceDeclStmt(name: NamespaceName, superInterfaces: List[Namespac
 
       ctx.global.defineInterface(this)
     }
+    _initialized = true
+    SuccessExecResult
   }
 
   override lazy val methods: Map[String, PMethod] = {

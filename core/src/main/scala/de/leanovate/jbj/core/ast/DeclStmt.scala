@@ -8,13 +8,21 @@
 package de.leanovate.jbj.core.ast
 
 import de.leanovate.jbj.core.runtime.context.Context
-import de.leanovate.jbj.core.runtime.SuccessExecResult
 
 trait DeclStmt extends Stmt {
   def register(implicit ctx: Context)
+}
 
-  override final def exec(implicit ctx: Context) = {
-    register
-    SuccessExecResult
+object DeclStmt {
+  def collect(nodes: Node*) = {
+    nodes.flatMap(_.visit[DeclStmt](new NodeVisitor[DeclStmt] {
+      def apply(node: Node) = {
+        node match {
+          case decl: DeclStmt => NextSibling(decl)
+          case _ => NextChild()
+        }
+      }
+    }).results)
   }
+
 }

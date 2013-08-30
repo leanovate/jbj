@@ -15,10 +15,18 @@ import de.leanovate.jbj.core.ast.stmt.{FunctionLike, BlockLike}
 
 case class FunctionDeclStmt(name: NamespaceName, returnByRef: Boolean, parameterDecls: List[ParameterDecl], stmts: List[Stmt])
   extends DeclStmt with PFunction with BlockLike with FunctionLike {
-  private lazy val staticInitializers = StaticInitializer.collect(stmts:_*)
+  private lazy val staticInitializers = StaticInitializer.collect(stmts: _*)
+  var _registered = false
+
+  override def exec(implicit ctx: Context) = {
+    if (!_registered)
+      ctx.defineFunction(this)
+    SuccessExecResult
+  }
 
   override def register(implicit ctx: Context) {
     ctx.defineFunction(this)
+    _registered = true
   }
 
   override def call(parameters: List[Expr])(implicit callerCtx: Context) = {

@@ -8,11 +8,21 @@
 package de.leanovate.jbj.core.ast.stmt
 
 import scala.annotation.tailrec
-import de.leanovate.jbj.core.ast.Stmt
+import de.leanovate.jbj.core.ast.{DeclStmt, Node, Stmt}
 import de.leanovate.jbj.core.runtime.{ExecResult, SuccessExecResult}
 import de.leanovate.jbj.core.runtime.context.Context
 
-trait BlockLike {
+trait BlockLike extends Node {
+  lazy val declStmts = DeclStmt.collect(this)
+
+  def registerDecls(implicit ctx: Context) = {
+    declStmts.foreach {
+      decl =>
+        ctx.currentPosition = decl.position
+        decl.register
+    }
+  }
+
   @tailrec
   final def execStmts(statements: List[Stmt])(implicit context: Context): ExecResult = statements match {
     case head :: tail => {

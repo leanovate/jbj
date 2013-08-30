@@ -70,10 +70,10 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
   }
 
   def findInterface(name: NamespaceName): Option[PInterface] =
-    jbj.predefinedInterfaces.get(name.lowercase).map(Some.apply).getOrElse(interfaces.get(name.lowercase))
+    jbj.predefinedInterfaces.get(name.lowercase).map(Some.apply).getOrElse(interfaces.get(name.lowercase)).map(interfaceInitializer)
 
   def findClass(name: NamespaceName): Option[PClass] =
-    jbj.predefinedClasses.get(name.lowercase).map(Some.apply).getOrElse(classes.get(name.lowercase))
+    jbj.predefinedClasses.get(name.lowercase).map(Some.apply).getOrElse(classes.get(name.lowercase)).map(classInitializer)
 
   def findInterfaceOrClass(name: NamespaceName): Option[Either[PInterface, PClass]] =
     findInterface(name).map {
@@ -82,7 +82,7 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
       findClass(name).map(Right(_))
     }
 
-  def findClassOrAutoload(name: NamespaceName): Option[PClass] =
+  def findClassOrAutoload(name: NamespaceName)(implicit position: NodePosition): Option[PClass] =
     findClass(name).map(Some.apply).getOrElse {
       implicit val ctx = this
 
@@ -162,5 +162,13 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
     GLOBALS.cleanup()(this)
 
     out.closeAll()
+  }
+
+  private def classInitializer(pClass: PClass): PClass = {
+      pClass
+  }
+
+  private def interfaceInitializer(pInterface: PInterface): PInterface = {
+    pInterface
   }
 }

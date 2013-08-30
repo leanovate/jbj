@@ -182,5 +182,75 @@ class Bug2xxxxSpec extends SpecificationWithJUnit with TestJbjExecutor{
           |""".stripMargin
       )
     }
+
+    "Bug #21600 (assign by reference function call changes variable contents)" in {
+      // lang/bug21600.phpt
+      script(
+        """<?php
+          |$tmp = array();
+          |$tmp['foo'] = "test";
+          |$tmp['foo'] = &bar($tmp['foo']);
+          |var_dump($tmp);
+          |
+          |unset($tmp);
+          |
+          |$tmp = array();
+          |$tmp['foo'] = "test";
+          |$tmp['foo'] = &fubar($tmp['foo']);
+          |var_dump($tmp);
+          |
+          |function bar($text){
+          |  return $text;
+          |}
+          |
+          |function fubar($text){
+          |  $text = &$text;
+          |  return $text;
+          |}
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Strict Standards: Only variables should be assigned by reference in /lang/Bug2xxxxSpec.inlinePhp on line 4
+          |array(1) {
+          |  ["foo"]=>
+          |  string(4) "test"
+          |}
+          |
+          |Strict Standards: Only variables should be assigned by reference in /lang/Bug2xxxxSpec.inlinePhp on line 11
+          |array(1) {
+          |  ["foo"]=>
+          |  string(4) "test"
+          |}
+          |""".stripMargin
+      )
+    }
+
+    """Bug #21669 ("$obj = new $this->var;" doesn't work)""" in {
+      // lang/bug21669.phpt
+      script(
+        """<?php
+          |class Test {
+          |	function say_hello() {
+          |		echo "Hello world";
+          |	}
+          |}
+          |
+          |class Factory {
+          |	public $name = "Test";
+          |	function create() {
+          |		$obj = new $this->name; /* Parse error */
+          |		return $obj;
+          |	}
+          |}
+          |$factory = new Factory;
+          |$test = $factory->create();
+          |$test->say_hello();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """Hello world""".stripMargin
+      )
+    }
   }
 }
