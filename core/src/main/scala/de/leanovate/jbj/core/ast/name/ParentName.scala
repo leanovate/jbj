@@ -19,11 +19,11 @@ object ParentName extends Name {
 
   override def evalNamespaceName(implicit ctx: Context) = ctx match {
     case MethodContext(instance, pMethod, _) =>
-      pMethod.declaringClass.superClass.map(_.name).getOrElse {
+      pMethod.implementingClass.superClass.map(_.name).getOrElse {
         throw new FatalErrorJbjException("Cannot access parent:: when current class scope has no parent")
       }
     case StaticMethodContext(pMethod, _) =>
-      pMethod.declaringClass.superClass.map(_.name).getOrElse {
+      pMethod.implementingClass.superClass.map(_.name).getOrElse {
         throw new FatalErrorJbjException("Cannot access parent:: when current class scope has no parent")
       }
     case ClassContext(pClass, _, _) =>

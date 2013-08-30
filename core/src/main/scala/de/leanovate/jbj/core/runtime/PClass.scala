@@ -25,7 +25,7 @@ trait PClass {
 
   def superClass: Option[PClass]
 
-  def interfaces: Seq[PInterface]
+  def interfaces: Set[PInterface]
 
   def classConstants: Map[String, ConstVal]
 

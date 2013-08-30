@@ -18,7 +18,7 @@ case class InterfaceDeclStmt(name: NamespaceName, superInterfaces: List[Namespac
                              decls: List[ClassMemberDecl])
   extends Stmt with PInterface {
 
-  private var _interfaces: Seq[PInterface] = Seq.empty
+  private var _interfaces: List[PInterface] = Nil
 
   override def interfaces = _interfaces
 

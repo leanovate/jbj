@@ -31,7 +31,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   protected[decl] val _classConstants = mutable.Map.empty[String, ConstVal]
   private lazy val instanceAssinments = decls.filter(_.isInstanceOf[ClassVarDecl])
   private var _superClass: Option[PClass] = None
-  private var _interfaces: Seq[PInterface] = Seq.empty
+  private var _interfaces: Set[PInterface] = Set.empty
 
   override def superClass = _superClass
 
@@ -53,17 +53,18 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
 
         _classConstants ++= _superClass.get.classConstants
       }
-      _interfaces = implements.map {
+      _interfaces = implements.flatMap {
         interfaceName =>
           ctx.global.findInterfaceOrClass(interfaceName) match {
-            case Some(Left(interface)) => interface
+            case Some(Left(interface)) =>
+              interface :: interface.interfaces
             case Some(Right(_)) =>
               throw new FatalErrorJbjException("%s cannot implement %s - it is not an interface".format(name.toString,
                 interfaceName.toString))
             case None =>
               throw new FatalErrorJbjException("Interface '%s' not found".format(interfaceName.toString))
           }
-      }
+      }.toSet ++ _superClass.map(_.interfaces).getOrElse(Set.empty)
 
       decls.foreach {
         method =>
@@ -98,8 +99,8 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
         parent =>
           val parentStaticCtx = ctx.global.staticContext(parent)
           parentStaticCtx.variables.foreach {
-            case (name, value) =>
-              staticContext.defineVariable(name, value)
+            case (key, value) =>
+              staticContext.defineVariable(key, value)
           }
       }
 
@@ -148,7 +149,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     superClass.foreach(result ++= _.methods)
     decls.foreach {
       case method: ClassMethodDecl =>
-        method.declaringClass = this
+        method.implementingClass = this
         result -= method.name.toLowerCase
         result += method.name.toLowerCase -> method
       case _ =>

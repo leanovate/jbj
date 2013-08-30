@@ -65,7 +65,7 @@ package object buildin {
 
     override def superClass = None
 
-    override def interfaces = Seq.empty
+    override def interfaces = Set.empty
 
     override def classConstants: Map[String, ConstVal] = Map.empty
 
