@@ -84,6 +84,9 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
                 Seq("%s::%s".format(interface.name.toString, method.name))
               case _ => Seq.empty
             }
+        } ++ methods.values.filter(_.isAbstract).map {
+          method =>
+            "%s::%s".format(name.toString, method.name)
         }
         if (!missingImplementations.isEmpty) {
           throw new FatalErrorJbjException("Class %s contains %d abstract method and must therefore be declared abstract or implement the remaining methods (%s)".

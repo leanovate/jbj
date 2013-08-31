@@ -152,5 +152,91 @@ class AbstractSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "ZE2 A derived class with an abstract method must be abstract" in {
+      // classes/abstract_derived.phpt
+      script(
+        """<?php
+          |
+          |class base {
+          |}
+          |
+          |class derived extends base {
+          |	abstract function show();
+          |}
+          |
+          |?>
+          |===DONE===
+          |<?php exit(0); ?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Class derived contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (derived::show) in /classes/AbstractSpec.inlinePhp on line 7
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 A final method cannot be abstract" in {
+      // classes/abstract_final.phpt
+      script(
+        """<?php
+          |
+          |class fail {
+          |	abstract final function show();
+          |}
+          |
+          |echo "Done\n"; // Shouldn't be displayed
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot use the final modifier on an abstract class member in /classes/AbstractSpec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 A class that inherits an abstract method is abstract" in {
+      // classes/abstract_inherit.phpt
+      script(
+        """<?php
+          |
+          |abstract class pass {
+          |	abstract function show();
+          |}
+          |
+          |abstract class fail extends pass {
+          |}
+          |
+          |$t = new fail();
+          |$t = new pass();
+          |
+          |echo "Done\n"; // Shouldn't be displayed
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot instantiate abstract class fail in /classes/AbstractSpec.inlinePhp on line 10
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 An abstract class must be declared abstract" in {
+      // classes/abstract_not_declared.phpt
+      script(
+        """<?php
+          |
+          |class fail {
+          |	abstract function show();
+          |}
+          |
+          |echo "Done\n"; // shouldn't be displayed
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Class fail contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (fail::show) in /classes/AbstractSpec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
   }
 }
