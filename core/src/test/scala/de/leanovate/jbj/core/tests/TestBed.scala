@@ -53,26 +53,32 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
+        |  class A
+        |  {
+        |      private $p = "A::p";
+        |      function showA()
+        |      {
+        |          echo $this->p . "\n";
+        |      }
+        |  }
         |
-        |abstract class test_base
-        |{
-        |	abstract function func();
-        |}
+        |  class B extends A
+        |  {
+        |      protected $p = "B::p";
+        |      function showB()
+        |      {
+        |          echo $this->p . "\n";
+        |      }
+        |  }
         |
-        |class test extends test_base
-        |{
-        |	function func()
-        |	{
-        |		echo __METHOD__ . "()\n";
-        |	}
-        |}
         |
-        |$o = new test;
+        |  $a = new A;
+        |  $a->showA();
         |
-        |$o->func();
-        |
-        |call_user_func(array($o, 'test_base::func'));
-        |
+        |  $b = new B;
+        |  $b->showA();
+        |  $b->showB();
+        |  var_dump($b);
         |?>""".stripMargin)
   }
 }
