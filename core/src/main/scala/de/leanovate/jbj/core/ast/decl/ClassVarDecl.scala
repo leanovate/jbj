@@ -57,6 +57,8 @@ case class ClassVarDecl(modifiers: Set[MemberModifier.Type], assignments: List[S
           assignment =>
             superClass.properties.get(assignment.variableName).foreach {
               superProperty =>
+                if (!isStatic && superProperty.isStatic && !superProperty.isPrivate)
+                  throw new FatalErrorJbjException("Cannot redeclare static %s::$%s as non static %s::$%s".format(superClass.name.toString, superProperty.name, pClass.name.toString, assignment.variableName))
                 if (isStatic && !superProperty.isStatic && !superProperty.isPrivate)
                   throw new FatalErrorJbjException("Cannot redeclare non static %s::$%s as static %s::$%s".format(superClass.name.toString, superProperty.name, pClass.name.toString, assignment.variableName))
                 if (isPrivate) {

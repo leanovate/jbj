@@ -241,5 +241,226 @@ class PropertyOverrideProtectedSpec extends SpecificationWithJUnit with TestJbjE
           |""".stripMargin
       )
     }
+
+    "Redeclare inherited protected static property as private." in {
+      // classes/property_override_protectedStatic_private.phpt
+      script(
+        """<?php
+          |  class A
+          |  {
+          |      protected static $p = "A::p (static)";
+          |      static function showA()
+          |      {
+          |          echo self::$p . "\n";
+          |      }
+          |  }
+          |
+          |  class B extends A
+          |  {
+          |      private $p = "B::p";
+          |      function showB()
+          |      {
+          |          echo $this->p . "\n";
+          |      }
+          |  }
+          |
+          |
+          |  A::showA();
+          |
+          |  $b = new B;
+          |  $b->showA();
+          |  $b->showB();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot redeclare static A::$p as non static B::$p in /classes/PropertyOverrideProtectedSpec.inlinePhp on line 13
+          |""".stripMargin
+      )
+    }
+
+    "Redeclare inherited protected static property as private static." in {
+      // classes/property_override_protectedStatic_privateStatic.phpt
+      script(
+        """<?php
+          |  class A
+          |  {
+          |      protected static $p = "A::p (static)";
+          |      static function showA()
+          |      {
+          |          echo self::$p . "\n";
+          |      }
+          |  }
+          |
+          |  class B extends A
+          |  {
+          |      private static $p = "B::p (static)";
+          |      static function showB()
+          |      {
+          |          echo self::$p . "\n";
+          |      }
+          |  }
+          |
+          |
+          |  A::showA();
+          |
+          |  B::showA();
+          |  B::showB();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Access level to B::$p must be protected (as in class A) or weaker in /classes/PropertyOverrideProtectedSpec.inlinePhp on line 13
+          |""".stripMargin
+      )
+    }
+
+    "Redeclare inherited protected static property as protected." in {
+      // classes/property_override_protectedStatic_protected.phpt
+      script(
+        """<?php
+          |  class A
+          |  {
+          |      protected static $p = "A::p (static)";
+          |      static function showA()
+          |      {
+          |          echo self::$p . "\n";
+          |      }
+          |  }
+          |
+          |  class B extends A
+          |  {
+          |      protected $p = "B::p";
+          |      function showB()
+          |      {
+          |          echo $this->p . "\n";
+          |      }
+          |  }
+          |
+          |
+          |  A::showA();
+          |
+          |  $b = new B;
+          |  $b->showA();
+          |  $b->showB();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot redeclare static A::$p as non static B::$p in /classes/PropertyOverrideProtectedSpec.inlinePhp on line 13
+          |""".stripMargin
+      )
+    }
+
+    "Redeclare inherited protected static property as protected static." in {
+      // classes/property_override_protectedStatic_protectedStatic.phpt
+      script(
+        """<?php
+          |  class A
+          |  {
+          |      protected static $p = "A::p (static)";
+          |      static function showA()
+          |      {
+          |          echo self::$p . "\n";
+          |      }
+          |  }
+          |
+          |  class B extends A
+          |  {
+          |      protected static $p = "B::p (static)";
+          |      static function showB()
+          |      {
+          |          echo self::$p . "\n";
+          |      }
+          |  }
+          |
+          |
+          |  A::showA();
+          |
+          |  B::showA();
+          |  B::showB();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """A::p (static)
+          |A::p (static)
+          |B::p (static)
+          |""".stripMargin
+      )
+    }
+
+    "Redeclare inherited protected static property as public." in {
+      // classes/property_override_protectedStatic_public.phpt
+      script(
+        """<?php
+          |  class A
+          |  {
+          |      protected static $p = "A::p (static)";
+          |      static function showA()
+          |      {
+          |          echo self::$p . "\n";
+          |      }
+          |  }
+          |
+          |  class B extends A
+          |  {
+          |      public $p = "B::p";
+          |      function showB()
+          |      {
+          |          echo $this->p . "\n";
+          |      }
+          |  }
+          |
+          |
+          |  A::showA();
+          |
+          |  $b = new B;
+          |  $b->showA();
+          |  $b->showB();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot redeclare static A::$p as non static B::$p in /classes/PropertyOverrideProtectedSpec.inlinePhp on line 13
+          |""".stripMargin
+      )
+    }
+
+    "Redeclare inherited protected static property as public static." in {
+      // classes/property_override_protectedStatic_publicStatic.phpt
+      script(
+        """<?php
+          |  class A
+          |  {
+          |      protected static $p = "A::p (static)";
+          |      static function showA()
+          |      {
+          |          echo self::$p . "\n";
+          |      }
+          |  }
+          |
+          |  class B extends A
+          |  {
+          |      public static $p = "B::p (static)";
+          |      static function showB()
+          |      {
+          |          echo self::$p . "\n";
+          |      }
+          |  }
+          |
+          |
+          |  A::showA();
+          |
+          |  B::showA();
+          |  B::showB();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """A::p (static)
+          |A::p (static)
+          |B::p (static)
+          |""".stripMargin
+      )
+    }
   }
 }
