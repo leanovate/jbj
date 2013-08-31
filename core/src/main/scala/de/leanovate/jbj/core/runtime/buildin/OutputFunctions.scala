@@ -98,42 +98,54 @@ object OutputFunctions extends WrappedFunctions {
     if (ctx.global.isOutputBufferingCallback)
       throw new FatalErrorJbjException("print_r(): Cannot use output buffering in output buffering display handlers")
 
-    def dump(stack: List[PAny]): List[Option[String]] = {
+    def dump(stack: List[PAny], ident: String): String = {
       stack.head.asVal match {
         case ArrayVal(keyValues) =>
-          Some("Array") :: Some("(") :: keyValues.flatMap {
+          val builder = new StringBuilder
+          builder ++= "Array\n"
+          builder ++= ident
+          builder ++= "(\n"
+          keyValues.foreach {
             case (_, v) if stack.exists(_.eq(v)) =>
-              Some("*RECURSION*") :: Nil
+              builder ++= ident
+              builder ++= "*RECURSION*\n"
             case (IntegerVal(key), v) =>
-              val lines = dump(v :: stack)
-              Some("    [%d] => %s".format(key, lines.head.getOrElse(""))) :: (
-                if (lines.tail.isEmpty) Nil else lines.tail.map(_.map("        " + _)) ::: None :: Nil)
+              builder ++= ident
+              builder ++= "    [%d] => %s\n".format(key, dump(v :: stack, ident + "        "))
             case (StringVal(key), v) =>
-              val lines = dump(v :: stack)
-              Some( """    [%s] => %s""".format(key, lines.head.getOrElse(""))) :: (
-                if (lines.tail.isEmpty) Nil else lines.tail.map(_.map("        " + _)) ::: None :: Nil)
-          }.toList ::: Some(")") :: Nil
+              builder ++= ident
+              builder ++= "    [%s] => %s\n".format(key, dump(v :: stack, ident + "        "))
+          }
+          builder ++= ident
+          builder ++= ")\n"
+          builder.result()
         case ObjectVal(pClass, _, keyValues) =>
-          Some("%s Object".format(pClass.name.toString)) :: Some("(") :: keyValues.flatMap {
+          val builder = new StringBuilder
+          builder ++= "%s Object\n".format(pClass.name.toString)
+          builder ++= ident
+          builder ++= "(\n"
+          keyValues.foreach {
             case (_, v) if stack.exists(_.eq(v)) =>
-              Some("*RECURSION*") :: Nil
+              builder ++= ident
+              builder ++= "*RECURSION*\n"
             case (ObjectPropertyKey.IntKey(key), v) =>
-              val lines = dump(v :: stack)
-              Some("    [%d] => %s".format(key, lines.head.getOrElse(""))) :: (
-                if (lines.tail.isEmpty) Nil else lines.tail.map(_.map("        " + _)) ::: None :: Nil)
+              builder ++= ident
+              builder ++= "    [%d] => %s\n".format(key, dump(v :: stack, ident + "        "))
             case (key, v) =>
-              val lines = dump(v :: stack)
-              Some( """    [%s] => %s""".format(key.name, lines.head.getOrElse(""))) :: (
-                if (lines.tail.isEmpty) Nil else lines.tail.map(_.map("        " + _)) ::: None :: Nil)
-          }.toList ::: Some(")") :: Nil
-        case v => Some(v.toOutput) :: Nil
+              builder ++= ident
+              builder ++= "    [%s] => %s\n".format(key.name, dump(v :: stack, ident + "        "))
+          }
+          builder ++= ident
+          builder ++= ")\n"
+          builder.result()
+        case v => v.toOutput
       }
     }
 
     if (ret.getOrElse(false))
-      StringVal(dump(value :: Nil).map(_.getOrElse("")).mkString("\n") + "\n")
+      StringVal(dump(value :: Nil, ""))
     else {
-      dump(value :: Nil).map(_.getOrElse("")).foreach(ctx.out.println)
+      ctx.out.print(dump(value :: Nil, ""))
       BooleanVal.TRUE
     }
   }

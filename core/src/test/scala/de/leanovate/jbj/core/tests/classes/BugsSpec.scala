@@ -62,8 +62,7 @@ class BugsSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |    [1] => foo1_value
           |    [2] => foo2_value
           |)
-          |foo
-          |""".stripMargin
+          |foo""".stripMargin
       )
     }
 
