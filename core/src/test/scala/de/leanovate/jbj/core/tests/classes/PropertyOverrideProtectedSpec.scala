@@ -164,5 +164,82 @@ class PropertyOverrideProtectedSpec extends SpecificationWithJUnit with TestJbjE
           |""".stripMargin
       )
     }
+
+    "Redeclare inherited protected property as public." in {
+      // classes/property_override_protected_public.phpt
+      script(
+        """<?php
+          |  class A
+          |  {
+          |      protected $p = "A::p";
+          |      function showA()
+          |      {
+          |          echo $this->p . "\n";
+          |      }
+          |  }
+          |
+          |  class B extends A
+          |  {
+          |      public $p = "B::p";
+          |      function showB()
+          |      {
+          |          echo $this->p . "\n";
+          |      }
+          |  }
+          |
+          |
+          |  $a = new A;
+          |  $a->showA();
+          |
+          |  $b = new B;
+          |  $b->showA();
+          |  $b->showB();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """A::p
+          |B::p
+          |B::p
+          |""".stripMargin
+      )
+    }
+
+    "Redeclare inherited protected property as public static." in {
+      // classes/property_override_protected_publicStatic.phpt
+      script(
+        """<?php
+          |  class A
+          |  {
+          |      protected $p = "A::p";
+          |      function showA()
+          |      {
+          |          echo $this->p . "\n";
+          |      }
+          |  }
+          |
+          |  class B extends A
+          |  {
+          |      public static $p = "B::p (static)";
+          |      static function showB()
+          |      {
+          |          echo self::$p . "\n";
+          |      }
+          |  }
+          |
+          |
+          |  $a = new A;
+          |  $a->showA();
+          |
+          |  $b = new B;
+          |  $b->showA();
+          |  B::showB();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot redeclare non static A::$p as static B::$p in /classes/PropertyOverrideProtectedSpec.inlinePhp on line 13
+          |""".stripMargin
+      )
+    }
   }
 }
