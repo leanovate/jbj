@@ -33,5 +33,7 @@ object StdClass extends PClass {
 
   override def destructInstance(instance: ObjectVal)(implicit ctx: Context) {}
 
+  override def properties = Map.empty
+
   override def methods = Map.empty
 }

@@ -55,7 +55,7 @@ object TestBed {
       """<?php
         |  class A
         |  {
-        |      private $p = "A::p";
+        |      protected $p = "A::p";
         |      function showA()
         |      {
         |          echo $this->p . "\n";
@@ -78,6 +78,7 @@ object TestBed {
         |  $b = new B;
         |  $b->showA();
         |  $b->showB();
+        |
         |  var_dump($b);
         |?>""".stripMargin)
   }

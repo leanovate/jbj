@@ -69,6 +69,8 @@ trait PClass {
     }
   }
 
+  def properties: Map[String, PProperty]
+
   def methods: Map[String, PMethod]
 
   def findMethod(methodName: String): Option[PMethod] = methods.get(methodName.toLowerCase)

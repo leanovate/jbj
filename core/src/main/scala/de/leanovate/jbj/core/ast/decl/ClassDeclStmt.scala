@@ -152,6 +152,21 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     instance.cleanup()
   }
 
+  override lazy val properties: Map[String, PProperty] = {
+    val result = mutable.LinkedHashMap.empty[String, PProperty]
+
+    superClass.foreach(result ++= _.properties)
+    decls.foreach {
+      case varDecl: ClassVarDecl =>
+        varDecl.getProperties(this).foreach {
+          property =>
+            result -= property.name
+            result += property.name -> property
+        }
+      case _ =>
+    }
+    result.toMap
+  }
   override lazy val methods: Map[String, PMethod] = {
     val result = mutable.LinkedHashMap.empty[String, PMethod]
 
