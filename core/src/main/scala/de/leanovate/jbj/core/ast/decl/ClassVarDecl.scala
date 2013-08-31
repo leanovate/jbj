@@ -64,6 +64,12 @@ case class ClassVarDecl(modifiers: Set[MemberModifier.Type], assignments: List[S
                 if (isPrivate) {
                   if (superProperty.isProtected)
                     throw new FatalErrorJbjException("Access level to %s::$%s must be protected (as in class %s) or weaker".format(pClass.name.toString, assignment.variableName, superClass.name.toString))
+                  if (superProperty.isPublic)
+                    throw new FatalErrorJbjException("Access level to %s::$%s must be public (as in class %s)".format(pClass.name.toString, assignment.variableName, superClass.name.toString))
+                }
+                if (isProtected) {
+                  if (superProperty.isPublic)
+                    throw new FatalErrorJbjException("Access level to %s::$%s must be public (as in class %s)".format(pClass.name.toString, assignment.variableName, superClass.name.toString))
                 }
             }
         }
