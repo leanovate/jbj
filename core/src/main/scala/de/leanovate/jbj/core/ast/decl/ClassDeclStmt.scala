@@ -155,7 +155,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     superClass.foreach(result ++= _.methods)
     decls.foreach {
       case method: ClassMethodDecl =>
-        method.implementingClass = this
+        method.declaringClass = this
         result -= method.name.toLowerCase
         result += method.name.toLowerCase -> method
       case _ =>

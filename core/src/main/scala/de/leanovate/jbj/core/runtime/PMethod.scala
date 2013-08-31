@@ -12,7 +12,7 @@ import de.leanovate.jbj.core.ast.{MemberModifier, Expr}
 import de.leanovate.jbj.core.runtime.context.Context
 
 trait PMethod {
-  def implementingClass: PClass
+  def declaringClass: PClass
 
   def name: String
 
