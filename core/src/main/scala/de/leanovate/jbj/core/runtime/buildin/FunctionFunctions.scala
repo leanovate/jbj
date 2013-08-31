@@ -24,7 +24,16 @@ object FunctionFunctions extends WrappedFunctions {
         val methodName = array.keyValues.last._2.asVal.toStr.asString
         objOrClassName match {
           case obj: ObjectVal =>
-            obj.pClass.findMethod(methodName).map {
+            val optMethod = if (methodName.contains("::")) {
+              val classAndMethod = methodName.split("::")
+              ctx.global.findClass(NamespaceName(classAndMethod(0))).flatMap {
+                pClass =>
+                  pClass.findMethod(classAndMethod(1))
+              }
+            } else {
+              obj.pClass.findMethod(methodName)
+            }
+            optMethod.map {
               method =>
                 method.invoke(ctx, obj, parameters.toList)
             }.getOrElse {

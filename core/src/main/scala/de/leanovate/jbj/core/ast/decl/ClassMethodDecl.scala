@@ -129,9 +129,15 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
   }
 
   override def initializeClass(pClass: ClassDeclStmt)(implicit ctx: Context) {
-    if (isAbstract && isFinal) {
-      throw new FatalErrorJbjException("Cannot use the final modifier on an abstract class member")
+    if (isAbstract) {
+      if (isFinal) {
+        throw new FatalErrorJbjException("Cannot use the final modifier on an abstract class member")
+      }
+      if (isStatic) {
+        ctx.log.strict("Static function %s::%s() should not be abstract".format(pClass.name.toString, name))
+      }
     }
+
 
     name match {
       case "__call" =>

@@ -21,7 +21,16 @@ object CallbackHelper {
         val methodName = array.keyValues.last._2.asVal.toStr.asString
         objOrClassName match {
           case obj: ObjectVal =>
-            obj.pClass.findMethod(methodName).isDefined
+            val optMethod = if (methodName.contains("::")) {
+              val classAndMethod = methodName.split("::")
+              ctx.global.findClass(NamespaceName(classAndMethod(0))).flatMap {
+                pClass =>
+                  pClass.findMethod(classAndMethod(1))
+              }
+            } else {
+              obj.pClass.findMethod(methodName)
+            }
+            optMethod.isDefined
           case name =>
             ctx.global.findClass(NamespaceName(name.toStr.asString)).exists {
               pClass =>
@@ -41,7 +50,16 @@ object CallbackHelper {
         val methodName = array.keyValues.last._2.asVal.toStr.asString
         objOrClassName match {
           case obj: ObjectVal =>
-            obj.pClass.findMethod(methodName).map(_ => methodName)
+            val optMethod = if (methodName.contains("::")) {
+              val classAndMethod = methodName.split("::")
+              ctx.global.findClass(NamespaceName(classAndMethod(0))).flatMap {
+                pClass =>
+                  pClass.findMethod(classAndMethod(1))
+              }
+            } else {
+              obj.pClass.findMethod(methodName)
+            }
+            optMethod.map(_ => methodName)
           case name =>
             ctx.global.findClass(NamespaceName(name.toStr.asString)).flatMap {
               pClass =>
@@ -62,7 +80,16 @@ object CallbackHelper {
         val methodName = array.keyValues.last._2.asVal.toStr.asString
         objOrClassName match {
           case obj: ObjectVal =>
-            obj.pClass.findMethod(methodName).map {
+            val optMethod = if (methodName.contains("::")) {
+              val classAndMethod = methodName.split("::")
+              ctx.global.findClass(NamespaceName(classAndMethod(0))).flatMap {
+                pClass =>
+                  pClass.findMethod(classAndMethod(1))
+              }
+            } else {
+              obj.pClass.findMethod(methodName)
+            }
+            optMethod.map {
               method =>
                 method.invoke(ctx, obj, parameters.map(ScalarExpr.apply).toList)
             }.getOrElse {

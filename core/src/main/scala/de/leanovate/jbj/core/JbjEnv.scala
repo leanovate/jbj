@@ -16,7 +16,7 @@ import scala.collection.JavaConverters._
 import scala.collection.Map
 import de.leanovate.jbj.core.runtime.value.PVal
 import de.leanovate.jbj.api._
-import de.leanovate.jbj.core.runtime.exception.NotFoundJbjException
+import de.leanovate.jbj.core.runtime.exception.{ExitJbjException, NotFoundJbjException}
 import de.leanovate.jbj.core.runtime.env.{CliEnvironment, CgiEnvironment}
 import de.leanovate.jbj.core.parser.ParseContext
 import scala.Some
@@ -105,6 +105,9 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
         case None =>
           throw new NotFoundJbjException(phpScript)
       }
+    } catch {
+      case e: ExitJbjException =>
+        ctx.out.print(e.message)
     } finally {
       ctx.cleanup()
     }

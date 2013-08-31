@@ -54,11 +54,25 @@ object TestBed {
     test(
       """<?php
         |
-        |class fail {
-        |	abstract function show();
+        |abstract class test_base
+        |{
+        |	abstract function func();
         |}
         |
-        |echo "Done\n"; // shouldn't be displayed
+        |class test extends test_base
+        |{
+        |	function func()
+        |	{
+        |		echo __METHOD__ . "()\n";
+        |	}
+        |}
+        |
+        |$o = new test;
+        |
+        |$o->func();
+        |
+        |call_user_func(array($o, 'test_base::func'));
+        |
         |?>""".stripMargin)
   }
 }
