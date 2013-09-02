@@ -28,6 +28,11 @@ object ClassFunctions extends WrappedFunctions {
   }
 
   @GlobalFunction
+  def interface_exists(name: String, autoload: Option[Boolean])(implicit ctx: Context, position: NodePosition): Boolean = {
+    ctx.global.findInterface(NamespaceName(name), autoload.getOrElse(true)).isDefined
+  }
+
+  @GlobalFunction
   def get_class_methods(name: String)(implicit ctx: Context, position: NodePosition): PVal = {
     ctx.global.findClass(NamespaceName(name), autoload = true).map {
       pClass =>
