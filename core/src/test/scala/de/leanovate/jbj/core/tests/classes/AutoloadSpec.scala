@@ -244,6 +244,52 @@ class AutoloadSpec extends SpecificationWithJUnit with TestJbjExecutor {
       )
     }
 
+    "Ensure type hints for unknown types do not trigger autoload." in {
+      // classes/autoload_009.phpt
+      script(
+        """<?php
+          |  function __autoload($name)
+          |  {
+          |      echo "In autoload: ";
+          |      var_dump($name);
+          |  }
+          |
+          |  function f(UndefClass $x)
+          |  {
+          |  }
+          |  f(new stdClass);
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Catchable fatal error: Argument 1 passed to f() must be an instance of UndefClass, instance of stdClass given, called in /classes/AutoloadSpec.inlinePhp on line 11 and defined in /classes/AutoloadSpec.inlinePhp on line 8
+          |""".stripMargin
+      )
+    }
+
+    "Ensure implements does trigger autoload." in {
+      // classes/autoload_010.phpt
+      script(
+        """<?php
+          |  function __autoload($name)
+          |  {
+          |      echo "In autoload: ";
+          |      var_dump($name);
+          |  }
+          |
+          |  class C implements UndefI
+          |  {
+          |  }
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """In autoload: string(6) "UndefI"
+          |
+          |Fatal error: Interface 'UndefI' not found in /classes/AutoloadSpec.inlinePhp on line 8
+          |""".stripMargin
+      )
+    }
+
     "Ensure extends does trigger autoload." in {
       // classes/autoload_011
       script(
