@@ -6,11 +6,12 @@ import de.leanovate.jbj.core.runtime.value.StringVal
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 
 object CatchableFatalError {
-  def apply(msg: String)(implicit ctx: Context): RuntimeJbjException = {
-    ctx.log.catchableFatal(msg)
+  def apply(msg: String)(implicit ctx: Context) {
+    if (ctx.log.catchableFatal(msg)) {
 
-    val exception = Exception.newInstance(ScalarExpr(StringVal(msg)) :: Nil)
+      val exception = Exception.newInstance(ScalarExpr(StringVal(msg)) :: Nil)
 
-    RuntimeJbjException(exception)
+      throw RuntimeJbjException(exception)
+    }
   }
 }

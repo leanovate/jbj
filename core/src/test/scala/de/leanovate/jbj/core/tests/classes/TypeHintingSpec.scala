@@ -72,5 +72,70 @@ class TypeHintingSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "ZE2 class type hinting with arrays" in {
+      // classes/type_hinting_003.phpt
+      script(
+        """<?php
+          |
+          |class Test
+          |{
+          |	static function f1(array $ar)
+          |	{
+          |		echo __METHOD__ . "()\n";
+          |		var_dump($ar);
+          |	}
+          |
+          |	static function f2(array $ar = NULL)
+          |	{
+          |		echo __METHOD__ . "()\n";
+          |		var_dump($ar);
+          |	}
+          |
+          |	static function f3(array $ar = array())
+          |	{
+          |		echo __METHOD__ . "()\n";
+          |		var_dump($ar);
+          |	}
+          |
+          |	static function f4(array $ar = array(25))
+          |	{
+          |		echo __METHOD__ . "()\n";
+          |		var_dump($ar);
+          |	}
+          |}
+          |
+          |Test::f1(array(42));
+          |Test::f2(NULL);
+          |Test::f2();
+          |Test::f3();
+          |Test::f4();
+          |Test::f1(1);
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """Test::f1()
+          |array(1) {
+          |  [0]=>
+          |  int(42)
+          |}
+          |Test::f2()
+          |NULL
+          |Test::f2()
+          |NULL
+          |Test::f3()
+          |array(0) {
+          |}
+          |Test::f4()
+          |array(1) {
+          |  [0]=>
+          |  int(25)
+          |}
+          |
+          |Catchable fatal error: Argument 1 passed to Test::f1() must be of the type array, integer given, called in /classes/TypeHintingSpec.inlinePhp on line 35 and defined in /classes/TypeHintingSpec.inlinePhp on line 5
+          |""".stripMargin
+      )
+    }
   }
 }

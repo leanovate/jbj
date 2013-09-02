@@ -14,7 +14,7 @@ import de.leanovate.jbj.api.JbjSettings
 import de.leanovate.jbj.core.runtime.output.OutputBuffer
 import de.leanovate.jbj.api.JbjSettings.ErrorLevel
 import de.leanovate.jbj.core.runtime.buildin.CallbackHelper
-import de.leanovate.jbj.core.runtime.value.{StringVal, IntegerVal}
+import de.leanovate.jbj.core.runtime.value.{BooleanVal, StringVal, IntegerVal}
 
 class Log(context: Context, out: OutputBuffer, err: Option[PrintStream]) {
   var silent: Boolean = false
@@ -28,12 +28,16 @@ class Log(context: Context, out: OutputBuffer, err: Option[PrintStream]) {
     }
   }
 
-  def catchableFatal(msg: String) {
-    if (!handleError(JbjSettings.ErrorLevel.E_ERROR, msg, context.currentPosition) && !silent &&
-      context.settings.getErrorReporting.contains(JbjSettings.ErrorLevel.E_ERROR)) {
-      err.foreach(_.println("PHP Catchable fatal error: %s in %s on line %d".format(msg, context.currentPosition.fileName, context.currentPosition.line)))
-      out.println()
-      out.println("Catchable fatal error: %s in %s on line %d".format(msg, context.currentPosition.fileName, context.currentPosition.line))
+  def catchableFatal(msg: String): Boolean = {
+    if (handleError(JbjSettings.ErrorLevel.E_RECOVERABLE_ERROR, msg, context.currentPosition))
+      false
+    else {
+      if (!silent && context.settings.getErrorReporting.contains(JbjSettings.ErrorLevel.E_RECOVERABLE_ERROR)) {
+        err.foreach(_.println("PHP Catchable fatal error: %s".format(msg)))
+        out.println()
+        out.println("Catchable fatal error: %s".format(msg))
+      }
+      true
     }
   }
 
@@ -95,8 +99,10 @@ class Log(context: Context, out: OutputBuffer, err: Option[PrintStream]) {
     implicit val global = context.global
     global.errorHandler.exists {
       case errorHandler if (context.global.errorHandlerTypes & errorLevel.getValue) != 0 =>
-        CallbackHelper.callCallabck(errorHandler, IntegerVal(errorLevel.getValue), StringVal(msg), StringVal(position.fileName), IntegerVal(position.line))
-        true
+        CallbackHelper.callCallabck(errorHandler, IntegerVal(errorLevel.getValue), StringVal(msg), StringVal(position.fileName), IntegerVal(position.line)).asVal match {
+          case BooleanVal.FALSE => false
+          case _ => true
+        }
       case _ =>
         false
     }
