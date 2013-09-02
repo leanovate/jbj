@@ -39,13 +39,9 @@ object ArrayTypeHint extends TypeHint {
       case pVal =>
         ctx match {
           case methodCtx: FunctionLikeContext =>
-            CatchableFatalError("Argument %d passed to %s must be of the type array, %s given, called in %s on line %d and defined in %s on line %d".
-              format(index + 1, methodCtx.functionSignature,
-              TypeHint.displyType(pVal),
-              methodCtx.callerContext.currentPosition.fileName,
-              methodCtx.callerContext.currentPosition.line,
-              methodCtx.currentPosition.fileName,
-              methodCtx.currentPosition.line))
+            CatchableFatalError("Argument %d passed to %s must be of the type array, %s given".
+              format(index + 1, methodCtx.functionSignature, TypeHint.displyType(pVal)),
+              methodCtx.callerContext.currentPosition, Some(methodCtx.currentPosition))
         }
     }
   }
@@ -62,29 +58,40 @@ case class ClassTypeHint(className: NamespaceName) extends TypeHint {
       case Some(Left(pInterface)) =>
         pVar.value match {
           case obj: ObjectVal if obj.instanceOf(pInterface) =>
+          case NullVal =>
           case pVal =>
             ctx match {
               case methodCtx: FunctionLikeContext =>
-                CatchableFatalError("Argument %d passed to %s must implement interface %s, %s given, called in %s on line %d and defined in %s on line %d".
+                CatchableFatalError("Argument %d passed to %s must implement interface %s, %s given".
                   format(index + 1, methodCtx.functionSignature,
-                  pInterface.name.toString, TypeHint.displyType(pVal),
-                  methodCtx.callerContext.currentPosition.fileName,
-                  methodCtx.callerContext.currentPosition.line,
-                  methodCtx.currentPosition.fileName,
-                  methodCtx.currentPosition.line))
+                  pInterface.name.toString, TypeHint.displyType(pVal)),
+                  methodCtx.callerContext.currentPosition, Some(methodCtx.currentPosition))
             }
         }
       case Some(Right(pClass)) =>
+        pVar.value match {
+          case obj: ObjectVal if obj.instanceOf(pClass) =>
+          case NullVal =>
+          case pVal =>
+            ctx match {
+              case methodCtx: FunctionLikeContext =>
+                CatchableFatalError("Argument %d passed to %s must be an instance of %s, %s given".
+                  format(index + 1, methodCtx.functionSignature,
+                  pClass.name.toString, TypeHint.displyType(pVal)),
+                  methodCtx.callerContext.currentPosition, Some(methodCtx.currentPosition))
+            }
+        }
       case _ =>
-        ctx match {
-          case methodCtx: FunctionLikeContext =>
-            CatchableFatalError("Argument %d passed to %s must be an instance of %s, %s given, called in %s on line %d and defined in %s on line %d".
-              format(index + 1, methodCtx.functionSignature,
-              className.toString, TypeHint.displyType(pVar.value),
-              methodCtx.callerContext.currentPosition.fileName,
-              methodCtx.callerContext.currentPosition.line,
-              methodCtx.currentPosition.fileName,
-              methodCtx.currentPosition.line))
+        pVar.value match {
+          case NullVal =>
+          case pVal =>
+            ctx match {
+              case methodCtx: FunctionLikeContext =>
+                CatchableFatalError("Argument %d passed to %s must be an instance of %s, %s given".
+                  format(index + 1, methodCtx.functionSignature,
+                  className.toString, TypeHint.displyType(pVal)),
+                  methodCtx.callerContext.currentPosition, Some(methodCtx.currentPosition))
+            }
         }
     }
   }

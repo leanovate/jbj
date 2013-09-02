@@ -53,40 +53,77 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
+        |  set_error_handler('myErrorHandler', E_RECOVERABLE_ERROR);
+        |  function myErrorHandler($errno, $errstr, $errfile, $errline) {
+        |      echo "$errno: $errstr - $errfile($errline)\n";
+        |      return true;
+        |  }
         |
-        |class Test
-        |{
-        |	static function f1(array $ar)
-        |	{
-        |		echo __METHOD__ . "()\n";
-        |		var_dump($ar);
-        |	}
+        |  echo "---> Type hints with callback function:\n";
+        |  class A  {  }
+        |  function f1(A $a)  {
+        |      echo "in f1;\n";
+        |  }
+        |  function f2(A $a = null)  {
+        |      echo "in f2;\n";
+        |  }
+        |  call_user_func('f1', 1);
+        |  call_user_func('f1', new A);
+        |  call_user_func('f2', 1);
+        |  call_user_func('f2');
+        |  call_user_func('f2', new A);
+        |  call_user_func('f2', null);
         |
-        |	static function f2(array $ar = NULL)
-        |	{
-        |		echo __METHOD__ . "()\n";
-        |		var_dump($ar);
-        |	}
         |
-        |	static function f3(array $ar = array())
-        |	{
-        |		echo __METHOD__ . "()\n";
-        |		var_dump($ar);
-        |	}
+        |  echo "\n\n---> Type hints with callback static method:\n";
+        |  class C {
+        |      static function f1(A $a) {
+        |          if (isset($this)) {
+        |              echo "in C::f1 (instance);\n";
+        |          } else {
+        |              echo "in C::f1 (static);\n";
+        |          }
+        |      }
+        |      static function f2(A $a = null) {
+        |          if (isset($this)) {
+        |              echo "in C::f2 (instance);\n";
+        |          } else {
+        |              echo "in C::f2 (static);\n";
+        |          }
+        |      }
+        |  }
+        |  call_user_func(array('C', 'f1'), 1);
+        |  call_user_func(array('C', 'f1'), new A);
+        |  call_user_func(array('C', 'f2'), 1);
+        |  call_user_func(array('C', 'f2'));
+        |  call_user_func(array('C', 'f2'), new A);
+        |  call_user_func(array('C', 'f2'), null);
         |
-        |	static function f4(array $ar = array(25))
-        |	{
-        |		echo __METHOD__ . "()\n";
-        |		var_dump($ar);
-        |	}
-        |}
         |
-        |Test::f1(array(42));
-        |Test::f2(NULL);
-        |Test::f2();
-        |Test::f3();
-        |Test::f4();
-        |Test::f1(1);
+        |  echo "\n\n---> Type hints with callback instance method:\n";
+        |  class D {
+        |      function f1(A $a) {
+        |          if (isset($this)) {
+        |              echo "in C::f1 (instance);\n";
+        |          } else {
+        |              echo "in C::f1 (static);\n";
+        |          }
+        |      }
+        |      function f2(A $a = null) {
+        |          if (isset($this)) {
+        |              echo "in C::f2 (instance);\n";
+        |          } else {
+        |              echo "in C::f2 (static);\n";
+        |          }
+        |      }
+        |  }
+        |  $d = new D;
+        |  call_user_func(array($d, 'f1'), 1);
+        |  call_user_func(array($d, 'f1'), new A);
+        |  call_user_func(array($d, 'f2'), 1);
+        |  call_user_func(array($d, 'f2'));
+        |  call_user_func(array($d, 'f2'), new A);
+        |  call_user_func(array($d, 'f2'), null);
         |
         |?>""".stripMargin)
   }

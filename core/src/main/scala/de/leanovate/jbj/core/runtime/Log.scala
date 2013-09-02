@@ -28,14 +28,19 @@ class Log(context: Context, out: OutputBuffer, err: Option[PrintStream]) {
     }
   }
 
-  def catchableFatal(msg: String): Boolean = {
+  def catchableFatal(msg: String, callerPosition: NodePosition, definitionPosition: Option[NodePosition]): Boolean = {
     if (handleError(JbjSettings.ErrorLevel.E_RECOVERABLE_ERROR, msg, context.currentPosition))
       false
     else {
       if (!silent && context.settings.getErrorReporting.contains(JbjSettings.ErrorLevel.E_RECOVERABLE_ERROR)) {
-        err.foreach(_.println("PHP Catchable fatal error: %s".format(msg)))
+        val suffix = if (definitionPosition.isDefined)
+          ", called in %s on line %d and defined in %s on line %d".format(callerPosition.fileName, callerPosition.line,
+            definitionPosition.get.fileName, definitionPosition.get.line)
+        else
+          "in %s on line %d".format(callerPosition.fileName, callerPosition.line)
+        err.foreach(_.println("PHP Catchable fatal error: %s%s".format(msg, suffix)))
         out.println()
-        out.println("Catchable fatal error: %s".format(msg))
+        out.println("Catchable fatal error: %s%s".format(msg, suffix))
       }
       true
     }
