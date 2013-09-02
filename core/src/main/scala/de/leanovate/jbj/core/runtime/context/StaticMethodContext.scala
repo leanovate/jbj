@@ -20,6 +20,8 @@ case class StaticMethodContext(pMethod: PMethod, callerContext: Context) extends
 
   def name = pMethod.declaringClass.name.toString
 
+  def functionSignature = pMethod.declaringClass.name.toString + "::" + pMethod.name + "()"
+
   lazy val global = callerContext.global
 
   lazy val static = global.staticContext(identifier)

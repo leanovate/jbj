@@ -5,13 +5,6 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                 (Tests based on PHP)   */
 
-/*    _ _     _                                        *\
-**   (_) |__ (_)  License: MIT  (2013)                 **
-**   | |  _ \| |    http://opensource.org/licenses/MIT **
-**   | | |_) | |                                       **
-**  _/ |____// |  Author: Bodo Junglas                 **
-\* |__/    |__/                 (Tests based on PHP)   */
-
 package de.leanovate.jbj.core.tests
 
 import scala.io.Source

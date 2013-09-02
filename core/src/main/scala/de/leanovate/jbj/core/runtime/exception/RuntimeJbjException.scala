@@ -12,7 +12,7 @@ import de.leanovate.jbj.core.ast.NodePosition
 import de.leanovate.jbj.core.runtime.context.Context
 import de.leanovate.jbj.api.JbjException
 
-case class RuntimeJbjException(exception: ObjectVal)(implicit ctx: Context, position: NodePosition)
+case class RuntimeJbjException(exception: ObjectVal)(implicit ctx: Context)
   extends JbjException(exception.getProperty("message", None).map(_.asVal.toStr.asString).getOrElse("")) {
 
 }

@@ -8,5 +8,7 @@
 package de.leanovate.jbj.core.runtime.context
 
 trait FunctionLikeContext extends Context {
+  def functionSignature: String
+
   def callerContext: Context
 }

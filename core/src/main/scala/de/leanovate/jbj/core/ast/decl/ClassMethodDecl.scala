@@ -67,6 +67,7 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
 
     implicit val methodCtx = MethodContext(instance, this, ctx)
 
+    methodCtx.currentPosition = position
     if (!methodCtx.static.initialized) {
       staticInitializers.foreach(_.initializeStatic(methodCtx.static))
       methodCtx.static.initialized = true
@@ -99,6 +100,8 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
     }
 
     implicit val methodCtx = StaticMethodContext(this, ctx)
+
+    methodCtx.currentPosition = position
 
     if (!methodCtx.static.initialized) {
       staticInitializers.foreach(_.initializeStatic(methodCtx.static))

@@ -26,7 +26,15 @@ class Log(context: Context, out: OutputBuffer, err: Option[PrintStream]) {
       out.println()
       out.println("Fatal error: %s in %s on line %d".format(msg, context.currentPosition.fileName, context.currentPosition.line))
     }
+  }
 
+  def catchableFatal(msg: String) {
+    if (!handleError(JbjSettings.ErrorLevel.E_ERROR, msg, context.currentPosition) && !silent &&
+      context.settings.getErrorReporting.contains(JbjSettings.ErrorLevel.E_ERROR)) {
+      err.foreach(_.println("PHP Catchable fatal error: %s in %s on line %d".format(msg, context.currentPosition.fileName, context.currentPosition.line)))
+      out.println()
+      out.println("Catchable fatal error: %s in %s on line %d".format(msg, context.currentPosition.fileName, context.currentPosition.line))
+    }
   }
 
   def compileError(msg: String) {

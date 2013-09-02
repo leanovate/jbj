@@ -20,6 +20,8 @@ case class FunctionContext(functionName: NamespaceName, callerContext: Context) 
 
   def name = ""
 
+  def functionSignature = functionName.toString + "()"
+
   lazy val global = callerContext.global
 
   lazy val static = global.staticContext(identifier)

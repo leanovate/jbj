@@ -5,13 +5,6 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                 (Tests based on PHP)   */
 
-/*    _ _     _                                        *\
-**   (_) |__ (_)  License: MIT  (2013)                 **
-**   | |  _ \| |    http://opensource.org/licenses/MIT **
-**   | | |_) | |                                       **
-**  _/ |____// |  Author: Bodo Junglas                 **
-\* |__/    |__/                 (Tests based on PHP)   */
-
 package de.leanovate.jbj.core.tests
 
 import de.leanovate.jbj.core.ast.{Prog, Node, NodeVisitor}
@@ -20,6 +13,7 @@ import de.leanovate.jbj.core.ast.stmt.{EchoStmt, BlockStmt, ExprStmt, InlineStmt
 import de.leanovate.jbj.core.ast.expr.{VariableReferableExpr, AssignReferableExpr, CallFunctionReferableExpr}
 import de.leanovate.jbj.core.ast.name.{StaticNamespaceName, StaticName}
 import de.leanovate.jbj.core.ast.stmt.loop.ForStmt
+import de.leanovate.jbj.core.ast.decl.{ParameterDecl, ClassMethodDecl, InterfaceDeclStmt, ClassDeclStmt}
 
 object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
   def apply(node: Node) = node match {
@@ -51,15 +45,41 @@ object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
           </parameters>
         </call-function>
       )
+    case classDecl: ClassDeclStmt =>
+      NextSibling(
+        <class line={classDecl.position.line.toString} file={classDecl.position.fileName}>
+          <name>
+            {classDecl.name}
+          </name>{classDecl.superClassName.map {
+          superClassName =>
+            <extends>
+              {superClassName}
+            </extends>
+        }.getOrElse(NodeSeq.Empty)}{classDecl.implements.map {
+          implements =>
+            <implements>
+              {implements}
+            </implements>
+        }}{classDecl.decls.flatMap(_.visit(this).results)}
+        </class>
+      )
+    case classMethodDecl: ClassMethodDecl =>
+      NextSibling(
+        <method line={classMethodDecl.position.line.toString} file={classMethodDecl.position.fileName}>
+          <name>
+            {classMethodDecl.name}
+          </name>{classMethodDecl.parameterDecls.flatMap(_.visit(this).results)}{classMethodDecl.stmts.toSeq.flatMap(_.flatMap(_.visit(this).results))}
+        </method>
+      )
     case echoStmt: EchoStmt =>
       NextSibling(
-        <echo>
+        <echo line={echoStmt.position.line.toString} file={echoStmt.position.fileName}>
           {echoStmt.parameters.flatMap(_.visit(this).results)}
         </echo>
       )
     case forStmt: ForStmt =>
       NextSibling(
-        <for>
+        <for line={forStmt.position.line.toString} file={forStmt.position.fileName}>
           <start>
             {forStmt.befores.flatMap(_.visit(this).results)}
           </start>
@@ -80,11 +100,42 @@ object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
           {PCData(inline.text)}
         </inline>
       )
+    case interfaceDecl: InterfaceDeclStmt =>
+      NextSibling(
+        <class line={interfaceDecl.position.line.toString} file={interfaceDecl.position.fileName}>
+          <name>
+            {interfaceDecl.name}
+          </name>{interfaceDecl.superInterfaces.map {
+          ext =>
+            <extends>
+              {ext}
+            </extends>
+        }}{interfaceDecl.decls.flatMap(_.visit(this).results)}
+        </class>
+      )
     case exprStmt: ExprStmt =>
       NextSibling(
         <expr line={exprStmt.position.line.toString} file={exprStmt.position.fileName}>
           {exprStmt.expr.visit(this).results}
         </expr>
+      )
+    case parameterDecl: ParameterDecl =>
+      NextSibling(
+        <parameter>
+          <name>
+            {parameterDecl.variableName}
+          </name>{parameterDecl.typeHint.map {
+          typeHint =>
+            <typeHine>
+              {typeHint}
+            </typeHine>
+        }.getOrElse(NodeSeq.Empty)}{parameterDecl.default.map {
+          defaultExpr =>
+            <default>
+              {defaultExpr.visit(this).results}
+            </default>
+        }.getOrElse(NodeSeq.Empty)}
+        </parameter>
       )
     case prog: Prog =>
       NextSibling(

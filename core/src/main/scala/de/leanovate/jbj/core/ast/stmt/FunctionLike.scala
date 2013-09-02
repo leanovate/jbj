@@ -23,8 +23,8 @@ trait FunctionLike extends BlockLike {
 
   def setParameters(funcCtx: Context, callerContext: Context, parameters: List[Expr]) {
     val parameterIt = parameters.iterator
-    parameterDecls.foreach {
-      parameterDecl =>
+    parameterDecls.zipWithIndex.foreach {
+      case (parameterDecl, index) =>
         if (parameterIt.hasNext) {
           parameterIt.next() match {
             case reference: ReferableExpr if parameterDecl.byRef =>
@@ -34,16 +34,21 @@ trait FunctionLike extends BlockLike {
                   callerContext.log.strict("Only variables should be passed by reference")
                   pAny.asVar
               }
-              funcCtx.defineVariable(parameterDecl.variableName, pVar)
+              checkAndDefine(funcCtx, parameterDecl, index, pVar)
             case _ if parameterDecl.byRef =>
               throw new FatalErrorJbjException("Only variables can be passed by reference")(callerContext)
             case expr =>
-              funcCtx.defineVariable(parameterDecl.variableName, PVar(expr.eval(callerContext).asVal))
+              checkAndDefine(funcCtx, parameterDecl, index, PVar(expr.eval(callerContext).asVal))
           }
         } else {
-          funcCtx.defineVariable(parameterDecl.variableName, PVar(parameterDecl.defaultVal(funcCtx)))
+          checkAndDefine(funcCtx, parameterDecl, index, PVar(parameterDecl.defaultVal(funcCtx)))
         }
     }
+  }
+
+  private def checkAndDefine(funcCtx: Context, parameterDecl: ParameterDecl, index: Int, pVar: PVar) {
+    parameterDecl.typeHint.foreach(_.check(pVar, index)(funcCtx))
+    funcCtx.defineVariable(parameterDecl.variableName, pVar)
   }
 
   def perform(funcCtx: FunctionLikeContext, returnByRef: Boolean, stmts: List[Stmt]) = {

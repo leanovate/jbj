@@ -54,23 +54,33 @@ object TestBed {
     test(
       """<?php
         |
-        |function handler($errno, $errstr, $errfile, $errline, $context)
-        |{
-        |	echo __FUNCTION__ . "($errstr)\n";
+        |interface Foo {
+        |	function a(Foo $foo);
         |}
         |
-        |set_error_handler('handler');
-        |
-        |function foo($x) {
-        |	return "foo";
+        |interface Bar {
+        |	function b(Bar $bar);
         |}
         |
-        |$output = array();
-        |++$output[foo("bar")];
+        |class FooBar implements Foo, Bar {
+        |	function a(Foo $foo) {
+        |		// ...
+        |	}
         |
-        |print_r($output);
+        |	function b(Bar $bar) {
+        |		// ...
+        |	}
+        |}
         |
-        |echo "Done";
+        |class Blort {
+        |}
+        |
+        |$a = new FooBar;
+        |$b = new Blort;
+        |
+        |$a->a($b);
+        |$a->b($b);
+        |
         |?>""".stripMargin)
   }
 }
