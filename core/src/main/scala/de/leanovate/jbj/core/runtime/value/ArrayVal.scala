@@ -17,7 +17,7 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
     case _ => -1L
   }.toList).max
 
-  private var iteratorState: Option[Iterator[(Any, PAny)]] = None
+  private var iteratorState: Option[BufferedIterator[(Any, PAny)]] = None
 
   def keyValues(implicit ctx: Context): Seq[(PVal, PAny)] = keyValueMap.toSeq.map {
     case (key: Long, value) => IntegerVal(key) -> value
@@ -45,7 +45,7 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
   override def copy = {
     iteratorState = None
     new ArrayVal(keyValueMap.map {
-      case (key, pVar:PVar) =>
+      case (key, pVar: PVar) =>
         pVar.retain()
         key -> pVar
       case (key, pVal: PVal) => key -> pVal.copy
@@ -125,12 +125,26 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
   def iteratorHasNext: Boolean = {
     if (iteratorState.isEmpty) {
       val it = keyValueMap.iterator
-      iteratorState = Some(it)
+      iteratorState = Some(it.buffered)
     }
     iteratorState.get.hasNext
   }
 
-  def iteratorNext(implicit ctx: Context): PVal =
+  def iteratorCurrent(implicit ctx: Context): PVal =
+    if (!iteratorHasNext) {
+      BooleanVal.FALSE
+    } else {
+      iteratorState.get.head match {
+        case (key: Long, value) =>
+          ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
+            Some(IntegerVal(0)) -> IntegerVal(key), Some(StringVal("key")) -> IntegerVal(key))
+        case (key: String, value) =>
+          ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
+            Some(IntegerVal(0)) -> StringVal(key), Some(StringVal("key")) -> StringVal(key))
+      }
+    }
+
+  def iteratorNext()(implicit ctx: Context): PVal =
     if (!iteratorHasNext) {
       BooleanVal.FALSE
     } else {
@@ -144,11 +158,17 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
       }
     }
 
+  def iteratorAdvance() {
+    if (iteratorHasNext) {
+      iteratorState.get.next()
+    }
+  }
+
   def iteratorReset() {
     iteratorState = None
   }
 
-  def cleanup()(implicit ctx:Context) {
+  def cleanup()(implicit ctx: Context) {
     keyValueMap.values.foreach(_.release())
   }
 }

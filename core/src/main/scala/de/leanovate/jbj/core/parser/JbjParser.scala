@@ -181,10 +181,10 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     }
 
   lazy val forStatement: PackratParser[List[Stmt]] =
-    ":" ~> innerStatementList <~ "endfor" <~ ";" | statement ^^ (List(_))
+    ":" ~> innerStatementList <~ "endfor" <~ ";" | statement ^^ (List(_)) | ";" ^^^ Nil
 
   lazy val foreachStatement: PackratParser[List[Stmt]] =
-    ":" ~> innerStatementList <~ "endforeach" <~ ";" | statement ^^ (List(_))
+    ":" ~> innerStatementList <~ "endforeach" <~ ";" | statement ^^ (List(_)) | ";" ^^^ Nil
 
   lazy val switchCaseList: PackratParser[List[SwitchCase]] =
     "{" ~> opt(";") ~> caseList <~ "}" |

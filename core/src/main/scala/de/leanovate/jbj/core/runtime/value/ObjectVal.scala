@@ -16,7 +16,7 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
   extends PVal {
   private var _refCount = 0
 
-  private var iteratorState: Option[Iterator[(Any, PAny)]] = None
+  private var iteratorState: Option[BufferedIterator[(Any, PAny)]] = None
 
   def refCount = _refCount
 
@@ -164,10 +164,24 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
   def iteratorHasNext: Boolean = {
     if (iteratorState.isEmpty) {
       val it = keyValueMap.iterator
-      iteratorState = Some(it)
+      iteratorState = Some(it.buffered)
     }
     iteratorState.get.hasNext
   }
+
+  def iteratorCurrent(implicit ctx: Context): PVal =
+    if (!iteratorHasNext) {
+      BooleanVal.FALSE
+    } else {
+      iteratorState.get.head match {
+        case (key: Long, value) =>
+          ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
+            Some(IntegerVal(0)) -> IntegerVal(key), Some(StringVal("key")) -> IntegerVal(key))
+        case (key: String, value) =>
+          ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
+            Some(IntegerVal(0)) -> StringVal(key), Some(StringVal("key")) -> StringVal(key))
+      }
+    }
 
   def iteratorNext(implicit ctx: Context): PVal =
     if (!iteratorHasNext) {

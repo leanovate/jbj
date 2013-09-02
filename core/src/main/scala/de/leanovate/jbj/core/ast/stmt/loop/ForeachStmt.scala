@@ -26,16 +26,19 @@ case class ForeachStmt(arrayExpr: Expr,
   def exec(implicit ctx: Context) = {
     arrayExpr.eval.asVal match {
       case array: ArrayVal =>
+        array.iteratorReset()
         execValues(array, array.keyValues.toList)
       case _ =>
+        ctx.log.warn("Invalid argument supplied for foreach()")
     }
     SuccessExecResult
   }
 
   @tailrec
-  private def execValues(array: ArrayVal, remain: List[(PVal, PAny)])(implicit context: Context): ExecResult =
+  private def execValues(array: ArrayVal, remain: List[(PVal, PAny)])(implicit context: Context): ExecResult = {
     remain match {
       case head :: tail =>
+        array.iteratorAdvance()
         keyAssign.foreach(_.assignKey(head._1))
         valueAssign.assignValue(head._2, head._1, array)
         execStmts(stmts) match {
@@ -48,6 +51,7 @@ case class ForeachStmt(arrayExpr: Expr,
         }
       case Nil => SuccessExecResult
     }
+  }
 
   override def visit[R](visitor: NodeVisitor[R]) =
     visitor(this).thenChild(arrayExpr).thenChild(keyAssign).thenChild(valueAssign).thenChildren(stmts)

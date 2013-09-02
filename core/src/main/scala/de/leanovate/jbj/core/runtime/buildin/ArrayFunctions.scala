@@ -11,6 +11,7 @@ import de.leanovate.jbj.core.runtime.value._
 import scala.collection.mutable
 import de.leanovate.jbj.core.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.core.ast.decl.TypeHint
 
 object ArrayFunctions extends WrappedFunctions {
   @GlobalFunction
@@ -39,6 +40,23 @@ object ArrayFunctions extends WrappedFunctions {
         case _ =>
       }
       new ArrayVal(builder.result())
+    }
+  }
+
+  @GlobalFunction
+  def array_push(ref: PVar, values: PVal*)(implicit ctx: Context): PVal = {
+    if (values.isEmpty) {
+      ctx.log.warn("array_push() expects at least 2 parameters, 1 given")
+      NullVal
+    } else {
+      ref.asVal match {
+        case array: ArrayVal =>
+          values.foreach(array.append)
+          array.count
+        case pVal =>
+          ctx.log.warn("array_push() expects parameter 1 to be array, %s given".format(TypeHint.displayType(pVal)))
+          NullVal
+      }
     }
   }
 
@@ -72,6 +90,15 @@ object ArrayFunctions extends WrappedFunctions {
     case obj: ObjectVal => obj.iteratorNext
     case _ =>
       ctx.log.warn("Variable passed to each() is not an array or object")
+      NullVal
+  }
+
+  @GlobalFunction
+  def current(value: PVal)(implicit ctx: Context): PVal = value match {
+    case array: ArrayVal => array.iteratorCurrent
+    case obj: ObjectVal => obj.iteratorCurrent
+    case _ =>
+      ctx.log.warn("Variable passed to current() is not an array or object")
       NullVal
   }
 

@@ -19,7 +19,7 @@ sealed trait TypeHint {
 }
 
 object TypeHint {
-  def displyType(pVal: PVal) = pVal match {
+  def displayType(pVal: PVal) = pVal match {
     case NullVal => "null"
     case bool: BooleanVal => "boolean"
     case int: IntegerVal => "integer"
@@ -40,7 +40,7 @@ object ArrayTypeHint extends TypeHint {
         ctx match {
           case methodCtx: FunctionLikeContext =>
             CatchableFatalError("Argument %d passed to %s must be of the type array, %s given".
-              format(index + 1, methodCtx.functionSignature, TypeHint.displyType(pVal)),
+              format(index + 1, methodCtx.functionSignature, TypeHint.displayType(pVal)),
               methodCtx.callerContext.currentPosition, Some(methodCtx.currentPosition))
         }
     }
@@ -64,7 +64,7 @@ case class ClassTypeHint(className: NamespaceName) extends TypeHint {
               case methodCtx: FunctionLikeContext =>
                 CatchableFatalError("Argument %d passed to %s must implement interface %s, %s given".
                   format(index + 1, methodCtx.functionSignature,
-                  pInterface.name.toString, TypeHint.displyType(pVal)),
+                  pInterface.name.toString, TypeHint.displayType(pVal)),
                   methodCtx.callerContext.currentPosition, Some(methodCtx.currentPosition))
             }
         }
@@ -77,7 +77,7 @@ case class ClassTypeHint(className: NamespaceName) extends TypeHint {
               case methodCtx: FunctionLikeContext =>
                 CatchableFatalError("Argument %d passed to %s must be an instance of %s, %s given".
                   format(index + 1, methodCtx.functionSignature,
-                  pClass.name.toString, TypeHint.displyType(pVal)),
+                  pClass.name.toString, TypeHint.displayType(pVal)),
                   methodCtx.callerContext.currentPosition, Some(methodCtx.currentPosition))
             }
         }
@@ -89,7 +89,7 @@ case class ClassTypeHint(className: NamespaceName) extends TypeHint {
               case methodCtx: FunctionLikeContext =>
                 CatchableFatalError("Argument %d passed to %s must be an instance of %s, %s given".
                   format(index + 1, methodCtx.functionSignature,
-                  className.toString, TypeHint.displyType(pVal)),
+                  className.toString, TypeHint.displayType(pVal)),
                   methodCtx.callerContext.currentPosition, Some(methodCtx.currentPosition))
             }
         }
