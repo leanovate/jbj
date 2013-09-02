@@ -52,5 +52,25 @@ class TypeHintingSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "ZE2 class type hinting non existing class" in {
+      // classes/type_hinting_002.phpt
+      script(
+        """<?php
+          |
+          |class Foo {
+          |	function a(NonExisting $foo) {}
+          |}
+          |
+          |$o = new Foo;
+          |$o->a($o);
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Catchable fatal error: Argument 1 passed to Foo::a() must be an instance of NonExisting, instance of Foo given, called in /classes/TypeHintingSpec.inlinePhp on line 8 and defined in /classes/TypeHintingSpec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
   }
 }

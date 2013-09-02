@@ -47,6 +47,18 @@ case class ClassTypeHint(className: NamespaceName) extends TypeHint {
         }
       case Some(Right(pClass)) =>
       case _ =>
+        pVar.value match {
+          case obj: ObjectVal =>
+            ctx match {
+              case methodCtx: FunctionLikeContext =>
+                throw CatchableFatalError("Argument %d passed to %s must be an instance of %s, instance of %s given, called in %s on line %d and defined".
+                  format(index + 1, methodCtx.functionSignature,
+                  className.toString, obj.pClass.name.toString,
+                  methodCtx.callerContext.currentPosition.fileName,
+                  methodCtx.callerContext.currentPosition.line))
+            }
+          case _ =>
+        }
     }
   }
 }
