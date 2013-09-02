@@ -54,23 +54,23 @@ object TestBed {
     test(
       """<?php
         |
-        |function __autoload($class_name)
+        |function handler($errno, $errstr, $errfile, $errline, $context)
         |{
-        |	require_once(dirname(__FILE__) . '/' . strtolower($class_name) . '.p5c');
-        |	echo __FUNCTION__ . '(' . $class_name . ")\n";
+        |	echo __FUNCTION__ . "($errstr)\n";
         |}
         |
-        |var_dump(interface_exists('autoload_interface', false));
-        |var_dump(class_exists('autoload_implements', false));
+        |set_error_handler('handler');
         |
-        |$o = new Autoload_Implements;
-        |var_dump($o);
-        |var_dump($o instanceof autoload_interface);
-        |unset($o);
+        |function foo($x) {
+        |	return "foo";
+        |}
         |
-        |var_dump(interface_exists('autoload_interface', false));
-        |var_dump(class_exists('autoload_implements', false));
+        |$output = array();
+        |++$output[foo("bar")];
         |
+        |print_r($output);
+        |
+        |echo "Done";
         |?>""".stripMargin)
   }
 }

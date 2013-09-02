@@ -19,15 +19,33 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
     val parentRef = reference.evalRef
     val optArrayKey = indexExpr.map(_.eval.asVal)
 
-    def isDefined = !asVal.isNull
+    def isDefined = {
+      if (optArrayKey.isEmpty || !parentRef.isDefined)
+        false
+      else
+        parentRef.asVal match {
+          case array: ArrayLike =>
+            array.getAt(optArrayKey.get).exists(!_.asVal.isNull)
+          case _ =>
+            false
+        }
+    }
 
     def asVal = {
       if (optArrayKey.isEmpty)
-        NullVal
+        throw new FatalErrorJbjException("Cannot use [] for reading")
       else
         parentRef.asVal match {
           case array: ArrayLike =>
             val result = array.getAt(optArrayKey.get)
+            if (!result.isDefined) {
+              optArrayKey.get match {
+                case NumericVal(idx) =>
+                  ctx.log.notice("Undefined offset: %d".format(idx.toLong))
+                case idx =>
+                  ctx.log.notice("Undefined index: %s".format(idx.toStr.asString))
+              }
+            }
             result.map(_.asVal).getOrElse(NullVal)
           case _ => NullVal
         }
@@ -57,7 +75,7 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
       }
     }
 
-    def assign(pAny: PAny)(implicit ctx:Context) = {
+    def assign(pAny: PAny)(implicit ctx: Context) = {
       optParent.map {
         array =>
           optArrayKey match {
@@ -83,36 +101,43 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
       }
     }
 
-    private def optParent = parentRef.asVal match {
-      case array: ArrayLike => Some(array)
-      case NullVal =>
+    private def optParent = {
+      if (!parentRef.isDefined) {
         val array = ArrayVal()
         parentRef.asVar.asVar.value = array
         Some(array)
-      case _ =>
-        None
+      } else
+        parentRef.asVal match {
+          case array: ArrayLike => Some(array)
+          case NullVal =>
+            val array = ArrayVal()
+            parentRef.asVar.asVar.value = array
+            Some(array)
+          case _ =>
+            None
+        }
     }
-
   }
 
   override def eval(implicit ctx: Context) = {
     if (indexExpr.isEmpty)
       throw new FatalErrorJbjException("Cannot use [] for reading")
-    reference.eval.asVal match {
-      case array: ArrayLike =>
-        val arrayKey = indexExpr.get.eval.asVal
-        val result = array.getAt(arrayKey)
-        if (!result.isDefined) {
-          arrayKey match {
-            case NumericVal(idx) =>
-              ctx.log.notice("Undefined offset: %d".format(idx.toLong))
-            case idx =>
-              ctx.log.notice("Undefined index: %s".format(idx.toStr.asString))
+    else
+      reference.eval.asVal match {
+        case array: ArrayLike =>
+          val arrayKey = indexExpr.get.eval.asVal
+          val result = array.getAt(arrayKey)
+          if (!result.isDefined) {
+            arrayKey match {
+              case NumericVal(idx) =>
+                ctx.log.notice("Undefined offset: %d".format(idx.toLong))
+              case idx =>
+                ctx.log.notice("Undefined index: %s".format(idx.toStr.asString))
+            }
           }
-        }
-        result.map(_.asVal).getOrElse(NullVal)
-      case _ =>
-        NullVal
-    }
+          result.map(_.asVal).getOrElse(NullVal)
+        case _ =>
+          NullVal
+      }
   }
 }

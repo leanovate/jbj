@@ -19,6 +19,7 @@ import java.util.concurrent.atomic.AtomicLong
 import de.leanovate.jbj.core.JbjEnv
 import de.leanovate.jbj.api.JbjSettings
 import de.leanovate.jbj.core.runtime.output.OutputBuffer
+import scala.collection.JavaConversions._
 
 case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream], settings: JbjSettings)
   extends Context {
@@ -37,6 +38,12 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
   private val includedFiles = mutable.Set.empty[String]
 
   private val autoloading = mutable.Set.empty[String]
+
+  var errorHandlerTypes: Int = JbjSettings.E_ALL.foldLeft(0) {
+    (r, errorLevel) => r | errorLevel.getValue
+  }
+
+  var errorHandler: Option[PVal] = None
 
   def name = ""
 

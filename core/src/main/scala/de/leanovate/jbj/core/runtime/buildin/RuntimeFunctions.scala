@@ -12,6 +12,7 @@ import de.leanovate.jbj.core.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.core.runtime.context.Context
 import de.leanovate.jbj.api.JbjSettings
 import java.util
+import scala.collection.JavaConversions._
 
 object RuntimeFunctions extends WrappedFunctions {
 
@@ -24,6 +25,20 @@ object RuntimeFunctions extends WrappedFunctions {
         set
     }
     ctx.settings.setErrorReporting(errorReporing)
+  }
+
+  @GlobalFunction
+  def set_error_handler(value: PVal, errorTypes: Option[Int])(implicit ctx: Context) {
+    if (CallbackHelper.isValidCallback(value)) {
+      ctx.global.errorHandlerTypes = errorTypes.getOrElse {
+        JbjSettings.E_ALL.foldLeft(0) {
+          (r, errorLevel) => r | errorLevel.getValue
+        }
+      }
+      ctx.global.errorHandler = Some(value)
+    } else {
+      ctx.log.warn("set_error_handler() expects the argument (%s) to be a valid callback".format(value.toStr.asString))
+    }
   }
 
   @GlobalFunction
