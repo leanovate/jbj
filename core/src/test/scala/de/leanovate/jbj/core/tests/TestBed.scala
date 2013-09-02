@@ -55,14 +55,11 @@ object TestBed {
       """<?php
         |  function __autoload($name)
         |  {
-        |      echo "In autoload: ";
-        |      var_dump($name);
+        |      echo __FUNCTION__ . " $name\n";
+        |      class_exists("undefinedCLASS");
         |  }
         |
-        |  function f(UndefClass $x)
-        |  {
-        |  }
-        |  f(new stdClass);
+        |  class_exists("unDefinedClass");
         |?>""".stripMargin)
   }
 }

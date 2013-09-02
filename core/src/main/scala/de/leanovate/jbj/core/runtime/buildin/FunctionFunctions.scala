@@ -56,12 +56,29 @@ object FunctionFunctions extends WrappedFunctions {
         }
       case name =>
         val functionName = name.toStr.asString
-        ctx.findFunction(NamespaceName(functionName)).map {
-          func =>
-            func.call(parameters.toList)
-        }.getOrElse {
-          ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, function '%s' not found or invalid function name".format(functionName))
-          NullVal
+        if (functionName.contains("::")) {
+          val classAndMethod = functionName.split("::")
+          ctx.global.findClass(NamespaceName(classAndMethod(0)), autoload = true) match {
+            case Some(pClass) =>
+              pClass.findMethod(classAndMethod(1)).map {
+                method =>
+                  method.invokeStatic(ctx, parameters.toList)
+              }.getOrElse {
+                ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, class '%s' does not have a method '%s'".format(pClass.name.toString, classAndMethod(1)))
+                NullVal
+              }
+            case None =>
+              ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, class '%s' not found".format(classAndMethod(0)))
+              NullVal
+          }
+        } else {
+          ctx.findFunction(NamespaceName(functionName)).map {
+            func =>
+              func.call(parameters.toList)
+          }.getOrElse {
+            ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, function '%s' not found or invalid function name".format(functionName))
+            NullVal
+          }
         }
     }
 }

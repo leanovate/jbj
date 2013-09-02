@@ -7,13 +7,17 @@
 
 package de.leanovate.jbj.core.ast.expr.value
 
-import de.leanovate.jbj.core.runtime.context.{ClassContext, StaticMethodContext, Context, MethodContext}
+import de.leanovate.jbj.core.runtime.context._
 import de.leanovate.jbj.core.runtime.value.StringVal
 import de.leanovate.jbj.core.ast.Expr
+import de.leanovate.jbj.core.runtime.context.MethodContext
+import de.leanovate.jbj.core.runtime.context.StaticMethodContext
+import de.leanovate.jbj.core.runtime.context.ClassContext
 
 case class MethodNameConstExpr() extends Expr {
   override def eval(implicit ctx: Context) = ctx match {
     case ClassContext(pClass, _, _) => StringVal(pClass.name.toString)
+    case FunctionContext(functionName, _) => StringVal(functionName.toString)
     case MethodContext(inst, pMethod, _) => StringVal(pMethod.declaringClass.name.toString + "::" + pMethod.name)
     case StaticMethodContext(pMethod, _) => StringVal(pMethod.declaringClass.name.toString + "::" + pMethod.name)
     case _ => StringVal("")
