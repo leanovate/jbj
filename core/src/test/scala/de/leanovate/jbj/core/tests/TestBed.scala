@@ -53,53 +53,26 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |class A {
-        |	static function __call($strMethod, $arrArgs) {
-        |		@var_dump($this);
-        |		throw new Exception;
-        |		echo "You should not see this";
-        |	}
-        |	function test() {
-        |		A::unknownCalledWithSRO(1,2,3);
-        |	}
-        |}
+        |$f = 'c="foo"';
+        |class foo {
+        |        const foobar=1;
+        |        public $pp = array('t'=>null);
         |
-        |class B extends A {
-        |	function test() {
-        |		B::unknownCalledWithSROFromChild(1,2,3);
-        |	}
+        |        function bar() {
+        |                echo $this->t ='f';
+        |        }
+        |        function __get($prop)
+        |        {
+        |                return $this->pp[$prop];
+        |        }
+        |        function __set($prop, $val)
+        |        {
+        |                echo "__set";
+        |                $this->pp[$prop] = '';
+        |        }
         |}
-        |
-        |$a = new A();
-        |
-        |echo "---> Invoke __call via simple method call.\n";
-        |try {
-        |	$a->unknown();
-        |} catch (Exception $e) {
-        |	echo "Exception caught OK; continuing.\n";
-        |}
-        |
-        |echo "\n\n---> Invoke __call via scope resolution operator within instance.\n";
-        |try {
-        |	$a->test();
-        |} catch (Exception $e) {
-        |	echo "Exception caught OK; continuing.\n";
-        |}
-        |
-        |echo "\n\n---> Invoke __call via scope resolution operator within child instance.\n";
-        |$b = new B();
-        |try {
-        |	$b->test();
-        |} catch (Exception $e) {
-        |	echo "Exception caught OK; continuing.\n";
-        |}
-        |
-        |echo "\n\n---> Invoke __call via callback.\n";
-        |try {
-        |	call_user_func(array($b, 'unknownCallback'), 1,2,3);
-        |} catch (Exception $e) {
-        |	echo "Exception caught OK; continuing.\n";
-        |}
+        |$f = new foo;
+        |$f->bar();
         |?>""".stripMargin)
   }
 }
