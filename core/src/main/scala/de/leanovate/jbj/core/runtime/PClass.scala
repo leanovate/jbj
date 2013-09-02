@@ -39,8 +39,18 @@ trait PClass {
 
   def destructInstance(instance: ObjectVal)(implicit ctx: Context)
 
+  def isCallable(ctx: Context, optInstance: Option[ObjectVal], methodName: String): Boolean = {
+    findMethod(methodName) match {
+      case Some(method) => true
+      case None if optInstance.isDefined && (!ctx.isInstanceOf[MethodContext] ||
+        ctx.asInstanceOf[MethodContext].pMethod.name != "__call" ||
+        ctx.asInstanceOf[MethodContext].instance.pClass != this) => true
+      case None => false
+    }
+  }
+
   def invokeMethod(ctx: Context, optInstance: Option[ObjectVal], methodName: String,
-                   parameters: List[Expr]) = {
+                   parameters: List[Expr]): PAny = {
     findMethod(methodName) match {
       case Some(method) =>
         optInstance.map {
@@ -58,8 +68,11 @@ trait PClass {
               expr =>
                 None -> expr.eval(ctx).asVal.copy
             }: _*)(ctx)
-            method.invoke(ctx, optInstance.get,
-              ScalarExpr(StringVal(methodName)(ctx)) :: ScalarExpr(parameterArray) :: Nil)
+            if (method.isStatic)
+              method.invokeStatic(ctx, ScalarExpr(StringVal(methodName)(ctx)) :: ScalarExpr(parameterArray) :: Nil)
+            else
+              method.invoke(ctx, optInstance.get,
+                ScalarExpr(StringVal(methodName)(ctx)) :: ScalarExpr(parameterArray) :: Nil)
           case None =>
             throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))(ctx)
 

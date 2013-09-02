@@ -7,10 +7,11 @@
 
 package de.leanovate.jbj.core.runtime.buildin
 
-import de.leanovate.jbj.core.ast.{Expr, NamespaceName, NodePosition}
+import de.leanovate.jbj.core.ast.{Expr, NamespaceName}
 import de.leanovate.jbj.core.runtime.value._
 import de.leanovate.jbj.core.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 
 object FunctionFunctions extends WrappedFunctions {
   @GlobalFunction
@@ -24,19 +25,17 @@ object FunctionFunctions extends WrappedFunctions {
         val methodName = array.keyValues.last._2.asVal.toStr.asString
         objOrClassName match {
           case obj: ObjectVal =>
-            val optMethod = if (methodName.contains("::")) {
+            val (pClass, effectiveMethodName) = if (methodName.contains("::")) {
               val classAndMethod = methodName.split("::")
-              ctx.global.findClass(NamespaceName(classAndMethod(0))).flatMap {
-                pClass =>
-                  pClass.findMethod(classAndMethod(1))
-              }
+              ctx.global.findClass(NamespaceName(classAndMethod(0))).getOrElse {
+                throw new FatalErrorJbjException("Class '%s' not found".format(classAndMethod(0)))
+              } -> classAndMethod(1)
             } else {
-              obj.pClass.findMethod(methodName)
+              obj.pClass -> methodName
             }
-            optMethod.map {
-              method =>
-                method.invoke(ctx, obj, parameters.toList)
-            }.getOrElse {
+            if (pClass.isCallable(ctx, Some(obj), effectiveMethodName)) {
+              pClass.invokeMethod(ctx, Some(obj), effectiveMethodName, parameters.toList)
+            } else {
               ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, class '%s' does not have a method '%s'".format(obj.pClass.name.toString, methodName))
               NullVal
             }

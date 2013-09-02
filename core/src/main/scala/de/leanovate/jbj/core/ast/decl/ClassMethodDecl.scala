@@ -145,7 +145,8 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
           throw new FatalErrorJbjException("Method %s::__call() must take exactly 2 arguments".format(pClass.name.toString))
         if (modifieres.contains(MemberModifier.STATIC) || modifieres.contains(MemberModifier.PRIVATE) || modifieres.contains(MemberModifier.PROTECTED)) {
           ctx.log.warn("The magic method __call() must have public visibility and cannot be static")
-          _activeModifiers = modifieres - MemberModifier.STATIC - MemberModifier.PRIVATE - MemberModifier.PROTECTED
+          // We just remove private and protected as this would affect execution. Actually a static __call is still supposed to work
+          _activeModifiers = modifieres - MemberModifier.PRIVATE - MemberModifier.PROTECTED
         }
       case "__get" =>
         if (parameterDecls.size != 1)
