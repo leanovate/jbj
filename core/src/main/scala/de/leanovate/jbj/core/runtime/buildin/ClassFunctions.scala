@@ -23,13 +23,13 @@ object ClassFunctions extends WrappedFunctions {
   }
 
   @GlobalFunction
-  def class_exists(name: String)(implicit ctx: Context, position: NodePosition): Boolean = {
-    ctx.global.findClassOrAutoload(NamespaceName(name)).isDefined
+  def class_exists(name: String, autoload: Option[Boolean])(implicit ctx: Context, position: NodePosition): Boolean = {
+    ctx.global.findClass(NamespaceName(name), autoload.getOrElse(true)).isDefined
   }
 
   @GlobalFunction
   def get_class_methods(name: String)(implicit ctx: Context, position: NodePosition): PVal = {
-    ctx.global.findClassOrAutoload(NamespaceName(name)).map {
+    ctx.global.findClass(NamespaceName(name), autoload = true).map {
       pClass =>
         ArrayVal(pClass.methods.values.map {
           method => None -> StringVal(method.name)
@@ -42,7 +42,7 @@ object ClassFunctions extends WrappedFunctions {
     case obj: ObjectVal =>
       obj.pClass.superClass.flatMap {
         superClass =>
-          ctx.global.findClassOrAutoload(NamespaceName(name)).map {
+          ctx.global.findClass(NamespaceName(name), autoload = true).map {
             pClass =>
               pClass.isAssignableFrom(superClass)
           }
@@ -57,7 +57,7 @@ object ClassFunctions extends WrappedFunctions {
         superClass => StringVal(superClass.name.toString)
       }.getOrElse(BooleanVal.FALSE)
     case name =>
-      ctx.global.findClassOrAutoload(NamespaceName(name.toStr.asString)).flatMap {
+      ctx.global.findClass(NamespaceName(name.toStr.asString), autoload = true).flatMap {
         pClass =>
           pClass.superClass.map {
             superClass => StringVal(superClass.name.toString)

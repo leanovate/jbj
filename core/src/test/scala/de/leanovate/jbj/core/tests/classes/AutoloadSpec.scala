@@ -110,6 +110,51 @@ class AutoloadSpec extends SpecificationWithJUnit with TestJbjExecutor {
       )
     }
 
+    "ZE2 Autoload from destructor" in {
+      // classes/autoload_005.phpt
+      script(
+        """<?php
+          |
+          |function __autoload($class_name)
+          |{
+          |	var_dump(class_exists($class_name, false));
+          |	require_once(dirname(__FILE__) . '/' . $class_name . '.p5c');
+          |	echo __FUNCTION__ . '(' . $class_name . ")\n";
+          |}
+          |
+          |var_dump(class_exists('autoload_derived', false));
+          |var_dump(class_exists('autoload_derived', false));
+          |
+          |class Test
+          |{
+          |    function __destruct() {
+          |        echo __METHOD__ . "\n";
+          |        $o = new autoload_derived;
+          |        var_dump($o);
+          |    }
+          |}
+          |
+          |$o = new Test;
+          |unset($o);
+          |
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """bool(false)
+          |bool(false)
+          |Test::__destruct
+          |bool(false)
+          |bool(false)
+          |__autoload(autoload_root)
+          |__autoload(autoload_derived)
+          |object(autoload_derived)#2 (0) {
+          |}
+          |===DONE===
+          |""".stripMargin
+      )
+    }
+
     "Ensure instanceof does not trigger autoload." in {
       // classes/autoload_007
       script(

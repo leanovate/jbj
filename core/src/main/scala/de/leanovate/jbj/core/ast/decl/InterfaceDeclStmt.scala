@@ -27,12 +27,12 @@ case class InterfaceDeclStmt(name: NamespaceName, superInterfaces: List[Namespac
   }
 
   override def exec(implicit ctx: Context) = {
-    if (ctx.global.findInterfaceOrClass(name).isDefined)
+    if (ctx.global.findInterfaceOrClass(name, autoload = false).isDefined)
       throw new FatalErrorJbjException("Cannot redeclare class %s".format(name))
     else {
       _interfaces = superInterfaces.map {
         interfaceName =>
-          ctx.global.findInterfaceOrClass(interfaceName) match {
+          ctx.global.findInterfaceOrClass(interfaceName, autoload = true) match {
             case Some(Left(interface)) => interface
             case Some(Right(_)) =>
               throw new FatalErrorJbjException("%s cannot implement %s - it is not an interface".format(name.toString,

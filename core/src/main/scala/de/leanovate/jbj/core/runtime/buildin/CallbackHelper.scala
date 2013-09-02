@@ -23,7 +23,7 @@ object CallbackHelper {
           case obj: ObjectVal =>
             val optMethod = if (methodName.contains("::")) {
               val classAndMethod = methodName.split("::")
-              ctx.global.findClass(NamespaceName(classAndMethod(0))).flatMap {
+              ctx.global.findClass(NamespaceName(classAndMethod(0)), autoload = false).flatMap {
                 pClass =>
                   pClass.findMethod(classAndMethod(1))
               }
@@ -32,7 +32,7 @@ object CallbackHelper {
             }
             optMethod.isDefined
           case name =>
-            ctx.global.findClass(NamespaceName(name.toStr.asString)).exists {
+            ctx.global.findClass(NamespaceName(name.toStr.asString), autoload = false).exists {
               pClass =>
                 pClass.findMethod(methodName).isDefined
             }
@@ -52,7 +52,7 @@ object CallbackHelper {
           case obj: ObjectVal =>
             val optMethod = if (methodName.contains("::")) {
               val classAndMethod = methodName.split("::")
-              ctx.global.findClass(NamespaceName(classAndMethod(0))).flatMap {
+              ctx.global.findClass(NamespaceName(classAndMethod(0)), autoload = false).flatMap {
                 pClass =>
                   pClass.findMethod(classAndMethod(1))
               }
@@ -61,7 +61,7 @@ object CallbackHelper {
             }
             optMethod.map(_ => methodName)
           case name =>
-            ctx.global.findClass(NamespaceName(name.toStr.asString)).flatMap {
+            ctx.global.findClass(NamespaceName(name.toStr.asString), autoload = false).flatMap {
               pClass =>
                 pClass.findMethod(methodName).map(_ => methodName)
             }
@@ -82,7 +82,7 @@ object CallbackHelper {
           case obj: ObjectVal =>
             val optMethod = if (methodName.contains("::")) {
               val classAndMethod = methodName.split("::")
-              ctx.global.findClass(NamespaceName(classAndMethod(0))).flatMap {
+              ctx.global.findClass(NamespaceName(classAndMethod(0)), autoload = false).flatMap {
                 pClass =>
                   pClass.findMethod(classAndMethod(1))
               }
@@ -96,7 +96,7 @@ object CallbackHelper {
               NullVal
             }
           case name =>
-            ctx.global.findClass(NamespaceName(name.toStr.asString)).map {
+            ctx.global.findClass(NamespaceName(name.toStr.asString), autoload = false).map {
               pClass =>
                 pClass.findMethod(methodName).map {
                   method =>

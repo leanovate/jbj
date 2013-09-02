@@ -22,7 +22,7 @@ case class TryCatchStmt(tryStmts: List[Stmt], catchBlocks: List[CatchBlock], fin
     case e: RuntimeJbjException =>
       catchBlocks.find {
         catchBlock =>
-          ctx.global.findClass(catchBlock.exceptionName).exists(e.exception.instanceOf)
+          ctx.global.findClass(catchBlock.exceptionName, autoload = false).exists(e.exception.instanceOf)
       }.map {
         catchBlock =>
           ctx.defineVariable(catchBlock.variableName, PVar(e.exception))

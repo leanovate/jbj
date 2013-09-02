@@ -27,7 +27,7 @@ object FunctionFunctions extends WrappedFunctions {
           case obj: ObjectVal =>
             val (pClass, effectiveMethodName) = if (methodName.contains("::")) {
               val classAndMethod = methodName.split("::")
-              ctx.global.findClass(NamespaceName(classAndMethod(0))).getOrElse {
+              ctx.global.findClass(NamespaceName(classAndMethod(0)), autoload = false).getOrElse {
                 throw new FatalErrorJbjException("Class '%s' not found".format(classAndMethod(0)))
               } -> classAndMethod(1)
             } else {
@@ -40,7 +40,7 @@ object FunctionFunctions extends WrappedFunctions {
               NullVal
             }
           case name =>
-            ctx.global.findClass(NamespaceName(name.toStr.asString)).map {
+            ctx.global.findClass(NamespaceName(name.toStr.asString), autoload = false).map {
               pClass =>
                 pClass.findMethod(methodName).map {
                   method =>

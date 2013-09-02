@@ -45,11 +45,11 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   }
 
   override def exec(implicit ctx: Context) = {
-    if (ctx.global.findInterfaceOrClass(name).isDefined)
+    if (ctx.global.findInterfaceOrClass(name, autoload = false).isDefined)
       throw new FatalErrorJbjException("Cannot redeclare class %s".format(name))
     else {
       if (superClassName.isDefined) {
-        _superClass = ctx.global.findClassOrAutoload(superClassName.get)
+        _superClass = ctx.global.findClass(superClassName.get, autoload = true)
         if (!superClass.isDefined)
           throw new FatalErrorJbjException("Class '%s' not found".format(superClassName.get))
         else if (superClass.get.classEntry == ClassEntry.FINAL_CLASS)
@@ -60,7 +60,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
       }
       _interfaces = implements.flatMap {
         interfaceName =>
-          ctx.global.findInterfaceOrClass(interfaceName) match {
+          ctx.global.findInterfaceOrClass(interfaceName, autoload = true) match {
             case Some(Left(interface)) =>
               interface :: interface.interfaces
             case Some(Right(_)) =>

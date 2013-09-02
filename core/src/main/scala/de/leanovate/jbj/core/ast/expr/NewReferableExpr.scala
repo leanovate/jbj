@@ -15,7 +15,7 @@ import de.leanovate.jbj.core.runtime.context.Context
 import scala.Some
 
 case class NewReferableExpr(className: Name, parameters: List[Expr]) extends ReferableExpr {
-  override def eval(implicit ctx: Context) = ctx.global.findInterfaceOrClass(className.evalNamespaceName) match {
+  override def eval(implicit ctx: Context) = ctx.global.findInterfaceOrClass(className.evalNamespaceName, autoload = true) match {
     case Some(Right(pClass)) =>
       pClass.newInstance(parameters)
     case Some(Left(pInterface)) =>

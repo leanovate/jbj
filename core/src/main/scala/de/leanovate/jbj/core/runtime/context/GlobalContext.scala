@@ -69,32 +69,72 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
         }
   }
 
-  def findInterface(name: NamespaceName): Option[PInterface] =
-    jbj.predefinedInterfaces.get(name.lowercase).map(Some.apply).getOrElse(interfaces.get(name.lowercase)).map(interfaceInitializer)
+  def findInterface(name: NamespaceName, autoload: Boolean): Option[PInterface] = {
+    val result = jbj.predefinedInterfaces.get(name.lowercase).map(Some.apply).getOrElse(interfaces.get(name.lowercase)).map(interfaceInitializer)
 
-  def findClass(name: NamespaceName): Option[PClass] =
-    jbj.predefinedClasses.get(name.lowercase).map(Some.apply).getOrElse(classes.get(name.lowercase)).map(classInitializer)
+    if (autoload) {
+      result.map(Some.apply).getOrElse {
+        implicit val ctx = this
 
-  def findInterfaceOrClass(name: NamespaceName): Option[Either[PInterface, PClass]] =
-    findInterface(name).map {
+        findFunction(NamespaceName(relative = true, "__autoload")).flatMap {
+          case autoloadFunc if !autoloading.contains(name.toString.toLowerCase) =>
+            autoloading.add(name.toString.toLowerCase)
+            autoloadFunc.call(ScalarExpr(StringVal(name.toString)) :: Nil)
+            autoloading.remove(name.toString.toLowerCase)
+            findInterface(name, autoload = false)
+          case _ => None
+        }
+      }
+    } else {
+      result
+    }
+  }
+
+  def findClass(name: NamespaceName, autoload: Boolean): Option[PClass] = {
+    val result = jbj.predefinedClasses.get(name.lowercase).map(Some.apply).getOrElse(classes.get(name.lowercase)).map(classInitializer)
+
+    if (autoload) {
+      result.map(Some.apply).getOrElse {
+        implicit val ctx = this
+
+        findFunction(NamespaceName(relative = true, "__autoload")).flatMap {
+          case autoloadFunc if !autoloading.contains(name.toString.toLowerCase) =>
+            autoloading.add(name.toString.toLowerCase)
+            autoloadFunc.call(ScalarExpr(StringVal(name.toString)) :: Nil)
+            autoloading.remove(name.toString.toLowerCase)
+            findClass(name, autoload = false)
+          case _ => None
+        }
+      }
+    } else {
+      result
+    }
+  }
+
+  def findInterfaceOrClass(name: NamespaceName, autoload: Boolean): Option[Either[PInterface, PClass]] = {
+    val result = findInterface(name, autoload = false).map {
       interface => Some(Left(interface))
     }.getOrElse {
-      findClass(name).map(Right(_))
+      findClass(name, autoload = false).map(Right(_))
     }
 
-  def findClassOrAutoload(name: NamespaceName)(implicit position: NodePosition): Option[PClass] =
-    findClass(name).map(Some.apply).getOrElse {
-      implicit val ctx = this
+    if (autoload) {
+      result.map(Some.apply).getOrElse {
+        implicit val ctx = this
 
-      findFunction(NamespaceName(relative = true, "__autoload")).flatMap {
-        case autoload if !autoloading.contains(name.toString.toLowerCase) =>
-          autoloading.add(name.toString.toLowerCase)
-          autoload.call(ScalarExpr(StringVal(name.toString)) :: Nil)
-          autoloading.remove(name.toString.toLowerCase)
-          findClass(name)
-        case _ => None
+        findFunction(NamespaceName(relative = true, "__autoload")).flatMap {
+          case autoloadFunc if !autoloading.contains(name.toString.toLowerCase) =>
+            autoloading.add(name.toString.toLowerCase)
+            autoloadFunc.call(ScalarExpr(StringVal(name.toString)) :: Nil)
+            autoloading.remove(name.toString.toLowerCase)
+            findInterfaceOrClass(name, autoload = false)
+          case _ => None
+        }
       }
+    } else {
+      result
     }
+  }
 
   def defineClass(pClass: PClass) {
     classes.put(pClass.name.lowercase, pClass)
@@ -165,7 +205,7 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
   }
 
   private def classInitializer(pClass: PClass): PClass = {
-      pClass
+    pClass
   }
 
   private def interfaceInitializer(pInterface: PInterface): PInterface = {

@@ -14,7 +14,7 @@ import de.leanovate.jbj.core.runtime.context.Context
 case class InstanceOfExpr(expr: Expr, className: Name) extends Expr {
   def eval(implicit ctx: Context) = expr.eval.asVal match {
     case obj: ObjectVal =>
-      ctx.global.findInterfaceOrClass(className.evalNamespaceName).map {
+      ctx.global.findInterfaceOrClass(className.evalNamespaceName, autoload = false).map {
         case Right(pClass) => BooleanVal(obj.instanceOf(pClass))
         case Left(pInterface) => BooleanVal(obj.instanceOf(pInterface))
       }.getOrElse(BooleanVal.FALSE)

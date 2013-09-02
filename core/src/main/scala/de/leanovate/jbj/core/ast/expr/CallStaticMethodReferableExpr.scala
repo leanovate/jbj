@@ -16,7 +16,7 @@ case class CallStaticMethodReferableExpr(className: Name, methodName: Name, para
   extends CallReferableExpr {
   def call(implicit ctx: Context): PAny = {
     val name = className.evalNamespaceName
-    ctx.global.findClass(name).map {
+    ctx.global.findClass(name, autoload = false).map {
       pClass =>
         ctx match {
           case MethodContext(instance, currentMethod, _) if pClass.isAssignableFrom(currentMethod.declaringClass)=>

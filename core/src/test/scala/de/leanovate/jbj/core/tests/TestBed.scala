@@ -53,26 +53,29 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |$f = 'c="foo"';
-        |class foo {
-        |        const foobar=1;
-        |        public $pp = array('t'=>null);
         |
-        |        function bar() {
-        |                echo $this->t ='f';
-        |        }
-        |        function __get($prop)
-        |        {
-        |                return $this->pp[$prop];
-        |        }
-        |        function __set($prop, $val)
-        |        {
-        |                echo "__set";
-        |                $this->pp[$prop] = '';
-        |        }
+        |function __autoload($class_name)
+        |{
+        |	var_dump(class_exists($class_name, false));
+        |	require_once(dirname(__FILE__) . '/' . $class_name . '.p5c');
+        |	echo __FUNCTION__ . '(' . $class_name . ")\n";
         |}
-        |$f = new foo;
-        |$f->bar();
+        |
+        |var_dump(class_exists('autoload_derived', false));
+        |var_dump(class_exists('autoload_derived', false));
+        |
+        |class Test
+        |{
+        |    function __destruct() {
+        |        echo __METHOD__ . "\n";
+        |        $o = new autoload_derived;
+        |        var_dump($o);
+        |    }
+        |}
+        |
+        |$o = new Test;
+        |unset($o);
+        |
         |?>""".stripMargin)
   }
 }
