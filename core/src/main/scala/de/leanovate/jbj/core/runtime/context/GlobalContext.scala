@@ -73,18 +73,7 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
     val result = jbj.predefinedInterfaces.get(name.lowercase).map(Some.apply).getOrElse(interfaces.get(name.lowercase)).map(interfaceInitializer)
 
     if (autoload) {
-      result.map(Some.apply).getOrElse {
-        implicit val ctx = this
-
-        findFunction(NamespaceName(relative = true, "__autoload")).flatMap {
-          case autoloadFunc if !autoloading.contains(name.toString.toLowerCase) =>
-            autoloading.add(name.toString.toLowerCase)
-            autoloadFunc.call(ScalarExpr(StringVal(name.toString)) :: Nil)
-            autoloading.remove(name.toString.toLowerCase)
-            findInterface(name, autoload = false)
-          case _ => None
-        }
-      }
+      result.map(Some.apply).getOrElse(tryAutoload(name, findInterface))
     } else {
       result
     }
@@ -94,18 +83,7 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
     val result = jbj.predefinedClasses.get(name.lowercase).map(Some.apply).getOrElse(classes.get(name.lowercase)).map(classInitializer)
 
     if (autoload) {
-      result.map(Some.apply).getOrElse {
-        implicit val ctx = this
-
-        findFunction(NamespaceName(relative = true, "__autoload")).flatMap {
-          case autoloadFunc if !autoloading.contains(name.toString.toLowerCase) =>
-            autoloading.add(name.toString.toLowerCase)
-            autoloadFunc.call(ScalarExpr(StringVal(name.toString)) :: Nil)
-            autoloading.remove(name.toString.toLowerCase)
-            findClass(name, autoload = false)
-          case _ => None
-        }
-      }
+      result.map(Some.apply).getOrElse(tryAutoload(name, findClass))
     } else {
       result
     }
@@ -119,20 +97,22 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
     }
 
     if (autoload) {
-      result.map(Some.apply).getOrElse {
-        implicit val ctx = this
-
-        findFunction(NamespaceName(relative = true, "__autoload")).flatMap {
-          case autoloadFunc if !autoloading.contains(name.toString.toLowerCase) =>
-            autoloading.add(name.toString.toLowerCase)
-            autoloadFunc.call(ScalarExpr(StringVal(name.toString)) :: Nil)
-            autoloading.remove(name.toString.toLowerCase)
-            findInterfaceOrClass(name, autoload = false)
-          case _ => None
-        }
-      }
+      result.map(Some.apply).getOrElse(tryAutoload(name, findInterfaceOrClass))
     } else {
       result
+    }
+  }
+
+  private def tryAutoload[T](name: NamespaceName, retry: (NamespaceName, Boolean) => Option[T]): Option[T] = {
+    implicit val ctx = this
+
+    findFunction(NamespaceName(relative = true, "__autoload")).flatMap {
+      case autoloadFunc if !autoloading.contains(name.toString.toLowerCase) =>
+        autoloading.add(name.toString.toLowerCase)
+        autoloadFunc.call(ScalarExpr(StringVal(name.toString)) :: Nil)
+        autoloading.remove(name.toString.toLowerCase)
+        retry(name, false)
+      case _ => None
     }
   }
 
