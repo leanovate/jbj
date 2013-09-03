@@ -53,14 +53,16 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |
-        |function foo($a)
-        |{
-        |   $a=5;
-        |   echo func_get_arg(0);
+        |function refVal($x) {
+        |	global $a;
+        |	$a = 'changed.a';
+        |	var_dump($x);
+        |	var_dump(func_get_arg(0));
         |}
-        |foo(2);
-        |echo "\n";
+        |
+        |$a = "original.a";
+        |$ref =& $a;
+        |refVal($a);
         |?>""".stripMargin)
   }
 }

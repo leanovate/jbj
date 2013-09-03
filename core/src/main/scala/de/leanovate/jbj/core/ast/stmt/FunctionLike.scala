@@ -50,6 +50,11 @@ trait FunctionLike extends BlockLike {
           arguments += pVal
         }
     }
+    parameterIt.foreach {
+      expr =>
+        val pVal = expr.eval(callerContext).asVal
+        arguments += pVal
+    }
     funcCtx.functionArguments = arguments.result()
   }
 
