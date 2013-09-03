@@ -196,5 +196,131 @@ class ForeachSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Foreach loop tests - using an array element as the $value" in {
+      // lang/foreachLoop.004.phpt
+      script(
+        """<?php
+          |
+          |$a=array("a", "b", "c");
+          |$v=array();
+          |foreach($a as $v[0]) {
+          |	var_dump($v);
+          |}
+          |var_dump($a);
+          |var_dump($v);
+          |
+          |echo "\n";
+          |$a=array("a", "b", "c");
+          |$v=array();
+          |foreach($a as $k=>$v[0]) {
+          |	var_dump($k, $v);
+          |}
+          |var_dump($a);
+          |var_dump($k, $v);
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """array(1) {
+          |  [0]=>
+          |  string(1) "a"
+          |}
+          |array(1) {
+          |  [0]=>
+          |  string(1) "b"
+          |}
+          |array(1) {
+          |  [0]=>
+          |  string(1) "c"
+          |}
+          |array(3) {
+          |  [0]=>
+          |  string(1) "a"
+          |  [1]=>
+          |  string(1) "b"
+          |  [2]=>
+          |  string(1) "c"
+          |}
+          |array(1) {
+          |  [0]=>
+          |  string(1) "c"
+          |}
+          |
+          |int(0)
+          |array(1) {
+          |  [0]=>
+          |  string(1) "a"
+          |}
+          |int(1)
+          |array(1) {
+          |  [0]=>
+          |  string(1) "b"
+          |}
+          |int(2)
+          |array(1) {
+          |  [0]=>
+          |  string(1) "c"
+          |}
+          |array(3) {
+          |  [0]=>
+          |  string(1) "a"
+          |  [1]=>
+          |  string(1) "b"
+          |  [2]=>
+          |  string(1) "c"
+          |}
+          |int(2)
+          |array(1) {
+          |  [0]=>
+          |  string(1) "c"
+          |}
+          |""".stripMargin
+      )
+    }
+
+    "Foreach loop tests - modifying the array during the loop: special case. Behaviour is good since php 5.2.2." in {
+      // lang/foreachLoop.005.phpt
+      script(
+        """<?php
+          |$a = array("original.0","original.1","original.2");
+          |foreach ($a as $k=>&$v){
+          |  $a[$k] = "changed.$k";
+          |  echo "After changing \$a directly, \$v@$k is: $v\n";
+          |}
+          |//--- Expected output:
+          |//After changing $a directly, $v@0 is: changed.0
+          |//After changing $a directly, $v@1 is: changed.1
+          |//After changing $a directly, $v@2 is: changed.2
+          |//--- Actual output from php.net before 5.2.2:
+          |//After changing $a directly, $v@0 is: changed.0
+          |//After changing $a directly, $v@1 is: original.1
+          |//After changing $a directly, $v@2 is: original.2
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """After changing $a directly, $v@0 is: changed.0
+          |After changing $a directly, $v@1 is: changed.1
+          |After changing $a directly, $v@2 is: changed.2
+          |""".stripMargin
+      )
+    }
+
+    "Foreach loop tests - error case: key is a reference." in {
+      // lang/foreachLoop.006.phpt
+      script(
+        """<?php
+          |$a = array("a","b","c");
+          |foreach ($a as &$k=>$v) {
+          |  var_dump($v);
+          |}
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Key element cannot be a reference in /lang/ForeachSpec.inlinePhp on line 3
+          |""".stripMargin
+      )
+    }
   }
 }
