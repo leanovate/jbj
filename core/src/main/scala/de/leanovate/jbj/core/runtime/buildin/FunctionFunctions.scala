@@ -10,7 +10,7 @@ package de.leanovate.jbj.core.runtime.buildin
 import de.leanovate.jbj.core.ast.{Expr, NamespaceName}
 import de.leanovate.jbj.core.runtime.value._
 import de.leanovate.jbj.core.runtime.annotations.GlobalFunction
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.core.runtime.context.{FunctionLikeContext, Context}
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 
 object FunctionFunctions extends WrappedFunctions {
@@ -81,4 +81,22 @@ object FunctionFunctions extends WrappedFunctions {
           }
         }
     }
+
+  @GlobalFunction
+  def func_get_arg(argNum: Int)(ctx: Context): PAny = {
+    ctx match {
+      case funcCtx: FunctionLikeContext if argNum < 0 =>
+        ctx.log.warn("The argument number should be >= 0")
+        BooleanVal.FALSE
+      case funcCtx: FunctionLikeContext if argNum >= funcCtx.functionArguments.size =>
+        ctx.log.warn("func_get_arg():  Argument %d not passed to function".format(argNum))
+        BooleanVal.FALSE
+      case funcCtx: FunctionLikeContext =>
+        funcCtx.functionArguments(argNum)
+      case _ =>
+        ctx.log.warn("func_get_arg():  Called from the global scope - no function context")
+        BooleanVal.FALSE
+    }
+  }
+
 }

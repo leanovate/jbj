@@ -9,7 +9,7 @@ package de.leanovate.jbj.core.ast.stmt
 
 import de.leanovate.jbj.core.ast.{Stmt, ReferableExpr, Expr}
 import de.leanovate.jbj.core.runtime._
-import de.leanovate.jbj.core.runtime.value.{NullVal, PVar}
+import de.leanovate.jbj.core.runtime.value.{PAny, NullVal, PVar}
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.runtime.BreakExecResult
 import de.leanovate.jbj.core.runtime.ReturnExecResult
@@ -21,8 +21,9 @@ trait FunctionLike extends BlockLike {
 
   def parameterDecls: List[ParameterDecl]
 
-  def setParameters(funcCtx: Context, callerContext: Context, parameters: List[Expr]) {
+  def setParameters(funcCtx: FunctionLikeContext, callerContext: Context, parameters: List[Expr]) {
     val parameterIt = parameters.iterator
+    val arguments = Seq.newBuilder[PAny]
     parameterDecls.zipWithIndex.foreach {
       case (parameterDecl, index) =>
         if (parameterIt.hasNext) {
@@ -35,15 +36,21 @@ trait FunctionLike extends BlockLike {
                   pAny.asVar
               }
               checkAndDefine(funcCtx, parameterDecl, index, pVar)
+              arguments += pVar
             case _ if parameterDecl.byRef =>
               throw new FatalErrorJbjException("Only variables can be passed by reference")(callerContext)
             case expr =>
-              checkAndDefine(funcCtx, parameterDecl, index, PVar(expr.eval(callerContext).asVal))
+              val pVal = expr.eval(callerContext).asVal
+              checkAndDefine(funcCtx, parameterDecl, index, PVar(pVal))
+              arguments += pVal
           }
         } else {
-          checkAndDefine(funcCtx, parameterDecl, index, PVar(parameterDecl.defaultVal(funcCtx)))
+          val pVal = parameterDecl.defaultVal(funcCtx)
+          checkAndDefine(funcCtx, parameterDecl, index, PVar(pVal))
+          arguments += pVal
         }
     }
+    funcCtx.functionArguments = arguments.result()
   }
 
   private def checkAndDefine(funcCtx: Context, parameterDecl: ParameterDecl, index: Int, pVar: PVar) {
