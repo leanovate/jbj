@@ -9,9 +9,10 @@ package de.leanovate.jbj.core.runtime.buildin
 
 import de.leanovate.jbj.core.ast.{Expr, NamespaceName}
 import de.leanovate.jbj.core.runtime.value._
-import de.leanovate.jbj.core.runtime.annotations.GlobalFunction
+import de.leanovate.jbj.core.runtime.annotations.{WanrExactly, GlobalFunction}
 import de.leanovate.jbj.core.runtime.context.{FunctionLikeContext, Context}
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.core.ast.decl.TypeHint
 
 object FunctionFunctions extends WrappedFunctions {
   @GlobalFunction
@@ -83,20 +84,48 @@ object FunctionFunctions extends WrappedFunctions {
     }
 
   @GlobalFunction
-  def func_get_arg(argNum: Int)(ctx: Context): PAny = {
-    ctx match {
-      case funcCtx: FunctionLikeContext if argNum < 0 =>
-        ctx.log.warn("The argument number should be >= 0")
-        BooleanVal.FALSE
-      case funcCtx: FunctionLikeContext if argNum >= funcCtx.functionArguments.size =>
-        ctx.log.warn("func_get_arg():  Argument %d not passed to function".format(argNum))
-        BooleanVal.FALSE
-      case funcCtx: FunctionLikeContext =>
-        funcCtx.functionArguments(argNum)
+  @WanrExactly
+  def func_get_arg(value: PVal)(ctx: Context): PVal = {
+    value match {
+      case IntegerVal(argNum) =>
+        ctx match {
+          case funcCtx: FunctionLikeContext if argNum < 0 =>
+            ctx.log.warn("func_get_arg():  The argument number should be >= 0")
+            BooleanVal.FALSE
+          case funcCtx: FunctionLikeContext if argNum >= funcCtx.functionArguments.size =>
+            ctx.log.warn("func_get_arg():  Argument %d not passed to function".format(argNum))
+            BooleanVal.FALSE
+          case funcCtx: FunctionLikeContext =>
+            funcCtx.functionArguments(argNum.toInt).asVal
+          case _ =>
+            ctx.log.warn("func_get_arg():  Called from the global scope - no function context")
+            BooleanVal.FALSE
+        }
       case _ =>
-        ctx.log.warn("func_get_arg():  Called from the global scope - no function context")
+        ctx.log.warn("func_get_arg() expects parameter 1 to be long, %s given".format(TypeHint.displayType(value)))
         BooleanVal.FALSE
     }
   }
 
+  @GlobalFunction
+  def func_get_args()(implicit ctx: Context): PVal = {
+    ctx match {
+      case funcCtx: FunctionLikeContext =>
+        ArrayVal(funcCtx.functionArguments.map(arg => None -> arg.asVal): _*)
+      case _ =>
+        ctx.log.warn("func_get_args():  Called from the global scope - no function context")
+        BooleanVal.FALSE
+    }
+  }
+
+  @GlobalFunction
+  def func_num_args()(implicit ctx: Context): Int = {
+    ctx match {
+      case funcCtx: FunctionLikeContext =>
+        funcCtx.functionArguments.size
+      case _ =>
+        ctx.log.warn("func_num_args():  Called from the global scope - no function context")
+        -1
+    }
+  }
 }

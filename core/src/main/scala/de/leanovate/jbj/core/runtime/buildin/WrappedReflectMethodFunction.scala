@@ -11,7 +11,7 @@ import de.leanovate.jbj.core.runtime.PFunction
 import de.leanovate.jbj.core.ast.{Expr, NamespaceName}
 import scala.reflect.runtime.universe._
 import de.leanovate.jbj.core.runtime.adapter.{Converter, ParameterAdapter}
-import de.leanovate.jbj.core.runtime.value.PAny
+import de.leanovate.jbj.core.runtime.value.{BooleanVal, PAny}
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.runtime.context.Context
 import java.lang.reflect.InvocationTargetException
@@ -19,28 +19,43 @@ import java.lang.reflect.InvocationTargetException
 case class WrappedReflectMethodFunction[T, S <: PAny](name: NamespaceName,
                                                       methodMirror: MethodMirror,
                                                       parameterAdapters: Seq[ParameterAdapter[_]],
-                                                      resultConverter: Converter[T, S]) extends PFunction {
+                                                      resultConverter: Converter[T, S],
+                                                      warnExactly: Boolean) extends PFunction {
   lazy val requiredParameterCount = parameterAdapters.map(_.requiredCount).sum
 
   override def call(parameters: List[Expr])(implicit callerCtx: Context) = {
     val argBuilder = Seq.newBuilder[Any]
+    var notEnough = false
 
-    parameterAdapters.foldLeft(parameters) {
+    val unMapped = parameterAdapters.foldLeft(parameters) {
       (params, adapter) =>
         adapter.adapt(params) match {
           case Some((arg, remain)) =>
             argBuilder += arg
             remain
           case None =>
-            throw new FatalErrorJbjException("%s() expects at least %d parameter, 0 given".format(name.toString, requiredParameterCount, parameters.size))
+            notEnough = true
+            Nil
         }
     }
-    try {
-      val result = methodMirror.apply(argBuilder.result(): _*).asInstanceOf[T]
-      resultConverter.toJbj(result)
-    } catch {
-      case e: InvocationTargetException =>
-        throw e.getCause
+    if (!unMapped.isEmpty && warnExactly) {
+      callerCtx.log.warn("%s() expects exactly %d parameter, %d given".format(name.toString, requiredParameterCount, parameters.size))
+      BooleanVal.FALSE
+    } else if (notEnough) {
+      if (warnExactly) {
+        callerCtx.log.warn("%s() expects exactly %d parameter, %d given".format(name.toString, requiredParameterCount, parameters.size))
+        BooleanVal.FALSE
+      } else {
+        throw new FatalErrorJbjException("%s() expects at least %d parameter, %d given".format(name.toString, requiredParameterCount, parameters.size))
+      }
+    } else {
+      try {
+        val result = methodMirror.apply(argBuilder.result(): _*).asInstanceOf[T]
+        resultConverter.toJbj(result)
+      } catch {
+        case e: InvocationTargetException =>
+          throw e.getCause
+      }
     }
   }
 }

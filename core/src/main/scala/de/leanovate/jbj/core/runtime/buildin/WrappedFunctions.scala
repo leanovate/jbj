@@ -11,7 +11,7 @@ import de.leanovate.jbj.core.runtime.PFunction
 import scala.reflect.runtime.universe._
 import de.leanovate.jbj.core.runtime.adapter._
 import de.leanovate.jbj.core.runtime.value.{PVar, PAny, PVal}
-import de.leanovate.jbj.core.runtime.annotations.GlobalFunction
+import de.leanovate.jbj.core.runtime.annotations.{WanrExactly, GlobalFunction}
 import de.leanovate.jbj.core.runtime.adapter.VarargParameterAdapter
 import de.leanovate.jbj.core.ast.{NamespaceName, NodePosition}
 import de.leanovate.jbj.core.runtime.context.Context
@@ -35,6 +35,7 @@ trait WrappedFunctions {
 
 object WrappedFunctions {
   val globalFunctionClass = typeOf[GlobalFunction].typeSymbol
+  val warnExactlyClass = typeOf[WanrExactly].typeSymbol
   val contextClass = typeOf[Context].typeSymbol
   val nodePositionClass = typeOf[NodePosition].typeSymbol
   val pVarClass = typeOf[PVar].typeSymbol
@@ -45,9 +46,10 @@ object WrappedFunctions {
   def mapMethod(method: MethodSymbol, instance: InstanceMirror): PFunction = {
     val adapters = method.paramss.flatten.map(mapParameter).toSeq
     val resultConverter = converterForClass(method.returnType)
+    val warnExactly = method.annotations.exists(_.tpe.typeSymbol == warnExactlyClass)
 
     WrappedReflectMethodFunction(new NamespaceName(relative = false, method.name.decoded),
-      instance.reflectMethod(method), adapters, resultConverter)
+      instance.reflectMethod(method), adapters, resultConverter, warnExactly)
   }
 
   def mapParameter(parameter: Symbol): ParameterAdapter[_] = parameter.typeSignature match {
