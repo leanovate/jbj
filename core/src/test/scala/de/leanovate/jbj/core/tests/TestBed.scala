@@ -53,45 +53,28 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |/* Part 4:
-        | * Storing a reference to a new instance (that's where the name of the  test
-        | * comes from). First there is the global counter $oop_global again which
-        | * counts the calls to the constructor of oop_class and hence counts the
-        | * creation of oop_class instances.
-        | * The class oop_test uses a static reference to a oop_class instance.
-        | * When another oop_test instance is created it must reuse the statically
-        | * stored reference oop_value. This way oop_class gets some singleton behavior
-        | * since it will be created only once for all insatnces of oop_test.
-        | */
-        |$oop_global = 0;
-        |class oop_class {
-        |	var $oop_name;
-        |
-        |	function oop_class() {
-        |		global $oop_global;
-        |		echo "oop_class()\n";
-        |		$this->oop_name = 'oop:' . ++$oop_global;
-        |	}
+        |class C {
+        |    public static $x = 'C::$x';
+        |    protected static $y = 'C::$y';
         |}
         |
-        |class oop_test {
-        |	static $oop_value;
+        |$c = new C;
         |
-        |	function oop_test() {
-        |		echo "oop_test()\n";
-        |	}
+        |echo "\n--> Access visible static prop like instance prop:\n";
+        |var_dump(isset($c->x));
+        |unset($c->x);
+        |echo $c->x;
+        |$c->x = 1;
+        |$ref = 'ref';
+        |$c->x =& $ref;
+        |var_dump($c->x, C::$x);
         |
-        |	function oop_static() {
-        |		echo "oop_static()\n";
-        |		if (!isset(self::$oop_value)) {
-        |			self::$oop_value = & new oop_class;
-        |		}
-        |		echo self::$oop_value->oop_name;
-        |	}
-        |}
-        |
-        |$oop_tester = new oop_test;
-        |print $oop_tester->oop_static()."\n";
+        |echo "\n--> Access non-visible static prop like instance prop:\n";
+        |var_dump(isset($c->y));
+        |//unset($c->y);		// Fatal error, tested in static_properties_003_error1.phpt
+        |//echo $c->y;		// Fatal error, tested in static_properties_003_error2.phpt
+        |//$c->y = 1;		// Fatal error, tested in static_properties_003_error3.phpt
+        |//$c->y =& $ref;	// Fatal error, tested in static_properties_003_error4.phpt
         |?>""".stripMargin)
   }
 }
