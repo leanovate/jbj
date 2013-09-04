@@ -17,7 +17,7 @@ case class InstanceContext(instance: ObjectVal, pClass:PClass, callerCtx: Contex
 
   lazy val global = callerCtx.global
 
-  lazy val static = global.staticContext(instance.pClass)
+  lazy val static = global.staticContext("Class_" + instance.pClass.name.toString)
 
   lazy val settings = global.settings
 

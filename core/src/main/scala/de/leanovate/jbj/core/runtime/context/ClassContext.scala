@@ -17,7 +17,7 @@ case class ClassContext(pClass: PClass, callerCtx: Context, override val current
 
   lazy val global = callerCtx.global
 
-  lazy val static = global.staticContext(pClass)
+  lazy val static = global.staticContext("Class_" + pClass.name.toString)
 
   lazy val settings = global.settings
 

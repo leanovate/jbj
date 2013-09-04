@@ -66,6 +66,8 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
             if ((ctx match {
               case MethodContext(_,pMethod, _) =>
                 obj.getProperty(name, Some(pMethod.declaringClass.name.toString))
+              case StaticMethodContext(pMethod, _) =>
+                obj.getProperty(name, Some(pMethod.declaringClass.name.toString))
               case _ =>
                 obj.getProperty(name, None)
             }).isDefined) {

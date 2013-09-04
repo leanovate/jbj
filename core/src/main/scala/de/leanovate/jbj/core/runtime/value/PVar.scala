@@ -54,6 +54,8 @@ class PVar(private var current: Option[PVal] = None) extends PAny {
   override def toString: String = {
     val builder = new StringBuilder("PVar(")
     builder.append(value)
+    builder.append(", ")
+    builder.append(refCount)
     builder.append(")")
     builder.result()
   }

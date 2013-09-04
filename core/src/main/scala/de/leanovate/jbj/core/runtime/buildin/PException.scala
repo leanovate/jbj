@@ -24,7 +24,7 @@ object PException extends PClass {
 
   override def classConstants: Map[String, ConstVal] = Map.empty
 
-  override def initializeStatic(staticContext: StaticContext)(implicit ctx: Context) {}
+  override def initializeStatic(staticContext: ObjectVal)(implicit ctx: Context) {}
 
   override def initializeInstance(instance: ObjectVal)(implicit ctx: Context) {
     instance.definePublicProperty("message", StringVal(Array.emptyByteArray))

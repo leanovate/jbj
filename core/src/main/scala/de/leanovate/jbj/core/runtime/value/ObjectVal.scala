@@ -123,7 +123,11 @@ trait ObjectVal extends PVal {
   }
 
   def definePublicProperty(name: String, value: PAny)(implicit ctx: Context) {
+    if (keyValueMap.contains(ProtectedKey(name))) {
+      keyValueMap.remove(ProtectedKey(name)).foreach(_.release())
+    }
     val key = PublicKey(name)
+    value.retain()
     keyValueMap.get(key).foreach(_.release())
     keyValueMap.put(key, value)
   }

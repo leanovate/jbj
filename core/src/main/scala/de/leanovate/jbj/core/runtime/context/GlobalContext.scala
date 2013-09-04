@@ -21,8 +21,7 @@ import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.core.JbjEnv
 import scala.Some
 import de.leanovate.jbj.core.runtime.output.OutputBuffer
-import javax.security.auth.callback.CallbackHandler
-import de.leanovate.jbj.core.runtime.buildin.CallbackHelper
+import de.leanovate.jbj.core.runtime.buildin.{PStdClass, CallbackHelper}
 
 case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream], settings: JbjSettings)
   extends Context {
@@ -37,6 +36,8 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
   private val functions = mutable.Map.empty[Seq[String], PFunction]
 
   private val staticContexts = mutable.Map.empty[String, StaticContext]
+
+  private val staticClassObjects = mutable.Map.empty[String, ObjectVal]
 
   private val includedFiles = mutable.Set.empty[String]
 
@@ -178,11 +179,15 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
   def staticContext(identifier: String): StaticContext =
     staticContexts.getOrElseUpdate(identifier, new GenericStaticContext)
 
-  def staticContext(pClass: PClass): StaticContext = {
+  def staticClassObject(pClass: PClass): ObjectVal = {
     val identifier = "Class_" + pClass.toString
-    val classStaticContext = staticContexts.getOrElseUpdate(identifier, new ClassStaticContext(pClass, this))
-    pClass.initializeStatic(classStaticContext)(this)
-    classStaticContext
+    val classStaticObject = staticClassObjects.getOrElseUpdate(identifier, {
+      val obj = new StdObjectVal(PStdClass, -1, mutable.LinkedHashMap.empty)
+      obj.retain()
+      obj
+    })
+    pClass.initializeStatic(classStaticObject)(this)
+    classStaticObject
   }
 
   def inShutdown = _inShutdown
@@ -197,6 +202,7 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
     currentPosition = NoNodePosition
     _inShutdown = true
     staticContexts.values.foreach(_.cleanup()(this))
+    staticClassObjects.values.foreach(_.cleanup()(this))
     GLOBALS.cleanup()(this)
 
     out.closeAll()

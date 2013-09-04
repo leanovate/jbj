@@ -11,7 +11,7 @@ import de.leanovate.jbj.core.ast._
 import de.leanovate.jbj.core.runtime._
 import de.leanovate.jbj.core.runtime.SuccessExecResult
 import scala.collection.mutable
-import de.leanovate.jbj.core.runtime.value.{ConstVal, ObjectVal}
+import de.leanovate.jbj.core.runtime.value.{PVar, PVal, ConstVal, ObjectVal}
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.runtime.context._
 import de.leanovate.jbj.core.ast.NamespaceName
@@ -20,6 +20,7 @@ import de.leanovate.jbj.core.runtime.context.MethodContext
 import scala.Some
 import de.leanovate.jbj.core.runtime.context.InstanceContext
 import de.leanovate.jbj.core.runtime.context.ClassContext
+import de.leanovate.jbj.core.runtime.value.ObjectPropertyKey.{ProtectedKey, PublicKey}
 
 case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
                          superClassName: Option[NamespaceName], implements: List[NamespaceName],
@@ -27,7 +28,6 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   extends DeclStmt with PClass {
 
   private var _initialized = false
-  private val staticInitializers = decls.filter(_.isInstanceOf[StaticInitializer]).map(_.asInstanceOf[StaticInitializer])
   private var _staticInitialized = false
   protected[decl] val _classConstants = mutable.Map.empty[String, ConstVal]
   private lazy val instanceAssinments = decls.filter(_.isInstanceOf[ClassVarDecl])
@@ -100,23 +100,34 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     SuccessExecResult
   }
 
-  override def initializeStatic(staticContext: StaticContext)(implicit ctx: Context) {
+  override def initializeStatic(staticClassObj: ObjectVal)(implicit ctx: Context) {
     if (!_staticInitialized) {
       _staticInitialized = true
 
       _superClass.foreach {
         parent =>
-          val parentStaticCtx = ctx.global.staticContext(parent)
-          parentStaticCtx.variables.foreach {
-            case (key, value) =>
-              staticContext.defineVariable(key, value)
+          val parentStaticObj = ctx.global.staticClassObject(parent)
+          parentStaticObj.keyValues.foreach {
+            case (PublicKey(key), value: PVal) =>
+              val pVar = PVar(value)
+              parentStaticObj.definePublicProperty(key, pVar)
+              staticClassObj.definePublicProperty(key, pVar)
+            case (PublicKey(key), value: PVar) =>
+              staticClassObj.definePublicProperty(key, value)
+            case (ProtectedKey(key), value: PVal) =>
+              val pVar = PVar(value)
+              parentStaticObj.defineProtectedProperty(key, pVar)
+              staticClassObj.defineProtectedProperty(key, pVar)
+            case (ProtectedKey(key), value: PVar) =>
+              staticClassObj.defineProtectedProperty(key, value)
+            case _ =>
           }
       }
 
-      staticInitializers.foreach {
-        staticInitializer =>
-          val classCtx = ClassContext(this, ctx, staticInitializer.position)
-          staticInitializer.initializeStatic(staticContext)(classCtx)
+      decls.foreach {
+        decl =>
+          val classCtx = ClassContext(this, ctx, decl.position)
+          decl.initializeStatic(this, staticClassObj)(classCtx)
       }
     }
   }

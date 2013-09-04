@@ -7,15 +7,15 @@
 
 package de.leanovate.jbj.core.ast.decl
 
-import de.leanovate.jbj.core.ast.{StaticInitializer, MemberModifier}
+import de.leanovate.jbj.core.ast.MemberModifier
 import de.leanovate.jbj.core.runtime.{PProperty, PClass}
-import de.leanovate.jbj.core.runtime.value.{PVar, NullVal, ObjectVal}
-import de.leanovate.jbj.core.runtime.context.{Context, StaticContext}
+import de.leanovate.jbj.core.runtime.value.{NullVal, ObjectVal}
+import de.leanovate.jbj.core.runtime.context.Context
 import de.leanovate.jbj.core.ast.stmt.StaticAssignment
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 
 case class ClassVarDecl(modifiers: Set[MemberModifier.Type], assignments: List[StaticAssignment])
-  extends ClassMemberDecl with StaticInitializer {
+  extends ClassMemberDecl {
 
   lazy val isStatic = modifiers.contains(MemberModifier.STATIC)
 
@@ -80,11 +80,17 @@ case class ClassVarDecl(modifiers: Set[MemberModifier.Type], assignments: List[S
     throw new FatalErrorJbjException("Interfaces may not include member variables")
   }
 
-  override def initializeStatic(staticCtx: StaticContext)(implicit ctx: Context) {
+  override def initializeStatic(pClass: ClassDeclStmt, staticClassObj: ObjectVal)(implicit ctx: Context) {
     if (isStatic) {
       assignments.foreach {
         assignment =>
-          staticCtx.defineVariable(assignment.variableName, PVar(assignment.initial.map(_.eval.asVal)))
+          if (isPrivate) {
+            staticClassObj.definePrivateProperty(assignment.variableName, pClass.name.toString, assignment.initial.map(_.eval.asVal).getOrElse(NullVal))
+          } else if (isProtected) {
+            staticClassObj.defineProtectedProperty(assignment.variableName, assignment.initial.map(_.eval.asVal).getOrElse(NullVal))
+          } else {
+            staticClassObj.definePublicProperty(assignment.variableName, assignment.initial.map(_.eval.asVal).getOrElse(NullVal))
+          }
       }
     }
   }
