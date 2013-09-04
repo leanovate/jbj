@@ -15,7 +15,7 @@ import de.leanovate.jbj.core.ast.ClassEntry
 import de.leanovate.jbj.core.runtime.PClass
 import de.leanovate.jbj.core.runtime.context.{StaticContext, Context}
 
-object StdClass extends PClass {
+object PStdClass extends PClass {
   override def classEntry = ClassEntry.CLASS
 
   override def name = NamespaceName(relative = false, "stdClass")
@@ -29,7 +29,7 @@ object StdClass extends PClass {
   override def initializeStatic(staticContext: StaticContext)(implicit ctx: Context) {}
 
   override def newInstance(parameters: List[Expr])(implicit ctx: Context) =
-    new ObjectVal(this, ctx.global.instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ObjectPropertyKey.Key, PAny])
+    new StdObjectVal(this, ctx.global.instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ObjectPropertyKey.Key, PAny])
 
   override def destructInstance(instance: ObjectVal)(implicit ctx: Context) {}
 

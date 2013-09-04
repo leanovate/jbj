@@ -19,12 +19,15 @@ case class FunctionDeclStmt(name: NamespaceName, returnByRef: Boolean, parameter
   var _registered = false
 
   override def exec(implicit ctx: Context) = {
-    if (!_registered)
+    if (!_registered) {
+      parameterDecls.foreach(_.check)
       ctx.defineFunction(this)
+    }
     SuccessExecResult
   }
 
   override def register(implicit ctx: Context) {
+    parameterDecls.foreach(_.check)
     ctx.defineFunction(this)
     _registered = true
   }

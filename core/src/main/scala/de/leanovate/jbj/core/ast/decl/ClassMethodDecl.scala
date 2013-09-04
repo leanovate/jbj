@@ -12,12 +12,12 @@ import de.leanovate.jbj.core.runtime._
 import de.leanovate.jbj.core.runtime.value._
 import de.leanovate.jbj.core.runtime.context.{GlobalContext, Context, MethodContext, StaticMethodContext}
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.core.runtime.buildin.StdClass
+import de.leanovate.jbj.core.runtime.buildin.PStdClass
 import de.leanovate.jbj.core.ast.stmt.{FunctionLike, BlockLike}
 
 case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, returnByRef: Boolean, parameterDecls: List[ParameterDecl],
                            stmts: Option[List[Stmt]]) extends ClassMemberDecl with PMethod with BlockLike with FunctionLike {
-  private var _declaringClass: PClass = StdClass
+  private var _declaringClass: PClass = PStdClass
   private var _activeModifiers: Set[MemberModifier.Type] = modifieres
 
   private lazy val staticInitializers = StaticInitializer.collect(stmts.getOrElse(Nil): _*)
@@ -129,6 +129,7 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
       throw new FatalErrorJbjException("Interface function %s::%s() cannot contain body".
         format(pInterface.name.toString, name))
     }
+    parameterDecls.foreach(_.check)
   }
 
   override def initializeClass(pClass: ClassDeclStmt)(implicit ctx: Context) {
@@ -140,7 +141,6 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
         ctx.log.strict("Static function %s::%s() should not be abstract".format(pClass.name.toString, name))
       }
     }
-
 
     name match {
       case "__call" =>
@@ -159,6 +159,7 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
           throw new FatalErrorJbjException("Method %s::__set() must take exactly 2 arguments".format(pClass.name.toString))
       case _ =>
     }
+    parameterDecls.foreach(_.check)
   }
 
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(parameterDecls).thenChildren(stmts.getOrElse(Nil))

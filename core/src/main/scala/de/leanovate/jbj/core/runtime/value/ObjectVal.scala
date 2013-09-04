@@ -12,8 +12,13 @@ import scala.collection.mutable
 import de.leanovate.jbj.core.runtime.context.Context
 import ObjectPropertyKey.{Key, IntKey, PublicKey, ProtectedKey, PrivateKey}
 
-class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueMap: mutable.LinkedHashMap[Key, PAny])
-  extends PVal {
+trait ObjectVal extends PVal {
+  def pClass: PClass
+
+  def instanceNum: Long
+
+  protected def keyValueMap: mutable.LinkedHashMap[Key, PAny]
+
   private var _refCount = 0
 
   private var iteratorState: Option[BufferedIterator[(Any, PAny)]] = None
@@ -44,8 +49,6 @@ class ObjectVal(var pClass: PClass, var instanceNum: Long, private val keyValueM
   override def isNull = false
 
   override def copy = this
-
-  override def clone(implicit ctx: Context) = new ObjectVal(pClass, ctx.global.instanceCounter.incrementAndGet(), keyValueMap.clone())
 
   override def incr = this
 
@@ -210,7 +213,7 @@ object ObjectVal {
   def apply(pClass: PClass, keyValues: (Option[PVal], PVal)*)(implicit ctx: Context): ObjectVal = {
     var nextIndex: Long = -1
 
-    val result = new ObjectVal(pClass, ctx.global.instanceCounter.incrementAndGet,
+    val result = new StdObjectVal(pClass, ctx.global.instanceCounter.incrementAndGet,
       keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[Key, PAny]) {
         (builder, keyValue) =>
           val key: Key = keyValue._1.map {

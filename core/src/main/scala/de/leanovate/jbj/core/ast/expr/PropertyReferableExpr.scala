@@ -13,7 +13,7 @@ import de.leanovate.jbj.core.runtime.value._
 import de.leanovate.jbj.core.runtime.value.StringVal
 import de.leanovate.jbj.core.runtime.context.{StaticMethodContext, Context, MethodContext}
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
-import de.leanovate.jbj.core.runtime.buildin.StdClass
+import de.leanovate.jbj.core.runtime.buildin.PStdClass
 
 case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) extends ReferableExpr {
   override def eval(implicit ctx: Context) = {
@@ -219,7 +219,7 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
         case NullVal =>
           if (withWarn)
             ctx.log.warn("Creating default object from empty value")
-          val obj = StdClass.newInstance(Nil)(ctx)
+          val obj = PStdClass.newInstance(Nil)(ctx)
           parentRef.asVar.asVar.value = obj
           Some(obj)
         case _ =>
