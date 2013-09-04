@@ -8,10 +8,14 @@
 package de.leanovate.jbj.core.ast.expr
 
 import de.leanovate.jbj.core.ast.{Name, ReferableExpr}
-import de.leanovate.jbj.core.runtime.value.{PVal, PVar, PAny, NullVal}
+import de.leanovate.jbj.core.runtime.value._
 import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.runtime.context.{StaticMethodContext, MethodContext, Context}
-import de.leanovate.jbj.core.runtime.Reference
+import de.leanovate.jbj.core.runtime.{PClass, Reference}
+import de.leanovate.jbj.core.runtime.context.MethodContext
+import de.leanovate.jbj.core.runtime.context.StaticMethodContext
+import scala.Some
+import de.leanovate.jbj.core.runtime.value.ObjectPropertyKey.ProtectedKey
 
 case class StaticClassVarReferableExpr(className: Name, variableName: Name) extends ReferableExpr {
   override def eval(implicit ctx: Context) = {
@@ -22,11 +26,17 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
         val staticClassObject = ctx.global.staticClassObject(pClass)
         ctx match {
           case MethodContext(inst, pMethod, _) =>
-            staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse(NullVal)
+            staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
+              notFound(pClass, name, Some(pMethod.declaringClass.name.toString))
+            }
           case StaticMethodContext(pMethod, _) =>
-            staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse(NullVal)
+            staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
+              notFound(pClass, name, Some(pMethod.declaringClass.name.toString))
+            }
           case _ =>
-            staticClassObject.getProperty(name, None).map(_.asVal).getOrElse(NullVal)
+            staticClassObject.getProperty(name, None).map(_.asVal).getOrElse {
+              notFound(pClass, name, None)
+            }
         }
     }.getOrElse {
       throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))
@@ -41,15 +51,28 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
     }
     val staticClassObject = ctx.global.staticClassObject(pClass)
 
-    override def isDefined = !asVal.isNull
+    override def isDefined = ctx match {
+      case MethodContext(_, pMethod, _) =>
+        staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).exists(!_.asVal.isNull)
+      case StaticMethodContext(pMethod, _) =>
+        staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).exists(!_.asVal.isNull)
+      case _ =>
+        staticClassObject.getProperty(name, None).exists(!_.asVal.isNull)
+    }
 
     override def asVal = ctx match {
       case MethodContext(_, pMethod, _) =>
-        staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse(NullVal)
+        staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
+          notFound(pClass, name, Some(pMethod.declaringClass.name.toString))
+        }
       case StaticMethodContext(pMethod, _) =>
-        staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse(NullVal)
+        staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
+          notFound(pClass, name, Some(pMethod.declaringClass.name.toString))
+        }
       case _ =>
-        staticClassObject.getProperty(name, None).map(_.asVal).getOrElse(NullVal)
+        staticClassObject.getProperty(name, None).map(_.asVal).getOrElse {
+          notFound(pClass, name, None)
+        }
     }
 
     override def asVar = ctx match {
@@ -145,5 +168,18 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
           staticClassObject.unsetProperty(name, None)
       }
     }
+  }
+
+  private def notFound(pClass: PClass, name: String, className: Option[String])(implicit ctx: Context): PVal = {
+    className match {
+      case Some(_) =>
+        throw new FatalErrorJbjException("Access to undeclared static property: %s::$%s".format(pClass.name.toString, name))
+      case None =>
+        if (ctx.global.staticClassObject(pClass).getProperty(name, Some(pClass.name.toString)).isDefined)
+          throw new FatalErrorJbjException("Cannot access protected property %s::$%s".format(pClass.name.toString, name))
+        else
+          throw new FatalErrorJbjException("Access to undeclared static property: %s::$%s".format(pClass.name.toString, name))
+    }
+    NullVal
   }
 }

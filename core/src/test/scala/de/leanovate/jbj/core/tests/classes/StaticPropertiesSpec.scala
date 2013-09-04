@@ -137,5 +137,34 @@ class StaticPropertiesSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Issetting a non-existent static property" in {
+      // classes/static_properties_undeclared_isset.phpt
+      script(
+        """<?php
+          |Class C {}
+          |var_dump(isset(C::$p));
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """bool(false)
+          |""".stripMargin
+      )
+    }
+
+    "Reading a non-existent static property" in {
+      // classes/static_properties_undeclared_read.phpt
+      script(
+        """<?php
+          |Class C {}
+          |echo C::$p;
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Access to undeclared static property: C::$p in /classes/StaticPropertiesSpec.inlinePhp on line 3
+          |""".stripMargin
+      )
+    }
   }
 }
