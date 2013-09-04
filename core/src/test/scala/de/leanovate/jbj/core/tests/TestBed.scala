@@ -53,16 +53,21 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |function refVal($x) {
-        |	global $a;
-        |	$a = 'changed.a';
-        |	var_dump($x);
-        |	var_dump(func_get_arg(0));
-        |}
+        |	class Foo {
+        |	}
         |
-        |$a = "original.a";
-        |$ref =& $a;
-        |refVal($a);
+        |	function blah (Foo $a)
+        |	{
+        |	}
+        |
+        |	function error()
+        |	{
+        |		$a = func_get_args();
+        |		var_dump($a);
+        |	}
+        |
+        |	blah (new StdClass);
+        |	echo "ALIVE!\n";
         |?>""".stripMargin)
   }
 }

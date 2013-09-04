@@ -7,8 +7,8 @@ import de.leanovate.jbj.core.ast.NodePosition
 import de.leanovate.jbj.core.runtime.buildin.PException
 
 object CatchableFatalError {
-  def apply(msg: String, callerPosition: NodePosition, definitionPosition: Option[NodePosition])(implicit ctx: Context) {
-    if (ctx.log.catchableFatal(msg, callerPosition, definitionPosition)) {
+  def apply(msg: String)(implicit ctx: Context) {
+    if (ctx.log.catchableFatal(msg)) {
 
       val exception = PException.newInstance(ScalarExpr(StringVal(msg)) :: Nil)
 

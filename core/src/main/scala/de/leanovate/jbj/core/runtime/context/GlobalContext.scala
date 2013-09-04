@@ -13,13 +13,16 @@ import de.leanovate.jbj.core.runtime._
 import de.leanovate.jbj.core.ast.{NoNodePosition, Prog, NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
 import de.leanovate.jbj.core.runtime.exception.CompileErrorException
-import de.leanovate.jbj.core.runtime.value.{ArrayVal, PVar, PVal, StringVal}
-import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
+import de.leanovate.jbj.core.runtime.value._
 import java.util.concurrent.atomic.AtomicLong
-import de.leanovate.jbj.core.JbjEnv
 import de.leanovate.jbj.api.JbjSettings
-import de.leanovate.jbj.core.runtime.output.OutputBuffer
 import scala.collection.JavaConversions._
+import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
+import de.leanovate.jbj.core.JbjEnv
+import scala.Some
+import de.leanovate.jbj.core.runtime.output.OutputBuffer
+import javax.security.auth.callback.CallbackHandler
+import de.leanovate.jbj.core.runtime.buildin.CallbackHelper
 
 case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream], settings: JbjSettings)
   extends Context {
@@ -44,6 +47,10 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
   }
 
   var errorHandler: Option[PVal] = None
+
+  var shutdownHandler: Option[PVal] = None
+
+  var shutdownParameters: Seq[PVal] = Seq.empty
 
   def name = ""
 
@@ -183,6 +190,10 @@ case class GlobalContext(jbj: JbjEnv, out: OutputBuffer, err: Option[PrintStream
   var isOutputBufferingCallback = false
 
   def cleanup() {
+    shutdownHandler.foreach {
+      callback =>
+        CallbackHelper.callCallabck(callback, shutdownParameters: _*)(this)
+    }
     currentPosition = NoNodePosition
     _inShutdown = true
     staticContexts.values.foreach(_.cleanup()(this))

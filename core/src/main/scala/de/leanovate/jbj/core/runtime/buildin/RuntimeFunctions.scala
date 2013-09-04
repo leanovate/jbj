@@ -7,12 +7,13 @@
 
 package de.leanovate.jbj.core.runtime.buildin
 
-import de.leanovate.jbj.core.runtime.value.PVal
+import de.leanovate.jbj.core.runtime.value.{PAny, PVal}
 import de.leanovate.jbj.core.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.core.runtime.context.Context
 import de.leanovate.jbj.api.JbjSettings
 import java.util
 import scala.collection.JavaConversions._
+import de.leanovate.jbj.core.ast.Expr
 
 object RuntimeFunctions extends WrappedFunctions {
 
@@ -38,6 +39,19 @@ object RuntimeFunctions extends WrappedFunctions {
       ctx.global.errorHandler = Some(value)
     } else {
       ctx.log.warn("set_error_handler() expects the argument (%s) to be a valid callback".format(value.toStr.asString))
+    }
+  }
+
+  @GlobalFunction
+  def register_shutdown_function(optCallback: Option[PVal], parameters: PVal*)(implicit ctx: Context) {
+    optCallback match {
+      case Some(callback) if !CallbackHelper.isValidCallback(callback) =>
+        ctx.log.warn("register_shutdown_function(): Invalid shutdown callback '%s' passed".format(callback.toStr.asString))
+      case Some(callback) =>
+        ctx.global.shutdownHandler = Some(callback)
+        ctx.global.shutdownParameters = parameters
+      case None =>
+        ctx.log.warn("Wrong parameter count for register_shutdown_function()")
     }
   }
 

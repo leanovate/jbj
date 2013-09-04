@@ -407,5 +407,53 @@ class FuncSpec extends SpecificationWithJUnit with TestJbjExecutor{
           |""".stripMargin
       )
     }
+
+    "Testing register_shutdown_function()" in {
+      // func/005.phpt
+      script(
+        """<?php
+          |
+          |function foo()
+          |{
+          |	print "foo";
+          |}
+          |
+          |register_shutdown_function("foo");
+          |
+          |print "foo() will be called on shutdown...\n";
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """foo() will be called on shutdown...
+          |foo""".stripMargin
+      )
+    }
+
+    "Output buffering tests" in {
+      // func/006.phpt
+      script(
+        """<?php
+          |ob_start();
+          |echo ob_get_level();
+          |echo 'A';
+          |  ob_start();
+          |  echo ob_get_level();
+          |  echo 'B';
+          |  $b = ob_get_contents();
+          |  ob_end_clean();
+          |$a = ob_get_contents();
+          |ob_end_clean();
+          |
+          |var_dump( $b ); // 2B
+          |var_dump( $a ); // 1A
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """string(2) "2B"
+          |string(2) "1A"
+          |""".stripMargin
+      )
+    }
   }
 }
