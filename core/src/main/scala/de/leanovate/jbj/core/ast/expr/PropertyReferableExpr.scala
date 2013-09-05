@@ -14,6 +14,7 @@ import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.runtime.context.{StaticMethodContext, Context, MethodContext}
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.core.buildin.PStdClass
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) extends ReferableExpr {
   override def eval(implicit ctx: Context) = {
@@ -240,8 +241,11 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
         if (ctx.global.staticClassObject(pMethod.declaringClass).getProperty(name, Some(pMethod.declaringClass.name.toString)).isDefined)
           ctx.log.strict("Accessing static property %s::$%s as non static".format(pClass.name.toString, name))
       case _ =>
-        if (ctx.global.staticClassObject(pClass).getProperty(name, None).isDefined)
+        val staticClassObject = ctx.global.staticClassObject(pClass)
+        if (staticClassObject.getProperty(name, None).isDefined)
           ctx.log.strict("Accessing static property %s::$%s as non static".format(pClass.name.toString, name))
+        else if (staticClassObject.getProperty(name, Some(pClass.name.toString)).isDefined)
+          throw new FatalErrorJbjException("Cannot access protected property %s::$%s".format(pClass.name.toString, name))
     }
 
   }

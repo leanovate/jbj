@@ -176,6 +176,10 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
         case StaticMethodContext(pMethod, _) =>
           staticClassObject.unsetProperty(name, Some(pMethod.declaringClass.name.toString))
         case _ =>
+          if (!staticClassObject.getProperty(name, None).isDefined) {
+            if ( staticClassObject.getProperty(name, Some(pClass.name.toString)).isDefined)
+              throw new FatalErrorJbjException("Cannot access protected property %s::$%s".format(pClass.name.toString, name))
+          }
           staticClassObject.unsetProperty(name, None)
       }
     }

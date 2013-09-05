@@ -138,6 +138,98 @@ class StaticPropertiesSpec extends SpecificationWithJUnit with TestJbjExecutor {
       )
     }
 
+    "Attempting to access static properties using instance property syntax" in {
+      // classes/static_properties_003_error1.phpt
+      script(
+        """<?php
+          |class C {
+          |    protected static $y = 'C::$y';
+          |}
+          |$c = new C;
+          |
+          |echo "\n--> Access non-visible static prop like instance prop:\n";
+          |unset($c->y);
+          |?>
+          |==Done==
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |--> Access non-visible static prop like instance prop:
+          |
+          |Fatal error: Cannot access protected property C::$y in /classes/StaticPropertiesSpec.inlinePhp on line 8
+          |""".stripMargin
+      )
+    }
+
+    "Attempting to access static properties using instance property syntax" in {
+      // classes/static_properties_003_error2.phpt
+      script(
+        """<?php
+          |class C {
+          |    protected static $y = 'C::$y';
+          |}
+          |$c = new C;
+          |
+          |echo "\n--> Access non-visible static prop like instance prop:\n";
+          |echo $c->y;
+          |?>
+          |==Done==
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |--> Access non-visible static prop like instance prop:
+          |
+          |Fatal error: Cannot access protected property C::$y in /classes/StaticPropertiesSpec.inlinePhp on line 8
+          |""".stripMargin
+      )
+    }
+
+    "Attempting to access static properties using instance property syntax" in {
+      // classes/static_properties_003_error3.phpt
+      script(
+        """<?php
+          |class C {
+          |    protected static $y = 'C::$y';
+          |}
+          |$c = new C;
+          |
+          |echo "\n--> Access non-visible static prop like instance prop:\n";
+          |$c->y = 1;
+          |?>
+          |==Done==
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |--> Access non-visible static prop like instance prop:
+          |
+          |Fatal error: Cannot access protected property C::$y in /classes/StaticPropertiesSpec.inlinePhp on line 8
+          |""".stripMargin
+      )
+    }
+
+    "Attempting to access static properties using instance property syntax" in {
+      // classes/static_properties_003_error4.phpt
+      script(
+        """<?php
+          |class C {
+          |    protected static $y = 'C::$y';
+          |}
+          |$c = new C;
+          |
+          |echo "\n--> Access non-visible static prop like instance prop:\n";
+          |$c->y =& $ref;
+          |?>
+          |==Done==
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |--> Access non-visible static prop like instance prop:
+          |
+          |Fatal error: Cannot access protected property C::$y in /classes/StaticPropertiesSpec.inlinePhp on line 8
+          |""".stripMargin
+      )
+    }
+
     "Assigning to a non-existent static property" in {
       // classes/static_properties_undeclared_assign.phpt
       script(

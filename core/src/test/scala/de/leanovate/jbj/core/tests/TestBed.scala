@@ -53,8 +53,13 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |Class C {}
-        |echo C::$p;
+        |class C {
+        |    protected static $y = 'C::$y';
+        |}
+        |$c = new C;
+        |
+        |echo "\n--> Access non-visible static prop like instance prop:\n";
+        |unset($c->y);
         |?>""".stripMargin)
   }
 }
