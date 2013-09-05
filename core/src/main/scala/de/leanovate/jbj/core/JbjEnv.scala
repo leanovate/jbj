@@ -7,26 +7,25 @@
 
 package de.leanovate.jbj.core
 
-import de.leanovate.jbj.core.ast.Prog
-import de.leanovate.jbj.core.runtime.{PInterface, PFunction, PClass, buildin}
+import de.leanovate.jbj.core.runtime.{PInterface, PFunction, PClass}
 import java.io.{OutputStream, PrintStream}
 import de.leanovate.jbj.core.runtime.context.Context
-import de.leanovate.jbj.core.parser.JbjParser
 import scala.collection.JavaConverters._
 import scala.collection.Map
 import de.leanovate.jbj.core.runtime.value.PVal
 import de.leanovate.jbj.api._
 import de.leanovate.jbj.core.runtime.exception.{ExitJbjException, NotFoundJbjException}
 import de.leanovate.jbj.core.runtime.env.{CliEnvironment, CgiEnvironment}
-import de.leanovate.jbj.core.parser.ParseContext
 import scala.Some
 import de.leanovate.jbj.core.runtime.context.GlobalContext
 import de.leanovate.jbj.core.runtime.output.OutputBuffer
+import de.leanovate.jbj.core.ast.Prog
+import de.leanovate.jbj.core.parser.{ParseContext, JbjParser}
 
 case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
                   settings: JbjSettings = new JbjSettings,
                   extensions: Seq[JbjExtension] = Seq.empty,
-                  errorStream: Option[PrintStream] = None) extends JbjEnvironment {
+                  errorStream: Option[PrintStream] = None) extends JbjEnvironment with JbjRuntimeEnv {
 
   case class CacheEntry(etag: String, entry: Either[Prog, Throwable])
 

@@ -163,6 +163,7 @@
 
     <modules>
         <module>api</module>
+        <module>runtime</module>
         <module>core</module>
         <module>play-example</module>
     </modules>

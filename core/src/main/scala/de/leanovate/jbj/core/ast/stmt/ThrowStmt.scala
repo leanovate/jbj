@@ -8,11 +8,10 @@
 package de.leanovate.jbj.core.ast.stmt
 
 import de.leanovate.jbj.core.ast.{Expr, Stmt}
-import de.leanovate.jbj.core.runtime.buildin
 import de.leanovate.jbj.core.runtime.value.ObjectVal
 import de.leanovate.jbj.core.runtime.exception.{FatalErrorJbjException, RuntimeJbjException}
 import de.leanovate.jbj.core.runtime.context.Context
-import de.leanovate.jbj.core.runtime.buildin.PException
+import de.leanovate.jbj.core.buildin.PException
 
 case class ThrowStmt(expr: Expr) extends Stmt {
   override def exec(implicit ctx: Context) = expr.eval.asVal match {

@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.core.ast.stmt
 
-import de.leanovate.jbj.core.ast.{NodeVisitor, Stmt}
+import de.leanovate.jbj.core.ast.{BlockLike, NodeVisitor, Stmt}
 import de.leanovate.jbj.core.runtime.context.Context
 
 case class BlockStmt(stmts: List[Stmt]) extends Stmt with BlockLike {
