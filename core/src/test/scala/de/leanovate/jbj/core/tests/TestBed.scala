@@ -53,13 +53,23 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |class C {
-        |    protected static $y = 'C::$y';
-        |}
-        |$c = new C;
         |
-        |echo "\n--> Access non-visible static prop like instance prop:\n";
-        |unset($c->y);
-        |?>""".stripMargin)
+        |class pass {
+        |	static function show() {
+        |		echo "Call to function pass::show()\n";
+        |	}
+        |}
+        |
+        |class fail extends pass {
+        |	function show() {
+        |		echo "Call to function fail::show()\n";
+        |	}
+        |}
+        |
+        |pass::show();
+        |fail::show();
+        |
+        |echo "Done\n"; // shouldn't be displayed
+        |?>  """.stripMargin)
   }
 }

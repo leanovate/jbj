@@ -5,12 +5,10 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core
+package de.leanovate.jbj.runtime
 
 import scala.collection.Map
 import de.leanovate.jbj.runtime.value.PVal
-import de.leanovate.jbj.runtime.{PClass, PInterface, PFunction}
-import de.leanovate.jbj.core.ast.Prog
 
 trait JbjRuntimeEnv {
   def preedfinedConstants: Map[String, PVal]
@@ -21,5 +19,5 @@ trait JbjRuntimeEnv {
 
   def predefinedClasses: Map[Seq[String], PClass]
 
-  def parse(fileName: String): Option[Either[Prog, Throwable]]
+  def parse(fileName: String): Option[Either[JbjScript, Throwable]]
 }

@@ -17,8 +17,8 @@ case class IncludeExpr(file: Expr) extends Expr {
     val filename = file.eval.asVal.toStr.asString
 
     ctx.global.include(filename) match {
-      case Some((prog, _)) =>
-        prog.exec match {
+      case Some((script, _)) =>
+        script.exec match {
           case ReturnExecResult(returnExpr) => returnExpr.map(_.eval.asVal).getOrElse(NullVal)
           case _ => BooleanVal.TRUE
         }

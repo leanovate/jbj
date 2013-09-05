@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.core
 
-import de.leanovate.jbj.runtime.{PInterface, PFunction, PClass}
+import de.leanovate.jbj.runtime.{JbjRuntimeEnv, PInterface, PFunction, PClass}
 import java.io.{OutputStream, PrintStream}
 import de.leanovate.jbj.runtime.context.Context
 import scala.collection.JavaConverters._

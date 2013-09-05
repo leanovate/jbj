@@ -10,18 +10,17 @@ package de.leanovate.jbj.runtime.context
 import java.io.PrintStream
 import scala.collection.mutable
 import de.leanovate.jbj.runtime._
-import de.leanovate.jbj.core.ast.{NoNodePosition, Prog, NodePosition, NamespaceName}
+import de.leanovate.jbj.core.ast.{NoNodePosition, NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
 import de.leanovate.jbj.runtime.exception.CompileErrorException
 import de.leanovate.jbj.runtime.value._
 import java.util.concurrent.atomic.AtomicLong
 import de.leanovate.jbj.api.JbjSettings
 import scala.collection.JavaConversions._
+import de.leanovate.jbj.core.buildin.{CallbackHelper, PStdClass}
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
-import de.leanovate.jbj.core.JbjRuntimeEnv
 import scala.Some
 import de.leanovate.jbj.runtime.output.OutputBuffer
-import de.leanovate.jbj.core.buildin.{CallbackHelper, PStdClass}
 
 case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[PrintStream], settings: JbjSettings)
   extends Context {
@@ -67,9 +66,9 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
 
   GLOBALS.setAt("GLOBALS", GLOBALS)(this)
 
-  def include(file: String)(implicit ctx: Context): Option[(Prog, Boolean)] = jbj.parse(file) match {
-    case Some(Left(prog)) =>
-      Some(prog, includedFiles.add(prog.fileName))
+  def include(file: String)(implicit ctx: Context): Option[(JbjScript, Boolean)] = jbj.parse(file) match {
+    case Some(Left(script)) =>
+      Some(script, includedFiles.add(script.fileName))
     case Some(Right(t)) => throw new CompileErrorException(t.getMessage)
     case None if file.startsWith("/") => None
     case None =>

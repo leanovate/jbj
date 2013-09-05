@@ -7,10 +7,10 @@
 
 package de.leanovate.jbj.core.ast
 
-import de.leanovate.jbj.runtime.ExecResult
+import de.leanovate.jbj.runtime.{JbjScript, ExecResult}
 import de.leanovate.jbj.runtime.context.Context
 
-case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike {
+case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike with JbjScript {
   private lazy val staticInitializers = StaticInitializer.collect(this)
 
   private lazy val deprecatedNodes = visit(new Prog.DeprectatedNodeVisitor).results
@@ -32,15 +32,16 @@ case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike 
 }
 
 object Prog {
+
   class DeprectatedNodeVisitor extends NodeVisitor[(Node, NodePosition)] {
-    var pos :NodePosition = NoNodePosition
+    var pos: NodePosition = NoNodePosition
 
     def apply(node: Node) = node match {
-      case n :Node with HasNodePosition if n.deprecated.isDefined =>
+      case n: Node with HasNodePosition if n.deprecated.isDefined =>
         pos = n.position
         NextChild((n, pos))
       case n if n.deprecated.isDefined => NextChild((n, pos))
-      case n :Node with HasNodePosition =>
+      case n: Node with HasNodePosition =>
         pos = n.position
         NextChild()
       case _ => NextChild()
