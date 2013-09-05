@@ -1,8 +1,15 @@
+/*    _ _     _                                        *\
+**   (_) |__ (_)  License: MIT  (2013)                 **
+**   | |  _ \| |    http://opensource.org/licenses/MIT **
+**   | | |_) | |                                       **
+**  _/ |____// |  Author: Bodo Junglas                 **
+\* |__/    |__/                                        */
+
 package de.leanovate.jbj.core.runtime.value
 
 import org.specs2.mutable.SpecificationWithJUnit
 import de.leanovate.jbj.core.runtime.context.Context
-import de.leanovate.jbj.core.JbjEnv
+import de.leanovate.jbj.core.JbjRuntimeEnv
 
 class NumericPatternSpec extends SpecificationWithJUnit {
   "Numeric pattern" should {
@@ -37,8 +44,7 @@ class NumericPatternSpec extends SpecificationWithJUnit {
     }
 
     "string conversion" in {
-      val env = JbjEnv()
-      implicit val ctx = env.newGlobalContext(null)
+      implicit val ctx = TestContext()
 
       convert("679") must beSome(679.0)
       convert("679abc") must beSome(679.0)
