@@ -138,6 +138,65 @@ class StaticPropertiesSpec extends SpecificationWithJUnit with TestJbjExecutor {
       )
     }
 
+    "Assigning to a non-existent static property" in {
+      // classes/static_properties_undeclared_assign.phpt
+      script(
+        """<?php
+          |Class C {}
+          |C::$p = 1;
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Access to undeclared static property: C::$p in /classes/StaticPropertiesSpec.inlinePhp on line 3
+          |""".stripMargin
+      )
+    }
+
+    "Assigning & incrementing a non-existent static property" in {
+      // classes/static_properties_undeclared_assignInc.phpt
+      script(
+        """<?php
+          |Class C {}
+          |C::$p += 1;
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Access to undeclared static property: C::$p in /classes/StaticPropertiesSpec.inlinePhp on line 3
+          |""".stripMargin
+      )
+    }
+    "Assigning a non-existent static property by reference" in {
+      // classes/static_properties_undeclared_assignRef.phpt
+      script(
+        """<?php
+          |Class C {}
+          |$a = 'foo';
+          |C::$p =& $a;
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Access to undeclared static property: C::$p in /classes/StaticPropertiesSpec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
+
+    "Incrementing a non-existent static property" in {
+      // classes/static_properties_undeclared_inc.phpt
+      script(
+        """<?php
+          |Class C {}
+          |C::$p++;
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Access to undeclared static property: C::$p in /classes/StaticPropertiesSpec.inlinePhp on line 3
+          |""".stripMargin
+      )
+    }
     "Issetting a non-existent static property" in {
       // classes/static_properties_undeclared_isset.phpt
       script(

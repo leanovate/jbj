@@ -120,16 +120,23 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
         case pVar: PVar =>
           ctx match {
             case MethodContext(_, pMethod, _) =>
+              if (!staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).isDefined)
+                notFound(pClass, name, Some(pMethod.declaringClass.name.toString))
               staticClassObject.setProperty(name, Some(pMethod.declaringClass.name.toString), pVar)
             case StaticMethodContext(pMethod, _) =>
-              println("Da")
+              if (!staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).isDefined)
+                notFound(pClass, name, Some(pMethod.declaringClass.name.toString))
               staticClassObject.setProperty(name, Some(pMethod.declaringClass.name.toString), pVar)
             case _ =>
+              if (!staticClassObject.getProperty(name, None).isDefined)
+                notFound(pClass, name, None)
               staticClassObject.setProperty(name, None, pVar)
           }
         case pVal: PVal =>
           ctx match {
             case MethodContext(_, pMethod, _) =>
+              if (!staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).isDefined)
+                notFound(pClass, name, Some(pMethod.declaringClass.name.toString))
               staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map {
                 case pVar: PVar => pVar.value = pVal
                 case _ =>
@@ -138,6 +145,8 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
                 staticClassObject.setProperty(name, Some(pMethod.declaringClass.name.toString), pVal)
               }
             case StaticMethodContext(pMethod, _) =>
+              if (!staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).isDefined)
+                notFound(pClass, name, Some(pMethod.declaringClass.name.toString))
               staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map {
                 case pVar: PVar => pVar.value = pVal
                 case _ =>
@@ -146,6 +155,8 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
                 staticClassObject.setProperty(name, Some(pMethod.declaringClass.name.toString), pVal)
               }
             case _ =>
+              if (!staticClassObject.getProperty(name, None).isDefined)
+                notFound(pClass, name, None)
               staticClassObject.getProperty(name, None).map {
                 case pVar: PVar => pVar.value = pVal
                 case _ =>
