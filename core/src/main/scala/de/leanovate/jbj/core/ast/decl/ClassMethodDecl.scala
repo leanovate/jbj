@@ -140,6 +140,12 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
       if (isStatic) {
         ctx.log.strict("Static function %s::%s() should not be abstract".format(pClass.name.toString, name))
       }
+    } else {
+      if (!isStatic && pClass.superClass.exists(_.methods.get(name).exists(_.isStatic))) {
+        throw new FatalErrorJbjException("Cannot make static method %s::%s() non static in class %s".format(pClass.superClass.get.name.toString, name, pClass.name.toString))
+      } else if (isStatic && pClass.superClass.exists(_.methods.get(name).exists(!_.isStatic))) {
+        throw new FatalErrorJbjException("Cannot make non static method %s::%s() static in class %s".format(pClass.superClass.get.name.toString, name, pClass.name.toString))
+      }
     }
 
     name match {
