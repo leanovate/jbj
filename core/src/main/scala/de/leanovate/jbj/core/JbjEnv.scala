@@ -7,18 +7,18 @@
 
 package de.leanovate.jbj.core
 
-import de.leanovate.jbj.core.runtime.{PInterface, PFunction, PClass}
+import de.leanovate.jbj.runtime.{PInterface, PFunction, PClass}
 import java.io.{OutputStream, PrintStream}
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.runtime.context.Context
 import scala.collection.JavaConverters._
 import scala.collection.Map
-import de.leanovate.jbj.core.runtime.value.PVal
+import de.leanovate.jbj.runtime.value.PVal
 import de.leanovate.jbj.api._
-import de.leanovate.jbj.core.runtime.exception.{ExitJbjException, NotFoundJbjException}
-import de.leanovate.jbj.core.runtime.env.{CliEnvironment, CgiEnvironment}
+import de.leanovate.jbj.runtime.exception.{ExitJbjException, NotFoundJbjException}
+import de.leanovate.jbj.runtime.env.{CliEnvironment, CgiEnvironment}
 import scala.Some
-import de.leanovate.jbj.core.runtime.context.GlobalContext
-import de.leanovate.jbj.core.runtime.output.OutputBuffer
+import de.leanovate.jbj.runtime.context.GlobalContext
+import de.leanovate.jbj.runtime.output.OutputBuffer
 import de.leanovate.jbj.core.ast.Prog
 import de.leanovate.jbj.core.parser.{ParseContext, JbjParser}
 

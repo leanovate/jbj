@@ -8,9 +8,9 @@
 package de.leanovate.jbj.core.ast.expr
 
 import de.leanovate.jbj.core.ast.{Expr, Name}
-import de.leanovate.jbj.core.runtime.value.PAny
-import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.core.runtime.context.{MethodContext, Context}
+import de.leanovate.jbj.runtime.value.PAny
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.context.{MethodContext, Context}
 
 case class CallStaticMethodReferableExpr(className: Name, methodName: Name, parameters: List[Expr])
   extends CallReferableExpr {

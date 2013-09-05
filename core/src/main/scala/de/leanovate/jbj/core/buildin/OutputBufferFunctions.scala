@@ -7,13 +7,13 @@
 
 package de.leanovate.jbj.core.buildin
 
-import de.leanovate.jbj.core.runtime.value._
-import de.leanovate.jbj.core.runtime.context.Context
-import de.leanovate.jbj.core.runtime.output.OutputTransformer
-import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.core.runtime.annotations.GlobalFunction
+import de.leanovate.jbj.runtime.value._
+import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.output.OutputTransformer
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import scala.Some
-import de.leanovate.jbj.core.runtime.value.IntegerVal
+import de.leanovate.jbj.runtime.value.IntegerVal
 
 object OutputBufferFunctions extends WrappedFunctions {
   @GlobalFunction

@@ -8,19 +8,19 @@
 package de.leanovate.jbj.core.ast.decl
 
 import de.leanovate.jbj.core.ast._
-import de.leanovate.jbj.core.runtime._
-import de.leanovate.jbj.core.runtime.SuccessExecResult
+import de.leanovate.jbj.runtime._
+import de.leanovate.jbj.runtime.SuccessExecResult
 import scala.collection.mutable
-import de.leanovate.jbj.core.runtime.value.{PVar, PVal, ConstVal, ObjectVal}
-import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.core.runtime.context._
+import de.leanovate.jbj.runtime.value.{PVar, PVal, ConstVal, ObjectVal}
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.context._
 import de.leanovate.jbj.core.ast.NamespaceName
 import scala.collection.immutable.List
-import de.leanovate.jbj.core.runtime.context.MethodContext
+import de.leanovate.jbj.runtime.context.MethodContext
 import scala.Some
-import de.leanovate.jbj.core.runtime.context.InstanceContext
-import de.leanovate.jbj.core.runtime.context.ClassContext
-import de.leanovate.jbj.core.runtime.value.ObjectPropertyKey.{ProtectedKey, PublicKey}
+import de.leanovate.jbj.runtime.context.InstanceContext
+import de.leanovate.jbj.runtime.context.ClassContext
+import de.leanovate.jbj.runtime.value.ObjectPropertyKey.{ProtectedKey, PublicKey}
 
 case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
                          superClassName: Option[NamespaceName], implements: List[NamespaceName],

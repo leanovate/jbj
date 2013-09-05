@@ -8,8 +8,8 @@
 package de.leanovate.jbj.core.ast.stmt.cond
 
 import de.leanovate.jbj.core.ast.{Node, Stmt}
-import de.leanovate.jbj.core.runtime.value.PVal
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.runtime.value.PVal
+import de.leanovate.jbj.runtime.context.Context
 
 trait SwitchCase extends Node {
   def stmts: List[Stmt]

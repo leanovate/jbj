@@ -8,8 +8,8 @@
 package de.leanovate.jbj.core.ast.stmt.cond
 
 import de.leanovate.jbj.core.ast.{NodeVisitor, Stmt}
-import de.leanovate.jbj.core.runtime.value.PVal
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.runtime.value.PVal
+import de.leanovate.jbj.runtime.context.Context
 
 case class DefaultCaseBlock(stmts: List[Stmt]) extends SwitchCase {
   def matches(value: PVal)(implicit ctx: Context) = true

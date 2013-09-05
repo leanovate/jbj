@@ -7,14 +7,14 @@
 
 package de.leanovate.jbj.core
 
-import de.leanovate.jbj.core.runtime.value._
+import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.core.ast.{Expr, ClassEntry, NamespaceName}
-import de.leanovate.jbj.core.runtime.value.IntegerVal
-import de.leanovate.jbj.core.runtime.context.{StaticContext, Context}
+import de.leanovate.jbj.runtime.value.IntegerVal
+import de.leanovate.jbj.runtime.context.{StaticContext, Context}
 import de.leanovate.jbj.api.JbjSettings
 import scala.collection.JavaConverters._
 import de.leanovate.jbj.core.buildin.{PStdClass, PException}
-import de.leanovate.jbj.core.runtime.{PClass, PFunction}
+import de.leanovate.jbj.runtime.{PClass, PFunction}
 
 package object buildin {
   val buildinFunctions: Seq[PFunction] =

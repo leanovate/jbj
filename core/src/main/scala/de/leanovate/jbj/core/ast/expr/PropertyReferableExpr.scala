@@ -8,10 +8,10 @@
 package de.leanovate.jbj.core.ast.expr
 
 import de.leanovate.jbj.core.ast.{Name, ReferableExpr}
-import de.leanovate.jbj.core.runtime.{PClass, Reference}
-import de.leanovate.jbj.core.runtime.value._
-import de.leanovate.jbj.core.runtime.value.StringVal
-import de.leanovate.jbj.core.runtime.context.{StaticMethodContext, Context, MethodContext}
+import de.leanovate.jbj.runtime.{PClass, Reference}
+import de.leanovate.jbj.runtime.value._
+import de.leanovate.jbj.runtime.value.StringVal
+import de.leanovate.jbj.runtime.context.{StaticMethodContext, Context, MethodContext}
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.core.buildin.PStdClass
 

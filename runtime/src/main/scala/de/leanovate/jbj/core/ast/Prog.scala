@@ -7,8 +7,8 @@
 
 package de.leanovate.jbj.core.ast
 
-import de.leanovate.jbj.core.runtime.ExecResult
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.runtime.ExecResult
+import de.leanovate.jbj.runtime.context.Context
 
 case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike {
   private lazy val staticInitializers = StaticInitializer.collect(this)

@@ -8,10 +8,10 @@
 package de.leanovate.jbj.core.ast.stmt.cond
 
 import de.leanovate.jbj.core.ast._
-import de.leanovate.jbj.core.runtime.SuccessExecResult
-import de.leanovate.jbj.core.runtime.context.{Context, StaticContext}
-import de.leanovate.jbj.core.runtime.BreakExecResult
-import de.leanovate.jbj.core.runtime.BreakExecResult
+import de.leanovate.jbj.runtime.SuccessExecResult
+import de.leanovate.jbj.runtime.context.{Context, StaticContext}
+import de.leanovate.jbj.runtime.BreakExecResult
+import de.leanovate.jbj.runtime.BreakExecResult
 
 case class SwitchStmt(expr: Expr, cases: List[SwitchCase]) extends Stmt with StaticInitializer with BlockLike {
   private val staticInitializers =

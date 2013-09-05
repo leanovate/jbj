@@ -8,9 +8,9 @@
 package de.leanovate.jbj.core.ast.decl
 
 import de.leanovate.jbj.core.ast._
-import de.leanovate.jbj.core.runtime._
-import de.leanovate.jbj.core.runtime.SuccessExecResult
-import de.leanovate.jbj.core.runtime.context.{Context, FunctionContext}
+import de.leanovate.jbj.runtime._
+import de.leanovate.jbj.runtime.SuccessExecResult
+import de.leanovate.jbj.runtime.context.{Context, FunctionContext}
 import de.leanovate.jbj.core.ast.stmt.{FunctionLike}
 
 case class FunctionDeclStmt(name: NamespaceName, returnByRef: Boolean, parameterDecls: List[ParameterDecl], stmts: List[Stmt])

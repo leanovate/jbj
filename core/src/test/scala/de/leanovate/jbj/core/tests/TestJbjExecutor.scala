@@ -9,7 +9,7 @@ package de.leanovate.jbj.core.tests
 
 import java.io.{ByteArrayOutputStream, PrintStream}
 import de.leanovate.jbj.core.parser.JbjParser
-import de.leanovate.jbj.core.runtime.env.{CliEnvironment, CgiEnvironment}
+import de.leanovate.jbj.runtime.env.{CliEnvironment, CgiEnvironment}
 import org.specs2.matcher.{MatchResult, BeEqualTo, Expectable, Matcher}
 import de.leanovate.jbj.core.JbjEnv
 import scala.Some

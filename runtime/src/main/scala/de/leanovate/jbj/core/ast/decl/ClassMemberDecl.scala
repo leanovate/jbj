@@ -8,9 +8,9 @@
 package de.leanovate.jbj.core.ast.decl
 
 import de.leanovate.jbj.core.ast.{HasNodePosition, Node}
-import de.leanovate.jbj.core.runtime.value.ObjectVal
-import de.leanovate.jbj.core.runtime.context.Context
-import de.leanovate.jbj.core.runtime.PClass
+import de.leanovate.jbj.runtime.value.ObjectVal
+import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.PClass
 
 trait ClassMemberDecl extends Node with HasNodePosition {
   def initializeInterface(pInterface: InterfaceDeclStmt)(implicit ctx:Context) {}

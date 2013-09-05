@@ -8,9 +8,9 @@
 package de.leanovate.jbj.core.ast.expr.include
 
 import de.leanovate.jbj.core.ast.Expr
-import de.leanovate.jbj.core.runtime.value.BooleanVal
-import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.runtime.value.BooleanVal
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.context.Context
 
 case class RequireOnceExpr(file:Expr) extends Expr{
   def eval(implicit ctx: Context) = {

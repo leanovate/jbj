@@ -7,8 +7,8 @@
 
 package de.leanovate.jbj.core
 
-import de.leanovate.jbj.core.runtime.{PClass, PFunction}
-import de.leanovate.jbj.core.runtime.value.PVal
+import de.leanovate.jbj.runtime.{PClass, PFunction}
+import de.leanovate.jbj.runtime.value.PVal
 
 trait JbjExtension {
   def name: String

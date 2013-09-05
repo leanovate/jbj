@@ -8,11 +8,11 @@
 package de.leanovate.jbj.core.ast.expr
 
 import de.leanovate.jbj.core.ast.Expr
-import de.leanovate.jbj.core.runtime.ReturnExecResult
+import de.leanovate.jbj.runtime.ReturnExecResult
 import de.leanovate.jbj.core.parser.{ParseContext, JbjParser}
-import de.leanovate.jbj.core.runtime.value.{BooleanVal, NullVal}
-import de.leanovate.jbj.core.runtime.exception.ParseJbjException
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.runtime.value.{BooleanVal, NullVal}
+import de.leanovate.jbj.runtime.exception.ParseJbjException
+import de.leanovate.jbj.runtime.context.Context
 
 case class EvalExpr(scriptExpr: Expr) extends Expr {
   def eval(implicit ctx: Context) = {

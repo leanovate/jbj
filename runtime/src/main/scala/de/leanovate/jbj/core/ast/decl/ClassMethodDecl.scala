@@ -8,10 +8,10 @@
 package de.leanovate.jbj.core.ast.decl
 
 import de.leanovate.jbj.core.ast._
-import de.leanovate.jbj.core.runtime._
-import de.leanovate.jbj.core.runtime.value._
-import de.leanovate.jbj.core.runtime.context.{GlobalContext, Context, MethodContext, StaticMethodContext}
-import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime._
+import de.leanovate.jbj.runtime.value._
+import de.leanovate.jbj.runtime.context.{GlobalContext, Context, MethodContext, StaticMethodContext}
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.ast.stmt.{FunctionLike}
 import de.leanovate.jbj.core.buildin.PStdClass
 

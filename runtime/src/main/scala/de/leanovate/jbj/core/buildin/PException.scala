@@ -8,10 +8,10 @@
 package de.leanovate.jbj.core.buildin
 
 import de.leanovate.jbj.core.ast.{ClassEntry, Expr, NamespaceName}
-import de.leanovate.jbj.core.runtime.value._
-import de.leanovate.jbj.core.runtime.context.{Context, StaticContext}
-import de.leanovate.jbj.core.runtime.value.IntegerVal
-import de.leanovate.jbj.core.runtime.PClass
+import de.leanovate.jbj.runtime.value._
+import de.leanovate.jbj.runtime.context.{Context, StaticContext}
+import de.leanovate.jbj.runtime.value.IntegerVal
+import de.leanovate.jbj.runtime.PClass
 
 object PException extends PClass {
   override def classEntry = ClassEntry.CLASS

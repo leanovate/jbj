@@ -7,9 +7,9 @@
 
 package de.leanovate.jbj.core.buildin
 
-import de.leanovate.jbj.core.runtime.value._
-import de.leanovate.jbj.core.runtime.annotations.GlobalFunction
-import de.leanovate.jbj.core.runtime.value.IntegerVal
+import de.leanovate.jbj.runtime.value._
+import de.leanovate.jbj.runtime.annotations.GlobalFunction
+import de.leanovate.jbj.runtime.value.IntegerVal
 
 object StringFunctions extends WrappedFunctions {
 

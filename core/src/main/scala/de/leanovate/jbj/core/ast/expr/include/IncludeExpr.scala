@@ -8,9 +8,9 @@
 package de.leanovate.jbj.core.ast.expr.include
 
 import de.leanovate.jbj.core.ast.Expr
-import de.leanovate.jbj.core.runtime.ReturnExecResult
-import de.leanovate.jbj.core.runtime.value.{NullVal, BooleanVal}
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.runtime.ReturnExecResult
+import de.leanovate.jbj.runtime.value.{NullVal, BooleanVal}
+import de.leanovate.jbj.runtime.context.Context
 
 case class IncludeExpr(file: Expr) extends Expr {
   override def eval(implicit ctx: Context) = {

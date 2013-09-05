@@ -7,11 +7,11 @@
 
 package de.leanovate.jbj.core.ast.stmt.loop
 
-import de.leanovate.jbj.core.runtime.value.{PVar, ArrayVal, PVal, PAny}
+import de.leanovate.jbj.runtime.value.{PVar, ArrayVal, PVal, PAny}
 import de.leanovate.jbj.core.ast.{NodeVisitor, Node, ReferableExpr}
-import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.ast.expr.ListReferableExpr
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.runtime.context.Context
 
 sealed trait ForeachAssignment extends Node {
   def assignKey(key: PVal)(implicit ctx: Context)

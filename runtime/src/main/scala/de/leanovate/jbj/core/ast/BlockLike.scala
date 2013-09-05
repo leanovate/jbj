@@ -8,8 +8,8 @@
 package de.leanovate.jbj.core.ast
 
 import scala.annotation.tailrec
-import de.leanovate.jbj.core.runtime.{ExecResult, SuccessExecResult}
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.runtime.{ExecResult, SuccessExecResult}
+import de.leanovate.jbj.runtime.context.Context
 
 trait BlockLike extends Node {
   lazy val declStmts = DeclStmt.collect(this)

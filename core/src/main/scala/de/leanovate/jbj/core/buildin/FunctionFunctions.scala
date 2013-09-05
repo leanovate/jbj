@@ -8,10 +8,10 @@
 package de.leanovate.jbj.core.buildin
 
 import de.leanovate.jbj.core.ast.{Expr, NamespaceName}
-import de.leanovate.jbj.core.runtime.value._
-import de.leanovate.jbj.core.runtime.annotations.{WanrExactly, GlobalFunction}
-import de.leanovate.jbj.core.runtime.context.{FunctionLikeContext, Context}
-import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.value._
+import de.leanovate.jbj.runtime.annotations.{WanrExactly, GlobalFunction}
+import de.leanovate.jbj.runtime.context.{FunctionLikeContext, Context}
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.ast.decl.TypeHint
 
 object FunctionFunctions extends WrappedFunctions {

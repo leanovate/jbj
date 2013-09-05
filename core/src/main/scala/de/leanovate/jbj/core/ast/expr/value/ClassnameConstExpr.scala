@@ -8,11 +8,11 @@
 package de.leanovate.jbj.core.ast.expr.value
 
 import de.leanovate.jbj.core.ast.Expr
-import de.leanovate.jbj.core.runtime.context._
-import de.leanovate.jbj.core.runtime.value.StringVal
-import de.leanovate.jbj.core.runtime.context.MethodContext
-import de.leanovate.jbj.core.runtime.context.ClassContext
-import de.leanovate.jbj.core.runtime.context.InstanceContext
+import de.leanovate.jbj.runtime.context._
+import de.leanovate.jbj.runtime.value.StringVal
+import de.leanovate.jbj.runtime.context.MethodContext
+import de.leanovate.jbj.runtime.context.ClassContext
+import de.leanovate.jbj.runtime.context.InstanceContext
 
 case class ClassNameConstExpr() extends Expr {
   override def eval(implicit ctx: Context) = ctx match {

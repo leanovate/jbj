@@ -7,8 +7,8 @@
 
 package de.leanovate.jbj.core.buildin
 
-import de.leanovate.jbj.core.runtime.value._
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.runtime.value._
+import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.core.ast.NamespaceName
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 

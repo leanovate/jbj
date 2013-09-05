@@ -8,19 +8,19 @@
 package de.leanovate.jbj.core.ast.stmt
 
 import de.leanovate.jbj.core.ast._
-import de.leanovate.jbj.core.runtime._
-import de.leanovate.jbj.core.runtime.value.{PAny, NullVal, PVar}
-import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.core.runtime.BreakExecResult
-import de.leanovate.jbj.core.runtime.ReturnExecResult
+import de.leanovate.jbj.runtime._
+import de.leanovate.jbj.runtime.value.{PAny, NullVal, PVar}
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.BreakExecResult
+import de.leanovate.jbj.runtime.ReturnExecResult
 import scala.Some
-import de.leanovate.jbj.core.runtime.context.{FunctionLikeContext, Context}
+import de.leanovate.jbj.runtime.context.{FunctionLikeContext, Context}
 import de.leanovate.jbj.core.ast.decl.ParameterDecl
 import de.leanovate.jbj.core.ast.decl.ParameterDecl
-import de.leanovate.jbj.core.runtime.BreakExecResult
-import de.leanovate.jbj.core.runtime.ReturnExecResult
+import de.leanovate.jbj.runtime.BreakExecResult
+import de.leanovate.jbj.runtime.ReturnExecResult
 import scala.Some
-import de.leanovate.jbj.core.runtime.ContinueExecResult
+import de.leanovate.jbj.runtime.ContinueExecResult
 
 trait FunctionLike extends BlockLike {
 

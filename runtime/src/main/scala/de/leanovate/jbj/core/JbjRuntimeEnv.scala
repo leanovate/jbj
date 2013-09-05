@@ -8,8 +8,8 @@
 package de.leanovate.jbj.core
 
 import scala.collection.Map
-import de.leanovate.jbj.core.runtime.value.PVal
-import de.leanovate.jbj.core.runtime.{PClass, PInterface, PFunction}
+import de.leanovate.jbj.runtime.value.PVal
+import de.leanovate.jbj.runtime.{PClass, PInterface, PFunction}
 import de.leanovate.jbj.core.ast.Prog
 
 trait JbjRuntimeEnv {

@@ -7,11 +7,11 @@
 
 package de.leanovate.jbj.core.buildin
 
-import de.leanovate.jbj.core.runtime.value._
+import de.leanovate.jbj.runtime.value._
 import scala.collection.mutable
 import de.leanovate.jbj.core.ast.{ClassEntry, Expr, NamespaceName}
-import de.leanovate.jbj.core.runtime.PClass
-import de.leanovate.jbj.core.runtime.context.{StaticContext, Context}
+import de.leanovate.jbj.runtime.PClass
+import de.leanovate.jbj.runtime.context.{StaticContext, Context}
 
 object PStdClass extends PClass {
   override def classEntry = ClassEntry.CLASS

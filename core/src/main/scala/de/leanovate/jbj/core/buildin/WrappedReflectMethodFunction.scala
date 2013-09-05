@@ -7,13 +7,13 @@
 
 package de.leanovate.jbj.core.buildin
 
-import de.leanovate.jbj.core.runtime.PFunction
+import de.leanovate.jbj.runtime.PFunction
 import de.leanovate.jbj.core.ast.{Expr, NamespaceName}
 import scala.reflect.runtime.universe._
-import de.leanovate.jbj.core.runtime.adapter.{Converter, ParameterAdapter}
-import de.leanovate.jbj.core.runtime.value.{BooleanVal, PAny}
-import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.runtime.adapter.{Converter, ParameterAdapter}
+import de.leanovate.jbj.runtime.value.{BooleanVal, PAny}
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.context.Context
 import java.lang.reflect.InvocationTargetException
 
 case class WrappedReflectMethodFunction[T, S <: PAny](name: NamespaceName,

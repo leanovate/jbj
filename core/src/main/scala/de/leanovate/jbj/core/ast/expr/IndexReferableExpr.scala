@@ -8,11 +8,11 @@
 package de.leanovate.jbj.core.ast.expr
 
 import de.leanovate.jbj.core.ast.{Expr, ReferableExpr}
-import de.leanovate.jbj.core.runtime._
-import de.leanovate.jbj.core.runtime.value._
+import de.leanovate.jbj.runtime._
+import de.leanovate.jbj.runtime.value._
 import scala.Some
-import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.context.Context
 
 case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr]) extends ReferableExpr {
   override def evalRef(implicit ctx: Context) = new Reference {

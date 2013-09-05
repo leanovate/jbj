@@ -8,10 +8,10 @@
 package de.leanovate.jbj.core.ast.expr
 
 import de.leanovate.jbj.core.ast.{Expr, ReferableExpr}
-import de.leanovate.jbj.core.runtime.Reference
-import de.leanovate.jbj.core.runtime.value.PAny
-import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.runtime.Reference
+import de.leanovate.jbj.runtime.value.PAny
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.context.Context
 
 case class AssignReferableExpr(reference: ReferableExpr, expr: Expr) extends ReferableExpr {
   override def eval(implicit ctx: Context) = {

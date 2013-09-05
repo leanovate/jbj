@@ -7,8 +7,8 @@
 
 package de.leanovate.jbj.core.ast.decl
 
-import de.leanovate.jbj.core.runtime.context.{ClassContext, Context}
-import de.leanovate.jbj.core.runtime.value.{PVal, ConstVal, NullVal}
+import de.leanovate.jbj.runtime.context.{ClassContext, Context}
+import de.leanovate.jbj.runtime.value.{PVal, ConstVal, NullVal}
 import de.leanovate.jbj.core.ast.stmt.StaticAssignment
 
 

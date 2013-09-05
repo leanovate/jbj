@@ -8,7 +8,7 @@
 package de.leanovate.jbj.core.tests.classes
 
 import de.leanovate.jbj.core.tests.TestJbjExecutor
-import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import org.specs2.mutable.SpecificationWithJUnit
 
 class ClassExampleSpec extends SpecificationWithJUnit with TestJbjExecutor {

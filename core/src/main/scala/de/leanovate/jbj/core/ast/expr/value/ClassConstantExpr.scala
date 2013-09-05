@@ -8,8 +8,8 @@
 package de.leanovate.jbj.core.ast.expr.value
 
 import de.leanovate.jbj.core.ast.{Name, Expr}
-import de.leanovate.jbj.core.runtime.context.Context
-import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class ClassConstantExpr(className: Name, constantName: String) extends Expr {
   override def eval(implicit ctx: Context) = {

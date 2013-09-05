@@ -7,9 +7,9 @@
 
 package de.leanovate.jbj.core.buildin
 
-import de.leanovate.jbj.core.runtime.value.PVal
-import de.leanovate.jbj.core.runtime.annotations.GlobalFunction
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.runtime.value.PVal
+import de.leanovate.jbj.runtime.annotations.GlobalFunction
+import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.api.JbjSettings
 import java.util
 import scala.collection.JavaConversions._

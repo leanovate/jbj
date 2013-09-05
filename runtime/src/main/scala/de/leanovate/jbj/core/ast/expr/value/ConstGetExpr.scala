@@ -8,8 +8,8 @@
 package de.leanovate.jbj.core.ast.expr.value
 
 import de.leanovate.jbj.core.ast.{NamespaceName, Expr}
-import de.leanovate.jbj.core.runtime.value.StringVal
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.runtime.value.StringVal
+import de.leanovate.jbj.runtime.context.Context
 
 case class ConstGetExpr(constName: NamespaceName, relative: Boolean = true) extends Expr {
   override def eval(implicit ctx: Context) = {

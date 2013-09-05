@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.core.ast
 
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.runtime.context.Context
 
 trait DeclStmt extends Stmt {
   def register(implicit ctx: Context)

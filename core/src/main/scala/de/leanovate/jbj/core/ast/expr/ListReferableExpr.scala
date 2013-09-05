@@ -8,9 +8,9 @@
 package de.leanovate.jbj.core.ast.expr
 
 import de.leanovate.jbj.core.ast.{NodeVisitor, ReferableExpr}
-import de.leanovate.jbj.core.runtime.Reference
-import de.leanovate.jbj.core.runtime.value.{NullVal, ArrayVal, PAny}
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.runtime.Reference
+import de.leanovate.jbj.runtime.value.{NullVal, ArrayVal, PAny}
+import de.leanovate.jbj.runtime.context.Context
 
 case class ListReferableExpr(references: List[Option[ReferableExpr]]) extends ReferableExpr {
   override def eval(implicit ctx: Context) = throw new RuntimeException("List can only be used in assignment")

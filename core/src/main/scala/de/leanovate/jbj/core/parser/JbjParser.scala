@@ -20,12 +20,12 @@ import de.leanovate.jbj.core.ast.stmt._
 import de.leanovate.jbj.core.ast.stmt.cond._
 import de.leanovate.jbj.core.ast.stmt.loop._
 import de.leanovate.jbj.core.parser.JbjTokens._
-import de.leanovate.jbj.core.runtime.value._
+import de.leanovate.jbj.runtime.value._
 import scala.collection.mutable
 import scala.util.parsing.combinator.{PackratParsers, Parsers}
 import scala.language.implicitConversions
-import de.leanovate.jbj.core.runtime.exception.ParseJbjException
-import de.leanovate.jbj.core.runtime.value.StringVal
+import de.leanovate.jbj.runtime.exception.ParseJbjException
+import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.api.JbjSettings
 import de.leanovate.jbj.core.parser.JbjTokens.ArrayCast
 import de.leanovate.jbj.core.parser.JbjTokens.DoubleCast

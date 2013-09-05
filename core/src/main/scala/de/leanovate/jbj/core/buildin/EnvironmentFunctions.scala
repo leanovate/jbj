@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.core.buildin
 
-import de.leanovate.jbj.core.runtime.annotations.GlobalFunction
+import de.leanovate.jbj.runtime.annotations.GlobalFunction
 
 object EnvironmentFunctions extends WrappedFunctions {
   @GlobalFunction

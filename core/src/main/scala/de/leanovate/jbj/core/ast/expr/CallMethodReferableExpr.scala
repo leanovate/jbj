@@ -8,10 +8,10 @@
 package de.leanovate.jbj.core.ast.expr
 
 import de.leanovate.jbj.core.ast.{Name, Expr}
-import de.leanovate.jbj.core.runtime.value._
-import de.leanovate.jbj.core.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.value._
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import scala.Some
-import de.leanovate.jbj.core.runtime.context.Context
+import de.leanovate.jbj.runtime.context.Context
 
 case class CallMethodReferableExpr(instanceExpr: Expr, methodName: Name, parameters: List[Expr])
   extends CallReferableExpr {

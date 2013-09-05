@@ -8,9 +8,9 @@
 package de.leanovate.jbj.core.ast.stmt
 
 import de.leanovate.jbj.core.ast.{StaticInitializer, Stmt}
-import de.leanovate.jbj.core.runtime.SuccessExecResult
-import de.leanovate.jbj.core.runtime.value.PVar
-import de.leanovate.jbj.core.runtime.context.{Context, StaticContext}
+import de.leanovate.jbj.runtime.SuccessExecResult
+import de.leanovate.jbj.runtime.value.PVar
+import de.leanovate.jbj.runtime.context.{Context, StaticContext}
 
 case class StaticVarDeclStmt(assignments: List[StaticAssignment])
   extends Stmt with StaticInitializer {
