@@ -14,6 +14,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import scala.Some
 import de.leanovate.jbj.runtime.value.IntegerVal
+import de.leanovate.jbj.runtime.CallbackHelper
 
 object OutputBufferFunctions extends WrappedFunctions {
   @GlobalFunction

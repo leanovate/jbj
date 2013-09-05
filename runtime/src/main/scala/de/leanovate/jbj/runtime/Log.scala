@@ -14,7 +14,6 @@ import de.leanovate.jbj.api.JbjSettings
 import de.leanovate.jbj.runtime.output.OutputBuffer
 import de.leanovate.jbj.api.JbjSettings.ErrorLevel
 import de.leanovate.jbj.runtime.value.{ArrayVal, BooleanVal, StringVal, IntegerVal}
-import de.leanovate.jbj.core.buildin.CallbackHelper
 
 class Log(context: Context, out: OutputBuffer, err: Option[PrintStream]) {
   var silent: Boolean = false

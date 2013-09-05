@@ -13,6 +13,7 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.api.JbjSettings
 import java.util
 import scala.collection.JavaConversions._
+import de.leanovate.jbj.runtime.CallbackHelper
 
 object RuntimeFunctions extends WrappedFunctions {
 
