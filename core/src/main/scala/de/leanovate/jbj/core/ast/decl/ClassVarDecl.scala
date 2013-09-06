@@ -96,6 +96,10 @@ case class ClassVarDecl(modifiers: Set[MemberModifier.Type], assignments: List[S
   }
 
   protected[decl] def getProperties(pClass: PClass) = assignments.map {
-    assignment => PProperty(modifiers, assignment.variableName, pClass)
+    assignment => PProperty(modifiers.contains(MemberModifier.STATIC),
+      modifiers.contains(MemberModifier.PRIVATE),
+      modifiers.contains(MemberModifier.PROTECTED),
+      modifiers.contains(MemberModifier.PUBLIC),
+      assignment.variableName, pClass)
   }
 }

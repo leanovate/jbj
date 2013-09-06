@@ -21,13 +21,23 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
 
   private lazy val staticInitializers = StaticInitializer.collect(stmts.getOrElse(Nil): _*)
 
+  lazy val isPrivate = activeModifieres.contains(MemberModifier.PRIVATE)
+
+  lazy val isProtected = activeModifieres.contains(MemberModifier.PROTECTED)
+
+  lazy val isStatic = activeModifieres.contains(MemberModifier.STATIC)
+
+  lazy val isAbstract = activeModifieres.contains(MemberModifier.ABSTRACT)
+
+  lazy val isFinal = activeModifieres.contains(MemberModifier.FINAL)
+
   override def declaringClass = _declaringClass
 
   protected[decl] def declaringClass_=(pClass: PClass) {
     _declaringClass = pClass
   }
 
-  override def activeModifieres = _activeModifiers
+  def activeModifieres = _activeModifiers
 
   override def invoke(ctx: Context, instance: ObjectVal, parameters: List[PParam]) = {
     if (isAbstract) {

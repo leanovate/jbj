@@ -7,14 +7,6 @@
 
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.core.ast.MemberModifier
 
-case class PProperty(modifiers: Set[MemberModifier.Type], name: String, declaringClass: PClass) {
-  lazy val isStatic = modifiers.contains(MemberModifier.STATIC)
-
-  lazy val isPrivate = modifiers.contains(MemberModifier.PRIVATE)
-
-  lazy val isProtected = modifiers.contains(MemberModifier.PROTECTED)
-
-  lazy val isPublic = modifiers.contains(MemberModifier.PUBLIC)
+case class PProperty(isStatic: Boolean, isPrivate: Boolean, isProtected: Boolean, isPublic: Boolean, name: String, declaringClass: PClass) {
 }

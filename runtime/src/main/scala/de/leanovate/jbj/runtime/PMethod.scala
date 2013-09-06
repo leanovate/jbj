@@ -8,7 +8,6 @@
 package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.runtime.value.{PAny, ObjectVal}
-import de.leanovate.jbj.core.ast.MemberModifier
 import de.leanovate.jbj.runtime.context.Context
 
 trait PMethod {
@@ -16,19 +15,13 @@ trait PMethod {
 
   def name: String
 
-  def modifieres: Set[MemberModifier.Type]
+  def isAbstract: Boolean
 
-  def activeModifieres: Set[MemberModifier.Type]
+  def isStatic: Boolean
 
-  lazy val isPrivate = activeModifieres.contains(MemberModifier.PRIVATE)
+  def isPrivate: Boolean
 
-  lazy val isProtected = activeModifieres.contains(MemberModifier.PROTECTED)
-
-  lazy val isStatic = activeModifieres.contains(MemberModifier.STATIC)
-
-  lazy val isAbstract = activeModifieres.contains(MemberModifier.ABSTRACT)
-
-  lazy val isFinal = activeModifieres.contains(MemberModifier.FINAL)
+  def isProtected: Boolean
 
   def invoke(ctx: Context, instance: ObjectVal, parameters: List[PParam]): PAny
 
