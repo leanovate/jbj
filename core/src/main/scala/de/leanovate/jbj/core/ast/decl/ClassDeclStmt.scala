@@ -42,7 +42,8 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
 
   override def interfaces = _interfaces
 
-  override def classConstants: Map[String, ConstVal] = _classConstants.toMap
+  override def classConstants: Map[String, ConstVal] =
+    superClass.map(_.classConstants).getOrElse(Map.empty) ++ _classConstants.toMap
 
   override def register(implicit ctx: Context) {
   }
@@ -58,8 +59,6 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
         else if (superClass.get.isFinal)
           throw new FatalErrorJbjException(
             "Class %s may not inherit from final class (%s)".format(name.toString, superClassName.get.toString))
-
-        _classConstants ++= _superClass.get.classConstants
       }
       _interfaces = implements.flatMap {
         interfaceName =>
