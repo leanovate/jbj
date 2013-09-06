@@ -9,11 +9,12 @@ package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.runtime.value._
 import scala.collection.mutable
-import de.leanovate.jbj.core.ast.ClassEntry
 import de.leanovate.jbj.runtime.context.Context
 
 object PStdClass extends PClass {
-  override def classEntry = ClassEntry.CLASS
+  override def isAbstract = false
+
+  override def isFinal = false
 
   override def name = NamespaceName(relative = false, "stdClass")
 

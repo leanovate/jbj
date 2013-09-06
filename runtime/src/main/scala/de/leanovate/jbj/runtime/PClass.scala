@@ -7,7 +7,6 @@
 
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.core.ast.{ClassEntry}
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import scala.annotation.tailrec
@@ -16,9 +15,9 @@ import de.leanovate.jbj.runtime.context.MethodContext
 import scala.Some
 
 trait PClass {
-  def classEntry: ClassEntry.Type
+  def isAbstract: Boolean
 
-  def isAbstract = classEntry == ClassEntry.ABSTRACT_CLASS
+  def isFinal: Boolean
 
   def name: NamespaceName
 

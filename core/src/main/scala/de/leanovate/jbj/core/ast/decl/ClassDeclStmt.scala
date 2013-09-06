@@ -34,6 +34,9 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   private var _superClass: Option[PClass] = None
   private var _interfaces: Set[PInterface] = Set.empty
 
+  override def isAbstract = classEntry == ClassEntry.ABSTRACT_CLASS
+
+  override def isFinal = classEntry == ClassEntry.FINAL_CLASS
 
   override def superClass = _superClass
 
@@ -52,7 +55,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
         _superClass = ctx.global.findClass(superClassName.get, autoload = true)
         if (!superClass.isDefined)
           throw new FatalErrorJbjException("Class '%s' not found".format(superClassName.get))
-        else if (superClass.get.classEntry == ClassEntry.FINAL_CLASS)
+        else if (superClass.get.isFinal)
           throw new FatalErrorJbjException(
             "Class %s may not inherit from final class (%s)".format(name.toString, superClassName.get.toString))
 
