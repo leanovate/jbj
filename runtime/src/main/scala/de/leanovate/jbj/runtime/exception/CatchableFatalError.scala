@@ -2,8 +2,6 @@ package de.leanovate.jbj.runtime.exception
 
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.value.StringVal
-import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
-import de.leanovate.jbj.core.ast.NodePosition
 import de.leanovate.jbj.core.buildin.PException
 import de.leanovate.jbj.runtime.PValParam
 

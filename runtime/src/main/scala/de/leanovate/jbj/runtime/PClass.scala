@@ -7,12 +7,11 @@
 
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.core.ast.{Expr, ClassEntry, NamespaceName}
+import de.leanovate.jbj.core.ast.{ClassEntry, NamespaceName}
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.context._
-import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.runtime.context.MethodContext
 import scala.Some
 

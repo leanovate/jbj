@@ -8,8 +8,6 @@
 package de.leanovate.jbj.runtime.adapter
 
 import de.leanovate.jbj.runtime.value.PVar
-import de.leanovate.jbj.core.ast.{ReferableExpr, Expr}
-import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.PParam
 
