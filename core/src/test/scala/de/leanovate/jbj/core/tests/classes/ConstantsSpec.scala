@@ -347,5 +347,65 @@ class ConstantsSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Error case: duplicate class constant definition" in {
+      // classes/constants_error_001.phpt
+      script(
+        """<?php
+          |  class myclass
+          |  {
+          |      const myConst = "hello";
+          |      const myConst = "hello again";
+          |  }
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot redefine class constant myclass::myConst in /classes/ConstantsSpec.inlinePhp on line 5
+          |""".stripMargin
+      )
+    }
+
+    "Error case: class constant as an array" in {
+      // classes/constants_error_002.phpt
+      script(
+        """<?php
+          |  class myclass
+          |  {
+          |      const myConst = array();
+          |  }
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Arrays are not allowed in class constants in /classes/ConstantsSpec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
+
+    "Basic class support - attempting to pass a class constant by reference." in {
+      // classes/constants_error_003.phpt
+      script(
+        """<?php
+          |  class aclass
+          |  {
+          |      const myConst = "hello";
+          |  }
+          |
+          |  function f(&$a)
+          |  {
+          |      $a = "changed";
+          |  }
+          |
+          |  f(aclass::myConst);
+          |  var_dump(aclass::myConst);
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Only variables can be passed by reference in /classes/ConstantsSpec.inlinePhp on line 12
+          |""".stripMargin
+      )
+    }
   }
 }

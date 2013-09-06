@@ -39,21 +39,22 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
 
   def activeModifieres = _activeModifiers
 
-  override def invoke(ctx: Context, instance: ObjectVal, parameters: List[PParam]) = {
+  override def invoke(ctx: Context, instance: ObjectVal, parameters: List[PParam]): PAny = {
     if (isAbstract) {
       throw new FatalErrorJbjException("Cannot call abstract method %s::%s()".format(declaringClass.name.toString, name))(ctx)
     }
     if (isPrivate) {
       ctx match {
         case global: GlobalContext if global.inShutdown =>
-          global.log.warn("Call to private %s::%s() from context '%s' during shutdown ignored".format(declaringClass.name.toString, name, ctx.name))
+          global.log.warn("Call to private %s::%s() from context '%s' during shutdown ignored".format(instance.pClass.name.toString, name, ctx.name))
+          return NullVal
         case MethodContext(_, pMethod, _) if declaringClass == pMethod.declaringClass =>
         case StaticMethodContext(pMethod, _) if declaringClass == pMethod.declaringClass =>
         case _ =>
           if (name == "__construct")
             throw new FatalErrorJbjException("Call to private %s::%s() from invalid context".format(declaringClass.name.toString, name))(ctx)
           else if (name.startsWith("__"))
-            throw new FatalErrorJbjException("Call to private %s::%s() from context '%s'".format(declaringClass.name.toString, name, ctx.name))(ctx)
+            throw new FatalErrorJbjException("Call to private %s::%s() from context '%s'".format(instance.pClass.name.toString, name, ctx.name))(ctx)
           else
             throw new FatalErrorJbjException("Call to private method %s::%s() from context '%s'".format(declaringClass.name.toString, name, ctx.name))(ctx)
       }

@@ -10,6 +10,8 @@ package de.leanovate.jbj.core.ast.decl
 import de.leanovate.jbj.runtime.context.{ClassContext, Context}
 import de.leanovate.jbj.runtime.value.{PVal, ConstVal, NullVal}
 import de.leanovate.jbj.core.ast.stmt.StaticAssignment
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.core.ast.expr.ArrayCreateExpr
 
 
 case class ClassConstDecl(assignments: List[StaticAssignment]) extends ClassMemberDecl {
@@ -17,6 +19,10 @@ case class ClassConstDecl(assignments: List[StaticAssignment]) extends ClassMemb
     assignments.foreach {
       assignment =>
         val position = ctx.currentPosition
+        if (pClass._classConstants.contains(assignment.variableName))
+          throw new FatalErrorJbjException("Cannot redefine class constant %s::%s".format(pClass.name.toString, assignment.variableName))
+        if (assignment.initial.exists(_.isInstanceOf[ArrayCreateExpr]))
+          throw new FatalErrorJbjException("Arrays are not allowed in class constants")
         pClass._classConstants(assignment.variableName) = new ConstVal {
           private var value: Option[PVal] = None
 

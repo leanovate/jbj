@@ -163,5 +163,91 @@ class DestructorSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |Done""".stripMargin
       )
     }
+
+    "ZE2 Ensuring destructor visibility" in {
+      // classes/destructor_visibility_001.phpt
+      script(
+        """<?php
+          |
+          |class Base {
+          |	private function __destruct() {
+          |    	echo __METHOD__ . "\n";
+          |	}
+          |}
+          |
+          |class Derived extends Base {
+          |}
+          |
+          |$obj = new Derived;
+          |
+          |unset($obj);
+          |
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Call to private Derived::__destruct() from context '' in /classes/DestructorSpec.inlinePhp on line 14
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 Ensuring destructor visibility" in {
+      // classes/destructor_visibility_002.phpt
+      script(
+        """<?php
+          |
+          |class Base {
+          |	private function __destruct() {
+          |		echo __METHOD__ . "\n";
+          |	}
+          |}
+          |
+          |class Derived extends Base {
+          |}
+          |
+          |$obj = new Derived;
+          |
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """===DONE===
+          |
+          |Warning: Call to private Derived::__destruct() from context '' during shutdown ignored in Unknown on line 0
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 Ensuring destructor visibility" in {
+      // classes/destructor_visibility_003.phpt
+      script(
+        """<?php
+          |
+          |class Base {
+          |	private function __destruct() {
+          |		echo __METHOD__ . "\n";
+          |	}
+          |}
+          |
+          |class Derived extends Base {
+          |	public function __destruct() {
+          |		echo __METHOD__ . "\n";
+          |	}
+          |}
+          |
+          |$obj = new Derived;
+          |
+          |unset($obj); // Derived::__destruct is being called not Base::__destruct
+          |
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """Derived::__destruct
+          |===DONE===
+          |""".stripMargin
+      )
+    }
   }
 }
