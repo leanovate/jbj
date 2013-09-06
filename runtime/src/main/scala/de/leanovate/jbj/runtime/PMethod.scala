@@ -15,6 +15,8 @@ trait PMethod {
 
   def name: String
 
+  def isFinal: Boolean
+
   def isAbstract: Boolean
 
   def isStatic: Boolean

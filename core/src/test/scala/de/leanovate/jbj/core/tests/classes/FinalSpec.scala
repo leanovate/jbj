@@ -44,5 +44,53 @@ class FinalSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "ZE2 A final method cannot be abstract" in {
+      // classes/final_abstract.phpt
+      script(
+        """<?php
+          |
+          |class fail {
+          |	final abstract function show();
+          |}
+          |
+          |echo "Done\n"; // Shouldn't be displayed
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot use the final modifier on an abstract class member in /classes/FinalSpec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 A final method may not be overwritten" in {
+      // classes/final_redeclare.phpt
+      script(
+        """<?php
+          |
+          |class pass {
+          |	final function show() {
+          |		echo "Call to function pass::show()\n";
+          |	}
+          |}
+          |
+          |$t = new pass();
+          |
+          |class fail extends pass {
+          |	function show() {
+          |		echo "Call to function fail::show()\n";
+          |	}
+          |}
+          |
+          |echo "Done\n"; // Shouldn't be displayed
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot override final method pass::show() in /classes/FinalSpec.inlinePhp on line 12
+          |""".stripMargin
+      )
+    }
   }
 }

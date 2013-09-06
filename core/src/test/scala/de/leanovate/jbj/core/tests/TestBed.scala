@@ -54,29 +54,21 @@ object TestBed {
     test(
       """<?php
         |
-        |class ErrorCodes {
-        |	const FATAL = "Fatal error\n";
-        |	const WARNING = "Warning\n";
-        |	const INFO = "Informational message\n";
-        |
-        |	static function print_fatal_error_codes() {
-        |		echo "FATAL = " . FATAL . "\n";
-        |		echo "self::FATAL = " . self::FATAL;
-        |    }
+        |class pass {
+        |	final function show() {
+        |		echo "Call to function pass::show()\n";
+        |	}
         |}
         |
-        |class ErrorCodesDerived extends ErrorCodes {
-        |	const FATAL = "Worst error\n";
-        |	static function print_fatal_error_codes() {
-        |		echo "self::FATAL = " . self::FATAL;
-        |		echo "parent::FATAL = " . parent::FATAL;
-        |    }
+        |$t = new pass();
+        |
+        |class fail extends pass {
+        |	function show() {
+        |		echo "Call to function fail::show()\n";
+        |	}
         |}
         |
-        |/* Call the static function and move into the ErrorCodes scope */
-        |ErrorCodes::print_fatal_error_codes();
-        |ErrorCodesDerived::print_fatal_error_codes();
-        |
+        |echo "Done\n"; // Shouldn't be displayed
         |?>""".stripMargin)
   }
 }
