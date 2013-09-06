@@ -7,12 +7,12 @@
 
 package de.leanovate.jbj.core.ast.decl
 
-import de.leanovate.jbj.core.ast.NamespaceName
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context.{FunctionLikeContext, Context}
 import de.leanovate.jbj.runtime.exception.CatchableFatalError
 import scala.Some
 import de.leanovate.jbj.runtime.value.IntegerVal
+import de.leanovate.jbj.runtime.NamespaceName
 
 sealed trait TypeHint {
   def check(pVar: PVar, index: Int)(implicit ctx: Context)

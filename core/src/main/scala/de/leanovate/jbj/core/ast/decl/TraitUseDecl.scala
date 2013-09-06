@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.core.ast.decl
 
-import de.leanovate.jbj.core.ast.NamespaceName
+import de.leanovate.jbj.runtime.NamespaceName
 
 case class TraitUseDecl(traits:List[NamespaceName]) extends ClassMemberDecl {
 }

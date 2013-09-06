@@ -7,8 +7,9 @@
 
 package de.leanovate.jbj.core.ast.name
 
-import de.leanovate.jbj.core.ast.{Name, NamespaceName}
+import de.leanovate.jbj.core.ast.Name
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.NamespaceName
 
 case class StaticNamespaceName(namespaceName: NamespaceName) extends Name {
   override def evalName(implicit ctx: Context) = evalNamespaceName.toString

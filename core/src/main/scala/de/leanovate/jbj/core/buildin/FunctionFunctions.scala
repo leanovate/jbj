@@ -12,8 +12,7 @@ import de.leanovate.jbj.runtime.annotations.{WanrExactly, GlobalFunction}
 import de.leanovate.jbj.runtime.context.{FunctionLikeContext, Context}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.ast.decl.TypeHint
-import de.leanovate.jbj.runtime.PParam
-import de.leanovate.jbj.core.ast.NamespaceName
+import de.leanovate.jbj.runtime.{NamespaceName, PParam}
 
 object FunctionFunctions extends WrappedFunctions {
   @GlobalFunction

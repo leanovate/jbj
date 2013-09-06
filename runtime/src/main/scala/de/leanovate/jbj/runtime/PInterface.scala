@@ -7,7 +7,6 @@
 
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.core.ast.NamespaceName
 
 trait PInterface {
   def name: NamespaceName

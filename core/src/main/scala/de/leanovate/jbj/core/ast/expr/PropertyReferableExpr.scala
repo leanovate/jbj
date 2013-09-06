@@ -8,11 +8,10 @@
 package de.leanovate.jbj.core.ast.expr
 
 import de.leanovate.jbj.core.ast.{Name, ReferableExpr}
-import de.leanovate.jbj.runtime.{PValParam, PClass, Reference}
+import de.leanovate.jbj.runtime.{PStdClass, PValParam, PClass, Reference}
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.runtime.context.{StaticMethodContext, Context, MethodContext}
-import de.leanovate.jbj.core.buildin.PStdClass
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) extends ReferableExpr {

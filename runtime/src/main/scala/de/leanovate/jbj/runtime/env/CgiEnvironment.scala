@@ -9,13 +9,13 @@ package de.leanovate.jbj.runtime.env
 
 import java.net.URLDecoder
 import de.leanovate.jbj.runtime.value._
-import de.leanovate.jbj.core.ast.NoNodePosition
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.context.Context
 import scala.Some
 import de.leanovate.jbj.runtime.value.IntegerVal
 import scala.collection.JavaConversions._
 import de.leanovate.jbj.api.http.{FormRequestBody, RequestInfo}
+import de.leanovate.jbj.runtime.NoNodePosition
 
 object CgiEnvironment {
   val numberPattern = "([0-9]+)".r

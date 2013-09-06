@@ -9,7 +9,6 @@ package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.core.ast.NamespaceName
 
 object CallbackHelper {
   def isValidCallback(callable: PVal)(implicit ctx: Context): Boolean =

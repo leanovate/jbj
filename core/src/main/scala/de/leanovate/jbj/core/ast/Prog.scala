@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.core.ast
 
-import de.leanovate.jbj.runtime.{JbjScript, ExecResult}
+import de.leanovate.jbj.runtime.{NoNodePosition, NodePosition, JbjScript, ExecResult}
 import de.leanovate.jbj.runtime.context.Context
 
 case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike with JbjScript {

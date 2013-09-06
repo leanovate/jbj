@@ -8,10 +8,10 @@
 package de.leanovate.jbj.core.buildin
 
 import de.leanovate.jbj.runtime.value._
-import de.leanovate.jbj.core.ast.NodePosition
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.NodePosition
 
 object OutputFunctions extends WrappedFunctions {
 

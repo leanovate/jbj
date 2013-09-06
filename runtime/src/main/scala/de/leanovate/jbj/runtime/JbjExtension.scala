@@ -5,9 +5,8 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core
+package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.runtime.{PClass, PFunction}
 import de.leanovate.jbj.runtime.value.PVal
 
 trait JbjExtension {

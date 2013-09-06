@@ -7,10 +7,10 @@
 
 package de.leanovate.jbj.core.buildin
 
-import de.leanovate.jbj.core.ast.NodePosition
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import java.util.Calendar
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.NodePosition
 
 object DateFunctions extends WrappedFunctions {
   @GlobalFunction

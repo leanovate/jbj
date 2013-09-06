@@ -8,7 +8,6 @@
 package de.leanovate.jbj.runtime
 
 import java.io.PrintStream
-import de.leanovate.jbj.core.ast.{NodePosition, FileNodePosition}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.api.JbjSettings
 import de.leanovate.jbj.runtime.output.OutputBuffer

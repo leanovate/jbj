@@ -8,8 +8,7 @@
 package de.leanovate.jbj.runtime.context
 
 import de.leanovate.jbj.runtime.value.PVar
-import de.leanovate.jbj.core.ast.{NamespaceName, NodePosition}
-import de.leanovate.jbj.runtime.{PMethod, PFunction}
+import de.leanovate.jbj.runtime.{NodePosition, NamespaceName, PMethod, PFunction}
 import scala.collection.mutable
 import scala.collection.immutable.Stack
 

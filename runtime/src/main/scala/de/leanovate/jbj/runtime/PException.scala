@@ -5,13 +5,12 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core.buildin
+package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.core.ast.{ClassEntry, NamespaceName}
+import de.leanovate.jbj.core.ast.ClassEntry
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.value.IntegerVal
-import de.leanovate.jbj.runtime.{PParam, PClass}
 
 object PException extends PClass {
   override def classEntry = ClassEntry.CLASS

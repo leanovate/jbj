@@ -29,6 +29,7 @@ import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.api.JbjSettings
 import de.leanovate.jbj.core.parser.JbjTokens.ArrayCast
 import de.leanovate.jbj.core.parser.JbjTokens.DoubleCast
+import de.leanovate.jbj.runtime.{FileNodePosition, NamespaceName}
 
 class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   type Elem = JbjTokens.Token

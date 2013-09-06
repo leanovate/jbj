@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.core.ast.{ClassEntry, NamespaceName}
+import de.leanovate.jbj.core.ast.{ClassEntry}
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import scala.annotation.tailrec

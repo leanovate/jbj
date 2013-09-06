@@ -5,7 +5,7 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core.ast
+package de.leanovate.jbj.runtime
 
 trait NodePosition {
   def fileName: String

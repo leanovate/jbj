@@ -7,9 +7,8 @@
 
 package de.leanovate.jbj.runtime.context
 
-import de.leanovate.jbj.runtime.{PFunction, PClass}
+import de.leanovate.jbj.runtime.{NodePosition, NamespaceName, PFunction, PClass}
 import scala.collection.immutable.Stack
-import de.leanovate.jbj.core.ast.{NamespaceName, NodePosition}
 import de.leanovate.jbj.runtime.value.PVar
 
 case class ClassContext(pClass: PClass, callerCtx: Context, override val currentPosition: NodePosition) extends Context {

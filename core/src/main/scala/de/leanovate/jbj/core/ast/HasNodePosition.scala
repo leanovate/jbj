@@ -7,6 +7,8 @@
 
 package de.leanovate.jbj.core.ast
 
+import de.leanovate.jbj.runtime.{NoNodePosition, NodePosition}
+
 trait HasNodePosition {
   self: Node =>
 

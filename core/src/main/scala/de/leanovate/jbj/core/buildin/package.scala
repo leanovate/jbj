@@ -11,7 +11,7 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.api.JbjSettings
 import scala.collection.JavaConverters._
-import de.leanovate.jbj.runtime.{PClass, PFunction}
+import de.leanovate.jbj.runtime.{PStdClass, PException, PClass, PFunction}
 
 package object buildin {
   val buildinFunctions: Seq[PFunction] =
