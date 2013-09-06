@@ -25,7 +25,7 @@ case class ClassVarDecl(modifiers: Set[MemberModifier.Type], assignments: List[S
 
   lazy val isPublic = modifiers.contains(MemberModifier.PUBLIC)
 
-  override def initializeInstance(instance: ObjectVal, pClass: PClass)(implicit ctx: Context) {
+  override def initializeInstance(instance: ObjectVal, pClass: ClassDeclStmt)(implicit ctx: Context) {
     if (!isStatic) {
       if (modifiers.contains(MemberModifier.PROTECTED)) {
         assignments.foreach {

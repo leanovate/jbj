@@ -30,7 +30,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   private var _initialized = false
   private var _staticInitialized = false
   protected[decl] val _classConstants = mutable.Map.empty[String, ConstVal]
-  private lazy val instanceAssinments = decls.filter(_.isInstanceOf[ClassVarDecl])
+
   private var _superClass: Option[PClass] = None
   private var _interfaces: Set[PInterface] = Set.empty
 
@@ -142,7 +142,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   override def initializeInstance(instance: ObjectVal)(implicit ctx: Context) {
     implicit val classCtx = InstanceContext(instance, this, ctx)
 
-    instanceAssinments.foreach(_.initializeInstance(instance, this))
+    decls.foreach(_.initializeInstance(instance, this))
 
     superClass.foreach(_.initializeInstance(instance)(ctx))
   }

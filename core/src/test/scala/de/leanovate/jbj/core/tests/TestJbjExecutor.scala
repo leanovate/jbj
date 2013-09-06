@@ -7,13 +7,14 @@
 
 package de.leanovate.jbj.core.tests
 
-import java.io.{ByteArrayOutputStream, PrintStream}
+import java.io.{FilePermission, ByteArrayOutputStream, PrintStream}
 import de.leanovate.jbj.core.parser.JbjParser
 import de.leanovate.jbj.runtime.env.{CliEnvironment, CgiEnvironment}
 import org.specs2.matcher.{MatchResult, BeEqualTo, Expectable, Matcher}
 import de.leanovate.jbj.core.JbjEnv
 import scala.Some
 import de.leanovate.jbj.api.{JbjException, JbjSettings}
+import de.leanovate.jbj.runtime.exception.ParseJbjException
 
 trait TestJbjExecutor {
 
@@ -23,7 +24,6 @@ trait TestJbjExecutor {
 
     val jbj = JbjEnv(TestLocator, errorStream = Some(err))
     val pseudoFileName = TestJbjExecutor.this.getClass.getName.replace("de.leanovate.jbj.core.tests", "").replace('.', '/') + ".inlinePhp"
-    val prog = JbjParser(pseudoFileName, progString, jbj.settings)
     val bOut = new ByteArrayOutputStream()
     val out = new PrintStream(bOut, false, "UTF-8")
     implicit val context = jbj.newGlobalContext(out)
@@ -41,7 +41,7 @@ trait TestJbjExecutor {
     }
 
     def withCommandLine(args: String) = {
-      CliEnvironment.commandLine(prog.fileName, args.split(" "))
+      CliEnvironment.commandLine(pseudoFileName, args.split(" "))
       this
     }
 
@@ -50,8 +50,13 @@ trait TestJbjExecutor {
       var thrown: Option[Throwable] = None
 
       try {
+        val prog = JbjParser(pseudoFileName, progString, jbj.settings)
+
         prog.exec
       } catch {
+        case e: ParseJbjException =>
+          context.log.parseError(e.pos, e.msg)
+          thrown = Some(e)
         case e: JbjException =>
           thrown = Some(e)
       } finally {

@@ -8,10 +8,11 @@
 package de.leanovate.jbj.core.ast.decl
 
 import de.leanovate.jbj.runtime.context.{ClassContext, Context}
-import de.leanovate.jbj.runtime.value.{PVal, ConstVal, NullVal}
+import de.leanovate.jbj.runtime.value.{ObjectVal, PVal, ConstVal, NullVal}
 import de.leanovate.jbj.core.ast.stmt.StaticAssignment
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.ast.expr.ArrayCreateExpr
+import de.leanovate.jbj.runtime.PClass
 
 
 case class ClassConstDecl(assignments: List[StaticAssignment]) extends ClassMemberDecl {
@@ -36,6 +37,13 @@ case class ClassConstDecl(assignments: List[StaticAssignment]) extends ClassMemb
             value.get
           }
         }
+    }
+  }
+
+  override def initializeInstance(instance: ObjectVal, pClass: ClassDeclStmt)(implicit ctx: Context) {
+    assignments.foreach {
+      assignment =>
+        pClass._classConstants.get(assignment.variableName).foreach(_.asVal)
     }
   }
 }

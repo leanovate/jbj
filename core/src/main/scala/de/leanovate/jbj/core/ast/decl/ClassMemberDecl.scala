@@ -19,5 +19,5 @@ trait ClassMemberDecl extends Node with HasNodePosition {
 
   def initializeStatic(pClass: ClassDeclStmt, staticClassObject:ObjectVal)(implicit ctx:Context) {}
 
-  def initializeInstance(instance: ObjectVal, pClass: PClass)(implicit ctx: Context) {}
+  def initializeInstance(instance: ObjectVal, pClass: ClassDeclStmt)(implicit ctx: Context) {}
 }

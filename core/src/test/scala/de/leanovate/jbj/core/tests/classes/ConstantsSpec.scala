@@ -407,5 +407,82 @@ class ConstantsSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Class constant whose initial value refereces a non-existent class" in {
+      // classes/constants_error_004.phpt
+      script(
+        """<?php
+          |  class C
+          |  {
+          |      const c1 = D::hello;
+          |  }
+          |
+          |  $a = new C();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Class 'D' not found in /classes/ConstantsSpec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
+
+    "Error case: class constant as an encapsed containing a variable" in {
+      // classes/constants_error_005.phpt
+      script(
+        """<?php
+          |  class myclass
+          |  {
+          |      const myConst = "$myVar";
+          |  }
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Parse error: `keyword '__CLASS__'' expected but keyword '"' found in /classes/ConstantsSpec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
+
+    "Basic class support - attempting to modify a class constant by assignment" in {
+      // classes/constants_error_006.phpt
+      script(
+        """<?php
+          |  class aclass
+          |  {
+          |      const myConst = "hello";
+          |  }
+          |
+          |  echo "\nTrying to modify a class constant directly - should be parse error.\n";
+          |  aclass::myConst = "no!!";
+          |  var_dump(aclass::myConst);
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Parse error: `keyword ';'' expected but keyword '=' found in /classes/ConstantsSpec.inlinePhp on line 8
+          |""".stripMargin
+      )
+    }
+
+    "Basic class support - attempting to create a reference to a class constant" in {
+      // classes/constants_error_007.phpt
+      script(
+        """<?php
+          |  class aclass
+          |  {
+          |      const myConst = "hello";
+          |  }
+          |
+          |  echo "\nAttempting to create a reference to a class constant - should be parse error.\n";
+          |  $a = &aclass::myConst;
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Parse error: `keyword '('' expected but keyword ';' found in /classes/ConstantsSpec.inlinePhp on line 8
+          |""".stripMargin
+      )
+    }
   }
 }
