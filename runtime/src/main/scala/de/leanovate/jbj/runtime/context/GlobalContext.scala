@@ -123,7 +123,7 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
     findFunction(NamespaceName(relative = true, "__autoload")).flatMap {
       case autoloadFunc if !autoloading.contains(name.toString.toLowerCase) =>
         autoloading.add(name.toString.toLowerCase)
-        autoloadFunc.call(ScalarExpr(StringVal(name.toString)) :: Nil)
+        autoloadFunc.call(PValParam(StringVal(name.toString)) :: Nil)
         autoloading.remove(name.toString.toLowerCase)
         retry(name, false)
       case _ => None

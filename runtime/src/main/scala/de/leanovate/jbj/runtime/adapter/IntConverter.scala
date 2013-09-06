@@ -10,10 +10,11 @@ package de.leanovate.jbj.runtime.adapter
 import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.core.ast.Expr
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.PParam
 
 object IntConverter extends Converter[Int, IntegerVal] {
 
-  def toScalaWithConversion(expr: Expr)(implicit ctx: Context) = toScala(expr.eval.asVal.toInteger)
+  def toScalaWithConversion(param: PParam)(implicit ctx: Context) = toScala(param.byVal.toInteger)
 
   def toScala(value: IntegerVal)(implicit ctx: Context) = value.asInt
 

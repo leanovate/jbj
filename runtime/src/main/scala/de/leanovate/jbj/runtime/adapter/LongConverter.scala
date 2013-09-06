@@ -10,9 +10,10 @@ package de.leanovate.jbj.runtime.adapter
 import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.core.ast.Expr
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.PParam
 
 object LongConverter extends Converter[Long, IntegerVal] {
-  override def toScalaWithConversion(expr: Expr)(implicit ctx: Context) = toScala(expr.eval.asVal.toInteger)
+  override def toScalaWithConversion(param: PParam)(implicit ctx: Context) = toScala(param.byVal.toInteger)
 
   override def toScala(value: IntegerVal)(implicit ctx: Context) = value.asLong
 

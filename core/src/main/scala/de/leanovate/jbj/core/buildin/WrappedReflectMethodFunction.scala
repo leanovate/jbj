@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.core.buildin
 
-import de.leanovate.jbj.runtime.PFunction
+import de.leanovate.jbj.runtime.{PParam, PFunction}
 import de.leanovate.jbj.core.ast.{Expr, NamespaceName}
 import scala.reflect.runtime.universe._
 import de.leanovate.jbj.runtime.adapter.{Converter, ParameterAdapter}
@@ -23,7 +23,7 @@ case class WrappedReflectMethodFunction[T, S <: PAny](name: NamespaceName,
                                                       warnExactly: Boolean) extends PFunction {
   lazy val requiredParameterCount = parameterAdapters.map(_.requiredCount).sum
 
-  override def call(parameters: List[Expr])(implicit callerCtx: Context) = {
+  override def call(parameters: List[PParam])(implicit callerCtx: Context) = {
     val argBuilder = Seq.newBuilder[Any]
     var notEnough = false
 

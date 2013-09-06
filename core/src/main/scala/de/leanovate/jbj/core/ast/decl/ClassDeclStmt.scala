@@ -144,7 +144,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     superClass.foreach(_.initializeInstance(instance)(ctx))
   }
 
-  override def newInstance(parameters: List[Expr])(implicit ctx: Context) = {
+  override def newInstance(parameters: List[PParam])(implicit ctx: Context) = {
     if (classEntry == ClassEntry.ABSTRACT_CLASS)
       throw new FatalErrorJbjException("Cannot instantiate abstract class %s".format(name.toString))(ctx)
     val instance = newEmptyInstance(this)(ctx)

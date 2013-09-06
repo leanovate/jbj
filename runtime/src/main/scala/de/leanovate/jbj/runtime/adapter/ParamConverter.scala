@@ -11,11 +11,12 @@ import de.leanovate.jbj.runtime.value.PVal
 import de.leanovate.jbj.core.ast.Expr
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.{PValParam, PParam}
 
-object ExprConverter extends Converter[Expr, PVal] {
-  def toScalaWithConversion(expr: Expr)(implicit ctx: Context) = expr
+object ParamConverter extends Converter[PParam, PVal] {
+  def toScalaWithConversion(param: PParam)(implicit ctx: Context) = param
 
-  def toScala(value: PVal)(implicit ctx: Context) = ScalarExpr(value)
+  def toScala(value: PVal)(implicit ctx: Context) = PValParam(value)
 
-  def toJbj(expr: Expr)(implicit ctx: Context) = expr.eval.asVal
+  def toJbj(param: PParam)(implicit ctx: Context) = param.byVal
 }

@@ -10,7 +10,6 @@ package de.leanovate.jbj.runtime
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.core.ast.NamespaceName
-import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 
 object CallbackHelper {
   def isValidCallback(callable: PVal)(implicit ctx: Context): Boolean =
@@ -91,7 +90,7 @@ object CallbackHelper {
             }
             optMethod.map {
               method =>
-                method.invoke(ctx, obj, parameters.map(ScalarExpr.apply).toList)
+                method.invoke(ctx, obj, parameters.map(PValParam.apply).toList)
             }.getOrElse {
               NullVal
             }
@@ -100,7 +99,7 @@ object CallbackHelper {
               pClass =>
                 pClass.findMethod(methodName).map {
                   method =>
-                    method.invokeStatic(ctx, parameters.map(ScalarExpr.apply).toList)
+                    method.invokeStatic(ctx, parameters.map(PValParam.apply).toList)
                 }.getOrElse {
                   NullVal
                 }
@@ -112,7 +111,7 @@ object CallbackHelper {
         val functionName = name.toStr.asString
         ctx.findFunction(NamespaceName(functionName)).map {
           func =>
-            func.call(parameters.map(ScalarExpr.apply).toList)
+            func.call(parameters.map(PValParam.apply).toList)
         }.getOrElse {
           NullVal
         }

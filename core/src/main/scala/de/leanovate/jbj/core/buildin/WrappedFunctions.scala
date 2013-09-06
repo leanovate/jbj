@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.core.buildin
 
-import de.leanovate.jbj.runtime.PFunction
+import de.leanovate.jbj.runtime.{PParam, PFunction}
 import scala.reflect.runtime.universe._
 import de.leanovate.jbj.runtime.adapter._
 import de.leanovate.jbj.runtime.value.{PVar, PAny, PVal}
@@ -41,7 +41,7 @@ object WrappedFunctions {
   val pVarClass = typeOf[PVar].typeSymbol
   val pValClass = typeOf[PVal].typeSymbol
   val pAnyClass = typeOf[PAny].typeSymbol
-  val exprClass = typeOf[de.leanovate.jbj.core.ast.Expr].typeSymbol
+  val paramClass = typeOf[PParam].typeSymbol
 
   def mapMethod(method: MethodSymbol, instance: InstanceMirror): PFunction = {
     val adapters = method.paramss.flatten.map(mapParameter).toSeq
@@ -69,7 +69,7 @@ object WrappedFunctions {
     case t if t.typeSymbol == definitions.BooleanClass => BooleanConverter
     case t if t.typeSymbol == pValClass => PValConverter
     case t if t.typeSymbol == pAnyClass => PAnyConverter
-    case t if t.typeSymbol == exprClass => ExprConverter
+    case t if t.typeSymbol == paramClass => ParamConverter
     case t if t.typeSymbol == definitions.UnitClass => UnitConverter
     case TypeRef(_, sym, a) if sym == definitions.ArrayClass && a.head.typeSymbol == definitions.ByteClass =>
       ByteArrayConverter

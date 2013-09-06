@@ -35,7 +35,7 @@ trait PClass {
 
   def initializeInstance(instance: ObjectVal)(implicit ctx: Context) {}
 
-  def newInstance(parameters: List[Expr])(implicit ctx: Context): ObjectVal
+  def newInstance(parameters: List[PParam])(implicit ctx: Context): ObjectVal
 
   def destructInstance(instance: ObjectVal)(implicit ctx: Context)
 
@@ -50,7 +50,7 @@ trait PClass {
   }
 
   def invokeMethod(ctx: Context, optInstance: Option[ObjectVal], methodName: String,
-                   parameters: List[Expr]): PAny = {
+                   parameters: List[PParam]): PAny = {
     findMethod(methodName) match {
       case Some(method) =>
         optInstance.map {
@@ -65,14 +65,14 @@ trait PClass {
         optInstance.get.pClass.findMethod("__call") match {
           case Some(method) =>
             val parameterArray = ArrayVal(parameters.map {
-              expr =>
-                None -> expr.eval(ctx).asVal.copy
+              param =>
+                None -> param.byVal.copy
             }: _*)(ctx)
             if (method.isStatic)
-              method.invokeStatic(ctx, ScalarExpr(StringVal(methodName)(ctx)) :: ScalarExpr(parameterArray) :: Nil)
+              method.invokeStatic(ctx, PValParam(StringVal(methodName)(ctx))(ctx) :: PValParam(parameterArray)(ctx) :: Nil)
             else
               method.invoke(ctx, optInstance.get,
-                ScalarExpr(StringVal(methodName)(ctx)) :: ScalarExpr(parameterArray) :: Nil)
+                PValParam(StringVal(methodName)(ctx))(ctx) :: PValParam(parameterArray)(ctx) :: Nil)
           case None =>
             throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))(ctx)
 

@@ -30,7 +30,7 @@ trait PMethod {
 
   lazy val isFinal = activeModifieres.contains(MemberModifier.FINAL)
 
-  def invoke(ctx: Context, instance: ObjectVal, parameters: List[Expr]): PAny
+  def invoke(ctx: Context, instance: ObjectVal, parameters: List[PParam]): PAny
 
-  def invokeStatic(ctx: Context, parameters: List[Expr]): PAny
+  def invokeStatic(ctx: Context, parameters: List[PParam]): PAny
 }

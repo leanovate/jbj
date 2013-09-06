@@ -14,5 +14,5 @@ import de.leanovate.jbj.runtime.context.Context
 trait PFunction {
   def name: NamespaceName
 
-  def call(parameters: List[Expr])(implicit callerCtx: Context): PAny
+  def call(parameters: List[PParam])(implicit callerCtx: Context): PAny
 }

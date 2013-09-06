@@ -7,16 +7,18 @@
 
 package de.leanovate.jbj.core.buildin
 
-import de.leanovate.jbj.core.ast.{Expr, NamespaceName}
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.annotations.{WanrExactly, GlobalFunction}
 import de.leanovate.jbj.runtime.context.{FunctionLikeContext, Context}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.ast.decl.TypeHint
+import de.leanovate.jbj.core.ast.expr.ExprParam
+import de.leanovate.jbj.runtime.PParam
+import de.leanovate.jbj.core.ast.NamespaceName
 
 object FunctionFunctions extends WrappedFunctions {
   @GlobalFunction
-  def call_user_func(callable: PVal, parameters: Expr*)(implicit ctx: Context): PAny =
+  def call_user_func(callable: PVal, parameters: PParam*)(implicit ctx: Context): PAny =
     callable match {
       case array: ArrayVal if array.keyValues.size != 2 =>
         ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, array must have exactly two members")

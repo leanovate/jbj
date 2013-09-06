@@ -17,7 +17,7 @@ import scala.Some
 case class NewReferableExpr(className: Name, parameters: List[Expr]) extends ReferableExpr {
   override def eval(implicit ctx: Context) = ctx.global.findInterfaceOrClass(className.evalNamespaceName, autoload = true) match {
     case Some(Right(pClass)) =>
-      pClass.newInstance(parameters)
+      pClass.newInstance(parameters.map(ExprParam.apply))
     case Some(Left(pInterface)) =>
       throw new FatalErrorJbjException("Cannot instantiate interface %s".format(pInterface.name.toString))
     case None =>

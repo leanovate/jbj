@@ -32,7 +32,7 @@ case class FunctionDeclStmt(name: NamespaceName, returnByRef: Boolean, parameter
     _registered = true
   }
 
-  override def call(parameters: List[Expr])(implicit callerCtx: Context) = {
+  override def call(parameters: List[PParam])(implicit callerCtx: Context) = {
     implicit val funcCtx = FunctionContext(name, callerCtx)
 
     funcCtx.currentPosition = position

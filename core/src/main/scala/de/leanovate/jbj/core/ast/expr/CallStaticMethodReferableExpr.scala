@@ -20,9 +20,9 @@ case class CallStaticMethodReferableExpr(className: Name, methodName: Name, para
       pClass =>
         ctx match {
           case MethodContext(instance, currentMethod, _) if pClass.isAssignableFrom(currentMethod.declaringClass)=>
-            pClass.invokeMethod(ctx, Some(instance), methodName.evalName, parameters)
+            pClass.invokeMethod(ctx, Some(instance), methodName.evalName, parameters.map(ExprParam.apply))
           case _ =>
-            pClass.invokeMethod(ctx, None, methodName.evalName, parameters)
+            pClass.invokeMethod(ctx, None, methodName.evalName, parameters.map(ExprParam.apply))
         }
     }.getOrElse {
       throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))

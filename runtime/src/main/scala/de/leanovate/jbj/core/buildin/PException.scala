@@ -11,7 +11,7 @@ import de.leanovate.jbj.core.ast.{ClassEntry, Expr, NamespaceName}
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context.{Context, StaticContext}
 import de.leanovate.jbj.runtime.value.IntegerVal
-import de.leanovate.jbj.runtime.PClass
+import de.leanovate.jbj.runtime.{PParam, PClass}
 
 object PException extends PClass {
   override def classEntry = ClassEntry.CLASS
@@ -34,10 +34,10 @@ object PException extends PClass {
     instance.definePublicProperty("line", IntegerVal(ctx.currentPosition.line))
   }
 
-  override def newInstance(parameters: List[Expr])(implicit ctx: Context) = {
+  override def newInstance(parameters: List[PParam])(implicit ctx: Context) = {
     val instance = newEmptyInstance(this)
 
-    parameters.map(_.eval(ctx).asVal) match {
+    parameters.map(_.byVal) match {
       case msg :: Nil =>
         instance.definePublicProperty("message", msg.toStr)
       case msg :: c :: Nil => (msg.toStr, c.toInteger, NullVal)

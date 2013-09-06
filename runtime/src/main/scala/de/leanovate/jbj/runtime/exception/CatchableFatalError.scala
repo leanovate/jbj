@@ -5,12 +5,13 @@ import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.core.ast.NodePosition
 import de.leanovate.jbj.core.buildin.PException
+import de.leanovate.jbj.runtime.PValParam
 
 object CatchableFatalError {
   def apply(msg: String)(implicit ctx: Context) {
     if (ctx.log.catchableFatal(msg)) {
 
-      val exception = PException.newInstance(ScalarExpr(StringVal(msg)) :: Nil)
+      val exception = PException.newInstance(PValParam(StringVal(msg)) :: Nil)
 
       throw RuntimeJbjException(exception)
     }

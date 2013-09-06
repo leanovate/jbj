@@ -10,9 +10,10 @@ package de.leanovate.jbj.runtime.adapter
 import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.core.ast.Expr
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.PParam
 
 object ByteArrayConverter extends Converter[Array[Byte], StringVal] {
-  def toScalaWithConversion(expr: Expr)(implicit ctx: Context) = expr.eval.asVal.toStr.chars
+  def toScalaWithConversion(param: PParam)(implicit ctx: Context) = param.byVal.toStr.chars
 
   def toScala(value: StringVal)(implicit ctx: Context) = value.chars
 

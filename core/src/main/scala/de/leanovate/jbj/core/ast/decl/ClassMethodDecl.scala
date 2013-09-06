@@ -30,7 +30,7 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
 
   override def activeModifieres = _activeModifiers
 
-  override def invoke(ctx: Context, instance: ObjectVal, parameters: List[Expr]) = {
+  override def invoke(ctx: Context, instance: ObjectVal, parameters: List[PParam]) = {
     if (isAbstract) {
       throw new FatalErrorJbjException("Cannot call abstract method %s::%s()".format(declaringClass.name.toString, name))(ctx)
     }
@@ -77,7 +77,7 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
     perform(methodCtx, returnByRef, stmts.getOrElse(Nil))
   }
 
-  override def invokeStatic(ctx: Context, parameters: List[Expr]) = {
+  override def invokeStatic(ctx: Context, parameters: List[PParam]) = {
     if (isPrivate) {
       ctx match {
         case global: GlobalContext if global.inShutdown =>
