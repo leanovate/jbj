@@ -27,14 +27,11 @@ object JbjPhp extends Controller {
       NotFound
     } else {
       try {
-        val bOut = new ByteArrayOutputStream()
-        val out = new PrintStream(bOut, false, "UTF-8")
+        val responseAdapter = BufferedResponseAdapter()
 
-        jbj.run(resourceName, RequestInfoAdapter(request), out)
+        jbj.run(resourceName, RequestInfoAdapter(request), responseAdapter)
 
-        bOut.flush()
-        bOut.close()
-        Ok(bOut.toByteArray).as("text/html")
+        responseAdapter.toResult
       } catch {
         case e: NotFoundJbjException =>
           NotFound

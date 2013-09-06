@@ -21,6 +21,7 @@ import de.leanovate.jbj.runtime.context.GlobalContext
 import de.leanovate.jbj.runtime.output.OutputBuffer
 import de.leanovate.jbj.core.ast.Prog
 import de.leanovate.jbj.core.parser.{ParseContext, JbjParser}
+import de.leanovate.jbj.api.http.{Response, RequestInfo}
 
 case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
                   settings: JbjSettings = new JbjSettings,
@@ -48,7 +49,7 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
         c.name.lowercase -> c
     }.toMap
 
-  def newGlobalContext(out: PrintStream) = {
+  def newGlobalContext(out: OutputStream) = {
     val contextSettings = settings.clone()
     GlobalContext(this, OutputBuffer(out, contextSettings), errorStream, contextSettings)
   }
@@ -73,20 +74,20 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
   }
 
   override def run(phpScript: String, output: OutputStream) {
-    implicit val ctx: Context = newGlobalContext(new PrintStream(output, false, "UTF-8"))
+    implicit val ctx: Context = newGlobalContext(output)
 
     runImpl(phpScript)
   }
 
   override def run(phpScript: String, args: Array[String], output: OutputStream) {
-    implicit val ctx: Context = newGlobalContext(new PrintStream(output, false, "UTF-8"))
+    implicit val ctx: Context = newGlobalContext(output)
 
     CliEnvironment.commandLine(phpScript, args)
     runImpl(phpScript)
   }
 
-  override def run(phpScript: String, request: RequestInfo, output: OutputStream) {
-    implicit val ctx: Context = newGlobalContext(new PrintStream(output, false, "UTF-8"))
+  override def run(phpScript: String, request: RequestInfo, response: Response) {
+    implicit val ctx: Context = newGlobalContext(response.getOutputStream)
 
     CgiEnvironment.httpRequest(request)
     runImpl(phpScript)

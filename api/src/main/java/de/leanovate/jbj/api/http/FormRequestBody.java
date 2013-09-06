@@ -5,14 +5,20 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.api;
+package de.leanovate.jbj.api.http;
+
+import de.leanovate.jbj.api.http.RequestBody;
 
 import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.Map;
 
 /**
- * Generic request body.
+ * Form request body.
+ * <p/>
+ * Use this in for content type "application/form-url-encoded".
  */
-public interface RequestBody {
+public interface FormRequestBody extends RequestBody {
     @Nonnull
-    String getContentType();
+    Map<String, List<String>> getFormData();
 }

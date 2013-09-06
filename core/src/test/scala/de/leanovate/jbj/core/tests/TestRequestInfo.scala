@@ -7,9 +7,9 @@
 
 package de.leanovate.jbj.core.tests
 
-import de.leanovate.jbj.api.{FormRequestBody, RequestBody, RequestInfo}
 import java.net.{URLDecoder, URI}
 import java.util
+import de.leanovate.jbj.api.http.{FormRequestBody, RequestInfo, RequestBody}
 
 class TestRequestInfo(method: RequestInfo.Method, uri: String, body: RequestBody) extends RequestInfo {
   val rawQueryString = Option(new URI(uri).getQuery).getOrElse("")

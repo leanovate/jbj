@@ -12,10 +12,10 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.core.ast.NoNodePosition
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.api.{FormRequestBody, RequestInfo}
 import scala.Some
 import de.leanovate.jbj.runtime.value.IntegerVal
 import scala.collection.JavaConversions._
+import de.leanovate.jbj.api.http.{FormRequestBody, RequestInfo}
 
 object CgiEnvironment {
   val numberPattern = "([0-9]+)".r

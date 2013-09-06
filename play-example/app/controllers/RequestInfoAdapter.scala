@@ -1,9 +1,9 @@
 package controllers
 
 import play.api.mvc.{AnyContentAsFormUrlEncoded, AnyContent, Request}
-import de.leanovate.jbj.api.{FormRequestBody, RequestInfo}
 import java.util
 import scala.collection.JavaConversions._
+import de.leanovate.jbj.api.http.{FormRequestBody, RequestInfo}
 
 case class RequestInfoAdapter(request: Request[AnyContent]) extends RequestInfo {
   def getMethod = RequestInfo.Method.valueOf(request.method.toUpperCase)

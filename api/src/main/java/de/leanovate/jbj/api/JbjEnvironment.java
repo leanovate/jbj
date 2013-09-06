@@ -7,6 +7,9 @@
 
 package de.leanovate.jbj.api;
 
+import de.leanovate.jbj.api.http.RequestInfo;
+import de.leanovate.jbj.api.http.Response;
+
 import javax.annotation.Nonnull;
 import java.io.OutputStream;
 import java.nio.file.FileSystem;
@@ -43,7 +46,7 @@ public interface JbjEnvironment {
      * @param request   HTTP request information
      * @param output    where to write the stdout to
      */
-    void run(String phpScript, RequestInfo request, OutputStream output);
+    void run(String phpScript, RequestInfo request, Response output);
 
     /**
      * JBJ environment builder.

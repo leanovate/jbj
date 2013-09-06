@@ -5,18 +5,12 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.api;
+package de.leanovate.jbj.runtime
 
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.Map;
+import de.leanovate.jbj.runtime.value.{PVal, PAny}
 
-/**
- * Form request body.
- * <p/>
- * Use this in for content type "application/form-url-encoded".
- */
-public interface FormRequestBody extends RequestBody {
-    @Nonnull
-    Map<String, List<String>> getFormData();
+trait PParam {
+  def byRef: PAny
+
+  def byVal: PVal
 }
