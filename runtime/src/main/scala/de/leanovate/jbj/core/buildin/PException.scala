@@ -7,9 +7,9 @@
 
 package de.leanovate.jbj.core.buildin
 
-import de.leanovate.jbj.core.ast.{ClassEntry, Expr, NamespaceName}
+import de.leanovate.jbj.core.ast.{ClassEntry, NamespaceName}
 import de.leanovate.jbj.runtime.value._
-import de.leanovate.jbj.runtime.context.{Context, StaticContext}
+import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.runtime.{PParam, PClass}
 

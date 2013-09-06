@@ -10,6 +10,8 @@ package de.leanovate.jbj.runtime
 import de.leanovate.jbj.runtime.value.{PVal, PAny}
 
 trait PParam {
+  def hasRef: Boolean
+
   def byRef: PAny
 
   def byVal: PVal

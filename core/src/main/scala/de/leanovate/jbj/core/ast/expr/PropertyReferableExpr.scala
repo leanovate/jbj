@@ -12,7 +12,6 @@ import de.leanovate.jbj.runtime.{PValParam, PClass, Reference}
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.runtime.context.{StaticMethodContext, Context, MethodContext}
-import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.core.buildin.PStdClass
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 

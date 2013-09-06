@@ -7,14 +7,14 @@
 
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.core.ast.{Expr, NodePosition}
+import de.leanovate.jbj.core.ast.NodePosition
 
 
 sealed trait ExecResult
 
 object SuccessExecResult extends ExecResult
 
-case class ReturnExecResult(expr: Option[Expr])(implicit val position: NodePosition) extends ExecResult
+case class ReturnExecResult(param: Option[PParam])(implicit val position: NodePosition) extends ExecResult
 
 case class BreakExecResult(depth: Long)(implicit val position: NodePosition) extends ExecResult
 

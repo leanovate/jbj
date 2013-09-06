@@ -11,7 +11,7 @@ import de.leanovate.jbj.core.ast.{NodePosition, NamespaceName}
 import de.leanovate.jbj.runtime._
 import scala.collection.mutable
 import scala.collection.immutable.Stack
-import de.leanovate.jbj.runtime.value.{PVar, PVal, ObjectVal}
+import de.leanovate.jbj.runtime.value.{PVar, ObjectVal}
 
 case class MethodContext(instance: ObjectVal, pMethod: PMethod, callerContext: Context)
   extends FunctionLikeContext {

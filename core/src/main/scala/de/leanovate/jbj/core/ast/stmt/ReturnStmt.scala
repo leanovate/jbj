@@ -10,9 +10,10 @@ package de.leanovate.jbj.core.ast.stmt
 import de.leanovate.jbj.core.ast.{Stmt, Expr}
 import de.leanovate.jbj.runtime.ReturnExecResult
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.core.ast.expr.ExprParam
 
 case class ReturnStmt(expr: Option[Expr]) extends Stmt {
   override def exec(implicit ctx: Context) = {
-    ReturnExecResult(expr)
+    ReturnExecResult(expr.map(ExprParam.apply))
   }
 }

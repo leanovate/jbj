@@ -23,7 +23,7 @@ case class EvalExpr(scriptExpr: Expr) extends Expr {
       val prog = parser.parseStmt(script)
 
       prog.exec match {
-        case ReturnExecResult(returnExpr) => returnExpr.map(_.eval).getOrElse(NullVal)
+        case ReturnExecResult(returnExpr) => returnExpr.map(_.byVal).getOrElse(NullVal)
         case _ => NullVal
       }
     } catch {

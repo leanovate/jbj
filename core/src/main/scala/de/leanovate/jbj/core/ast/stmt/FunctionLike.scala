@@ -11,11 +11,7 @@ import de.leanovate.jbj.core.ast._
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.value.{PAny, NullVal, PVar}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.runtime.BreakExecResult
-import de.leanovate.jbj.runtime.ReturnExecResult
-import scala.Some
 import de.leanovate.jbj.runtime.context.{FunctionLikeContext, Context}
-import de.leanovate.jbj.core.ast.decl.ParameterDecl
 import de.leanovate.jbj.core.ast.decl.ParameterDecl
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.ReturnExecResult
@@ -69,8 +65,8 @@ trait FunctionLike extends BlockLike {
   def perform(funcCtx: FunctionLikeContext, returnByRef: Boolean, stmts: List[Stmt]) = {
     val result = execStmts(stmts)(funcCtx) match {
       case SuccessExecResult => NullVal
-      case ret: ReturnExecResult => ret.expr match {
-        case Some(referable: ReferableExpr) if returnByRef => referable.evalRef(funcCtx).asVar match {
+      case ret: ReturnExecResult => ret.param match {
+        case Some(param) if param.hasRef && returnByRef => param.byRef match {
           case pVar: PVar =>
             funcCtx.callerContext.poolAutoRelease(pVar)
             pVar
@@ -80,12 +76,12 @@ trait FunctionLike extends BlockLike {
             funcCtx.callerContext.poolAutoRelease(pVar)
             pVar
         }
-        case Some(expr) if returnByRef =>
+        case Some(param) if returnByRef =>
           funcCtx.log.notice("Only variable references should be returned by reference")
-          val pVar = expr.eval(funcCtx).asVar
+          val pVar = PVar(param.byVal)
           funcCtx.callerContext.poolAutoRelease(pVar)
           pVar
-        case Some(expr) => expr.eval(funcCtx).asVal
+        case Some(param) => param.byVal
         case None => NullVal
       }
       case result: BreakExecResult =>

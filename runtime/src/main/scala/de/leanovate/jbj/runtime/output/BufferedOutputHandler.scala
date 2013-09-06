@@ -8,9 +8,6 @@
 package de.leanovate.jbj.runtime.output
 
 import java.io.OutputStream
-import de.leanovate.jbj.core.JbjExtension
-import de.leanovate.jbj.api.JbjException
-import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class BufferedOutputHandler(out: OutputStream, level: Int, optTransformer: Option[OutputTransformer], chunkSize: Int, maxSize: Int)
   extends OutputStream with OutputHandler {

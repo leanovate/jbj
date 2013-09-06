@@ -8,7 +8,6 @@
 package de.leanovate.jbj.runtime.adapter
 
 import de.leanovate.jbj.runtime.value.{NullVal, PVal}
-import de.leanovate.jbj.core.ast.Expr
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.PParam
 

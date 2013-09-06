@@ -6,6 +6,8 @@ import de.leanovate.jbj.core.ast.{ReferableExpr, Expr}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 class ExprParam(expr: Expr)(implicit ctx: Context) extends PParam {
+  override def hasRef = false
+
   override def byRef = {
     throw new FatalErrorJbjException("Only variables can be passed by reference")
   }
@@ -14,6 +16,8 @@ class ExprParam(expr: Expr)(implicit ctx: Context) extends PParam {
 }
 
 class ReferableExprParam(referableExpr: ReferableExpr)(implicit ctx: Context) extends PParam {
+  override def hasRef = true
+
   override def byRef = {
     referableExpr.evalRef.asVar
   }

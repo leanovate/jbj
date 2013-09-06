@@ -17,7 +17,7 @@ import de.leanovate.jbj.runtime.value._
 import java.util.concurrent.atomic.AtomicLong
 import de.leanovate.jbj.api.JbjSettings
 import scala.collection.JavaConversions._
-import de.leanovate.jbj.core.buildin.{PStdClass}
+import de.leanovate.jbj.core.buildin.PStdClass
 import scala.Some
 import de.leanovate.jbj.runtime.output.OutputBuffer
 

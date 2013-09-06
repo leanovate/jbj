@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.runtime.adapter
 
-import de.leanovate.jbj.core.ast.{Expr, NodePosition}
+import de.leanovate.jbj.core.ast.NodePosition
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.PParam
 

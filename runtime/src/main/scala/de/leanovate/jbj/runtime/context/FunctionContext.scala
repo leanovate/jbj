@@ -11,7 +11,7 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.core.ast.{NodePosition, NamespaceName}
 import scala.collection.immutable.Stack
-import de.leanovate.jbj.runtime.value.{PVar, PVal}
+import de.leanovate.jbj.runtime.value.PVar
 
 case class FunctionContext(functionName: NamespaceName, callerContext: Context) extends FunctionLikeContext {
   private val localVariables = mutable.Map.empty[String, PVar]

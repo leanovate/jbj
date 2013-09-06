@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.core.ast.{Expr, NamespaceName}
+import de.leanovate.jbj.core.ast.NamespaceName
 import de.leanovate.jbj.runtime.value.PAny
 import de.leanovate.jbj.runtime.context.Context
 

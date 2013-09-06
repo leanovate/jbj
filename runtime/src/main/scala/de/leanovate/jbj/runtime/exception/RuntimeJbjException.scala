@@ -8,7 +8,6 @@
 package de.leanovate.jbj.runtime.exception
 
 import de.leanovate.jbj.runtime.value.ObjectVal
-import de.leanovate.jbj.core.ast.NodePosition
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.api.JbjException
 

@@ -8,7 +8,7 @@
 package de.leanovate.jbj.core.buildin
 
 import de.leanovate.jbj.runtime.{PParam, PFunction}
-import de.leanovate.jbj.core.ast.{Expr, NamespaceName}
+import de.leanovate.jbj.core.ast.NamespaceName
 import scala.reflect.runtime.universe._
 import de.leanovate.jbj.runtime.adapter.{Converter, ParameterAdapter}
 import de.leanovate.jbj.runtime.value.{BooleanVal, PAny}

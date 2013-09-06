@@ -11,7 +11,7 @@ import de.leanovate.jbj.runtime.value.{PVal, NullVal}
 import de.leanovate.jbj.core.ast.{Node, Expr}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.core.ast.expr.value.{ConstGetExpr, ScalarExpr}
+import de.leanovate.jbj.core.ast.expr.value.ConstGetExpr
 
 case class ParameterDecl(typeHint: Option[TypeHint], variableName: String, byRef: Boolean, default: Option[Expr])
   extends Node {

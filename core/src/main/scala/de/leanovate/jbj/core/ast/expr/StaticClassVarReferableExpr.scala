@@ -10,12 +10,11 @@ package de.leanovate.jbj.core.ast.expr
 import de.leanovate.jbj.core.ast.{Name, ReferableExpr}
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.runtime.context.{StaticMethodContext, MethodContext, Context}
+import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.{PClass, Reference}
 import de.leanovate.jbj.runtime.context.MethodContext
 import de.leanovate.jbj.runtime.context.StaticMethodContext
 import scala.Some
-import de.leanovate.jbj.runtime.value.ObjectPropertyKey.ProtectedKey
 
 case class StaticClassVarReferableExpr(className: Name, variableName: Name) extends ReferableExpr {
   override def eval(implicit ctx: Context) = {
