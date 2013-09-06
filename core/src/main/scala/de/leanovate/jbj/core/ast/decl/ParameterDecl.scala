@@ -16,7 +16,7 @@ import de.leanovate.jbj.core.ast.expr.value.ConstGetExpr
 case class ParameterDecl(typeHint: Option[TypeHint], variableName: String, byRef: Boolean, default: Option[Expr])
   extends Node {
 
-  def defaultVal(implicit ctx: Context): PVal = default.map(_.eval.asVal).getOrElse(NullVal)
+  def defaultVal(implicit ctx: Context): Option[PVal] = default.map(_.eval.asVal)
 
   def check(implicit ctx: Context) {
     if (typeHint.isDefined && typeHint.get.isInstanceOf[ClassTypeHint] && default.isDefined && (!default.get.isInstanceOf[ConstGetExpr] ||

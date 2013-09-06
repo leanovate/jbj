@@ -573,5 +573,35 @@ class InterfacesSpec extends SpecificationWithJUnit with TestJbjExecutor {
       )
     }
 
+    "ZE2 interface and __construct" in {
+      // classes/interfaces_003.phpt
+      script(
+        """<?php
+          |
+          |class MyObject {}
+          |
+          |interface MyInterface
+          |{
+          |	public function __construct(MyObject $o);
+          |}
+          |
+          |class MyTestClass implements MyInterface
+          |{
+          |	public function __construct(MyObject $o)
+          |	{
+          |	}
+          |}
+          |
+          |$obj = new MyTestClass;
+          |
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Catchable fatal error: Argument 1 passed to MyTestClass::__construct() must be an instance of MyObject, none given, called in /classes/InterfacesSpec.inlinePhp on line 17 and defined in /classes/InterfacesSpec.inlinePhp on line 12
+          |""".stripMargin
+      )
+    }
   }
 }

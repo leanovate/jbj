@@ -54,21 +54,22 @@ object TestBed {
     test(
       """<?php
         |
-        |class pass {
-        |	final function show() {
-        |		echo "Call to function pass::show()\n";
+        |class MyObject {}
+        |
+        |interface MyInterface
+        |{
+        |	public function __construct(MyObject $o);
+        |}
+        |
+        |class MyTestClass implements MyInterface
+        |{
+        |	public function __construct(MyObject $o)
+        |	{
         |	}
         |}
         |
-        |$t = new pass();
+        |$obj = new MyTestClass;
         |
-        |class fail extends pass {
-        |	function show() {
-        |		echo "Call to function fail::show()\n";
-        |	}
-        |}
-        |
-        |echo "Done\n"; // Shouldn't be displayed
         |?>""".stripMargin)
   }
 }

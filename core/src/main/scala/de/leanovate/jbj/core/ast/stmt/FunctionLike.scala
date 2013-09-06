@@ -44,9 +44,14 @@ trait FunctionLike extends BlockLike {
             arguments += pVal
           }
         } else {
-          val pVal = parameterDecl.defaultVal(funcCtx)
-          checkAndDefine(funcCtx, parameterDecl, index, PVar(pVal))
-          arguments += pVal
+          parameterDecl.defaultVal(funcCtx) match {
+            case Some(pVal) =>
+              checkAndDefine(funcCtx, parameterDecl, index, PVar(pVal))
+              arguments += pVal
+            case None =>
+              checkEmpty(funcCtx, parameterDecl, index)
+              arguments += NullVal
+          }
         }
     }
     parameterIt.foreach {
@@ -55,6 +60,10 @@ trait FunctionLike extends BlockLike {
         arguments += pVal
     }
     funcCtx.functionArguments = arguments.result()
+  }
+
+  private def checkEmpty(funcCtx: Context, parameterDecl: ParameterDecl, index: Int) {
+    parameterDecl.typeHint.foreach(_.checkEmpty(index)(funcCtx))
   }
 
   private def checkAndDefine(funcCtx: Context, parameterDecl: ParameterDecl, index: Int, pVar: PVar) {
