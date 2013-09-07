@@ -5,7 +5,7 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core.buildin
+package de.leanovate.jbj.runtime.adapter
 
 import de.leanovate.jbj.runtime.{NamespaceName, PParam, PFunction}
 import scala.reflect.runtime.universe._
