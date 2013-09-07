@@ -2,7 +2,7 @@ package de.leanovate.jbj.runtime.adapter
 
 import language.experimental.macros
 import scala.reflect.macros.Context
-import de.leanovate.jbj.runtime.annotations.{ErrorAction, GlobalFunction}
+import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
 import de.leanovate.jbj.runtime.{context, PParam, NamespaceName, PFunction}
 import de.leanovate.jbj.runtime.value.{PVal, PVar, PAny}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
@@ -19,8 +19,7 @@ object GlobalFunctions {
 
     def function_impl(member: MethodSymbol): c.Expr[PFunction] = {
       val args = member.annotations.find(_.tpe == typeOf[GlobalFunction]).get.scalaArgs
-      val notEnoughParamAction: ErrorAction.Type = c.eval(c.Expr[ErrorAction.Type](c.resetAllAttrs(args(0))))
-
+      val parameterMode: ParameterMode.Type = c.eval(c.Expr[ParameterMode.Type](c.resetAllAttrs(args(0))))
       val memberParams = member.paramss.headOption.getOrElse(Nil)
       var remain: Tree = Ident(newTermName("parameters"))
       val expected = memberParams.foldLeft(0) {
@@ -32,12 +31,10 @@ object GlobalFunctions {
           val (adapter, stared) = mapParameter(parameter.typeSignature)
           val adapterCall = Apply(Select(adapter.tree, newTermName("adapt")), List(remain))
           remain = Select(Ident(paramName), newTermName("_2"))
-          val notEnoughHandler = notEnoughParamAction match {
-            case ErrorAction.IGNORE =>
-              notEnoughIgnore.tree
-            case ErrorAction.WARN =>
+          val notEnoughHandler = parameterMode match {
+            case ParameterMode.EXACTLY_WARN =>
               notEnoughWarn(member.name.encoded, expected).tree
-            case ErrorAction.FATAL =>
+            case ParameterMode.RELAX_ERROR =>
               notEnoughThrowFatal(member.name.encoded, expected).tree
           }
           if (stared) {
@@ -48,8 +45,14 @@ object GlobalFunctions {
               ValDef(Modifiers(), paramName, TypeTree(), Apply(Select(adapterCall, newTermName("getOrElse")), List(notEnoughHandler)))
           }
       }
+      val tooManyHandler: List[Tree] = parameterMode match {
+        case ParameterMode.EXACTLY_WARN =>
+          tooManyWarn(remain, member.name.encoded, expected).tree :: Nil
+        case _ =>
+          Nil
+      }
       val functionName = c.Expr[String](Literal(Constant(member.name.encoded)))
-      val impl = c.Expr(Block(parameters.map(_._2), Apply(Select(This(inst.actualType.typeSymbol), member.name), parameters.map(_._1))))
+      val impl = c.Expr(Block(parameters.map(_._2) ++ tooManyHandler, Apply(Select(This(inst.actualType.typeSymbol), member.name), parameters.map(_._1))))
       val resultConverter = converterForType(member.returnType)
 
       reify {
@@ -130,19 +133,28 @@ object GlobalFunctions {
       }
     }
 
-    def notEnoughIgnore: c.Expr[Any] = {
-      reify {
-        (null, Nil)
-      }
-    }
-
     def notEnoughWarn(name: String, expected: Int): c.Expr[Any] = {
-      val msg = c.Expr[String](Literal(Constant("%s() expects at least %d parameter, %%d given".format(name, expected))))
+      val msg = c.Expr[String](Literal(Constant("%s() expects exactly %d parameter, %%d given".format(name, expected))))
+      val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
       val ctx = c.Expr[context.Context](Ident(newTermName("callerCtx")))
       val ret = c.Expr[Unit](Return(Select(Ident(c.mirror.staticModule("de.leanovate.jbj.runtime.value.BooleanVal")), newTermName("FALSE"))))
       reify {
-        ctx.splice.log.warn(msg.splice)
+        ctx.splice.log.warn(msg.splice.format(given.splice))
         ret.splice
+      }
+    }
+
+    def tooManyWarn(remain: Tree, name: String, expected: Int): c.Expr[Any] = {
+      val msg = c.Expr[String](Literal(Constant("%s() expects exactly %d parameter, %%d given".format(name, expected))))
+      val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
+      val ctx = c.Expr[context.Context](Ident(newTermName("callerCtx")))
+      var remainExpr = c.Expr[List[PParam]](remain)
+      val ret = c.Expr[Unit](Return(Select(Ident(c.mirror.staticModule("de.leanovate.jbj.runtime.value.BooleanVal")), newTermName("FALSE"))))
+      reify {
+        if (!remainExpr.splice.isEmpty) {
+          ctx.splice.log.warn(msg.splice.format(given.splice))
+          ret.splice
+        }
       }
     }
 

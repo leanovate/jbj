@@ -9,6 +9,6 @@ package de.leanovate.jbj.runtime.annotations
 
 import scala.annotation.StaticAnnotation
 
-case class GlobalFunction(notEnoughParams: ErrorAction.Type = ErrorAction.FATAL) extends StaticAnnotation {
+case class GlobalFunction(parameterMode: ParameterMode.Type = ParameterMode.RELAX_ERROR) extends StaticAnnotation {
 
 }

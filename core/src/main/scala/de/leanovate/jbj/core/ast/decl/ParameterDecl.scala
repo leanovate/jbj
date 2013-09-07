@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.core.ast.decl
 
-import de.leanovate.jbj.runtime.value.{PVal, NullVal}
+import de.leanovate.jbj.runtime.value.PVal
 import de.leanovate.jbj.core.ast.{Node, Expr}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException

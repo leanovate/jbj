@@ -8,13 +8,13 @@
 package de.leanovate.jbj.core.buildin
 
 import de.leanovate.jbj.runtime.value._
-import de.leanovate.jbj.runtime.annotations.{WanrExactly, GlobalFunction}
+import de.leanovate.jbj.runtime.annotations.{ParameterMode, WanrExactly, GlobalFunction}
 import de.leanovate.jbj.runtime.context.{FunctionLikeContext, Context}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.ast.decl.TypeHint
 import de.leanovate.jbj.runtime.{NamespaceName, PParam}
 
-object FunctionFunctions extends WrappedFunctions {
+object FunctionFunctions {
   @GlobalFunction
   def call_user_func(callable: PVal, parameters: PParam*)(implicit ctx: Context): PAny =
     callable match {
@@ -83,9 +83,8 @@ object FunctionFunctions extends WrappedFunctions {
         }
     }
 
-  @GlobalFunction
-  @WanrExactly
-  def func_get_arg(value: PVal)(ctx: Context): PVal = {
+  @GlobalFunction(ParameterMode.EXACTLY_WARN)
+  def func_get_arg(value: PVal)(implicit ctx: Context): PVal = {
     value match {
       case IntegerVal(argNum) =>
         ctx match {

@@ -3,13 +3,13 @@ package de.leanovate.jbj.core
 import de.leanovate.jbj.runtime.adapter.{OptionParameterAdapter, StringConverter, GlobalFunctions}
 
 import scala.reflect.runtime.universe._
-import de.leanovate.jbj.runtime.annotations.{ErrorAction, GlobalFunction}
+import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.{PFunction, PValParam, PParam}
-import de.leanovate.jbj.runtime.value.{BooleanVal, IntegerVal, StringVal}
+import de.leanovate.jbj.runtime.value.{IntegerVal, StringVal}
 
 object Glob {
-  @GlobalFunction(ErrorAction.WARN)
+  @GlobalFunction(ParameterMode.EXACTLY_WARN)
   def hurra(name: String, idx: Int)(implicit ctx: Context) {
     println(">>> Urra " + name + " " + idx + " " + ctx)
   }
@@ -32,6 +32,6 @@ object Glob {
 
 
     println(func(0).call(PValParam(StringVal("Hurra")) :: PValParam(IntegerVal(1234)) :: Nil))
-    println(func(0).call(PValParam(StringVal("Hurra")) :: Nil))
+    println(func(0).call(PValParam(StringVal("Hurra")) :: PValParam(IntegerVal(1234)) :: PValParam(IntegerVal(1234)) :: Nil))
   }
 }

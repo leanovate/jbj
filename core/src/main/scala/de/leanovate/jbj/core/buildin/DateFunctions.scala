@@ -10,8 +10,6 @@ package de.leanovate.jbj.core.buildin
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import java.util.Calendar
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.NodePosition
-import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
 object DateFunctions {
   @GlobalFunction

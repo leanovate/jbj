@@ -12,7 +12,6 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.core.ast.decl.TypeHint
-import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
 object ArrayFunctions {
   @GlobalFunction

@@ -10,8 +10,7 @@ package de.leanovate.jbj.core.buildin
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.{NodePosition, NamespaceName}
-import de.leanovate.jbj.runtime.adapter.GlobalFunctions
+import de.leanovate.jbj.runtime.NamespaceName
 
 object ClassFunctions {
 

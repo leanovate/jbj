@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.runtime.annotations
 
-object ErrorAction extends Enumeration {
+object ParameterMode extends Enumeration {
   type Type = Value
-  val FATAL, WARN, IGNORE = Value
+  val RELAX_ERROR, EXACTLY_WARN = Value
 }

@@ -21,7 +21,7 @@ package object buildin {
       GlobalFunctions.functions(DateFunctions) ++
       GlobalFunctions.functions(EnvironmentFunctions) ++
       GlobalFunctions.functions(FileFunctions) ++
-      FunctionFunctions.functions ++
+      GlobalFunctions.functions(FunctionFunctions) ++
       GlobalFunctions.functions(StringFunctions) ++
       GlobalFunctions.functions(OutputFunctions) ++
       GlobalFunctions.functions(OutputBufferFunctions) ++

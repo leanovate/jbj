@@ -12,7 +12,6 @@ import de.leanovate.jbj.runtime.value.{ObjectVal, PVal, ConstVal, NullVal}
 import de.leanovate.jbj.core.ast.stmt.StaticAssignment
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.ast.expr.ArrayCreateExpr
-import de.leanovate.jbj.runtime.PClass
 
 
 case class ClassConstDecl(assignments: List[StaticAssignment]) extends ClassMemberDecl {
