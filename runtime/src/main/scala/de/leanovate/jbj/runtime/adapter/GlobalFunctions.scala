@@ -7,13 +7,10 @@ import de.leanovate.jbj.runtime.{context, PParam, NamespaceName, PFunction}
 import de.leanovate.jbj.runtime.value.{PVal, PVar, PAny, NullVal}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
-trait GlobalFunctions {
-}
-
 object GlobalFunctions {
-  def functions(inst: GlobalFunctions): Seq[PFunction] = macro functions_impl
+  def functions(inst: Any): Seq[PFunction] = macro functions_impl
 
-  def functions_impl(c: Context)(inst: c.Expr[GlobalFunctions]): c.Expr[Seq[PFunction]] = {
+  def functions_impl(c: Context)(inst: c.Expr[Any]): c.Expr[Seq[PFunction]] = {
     import c.universe._
     val pVarClass = typeOf[PVar].typeSymbol
     val pValClass = typeOf[PVal].typeSymbol
@@ -22,11 +19,21 @@ object GlobalFunctions {
 
     def function_impl(member: MethodSymbol): c.Expr[PFunction] = {
 
-      val adapter1 = Apply(Select(mapParameter(typeOf[String]).tree, newTermName("adapt")), List(Ident(newTermName("parameters"))))
-      //
-      val param1 = c.Expr(ValDef(Modifiers(), newTermName("param1"), TypeTree(), Apply(Select(adapter1, newTermName("getOrElse")), List(throwFatal(member.name.encoded).tree)))).tree
+      val memberParams = member.paramss.headOption.getOrElse(Nil)
+      var remain: Tree = Ident(newTermName("parameters"))
+      val expected = memberParams.foldLeft(0) {
+        case (count, parameter) => count + expectedParameterCount(parameter.typeSignature)
+      }
+      val parameters = memberParams.zipWithIndex.map {
+        case (parameter, idx) =>
+          val paramName = newTermName("param" + idx)
+          val adapterCall = Apply(Select(mapParameter(parameter.typeSignature).tree, newTermName("adapt")), List(remain))
+          remain = Select(Ident(paramName), newTermName("_2"))
+          Select(Ident(paramName), newTermName("_1")) ->
+            ValDef(Modifiers(), paramName, TypeTree(), Apply(Select(adapterCall, newTermName("getOrElse")), List(throwFatal(member.name.encoded, expected).tree)))
+      }
       val functionName = c.Expr[String](Literal(Constant(member.name.encoded)))
-      val impl = c.Expr(Block(List(param1), Apply(Select(This(inst.actualType.typeSymbol), member.name), List())))
+      val impl = c.Expr(Block(parameters.map(_._2), Apply(Select(This(inst.actualType.typeSymbol), member.name), parameters.map(_._1))))
       val resultConverter = converterForType(member.returnType)
 
       reify {
@@ -41,6 +48,12 @@ object GlobalFunctions {
       }
     }
 
+    def expectedParameterCount(_type: Type) = _type match {
+      case TypeRef(_, sym, a) if sym == definitions.RepeatedParamClass => 0
+      case TypeRef(_, sym, a) if sym == definitions.OptionClass => 0
+      case TypeRef(_, sym, _) if sym == pVarClass => 1
+      case t => 1
+    }
     def mapParameter(_type: Type): c.Expr[ParameterAdapter[_]] = _type match {
       case TypeRef(_, sym, a) if sym == definitions.RepeatedParamClass => reify {
         VarargParameterAdapter(converterForType(a.head).splice)
@@ -102,8 +115,8 @@ object GlobalFunctions {
     }
 
 
-    def throwFatal(name: String): c.Expr[Unit] = {
-      val msg = c.Expr[String](Literal(Constant("%s() expects at least %d parameter, %%d given".format(name, 1))))
+    def throwFatal(name: String, expected: Int): c.Expr[Unit] = {
+      val msg = c.Expr[String](Literal(Constant("%s() expects at least %d parameter, %%d given".format(name, expected))))
       val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
       val ctx = c.Expr(Ident(newTermName("callerCtx")))
       reify {

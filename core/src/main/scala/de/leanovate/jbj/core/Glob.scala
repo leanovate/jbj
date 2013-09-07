@@ -6,12 +6,12 @@ import scala.reflect.runtime.universe._
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.{PValParam, PParam}
-import de.leanovate.jbj.runtime.value.StringVal
+import de.leanovate.jbj.runtime.value.{IntegerVal, StringVal}
 
-object Glob extends GlobalFunctions {
+object Glob {
   @GlobalFunction
-  def hurra()(implicit ctx: Context) {
-    println(">>> Urra " + ctx)
+  def hurra(name: String, idx: Int)(implicit ctx: Context) {
+    println(">>> Urra " + name + " " + idx + " " + ctx)
   }
 
   def main(args: Array[String]) {
@@ -28,6 +28,7 @@ object Glob extends GlobalFunctions {
 
     val func = GlobalFunctions.functions(this)
 
-    func(0).call(PValParam(StringVal("Hurra")) :: Nil)
+    func(0).call(PValParam(StringVal("Hurra")) :: PValParam(IntegerVal(1234)) :: Nil)
+    func(0).call(PValParam(StringVal("Hurra")) ::  Nil)
   }
 }
