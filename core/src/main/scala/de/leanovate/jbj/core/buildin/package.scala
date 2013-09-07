@@ -12,19 +12,20 @@ import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.api.JbjSettings
 import scala.collection.JavaConverters._
 import de.leanovate.jbj.runtime.{PStdClass, PException, PClass, PFunction}
+import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
 package object buildin {
   val buildinFunctions: Seq[PFunction] =
-    ArrayFunctions.functions ++
-      ClassFunctions.functions ++
-      DateFunctions.functions ++
-      EnvironmentFunctions.functions ++
-      FileFunctions.functions ++
+    GlobalFunctions.functions(ArrayFunctions) ++
+      GlobalFunctions.functions(ClassFunctions) ++
+      GlobalFunctions.functions(DateFunctions) ++
+      GlobalFunctions.functions(EnvironmentFunctions) ++
+      GlobalFunctions.functions(FileFunctions) ++
       FunctionFunctions.functions ++
-      StringFunctions.functions ++
-      OutputFunctions.functions ++
-      OutputBufferFunctions.functions ++
-      RuntimeFunctions.functions
+      GlobalFunctions.functions(StringFunctions) ++
+      GlobalFunctions.functions(OutputFunctions) ++
+      GlobalFunctions.functions(OutputBufferFunctions) ++
+      GlobalFunctions.functions(RuntimeFunctions)
 
   val buildinConstants: Seq[(String, PVal)] = Seq(
     "TRUE" -> BooleanVal.TRUE,

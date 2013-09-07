@@ -11,7 +11,7 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.value.IntegerVal
 
-object StringFunctions extends WrappedFunctions {
+object StringFunctions {
 
   @GlobalFunction
   def strlen(str: Array[Byte]): Int = str.length

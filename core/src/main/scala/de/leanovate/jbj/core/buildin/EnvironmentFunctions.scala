@@ -8,8 +8,9 @@
 package de.leanovate.jbj.core.buildin
 
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
+import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
-object EnvironmentFunctions extends WrappedFunctions {
+object EnvironmentFunctions {
   @GlobalFunction
   def zend_version(): String = "2.5.0"
 }

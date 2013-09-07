@@ -11,12 +11,13 @@ import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import java.util.Calendar
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.NodePosition
+import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
-object DateFunctions extends WrappedFunctions {
+object DateFunctions {
   @GlobalFunction
   def mktime(hour: Option[Int], minute: Option[Int], second: Option[Int],
              month: Option[Int], day: Option[Int], year: Option[Int],
-             isDst: Option[Int])(ctx: Context): Long = {
+             isDst: Option[Int])(implicit ctx: Context): Long = {
     if (hour.isEmpty) {
       ctx.log.strict("mktime(): You should be using the time() function instead")
       time()

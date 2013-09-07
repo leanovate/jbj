@@ -13,7 +13,7 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.NodePosition
 
-object OutputFunctions extends WrappedFunctions {
+object OutputFunctions {
 
   @GlobalFunction
   def var_dump(values: PAny*)(implicit ctx: Context) {

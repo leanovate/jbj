@@ -4,7 +4,7 @@ import language.experimental.macros
 import scala.reflect.macros.Context
 import de.leanovate.jbj.runtime.annotations.{ErrorAction, GlobalFunction}
 import de.leanovate.jbj.runtime.{context, PParam, NamespaceName, PFunction}
-import de.leanovate.jbj.runtime.value.{PVal, PVar, PAny, BooleanVal}
+import de.leanovate.jbj.runtime.value.{PVal, PVar, PAny}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 object GlobalFunctions {
@@ -21,7 +21,6 @@ object GlobalFunctions {
       val args = member.annotations.find(_.tpe == typeOf[GlobalFunction]).get.scalaArgs
       val notEnoughParamAction: ErrorAction.Type = c.eval(c.Expr[ErrorAction.Type](c.resetAllAttrs(args(0))))
 
-      val gl = c.Expr[String](Literal(Constant(notEnoughParamAction.toString)))
       val memberParams = member.paramss.headOption.getOrElse(Nil)
       var remain: Tree = Ident(newTermName("parameters"))
       val expected = memberParams.foldLeft(0) {
@@ -41,8 +40,13 @@ object GlobalFunctions {
             case ErrorAction.FATAL =>
               notEnoughThrowFatal(member.name.encoded, expected).tree
           }
-          Select(Ident(paramName), newTermName("_1")) ->
-            ValDef(Modifiers(), paramName, TypeTree(), Apply(Select(adapterCall, newTermName("getOrElse")), List(notEnoughHandler)))
+          if (stared) {
+            Typed(Select(Ident(paramName), newTermName("_1")), Ident(tpnme.WILDCARD_STAR)) ->
+              ValDef(Modifiers(), paramName, TypeTree(), Apply(Select(adapterCall, newTermName("getOrElse")), List(notEnoughHandler)))
+          } else {
+            Select(Ident(paramName), newTermName("_1")) ->
+              ValDef(Modifiers(), paramName, TypeTree(), Apply(Select(adapterCall, newTermName("getOrElse")), List(notEnoughHandler)))
+          }
       }
       val functionName = c.Expr[String](Literal(Constant(member.name.encoded)))
       val impl = c.Expr(Block(parameters.map(_._2), Apply(Select(This(inst.actualType.typeSymbol), member.name), parameters.map(_._1))))
@@ -53,7 +57,6 @@ object GlobalFunctions {
           def name = NamespaceName.apply(functionName.splice)
 
           def call(parameters: List[PParam])(implicit callerCtx: context.Context): PAny = {
-            gl.splice
             val result = impl.splice
             resultConverter.splice.toJbj(result)
           }

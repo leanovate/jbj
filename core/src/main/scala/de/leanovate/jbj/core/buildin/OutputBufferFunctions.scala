@@ -16,7 +16,7 @@ import scala.Some
 import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.runtime.CallbackHelper
 
-object OutputBufferFunctions extends WrappedFunctions {
+object OutputBufferFunctions {
   @GlobalFunction
   def ob_start(callback: Option[PVal], size: Option[Int], erase: Option[Boolean])(implicit ctx: Context): Boolean = {
     if (callback.isDefined) {

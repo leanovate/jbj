@@ -8,8 +8,9 @@
 package de.leanovate.jbj.core.buildin
 
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
+import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
-object FileFunctions extends WrappedFunctions {
+object FileFunctions {
   @GlobalFunction
   def dirname(fileName: String): String = {
     val idx = fileName.lastIndexOf('/')

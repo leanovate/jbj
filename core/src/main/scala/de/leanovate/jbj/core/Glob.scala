@@ -5,7 +5,7 @@ import de.leanovate.jbj.runtime.adapter.{OptionParameterAdapter, StringConverter
 import scala.reflect.runtime.universe._
 import de.leanovate.jbj.runtime.annotations.{ErrorAction, GlobalFunction}
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.{PValParam, PParam}
+import de.leanovate.jbj.runtime.{PFunction, PValParam, PParam}
 import de.leanovate.jbj.runtime.value.{BooleanVal, IntegerVal, StringVal}
 
 object Glob {
@@ -17,6 +17,7 @@ object Glob {
   def hu(p: String*) {
 
   }
+  val func : Seq[PFunction]= GlobalFunctions.functions(this)
 
   def main(args: Array[String]) {
     val jbj = JbjEnv(errorStream = Some(System.err))
@@ -29,7 +30,6 @@ object Glob {
       hu(li: _*)
     }))
 
-    val func = GlobalFunctions.functions(this)
 
     println(func(0).call(PValParam(StringVal("Hurra")) :: PValParam(IntegerVal(1234)) :: Nil))
     println(func(0).call(PValParam(StringVal("Hurra")) :: Nil))

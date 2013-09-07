@@ -11,8 +11,9 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.{NodePosition, NamespaceName}
+import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
-object ClassFunctions extends WrappedFunctions {
+object ClassFunctions {
 
   @GlobalFunction
   def get_class(value: PVal)(implicit ctx: Context): PVal = value match {

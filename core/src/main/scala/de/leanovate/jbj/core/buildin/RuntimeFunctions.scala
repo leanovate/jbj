@@ -15,7 +15,7 @@ import java.util
 import scala.collection.JavaConversions._
 import de.leanovate.jbj.runtime.CallbackHelper
 
-object RuntimeFunctions extends WrappedFunctions {
+object RuntimeFunctions {
 
   @GlobalFunction
   def error_reporting(value: Int)(implicit ctx: Context) {
@@ -58,9 +58,5 @@ object RuntimeFunctions extends WrappedFunctions {
   @GlobalFunction
   def define(name: String, value: PVal, caseInsensitive: Option[Boolean])(implicit ctx: Context) {
     ctx.global.defineConstant(name, value, caseInsensitive.getOrElse(false))
-  }
-
-  def main(args: Array[String]) {
-    println(functions)
   }
 }
