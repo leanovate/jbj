@@ -3,13 +3,13 @@ package de.leanovate.jbj.core
 import de.leanovate.jbj.runtime.adapter.{OptionParameterAdapter, StringConverter, GlobalFunctions}
 
 import scala.reflect.runtime.universe._
-import de.leanovate.jbj.runtime.annotations.GlobalFunction
+import de.leanovate.jbj.runtime.annotations.{ErrorAction, GlobalFunction}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.{PValParam, PParam}
-import de.leanovate.jbj.runtime.value.{IntegerVal, StringVal}
+import de.leanovate.jbj.runtime.value.{BooleanVal, IntegerVal, StringVal}
 
 object Glob {
-  @GlobalFunction
+  @GlobalFunction(ErrorAction.WARN)
   def hurra(name: String, idx: Int)(implicit ctx: Context) {
     println(">>> Urra " + name + " " + idx + " " + ctx)
   }
@@ -21,14 +21,13 @@ object Glob {
     val parameters = List.empty[PParam]
     val adapter = OptionParameterAdapter(StringConverter)
     println(showRaw(reify {
-      val param1 = adapter.adapt(parameters).getOrElse {
-        return
-      }
+      return BooleanVal.FALSE
+      new GlobalFunction()
     }))
 
     val func = GlobalFunctions.functions(this)
 
-    func(0).call(PValParam(StringVal("Hurra")) :: PValParam(IntegerVal(1234)) :: Nil)
-    func(0).call(PValParam(StringVal("Hurra")) ::  Nil)
+    println(func(0).call(PValParam(StringVal("Hurra")) :: PValParam(IntegerVal(1234)) :: Nil))
+    println(func(0).call(PValParam(StringVal("Hurra")) :: Nil))
   }
 }

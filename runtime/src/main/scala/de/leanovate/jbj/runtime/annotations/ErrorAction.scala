@@ -7,8 +7,7 @@
 
 package de.leanovate.jbj.runtime.annotations
 
-import scala.annotation.StaticAnnotation
-
-case class GlobalFunction(notEnoughParams: ErrorAction.Type = ErrorAction.FATAL) extends StaticAnnotation {
-
+object ErrorAction extends Enumeration {
+  type Type = Value
+  val FATAL, WARN, IGNORE = Value
 }

@@ -2,9 +2,9 @@ package de.leanovate.jbj.runtime.adapter
 
 import language.experimental.macros
 import scala.reflect.macros.Context
-import de.leanovate.jbj.runtime.annotations.GlobalFunction
+import de.leanovate.jbj.runtime.annotations.{ErrorAction, GlobalFunction}
 import de.leanovate.jbj.runtime.{context, PParam, NamespaceName, PFunction}
-import de.leanovate.jbj.runtime.value.{PVal, PVar, PAny, NullVal}
+import de.leanovate.jbj.runtime.value.{PVal, PVar, PAny, BooleanVal}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 object GlobalFunctions {
@@ -18,7 +18,10 @@ object GlobalFunctions {
     val paramClass = typeOf[PParam].typeSymbol
 
     def function_impl(member: MethodSymbol): c.Expr[PFunction] = {
+      val args = member.annotations.find(_.tpe == typeOf[GlobalFunction]).get.scalaArgs
+      val notEnoughParamAction: ErrorAction.Type = c.eval(c.Expr[ErrorAction.Type](c.resetAllAttrs(args(0))))
 
+      val gl = c.Expr[String](Literal(Constant(notEnoughParamAction.toString)))
       val memberParams = member.paramss.headOption.getOrElse(Nil)
       var remain: Tree = Ident(newTermName("parameters"))
       val expected = memberParams.foldLeft(0) {
@@ -29,8 +32,16 @@ object GlobalFunctions {
           val paramName = newTermName("param" + idx)
           val adapterCall = Apply(Select(mapParameter(parameter.typeSignature).tree, newTermName("adapt")), List(remain))
           remain = Select(Ident(paramName), newTermName("_2"))
+          val notEnoughHandler = notEnoughParamAction match {
+            case ErrorAction.IGNORE =>
+              notEnoughIgnore.tree
+            case ErrorAction.WARN =>
+              notEnoughWarn(member.name.encoded, expected).tree
+            case ErrorAction.FATAL =>
+              notEnoughThrowFatal(member.name.encoded, expected).tree
+          }
           Select(Ident(paramName), newTermName("_1")) ->
-            ValDef(Modifiers(), paramName, TypeTree(), Apply(Select(adapterCall, newTermName("getOrElse")), List(throwFatal(member.name.encoded, expected).tree)))
+            ValDef(Modifiers(), paramName, TypeTree(), Apply(Select(adapterCall, newTermName("getOrElse")), List(notEnoughHandler)))
       }
       val functionName = c.Expr[String](Literal(Constant(member.name.encoded)))
       val impl = c.Expr(Block(parameters.map(_._2), Apply(Select(This(inst.actualType.typeSymbol), member.name), parameters.map(_._1))))
@@ -40,7 +51,8 @@ object GlobalFunctions {
         new PFunction {
           def name = NamespaceName.apply(functionName.splice)
 
-          def call(parameters: List[PParam])(implicit callerCtx: context.Context) = {
+          def call(parameters: List[PParam])(implicit callerCtx: context.Context): PAny = {
+            gl.splice
             val result = impl.splice
             resultConverter.splice.toJbj(result)
           }
@@ -114,8 +126,23 @@ object GlobalFunctions {
       }
     }
 
+    def notEnoughIgnore: c.Expr[Any] = {
+      reify {
+        (null, Nil)
+      }
+    }
 
-    def throwFatal(name: String, expected: Int): c.Expr[Unit] = {
+    def notEnoughWarn(name: String, expected: Int): c.Expr[Any] = {
+      val msg = c.Expr[String](Literal(Constant("%s() expects at least %d parameter, %%d given".format(name, expected))))
+      val ctx = c.Expr[context.Context](Ident(newTermName("callerCtx")))
+      val ret = c.Expr[Unit](Return(Select(Ident(c.mirror.staticModule("de.leanovate.jbj.runtime.value.BooleanVal")), newTermName("FALSE"))))
+      reify {
+        ctx.splice.log.warn(msg.splice)
+        ret.splice
+      }
+    }
+
+    def notEnoughThrowFatal(name: String, expected: Int): c.Expr[Any] = {
       val msg = c.Expr[String](Literal(Constant("%s() expects at least %d parameter, %%d given".format(name, expected))))
       val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
       val ctx = c.Expr(Ident(newTermName("callerCtx")))
