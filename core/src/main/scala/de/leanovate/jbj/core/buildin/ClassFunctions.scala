@@ -15,7 +15,7 @@ import de.leanovate.jbj.runtime.{NodePosition, NamespaceName}
 object ClassFunctions extends WrappedFunctions {
 
   @GlobalFunction
-  def get_class(value: PVal)(implicit ctx: Context, position: NodePosition): PVal = value match {
+  def get_class(value: PVal)(implicit ctx: Context): PVal = value match {
     case obj: ObjectVal => StringVal(obj.pClass.name.toString)
     case _ =>
       ctx.log.warn("get_class() expects parameter 1 to be object, string given")
@@ -23,17 +23,17 @@ object ClassFunctions extends WrappedFunctions {
   }
 
   @GlobalFunction
-  def class_exists(name: String, autoload: Option[Boolean])(implicit ctx: Context, position: NodePosition): Boolean = {
+  def class_exists(name: String, autoload: Option[Boolean])(implicit ctx: Context): Boolean = {
     ctx.global.findClass(NamespaceName(name), autoload.getOrElse(true)).isDefined
   }
 
   @GlobalFunction
-  def interface_exists(name: String, autoload: Option[Boolean])(implicit ctx: Context, position: NodePosition): Boolean = {
+  def interface_exists(name: String, autoload: Option[Boolean])(implicit ctx: Context): Boolean = {
     ctx.global.findInterface(NamespaceName(name), autoload.getOrElse(true)).isDefined
   }
 
   @GlobalFunction
-  def get_class_methods(name: String)(implicit ctx: Context, position: NodePosition): PVal = {
+  def get_class_methods(name: String)(implicit ctx: Context): PVal = {
     ctx.global.findClass(NamespaceName(name), autoload = true).map {
       pClass =>
         ArrayVal(pClass.methods.values.map {
@@ -43,7 +43,7 @@ object ClassFunctions extends WrappedFunctions {
   }
 
   @GlobalFunction
-  def is_subclass_of(value: PVal, name: String)(implicit ctx: Context, position: NodePosition): Boolean = value match {
+  def is_subclass_of(value: PVal, name: String)(implicit ctx: Context): Boolean = value match {
     case obj: ObjectVal =>
       obj.pClass.superClass.flatMap {
         superClass =>
@@ -56,7 +56,7 @@ object ClassFunctions extends WrappedFunctions {
   }
 
   @GlobalFunction
-  def get_parent_class(value: PVal)(implicit ctx: Context, position: NodePosition): PVal = value match {
+  def get_parent_class(value: PVal)(implicit ctx: Context): PVal = value match {
     case obj: ObjectVal =>
       obj.pClass.superClass.map {
         superClass => StringVal(superClass.name.toString)

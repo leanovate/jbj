@@ -16,7 +16,7 @@ object DateFunctions extends WrappedFunctions {
   @GlobalFunction
   def mktime(hour: Option[Int], minute: Option[Int], second: Option[Int],
              month: Option[Int], day: Option[Int], year: Option[Int],
-             isDst: Option[Int])(ctx: Context, position: NodePosition): Long = {
+             isDst: Option[Int])(ctx: Context): Long = {
     if (hour.isEmpty) {
       ctx.log.strict("mktime(): You should be using the time() function instead")
       time()

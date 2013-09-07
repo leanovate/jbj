@@ -16,7 +16,7 @@ import de.leanovate.jbj.runtime.NodePosition
 object OutputFunctions extends WrappedFunctions {
 
   @GlobalFunction
-  def var_dump(values: PAny*)(implicit ctx: Context, position: NodePosition) {
+  def var_dump(values: PAny*)(implicit ctx: Context) {
     if (values.isEmpty)
       ctx.log.warn("var_dump() expects at least 1 parameter, 0 given")
     if (ctx.global.isOutputBufferingCallback)
@@ -94,7 +94,7 @@ object OutputFunctions extends WrappedFunctions {
   }
 
   @GlobalFunction
-  def print_r(value: PVal, ret: Option[Boolean])(implicit ctx: Context, position: NodePosition): PVal = {
+  def print_r(value: PVal, ret: Option[Boolean])(implicit ctx: Context): PVal = {
     if (ctx.global.isOutputBufferingCallback)
       throw new FatalErrorJbjException("print_r(): Cannot use output buffering in output buffering display handlers")
 

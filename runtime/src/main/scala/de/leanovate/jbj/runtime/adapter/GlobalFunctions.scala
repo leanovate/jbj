@@ -30,7 +30,8 @@ object GlobalFunctions {
       val parameters = memberParams.zipWithIndex.map {
         case (parameter, idx) =>
           val paramName = newTermName("param" + idx)
-          val adapterCall = Apply(Select(mapParameter(parameter.typeSignature).tree, newTermName("adapt")), List(remain))
+          val (adapter, stared) = mapParameter(parameter.typeSignature)
+          val adapterCall = Apply(Select(adapter.tree, newTermName("adapt")), List(remain))
           remain = Select(Ident(paramName), newTermName("_2"))
           val notEnoughHandler = notEnoughParamAction match {
             case ErrorAction.IGNORE =>
@@ -66,19 +67,19 @@ object GlobalFunctions {
       case TypeRef(_, sym, _) if sym == pVarClass => 1
       case t => 1
     }
-    def mapParameter(_type: Type): c.Expr[ParameterAdapter[_]] = _type match {
+    def mapParameter(_type: Type): (c.Expr[ParameterAdapter[_]], Boolean) = _type match {
       case TypeRef(_, sym, a) if sym == definitions.RepeatedParamClass => reify {
         VarargParameterAdapter(converterForType(a.head).splice)
-      }
+      } -> true
       case TypeRef(_, sym, a) if sym == definitions.OptionClass => reify {
         OptionParameterAdapter(converterForType(a.head).splice)
-      }
+      } -> false
       case TypeRef(_, sym, _) if sym == pVarClass => reify {
         RefParameterAdapter
-      }
+      } -> false
       case t => reify {
         DefaultParamterAdapter(converterForType(t).splice)
-      }
+      } -> false
     }
 
     def converterForType(_type: Type): c.Expr[Converter[_, _ <: PAny]] = {

@@ -14,15 +14,19 @@ object Glob {
     println(">>> Urra " + name + " " + idx + " " + ctx)
   }
 
+  def hu(p: String*) {
+
+  }
+
   def main(args: Array[String]) {
     val jbj = JbjEnv(errorStream = Some(System.err))
     implicit val context = jbj.newGlobalContext(System.out)
 
     val parameters = List.empty[PParam]
     val adapter = OptionParameterAdapter(StringConverter)
+    val li = List()
     println(showRaw(reify {
-      return BooleanVal.FALSE
-      new GlobalFunction()
+      hu(li: _*)
     }))
 
     val func = GlobalFunctions.functions(this)

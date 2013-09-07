@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.core.buildin
 
-import de.leanovate.jbj.runtime.{NodePosition, NamespaceName, PParam, PFunction}
+import de.leanovate.jbj.runtime.{NamespaceName, PParam, PFunction}
 import scala.reflect.runtime.universe._
 import de.leanovate.jbj.runtime.adapter._
 import de.leanovate.jbj.runtime.value.{PVar, PAny, PVal}
@@ -36,7 +36,6 @@ object WrappedFunctions {
   val globalFunctionClass = typeOf[GlobalFunction].typeSymbol
   val warnExactlyClass = typeOf[WanrExactly].typeSymbol
   val contextClass = typeOf[Context].typeSymbol
-  val nodePositionClass = typeOf[NodePosition].typeSymbol
   val pVarClass = typeOf[PVar].typeSymbol
   val pValClass = typeOf[PVal].typeSymbol
   val pAnyClass = typeOf[PAny].typeSymbol
@@ -55,7 +54,6 @@ object WrappedFunctions {
     case TypeRef(_, sym, a) if sym == definitions.RepeatedParamClass => VarargParameterAdapter(converterForClass(a.head))
     case TypeRef(_, sym, a) if sym == definitions.OptionClass => OptionParameterAdapter(converterForClass(a.head))
     case TypeRef(_, sym, _) if sym == contextClass => ContextParameterAdapter
-    case TypeRef(_, sym, _) if sym == nodePositionClass => PositionParameterAdapter
     case TypeRef(_, sym, _) if sym == pVarClass => RefParameterAdapter
     case t => DefaultParamterAdapter(converterForClass(t))
   }
