@@ -13,6 +13,8 @@ import de.leanovate.jbj.core.parser.{JbjParser, ParseContext, InitialLexer, Toke
 import de.leanovate.jbj.core.ast.Prog
 import de.leanovate.jbj.core.JbjEnv
 import de.leanovate.jbj.api.JbjSettings
+import scala.reflect.runtime.universe._
+import de.leanovate.jbj.core.buildin.ArrayFunctions
 
 object TestBed {
   //Simplify testing
@@ -46,11 +48,13 @@ object TestBed {
       case e: parser.NoSuccess =>
         println(e)
     }
-
   }
 
   //A main method for testing
   def main(args: Array[String]) {
+    println(showRaw(reify {
+      ArrayFunctions.count(null)
+    }))
     test(
       """<?php
         |

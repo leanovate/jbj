@@ -59,7 +59,7 @@ object GlobalFunctions {
           Nil
       }
       val functionName = c.Expr[String](Literal(Constant(member.name.encoded)))
-      val impl = c.Expr(Block(parameters.map(_._2) ++ tooManyHandler, Apply(Select(This(inst.actualType.typeSymbol), member.name), parameters.map(_._1))))
+      val impl = c.Expr(Block(parameters.map(_._2) ++ tooManyHandler, Apply(Select(Ident(inst.actualType.termSymbol), member.name), parameters.map(_._1))))
       val resultConverter = converterForType(member.returnType)
 
       reify {
