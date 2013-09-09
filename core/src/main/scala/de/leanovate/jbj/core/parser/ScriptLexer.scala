@@ -85,9 +85,8 @@ object ScriptLexer extends Lexer with CommonScriptLexerPatterns {
       | '/' ~ '*' ~ failure("unclosed comment")
   )
 
-  protected def comment: Parser[Any] =
-    '*' ~ '/' ^^ {
-      case _ => ' '
-    } | chrExcept(EofCh) ~ comment
+  protected def comment: Parser[Any] = rep(chrExcept(EofCh, '*') | '*' ~ not('/')) ~ '*' ~ '/' ^^ {
+    case _ => ' '
+  }
 
 }
