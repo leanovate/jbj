@@ -36,6 +36,11 @@ trait TestJbjExecutor {
       this
     }
 
+    def withMaxPostSize(maxPostSize: Long) = {
+      context.settings.setPostMaxSize(maxPostSize)
+      this
+    }
+
     def withGet(uriStr: String, cookies: Seq[CookieInfo] = Seq.empty) = {
       CgiEnvironment.httpRequest(TestRequestInfo.get(uriStr, cookies))
       this

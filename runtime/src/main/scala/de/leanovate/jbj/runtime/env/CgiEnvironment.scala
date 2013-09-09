@@ -11,13 +11,11 @@ import java.net.URLDecoder
 import de.leanovate.jbj.runtime.value._
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.context.Context
-import scala.Some
 import scala.collection.JavaConversions._
 import de.leanovate.jbj.api.http.{MultipartFormRequestBody, FormRequestBody, RequestInfo}
 import de.leanovate.jbj.runtime.NoNodePosition
 import scala.Some
 import de.leanovate.jbj.runtime.value.IntegerVal
-import scala.io.Source
 
 object CgiEnvironment {
   val numberPattern = "([0-9]+)".r
@@ -49,37 +47,53 @@ object CgiEnvironment {
       case RequestInfo.Method.GET =>
         ctx.defineVariable("_REQUEST", PVar(getRequestArray.copy))
       case RequestInfo.Method.POST =>
+        var error = false
         if (ctx.settings.isAlwaysPopulateRawPostData) {
-          ctx.defineVariable("HTTP_RAW_POST_DATA", PVar(StringVal(Source.fromInputStream(request.getBody.getContent).mkString)))
+          val streams = LimitedByteStreams(ctx.settings.getPostMaxSize)
+
+          streams.read(request.getBody.getContent) match {
+            case Left(data) =>
+              ctx.defineVariable("HTTP_RAW_POST_DATA", PVar(new StringVal(data)))
+            case Right(size) =>
+              ctx.log.warn("Unknown: POST Content-Length of %d bytes exceeds the limit of %d bytes".format(size, ctx.settings.getPostMaxSize))
+              error = true
+          }
         }
-        Option(request.getBody) match {
-          case Some(formBody: FormRequestBody) =>
-            val formKeyValues = formBody.getFormData.toSeq.flatMap {
-              case (key, values) => values.map(key -> _)
-            }
-            val postRequestArray = decodeKeyValues(formKeyValues)
-            ctx.defineVariable("_POST", PVar(postRequestArray))
-            ctx.defineVariable("_REQUEST", PVar(postRequestArray.copy))
-          case Some(multipart: MultipartFormRequestBody) =>
-            val files = multipart.getFileData.map {
-              fileData =>
-                Some(StringVal(fileData.getKey)) -> ArrayVal(
-                  Some(StringVal("name")) -> StringVal(fileData.getFilename),
-                  Some(StringVal("type")) -> StringVal(fileData.getContentType),
-                  Some(StringVal("tmp_name")) -> StringVal(fileData.getTempfilePath),
-                  Some(StringVal("error")) -> IntegerVal(0),
-                  Some(StringVal("size")) -> IntegerVal(fileData.getSize)
-                )
-            }
-            val formKeyValues = multipart.getFormData.toSeq.flatMap {
-              case (key, values) => values.map(key -> _)
-            }
-            val postRequestArray = decodeKeyValues(formKeyValues)
-            ctx.defineVariable("_FILES", PVar(ArrayVal(files: _*)))
-            ctx.defineVariable("_POST", PVar(postRequestArray))
-            ctx.defineVariable("_REQUEST", PVar(postRequestArray.copy))
-          case _ =>
-            ctx.defineVariable("_REQUEST", PVar(getRequestArray.copy))
+        if (error) {
+          ctx.log.warn("Cannot modify header information - headers already sent")
+          ctx.defineVariable("_POST", PVar(ArrayVal()))
+          ctx.defineVariable("_REQUEST", PVar(ArrayVal()))
+
+        } else {
+          Option(request.getBody) match {
+            case Some(formBody: FormRequestBody) =>
+              val formKeyValues = formBody.getFormData.toSeq.flatMap {
+                case (key, values) => values.map(key -> _)
+              }
+              val postRequestArray = decodeKeyValues(formKeyValues)
+              ctx.defineVariable("_POST", PVar(postRequestArray))
+              ctx.defineVariable("_REQUEST", PVar(postRequestArray.copy))
+            case Some(multipart: MultipartFormRequestBody) =>
+              val files = multipart.getFileData.map {
+                fileData =>
+                  Some(StringVal(fileData.getKey)) -> ArrayVal(
+                    Some(StringVal("name")) -> StringVal(fileData.getFilename),
+                    Some(StringVal("type")) -> StringVal(fileData.getContentType),
+                    Some(StringVal("tmp_name")) -> StringVal(fileData.getTempfilePath),
+                    Some(StringVal("error")) -> IntegerVal(0),
+                    Some(StringVal("size")) -> IntegerVal(fileData.getSize)
+                  )
+              }
+              val formKeyValues = multipart.getFormData.toSeq.flatMap {
+                case (key, values) => values.map(key -> _)
+              }
+              val postRequestArray = decodeKeyValues(formKeyValues)
+              ctx.defineVariable("_FILES", PVar(ArrayVal(files: _*)))
+              ctx.defineVariable("_POST", PVar(postRequestArray))
+              ctx.defineVariable("_REQUEST", PVar(postRequestArray.copy))
+            case _ =>
+              ctx.defineVariable("_REQUEST", PVar(getRequestArray.copy))
+          }
         }
     }
   }

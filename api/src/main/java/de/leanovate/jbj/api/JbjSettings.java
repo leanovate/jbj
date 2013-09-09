@@ -55,6 +55,11 @@ public class JbjSettings implements Cloneable {
      */
     private boolean alwaysPopulateRawPostData = false;
 
+    /**
+     * Corresponds to: post_max_size
+     */
+    private long postMaxSize = -1;
+
     public Charset getCharset() {
         return charset;
     }
@@ -94,6 +99,14 @@ public class JbjSettings implements Cloneable {
 
     public void setAlwaysPopulateRawPostData(boolean alwaysPopulateRawPostData) {
         this.alwaysPopulateRawPostData = alwaysPopulateRawPostData;
+    }
+
+    public long getPostMaxSize() {
+        return postMaxSize;
+    }
+
+    public void setPostMaxSize(long postMaxSize) {
+        this.postMaxSize = postMaxSize;
     }
 
     public JbjSettings clone() {
