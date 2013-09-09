@@ -51,7 +51,9 @@ class TestMultipartFormRequestBody(contentType: String, content: String) extends
   val fileData = fileItems.values().flatten.filter(!_.isFormField).map {
     item =>
       val key = item.getHeaders.getHeader("Content-Disposition") match {
-        case TestRequestInfo.formDataDisposition(key) => key
+        case TestRequestInfo.formDataDispositionSQuote(name, _) => name.replace("\\\\", "\\").replace("\\'", "'")
+        case TestRequestInfo.formDataDispositionDQuote(name, _) => name.replace("\\\\", "\\").replace("\\\"", "\"")
+        case TestRequestInfo.formDataNoQuotes(name) => name.replace("\\\\", "\\")
         case _ => item.getFieldName
       }
       new FileData {
@@ -70,15 +72,17 @@ class TestMultipartFormRequestBody(contentType: String, content: String) extends
 
   fileItems.values().flatten.filter(_.isFormField).map {
     case item if item.getName == null =>
-      item.getHeaders.getHeader("Content-Disposition") match {
-        case TestRequestInfo.formDataDisposition(key) =>
-          val values = Option(formData.get(key)).getOrElse {
-            val newValues = new util.ArrayList[String]()
-            formData.put(key, newValues)
-            newValues
-          }
-          values.add(item.getString)
+      val key = item.getHeaders.getHeader("Content-Disposition") match {
+        case TestRequestInfo.formDataDispositionSQuote(name, _) => name.replace("\\\\", "\\").replace("\\'", "'")
+        case TestRequestInfo.formDataDispositionDQuote(name, _) => name.replace("\\\\", "\\").replace("\\\"", "\"")
+        case TestRequestInfo.formDataNoQuotes(name) => name.replace("\\\\", "\\")
       }
+      val values = Option(formData.get(key)).getOrElse {
+        val newValues = new util.ArrayList[String]()
+        formData.put(key, newValues)
+        newValues
+      }
+      values.add(item.getString)
   }
 
   def getFormData = formData
@@ -91,7 +95,9 @@ class TestMultipartFormRequestBody(contentType: String, content: String) extends
 }
 
 object TestRequestInfo {
-  val formDataDisposition = """form-data;[ ]*name=["]?([^"]*)["]?.*""".r
+  val formDataNoQuotes = """form-data;[ ]*name=(.*)""".r
+  val formDataDispositionSQuote = """form-data;[ ]*name=[']((\\'|[^'])*)['].*""".r
+  val formDataDispositionDQuote = """form-data;[ ]*name=["]((\\"|[^"])*)["].*""".r
 
   def get(uri: String, cookies: Seq[CookieInfo]): RequestInfo = {
     new TestRequestInfo(RequestInfo.Method.GET, uri, cookies, null)
