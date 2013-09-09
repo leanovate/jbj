@@ -8,6 +8,7 @@
 package de.leanovate.jbj.api.http;
 
 import javax.annotation.Nonnull;
+import java.io.InputStream;
 
 /**
  * Generic request body.
@@ -15,4 +16,7 @@ import javax.annotation.Nonnull;
 public interface RequestBody {
     @Nonnull
     String getContentType();
+
+    @Nonnull
+    InputStream getContent();
 }

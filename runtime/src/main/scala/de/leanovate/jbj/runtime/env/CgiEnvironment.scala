@@ -17,6 +17,7 @@ import de.leanovate.jbj.api.http.{MultipartFormRequestBody, FormRequestBody, Req
 import de.leanovate.jbj.runtime.NoNodePosition
 import scala.Some
 import de.leanovate.jbj.runtime.value.IntegerVal
+import scala.io.Source
 
 object CgiEnvironment {
   val numberPattern = "([0-9]+)".r
@@ -48,6 +49,9 @@ object CgiEnvironment {
       case RequestInfo.Method.GET =>
         ctx.defineVariable("_REQUEST", PVar(getRequestArray.copy))
       case RequestInfo.Method.POST =>
+        if (ctx.settings.isAlwaysPopulateRawPostData) {
+          ctx.defineVariable("HTTP_RAW_POST_DATA", PVar(StringVal(Source.fromInputStream(request.getBody.getContent).mkString)))
+        }
         Option(request.getBody) match {
           case Some(formBody: FormRequestBody) =>
             val formKeyValues = formBody.getFormData.toSeq.flatMap {

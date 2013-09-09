@@ -5,6 +5,8 @@ import java.util
 import scala.collection.JavaConversions._
 import de.leanovate.jbj.api.http.{CookieInfo, FormRequestBody, RequestInfo}
 import play.api.mvc.AnyContentAsFormUrlEncoded
+import java.net.{URLEncoder, URLDecoder}
+import java.io.ByteArrayInputStream
 
 case class RequestInfoAdapter(request: Request[AnyContent]) extends RequestInfo {
   def getMethod = RequestInfo.Method.valueOf(request.method.toUpperCase)
@@ -29,6 +31,14 @@ case class RequestInfoAdapter(request: Request[AnyContent]) extends RequestInfo 
     case AnyContentAsFormUrlEncoded(data) =>
       new FormRequestBody {
         def getContentType = request.contentType.getOrElse("")
+
+        def getContent = new ByteArrayInputStream(data.map {
+          case (key, values) =>
+            values.map {
+              value =>
+                URLEncoder.encode(key, "UTF-8") + "=" + URLEncoder.encode(value, "UTF-8")
+            }.mkString("&")
+        }.mkString("&").getBytes("UTF-8"))
 
         def getFormData = {
           val result = new util.LinkedHashMap[String, util.List[String]]()

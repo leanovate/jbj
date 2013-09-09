@@ -124,7 +124,33 @@ class Basic3Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |}
           |""".stripMargin
       )
+    }
 
+    "Test HTTP_RAW_POST_DATA creation" in {
+      script(
+        """<?php
+          |var_dump($_POST, $HTTP_RAW_POST_DATA);
+          |?>""".stripMargin
+      ).withAlwaysPopulateRawPostData(true).
+        withPost("/", "a=ABC&y=XYZ&c[]=1&c[]=2&c[a]=3").result must haveOutput(
+        """array(3) {
+          |  ["a"]=>
+          |  string(3) "ABC"
+          |  ["y"]=>
+          |  string(3) "XYZ"
+          |  ["c"]=>
+          |  array(3) {
+          |    [0]=>
+          |    string(1) "1"
+          |    [1]=>
+          |    string(1) "2"
+          |    ["a"]=>
+          |    string(1) "3"
+          |  }
+          |}
+          |string(30) "a=ABC&y=XYZ&c[]=1&c[]=2&c[a]=3"
+          |""".stripMargin
+      )
     }
   }
 }

@@ -9,6 +9,7 @@ package de.leanovate.jbj.api.http;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 

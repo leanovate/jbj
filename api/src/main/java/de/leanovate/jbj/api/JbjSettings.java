@@ -32,10 +32,10 @@ public class JbjSettings implements Cloneable {
 
     /**
      * Maximum size for output buffers.
-     *
+     * <p/>
      * <ul>
-     *     <li>-1 means unlimited (use with care)</li>
-     *     <li>0 means disabled (i.e. all output is send directly)</li>
+     * <li>-1 means unlimited (use with care)</li>
+     * <li>0 means disabled (i.e. all output is send directly)</li>
      * </ul>
      * See <a href="http://php.net/output-buffering">http://php.net/output-buffering</a> for details.
      */
@@ -49,6 +49,11 @@ public class JbjSettings implements Cloneable {
             ErrorLevel.E_PARSE, ErrorLevel.E_CORE_ERROR, ErrorLevel.E_CORE_WARNING, ErrorLevel.E_COMPILE_ERROR,
             ErrorLevel.E_COMPILE_WARNING, ErrorLevel.E_USER_ERROR, ErrorLevel.E_USER_WARNING, ErrorLevel.E_USER_NOTICE,
             ErrorLevel.E_RECOVERABLE_ERROR, ErrorLevel.E_DEPRECATED, ErrorLevel.E_USER_DEPRECATED);
+
+    /**
+     * Corresponds to: always_populate_raw_post_data.
+     */
+    private boolean alwaysPopulateRawPostData = false;
 
     public Charset getCharset() {
         return charset;
@@ -80,6 +85,15 @@ public class JbjSettings implements Cloneable {
 
     public void setErrorReporting(EnumSet<ErrorLevel> errorReporting) {
         this.errorReporting = errorReporting;
+    }
+
+
+    public boolean isAlwaysPopulateRawPostData() {
+        return alwaysPopulateRawPostData;
+    }
+
+    public void setAlwaysPopulateRawPostData(boolean alwaysPopulateRawPostData) {
+        this.alwaysPopulateRawPostData = alwaysPopulateRawPostData;
     }
 
     public JbjSettings clone() {

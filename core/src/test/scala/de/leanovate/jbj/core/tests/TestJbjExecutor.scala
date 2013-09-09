@@ -31,6 +31,11 @@ trait TestJbjExecutor {
 
     context.settings.setErrorReporting(JbjSettings.E_ALL)
 
+    def withAlwaysPopulateRawPostData(alwaysPopulateRawPostData: Boolean) = {
+      context.settings.setAlwaysPopulateRawPostData(alwaysPopulateRawPostData)
+      this
+    }
+
     def withGet(uriStr: String, cookies: Seq[CookieInfo] = Seq.empty) = {
       CgiEnvironment.httpRequest(TestRequestInfo.get(uriStr, cookies))
       this

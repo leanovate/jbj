@@ -13,6 +13,7 @@ import de.leanovate.jbj.api.http._
 import org.apache.commons.fileupload.FileUpload
 import scala.collection.JavaConversions._
 import de.leanovate.jbj.api.http.MultipartFormRequestBody.FileData
+import java.io.ByteArrayInputStream
 
 class TestRequestInfo(method: RequestInfo.Method, uri: String, cookies: Seq[CookieInfo], body: RequestBody) extends RequestInfo {
   val rawQueryString = Option(new URI(uri).getQuery).getOrElse("")
@@ -34,6 +35,8 @@ class TestFormRequestBody(formData: String) extends FormRequestBody {
   def getContentType = "application/form-url-encoded"
 
   def getFormData = TestRequestInfo.parseFormData(formData)
+
+  def getContent = new ByteArrayInputStream(formData.getBytes("UTF-8"))
 }
 
 class TestMultipartFormRequestBody(contentType: String, content: String) extends MultipartFormRequestBody {
@@ -77,6 +80,8 @@ class TestMultipartFormRequestBody(contentType: String, content: String) extends
   def getFileData = fileData
 
   def getContentType = contentType
+
+  def getContent = new ByteArrayInputStream(content.getBytes("UTF-8"))
 }
 
 object TestRequestInfo {
