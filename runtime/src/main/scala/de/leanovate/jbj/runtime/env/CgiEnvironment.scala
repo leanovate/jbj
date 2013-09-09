@@ -12,10 +12,11 @@ import de.leanovate.jbj.runtime.value._
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.context.Context
 import scala.Some
-import de.leanovate.jbj.runtime.value.IntegerVal
 import scala.collection.JavaConversions._
-import de.leanovate.jbj.api.http.{FormRequestBody, RequestInfo}
+import de.leanovate.jbj.api.http.{MultipartFormRequestBody, FormRequestBody, RequestInfo}
 import de.leanovate.jbj.runtime.NoNodePosition
+import scala.Some
+import de.leanovate.jbj.runtime.value.IntegerVal
 
 object CgiEnvironment {
   val numberPattern = "([0-9]+)".r
@@ -49,6 +50,24 @@ object CgiEnvironment {
               case (key, values) => values.map(key -> _)
             }
             val postRequestArray = decodeKeyValues(formKeyValues)
+            ctx.defineVariable("_POST", PVar(postRequestArray))
+            ctx.defineVariable("_REQUEST", PVar(postRequestArray.copy))
+          case Some(multipart: MultipartFormRequestBody) =>
+            val files = multipart.getFileData.map {
+              fileData =>
+                Some(StringVal(fileData.getKey)) -> ArrayVal(
+                  Some(StringVal("name")) -> StringVal(fileData.getFilename),
+                  Some(StringVal("type")) -> StringVal(fileData.getContentType),
+                  Some(StringVal("tmp_name")) -> StringVal(fileData.getTempfilePath),
+                  Some(StringVal("error")) -> IntegerVal(0),
+                  Some(StringVal("size")) -> IntegerVal(fileData.getSize)
+                )
+            }
+            val formKeyValues = multipart.getFormData.toSeq.flatMap {
+              case (key, values) => values.map(key -> _)
+            }
+            val postRequestArray = decodeKeyValues(formKeyValues)
+            ctx.defineVariable("_FILES", PVar(ArrayVal(files: _*)))
             ctx.defineVariable("_POST", PVar(postRequestArray))
             ctx.defineVariable("_REQUEST", PVar(postRequestArray.copy))
           case _ =>

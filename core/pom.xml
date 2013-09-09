@@ -52,6 +52,12 @@
             <artifactId>commons-fileupload</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

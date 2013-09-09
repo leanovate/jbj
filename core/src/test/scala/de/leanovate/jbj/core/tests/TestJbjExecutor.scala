@@ -40,6 +40,11 @@ trait TestJbjExecutor {
       this
     }
 
+    def withMultipartPost(uriStr: String, contentType: String, content: String) = {
+      CgiEnvironment.httpRequest(TestRequestInfo.post(uriStr, contentType, content))
+      this
+    }
+
     def withCommandLine(args: String) = {
       CliEnvironment.commandLine(pseudoFileName, args.split(" "))
       this

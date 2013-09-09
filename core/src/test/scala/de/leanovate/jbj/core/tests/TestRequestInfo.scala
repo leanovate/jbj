@@ -9,7 +9,10 @@ package de.leanovate.jbj.core.tests
 
 import java.net.{URLDecoder, URI}
 import java.util
-import de.leanovate.jbj.api.http.{FormRequestBody, RequestInfo, RequestBody}
+import de.leanovate.jbj.api.http.{MultipartFormRequestBody, FormRequestBody, RequestInfo, RequestBody}
+import org.apache.commons.fileupload.FileUpload
+import scala.collection.JavaConversions._
+import de.leanovate.jbj.api.http.MultipartFormRequestBody.FileData
 
 class TestRequestInfo(method: RequestInfo.Method, uri: String, body: RequestBody) extends RequestInfo {
   val rawQueryString = Option(new URI(uri).getQuery).getOrElse("")
@@ -31,13 +34,62 @@ class TestFormRequestBody(formData: String) extends FormRequestBody {
   def getFormData = TestRequestInfo.parseFormData(formData)
 }
 
+class TestMultipartFormRequestBody(contentType: String, content: String) extends MultipartFormRequestBody {
+  val fileUpload = new FileUpload(TestFileItemFactory)
+  val fileItems = fileUpload.parseParameterMap(TestRequestContext(contentType, content))
+  val fileData = fileItems.values().flatten.filter(!_.isFormField).map {
+    item =>
+      val key = item.getHeaders.getHeader("Content-Disposition") match {
+        case TestRequestInfo.formDataDisposition(key) => key
+        case _ => item.getFieldName
+      }
+      new FileData {
+        def getFilename = item.getName
+
+        def getTempfilePath = "/tmp/something"
+
+        def getKey = key
+
+        def getContentType = item.getContentType
+
+        def getSize = item.get().length
+      }
+  }.toList
+  val formData = new java.util.LinkedHashMap[String, java.util.List[String]]
+
+  fileItems.values().flatten.filter(_.isFormField).map {
+    case item if item.getName == null =>
+      item.getHeaders.getHeader("Content-Disposition") match {
+        case TestRequestInfo.formDataDisposition(key) =>
+          val values = Option(formData.get(key)).getOrElse {
+            val newValues = new util.ArrayList[String]()
+            formData.put(key, newValues)
+            newValues
+          }
+          values.add(item.getString)
+      }
+  }
+
+  def getFormData = formData
+
+  def getFileData = fileData
+
+  def getContentType = contentType
+}
+
 object TestRequestInfo {
+  val formDataDisposition = """form-data;[ ]*name=["]?([^"]*)["]?.*""".r
+
   def get(uri: String): RequestInfo = {
     new TestRequestInfo(RequestInfo.Method.GET, uri, null)
   }
 
   def post(uri: String, formData: String): RequestInfo = {
     new TestRequestInfo(RequestInfo.Method.POST, uri, new TestFormRequestBody(formData))
+  }
+
+  def post(uri: String, multipartContentType: String, multipartContent: String) = {
+    new TestRequestInfo(RequestInfo.Method.POST, uri, new TestMultipartFormRequestBody(multipartContentType, multipartContent))
   }
 
   def parseFormData(formData: String) = {

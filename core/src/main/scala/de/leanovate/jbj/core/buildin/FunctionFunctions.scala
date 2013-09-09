@@ -8,7 +8,7 @@
 package de.leanovate.jbj.core.buildin
 
 import de.leanovate.jbj.runtime.value._
-import de.leanovate.jbj.runtime.annotations.{ParameterMode, WanrExactly, GlobalFunction}
+import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
 import de.leanovate.jbj.runtime.context.{FunctionLikeContext, Context}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.ast.decl.TypeHint

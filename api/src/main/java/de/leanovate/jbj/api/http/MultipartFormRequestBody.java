@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public interface MultipartFormRequestBody extends RequestBody {
     @Nonnull
-    Map<String, List<String>> getFormDataParts();
+    Map<String, List<String>> getFormData();
 
     @Nonnull
     List<FileData> getFileData();
@@ -35,5 +35,7 @@ public interface MultipartFormRequestBody extends RequestBody {
 
         @Nonnull
         String getTempfilePath();
+
+        long getSize();
     }
 }

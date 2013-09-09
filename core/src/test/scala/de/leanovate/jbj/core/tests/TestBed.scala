@@ -13,8 +13,7 @@ import de.leanovate.jbj.core.parser.{JbjParser, ParseContext, InitialLexer, Toke
 import de.leanovate.jbj.core.ast.Prog
 import de.leanovate.jbj.core.JbjEnv
 import de.leanovate.jbj.api.JbjSettings
-import scala.reflect.runtime.universe._
-import de.leanovate.jbj.core.buildin.ArrayFunctions
+import de.leanovate.jbj.runtime.env.CgiEnvironment
 
 object TestBed {
   //Simplify testing
@@ -39,6 +38,21 @@ object TestBed {
 
         implicit val context = jbj.newGlobalContext(System.out)
 
+        CgiEnvironment.httpRequest(
+          TestRequestInfo.post("/bla", "multipart/form-data; boundary=---------------------------20896060251896012921717172737",
+            """-----------------------------20896060251896012921717172737
+              |Content-Disposition: form-data; name="submitter"
+              |
+              |testname
+              |-----------------------------20896060251896012921717172737
+              |Content-Disposition: form-data; name="pics"; filename="bug37276.txt"
+              |Content-Type: text/plain
+              |
+              |bug37276
+              |
+              |-----------------------------20896060251896012921717172737--
+              | """.stripMargin.replace("\n", "\r\n")))
+
         context.settings.setErrorReporting(JbjSettings.E_ALL)
         try {
           tree.exec(context)
@@ -52,28 +66,11 @@ object TestBed {
 
   //A main method for testing
   def main(args: Array[String]) {
-    println(showRaw(reify {
-      ArrayFunctions.count(null)
-    }))
     test(
       """<?php
-        |
-        |class MyObject {}
-        |
-        |interface MyInterface
-        |{
-        |	public function __construct(MyObject $o);
-        |}
-        |
-        |class MyTestClass implements MyInterface
-        |{
-        |	public function __construct(MyObject $o)
-        |	{
-        |	}
-        |}
-        |
-        |$obj = new MyTestClass;
-        |
-        |?>""".stripMargin)
+        |var_dump($_FILES);
+        |var_dump($_POST);
+        |?>
+        | """.stripMargin)
   }
 }
