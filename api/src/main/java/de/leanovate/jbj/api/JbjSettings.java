@@ -61,9 +61,19 @@ public class JbjSettings implements Cloneable {
     private long postMaxSize = -1;
 
     /**
+     * Corresponds to: max_input_nesting_level
+     */
+    private int maxInputNestingLevel = -1;
+
+    /**
      * Corresponds to: track_errors
      */
     private boolean trackErrors = false;
+
+    /**
+     * Corresponds to: display_errors
+     */
+    private DisplayError displayErrors = DisplayError.STDOUT;
 
     public Charset getCharset() {
         return charset;
@@ -114,12 +124,28 @@ public class JbjSettings implements Cloneable {
         this.postMaxSize = postMaxSize;
     }
 
+    public int getMaxInputNestingLevel() {
+        return maxInputNestingLevel;
+    }
+
+    public void setMaxInputNestingLevel(int maxInputNestingLevel) {
+        this.maxInputNestingLevel = maxInputNestingLevel;
+    }
+
     public boolean isTrackErrors() {
         return trackErrors;
     }
 
     public void setTrackErrors(boolean trackErrors) {
         this.trackErrors = trackErrors;
+    }
+
+    public DisplayError getDisplayErrors() {
+        return displayErrors;
+    }
+
+    public void setDisplayErrors(DisplayError displayErrors) {
+        this.displayErrors = displayErrors;
     }
 
     public JbjSettings clone() {
@@ -156,5 +182,11 @@ public class JbjSettings implements Cloneable {
         public int getValue() {
             return value;
         }
+    }
+
+    public static enum DisplayError {
+        STDOUT,
+        STDERR,
+        NULL
     }
 }

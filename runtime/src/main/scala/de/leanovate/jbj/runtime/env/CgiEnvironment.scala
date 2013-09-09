@@ -91,7 +91,7 @@ object CgiEnvironment {
               ctx.defineVariable("_POST", PVar(postRequestArray))
               ctx.defineVariable("_REQUEST", PVar(postRequestArray.copy))
             case Some(body) =>
-              if ( !ctx.settings.isAlwaysPopulateRawPostData ) {
+              if (!ctx.settings.isAlwaysPopulateRawPostData) {
                 val streams = LimitedByteStreams(ctx.settings.getPostMaxSize)
 
                 streams.read(body.getContent) match {
@@ -114,7 +114,13 @@ object CgiEnvironment {
     val result = ArrayVal()
     keyValues.foreach {
       case (key, value) =>
-        assign(result, extractIndices(key).toList, StringVal(value))
+        val indices = extractIndices(key).toList
+        if (ctx.settings.getMaxInputNestingLevel < 0 || indices.size < ctx.settings.getMaxInputNestingLevel) {
+          assign(result, indices, StringVal(value))
+        } else {
+          ctx.log.warn("Unknown: Input variable nesting level exceeded %d. To increase the limit change max_input_nesting_level in php.ini.".
+            format(ctx.settings.getMaxInputNestingLevel))
+        }
     }
     result
   }
@@ -136,18 +142,18 @@ object CgiEnvironment {
   }
 
   private def extractIndices(key: String)(implicit ctx: Context): Iterator[Option[PVal]] = {
-    Iterator.single {
-      val idxStart = key.indexOf('[')
+    val idxStart = key.indexOf('[')
 
+    Iterator.single {
       if (idxStart >= 0) {
         Some(StringVal(key.substring(0, idxStart)))
       } else {
         Some(StringVal(key))
       }
     } ++ new Iterator[Option[PVal]] {
-      var pos = 0
+      var pos = idxStart
 
-      def hasNext = key.indexOf('[', pos) >= 0
+      def hasNext = pos >= 0 && pos < key.length && key.charAt(pos) == '['
 
       def next() = {
         val idxStart = key.indexOf('[', pos)

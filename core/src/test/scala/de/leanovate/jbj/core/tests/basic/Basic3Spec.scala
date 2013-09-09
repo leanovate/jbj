@@ -9,6 +9,7 @@ package de.leanovate.jbj.core.tests.basic
 
 import org.specs2.mutable.SpecificationWithJUnit
 import de.leanovate.jbj.core.tests.{TestCookieInfo, TestJbjExecutor}
+import de.leanovate.jbj.api.JbjSettings.DisplayError
 
 class Basic3Spec extends SpecificationWithJUnit with TestJbjExecutor {
   "Basic 3 tests" should {
@@ -186,6 +187,36 @@ class Basic3Spec extends SpecificationWithJUnit with TestJbjExecutor {
         """array(0) {
           |}
           |string(9) "a=1&b=ZYX"
+          |""".stripMargin
+      )
+    }
+
+    "Handling of max_input_nesting_level being reached" in {
+      // basic/027
+      script(
+        """<?php
+          |var_dump($_POST, $php_errormsg);
+          |?>""".stripMargin
+      ).withDisplayErrors(DisplayError.NULL).withMaxInputNestingLevel(10).withTrackErrors(true).
+        withPost("/",  "application/form-url-encoded", "a=1&b=ZYX&c[][][][][][][][][][][][][][][][][][][][][][]=123&d=123&e[][]][]=3").
+        result must haveOutput(
+        """array(4) {
+          |  ["a"]=>
+          |  string(1) "1"
+          |  ["b"]=>
+          |  string(3) "ZYX"
+          |  ["d"]=>
+          |  string(3) "123"
+          |  ["e"]=>
+          |  array(1) {
+          |    [0]=>
+          |    array(1) {
+          |      [0]=>
+          |      string(1) "3"
+          |    }
+          |  }
+          |}
+          |string(115) "Unknown: Input variable nesting level exceeded 10. To increase the limit change max_input_nesting_level in php.ini."
           |""".stripMargin
       )
     }
