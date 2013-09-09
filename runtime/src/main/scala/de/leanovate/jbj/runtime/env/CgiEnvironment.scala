@@ -62,8 +62,7 @@ object CgiEnvironment {
         if (error) {
           ctx.log.warn("Cannot modify header information - headers already sent")
           ctx.defineVariable("_POST", PVar(ArrayVal()))
-          ctx.defineVariable("_REQUEST", PVar(ArrayVal()))
-
+          ctx.defineVariable("_REQUEST", PVar(getRequestArray.copy))
         } else {
           Option(request.getBody) match {
             case Some(formBody: FormRequestBody) =>
@@ -91,6 +90,19 @@ object CgiEnvironment {
               ctx.defineVariable("_FILES", PVar(ArrayVal(files: _*)))
               ctx.defineVariable("_POST", PVar(postRequestArray))
               ctx.defineVariable("_REQUEST", PVar(postRequestArray.copy))
+            case Some(body) =>
+              if ( !ctx.settings.isAlwaysPopulateRawPostData ) {
+                val streams = LimitedByteStreams(ctx.settings.getPostMaxSize)
+
+                streams.read(body.getContent) match {
+                  case Left(data) =>
+                    ctx.defineVariable("HTTP_RAW_POST_DATA", PVar(new StringVal(data)))
+                  case Right(size) =>
+                    ctx.log.warn("Unknown: POST Content-Length of %d bytes exceeds the limit of %d bytes".format(size, ctx.settings.getPostMaxSize))
+                }
+              }
+              ctx.defineVariable("_POST", PVar(ArrayVal()))
+              ctx.defineVariable("_REQUEST", PVar(getRequestArray.copy))
             case _ =>
               ctx.defineVariable("_REQUEST", PVar(getRequestArray.copy))
           }

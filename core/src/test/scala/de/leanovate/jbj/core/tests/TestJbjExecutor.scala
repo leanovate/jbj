@@ -41,12 +41,17 @@ trait TestJbjExecutor {
       this
     }
 
+    def withTrackErrors(trackErrors: Boolean) = {
+      context.settings.setTrackErrors(trackErrors)
+      this
+    }
+
     def withGet(uriStr: String, cookies: Seq[CookieInfo] = Seq.empty) = {
       CgiEnvironment.httpRequest(TestRequestInfo.get(uriStr, cookies))
       this
     }
 
-    def withPost(uriStr: String, contentType:String, content: String, cookies: Seq[CookieInfo] = Seq.empty) = {
+    def withPost(uriStr: String, contentType: String, content: String, cookies: Seq[CookieInfo] = Seq.empty) = {
       CgiEnvironment.httpRequest(TestRequestInfo.post(uriStr, contentType, content, cookies))
       this
     }

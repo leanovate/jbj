@@ -155,7 +155,7 @@ class Basic3Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "Test HTTP_RAW_POST_DATA with excessive post length" in {
-      // basic/024
+      // basic/025
       script(
         """<?php
           |var_dump($_POST, $HTTP_RAW_POST_DATA);
@@ -174,6 +174,20 @@ class Basic3Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |NULL
           |""".stripMargin
         )
+    }
+
+    "Registration of HTTP_RAW_POST_DATA due to unknown content-type" in {
+      // basic/026
+      script(
+        """<?php
+          |var_dump($_POST, $HTTP_RAW_POST_DATA);
+          |?>""".stripMargin
+      ).withPost("/", "unknown/type", "a=1&b=ZYX").result must haveOutput(
+        """array(0) {
+          |}
+          |string(9) "a=1&b=ZYX"
+          |""".stripMargin
+      )
     }
   }
 }

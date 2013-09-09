@@ -60,6 +60,11 @@ public class JbjSettings implements Cloneable {
      */
     private long postMaxSize = -1;
 
+    /**
+     * Corresponds to: track_errors
+     */
+    private boolean trackErrors = false;
+
     public Charset getCharset() {
         return charset;
     }
@@ -107,6 +112,14 @@ public class JbjSettings implements Cloneable {
 
     public void setPostMaxSize(long postMaxSize) {
         this.postMaxSize = postMaxSize;
+    }
+
+    public boolean isTrackErrors() {
+        return trackErrors;
+    }
+
+    public void setTrackErrors(boolean trackErrors) {
+        this.trackErrors = trackErrors;
     }
 
     public JbjSettings clone() {
