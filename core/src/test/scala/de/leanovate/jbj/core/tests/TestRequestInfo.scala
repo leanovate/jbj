@@ -10,7 +10,7 @@ package de.leanovate.jbj.core.tests
 import java.net.{URLDecoder, URI}
 import java.util
 import de.leanovate.jbj.api.http._
-import org.apache.commons.fileupload.FileUpload
+import org.apache.commons.fileupload.{FileUploadBase, FileUpload}
 import scala.collection.JavaConversions._
 import de.leanovate.jbj.api.http.MultipartFormRequestBody.FileData
 import java.io.ByteArrayInputStream
@@ -29,6 +29,12 @@ class TestRequestInfo(method: RequestInfo.Method, uri: String, cookies: Seq[Cook
   def getCookies = cookies
 
   def getBody = body
+}
+
+class TestRequestBody(contentType: String, content: String) extends RequestBody {
+  def getContentType = contentType
+
+  def getContent = new ByteArrayInputStream(content.getBytes("UTF-8"))
 }
 
 class TestFormRequestBody(formData: String) extends FormRequestBody {
@@ -91,12 +97,16 @@ object TestRequestInfo {
     new TestRequestInfo(RequestInfo.Method.GET, uri, cookies, null)
   }
 
-  def post(uri: String, formData: String, cookies: Seq[CookieInfo]): RequestInfo = {
-    new TestRequestInfo(RequestInfo.Method.POST, uri, cookies, new TestFormRequestBody(formData))
-  }
-
-  def post(uri: String, multipartContentType: String, multipartContent: String, cookies: Seq[CookieInfo]) = {
-    new TestRequestInfo(RequestInfo.Method.POST, uri, cookies, new TestMultipartFormRequestBody(multipartContentType, multipartContent))
+  def post(uri: String, contentType: String, content: String, cookies: Seq[CookieInfo]): RequestInfo = {
+    val body = contentType match {
+      case "application/form-url-encoded" =>
+        new TestFormRequestBody(content)
+      case ct if FileUploadBase.isMultipartContent(TestRequestContext(contentType, content)) =>
+        new TestMultipartFormRequestBody(contentType, content)
+      case _ =>
+        new TestRequestBody(contentType, content)
+    }
+    new TestRequestInfo(RequestInfo.Method.POST, uri, cookies, body)
   }
 
   def parseFormData(formData: String) = {

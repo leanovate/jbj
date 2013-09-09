@@ -71,7 +71,7 @@ class Basic2Spec extends SpecificationWithJUnit with TestJbjExecutor {
         """<?php
           |var_dump($_POST['a']);
           |?>""".stripMargin
-      ).withPost("", "a[]=1").result must haveOutput(
+      ).withPost("", "application/form-url-encoded", "a[]=1").result must haveOutput(
         """array(1) {
           |  [0]=>
           |  string(1) "1"
@@ -86,7 +86,7 @@ class Basic2Spec extends SpecificationWithJUnit with TestJbjExecutor {
         """<?php
           |var_dump($_POST['a']);
           |?>""".stripMargin
-      ).withPost("", "a[]=1&a[]=1").result must haveOutput(
+      ).withPost("", "application/form-url-encoded", "a[]=1&a[]=1").result must haveOutput(
         """array(2) {
           |  [0]=>
           |  string(1) "1"
@@ -103,7 +103,7 @@ class Basic2Spec extends SpecificationWithJUnit with TestJbjExecutor {
         """<?php
           |var_dump($_POST['a']);
           |?>""".stripMargin
-      ).withPost("", "a[]=1&a[0]=5").result must haveOutput(
+      ).withPost("", "application/form-url-encoded","a[]=1&a[0]=5").result must haveOutput(
         """array(1) {
           |  [0]=>
           |  string(1) "5"
@@ -118,7 +118,7 @@ class Basic2Spec extends SpecificationWithJUnit with TestJbjExecutor {
         """<?php
           |var_dump($_POST['a']);
           |?>""".stripMargin
-      ).withPost("", "a[a]=1&a[b]=3").result must haveOutput(
+      ).withPost("", "application/form-url-encoded","a[a]=1&a[b]=3").result must haveOutput(
         """array(2) {
           |  ["a"]=>
           |  string(1) "1"
@@ -135,7 +135,7 @@ class Basic2Spec extends SpecificationWithJUnit with TestJbjExecutor {
         """<?php
           |var_dump($_POST['a']);
           |?>""".stripMargin
-      ).withPost("", "a[]=1&a[a]=1&a[b]=3").result must haveOutput(
+      ).withPost("", "application/form-url-encoded","a[]=1&a[a]=1&a[b]=3").result must haveOutput(
         """array(3) {
           |  [0]=>
           |  string(1) "1"
@@ -155,7 +155,7 @@ class Basic2Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |var_dump($_POST['a']);
           |var_dump($_POST['b']);
           |?>""".stripMargin
-      ).withPost("", "a[][]=1&a[][]=3&b[a][b][c]=1&b[a][b][d]=1").result must haveOutput(
+      ).withPost("", "application/form-url-encoded","a[][]=1&a[][]=3&b[a][b][c]=1&b[a][b][d]=1").result must haveOutput(
         """array(2) {
           |  [0]=>
           |  array(1) {
@@ -190,7 +190,7 @@ class Basic2Spec extends SpecificationWithJUnit with TestJbjExecutor {
         """<?php
           |var_dump($_POST['a']);
           |?>""".stripMargin
-      ).withPost("", "a[]=1&a[]]=3&a[[]=4").result must haveOutput(
+      ).withPost("", "application/form-url-encoded","a[]=1&a[]]=3&a[[]=4").result must haveOutput(
         """array(3) {
           |  [0]=>
           |  string(1) "1"
@@ -209,7 +209,7 @@ class Basic2Spec extends SpecificationWithJUnit with TestJbjExecutor {
         """<?php
           |var_dump($_POST['a']);
           |?>""".stripMargin
-      ).withPost("", "a[a[]]=1&a[b[]]=3").result must haveOutput(
+      ).withPost("", "application/form-url-encoded","a[a[]]=1&a[b[]]=3").result must haveOutput(
         """array(2) {
           |  ["a["]=>
           |  string(1) "1"

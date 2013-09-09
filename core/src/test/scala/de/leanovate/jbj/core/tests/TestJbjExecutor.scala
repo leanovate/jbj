@@ -46,12 +46,7 @@ trait TestJbjExecutor {
       this
     }
 
-    def withPost(uriStr: String, formData: String, cookies: Seq[CookieInfo] = Seq.empty) = {
-      CgiEnvironment.httpRequest(TestRequestInfo.post(uriStr, formData, cookies))
-      this
-    }
-
-    def withMultipartPost(uriStr: String, contentType: String, content: String, cookies: Seq[CookieInfo] = Seq.empty) = {
+    def withPost(uriStr: String, contentType:String, content: String, cookies: Seq[CookieInfo] = Seq.empty) = {
       CgiEnvironment.httpRequest(TestRequestInfo.post(uriStr, contentType, content, cookies))
       this
     }

@@ -27,7 +27,7 @@ class Basic1Spec extends SpecificationWithJUnit with TestJbjExecutor {
         """<?php
           |echo $_POST['a']; ?>
           |""".stripMargin
-      ).withPost("", "a=Hello+World").result must haveOutput(
+      ).withPost("", "application/form-url-encoded", "a=Hello+World").result must haveOutput(
         """Hello World""".stripMargin
       )
     }
@@ -38,7 +38,7 @@ class Basic1Spec extends SpecificationWithJUnit with TestJbjExecutor {
         """<?php
           |error_reporting(0);
           |echo "post-a=({$_POST['a']}) get-b=({$_GET['b']}) get-c=({$_GET['c']})"?>""".stripMargin
-      ).withPost("?b=Hello+Again+World&c=Hi+Mom", "a=Hello+World").result must haveOutput(
+      ).withPost("?b=Hello+Again+World&c=Hi+Mom", "application/form-url-encoded", "a=Hello+World").result must haveOutput(
         """post-a=(Hello World) get-b=(Hello Again World) get-c=(Hi Mom)""".stripMargin
       )
     }
@@ -49,7 +49,7 @@ class Basic1Spec extends SpecificationWithJUnit with TestJbjExecutor {
         """<?php
           |error_reporting(0);
           |echo "{$_POST['a']} {$_POST['b']}" ?>""".stripMargin
-      ).withPost("", "a=Hello+World&b=Hello+Again+World").result must haveOutput(
+      ).withPost("", "application/form-url-encoded", "a=Hello+World&b=Hello+Again+World").result must haveOutput(
         """Hello World Hello Again World""".stripMargin
       )
     }
@@ -60,7 +60,7 @@ class Basic1Spec extends SpecificationWithJUnit with TestJbjExecutor {
         """<?php
           |error_reporting(0);
           |echo "{$_POST['a']} {$_POST['b']} {$_POST['c']}"?>""".stripMargin
-      ).withPost("", "a=Hello+World&b=Hello+Again+World&c=1").result must haveOutput(
+      ).withPost("", "application/form-url-encoded", "a=Hello+World&b=Hello+Again+World&c=1").result must haveOutput(
         """Hello World Hello Again World 1""".stripMargin
       )
     }
