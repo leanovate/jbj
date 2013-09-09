@@ -348,5 +348,62 @@ class Basic3Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Bug#55504 (Content-Type header is not parsed correctly on HTTP POST request)" in {
+      // basic/031
+      script(
+        """<?php
+          |var_dump($_POST);
+          |?>""".stripMargin
+      ).withPost("/",
+        "multipart/form-data; boundary=BVoyv; charset=iso-8859-1",
+        """--BVoyv
+          |Content-Disposition: form-data; name="data"
+          |
+          |abc
+          |--BVoyv
+          |Content-Disposition: form-data; name="data2"
+          |
+          |more data
+          |--BVoyv
+          |Content-Disposition: form-data; name="data3"
+          |
+          |even more data
+          |--BVoyv--""".stripMargin.replace("\n", "\r\n")).
+      result must haveOutput(
+        """array(3) {
+          |  ["data"]=>
+          |  string(3) "abc"
+          |  ["data2"]=>
+          |  string(9) "more data"
+          |  ["data3"]=>
+          |  string(14) "even more data"
+          |}
+          |""".stripMargin
+      )
+    }
+
+    "Bug#18792 (no form variables after multipart/form-data)" in {
+      // basic/032
+      script(
+        """<?php
+          |var_dump($_POST);
+          |?>""".stripMargin
+      ).withPost("/",
+        "multipart/form-data; boundary=BVoyv; charset=iso-8859-1",
+        """--BVoyv
+          |Content-Disposition: form-data; name="data"
+          |
+          |abc
+          |--BVoyv--""".stripMargin.replace("\n", "\r\n")).
+        result must haveOutput(
+        """array(1) {
+          |  ["data"]=>
+          |  string(3) "abc"
+          |}
+          |""".stripMargin
+      )
+
+    }
   }
 }
