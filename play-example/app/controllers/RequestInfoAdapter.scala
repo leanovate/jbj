@@ -1,9 +1,10 @@
 package controllers
 
-import play.api.mvc.{AnyContentAsFormUrlEncoded, AnyContent, Request}
+import play.api.mvc._
 import java.util
 import scala.collection.JavaConversions._
-import de.leanovate.jbj.api.http.{FormRequestBody, RequestInfo}
+import de.leanovate.jbj.api.http.{CookieInfo, FormRequestBody, RequestInfo}
+import play.api.mvc.AnyContentAsFormUrlEncoded
 
 case class RequestInfoAdapter(request: Request[AnyContent]) extends RequestInfo {
   def getMethod = RequestInfo.Method.valueOf(request.method.toUpperCase)
@@ -21,6 +22,8 @@ case class RequestInfoAdapter(request: Request[AnyContent]) extends RequestInfo 
   }
 
   def getRawQuery = request.rawQueryString
+
+  def getCookies = request.headers.get("set-cookie").map(Cookies.decode).getOrElse(Seq.empty).map(CookieInfoAdapter.apply)
 
   def getBody = request.body match {
     case AnyContentAsFormUrlEncoded(data) =>
@@ -40,4 +43,20 @@ case class RequestInfoAdapter(request: Request[AnyContent]) extends RequestInfo 
     case _ =>
       null
   }
+
+  case class CookieInfoAdapter(cookie: Cookie) extends CookieInfo {
+    def getName = cookie.name
+
+    def getValue = cookie.value
+
+    def getMaxAge = cookie.maxAge.map(new Integer(_)).orNull
+
+    def getPath = cookie.path
+
+    def getDomain = cookie.domain.orNull
+
+    def isSecure = cookie.secure
+  }
+
 }
+

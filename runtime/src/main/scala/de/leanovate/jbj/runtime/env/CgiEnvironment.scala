@@ -40,6 +40,10 @@ object CgiEnvironment {
     }
     val getRequestArray = decodeKeyValues(queryKeyValues)
     ctx.defineVariable("_GET", PVar(getRequestArray))
+    ctx.defineVariable("_COOKIE", PVar(ArrayVal(request.getCookies.map {
+      cookie =>
+        Some(StringVal(cookie.getName)) -> StringVal(cookie.getValue)
+    }: _*)))
     request.getMethod match {
       case RequestInfo.Method.GET =>
         ctx.defineVariable("_REQUEST", PVar(getRequestArray.copy))

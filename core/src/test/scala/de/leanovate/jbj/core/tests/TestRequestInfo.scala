@@ -9,12 +9,12 @@ package de.leanovate.jbj.core.tests
 
 import java.net.{URLDecoder, URI}
 import java.util
-import de.leanovate.jbj.api.http.{MultipartFormRequestBody, FormRequestBody, RequestInfo, RequestBody}
+import de.leanovate.jbj.api.http._
 import org.apache.commons.fileupload.FileUpload
 import scala.collection.JavaConversions._
 import de.leanovate.jbj.api.http.MultipartFormRequestBody.FileData
 
-class TestRequestInfo(method: RequestInfo.Method, uri: String, body: RequestBody) extends RequestInfo {
+class TestRequestInfo(method: RequestInfo.Method, uri: String, cookies: Seq[CookieInfo], body: RequestBody) extends RequestInfo {
   val rawQueryString = Option(new URI(uri).getQuery).getOrElse("")
 
   def getMethod = method
@@ -24,6 +24,8 @@ class TestRequestInfo(method: RequestInfo.Method, uri: String, body: RequestBody
   def getQuery = TestRequestInfo.parseFormData(rawQueryString)
 
   def getRawQuery = rawQueryString
+
+  def getCookies = cookies
 
   def getBody = body
 }
@@ -80,16 +82,16 @@ class TestMultipartFormRequestBody(contentType: String, content: String) extends
 object TestRequestInfo {
   val formDataDisposition = """form-data;[ ]*name=["]?([^"]*)["]?.*""".r
 
-  def get(uri: String): RequestInfo = {
-    new TestRequestInfo(RequestInfo.Method.GET, uri, null)
+  def get(uri: String, cookies: Seq[CookieInfo]): RequestInfo = {
+    new TestRequestInfo(RequestInfo.Method.GET, uri, cookies, null)
   }
 
-  def post(uri: String, formData: String): RequestInfo = {
-    new TestRequestInfo(RequestInfo.Method.POST, uri, new TestFormRequestBody(formData))
+  def post(uri: String, formData: String, cookies: Seq[CookieInfo]): RequestInfo = {
+    new TestRequestInfo(RequestInfo.Method.POST, uri, cookies, new TestFormRequestBody(formData))
   }
 
-  def post(uri: String, multipartContentType: String, multipartContent: String) = {
-    new TestRequestInfo(RequestInfo.Method.POST, uri, new TestMultipartFormRequestBody(multipartContentType, multipartContent))
+  def post(uri: String, multipartContentType: String, multipartContent: String, cookies: Seq[CookieInfo]) = {
+    new TestRequestInfo(RequestInfo.Method.POST, uri, cookies, new TestMultipartFormRequestBody(multipartContentType, multipartContent))
   }
 
   def parseFormData(formData: String) = {

@@ -9,34 +9,27 @@ package de.leanovate.jbj.api.http;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Map;
 
 /**
- * HTTP request information.
+ * Generic cookie information.
  * <p/>
- * Implement this interface to adapt the HTTP requests of your web container of choice.
+ * Implement this interface to adapt the Cookie representation of your web container of choice.
  */
-public interface RequestInfo {
-    enum Method {
-        GET, POST
-    }
+public interface CookieInfo {
+    @Nonnull
+    String getName();
 
     @Nonnull
-    Method getMethod();
+    String getValue();
 
     @Nonnull
-    String getUri();
-
-    @Nonnull
-    Map<String, List<String>> getQuery();
-
-    @Nonnull
-    String getRawQuery();
-
-    @Nonnull
-    List<CookieInfo> getCookies();
+    Integer getMaxAge();
 
     @Nullable
-    RequestBody getBody();
+    String getPath();
+
+    @Nullable
+    String getDomain();
+
+    boolean isSecure();
 }

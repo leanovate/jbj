@@ -51,7 +51,7 @@ object TestBed {
               |bug37276
               |
               |-----------------------------20896060251896012921717172737--
-              | """.stripMargin.replace("\n", "\r\n")))
+              | """.stripMargin.replace("\n", "\r\n"), Seq.empty))
 
         context.settings.setErrorReporting(JbjSettings.E_ALL)
         try {

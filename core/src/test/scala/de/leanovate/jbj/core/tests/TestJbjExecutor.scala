@@ -15,6 +15,7 @@ import de.leanovate.jbj.core.JbjEnv
 import scala.Some
 import de.leanovate.jbj.api.{JbjException, JbjSettings}
 import de.leanovate.jbj.runtime.exception.ParseJbjException
+import de.leanovate.jbj.api.http.CookieInfo
 
 trait TestJbjExecutor {
 
@@ -30,18 +31,18 @@ trait TestJbjExecutor {
 
     context.settings.setErrorReporting(JbjSettings.E_ALL)
 
-    def withGet(uriStr: String) = {
-      CgiEnvironment.httpRequest(TestRequestInfo.get(uriStr))
+    def withGet(uriStr: String, cookies: Seq[CookieInfo] = Seq.empty) = {
+      CgiEnvironment.httpRequest(TestRequestInfo.get(uriStr, cookies))
       this
     }
 
-    def withPost(uriStr: String, formData: String) = {
-      CgiEnvironment.httpRequest(TestRequestInfo.post(uriStr, formData))
+    def withPost(uriStr: String, formData: String, cookies: Seq[CookieInfo] = Seq.empty) = {
+      CgiEnvironment.httpRequest(TestRequestInfo.post(uriStr, formData, cookies))
       this
     }
 
-    def withMultipartPost(uriStr: String, contentType: String, content: String) = {
-      CgiEnvironment.httpRequest(TestRequestInfo.post(uriStr, contentType, content))
+    def withMultipartPost(uriStr: String, contentType: String, content: String, cookies: Seq[CookieInfo] = Seq.empty) = {
+      CgiEnvironment.httpRequest(TestRequestInfo.post(uriStr, contentType, content, cookies))
       this
     }
 
