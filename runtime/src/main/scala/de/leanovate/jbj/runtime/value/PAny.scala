@@ -18,11 +18,11 @@ trait PAny {
 
   def retain() {}
 
-  def release()(implicit ctx:Context) {}
+  def release()(implicit ctx: Context) {}
 
-  def ==(other: PAny): PAny = BooleanVal(asVal.compare(other.asVal) == 0)
+  def :==(other: PAny): PAny = BooleanVal(asVal.compare(other.asVal) == 0)
 
-  def ===(other:PAny): PAny = (this.asVal, other.asVal) match {
+  def ===(other: PAny): PAny = (this.asVal, other.asVal) match {
     case (BooleanVal(leftVal), BooleanVal(rightVal)) => BooleanVal(leftVal == rightVal)
     case (IntegerVal(leftVal), IntegerVal(rightVal)) => BooleanVal(leftVal == rightVal)
     case (DoubleVal(leftVal), DoubleVal(rightVal)) => BooleanVal(leftVal == rightVal)
@@ -31,7 +31,7 @@ trait PAny {
     case _ => BooleanVal.FALSE
   }
 
-  def !==(other:PAny): PAny = (this.asVal, other.asVal) match {
+  def !==(other: PAny): PAny = (this.asVal, other.asVal) match {
     case (BooleanVal(leftVal), BooleanVal(rightVal)) => BooleanVal(leftVal != rightVal)
     case (IntegerVal(leftVal), IntegerVal(rightVal)) => BooleanVal(leftVal != rightVal)
     case (DoubleVal(leftVal), DoubleVal(rightVal)) => BooleanVal(leftVal != rightVal)
@@ -40,7 +40,7 @@ trait PAny {
     case _ => BooleanVal.TRUE
   }
 
-  def !=(other: PAny): PAny = BooleanVal(asVal.compare(other.asVal) != 0)
+  def :!=(other: PAny): PAny = BooleanVal(asVal.compare(other.asVal) != 0)
 
   def <(other: PAny): PAny = {
     val comp = asVal.compare(other.asVal)
@@ -83,9 +83,11 @@ trait PAny {
     case (leftVal, rightVal) => leftVal.toInteger ^ rightVal.toInteger
   }
 
-  def <<(other:PAny):PAny =  this.asVal.toInteger << other.asVal.toInteger
+  def <<(other: PAny): PAny = this.asVal.toInteger << other.asVal.toInteger
 
-  def >>(other:PAny):PAny =  this.asVal.toInteger >> other.asVal.toInteger
+  def >>(other: PAny): PAny = this.asVal.toInteger >> other.asVal.toInteger
+
+  def unary_!(): BooleanVal = BooleanVal(!asVal.toBool.asBoolean)
 
   def unary_-(): NumericVal = -asVal.toNum
 
