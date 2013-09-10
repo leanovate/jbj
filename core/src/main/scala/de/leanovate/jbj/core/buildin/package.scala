@@ -31,6 +31,7 @@ package object buildin {
     "TRUE" -> BooleanVal.TRUE,
     "FALSE" -> BooleanVal.FALSE,
     "NULL" -> NullVal,
+    "DIRECTORY_SEPARATOR" -> new StringVal(Array[Byte]('/')),
     "E_ERROR" -> IntegerVal(JbjSettings.ErrorLevel.E_ERROR.getValue),
     "E_WARNING" -> IntegerVal(JbjSettings.ErrorLevel.E_WARNING.getValue),
     "E_PARSE" -> IntegerVal(JbjSettings.ErrorLevel.E_PARSE.getValue),
