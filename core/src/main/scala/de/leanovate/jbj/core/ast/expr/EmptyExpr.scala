@@ -10,6 +10,6 @@ package de.leanovate.jbj.core.ast.expr
 import de.leanovate.jbj.core.ast.Expr
 import de.leanovate.jbj.runtime.context.Context
 
-class EmptyExpr(expr: Expr) extends Expr {
+case class EmptyExpr(expr: Expr) extends Expr {
   def eval(implicit ctx: Context) = !expr.eval
 }

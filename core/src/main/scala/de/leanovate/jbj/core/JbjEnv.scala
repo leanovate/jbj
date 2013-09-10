@@ -43,7 +43,10 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
     }.toMap
 
   val predefinedInterfaces: Map[Seq[String], PInterface] =
-    Map.empty
+    buildin.buildinInterfaces.map {
+      i =>
+        i.name.lowercase -> i
+    }.toMap
 
   val predefinedClasses: Map[Seq[String], PClass] =
     (extensions.flatMap(_.classes) ++ buildin.buildinClasses).map {

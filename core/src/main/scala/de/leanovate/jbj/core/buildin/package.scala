@@ -11,8 +11,9 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.api.JbjSettings
 import scala.collection.JavaConverters._
-import de.leanovate.jbj.runtime.{PStdClass, PException, PClass, PFunction}
+import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.adapter.GlobalFunctions
+import de.leanovate.jbj.runtime.value.IntegerVal
 
 package object buildin {
   val buildinFunctions: Seq[PFunction] =
@@ -51,6 +52,8 @@ package object buildin {
       (v, enum) => v | enum.getValue
     })
   )
+
+  val buildinInterfaces: Seq[PInterface] = Seq(PArrayAccess)
 
   val buildinClasses: Seq[PClass] = Seq(PStdClass, PException)
 }

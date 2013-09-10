@@ -702,6 +702,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val internalFunctionsInYacc: PackratParser[Expr] = "isset" ~> "(" ~> issetVariables <~ ")" ^^ {
     exprs => IsSetExpr(exprs)
+  } | "empty" ~> "(" ~> expr <~ ")" ^^ {
+    expr => EmptyExpr(expr)
   } | "include" ~> expr ^^ {
     e => IncludeExpr(e)
   } | "include_once" ~> expr ^^ {
