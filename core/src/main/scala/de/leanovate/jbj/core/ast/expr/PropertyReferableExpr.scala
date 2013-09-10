@@ -219,17 +219,25 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
     }
 
     private def optParent(withWarn: Boolean) =
-      parentRef.asVal match {
-        case obj: ObjectVal =>
-          Some(obj)
-        case NullVal =>
-          if (withWarn)
-            ctx.log.warn("Creating default object from empty value")
-          val obj = PStdClass.newInstance(Nil)(ctx)
-          parentRef.asVar.asVar.value = obj
-          Some(obj)
-        case _ =>
-          None
+      if (!parentRef.isDefined) {
+        if (withWarn)
+          ctx.log.warn("Creating default object from empty value")
+        val obj = PStdClass.newInstance(Nil)(ctx)
+        parentRef.asVar.asVar.value = obj
+        Some(obj)
+      } else {
+        parentRef.asVal match {
+          case obj: ObjectVal =>
+            Some(obj)
+          case NullVal =>
+            if (withWarn)
+              ctx.log.warn("Creating default object from empty value")
+            val obj = PStdClass.newInstance(Nil)(ctx)
+            parentRef.asVar.asVar.value = obj
+            Some(obj)
+          case _ =>
+            None
+        }
       }
   }
 
