@@ -33,6 +33,20 @@ object StringFunctions {
   }
 
   @GlobalFunction
+  def strpos(haystack: Array[Byte], needle: PVal, offset: Option[Int]): PVal = {
+    val needleBytes = needle match {
+      case str: StringVal => str.chars
+      case int: IntegerVal => Array(int.asLong.toByte)
+    }
+    val idx = haystack.indexOfSlice(needleBytes, offset.getOrElse(0))
+    if (idx < 0) {
+      BooleanVal.FALSE
+    } else {
+      IntegerVal(idx)
+    }
+  }
+
+  @GlobalFunction
   def strtolower(str: String): String = str.toLowerCase
 
   @GlobalFunction

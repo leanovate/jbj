@@ -68,9 +68,17 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |var_dump($_FILES);
-        |var_dump($_POST);
-        |?>
-        | """.stripMargin)
+        |
+        |var_dump(strstr("haystackneedlehaystackneedlehaystack", "needle"));
+        |var_dump(strstr("haystackneedlehaystackneedlehaystack", "needle", true));
+        |var_dump(strstr("haystackneedelhaystackneedelhaystack", "needle"));
+        |var_dump(strstr("haystackneedelhaystackneedelhaystack", "needle", true));
+        |
+        |var_dump(strpos("haystackneedlehaystackneedlehaystack", "needle"));
+        |var_dump(strpos("haystackneedlehaystackneedlehaystack", "needle", 20));
+        |var_dump(strpos("haystackneedelhaystackneedelhaystack", "needle"));
+        |var_dump(strpos("haystackneedelhaystackneedelhaystack", "needle", 20));
+        |
+        |""".stripMargin)
   }
 }
