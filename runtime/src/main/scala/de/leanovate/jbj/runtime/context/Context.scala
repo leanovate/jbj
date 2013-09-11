@@ -45,33 +45,6 @@ trait Context {
 
   def defineFunction(function: PFunction)
 
-  def getVariable(name: String): Reference = new Reference {
-    def isConstant = false
-
-    def isDefined = findVariable(name).exists(!_.value.isNull)
-
-    def byVal = findVariable(name).map(_.asLazyVal).getOrElse {
-      log.notice("Undefined variable: %s".format(name))
-      NullVal
-    }
-
-    def byVar = findOrDefineVariable(name)
-
-    def assign(pAny: PAny)(implicit ctx: Context): PAny = {
-      pAny match {
-        case pVar: PVar =>
-          defineVariable(name, pVar)
-        case pVal: PVal =>
-          findOrDefineVariable(name).value = pVal
-      }
-      pAny
-    }
-
-    def unset() {
-      undefineVariable(name)
-    }
-  }
-
   def findOrDefineVariable(name: String): PVar = {
     val optVar = findVariable(name)
     if (optVar.isDefined)
