@@ -44,6 +44,10 @@ trait Reference {
     assign(result.decr)
     result
   }
+
+  def dim()(implicit ctx: Context) = new DimReference(this, None)
+
+  def dim(key: PVal)(implicit ctx: Context) = new DimReference(this, Some(key))
 }
 
 object Reference {

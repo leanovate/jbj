@@ -430,7 +430,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   } | className ~ "::" ~ variableWithoutObjects ~ functionCallParameterList ^^ {
     case cname ~ _ ~ ((n, dims)) ~ params =>
       val method = DynamicName(dims.foldLeft(VariableReferableExpr(n).asInstanceOf[ReferableExpr]) {
-        (ref, dim) => IndexReferableExpr(ref, dim)
+        (ref, dim) => DimReferableExpr(ref, dim)
       })
       CallStaticMethodReferableExpr(cname, method, params)
   } | variableClassName ~ "::" ~ variableName ~ functionCallParameterList ^^ {
@@ -438,13 +438,13 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   } | variableClassName ~ "::" ~ variableWithoutObjects ~ functionCallParameterList ^^ {
     case cname ~ _ ~ ((n, dims)) ~ params =>
       val method = DynamicName(dims.foldLeft(VariableReferableExpr(n).asInstanceOf[ReferableExpr]) {
-        (ref, dim) => IndexReferableExpr(ref, dim)
+        (ref, dim) => DimReferableExpr(ref, dim)
       })
       CallStaticMethodReferableExpr(cname, method, params)
   } | variableWithoutObjects ~ functionCallParameterList ^^ {
     case ((n, dims)) ~ params =>
       val func = DynamicName(dims.foldLeft(VariableReferableExpr(n).asInstanceOf[ReferableExpr]) {
-        (ref, dim) => IndexReferableExpr(ref, dim)
+        (ref, dim) => DimReferableExpr(ref, dim)
       })
       CallFunctionReferableExpr(func, params)
   }
@@ -586,18 +586,18 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val staticMember: PackratParser[ReferableExpr] = className ~ "::" ~ variableWithoutObjects ^^ {
     case cname ~ _ ~ ((n, dims)) =>
       dims.foldLeft(StaticClassVarReferableExpr(cname, n).asInstanceOf[ReferableExpr]) {
-        (ref, dim) => IndexReferableExpr(ref, dim)
+        (ref, dim) => DimReferableExpr(ref, dim)
       }
   } | variableClassName ~ "::" ~ variableWithoutObjects ^^ {
     case cname ~ _ ~ ((n, dims)) =>
       dims.foldLeft(StaticClassVarReferableExpr(cname, n).asInstanceOf[ReferableExpr]) {
-        (ref, dim) => IndexReferableExpr(ref, dim)
+        (ref, dim) => DimReferableExpr(ref, dim)
       }
   }
 
   lazy val variableClassName: PackratParser[Name] = referenceVariable ^^ {
     case (n, dims) => DynamicName(dims.foldLeft(VariableReferableExpr(n).asInstanceOf[ReferableExpr]) {
-      (ref, dim) => IndexReferableExpr(ref, dim)
+      (ref, dim) => DimReferableExpr(ref, dim)
     })
   }
 
@@ -605,7 +605,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val baseVariable: PackratParser[ReferableExpr] = staticMember | referenceVariable ^^ {
     case (n, dims) => dims.foldLeft(VariableReferableExpr(n).asInstanceOf[ReferableExpr]) {
-      (ref, dim) => IndexReferableExpr(ref, dim)
+      (ref, dim) => DimReferableExpr(ref, dim)
     }
   } | simpleIndirectReference ~ referenceVariable ^^ {
     case indirects ~ ((n, dims)) =>
@@ -614,7 +614,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
           indirect(v)
       }
       dims.foldLeft(ref) {
-        (ref, dim) => IndexReferableExpr(ref, dim)
+        (ref, dim) => DimReferableExpr(ref, dim)
       }
   }
 
@@ -635,7 +635,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     case (n, dims) =>
       val name = DynamicName(dims.foldLeft(VariableReferableExpr(n).asInstanceOf[ReferableExpr]) {
         (ref, dim) =>
-          IndexReferableExpr(ref, dim)
+          DimReferableExpr(ref, dim)
       })
       List({
         ref: ReferableExpr => PropertyReferableExpr(ref, name)
@@ -649,7 +649,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       case name ~ dims => {
         ref: ReferableExpr => PropertyReferableExpr(ref, name)
       } :: dims.map(d => {
-        ref: ReferableExpr => IndexReferableExpr(ref, d)
+        ref: ReferableExpr => DimReferableExpr(ref, d)
       })
     }
 
@@ -680,7 +680,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     variableLit ~ "[" ~ encapsVarOffset <~ "]" ^^ {
       case v ~ _ ~ idx =>
         val ref = VariableReferableExpr(StaticName(v))
-        IndexReferableExpr(ref, Some(idx))
+        DimReferableExpr(ref, Some(idx))
     } | variableLit ~ "->" ~ identLit ^^ {
       case v ~ _ ~ n =>
         val ref = VariableReferableExpr(StaticName(v))
@@ -691,7 +691,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       "${" ~> identLit ~ "[" ~ expr <~ "]" ^^ {
         case v ~ _ ~ e =>
           val ref = VariableReferableExpr(StaticName(v))
-          IndexReferableExpr(ref, Some(e))
+          DimReferableExpr(ref, Some(e))
       } | "{$" ~> variable <~ "}"
 
   lazy val encapsVarOffset: PackratParser[Expr] = identLit ^^ {
