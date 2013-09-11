@@ -48,6 +48,8 @@ trait Reference {
   def dim()(implicit ctx: Context) = new DimReference(this, None)
 
   def dim(key: PVal)(implicit ctx: Context) = new DimReference(this, Some(key))
+
+  def prop(name: String)(implicit ctx: Context) = new PropReference(this, name)
 }
 
 object Reference {
