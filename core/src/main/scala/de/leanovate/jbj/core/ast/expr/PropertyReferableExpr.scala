@@ -15,44 +15,7 @@ import de.leanovate.jbj.runtime.context.{StaticMethodContext, Context, MethodCon
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) extends ReferableExpr {
-  override def eval(implicit ctx: Context) = {
-    reference.eval.asVal.concrete match {
-      case obj: ObjectVal =>
-        val name = propertyName.evalName
-        checkShadowedStatic(obj.pClass, name)
-        ctx match {
-          case MethodContext(inst, pMethod, _) =>
-            obj.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
-              if (inst.pClass == obj.pClass && pMethod.name == "__get") {
-                ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
-                NullVal
-              } else {
-                obj.pClass.findMethod("__get").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
-                  ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
-                  NullVal
-                }
-              }
-            }
-          case StaticMethodContext(pMethod, _) =>
-            obj.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
-              obj.pClass.findMethod("__get").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
-                ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
-                NullVal
-              }
-            }
-          case _ =>
-            obj.getProperty(name, None).map(_.asVal).getOrElse {
-              obj.pClass.findMethod("__get").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
-                ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
-                NullVal
-              }
-            }
-        }
-      case _ =>
-        ctx.log.notice("Trying to get property of non-object")
-        NullVal
-    }
-  }
+  override def eval(implicit ctx: Context) = evalRef.byVal
 
   override def evalRef(implicit ctx: Context) = new Reference {
     val parentRef = reference.evalRef
@@ -88,13 +51,16 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
       parentRef.byVal.concrete match {
         case obj: ObjectVal =>
           val name = propertyName.evalName
+          checkShadowedStatic(obj.pClass, name)
           ctx match {
             case MethodContext(_, pMethod, _) =>
               obj.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
                 if (pMethod.name == "__get") {
+                  ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
                   NullVal
                 } else {
                   obj.pClass.findMethod("__get").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
+                    ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
                     NullVal
                   }
                 }
@@ -102,17 +68,20 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
             case StaticMethodContext(pMethod, _) =>
               obj.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
                 obj.pClass.findMethod("__get").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
+                  ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
                   NullVal
                 }
               }
             case _ =>
               obj.getProperty(name, None).map(_.asVal).getOrElse {
                 obj.pClass.findMethod("__get").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
+                  ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
                   NullVal
                 }
               }
           }
         case _ =>
+          ctx.log.notice("Trying to get property of non-object")
           NullVal
       }
     }
