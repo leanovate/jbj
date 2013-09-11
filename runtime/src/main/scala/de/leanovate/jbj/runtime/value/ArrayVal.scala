@@ -186,10 +186,16 @@ object ArrayVal {
             if (value > nextIndex)
               nextIndex = value
             value
-          case NumericVal(value) =>
-            if (value > nextIndex)
-              nextIndex = value.toLong
-            value.toLong
+          case DoubleVal(value) =>
+            val intVal = value.toLong
+            if (intVal > nextIndex)
+              nextIndex = intVal
+            intVal
+          case str: StringVal if str.isStrongNumericPattern =>
+            val intVal = str.toInteger.asLong
+            if (intVal > nextIndex)
+              nextIndex = intVal
+            intVal
           case value =>
             value.toStr.asString
         }.getOrElse {

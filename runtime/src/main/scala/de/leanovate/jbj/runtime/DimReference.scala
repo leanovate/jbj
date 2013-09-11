@@ -11,6 +11,7 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.Context
 import scala.Some
+import de.leanovate.jbj.runtime.types.PArrayAccess
 
 class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx: Context) extends Reference {
   def isConstant = false
@@ -22,6 +23,8 @@ class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx
       parentRef.byVal.concrete match {
         case array: ArrayLike =>
           array.getAt(optArrayKey.get).exists(!_.asVal.isNull)
+        case obj: ObjectVal if obj.instanceOf(PArrayAccess) =>
+          PArrayAccess.cast(obj).offsetExists(optArrayKey.get)
         case _ =>
           false
       }
@@ -35,21 +38,27 @@ class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx
         case array: ArrayLike =>
           val result = array.getAt(optArrayKey.get)
           if (!result.isDefined) {
-            optArrayKey.get match {
-              case NumericVal(idx) =>
+            optArrayKey.get.concrete match {
+              case IntegerVal(idx) =>
+                ctx.log.notice("Undefined offset: %d".format(idx))
+              case DoubleVal(idx) =>
                 ctx.log.notice("Undefined offset: %d".format(idx.toLong))
+              case str: StringVal if str.isStrongNumericPattern =>
+                ctx.log.notice("Undefined offset: %d".format(str.toInteger.asLong))
               case idx =>
                 ctx.log.notice("Undefined index: %s".format(idx.toStr.asString))
             }
           }
           result.map(_.asVal).getOrElse(NullVal)
+        case obj: ObjectVal if obj.instanceOf(PArrayAccess) =>
+          PArrayAccess.cast(obj).offsetGet(optArrayKey.get).asVal
         case _ => NullVal
       }
   }
 
   def byVar = {
     optParent.map {
-      array =>
+      case array: ArrayLike =>
         optArrayKey match {
           case Some(arrayKey) =>
             array.getAt(arrayKey) match {
@@ -65,6 +74,8 @@ class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx
             array.setAt(None, result)
             result
         }
+      case obj: ObjectVal =>
+        PVar()
     }.getOrElse {
       ctx.log.warn("Cannot use a scalar value as an array")
       PVar()
@@ -73,7 +84,7 @@ class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx
 
   def assign(pAny: PAny)(implicit ctx: Context) = {
     optParent.map {
-      array =>
+      case array: ArrayLike =>
         optArrayKey match {
           case Some(arrayKey) =>
             array.getAt(arrayKey) match {
@@ -85,6 +96,13 @@ class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx
           case None =>
             array.setAt(optArrayKey, pAny)
         }
+      case obj: ObjectVal =>
+        optArrayKey match {
+          case Some(arrayKey) =>
+            PArrayAccess.cast(obj).offsetSet(arrayKey, pAny.asVal)
+          case None =>
+            PArrayAccess.cast(obj).offsetSet(NullVal, pAny.asVal)
+        }
     }.getOrElse {
       ctx.log.warn("Cannot use a scalar value as an array")
     }
@@ -92,12 +110,17 @@ class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx
   }
 
   def unset() {
-    if (optParent.isDefined && optArrayKey.isDefined) {
-      optParent.get.unsetAt(optArrayKey.get)
+    if (optArrayKey.isDefined) {
+      optParent.foreach {
+        case array: ArrayLike =>
+          array.unsetAt(optArrayKey.get)
+        case obj: ObjectVal =>
+          PArrayAccess.cast(obj).offsetUnset(optArrayKey.get)
+      }
     }
   }
 
-  private def optParent = {
+  private def optParent: Option[PVal] = {
     if (!parentRef.isDefined) {
       val array = ArrayVal()
       parentRef.byVar.value = array
@@ -105,6 +128,8 @@ class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx
     } else
       parentRef.byVal.concrete match {
         case array: ArrayLike => Some(array)
+        case obj: ObjectVal if obj.instanceOf(PArrayAccess) =>
+          Some(obj)
         case NullVal =>
           val array = ArrayVal()
           parentRef.byVar.value = array

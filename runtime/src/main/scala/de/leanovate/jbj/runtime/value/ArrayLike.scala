@@ -15,7 +15,8 @@ trait ArrayLike {
   def getAt(index: PAny)(implicit ctx: Context): Option[PAny] =
     index.asVal match {
       case IntegerVal(idx) => getAt(idx)
-      case NumericVal(idx) => getAt(idx.toLong)
+      case DoubleVal(idx) => getAt(idx.toLong)
+      case str: StringVal if str.isStrongNumericPattern => getAt(str.toInteger.asLong)
       case StringVal(idx) => getAt(idx)
       case v => getAt(v.toStr.asString)
     }
@@ -34,7 +35,8 @@ trait ArrayLike {
   def setAt(index: PVal, value: PAny)(implicit ctx: Context) {
     index.asVal match {
       case IntegerVal(idx) => setAt(idx, value)
-      case NumericVal(idx) => setAt(idx.toLong, value)
+      case DoubleVal(idx) => setAt(idx.toLong, value)
+      case str: StringVal if str.isStrongNumericPattern => setAt(str.toInteger.asLong, value)
       case StringVal(idx) => setAt(idx, value)
       case v => setAt(v.toStr.asString, value)
     }
@@ -49,7 +51,8 @@ trait ArrayLike {
   def unsetAt(index: PVal)(implicit ctx: Context) {
     index.asVal match {
       case IntegerVal(idx) => unsetAt(idx)
-      case NumericVal(idx) => unsetAt(idx.toLong)
+      case DoubleVal(idx) => unsetAt(idx.toLong)
+      case str: StringVal if str.isStrongNumericPattern => unsetAt(str.toInteger.asLong)
       case StringVal(idx) => unsetAt(idx)
       case v => unsetAt(v.toStr.asString)
     }

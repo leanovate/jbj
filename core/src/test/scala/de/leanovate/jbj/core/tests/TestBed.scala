@@ -68,17 +68,10 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |class foo {
-        |    public $fubar = 'fubar';
-        |}
+        |$a = array('1st', 1, 2=>'3rd', '4th'=>4);
         |
-        |function &foo(){
-        |    $GLOBALS['foo'] = &new foo();
-        |    return $GLOBALS['foo'];
-        |}
-        |$bar = &foo();
-        |var_dump($bar);
-        |var_dump($bar->fubar);
-        |?>""".stripMargin)
+        |var_dump($a);
+        |?>
+        |===DONE===""".stripMargin)
   }
 }

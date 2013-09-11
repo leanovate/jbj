@@ -49,7 +49,7 @@ object PArrayAccess extends PInterface {
 
 
     def offsetSet(idx: PVal, value: PVal)(implicit ctx: Context) {
-      obj.pClass.invokeMethod(ctx, Some(obj), "offsetUnset", PValParam(idx) :: PValParam(value) :: Nil)
+      obj.pClass.invokeMethod(ctx, Some(obj), "offsetSet", PValParam(idx) :: PValParam(value) :: Nil)
     }
   }
 }

@@ -21,6 +21,17 @@ object ArrayFunctions {
   }
 
   @GlobalFunction
+  def array_key_exists(key: PVal, value: PVal)(implicit ctx: Context): PVal = {
+    value match {
+      case array: ArrayVal =>
+        BooleanVal(array.getAt(key).isDefined)
+      case _ =>
+        ctx.log.warn("array_key_exists() expects parameter 2 to be array, %s given".format(TypeHint.displayType(value)))
+        NullVal
+    }
+  }
+
+  @GlobalFunction
   def array_merge(values: PVal*)(implicit ctx: Context): PVal = {
     if (values.isEmpty) {
       ctx.log.warn("array_merge() expects at least 1 parameter, 0 given")
