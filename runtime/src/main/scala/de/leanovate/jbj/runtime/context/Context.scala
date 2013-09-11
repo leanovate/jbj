@@ -9,11 +9,12 @@ package de.leanovate.jbj.runtime.context
 
 import java.io.PrintStream
 import scala.collection.immutable.Stack
-import de.leanovate.jbj.runtime.value.{PAny, NullVal, PVar, PVal}
+import de.leanovate.jbj.runtime.value.{PAny, PVar}
 import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.api.JbjSettings
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.output.OutputBuffer
+import de.leanovate.jbj.runtime.types.PFunction
 
 trait Context {
   private val _autoReleasePool = mutable.ListBuffer.empty[PAny]

@@ -10,9 +10,10 @@ package de.leanovate.jbj.runtime.adapter
 import language.experimental.macros
 import scala.reflect.macros.Context
 import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
-import de.leanovate.jbj.runtime.{context, PParam, NamespaceName, PFunction}
+import de.leanovate.jbj.runtime.{context, NamespaceName}
 import de.leanovate.jbj.runtime.value.{PVal, PVar, PAny}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.types.{PParam, PFunction}
 
 object GlobalFunctions {
   def functions(inst: Any): Seq[PFunction] = macro functions_impl

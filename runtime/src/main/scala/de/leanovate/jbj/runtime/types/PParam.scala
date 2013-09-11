@@ -5,8 +5,14 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.runtime
+package de.leanovate.jbj.runtime.types
 
+import de.leanovate.jbj.runtime.value.{PVal, PAny}
 
-case class PProperty(isStatic: Boolean, isPrivate: Boolean, isProtected: Boolean, isPublic: Boolean, name: String, declaringClass: PClass) {
+trait PParam {
+  def hasRef: Boolean
+
+  def byRef: PAny
+
+  def byVal: PVal
 }

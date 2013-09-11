@@ -5,10 +5,11 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.runtime
+package de.leanovate.jbj.runtime.types
 
 import de.leanovate.jbj.runtime.value.{ObjectVal, PAny, PVal}
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.NamespaceName
 
 trait PArrayAccess {
   def offsetExists(idx: PVal)(implicit ctx: Context): Boolean

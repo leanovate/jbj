@@ -8,8 +8,9 @@
 package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.{NamespaceName, PFunction}
+import de.leanovate.jbj.runtime.NamespaceName
 import de.leanovate.jbj.api.JbjSettings
+import de.leanovate.jbj.runtime.types.PFunction
 
 case class TestContext() extends Context {
   def name = ???

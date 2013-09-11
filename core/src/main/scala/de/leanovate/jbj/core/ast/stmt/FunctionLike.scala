@@ -17,6 +17,7 @@ import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.ReturnExecResult
 import scala.Some
 import de.leanovate.jbj.runtime.ContinueExecResult
+import de.leanovate.jbj.runtime.types.PParam
 
 trait FunctionLike extends BlockLike {
 

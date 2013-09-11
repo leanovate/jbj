@@ -8,11 +8,10 @@
 package de.leanovate.jbj.core
 
 import de.leanovate.jbj.runtime.value._
-import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.api.JbjSettings
 import scala.collection.JavaConverters._
-import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.adapter.GlobalFunctions
+import de.leanovate.jbj.runtime.types._
 import de.leanovate.jbj.runtime.value.IntegerVal
 
 package object buildin {

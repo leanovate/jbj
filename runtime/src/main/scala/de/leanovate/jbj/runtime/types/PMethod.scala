@@ -5,7 +5,7 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.runtime
+package de.leanovate.jbj.runtime.types
 
 import de.leanovate.jbj.runtime.value.{PAny, ObjectVal}
 import de.leanovate.jbj.runtime.context.Context

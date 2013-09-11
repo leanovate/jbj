@@ -5,12 +5,13 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.runtime
+package de.leanovate.jbj.runtime.types
 
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.context._
+import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.context.MethodContext
 import scala.Some
 

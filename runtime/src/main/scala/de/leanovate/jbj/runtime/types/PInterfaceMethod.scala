@@ -1,4 +1,4 @@
-package de.leanovate.jbj.runtime
+package de.leanovate.jbj.runtime.types
 
 import de.leanovate.jbj.api.JbjException
 import de.leanovate.jbj.runtime.context.Context

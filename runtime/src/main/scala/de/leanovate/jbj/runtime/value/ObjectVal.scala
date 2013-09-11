@@ -7,10 +7,10 @@
 
 package de.leanovate.jbj.runtime.value
 
-import de.leanovate.jbj.runtime._
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.context.Context
 import ObjectPropertyKey.{Key, IntKey, PublicKey, ProtectedKey, PrivateKey}
+import de.leanovate.jbj.runtime.types.{PInterface, PClass}
 
 trait ObjectVal extends PConcreteVal {
   def pClass: PClass

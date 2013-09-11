@@ -12,6 +12,7 @@ import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.runtime.context.{Context, FunctionContext}
 import de.leanovate.jbj.core.ast.stmt.FunctionLike
+import de.leanovate.jbj.runtime.types.{PParam, PFunction}
 
 case class FunctionDeclStmt(name: NamespaceName, returnByRef: Boolean, parameterDecls: List[ParameterDecl], stmts: List[Stmt])
   extends DeclStmt with PFunction with BlockLike with FunctionLike {

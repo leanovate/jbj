@@ -24,6 +24,7 @@ import scala.Some
 import de.leanovate.jbj.runtime.exception.ExitJbjException
 import de.leanovate.jbj.runtime.context.GlobalContext
 import de.leanovate.jbj.runtime.output.OutputBuffer
+import de.leanovate.jbj.runtime.types.{PClass, PInterface, PFunction}
 
 case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
                   settings: JbjSettings = new JbjSettings,

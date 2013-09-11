@@ -8,7 +8,7 @@
 package de.leanovate.jbj.runtime.adapter
 
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.PParam
+import de.leanovate.jbj.runtime.types.PParam
 
 trait ParameterAdapter[T] {
   def requiredCount: Int

@@ -14,11 +14,12 @@ import de.leanovate.jbj.runtime.value.{PVar, PVal, ConstVal, ObjectVal}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context._
 import scala.collection.immutable.List
+import de.leanovate.jbj.runtime.types._
 import de.leanovate.jbj.runtime.value.ObjectPropertyKey.ProtectedKey
 import de.leanovate.jbj.runtime.context.MethodContext
 import de.leanovate.jbj.runtime.value.ObjectPropertyKey.PublicKey
 import scala.Some
-import de.leanovate.jbj.runtime.PProperty
+import de.leanovate.jbj.runtime.types.PProperty
 import de.leanovate.jbj.runtime.context.InstanceContext
 import de.leanovate.jbj.runtime.context.ClassContext
 

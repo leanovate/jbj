@@ -5,13 +5,7 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.runtime
+package de.leanovate.jbj.runtime.types
 
-import de.leanovate.jbj.runtime.value.PAny
-import de.leanovate.jbj.runtime.context.Context
-
-trait PFunction {
-  def name: NamespaceName
-
-  def call(parameters: List[PParam])(implicit callerCtx: Context): PAny
+case class PProperty(isStatic: Boolean, isPrivate: Boolean, isProtected: Boolean, isPublic: Boolean, name: String, declaringClass: PClass) {
 }

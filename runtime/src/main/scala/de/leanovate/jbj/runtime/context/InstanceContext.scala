@@ -10,6 +10,7 @@ package de.leanovate.jbj.runtime.context
 import de.leanovate.jbj.runtime.value.{PVar, ObjectVal}
 import de.leanovate.jbj.runtime._
 import scala.collection.immutable.Stack
+import de.leanovate.jbj.runtime.types.{PFunction, PClass}
 
 case class InstanceContext(instance: ObjectVal, pClass:PClass, callerCtx: Context) extends Context {
   def name = instance.pClass.name.toString

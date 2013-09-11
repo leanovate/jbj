@@ -5,14 +5,16 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.runtime
+package de.leanovate.jbj.runtime.types
 
-import de.leanovate.jbj.runtime.value.{PVal, PAny}
+import de.leanovate.jbj.runtime.NamespaceName
 
-trait PParam {
-  def hasRef: Boolean
+trait PInterface {
+  def name: NamespaceName
 
-  def byRef: PAny
+  def interfaces: List[PInterface]
 
-  def byVal: PVal
+  def methods: Map[String, PMethod]
+
+  final def isAssignableFrom(other: PClass): Boolean = other.interfaces.contains(this)
 }

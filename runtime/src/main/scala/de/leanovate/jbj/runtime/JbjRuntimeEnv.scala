@@ -9,6 +9,7 @@ package de.leanovate.jbj.runtime
 
 import scala.collection.Map
 import de.leanovate.jbj.runtime.value.PVal
+import de.leanovate.jbj.runtime.types.{PClass, PInterface, PFunction}
 
 trait JbjRuntimeEnv {
   def preedfinedConstants: Map[String, PVal]

@@ -5,15 +5,14 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.runtime
+package de.leanovate.jbj.runtime.types
 
+import de.leanovate.jbj.runtime.value.PAny
+import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.NamespaceName
 
-trait PInterface {
+trait PFunction {
   def name: NamespaceName
 
-  def interfaces: List[PInterface]
-
-  def methods: Map[String, PMethod]
-
-  final def isAssignableFrom(other: PClass): Boolean = other.interfaces.contains(this)
+  def call(parameters: List[PParam])(implicit callerCtx: Context): PAny
 }

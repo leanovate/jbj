@@ -16,7 +16,7 @@ import de.leanovate.jbj.runtime.value._
 import java.util.concurrent.atomic.AtomicLong
 import de.leanovate.jbj.api.JbjSettings
 import scala.collection.JavaConversions._
-import scala.Some
+import de.leanovate.jbj.runtime.types._
 import de.leanovate.jbj.runtime.output.OutputBuffer
 
 case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[PrintStream], settings: JbjSettings)

@@ -8,11 +8,11 @@
 package de.leanovate.jbj.core.ast.decl
 
 import de.leanovate.jbj.core.ast.MemberModifier
-import de.leanovate.jbj.runtime.{PProperty, PClass}
 import de.leanovate.jbj.runtime.value.{NullVal, ObjectVal}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.core.ast.stmt.StaticAssignment
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.types.{PProperty, PClass}
 
 case class ClassVarDecl(modifiers: Set[MemberModifier.Type], assignments: List[StaticAssignment])
   extends ClassMemberDecl {

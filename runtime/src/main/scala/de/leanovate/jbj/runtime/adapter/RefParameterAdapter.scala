@@ -9,7 +9,7 @@ package de.leanovate.jbj.runtime.adapter
 
 import de.leanovate.jbj.runtime.value.PVar
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.PParam
+import de.leanovate.jbj.runtime.types.PParam
 
 object RefParameterAdapter extends ParameterAdapter[PVar] {
   def requiredCount = 1

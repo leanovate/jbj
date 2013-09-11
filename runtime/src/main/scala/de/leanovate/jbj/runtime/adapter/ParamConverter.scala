@@ -9,7 +9,7 @@ package de.leanovate.jbj.runtime.adapter
 
 import de.leanovate.jbj.runtime.value.PVal
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.{PValParam, PParam}
+import de.leanovate.jbj.runtime.types.{PValParam, PParam}
 
 object ParamConverter extends Converter[PParam, PVal] {
   def toScalaWithConversion(param: PParam)(implicit ctx: Context) = param

@@ -9,7 +9,7 @@ package de.leanovate.jbj.runtime.adapter
 
 import de.leanovate.jbj.runtime.value.PAny
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.PParam
+import de.leanovate.jbj.runtime.types.PParam
 
 case class OptionParameterAdapter[T, S <: PAny](converter: Converter[T, S]) extends ParameterAdapter[Option[T]] {
   override def requiredCount = 0

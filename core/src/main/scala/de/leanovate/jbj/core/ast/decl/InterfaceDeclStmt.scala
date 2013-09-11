@@ -9,10 +9,11 @@ package de.leanovate.jbj.core.ast.decl
 
 import de.leanovate.jbj.core.ast.DeclStmt
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.{NamespaceName, PMethod, SuccessExecResult, PInterface}
+import de.leanovate.jbj.runtime.{NamespaceName, SuccessExecResult}
 import scala.collection.immutable.List
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.types.{PMethod, PInterface}
 
 case class InterfaceDeclStmt(name: NamespaceName, superInterfaces: List[NamespaceName],
                              decls: List[ClassMemberDecl])

@@ -1,9 +1,9 @@
 package de.leanovate.jbj.core.ast.expr
 
-import de.leanovate.jbj.runtime.PParam
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.core.ast.{ReferableExpr, Expr}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.types.PParam
 
 class ExprParam(expr: Expr)(implicit ctx: Context) extends PParam {
   override def hasRef = false

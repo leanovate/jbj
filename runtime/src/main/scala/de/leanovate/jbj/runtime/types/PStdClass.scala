@@ -5,11 +5,12 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.runtime
+package de.leanovate.jbj.runtime.types
 
 import de.leanovate.jbj.runtime.value._
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.NamespaceName
 
 object PStdClass extends PClass {
   override def isAbstract = false
