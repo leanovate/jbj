@@ -7,10 +7,10 @@
 
 package de.leanovate.jbj.core.ast.expr.calc
 
-import de.leanovate.jbj.core.ast.{Expr, ReferableExpr}
+import de.leanovate.jbj.core.ast.{Expr, RefExpr}
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.core.ast.expr.BinaryReferableExpr
+import de.leanovate.jbj.core.ast.expr.BinaryRefExpr
 
-case class DivByReferableExpr(reference: ReferableExpr, expr: Expr) extends BinaryReferableExpr {
+case class DivByRefExpr(reference: RefExpr, expr: Expr) extends BinaryRefExpr {
   override def eval(implicit ctx: Context) = reference.evalRef /= expr.eval
 }

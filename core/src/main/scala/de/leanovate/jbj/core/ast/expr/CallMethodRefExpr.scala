@@ -13,8 +13,8 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import scala.Some
 import de.leanovate.jbj.runtime.context.Context
 
-case class CallMethodReferableExpr(instanceExpr: Expr, methodName: Name, parameters: List[Expr])
-  extends CallReferableExpr {
+case class CallMethodRefExpr(instanceExpr: Expr, methodName: Name, parameters: List[Expr])
+  extends CallRefExpr {
   def call(implicit ctx: Context): PAny = instanceExpr.eval.asVal match {
     case instance: ObjectVal =>
       instance.pClass.invokeMethod(ctx, Some(instance), methodName.evalName, parameters.map(ExprParam.apply))

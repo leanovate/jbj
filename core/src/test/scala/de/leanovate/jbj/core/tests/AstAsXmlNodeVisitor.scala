@@ -10,14 +10,14 @@ package de.leanovate.jbj.core.tests
 import de.leanovate.jbj.core.ast.{Prog, Node, NodeVisitor}
 import scala.xml.{Text, PCData, NodeSeq}
 import de.leanovate.jbj.core.ast.stmt.{EchoStmt, BlockStmt, ExprStmt, InlineStmt}
-import de.leanovate.jbj.core.ast.expr.{VariableReferableExpr, AssignReferableExpr, CallFunctionReferableExpr}
+import de.leanovate.jbj.core.ast.expr.{VariableRefExpr, AssignRefExpr, CallFunctionRefExpr}
 import de.leanovate.jbj.core.ast.name.{StaticNamespaceName, StaticName}
 import de.leanovate.jbj.core.ast.stmt.loop.ForStmt
 import de.leanovate.jbj.core.ast.decl.{ParameterDecl, ClassMethodDecl, InterfaceDeclStmt, ClassDeclStmt}
 
 object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
   def apply(node: Node) = node match {
-    case assign: AssignReferableExpr =>
+    case assign: AssignRefExpr =>
       NextSibling(
         <assign>
           <to>
@@ -34,7 +34,7 @@ object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
           {block.stmts.flatMap(_.visit(this).results)}
         </block>
       )
-    case callFunction: CallFunctionReferableExpr =>
+    case callFunction: CallFunctionRefExpr =>
       NextSibling(
         <call-function>
           <name>
@@ -151,7 +151,7 @@ object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
       NextSibling(
         Text(staticNamespaceName.namespaceName.toString)
       )
-    case variable: VariableReferableExpr =>
+    case variable: VariableRefExpr =>
       NextSibling(
         <variable>
           {variable.variableName.visit(this).results}

@@ -12,8 +12,8 @@ import de.leanovate.jbj.runtime.value.PAny
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.{MethodContext, Context}
 
-case class CallStaticMethodReferableExpr(className: Name, methodName: Name, parameters: List[Expr])
-  extends CallReferableExpr {
+case class CallStaticMethodRefExpr(className: Name, methodName: Name, parameters: List[Expr])
+  extends CallRefExpr {
   def call(implicit ctx: Context): PAny = {
     val name = className.evalNamespaceName
     ctx.global.findClass(name, autoload = false).map {

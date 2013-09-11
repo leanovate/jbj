@@ -7,9 +7,9 @@
 
 package de.leanovate.jbj.core.ast.expr
 
-import de.leanovate.jbj.core.ast.{ReferableExpr, Expr}
+import de.leanovate.jbj.core.ast.{RefExpr, Expr}
 import de.leanovate.jbj.runtime.context.Context
 
-case class GetAndDecrExpr(reference: ReferableExpr) extends Expr {
+case class GetAndDecrExpr(reference: RefExpr) extends Expr {
   override def eval(implicit ctx: Context) = reference.evalRef.--
 }

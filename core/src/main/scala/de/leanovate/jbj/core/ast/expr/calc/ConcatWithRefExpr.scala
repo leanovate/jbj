@@ -5,14 +5,12 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core.ast.expr
+package de.leanovate.jbj.core.ast.expr.calc
 
-import de.leanovate.jbj.core.ast.{Name, ReferableExpr}
+import de.leanovate.jbj.core.ast.{Expr, RefExpr}
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.Variable._
+import de.leanovate.jbj.core.ast.expr.BinaryRefExpr
 
-case class VariableReferableExpr(variableName: Name) extends ReferableExpr {
-  override def eval(implicit ctx: Context) = evalRef.byVal
-
-  override def evalRef(implicit ctx: Context) = $(variableName.evalName)
+case class ConcatWithRefExpr(reference: RefExpr, expr: Expr) extends BinaryRefExpr {
+  override def eval(implicit ctx: Context) = reference.evalRef != expr.eval
 }

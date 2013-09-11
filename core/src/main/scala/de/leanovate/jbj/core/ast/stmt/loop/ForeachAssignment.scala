@@ -8,9 +8,9 @@
 package de.leanovate.jbj.core.ast.stmt.loop
 
 import de.leanovate.jbj.runtime.value.{PVar, ArrayVal, PVal, PAny}
-import de.leanovate.jbj.core.ast.{NodeVisitor, Node, ReferableExpr}
+import de.leanovate.jbj.core.ast.{NodeVisitor, Node, RefExpr}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.core.ast.expr.ListReferableExpr
+import de.leanovate.jbj.core.ast.expr.ListRefExpr
 import de.leanovate.jbj.runtime.context.Context
 
 sealed trait ForeachAssignment extends Node {
@@ -19,7 +19,7 @@ sealed trait ForeachAssignment extends Node {
   def assignValue(value: PAny, key: PVal, array: ArrayVal)(implicit ctx: Context)
 }
 
-case class ValueForeachAssignment(reference: ReferableExpr) extends ForeachAssignment {
+case class ValueForeachAssignment(reference: RefExpr) extends ForeachAssignment {
   override def assignKey(key: PVal)(implicit ctx: Context) {
     reference.evalRef.assign(key)
   }
@@ -30,7 +30,7 @@ case class ValueForeachAssignment(reference: ReferableExpr) extends ForeachAssig
 
 }
 
-case class RefForeachAssignment(reference: ReferableExpr) extends ForeachAssignment {
+case class RefForeachAssignment(reference: RefExpr) extends ForeachAssignment {
   override def assignKey(key: PVal)(implicit ctx: Context) {
     throw new FatalErrorJbjException("Key element cannot be a reference")
   }
@@ -49,7 +49,7 @@ case class RefForeachAssignment(reference: ReferableExpr) extends ForeachAssignm
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(reference)
 }
 
-case class ListForeachAssignment(reference: ListReferableExpr) extends ForeachAssignment {
+case class ListForeachAssignment(reference: ListRefExpr) extends ForeachAssignment {
   def assignKey(key: PVal)(implicit ctx: Context) {
     throw new FatalErrorJbjException("Cannot use list as key element")
   }

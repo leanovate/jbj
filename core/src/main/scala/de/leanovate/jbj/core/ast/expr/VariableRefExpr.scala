@@ -7,16 +7,12 @@
 
 package de.leanovate.jbj.core.ast.expr
 
-import de.leanovate.jbj.core.ast.{Expr, ReferableExpr}
+import de.leanovate.jbj.core.ast.{Name, RefExpr}
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.Variable._
 
-case class DimReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr]) extends ReferableExpr {
-  override def evalRef(implicit ctx: Context) =
-    indexExpr.map {
-      idx => reference.evalRef.dim(idx.eval)
-    }.getOrElse {
-      reference.evalRef.dim()
-    }
-
+case class VariableRefExpr(variableName: Name) extends RefExpr {
   override def eval(implicit ctx: Context) = evalRef.byVal
+
+  override def evalRef(implicit ctx: Context) = $(variableName.evalName)
 }

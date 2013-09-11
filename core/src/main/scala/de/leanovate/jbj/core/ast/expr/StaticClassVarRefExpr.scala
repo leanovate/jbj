@@ -7,11 +7,11 @@
 
 package de.leanovate.jbj.core.ast.expr
 
-import de.leanovate.jbj.core.ast.{Name, ReferableExpr}
+import de.leanovate.jbj.core.ast.{Name, RefExpr}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.Context
 
-case class StaticClassVarReferableExpr(className: Name, variableName: Name) extends ReferableExpr {
+case class StaticClassVarRefExpr(className: Name, variableName: Name) extends RefExpr {
   override def eval(implicit ctx: Context) = evalRef.byVal
 
   override def evalRef(implicit ctx: Context) = {

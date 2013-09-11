@@ -12,7 +12,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.value.PAny
 import de.leanovate.jbj.runtime.context.Context
 
-case class CallFunctionReferableExpr(functionName: Name, parameters: List[Expr]) extends CallReferableExpr {
+case class CallFunctionRefExpr(functionName: Name, parameters: List[Expr]) extends CallRefExpr {
   def call(implicit ctx: Context): PAny = {
     val name = functionName.evalNamespaceName
     ctx.findFunction(name).map {

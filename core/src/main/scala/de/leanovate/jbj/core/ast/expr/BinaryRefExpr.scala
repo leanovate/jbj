@@ -7,19 +7,20 @@
 
 package de.leanovate.jbj.core.ast.expr
 
-import de.leanovate.jbj.core.ast.ReferableExpr
+import de.leanovate.jbj.core.ast.{RefExpr, Expr}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.Reference
-import de.leanovate.jbj.runtime.value.{PVar, PAny}
-import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.value.PAny
 
-trait CallReferableExpr extends ReferableExpr {
-  override def eval(implicit ctx: Context) = evalRef.byVal
+trait BinaryRefExpr extends RefExpr {
+  def reference: RefExpr
 
-  override def evalRef(implicit ctx: Context) = new Reference {
-    val result = call
+  def expr: Expr
 
-    def isConstant = !result.isInstanceOf[PVar]
+  override def evalRef(implicit ctx: Context): Reference = new Reference {
+    val result = eval
+
+    def isConstant = true
 
     def isDefined = !byVal.isNull
 
@@ -27,12 +28,11 @@ trait CallReferableExpr extends ReferableExpr {
 
     def byVar = result.asVar
 
-    def assign(pAny: PAny)(implicit ctx:Context) = pAny
+    def assign(pAny: PAny)(implicit ctx:Context) = {
+      pAny
+    }
 
     def unset() {
-      throw new FatalErrorJbjException("Can't use function return value in write context")
     }
   }
-
-  def call(implicit ctx: Context): PAny
 }

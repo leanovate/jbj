@@ -7,28 +7,19 @@
 
 package de.leanovate.jbj.core.ast.expr
 
-import de.leanovate.jbj.core.ast.ReferableExpr
+import de.leanovate.jbj.core.ast.{Expr, RefExpr}
 import de.leanovate.jbj.runtime.Reference
-import de.leanovate.jbj.runtime.value.{PAny, PVar}
+import de.leanovate.jbj.runtime.value.{PVar, PAny}
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.Context
 
-case class AssignRefReferableExpr(reference: ReferableExpr, otherReferable: ReferableExpr) extends ReferableExpr {
+case class AssignRefExpr(reference: RefExpr, expr: Expr) extends RefExpr {
   override def eval(implicit ctx: Context) = evalRef.byVal
 
   override def evalRef(implicit ctx: Context) = new Reference {
-    val resultRef = reference.evalRef
+    val result = reference.evalRef.assign(expr.eval.asVal.copy)
 
-    val result = {
-      val otherRef = otherReferable.evalRef
-      if (otherRef.isConstant) {
-        ctx.log.strict("Only variables should be assigned by reference")
-        resultRef.assign(otherRef.byVal)
-      } else {
-        resultRef.assign(otherRef.byVar)
-      }
-    }
-
-    def isConstant = !result.isInstanceOf[PVar]
+    def isConstant = true
 
     def isDefined = !byVal.isNull
 
@@ -36,10 +27,10 @@ case class AssignRefReferableExpr(reference: ReferableExpr, otherReferable: Refe
 
     def byVar = result.asVar
 
-    def assign(pAny: PAny)(implicit ctx: Context) = resultRef.assign(pAny)
+    def assign(pAny: PAny)(implicit ctx:Context) = pAny
 
     def unset() {
-      resultRef.unset()
+      throw new FatalErrorJbjException("Can't use function return value in write context")
     }
   }
 }

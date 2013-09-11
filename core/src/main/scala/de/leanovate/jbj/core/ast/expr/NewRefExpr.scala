@@ -14,7 +14,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.Context
 import scala.Some
 
-case class NewReferableExpr(className: Name, parameters: List[Expr]) extends ReferableExpr {
+case class NewRefExpr(className: Name, parameters: List[Expr]) extends RefExpr {
   override def eval(implicit ctx: Context) = ctx.global.findInterfaceOrClass(className.evalNamespaceName, autoload = true) match {
     case Some(Right(pClass)) =>
       pClass.newInstance(parameters.map(ExprParam.apply))

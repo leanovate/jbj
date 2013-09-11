@@ -5,13 +5,13 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core.ast
+package de.leanovate.jbj.core.ast.expr
 
-import de.leanovate.jbj.runtime.Reference
+import de.leanovate.jbj.core.ast.{Name, RefExpr}
 import de.leanovate.jbj.runtime.context.Context
 
-trait ReferableExpr extends Expr {
-  override def isDefined(implicit ctx: Context) = evalRef.isDefined
+case class PropertyRefExpr(reference: RefExpr, propertyName: Name) extends RefExpr {
+  override def eval(implicit ctx: Context) = evalRef.byVal
 
-  def evalRef(implicit ctx: Context): Reference
+  override def evalRef(implicit ctx: Context) = reference.evalRef.prop(propertyName.evalName)
 }
