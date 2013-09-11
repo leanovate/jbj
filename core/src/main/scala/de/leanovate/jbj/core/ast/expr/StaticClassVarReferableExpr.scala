@@ -17,36 +17,13 @@ import de.leanovate.jbj.runtime.context.StaticMethodContext
 import scala.Some
 
 case class StaticClassVarReferableExpr(className: Name, variableName: Name) extends ReferableExpr {
-  override def eval(implicit ctx: Context) = {
-    val name = className.evalNamespaceName
-    ctx.global.findClass(name, autoload = false).map {
-      pClass =>
-        val name = variableName.evalName
-        val staticClassObject = ctx.global.staticClassObject(pClass)
-        ctx match {
-          case MethodContext(inst, pMethod, _) =>
-            staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
-              notFound(pClass, name, Some(pMethod.declaringClass.name.toString))
-            }
-          case StaticMethodContext(pMethod, _) =>
-            staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
-              notFound(pClass, name, Some(pMethod.declaringClass.name.toString))
-            }
-          case _ =>
-            staticClassObject.getProperty(name, None).map(_.asVal).getOrElse {
-              notFound(pClass, name, None)
-            }
-        }
-    }.getOrElse {
-      throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))
-    }
-  }
+  override def eval(implicit ctx: Context) = evalRef.byVal
 
   override def evalRef(implicit ctx: Context) = new Reference {
     val cname = className.evalNamespaceName
     var name = variableName.evalName
     val pClass = ctx.global.findClass(cname, autoload = false).getOrElse {
-      throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))
+      throw new FatalErrorJbjException("Class '%s' not found".format(cname.toString))
     }
     val staticClassObject = ctx.global.staticClassObject(pClass)
 
