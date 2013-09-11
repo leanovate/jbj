@@ -22,23 +22,23 @@ trait Reference {
   def unset()
 
 
-  def +=(other: PAny)(implicit ctx: Context): PAny = assign(this.byVal.toNum + other.asVal.toNum)
+  def +=(other: PAny)(implicit ctx: Context): PVal = assign(this.byVal.toNum + other.asVal.toNum).asVal
 
-  def -=(other: PAny)(implicit ctx: Context): PAny = assign(this.byVal.toNum - other.asVal.toNum)
+  def -=(other: PAny)(implicit ctx: Context): PVal = assign(this.byVal.toNum - other.asVal.toNum).asVal
 
-  def *=(other: PAny)(implicit ctx: Context): PAny = assign(this.byVal.toNum * other.asVal.toNum)
+  def *=(other: PAny)(implicit ctx: Context): PVal = assign(this.byVal.toNum * other.asVal.toNum).asVal
 
-  def /=(other: PAny)(implicit ctx: Context): PAny = assign(this.byVal.toNum / other.asVal.toNum)
+  def /=(other: PAny)(implicit ctx: Context): PVal = assign(this.byVal.toNum / other.asVal.toNum).asVal
 
-  def !=(other: PAny)(implicit ctx: Context): PAny = assign(this.byVal.toStr ! other.asVal.toStr)
+  def !=(other: PAny)(implicit ctx: Context): PVal = assign(this.byVal.toStr ! other.asVal.toStr).asVal
 
-  def ++()(implicit ctx: Context): PAny = {
+  def ++()(implicit ctx: Context): PVal = {
     val result = byVal.copy
     assign(result.incr)
     result
   }
 
-  def --(implicit ctx: Context): PAny = {
+  def --(implicit ctx: Context): PVal = {
     val result = byVal.copy
     assign(result.decr)
     result
@@ -46,8 +46,8 @@ trait Reference {
 }
 
 object Reference {
-  def ++(ref: Reference)(implicit ctx: Context): PAny = ref.assign(ref.byVal.incr)
+  def ++(ref: Reference)(implicit ctx: Context): PVal = ref.assign(ref.byVal.incr).asVal
 
-  def --(ref: Reference)(implicit ctx: Context): PAny = ref.assign(ref.byVal.decr)
+  def --(ref: Reference)(implicit ctx: Context): PVal = ref.assign(ref.byVal.decr).asVal
 
 }

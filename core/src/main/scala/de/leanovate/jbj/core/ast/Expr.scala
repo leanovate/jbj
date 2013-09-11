@@ -7,11 +7,11 @@
 
 package de.leanovate.jbj.core.ast
 
-import de.leanovate.jbj.runtime.value.PAny
+import de.leanovate.jbj.runtime.value.{PVal, PAny}
 import de.leanovate.jbj.runtime.context.Context
 
 trait Expr extends Node {
-  def isDefined(implicit ctx: Context) = !eval.asVal.isNull
+  def isDefined(implicit ctx: Context) = !eval.isNull
 
-  def eval(implicit ctx: Context): PAny
+  def eval(implicit ctx: Context): PVal
 }

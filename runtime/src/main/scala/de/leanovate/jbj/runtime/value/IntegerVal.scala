@@ -43,9 +43,9 @@ case class IntegerVal(asLong: Long) extends NumericVal {
 
   def ^(other: IntegerVal): PVal = IntegerVal(this.asLong ^ other.asLong)
 
-  def <<(other:IntegerVal):PAny =  IntegerVal(this.asLong << other.asLong)
+  def <<(other:IntegerVal):PVal =  IntegerVal(this.asLong << other.asLong)
 
-  def >>(other:IntegerVal):PAny = IntegerVal(this.asLong >> other.asLong)
+  def >>(other:IntegerVal):PVal = IntegerVal(this.asLong >> other.asLong)
 
   override def unary_~(): PVal = IntegerVal(~asLong)
 
