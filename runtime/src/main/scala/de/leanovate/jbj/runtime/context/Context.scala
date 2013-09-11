@@ -48,10 +48,10 @@ trait Context {
   def getVariable(name: String): Reference = new Reference {
     def isDefined = findVariable(name).exists(!_.value.isNull)
 
-    def asVal = findVariable(name).getOrElse {
+    def byVal = findVariable(name).map(_.asLazyVal).getOrElse {
       log.notice("Undefined variable: %s".format(name))
       NullVal
-    }.asVal
+    }
 
     def asVar = findOrDefineVariable(name)
 

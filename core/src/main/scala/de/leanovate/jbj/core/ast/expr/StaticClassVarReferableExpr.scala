@@ -59,7 +59,7 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
         staticClassObject.getProperty(name, None).exists(!_.asVal.isNull)
     }
 
-    override def asVal = ctx match {
+    override def byVal = ctx match {
       case MethodContext(_, pMethod, _) =>
         staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
           notFound(pClass, name, Some(pMethod.declaringClass.name.toString))

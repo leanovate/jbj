@@ -12,13 +12,7 @@ import de.leanovate.jbj.runtime.value.NullVal
 import de.leanovate.jbj.runtime.context.Context
 
 case class VariableReferableExpr(variableName: Name) extends ReferableExpr {
-  override def eval(implicit ctx: Context) = {
-    val name = variableName.evalName
-    ctx.findVariable(name).getOrElse {
-      ctx.log.notice("Undefined variable: %s".format(name))
-      NullVal
-    }
-  }
+  override def eval(implicit ctx: Context) = evalRef.byVal
 
   override def evalRef(implicit ctx: Context) = ctx.getVariable(variableName.evalName)
 }

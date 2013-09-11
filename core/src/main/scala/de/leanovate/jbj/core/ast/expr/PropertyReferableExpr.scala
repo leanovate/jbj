@@ -16,7 +16,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) extends ReferableExpr {
   override def eval(implicit ctx: Context) = {
-    reference.eval.asVal match {
+    reference.eval.asVal.concrete match {
       case obj: ObjectVal =>
         val name = propertyName.evalName
         checkShadowedStatic(obj.pClass, name)
@@ -82,8 +82,8 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
       }
     }
 
-    def asVal = {
-      parentRef.asVal match {
+    def byVal = {
+      parentRef.byVal.concrete match {
         case obj: ObjectVal =>
           val name = propertyName.evalName
           ctx match {
@@ -226,7 +226,7 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
         parentRef.asVar.asVar.value = obj
         Some(obj)
       } else {
-        parentRef.asVal match {
+        parentRef.byVal.concrete match {
           case obj: ObjectVal =>
             Some(obj)
           case NullVal =>

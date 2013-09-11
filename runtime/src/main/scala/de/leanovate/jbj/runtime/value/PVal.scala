@@ -39,9 +39,11 @@ trait PVal extends PAny {
 
   def compare(other:PVal): Int
 
-  final override def asVal = this
+  override def asVal = this
 
-  final override def asVar = PVar(this)
+  final override def asVar = PVar(asVal)
+
+  def concrete = this
 
   def toXml:NodeSeq = NodeSeq.Empty
 }

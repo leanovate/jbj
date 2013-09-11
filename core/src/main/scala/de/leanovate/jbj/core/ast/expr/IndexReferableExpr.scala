@@ -23,7 +23,7 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
       if (optArrayKey.isEmpty || !parentRef.isDefined)
         false
       else
-        parentRef.asVal match {
+        parentRef.byVal.concrete match {
           case array: ArrayLike =>
             array.getAt(optArrayKey.get).exists(!_.asVal.isNull)
           case _ =>
@@ -31,11 +31,11 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
         }
     }
 
-    def asVal = {
+    def byVal = {
       if (optArrayKey.isEmpty)
         throw new FatalErrorJbjException("Cannot use [] for reading")
       else
-        parentRef.asVal match {
+        parentRef.byVal.concrete match {
           case array: ArrayLike =>
             val result = array.getAt(optArrayKey.get)
             if (!result.isDefined) {
@@ -107,7 +107,7 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
         parentRef.asVar.asVar.value = array
         Some(array)
       } else
-        parentRef.asVal match {
+        parentRef.byVal.concrete match {
           case array: ArrayLike => Some(array)
           case NullVal =>
             val array = ArrayVal()

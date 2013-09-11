@@ -49,6 +49,10 @@ class PVar(private var current: Option[PVal] = None) extends PAny {
 
   override def asVal = value
 
+  def asLazyVal = new LazyVal {
+    def value = current.getOrElse(NullVal)
+  }
+
   override def asVar = this
 
   override def toString: String = {
@@ -64,7 +68,7 @@ class PVar(private var current: Option[PVal] = None) extends PAny {
 object PVar {
   def apply(): PVar = new PVar(None)
 
-  def apply(v: PVal): PVar = new PVar(Some(v))
+  def apply(v: PVal): PVar = new PVar(Some(v.concrete))
 
   def apply(optVal: Option[PAny]) = new PVar(optVal.map(_.asVal))
 }

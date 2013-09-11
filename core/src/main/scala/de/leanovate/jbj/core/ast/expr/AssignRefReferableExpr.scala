@@ -13,7 +13,7 @@ import de.leanovate.jbj.runtime.value.{PAny, PVar}
 import de.leanovate.jbj.runtime.context.Context
 
 case class AssignRefReferableExpr(reference: ReferableExpr, otherRef: ReferableExpr) extends ReferableExpr {
-  override def eval(implicit ctx: Context) = evalRef.asVal
+  override def eval(implicit ctx: Context) = evalRef.byVal
 
   override def evalRef(implicit ctx: Context) = new Reference {
     val resultRef = reference.evalRef
@@ -26,9 +26,9 @@ case class AssignRefReferableExpr(reference: ReferableExpr, otherRef: ReferableE
         resultRef.assign(pAny)
     }
 
-    def isDefined = !asVal.isNull
+    def isDefined = !byVal.isNull
 
-    def asVal = result.asVal
+    def byVal = result.asVal
 
     def asVar = result
 

@@ -27,7 +27,7 @@ trait StaticContext {
   def getVariable(name: String)(implicit ctx: Context): Reference = new Reference {
     def isDefined = findVariable(name).exists(!_.value.isNull)
 
-    def asVal = findVariable(name).map(_.value).getOrElse(NullVal)
+    def byVal = findVariable(name).map(_.value).getOrElse(NullVal)
 
     def asVar = findOrDefineVariable(name)
 

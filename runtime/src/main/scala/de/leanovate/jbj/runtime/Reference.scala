@@ -13,7 +13,7 @@ import de.leanovate.jbj.runtime.context.Context
 trait Reference {
   def isDefined: Boolean
 
-  def asVal: PVal
+  def byVal: PVal
 
   def asVar: PAny
 
@@ -22,32 +22,32 @@ trait Reference {
   def unset()
 
 
-  def +=(other: PAny)(implicit ctx: Context): PAny = assign(this.asVal.toNum + other.asVal.toNum)
+  def +=(other: PAny)(implicit ctx: Context): PAny = assign(this.byVal.toNum + other.asVal.toNum)
 
-  def -=(other: PAny)(implicit ctx: Context): PAny = assign(this.asVal.toNum - other.asVal.toNum)
+  def -=(other: PAny)(implicit ctx: Context): PAny = assign(this.byVal.toNum - other.asVal.toNum)
 
-  def *=(other: PAny)(implicit ctx: Context): PAny = assign(this.asVal.toNum * other.asVal.toNum)
+  def *=(other: PAny)(implicit ctx: Context): PAny = assign(this.byVal.toNum * other.asVal.toNum)
 
-  def /=(other: PAny)(implicit ctx: Context): PAny = assign(this.asVal.toNum / other.asVal.toNum)
+  def /=(other: PAny)(implicit ctx: Context): PAny = assign(this.byVal.toNum / other.asVal.toNum)
 
-  def !=(other: PAny)(implicit ctx: Context): PAny = assign(this.asVal.toStr ! other.asVal.toStr)
+  def !=(other: PAny)(implicit ctx: Context): PAny = assign(this.byVal.toStr ! other.asVal.toStr)
 
   def ++()(implicit ctx: Context): PAny = {
-    val result = asVal
+    val result = byVal.copy
     assign(result.incr)
     result
   }
 
   def --(implicit ctx: Context): PAny = {
-    val result = asVal
+    val result = byVal.copy
     assign(result.decr)
     result
   }
 }
 
 object Reference {
-  def ++(ref: Reference)(implicit ctx: Context): PAny = ref.assign(ref.asVal.incr)
+  def ++(ref: Reference)(implicit ctx: Context): PAny = ref.assign(ref.byVal.incr)
 
-  def --(ref: Reference)(implicit ctx: Context): PAny = ref.assign(ref.asVal.decr)
+  def --(ref: Reference)(implicit ctx: Context): PAny = ref.assign(ref.byVal.decr)
 
 }

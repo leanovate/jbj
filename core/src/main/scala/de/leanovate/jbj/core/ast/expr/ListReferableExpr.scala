@@ -20,7 +20,7 @@ case class ListReferableExpr(references: List[Option[ReferableExpr]]) extends Re
 
     def isDefined = false
 
-    def asVal = throw new RuntimeException("List can only be used in assignment")
+    def byVal = throw new RuntimeException("List can only be used in assignment")
 
     def asVar = throw new RuntimeException("List can only be used in assignment")
 
