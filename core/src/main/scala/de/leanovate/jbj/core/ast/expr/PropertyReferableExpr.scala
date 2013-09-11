@@ -58,6 +58,8 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
     val parentRef = reference.evalRef
     val name = propertyName.evalName
 
+    override def isConstant = false
+
     def isDefined = {
       if (reference.isDefined) {
         reference.eval.asVal match {
@@ -115,7 +117,7 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
       }
     }
 
-    def asVar = {
+    def byVar = {
       optParent(false) match {
         case Some(obj) =>
           ctx match {
@@ -223,7 +225,7 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
         if (withWarn)
           ctx.log.warn("Creating default object from empty value")
         val obj = PStdClass.newInstance(Nil)(ctx)
-        parentRef.asVar.asVar.value = obj
+        parentRef.byVar.value = obj
         Some(obj)
       } else {
         parentRef.byVal.concrete match {
@@ -233,7 +235,7 @@ case class PropertyReferableExpr(reference: ReferableExpr, propertyName: Name) e
             if (withWarn)
               ctx.log.warn("Creating default object from empty value")
             val obj = PStdClass.newInstance(Nil)(ctx)
-            parentRef.asVar.asVar.value = obj
+            parentRef.byVar.value = obj
             Some(obj)
           case _ =>
             None

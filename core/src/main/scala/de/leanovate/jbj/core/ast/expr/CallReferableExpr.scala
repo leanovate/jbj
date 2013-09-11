@@ -10,7 +10,7 @@ package de.leanovate.jbj.core.ast.expr
 import de.leanovate.jbj.core.ast.ReferableExpr
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.Reference
-import de.leanovate.jbj.runtime.value.PAny
+import de.leanovate.jbj.runtime.value.{PVar, PAny}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 trait CallReferableExpr extends ReferableExpr {
@@ -19,11 +19,13 @@ trait CallReferableExpr extends ReferableExpr {
   override def evalRef(implicit ctx: Context) = new Reference {
     val result = call
 
+    def isConstant = !result.isInstanceOf[PVar]
+
     def isDefined = !byVal.isNull
 
     def byVal = result.asVal
 
-    def asVar = result
+    def byVar = result.asVar
 
     def assign(pAny: PAny)(implicit ctx:Context) = pAny
 

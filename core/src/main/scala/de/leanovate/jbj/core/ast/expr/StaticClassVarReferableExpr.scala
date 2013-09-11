@@ -50,6 +50,8 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
     }
     val staticClassObject = ctx.global.staticClassObject(pClass)
 
+    override def isConstant = false
+
     override def isDefined = ctx match {
       case MethodContext(_, pMethod, _) =>
         staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).exists(!_.asVal.isNull)
@@ -74,7 +76,7 @@ case class StaticClassVarReferableExpr(className: Name, variableName: Name) exte
         }
     }
 
-    override def asVar = ctx match {
+    override def byVar = ctx match {
       case MethodContext(_, pMethod, _) =>
         staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map {
           case pVar: PVar => pVar

@@ -19,7 +19,11 @@ class ReferableExprParam(referableExpr: ReferableExpr)(implicit ctx: Context) ex
   override def hasRef = true
 
   override def byRef = {
-    referableExpr.evalRef.asVar
+    val ref = referableExpr.evalRef
+    if (ref.isConstant)
+      ref.byVal
+    else
+      ref.byVar
   }
 
   override def byVal = referableExpr.eval.asVal

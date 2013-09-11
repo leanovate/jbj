@@ -27,11 +27,13 @@ case class NewReferableExpr(className: Name, parameters: List[Expr]) extends Ref
   override def evalRef(implicit ctx: Context) = new Reference {
     val result = eval
 
+    def isConstant = false
+
     def isDefined = !byVal.isNull
 
     def byVal = result.asVal
 
-    def asVar = result.asVar
+    def byVar = result.asVar
 
     def assign(pAny: PAny)(implicit ctx:Context) = {
       throw new FatalErrorJbjException("Can't use new result in write context")

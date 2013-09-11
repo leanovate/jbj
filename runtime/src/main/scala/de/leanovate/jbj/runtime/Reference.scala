@@ -7,20 +7,21 @@
 
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.runtime.value.{PAny, PVal}
+import de.leanovate.jbj.runtime.value.{PVar, PAny, PVal}
 import de.leanovate.jbj.runtime.context.Context
 
 trait Reference {
+  def isConstant: Boolean
+
   def isDefined: Boolean
 
   def byVal: PVal
 
-  def asVar: PAny
+  def byVar: PVar
 
   def assign(pAny: PAny)(implicit ctx: Context): PAny
 
   def unset()
-
 
   def +=(other: PAny)(implicit ctx: Context): PVal = assign(this.byVal.toNum + other.asVal.toNum).asVal
 

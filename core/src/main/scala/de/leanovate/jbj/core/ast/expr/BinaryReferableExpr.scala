@@ -20,11 +20,13 @@ trait BinaryReferableExpr extends ReferableExpr {
   override def evalRef(implicit ctx: Context): Reference = new Reference {
     val result = eval
 
+    def isConstant = true
+
     def isDefined = !byVal.isNull
 
     def byVal = result.asVal
 
-    def asVar = result
+    def byVar = result.asVar
 
     def assign(pAny: PAny)(implicit ctx:Context) = {
       pAny

@@ -9,7 +9,7 @@ package de.leanovate.jbj.core.ast.expr
 
 import de.leanovate.jbj.core.ast.{Expr, ReferableExpr}
 import de.leanovate.jbj.runtime.Reference
-import de.leanovate.jbj.runtime.value.PAny
+import de.leanovate.jbj.runtime.value.{PVar, PAny}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.Context
 
@@ -21,11 +21,13 @@ case class AssignReferableExpr(reference: ReferableExpr, expr: Expr) extends Ref
   override def evalRef(implicit ctx: Context) = new Reference {
     val result = reference.evalRef.assign(expr.eval.asVal.copy)
 
+    def isConstant = true
+
     def isDefined = !byVal.isNull
 
     def byVal = result.asVal
 
-    def asVar = result
+    def byVar = result.asVar
 
     def assign(pAny: PAny)(implicit ctx:Context) = pAny
 

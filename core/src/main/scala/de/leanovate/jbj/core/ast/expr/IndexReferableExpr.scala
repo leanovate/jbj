@@ -19,6 +19,8 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
     val parentRef = reference.evalRef
     val optArrayKey = indexExpr.map(_.eval.asVal)
 
+    def isConstant = false
+
     def isDefined = {
       if (optArrayKey.isEmpty || !parentRef.isDefined)
         false
@@ -51,7 +53,7 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
         }
     }
 
-    def asVar = {
+    def byVar = {
       optParent.map {
         array =>
           optArrayKey match {
@@ -104,14 +106,14 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
     private def optParent = {
       if (!parentRef.isDefined) {
         val array = ArrayVal()
-        parentRef.asVar.asVar.value = array
+        parentRef.byVar.value = array
         Some(array)
       } else
         parentRef.byVal.concrete match {
           case array: ArrayLike => Some(array)
           case NullVal =>
             val array = ArrayVal()
-            parentRef.asVar.asVar.value = array
+            parentRef.byVar.value = array
             Some(array)
           case _ =>
             None
@@ -119,25 +121,5 @@ case class IndexReferableExpr(reference: ReferableExpr, indexExpr: Option[Expr])
     }
   }
 
-  override def eval(implicit ctx: Context) = {
-    if (indexExpr.isEmpty)
-      throw new FatalErrorJbjException("Cannot use [] for reading")
-    else
-      reference.eval.asVal match {
-        case array: ArrayLike =>
-          val arrayKey = indexExpr.get.eval.asVal
-          val result = array.getAt(arrayKey)
-          if (!result.isDefined) {
-            arrayKey match {
-              case NumericVal(idx) =>
-                ctx.log.notice("Undefined offset: %d".format(idx.toLong))
-              case idx =>
-                ctx.log.notice("Undefined index: %s".format(idx.toStr.asString))
-            }
-          }
-          result.map(_.asVal).getOrElse(NullVal)
-        case _ =>
-          NullVal
-      }
-  }
+  override def eval(implicit ctx: Context) = evalRef.byVal
 }

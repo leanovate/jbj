@@ -25,11 +25,13 @@ trait StaticContext {
   }
 
   def getVariable(name: String)(implicit ctx: Context): Reference = new Reference {
+    def isConstant = false
+
     def isDefined = findVariable(name).exists(!_.value.isNull)
 
     def byVal = findVariable(name).map(_.value).getOrElse(NullVal)
 
-    def asVar = findOrDefineVariable(name)
+    def byVar = findOrDefineVariable(name)
 
     def assign(pAny: PAny)(implicit ctx: Context): PAny = {
       pAny match {
