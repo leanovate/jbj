@@ -9,7 +9,7 @@ package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.context.Context
 
-object NullVal extends PVal {
+object NullVal extends PConcreteVal {
   override def toOutput(implicit ctx: Context) = ""
 
   override def toStr = StringVal(Array.empty[Byte])

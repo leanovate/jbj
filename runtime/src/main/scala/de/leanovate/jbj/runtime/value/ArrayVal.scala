@@ -10,7 +10,7 @@ package de.leanovate.jbj.runtime.value
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.context.Context
 
-class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extends PVal with ArrayLike {
+class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extends PConcreteVal with ArrayLike {
 
   private var maxIndex: Long = (-1L :: keyValueMap.keys.map {
     case idx: Long => idx

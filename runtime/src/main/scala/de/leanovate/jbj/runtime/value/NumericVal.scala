@@ -10,7 +10,7 @@ package de.leanovate.jbj.runtime.value
 import de.leanovate.jbj.runtime.context.Context
 
 
-trait NumericVal extends PVal {
+trait NumericVal extends PConcreteVal {
   override def toNum: NumericVal = this
 
   override def toArray(implicit ctx:Context) = ArrayVal(None -> this)

@@ -10,7 +10,7 @@ package de.leanovate.jbj.runtime.value
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.Context
 
-class StringVal(var chars: Array[Byte]) extends PVal with ArrayLike {
+class StringVal(var chars: Array[Byte]) extends PConcreteVal with ArrayLike {
   def asString(implicit ctx: Context) = new String(chars, ctx.settings.getCharset)
 
   def asUtf8String = new String(chars, "UTF-8")

@@ -12,7 +12,7 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime.context.Context
 import ObjectPropertyKey.{Key, IntKey, PublicKey, ProtectedKey, PrivateKey}
 
-trait ObjectVal extends PVal {
+trait ObjectVal extends PConcreteVal {
   def pClass: PClass
 
   def instanceNum: Long

@@ -11,7 +11,7 @@ import de.leanovate.jbj.runtime.context.Context
 import scala.xml.NodeSeq
 
 trait PVal extends PAny {
-  def toOutput(implicit ctx:Context): String
+  def toOutput(implicit ctx: Context): String
 
   def toStr: StringVal
 
@@ -23,27 +23,27 @@ trait PVal extends PAny {
 
   def toBool: BooleanVal
 
-  def toArray(implicit ctx:Context): ArrayVal
+  def toArray(implicit ctx: Context): ArrayVal
 
   def isNull: Boolean
 
   def copy: PVal
 
-  def clone(implicit ctx:Context): PVal = copy
+  def clone(implicit ctx: Context): PVal = copy
 
   def incr: PVal
 
   def decr: PVal
 
-  def typeName:String
+  def typeName: String
 
-  def compare(other:PVal): Int
+  def compare(other: PVal): Int
 
   override def asVal = this
 
   final override def asVar = PVar(asVal)
 
-  def concrete = this
+  def concrete: PConcreteVal
 
-  def toXml:NodeSeq = NodeSeq.Empty
+  def toXml: NodeSeq = NodeSeq.Empty
 }

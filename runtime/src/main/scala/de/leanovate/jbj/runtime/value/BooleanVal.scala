@@ -9,7 +9,7 @@ package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.context.Context
 
-abstract class BooleanVal extends PVal {
+abstract class BooleanVal extends PConcreteVal {
   def asBoolean: Boolean
 
   override def toBool = this

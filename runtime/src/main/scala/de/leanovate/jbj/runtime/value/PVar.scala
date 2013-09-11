@@ -9,7 +9,7 @@ package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.context.Context
 
-class PVar(private var current: Option[PVal] = None) extends PAny {
+class PVar(private var current: Option[PConcreteVal] = None) extends PAny {
   current.foreach(_.retain())
 
   private var _refCount = 0
@@ -18,7 +18,7 @@ class PVar(private var current: Option[PVal] = None) extends PAny {
 
   def toOutput(implicit ctx: Context): String = current.map(_.toOutput).getOrElse("")
 
-  protected def set(pVal: Option[PVal]) {
+  protected def set(pVal: Option[PConcreteVal]) {
     current = pVal
   }
 
@@ -27,7 +27,7 @@ class PVar(private var current: Option[PVal] = None) extends PAny {
   def value_=(v: PVal)(implicit ctx: Context) {
     v.retain()
     current.foreach(_.release())
-    current = Some(v)
+    current = Some(v.concrete)
   }
 
   def unset(implicit ctx: Context) {
@@ -70,5 +70,5 @@ object PVar {
 
   def apply(v: PVal): PVar = new PVar(Some(v.concrete))
 
-  def apply(optVal: Option[PAny]) = new PVar(optVal.map(_.asVal))
+  def apply(optVal: Option[PAny]) = new PVar(optVal.map(_.asVal.concrete))
 }
