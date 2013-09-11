@@ -92,4 +92,6 @@ trait PClass {
     case None => false
     case Some(s) => isAssignableFrom(s)
   })
+
+  def $(name: String)(implicit ctx: Context) = new StaticClassVarReference(this, name)
 }
