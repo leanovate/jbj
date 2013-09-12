@@ -68,9 +68,46 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |$a = array('1st', 1, 2=>'3rd', '4th'=>4);
         |
-        |var_dump($a);
+        |class Peoples implements ArrayAccess {
+        |	public $person;
+        |
+        |	function __construct() {
+        |		$this->person = array(array('name'=>'Joe'));
+        |	}
+        |
+        |	function offsetExists($index) {
+        |		echo __METHOD__ . "($index)\n";
+        |		return array_key_exists($this->person, $index);
+        |	}
+        |
+        |	function offsetGet($index) {
+        |		echo __METHOD__ . "($index)\n";
+        |		return $this->person[$index];
+        |	}
+        |
+        |	function offsetSet($index, $value) {
+        |		echo __METHOD__ . "($index)\n";
+        |		$this->person[$index] = $value;
+        |	}
+        |
+        |	function offsetUnset($index) {
+        |		echo __METHOD__ . "($index)\n";
+        |		unset($this->person[$index]);
+        |	}
+        |}
+        |
+        |$people = new Peoples;
+        |
+        |$x = $people[0]; // creates a copy
+        |$x['name'] .= 'Foo';
+        |$people[0] = $x;
+        |var_dump($people[0]);
+        |$people[0]['name'] = 'JoeFoo';
+        |var_dump($people[0]['name']);
+        |$people[0]['name'] = 'JoeFooBar';
+        |var_dump($people[0]['name']);
+        |
         |?>
         |===DONE===""".stripMargin)
   }

@@ -18,7 +18,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) extends Reference {
   override def isConstant = false
 
-  def isDefined = {
+  override def isDefined = {
     if (parentRef.isDefined) {
       parentRef.byVal.concrete match {
         case obj: ObjectVal =>
@@ -41,7 +41,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
     }
   }
 
-  def byVal = {
+  override def byVal = {
     parentRef.byVal.concrete match {
       case obj: ObjectVal =>
         checkShadowedStatic(obj.pClass, name)
@@ -79,7 +79,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
     }
   }
 
-  def byVar = {
+  override def byVar = {
     optParent(withWarn = false) match {
       case Some(obj) =>
         ctx match {
@@ -126,7 +126,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
     }
   }
 
-  def assign(pAny: PAny)(implicit ctx: Context) = {
+  override def assign(pAny: PAny, indirect: Boolean = false)(implicit ctx: Context) = {
     optParent(withWarn = true) match {
       case Some(obj) =>
         checkShadowedStatic(obj.pClass, name)
@@ -166,7 +166,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
     pAny
   }
 
-  def unset() {
+  override def unset() {
     optParent(withWarn = false) match {
       case Some(obj) =>
         checkShadowedStatic(obj.pClass, name)

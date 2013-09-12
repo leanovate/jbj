@@ -11,18 +11,18 @@ import de.leanovate.jbj.runtime.value.{PVar, PAny}
 import de.leanovate.jbj.runtime.context.Context
 
 class ConstantReference(value: PAny) extends Reference {
-  def isConstant = !value.isInstanceOf[PVar]
+  override def isConstant = !value.isInstanceOf[PVar]
 
-  def isDefined = !byVal.isNull
+  override def isDefined = !byVal.isNull
 
-  def byVal = value.asVal
+  override def byVal = value.asVal
 
-  def byVar = value.asVar
+  override def byVar = value.asVar
 
-  def assign(pAny: PAny)(implicit ctx: Context) = {
+  override def assign(pAny: PAny, indirect: Boolean = false)(implicit ctx: Context) = {
     pAny
   }
 
-  def unset() {
+  override def unset() {
   }
 }

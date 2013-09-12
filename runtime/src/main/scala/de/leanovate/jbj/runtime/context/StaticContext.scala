@@ -25,15 +25,15 @@ trait StaticContext {
   }
 
   def getVariable(name: String)(implicit ctx: Context): Reference = new Reference {
-    def isConstant = false
+    override def isConstant = false
 
-    def isDefined = findVariable(name).exists(!_.value.isNull)
+    override def isDefined = findVariable(name).exists(!_.value.isNull)
 
-    def byVal = findVariable(name).map(_.value).getOrElse(NullVal)
+    override def byVal = findVariable(name).map(_.value).getOrElse(NullVal)
 
-    def byVar = findOrDefineVariable(name)
+    override def byVar = findOrDefineVariable(name)
 
-    def assign(pAny: PAny)(implicit ctx: Context): PAny = {
+    override def assign(pAny: PAny, indirect: Boolean = false)(implicit ctx: Context): PAny = {
       pAny match {
         case pVar: PVar =>
           defineVariable(name, pVar)
@@ -43,12 +43,12 @@ trait StaticContext {
       pAny
     }
 
-    def unset() {
+    override def unset() {
       undefineVariable(name)
     }
   }
 
-  def variables:Map[String, PVar]
+  def variables: Map[String, PVar]
 
   def findVariable(name: String): Option[PVar]
 

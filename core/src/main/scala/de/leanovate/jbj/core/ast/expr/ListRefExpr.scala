@@ -18,15 +18,15 @@ case class ListRefExpr(references: List[Option[RefExpr]]) extends RefExpr {
   override def evalRef(implicit ctx: Context) = new Reference {
     val refs = references.map(_.map(_.evalRef)).toSeq
 
-    def isConstant = false
+    override def isConstant = false
 
-    def isDefined = false
+    override def isDefined = false
 
-    def byVal = throw new RuntimeException("List can only be used in assignment")
+    override def byVal = throw new RuntimeException("List can only be used in assignment")
 
-    def byVar = throw new RuntimeException("List can only be used in assignment")
+    override def byVar = throw new RuntimeException("List can only be used in assignment")
 
-    def assign(pAny: PAny)(implicit ctx:Context) = {
+    override def assign(pAny: PAny, indirect: Boolean = false)(implicit ctx: Context) = {
       pAny.asVal match {
         case array: ArrayVal =>
           // this is a bit sub-optimal, but it seems to be the order the original engine likes
@@ -48,7 +48,7 @@ case class ListRefExpr(references: List[Option[RefExpr]]) extends RefExpr {
       pAny
     }
 
-    def unset() {
+    override def unset() {
       refs.foreach(_.foreach(_.unset()))
     }
   }

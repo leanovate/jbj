@@ -16,7 +16,7 @@ import de.leanovate.jbj.runtime.types.PArrayAccess
 class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx: Context) extends Reference {
   def isConstant = false
 
-  def isDefined = {
+  override def isDefined = {
     if (optArrayKey.isEmpty || !parentRef.isDefined)
       false
     else
@@ -30,7 +30,7 @@ class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx
       }
   }
 
-  def byVal = {
+  override def byVal = {
     if (optArrayKey.isEmpty)
       throw new FatalErrorJbjException("Cannot use [] for reading")
     else
@@ -56,7 +56,7 @@ class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx
       }
   }
 
-  def byVar = {
+  override def byVar = {
     optParent.map {
       case array: ArrayLike =>
         optArrayKey match {
@@ -82,7 +82,7 @@ class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx
     }
   }
 
-  def assign(pAny: PAny)(implicit ctx: Context) = {
+  override def assign(pAny: PAny, indirect: Boolean = false)(implicit ctx: Context) = {
     optParent.map {
       case array: ArrayLike =>
         optArrayKey match {
@@ -97,11 +97,15 @@ class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx
             array.setAt(optArrayKey, pAny)
         }
       case obj: ObjectVal =>
-        optArrayKey match {
-          case Some(arrayKey) =>
-            PArrayAccess.cast(obj).offsetSet(arrayKey, pAny.asVal)
-          case None =>
-            PArrayAccess.cast(obj).offsetSet(NullVal, pAny.asVal)
+        if (indirect) {
+          ctx.log.notice("Indirect modification of overloaded element of object has no effect")
+        } else {
+          optArrayKey match {
+            case Some(arrayKey) =>
+              PArrayAccess.cast(obj).offsetSet(arrayKey, pAny.asVal)
+            case None =>
+              PArrayAccess.cast(obj).offsetSet(NullVal, pAny.asVal)
+          }
         }
     }.getOrElse {
       ctx.log.warn("Cannot use a scalar value as an array")
@@ -109,7 +113,7 @@ class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx
     pAny
   }
 
-  def unset() {
+  override def unset() {
     if (optArrayKey.isDefined) {
       optParent.foreach {
         case array: ArrayLike =>

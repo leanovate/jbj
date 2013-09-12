@@ -27,19 +27,19 @@ case class NewRefExpr(className: Name, parameters: List[Expr]) extends RefExpr {
   override def evalRef(implicit ctx: Context) = new Reference {
     val result = eval
 
-    def isConstant = false
+    override def isConstant = false
 
-    def isDefined = !byVal.isNull
+    override def isDefined = !byVal.isNull
 
-    def byVal = result.asVal
+    override def byVal = result.asVal
 
-    def byVar = result.asVar
+    override def byVar = result.asVar
 
-    def assign(pAny: PAny)(implicit ctx:Context) = {
+    override def assign(pAny: PAny, indirect: Boolean = false)(implicit ctx: Context) = {
       throw new FatalErrorJbjException("Can't use new result in write context")
     }
 
-    def unset() {
+    override def unset() {
       throw new FatalErrorJbjException("Can't use new result in write context")
     }
   }

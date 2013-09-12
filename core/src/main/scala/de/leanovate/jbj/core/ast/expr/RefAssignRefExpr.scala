@@ -28,17 +28,17 @@ case class RefAssignRefExpr(reference: RefExpr, otherReferable: RefExpr) extends
       }
     }
 
-    def isConstant = !result.isInstanceOf[PVar]
+    override def isConstant = !result.isInstanceOf[PVar]
 
-    def isDefined = !byVal.isNull
+    override def isDefined = !byVal.isNull
 
-    def byVal = result.asVal
+    override def byVal = result.asVal
 
-    def byVar = result.asVar
+    override def byVar = result.asVar
 
-    def assign(pAny: PAny)(implicit ctx: Context) = resultRef.assign(pAny)
+    override def assign(pAny: PAny, indirect: Boolean = false)(implicit ctx: Context) = resultRef.assign(pAny)
 
-    def unset() {
+    override def unset() {
       resultRef.unset()
     }
   }

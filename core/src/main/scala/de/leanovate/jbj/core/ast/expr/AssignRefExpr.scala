@@ -19,17 +19,17 @@ case class AssignRefExpr(reference: RefExpr, expr: Expr) extends RefExpr {
   override def evalRef(implicit ctx: Context) = new Reference {
     val result = reference.evalRef.assign(expr.eval.asVal.copy)
 
-    def isConstant = true
+    override def isConstant = true
 
-    def isDefined = !byVal.isNull
+    override def isDefined = !byVal.isNull
 
-    def byVal = result.asVal
+    override def byVal = result.asVal
 
-    def byVar = result.asVar
+    override def byVar = result.asVar
 
-    def assign(pAny: PAny)(implicit ctx:Context) = pAny
+    override def assign(pAny: PAny, indirect: Boolean = false)(implicit ctx: Context) = pAny
 
-    def unset() {
+    override def unset() {
       throw new FatalErrorJbjException("Can't use function return value in write context")
     }
   }

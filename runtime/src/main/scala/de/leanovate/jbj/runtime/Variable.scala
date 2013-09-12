@@ -11,19 +11,19 @@ import de.leanovate.jbj.runtime.value.{PVal, PVar, PAny, NullVal}
 import de.leanovate.jbj.runtime.context.Context
 
 object Variable {
-  def $(name: String)(implicit ctx:Context): Reference = new Reference {
-    def isConstant = false
+  def $(name: String)(implicit ctx: Context): Reference = new Reference {
+    override def isConstant = false
 
-    def isDefined = ctx.findVariable(name).exists(!_.value.isNull)
+    override def isDefined = ctx.findVariable(name).exists(!_.value.isNull)
 
-    def byVal = ctx.findVariable(name).map(_.asLazyVal).getOrElse {
+    override def byVal = ctx.findVariable(name).map(_.asLazyVal).getOrElse {
       ctx.log.notice("Undefined variable: %s".format(name))
       NullVal
     }
 
-    def byVar = ctx.findOrDefineVariable(name)
+    override def byVar = ctx.findOrDefineVariable(name)
 
-    def assign(pAny: PAny)(implicit ctx: Context): PAny = {
+    override def assign(pAny: PAny, indirect: Boolean = false)(implicit ctx: Context): PAny = {
       pAny match {
         case pVar: PVar =>
           ctx.defineVariable(name, pVar)
@@ -33,7 +33,7 @@ object Variable {
       pAny
     }
 
-    def unset() {
+    override def unset() {
       ctx.undefineVariable(name)
     }
   }
