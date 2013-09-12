@@ -16,7 +16,7 @@ trait PArrayAccess {
 
   def offsetGet(idx: PVal)(implicit ctx: Context): PAny
 
-  def offsetSet(idx: PVal, value: PVal)(implicit ctx: Context)
+  def offsetSet(idx: PVal, value: PVal)(implicit ctx: Context): PAny
 
   def offsetUnset(idx: PVal)(implicit ctx: Context)
 }
@@ -48,7 +48,7 @@ object PArrayAccess extends PInterface {
       obj.pClass.invokeMethod(ctx, Some(obj), "offsetGet", PValParam(idx) :: Nil)
 
 
-    def offsetSet(idx: PVal, value: PVal)(implicit ctx: Context) {
+    def offsetSet(idx: PVal, value: PVal)(implicit ctx: Context) = {
       obj.pClass.invokeMethod(ctx, Some(obj), "offsetSet", PValParam(idx) :: PValParam(value) :: Nil)
     }
   }
