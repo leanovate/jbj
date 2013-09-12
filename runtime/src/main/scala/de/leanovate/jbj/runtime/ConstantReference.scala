@@ -5,16 +5,24 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core.ast.expr
+package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.core.ast.{RefExpr, Expr}
+import de.leanovate.jbj.runtime.value.{PVar, PAny}
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.{ConstantReference, Reference}
 
-trait BinaryRefExpr extends RefExpr {
-  def reference: RefExpr
+class ConstantReference(value: PAny) extends Reference {
+  def isConstant = !value.isInstanceOf[PVar]
 
-  def expr: Expr
+  def isDefined = !byVal.isNull
 
-  override def evalRef(implicit ctx: Context): Reference = new ConstantReference(eval)
+  def byVal = value.asVal
+
+  def byVar = value.asVar
+
+  def assign(pAny: PAny)(implicit ctx: Context) = {
+    pAny
+  }
+
+  def unset() {
+  }
 }
