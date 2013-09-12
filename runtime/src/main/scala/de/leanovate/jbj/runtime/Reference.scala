@@ -7,8 +7,10 @@
 
 package de.leanovate.jbj.runtime
 
-import de.leanovate.jbj.runtime.value.{PVar, PAny, PVal}
+import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context.Context
+import scala.Some
+import de.leanovate.jbj.runtime.types.PArrayAccess
 
 trait Reference {
   def isConstant: Boolean
@@ -45,9 +47,29 @@ trait Reference {
     result
   }
 
-  def dim()(implicit ctx: Context) = new DimReference(this, None)
+  def dim()(implicit ctx: Context): Reference = {
+    if (isDefined) {
+      byVal.concrete match {
+        case obj: ObjectVal if obj.instanceOf(PArrayAccess) =>
+          new ObjectDimReference(PArrayAccess.cast(obj), None)
+        case _ =>
+          new ArrayDimReference(this, None)
+      }
+    } else
+      new UndefDimReference(this, None)
+  }
 
-  def dim(key: PVal)(implicit ctx: Context) = new DimReference(this, Some(key))
+  def dim(key: PVal)(implicit ctx: Context): Reference = {
+    if (isDefined) {
+      byVal.concrete match {
+        case obj: ObjectVal if obj.instanceOf(PArrayAccess) =>
+          new ObjectDimReference(PArrayAccess.cast(obj), Some(key))
+        case _ =>
+          new ArrayDimReference(this, Some(key))
+      }
+    } else
+      new UndefDimReference(this, Some(key))
+  }
 
   def prop(name: String)(implicit ctx: Context) = new PropReference(this, name)
 }

@@ -13,18 +13,16 @@ import de.leanovate.jbj.runtime.context.Context
 import scala.Some
 import de.leanovate.jbj.runtime.types.PArrayAccess
 
-class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx: Context) extends Reference {
+class ArrayDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx: Context) extends Reference {
   def isConstant = false
 
   override def isDefined = {
-    if (optArrayKey.isEmpty || !parentRef.isDefined)
+    if (optArrayKey.isEmpty)
       false
     else
       parentRef.byVal.concrete match {
         case array: ArrayLike =>
           array.getAt(optArrayKey.get).exists(!_.asVal.isNull)
-        case obj: ObjectVal if obj.instanceOf(PArrayAccess) =>
-          PArrayAccess.cast(obj).offsetExists(optArrayKey.get)
         case _ =>
           false
       }
@@ -50,15 +48,13 @@ class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx
             }
           }
           result.map(_.asVal).getOrElse(NullVal)
-        case obj: ObjectVal if obj.instanceOf(PArrayAccess) =>
-          PArrayAccess.cast(obj).offsetGet(optArrayKey.get).asVal
         case _ => NullVal
       }
   }
 
   override def byVar = {
     optParent.map {
-      case array: ArrayLike =>
+      array =>
         optArrayKey match {
           case Some(arrayKey) =>
             array.getAt(arrayKey) match {
@@ -74,8 +70,6 @@ class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx
             array.setAt(None, result)
             result
         }
-      case obj: ObjectVal =>
-        PVar()
     }.getOrElse {
       ctx.log.warn("Cannot use a scalar value as an array")
       PVar()
@@ -84,7 +78,7 @@ class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx
 
   override def assign(pAny: PAny, indirect: Boolean = false)(implicit ctx: Context) = {
     optParent.map {
-      case array: ArrayLike =>
+      array =>
         optArrayKey match {
           case Some(arrayKey) =>
             array.getAt(arrayKey) match {
@@ -95,17 +89,6 @@ class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx
             }
           case None =>
             array.setAt(optArrayKey, pAny)
-        }
-      case obj: ObjectVal =>
-        if (indirect) {
-          ctx.log.notice("Indirect modification of overloaded element of object has no effect")
-        } else {
-          optArrayKey match {
-            case Some(arrayKey) =>
-              PArrayAccess.cast(obj).offsetSet(arrayKey, pAny.asVal)
-            case None =>
-              PArrayAccess.cast(obj).offsetSet(NullVal, pAny.asVal)
-          }
         }
     }.getOrElse {
       ctx.log.warn("Cannot use a scalar value as an array")
@@ -118,28 +101,19 @@ class DimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx
       optParent.foreach {
         case array: ArrayLike =>
           array.unsetAt(optArrayKey.get)
-        case obj: ObjectVal =>
-          PArrayAccess.cast(obj).offsetUnset(optArrayKey.get)
       }
     }
   }
 
-  private def optParent: Option[PVal] = {
-    if (!parentRef.isDefined) {
-      val array = ArrayVal()
-      parentRef.byVar.value = array
-      Some(array)
-    } else
-      parentRef.byVal.concrete match {
-        case array: ArrayLike => Some(array)
-        case obj: ObjectVal if obj.instanceOf(PArrayAccess) =>
-          Some(obj)
-        case NullVal =>
-          val array = ArrayVal()
-          parentRef.byVar.value = array
-          Some(array)
-        case _ =>
-          None
-      }
+  private def optParent: Option[ArrayLike] = {
+    parentRef.byVal.concrete match {
+      case array: ArrayLike => Some(array)
+      case NullVal =>
+        val array = ArrayVal()
+        parentRef.byVar.value = array
+        Some(array)
+      case _ =>
+        None
+    }
   }
 }
