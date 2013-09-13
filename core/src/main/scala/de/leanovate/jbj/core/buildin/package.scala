@@ -25,7 +25,8 @@ package object buildin {
       GlobalFunctions.functions(StringFunctions) ++
       GlobalFunctions.functions(OutputFunctions) ++
       GlobalFunctions.functions(OutputBufferFunctions) ++
-      GlobalFunctions.functions(RuntimeFunctions)
+      GlobalFunctions.functions(RuntimeFunctions) ++
+      GlobalFunctions.functions(ValueFunctions)
 
   val buildinConstants: Seq[(String, PVal)] = Seq(
     "TRUE" -> BooleanVal.TRUE,

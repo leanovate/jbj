@@ -623,5 +623,376 @@ class ArrayAccessSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "ZE2 ArrayAccess and ASSIGN_OP operators (+=)" in {
+      // classes/array_access_006.phpt
+      script(
+        """<?php
+          |
+          |class OverloadedArray implements ArrayAccess {
+          |	public $realArray;
+          |
+          |	function __construct() {
+          |		$this->realArray = array(1,2,3);
+          |	}
+          |
+          |	function offsetExists($index) {
+          |		return array_key_exists($this->realArray, $index);
+          |	}
+          |
+          |	function offsetGet($index) {
+          |		return $this->realArray[$index];
+          |	}
+          |
+          |	function offsetSet($index, $value) {
+          |		$this->realArray[$index] = $value;
+          |	}
+          |
+          |	function offsetUnset($index) {
+          |		unset($this->realArray[$index]);
+          |	}
+          |}
+          |
+          |$a = new OverloadedArray;
+          |$a[1] += 10;
+          |var_dump($a[1]);
+          |echo "---Done---\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """int(12)
+          |---Done---
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 ArrayAccess and [] assignment" in {
+      // classes/array_access_007.phpt
+      script(
+        """<?php
+          |
+          |class OverloadedArray implements ArrayAccess {
+          |	public $realArray;
+          |
+          |	function __construct() {
+          |		$this->realArray = array();
+          |	}
+          |
+          |	function offsetExists($index) {
+          |		return array_key_exists($this->realArray, $index);
+          |	}
+          |
+          |	function offsetGet($index) {
+          |		return $this->realArray[$index];
+          |	}
+          |
+          |	function offsetSet($index, $value) {
+          |		if (is_null($index)) {
+          |			$this->realArray[] = $value;
+          |		} else {
+          |			$this->realArray[$index] = $value;
+          |		}
+          |	}
+          |
+          |	function offsetUnset($index) {
+          |		unset($this->realArray[$index]);
+          |	}
+          |
+          |	function dump() {
+          |		var_dump($this->realArray);
+          |	}
+          |}
+          |
+          |$a = new OverloadedArray;
+          |$a[] = 1;
+          |$a[1] = 2;
+          |$a[2] = 3;
+          |$a[] = 4;
+          |$a->dump();
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """array(4) {
+          |  [0]=>
+          |  int(1)
+          |  [1]=>
+          |  int(2)
+          |  [2]=>
+          |  int(3)
+          |  [3]=>
+          |  int(4)
+          |}
+          |===DONE===
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 ArrayAccess and ASSIGN_OP operators (.=)" in {
+      // classes/array_access_008.phpt
+      script(
+        """<?php
+          |
+          |class Peoples implements ArrayAccess {
+          |	public $person;
+          |
+          |	function __construct() {
+          |		$this->person = array(array('name'=>'Foo'));
+          |	}
+          |
+          |	function offsetExists($index) {
+          |		return array_key_exists($this->person, $index);
+          |	}
+          |
+          |	function offsetGet($index) {
+          |		return $this->person[$index];
+          |	}
+          |
+          |	function offsetSet($index, $value) {
+          |		$this->person[$index] = $value;
+          |	}
+          |
+          |	function offsetUnset($index) {
+          |		unset($this->person[$index]);
+          |	}
+          |}
+          |
+          |$people = new Peoples;
+          |
+          |var_dump($people->person[0]['name']);
+          |$people->person[0]['name'] = $people->person[0]['name'] . 'Bar';
+          |var_dump($people->person[0]['name']);
+          |$people->person[0]['name'] .= 'Baz';
+          |var_dump($people->person[0]['name']);
+          |
+          |echo "===ArrayOverloading===\n";
+          |
+          |$people = new Peoples;
+          |
+          |var_dump($people[0]['name']);
+          |$people[0]['name'] = 'FooBar';
+          |var_dump($people[0]['name']);
+          |$people[0]['name'] = $people->person[0]['name'] . 'Bar';
+          |var_dump($people[0]['name']);
+          |$people[0]['name'] .= 'Baz';
+          |var_dump($people[0]['name']);
+          |
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """string(3) "Foo"
+          |string(6) "FooBar"
+          |string(9) "FooBarBaz"
+          |===ArrayOverloading===
+          |string(3) "Foo"
+          |
+          |Notice: Indirect modification of overloaded element of Peoples has no effect in /classes/ArrayAccessSpec.inlinePhp on line 40
+          |string(3) "Foo"
+          |
+          |Notice: Indirect modification of overloaded element of Peoples has no effect in /classes/ArrayAccessSpec.inlinePhp on line 42
+          |string(3) "Foo"
+          |
+          |Notice: Indirect modification of overloaded element of Peoples has no effect in /classes/ArrayAccessSpec.inlinePhp on line 44
+          |string(3) "Foo"
+          |===DONE===
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 ArrayAccess and ArrayProxyAccess, ArrayProxy" in {
+      // classes/array_access_009.phpt
+      script(
+        """<?php
+          |
+          |// NOTE: This will become part of SPL
+          |
+          |interface ArrayProxyAccess extends ArrayAccess
+          |{
+          |	function proxyGet($element);
+          |	function proxySet($element, $index, $value);
+          |	function proxyUnset($element, $index);
+          |}
+          |
+          |class ArrayProxy implements ArrayAccess
+          |{
+          |	private $object;
+          |	private $element;
+          |
+          |	function __construct(ArrayProxyAccess $object, $element)
+          |	{
+          |		echo __METHOD__ . "($element)\n";
+          |		if (!$object->offsetExists($element))
+          |		{
+          |			$object[$element] = array();
+          |		}
+          |		$this->object = $object;
+          |		$this->element = $element;
+          |	}
+          |
+          |	function offsetExists($index) {
+          |		echo __METHOD__ . "($this->element, $index)\n";
+          |		return array_key_exists($index, $this->object->proxyGet($this->element));
+          |	}
+          |
+          |	function offsetGet($index) {
+          |		echo __METHOD__ . "($this->element, $index)\n";
+          |		$tmp = $this->object->proxyGet($this->element);
+          |		return isset($tmp[$index]) ? $tmp[$index] : NULL;
+          |	}
+          |
+          |	function offsetSet($index, $value) {
+          |		echo __METHOD__ . "($this->element, $index, $value)\n";
+          |		$this->object->proxySet($this->element, $index, $value);
+          |	}
+          |
+          |	function offsetUnset($index) {
+          |		echo __METHOD__ . "($this->element, $index)\n";
+          |		$this->object->proxyUnset($this->element, $index);
+          |	}
+          |}
+          |
+          |class Peoples implements ArrayProxyAccess
+          |{
+          |	public $person;
+          |
+          |	function __construct()
+          |	{
+          |		$this->person = array(array('name'=>'Foo'));
+          |	}
+          |
+          |	function offsetExists($index)
+          |	{
+          |		return array_key_exists($index, $this->person);
+          |	}
+          |
+          |	function offsetGet($index)
+          |	{
+          |		return new ArrayProxy($this, $index);
+          |	}
+          |
+          |	function offsetSet($index, $value)
+          |	{
+          |		$this->person[$index] = $value;
+          |	}
+          |
+          |	function offsetUnset($index)
+          |	{
+          |		unset($this->person[$index]);
+          |	}
+          |
+          |	function proxyGet($element)
+          |	{
+          |		return $this->person[$element];
+          |	}
+          |
+          |	function proxySet($element, $index, $value)
+          |	{
+          |		$this->person[$element][$index] = $value;
+          |	}
+          |
+          |	function proxyUnset($element, $index)
+          |	{
+          |		unset($this->person[$element][$index]);
+          |	}
+          |}
+          |
+          |$people = new Peoples;
+          |
+          |var_dump($people->person[0]['name']);
+          |$people->person[0]['name'] = $people->person[0]['name'] . 'Bar';
+          |var_dump($people->person[0]['name']);
+          |$people->person[0]['name'] .= 'Baz';
+          |var_dump($people->person[0]['name']);
+          |
+          |echo "===ArrayOverloading===\n";
+          |
+          |$people = new Peoples;
+          |
+          |var_dump($people[0]);
+          |var_dump($people[0]['name']);
+          |$people[0]['name'] = 'FooBar';
+          |var_dump($people[0]['name']);
+          |$people[0]['name'] = $people->person[0]['name'] . 'Bar';
+          |var_dump($people[0]['name']);
+          |$people[0]['name'] .= 'Baz';
+          |var_dump($people[0]['name']);
+          |unset($people[0]['name']);
+          |var_dump($people[0]);
+          |var_dump($people[0]['name']);
+          |$people[0]['name'] = 'BlaBla';
+          |var_dump($people[0]['name']);
+          |
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """string(3) "Foo"
+          |string(6) "FooBar"
+          |string(9) "FooBarBaz"
+          |===ArrayOverloading===
+          |ArrayProxy::__construct(0)
+          |object(ArrayProxy)#3 (2) {
+          |  ["object":"ArrayProxy":private]=>
+          |  object(Peoples)#2 (1) {
+          |    ["person"]=>
+          |    array(1) {
+          |      [0]=>
+          |      array(1) {
+          |        ["name"]=>
+          |        string(3) "Foo"
+          |      }
+          |    }
+          |  }
+          |  ["element":"ArrayProxy":private]=>
+          |  int(0)
+          |}
+          |ArrayProxy::__construct(0)
+          |ArrayProxy::offsetGet(0, name)
+          |string(3) "Foo"
+          |ArrayProxy::__construct(0)
+          |ArrayProxy::offsetSet(0, name, FooBar)
+          |ArrayProxy::__construct(0)
+          |ArrayProxy::offsetGet(0, name)
+          |string(6) "FooBar"
+          |ArrayProxy::__construct(0)
+          |ArrayProxy::offsetSet(0, name, FooBarBar)
+          |ArrayProxy::__construct(0)
+          |ArrayProxy::offsetGet(0, name)
+          |string(9) "FooBarBar"
+          |ArrayProxy::__construct(0)
+          |ArrayProxy::offsetGet(0, name)
+          |ArrayProxy::offsetSet(0, name, FooBarBarBaz)
+          |ArrayProxy::__construct(0)
+          |ArrayProxy::offsetGet(0, name)
+          |string(12) "FooBarBarBaz"
+          |ArrayProxy::__construct(0)
+          |ArrayProxy::offsetUnset(0, name)
+          |ArrayProxy::__construct(0)
+          |object(ArrayProxy)#12 (2) {
+          |  ["object":"ArrayProxy":private]=>
+          |  object(Peoples)#2 (1) {
+          |    ["person"]=>
+          |    array(1) {
+          |      [0]=>
+          |      array(0) {
+          |      }
+          |    }
+          |  }
+          |  ["element":"ArrayProxy":private]=>
+          |  int(0)
+          |}
+          |ArrayProxy::__construct(0)
+          |ArrayProxy::offsetGet(0, name)
+          |NULL
+          |ArrayProxy::__construct(0)
+          |ArrayProxy::offsetSet(0, name, BlaBla)
+          |ArrayProxy::__construct(0)
+          |ArrayProxy::offsetGet(0, name)
+          |string(6) "BlaBla"
+          |===DONE===
+          |""".stripMargin
+      )
+    }
   }
 }
