@@ -93,6 +93,57 @@ object OutputFunctions {
   }
 
   @GlobalFunction
+  def var_export(value: PVal)(implicit ctx: Context) = {
+    def dump(stack: List[PAny], ident: String): String = {
+      stack.head.asVal match {
+        case ArrayVal(keyValues) =>
+          val builder = new StringBuilder
+          builder ++= "array (\n"
+          keyValues.foreach {
+            case (_, v) if stack.exists(_.eq(v)) =>
+              builder ++= ident
+              builder ++= "*RECURSION*\n"
+            case (IntegerVal(key), v) =>
+              builder ++= ident
+              builder ++= " %d => %s,\n".format(key, dump(v :: stack, ident + "  "))
+            case (key: StringVal, v) =>
+              builder ++= ident
+              builder ++= "  %s => %s,\n".format(dump(key :: Nil, ident + "  "), dump(v :: stack, ident + "  "))
+          }
+          builder ++= ")\n"
+          builder.result()
+        case str: StringVal =>
+          val chs = str.chars
+          var idx = 0
+          val builder = new StringBuilder
+          while (idx < chs.length) {
+            val start = idx
+            while (idx < chs.length && chs(idx) >= 32 && chs(idx) <= 127) {
+              idx += 1
+            }
+            if (idx > start) {
+              if (start > 0)
+                builder ++= " . "
+              builder ++= "'" + new String(chs.slice(start, idx), "UTF-8") + "'"
+            } else if (chs(idx) == 0) {
+              if (idx == 0)
+                builder ++= "''"
+              builder ++= " . \"\\0\""
+              idx += 1
+            } else {
+              if (idx == 0)
+                builder ++= "''"
+              builder ++= "\"\0x" + Integer.toHexString(chs(idx)) + "\""
+              idx += 1
+            }
+          }
+          builder.result()
+      }
+    }
+    ctx.out.print(dump(value :: Nil, ""))
+  }
+
+  @GlobalFunction
   def print_r(value: PVal, ret: Option[Boolean])(implicit ctx: Context): PVal = {
     if (ctx.global.isOutputBufferingCallback)
       throw new FatalErrorJbjException("print_r(): Cannot use output buffering in output buffering display handlers")

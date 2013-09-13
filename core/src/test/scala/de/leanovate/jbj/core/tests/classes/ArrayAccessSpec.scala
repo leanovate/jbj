@@ -1463,5 +1463,28 @@ class ArrayAccessSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+    "" +
+      "Verifies the correct conversion of objects to arrays" in {
+      // classes/array_conversion_keys.phpt
+      script(
+        """<?php
+          |class foo
+          |{
+          |	private $private = 'private';
+          |	protected $protected = 'protected';
+          |	public $public = 'public';
+          |}
+          |var_export((array) new foo);
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """array (
+          |  '' . "\0" . 'foo' . "\0" . 'private' => 'private',
+          |  '' . "\0" . '*' . "\0" . 'protected' => 'protected',
+          |  'public' => 'public',
+          |)
+          |""".stripMargin
+      )
+    }
   }
 }
