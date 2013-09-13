@@ -33,16 +33,12 @@ class ObjectDimReference(arrayAccess: PArrayAccess, optArrayKey: Option[PVal])(i
     PVar()
   }
 
-  override def assign(pAny: PAny, indirect: Boolean = false)(implicit ctx: Context) = {
-    if (indirect) {
-      ctx.log.notice("Indirect modification of overloaded element of object has no effect")
-    } else {
-      optArrayKey match {
-        case Some(arrayKey) =>
-          arrayAccess.offsetSet(arrayKey, pAny.asVal)
-        case None =>
-          arrayAccess.offsetSet(NullVal, pAny.asVal)
-      }
+  override def assign(pAny: PAny)(implicit ctx: Context) = {
+    optArrayKey match {
+      case Some(arrayKey) =>
+        arrayAccess.offsetSet(arrayKey, pAny.asVal)
+      case None =>
+        arrayAccess.offsetSet(NullVal, pAny.asVal)
     }
     pAny
   }
@@ -53,4 +49,8 @@ class ObjectDimReference(arrayAccess: PArrayAccess, optArrayKey: Option[PVal])(i
     }
   }
 
+  override def checkIndirect = {
+    ctx.log.notice("Indirect modification of overloaded element of object has no effect")
+    false
+  }
 }

@@ -19,7 +19,7 @@ class ConstantReference(value: PAny) extends Reference {
 
   override def byVar = value.asVar
 
-  override def assign(pAny: PAny, indirect: Boolean = false)(implicit ctx: Context) = {
+  override def assign(pAny: PAny)(implicit ctx: Context) = {
     pAny
   }
 

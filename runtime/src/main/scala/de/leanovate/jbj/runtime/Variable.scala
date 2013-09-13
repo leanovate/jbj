@@ -23,7 +23,7 @@ object Variable {
 
     override def byVar = ctx.findOrDefineVariable(name)
 
-    override def assign(pAny: PAny, indirect: Boolean = false)(implicit ctx: Context): PAny = {
+    override def assign(pAny: PAny)(implicit ctx: Context): PAny = {
       pAny match {
         case pVar: PVar =>
           ctx.defineVariable(name, pVar)

@@ -26,7 +26,7 @@ case class ListRefExpr(references: List[Option[RefExpr]]) extends RefExpr {
 
     override def byVar = throw new RuntimeException("List can only be used in assignment")
 
-    override def assign(pAny: PAny, indirect: Boolean = false)(implicit ctx: Context) = {
+    override def assign(pAny: PAny)(implicit ctx: Context) = {
       pAny.asVal match {
         case array: ArrayVal =>
           // this is a bit sub-optimal, but it seems to be the order the original engine likes

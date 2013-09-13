@@ -27,7 +27,7 @@ case class AssignRefExpr(reference: RefExpr, expr: Expr) extends RefExpr {
 
     override def byVar = result.asVar
 
-    override def assign(pAny: PAny, indirect: Boolean = false)(implicit ctx: Context) = pAny
+    override def assign(pAny: PAny)(implicit ctx: Context) = pAny
 
     override def unset() {
       throw new FatalErrorJbjException("Can't use function return value in write context")

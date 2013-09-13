@@ -21,9 +21,11 @@ trait Reference {
 
   def byVar: PVar
 
-  def assign(pAny: PAny, indirect: Boolean = false)(implicit ctx: Context): PAny
+  def assign(pAny: PAny)(implicit ctx: Context): PAny
 
   def unset()
+
+  def checkIndirect: Boolean = true
 
   def +=(other: PAny)(implicit ctx: Context): PVal = assign(this.byVal.toNum + other.asVal.toNum).asVal
 
@@ -37,13 +39,15 @@ trait Reference {
 
   def ++()(implicit ctx: Context): PVal = {
     val result = byVal.copy
-    assign(result.incr, indirect = true)
+    if (checkIndirect)
+      assign(result.incr)
     result
   }
 
   def --(implicit ctx: Context): PVal = {
     val result = byVal.copy
-    assign(result.decr, indirect = true)
+    if (checkIndirect)
+      assign(result.decr)
     result
   }
 
@@ -75,8 +79,10 @@ trait Reference {
 }
 
 object Reference {
-  def ++(ref: Reference)(implicit ctx: Context): PVal = ref.assign(ref.byVal.incr, indirect = true).asVal
+  def ++(ref: Reference)(implicit ctx: Context): PVal =
+    if (ref.checkIndirect) ref.assign(ref.byVal.incr).asVal else ref.byVal.incr
 
-  def --(ref: Reference)(implicit ctx: Context): PVal = ref.assign(ref.byVal.decr, indirect = true).asVal
+  def --(ref: Reference)(implicit ctx: Context): PVal =
+    if (ref.checkIndirect) ref.assign(ref.byVal.decr).asVal else ref.byVal.decr
 
 }

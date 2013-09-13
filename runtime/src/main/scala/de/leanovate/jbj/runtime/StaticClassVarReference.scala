@@ -81,7 +81,7 @@ class StaticClassVarReference(pClass: PClass, name: String)(implicit ctx: Contex
   }
 
 
-  override def assign(pAny: PAny, indirect: Boolean = false)(implicit ctx: Context) = {
+  override def assign(pAny: PAny)(implicit ctx: Context) = {
     pAny match {
       case pVar: PVar =>
         ctx match {
