@@ -34,6 +34,8 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
 
   override def declaringClass = _declaringClass
 
+  override def parameters = parameterDecls.toSeq
+
   protected[decl] def declaringClass_=(pClass: PClass) {
     _declaringClass = pClass
   }
@@ -160,6 +162,16 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
       } else if (parentMethod.exists(_.isFinal)) {
         throw new FatalErrorJbjException("Cannot override final method %s::%s()".format(parentMethod.get.declaringClass.name.toString, name))
       }
+    }
+    pClass.interfaces.foreach {
+      interface =>
+        interface.methods.get(name).foreach {
+          otherMethod =>
+            if ( !isCompatibleWith(otherMethod) || !otherMethod.isCompatibleWith(this)) {
+              throw new FatalErrorJbjException("Declaration of %s::%s() must be compatible with %s::%s(%s)".
+                format(pClass.name.toString, name, interface.name.toString, name, otherMethod.parameters.map("$" + _.name).mkString(", ")))
+            }
+        }
     }
 
     name match {

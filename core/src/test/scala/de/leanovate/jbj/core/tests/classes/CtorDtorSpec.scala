@@ -156,5 +156,108 @@ class CtorDtorSpec extends SpecificationWithJUnit with TestJbjExecutor{
           |""".stripMargin
       )
     }
+
+    "ZE2 Do not call destructors if constructor fails" in {
+      // classes/ctor_failure.phpt
+      script(
+        """<?php
+          |
+          |class Test
+          |{
+          |    function __construct($msg) {
+          |        echo __METHOD__ . "($msg)\n";
+          |        throw new Exception($msg);
+          |    }
+          |
+          |    function __destruct() {
+          |        echo __METHOD__ . "\n";
+          |    }
+          |}
+          |
+          |try
+          |{
+          |    $o = new Test('Hello');
+          |    unset($o);
+          |}
+          |catch (Exception $e)
+          |{
+          |    echo 'Caught ' . get_class($e) . '(' . $e->getMessage() . ")\n";
+          |}
+          |
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """Test::__construct(Hello)
+          |Caught Exception(Hello)
+          |===DONE===
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 A class constructor must keep the signature of an interface" in {
+      // classes/ctor_in_interface_01.phpt
+      script(
+        """<?php
+          |interface constr
+          |{
+          |	function __construct();
+          |}
+          |
+          |class implem implements constr
+          |{
+          |	function __construct($a)
+          |	{
+          |	}
+          |}
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Declaration of implem::__construct() must be compatible with constr::__construct() in /classes/CtorDtorSpec.inlinePhp on line 9
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 A class constructor must keep the signature of all interfaces" in {
+      // classes/ctor_in_interface_02.phpt
+      script(
+        """<?php
+          |interface constr1
+          |{
+          |	function __construct();
+          |}
+          |
+          |interface constr2 extends constr1
+          |{
+          |}
+          |
+          |class implem12 implements constr2
+          |{
+          |	function __construct()
+          |	{
+          |	}
+          |}
+          |
+          |interface constr3
+          |{
+          |	function __construct($a);
+          |}
+          |
+          |class implem13 implements constr1, constr3
+          |{
+          |	function __construct()
+          |	{
+          |	}
+          |}
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Declaration of implem13::__construct() must be compatible with constr3::__construct($a) in /classes/CtorDtorSpec.inlinePhp on line 25
+          |""".stripMargin
+      )
+    }
   }
 }

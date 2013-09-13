@@ -29,10 +29,10 @@ object PArrayAccess extends PInterface {
   def interfaces = List.empty
 
   def methods = Seq(
-    PInterfaceMethod("offsetExists", this),
-    PInterfaceMethod("offsetGet", this),
-    PInterfaceMethod("offsetSet", this),
-    PInterfaceMethod("offsetUnset", this)
+    PInterfaceMethod(this, "offsetExists"),
+    PInterfaceMethod(this, "offsetGet"),
+    PInterfaceMethod(this, "offsetSet"),
+    PInterfaceMethod(this, "offsetUnset")
   ).map {
     method => method.name.toLowerCase -> method
   }.toMap

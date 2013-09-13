@@ -7,12 +7,13 @@
 
 package de.leanovate.jbj.runtime.adapter
 
-import de.leanovate.jbj.runtime.types.{PParam, PClass, PMethod}
+import de.leanovate.jbj.runtime.types.{PParamDef, PParam, PClass, PMethod}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 abstract class InstanceMethod(val declaringClass: PClass, val name: String,
-                     val isFinal: Boolean = false) extends PMethod {
+                              val parameters: Seq[PParamDef] = Seq.empty,
+                              val isFinal: Boolean = false) extends PMethod {
   def isAbstract = false
 
   def isStatic = false

@@ -5,7 +5,7 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.value.ObjectVal
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
-case class PInterfaceMethod(var name: String, pInterface: PInterface) extends PMethod {
+case class PInterfaceMethod(pInterface: PInterface, name: String, parameters: Seq[PParamDef] = Seq.empty) extends PMethod {
   def isFinal = false
 
   def isProtected = false

@@ -15,6 +15,8 @@ trait PMethod {
 
   def name: String
 
+  def parameters: Seq[PParamDef]
+
   def isFinal: Boolean
 
   def isAbstract: Boolean
@@ -28,4 +30,14 @@ trait PMethod {
   def invoke(ctx: Context, instance: ObjectVal, parameters: List[PParam]): PAny
 
   def invokeStatic(ctx: Context, parameters: List[PParam]): PAny
+
+  def isCompatibleWith(otherMethod: PMethod): Boolean = {
+    val otherParameters = otherMethod.parameters
+    parameters.zipWithIndex.forall {
+      case (parameter, idx) if idx < otherParameters.size =>
+        parameter.isCompatible(otherParameters(idx))
+      case (parameter, _) =>
+        parameter.hasDefault
+    }
+  }
 }
