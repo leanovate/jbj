@@ -51,28 +51,18 @@ trait Reference {
     result
   }
 
-  def dim()(implicit ctx: Context): Reference = {
-    if (isDefined) {
-      byVal.concrete match {
-        case obj: ObjectVal if obj.instanceOf(PArrayAccess) =>
-          new ObjectDimReference(PArrayAccess.cast(obj), None)
-        case _ =>
-          new ArrayDimReference(this, None)
-      }
-    } else
-      new UndefDimReference(this, None)
-  }
+  def dim(key: PVal)(implicit ctx: Context): Reference = dim(Some(key))
 
-  def dim(key: PVal)(implicit ctx: Context): Reference = {
+  def dim(optKey: Option[PVal] = None)(implicit ctx: Context): Reference = {
     if (isDefined) {
       byVal.concrete match {
         case obj: ObjectVal if obj.instanceOf(PArrayAccess) =>
-          new ObjectDimReference(PArrayAccess.cast(obj), Some(key))
+          new ObjectDimReference(PArrayAccess.cast(obj), optKey)
         case _ =>
-          new ArrayDimReference(this, Some(key))
+          new ArrayDimReference(this, optKey)
       }
     } else
-      new UndefDimReference(this, Some(key))
+      new UndefDimReference(this, optKey)
   }
 
   def prop(name: String)(implicit ctx: Context) = new PropReference(this, name)

@@ -12,6 +12,8 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.NamespaceName
 
 trait PArrayAccess {
+  def obj: ObjectVal
+
   def offsetExists(idx: PVal)(implicit ctx: Context): Boolean
 
   def offsetGet(idx: PVal)(implicit ctx: Context): PAny
@@ -35,21 +37,23 @@ object PArrayAccess extends PInterface {
     method => method.name.toLowerCase -> method
   }.toMap
 
-  def cast(obj: ObjectVal): PArrayAccess = new PArrayAccess {
+  def cast(_obj: ObjectVal): PArrayAccess = new PArrayAccess {
+    def obj = _obj
+
     def offsetUnset(idx: PVal)(implicit ctx: Context) {
-      obj.pClass.invokeMethod(ctx, Some(obj), "offsetUnset", PValParam(idx) :: Nil)
+      _obj.pClass.invokeMethod(ctx, Some(obj), "offsetUnset", PValParam(idx) :: Nil)
     }
 
     def offsetExists(idx: PVal)(implicit ctx: Context) =
-      obj.pClass.invokeMethod(ctx, Some(obj), "offsetExists", PValParam(idx) :: Nil).asVal.toBool.asBoolean
+      _obj.pClass.invokeMethod(ctx, Some(obj), "offsetExists", PValParam(idx) :: Nil).asVal.toBool.asBoolean
 
 
     def offsetGet(idx: PVal)(implicit ctx: Context) =
-      obj.pClass.invokeMethod(ctx, Some(obj), "offsetGet", PValParam(idx) :: Nil)
+      _obj.pClass.invokeMethod(ctx, Some(obj), "offsetGet", PValParam(idx) :: Nil)
 
 
     def offsetSet(idx: PVal, value: PVal)(implicit ctx: Context) = {
-      obj.pClass.invokeMethod(ctx, Some(obj), "offsetSet", PValParam(idx) :: PValParam(value) :: Nil)
+      _obj.pClass.invokeMethod(ctx, Some(obj), "offsetSet", PValParam(idx) :: PValParam(value) :: Nil)
     }
   }
 }

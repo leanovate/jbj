@@ -50,7 +50,14 @@ class ObjectDimReference(arrayAccess: PArrayAccess, optArrayKey: Option[PVal])(i
   }
 
   override def checkIndirect = {
-    ctx.log.notice("Indirect modification of overloaded element of object has no effect")
+    ctx.log.notice("Indirect modification of overloaded element of %s has no effect".format(arrayAccess.obj.pClass.name.toString))
     false
+  }
+
+  override def dim(optKey: Option[PVal] = None)(implicit ctx: Context) = byVal.concrete match {
+    case obj: ObjectVal if obj.instanceOf(PArrayAccess) =>
+      new ObjectDimReference(PArrayAccess.cast(obj), optKey)
+    case _ =>
+      new ArrayDimReference(this, optKey)
   }
 }

@@ -11,7 +11,6 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.Context
 import scala.Some
-import de.leanovate.jbj.runtime.types.PArrayAccess
 
 class ArrayDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implicit ctx: Context) extends Reference {
   def isConstant = false
@@ -106,14 +105,17 @@ class ArrayDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implici
   }
 
   private def optParent: Option[ArrayLike] = {
-    parentRef.byVal.concrete match {
-      case array: ArrayLike => Some(array)
-      case NullVal =>
-        val array = ArrayVal()
-        parentRef.byVar.value = array
-        Some(array)
-      case _ =>
-        None
-    }
+    if (parentRef.checkIndirect)
+      parentRef.byVal.concrete match {
+        case array: ArrayLike => Some(array)
+        case NullVal =>
+          val array = ArrayVal()
+          parentRef.byVar.value = array
+          Some(array)
+        case _ =>
+          None
+      }
+    else
+      Some(ArrayVal())
   }
 }
