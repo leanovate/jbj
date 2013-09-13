@@ -132,32 +132,41 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
         checkShadowedStatic(obj.pClass, name)
         ctx match {
           case MethodContext(inst, pMethod, _) =>
-            if (obj.getProperty(name, Some(pMethod.declaringClass.name.toString)).isDefined) {
-              obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
-            } else {
-              if (inst.pClass == obj.pClass && pMethod.name == "__set") {
+            obj.getProperty(name, Some(pMethod.declaringClass.name.toString)) match {
+              case Some(pVar: PVar) if pAny.isInstanceOf[PVal] =>
+                pVar.value = pAny.asInstanceOf[PVal]
+              case Some(_) =>
                 obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
-              } else {
+              case None =>
+                if (inst.pClass == obj.pClass && pMethod.name == "__set") {
+                  obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
+                } else {
+                  obj.pClass.findMethod("__set").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: PValParam(pAny.asVal) :: Nil)).getOrElse {
+                    obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
+                  }
+                }
+            }
+          case StaticMethodContext(pMethod, _) =>
+            obj.getProperty(name, Some(pMethod.declaringClass.name.toString)) match {
+              case Some(pVar: PVar) if pAny.isInstanceOf[PVal] =>
+                pVar.value = pAny.asInstanceOf[PVal]
+              case Some(_) =>
+                obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
+              case None =>
                 obj.pClass.findMethod("__set").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: PValParam(pAny.asVal) :: Nil)).getOrElse {
                   obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
                 }
-              }
-            }
-          case StaticMethodContext(pMethod, _) =>
-            if (obj.getProperty(name, Some(pMethod.declaringClass.name.toString)).isDefined) {
-              obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
-            } else {
-              obj.pClass.findMethod("__set").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: PValParam(pAny.asVal) :: Nil)).getOrElse {
-                obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
-              }
             }
           case _ =>
-            if (obj.getProperty(name, None).isDefined) {
-              obj.setProperty(name, None, pAny)
-            } else {
-              obj.pClass.findMethod("__set").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: PValParam(pAny.asVal) :: Nil)).getOrElse {
+            obj.getProperty(name, None) match {
+              case Some(pVar: PVar) if pAny.isInstanceOf[PVal] =>
+                pVar.value = pAny.asInstanceOf[PVal]
+              case Some(_) =>
                 obj.setProperty(name, None, pAny)
-              }
+              case None =>
+                obj.pClass.findMethod("__set").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: PValParam(pAny.asVal) :: Nil)).getOrElse {
+                  obj.setProperty(name, None, pAny)
+                }
             }
         }
       case None =>
