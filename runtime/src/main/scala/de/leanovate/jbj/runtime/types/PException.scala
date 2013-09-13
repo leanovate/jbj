@@ -11,6 +11,8 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.runtime.NamespaceName
+import de.leanovate.jbj.runtime.adapter.InstanceMethod
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 object PException extends PClass {
   override def isAbstract = false
@@ -57,6 +59,18 @@ object PException extends PClass {
 
   override def properties = Map.empty
 
-  override def methods = Map.empty
-
+  override def methods = Seq(
+    new InstanceMethod(this, "getMessage") {
+      def invoke(ctx: Context, instance: ObjectVal, parameters: List[PParam]) = {
+        if (parameters.length > 0) {
+          ctx.log.warn("Exception::getMessage() expects exactly 0 parameters, %d given".format(parameters.length))
+          NullVal
+        } else {
+          instance.getProperty("message", None)(ctx).getOrElse(NullVal)
+        }
+      }
+    }
+  ).map {
+    method => method.name.toLowerCase -> method
+  }.toMap
 }

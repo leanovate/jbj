@@ -34,11 +34,17 @@ class ObjectDimReference(arrayAccess: PArrayAccess, optArrayKey: Option[PVal])(i
   }
 
   override def assign(pAny: PAny)(implicit ctx: Context) = {
-    optArrayKey match {
-      case Some(arrayKey) =>
-        arrayAccess.offsetSet(arrayKey, pAny.asVal)
-      case None =>
-        arrayAccess.offsetSet(NullVal, pAny.asVal)
+    pAny match {
+      case pVar: PVar =>
+        checkIndirect
+        throw new FatalErrorJbjException("Cannot assign by reference to overloaded object")
+      case pVal: PVal =>
+        optArrayKey match {
+          case Some(arrayKey) =>
+            arrayAccess.offsetSet(arrayKey, pVal)
+          case None =>
+            arrayAccess.offsetSet(NullVal, pVal)
+        }
     }
     pAny
   }

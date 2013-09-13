@@ -8,10 +8,15 @@
 package de.leanovate.jbj.core.buildin
 
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
-import de.leanovate.jbj.runtime.value.PVal
+import de.leanovate.jbj.runtime.value.{ArrayVal, PVal}
 
 object ValueFunctions {
   @GlobalFunction
   def is_null(value: PVal): Boolean = value.isNull
 
+  @GlobalFunction
+  def is_array(value: PVal): Boolean = value.concrete match {
+    case _: ArrayVal => true
+    case _ => false
+  }
 }
