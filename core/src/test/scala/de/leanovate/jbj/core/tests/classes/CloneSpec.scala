@@ -104,6 +104,67 @@ class CloneSpec extends SpecificationWithJUnit with TestJbjExecutor {
       )
     }
 
+    "ZE2 object cloning, 3" in {
+      // classes/clone_003.phpt
+      script(
+        """<?php
+          |class base {
+          |	protected $p1 = 'base:1';
+          |	public $p2 = 'base:2';
+          |	public $p3 = 'base:3';
+          |	public $p4 = 'base:4';
+          |	public $p5 = 'base:5';
+          |	private $p6 = 'base:6';
+          |	public function __clone() {
+          |	}
+          |};
+          |
+          |class test extends base {
+          |	public $p1 = 'test:1';
+          |	public $p3 = 'test:3';
+          |	public $p4 = 'test:4';
+          |	public $p5 = 'test:5';
+          |	public function __clone() {
+          |		$this->p5 = 'clone:5';
+          |	}
+          |}
+          |
+          |$obj = new test;
+          |$obj->p4 = 'A';
+          |$copy = clone $obj;
+          |echo "Object\n";
+          |print_r($obj);
+          |echo "Clown\n";
+          |print_r($copy);
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """Object
+          |test Object
+          |(
+          |    [p1] => test:1
+          |    [p3] => test:3
+          |    [p4] => A
+          |    [p5] => test:5
+          |    [p2] => base:2
+          |    [p6:base:private] => base:6
+          |)
+          |Clown
+          |test Object
+          |(
+          |    [p1] => test:1
+          |    [p3] => test:3
+          |    [p4] => A
+          |    [p5] => clone:5
+          |    [p2] => base:2
+          |    [p6:base:private] => base:6
+          |)
+          |Done
+          |""".stripMargin
+      )
+    }
+
     "ZE2 object cloning, 4" in {
       // classes/clone_004
       script(
@@ -186,6 +247,73 @@ class CloneSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |  int(5)
           |}
           |Done
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 object cloning, 5" in {
+      // classes/clone_005.phpt
+      script(
+        """<?php
+          |abstract class base {
+          |  public $a = 'base';
+          |
+          |  // disallow cloning once forever
+          |  final private function __clone() {}
+          |}
+          |
+          |class test extends base {
+          |  // reenabling should fail
+          |  public function __clone() {}
+          |}
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot override final method base::__clone() in /classes/CloneSpec.inlinePhp on line 11
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 object cloning, 6" in {
+      // classes/clone_006.phpt
+      script(
+        """<?php
+          |
+          |class MyCloneable {
+          |	static $id = 0;
+          |
+          |	function MyCloneable() {
+          |		$this->id = self::$id++;
+          |	}
+          |
+          |	function __clone() {
+          |		$this->address = "New York";
+          |		$this->id = self::$id++;
+          |	}
+          |}
+          |
+          |$original = new MyCloneable();
+          |
+          |$original->name = "Hello";
+          |$original->address = "Tel-Aviv";
+          |
+          |echo $original->id . "\n";
+          |
+          |$clone = clone $original;
+          |
+          |echo $clone->id . "\n";
+          |echo $clone->name . "\n";
+          |echo $clone->address . "\n";
+          |
+          |?>
+          |""".stripMargin
+      ).withErrorReporting(2047).result must haveOutput(
+        """0
+          |1
+          |Hello
+          |New York
           |""".stripMargin
       )
     }

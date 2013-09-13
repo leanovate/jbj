@@ -182,6 +182,18 @@ public class JbjSettings implements Cloneable {
         public int getValue() {
             return value;
         }
+
+        public static EnumSet<ErrorLevel> errorLevelsForValue(int errorReporting) {
+            EnumSet<ErrorLevel> result = EnumSet.noneOf(ErrorLevel.class);
+
+            for(ErrorLevel errorLevel : ErrorLevel.values()) {
+                if ( (errorLevel.getValue() & errorReporting) != 0) {
+                    result.add(errorLevel);
+                }
+            }
+
+            return result;
+        }
     }
 
     public static enum DisplayError {

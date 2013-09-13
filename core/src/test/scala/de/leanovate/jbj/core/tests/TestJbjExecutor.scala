@@ -31,6 +31,11 @@ trait TestJbjExecutor {
 
     context.settings.setErrorReporting(JbjSettings.E_ALL)
 
+    def withErrorReporting(errorReporting: Int) = {
+      context.settings.setErrorReporting(JbjSettings.ErrorLevel.errorLevelsForValue(errorReporting))
+      this
+    }
+
     def withAlwaysPopulateRawPostData(alwaysPopulateRawPostData: Boolean) = {
       context.settings.setAlwaysPopulateRawPostData(alwaysPopulateRawPostData)
       this

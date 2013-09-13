@@ -181,9 +181,15 @@ object OutputFunctions {
             case (ObjectPropertyKey.IntKey(key), v) =>
               builder ++= ident
               builder ++= "    [%d] => %s\n".format(key, dump(v :: stack, ident + "        "))
-            case (key, v) =>
+            case (ObjectPropertyKey.PublicKey(key), v) =>
               builder ++= ident
-              builder ++= "    [%s] => %s\n".format(key.name, dump(v :: stack, ident + "        "))
+              builder ++= "    [%s] => %s\n".format(key, dump(v :: stack, ident + "        "))
+            case (ObjectPropertyKey.ProtectedKey(key), v) =>
+              builder ++= ident
+              builder ++= "    [%s:*:protected] => %s\n".format(key, dump(v :: stack, ident + "        "))
+            case (ObjectPropertyKey.PrivateKey(key, className), v) =>
+              builder ++= ident
+              builder ++= "    [%s:%s:private] => %s\n".format(key, className,dump(v :: stack, ident + "        "))
           }
           builder ++= ident
           builder ++= ")\n"
