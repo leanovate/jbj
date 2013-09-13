@@ -55,5 +55,5 @@ package object buildin {
 
   val buildinInterfaces: Seq[PInterface] = Seq(PArrayAccess)
 
-  val buildinClasses: Seq[PClass] = Seq(PStdClass, PException)
+  val buildinClasses: Seq[PClass] = Seq(PStdClass, PException, PArrayObject)
 }
