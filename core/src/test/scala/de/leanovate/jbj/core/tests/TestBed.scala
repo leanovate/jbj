@@ -71,52 +71,46 @@ object TestBed {
         |
         |// NOTE: This will become part of SPL
         |
-        |interface ArrayProxyAccess extends ArrayAccess
-        |{
-        |	function proxyGet($element);
-        |	function proxySet($element, $index, $value);
-        |	function proxyUnset($element, $index);
-        |}
-        |
-        |class ArrayProxy implements ArrayAccess
+        |class ArrayReferenceProxy implements ArrayAccess
         |{
         |	private $object;
         |	private $element;
         |
-        |	function __construct(ArrayProxyAccess $object, $element)
+        |	function __construct(ArrayAccess $object, array &$element)
         |	{
-        |		echo __METHOD__ . "($element)\n";
-        |		if (!$object->offsetExists($element))
-        |		{
-        |			$object[$element] = array();
-        |		}
+        |		echo __METHOD__ . "(Array)\n";
         |		$this->object = $object;
-        |		$this->element = $element;
-        |	}
+        |		$this->element = &$element;
+        |   var_dump($element);
+        |   var_dump($this);
+        | }
+        |
+        | function __destruct() {
+        |		echo __METHOD__ . "(Array)\n";
+        | }
         |
         |	function offsetExists($index) {
         |		echo __METHOD__ . "($this->element, $index)\n";
-        |		return array_key_exists($index, $this->object->proxyGet($this->element));
+        |		return array_key_exists($index, $this->element);
         |	}
         |
         |	function offsetGet($index) {
-        |		echo __METHOD__ . "($this->element, $index)\n";
-        |		$tmp = $this->object->proxyGet($this->element);
-        |		return isset($tmp[$index]) ? $tmp[$index] : NULL;
+        |		echo __METHOD__ . "(Array, $index)\n";
+        |		return isset($this->element[$index]) ? $this->element[$index] : NULL;
         |	}
         |
         |	function offsetSet($index, $value) {
-        |		echo __METHOD__ . "($this->element, $index, $value)\n";
-        |		$this->object->proxySet($this->element, $index, $value);
+        |		echo __METHOD__ . "(Array, $index, $value)\n";
+        |		$this->element[$index] = $value;
         |	}
         |
         |	function offsetUnset($index) {
-        |		echo __METHOD__ . "($this->element, $index)\n";
-        |		$this->object->proxyUnset($this->element, $index);
+        |		echo __METHOD__ . "(Array, $index)\n";
+        |		unset($this->element[$index]);
         |	}
         |}
         |
-        |class Peoples implements ArrayProxyAccess
+        |class Peoples implements ArrayAccess
         |{
         |	public $person;
         |
@@ -132,7 +126,7 @@ object TestBed {
         |
         |	function offsetGet($index)
         |	{
-        |		return new ArrayProxy($this, $index);
+        |		return new ArrayReferenceProxy($this, $this->person[$index]);
         |	}
         |
         |	function offsetSet($index, $value)
@@ -144,50 +138,12 @@ object TestBed {
         |	{
         |		unset($this->person[$index]);
         |	}
-        |
-        |	function proxyGet($element)
-        |	{
-        |		return $this->person[$element];
-        |	}
-        |
-        |	function proxySet($element, $index, $value)
-        |	{
-        |		$this->person[$element][$index] = $value;
-        |	}
-        |
-        |	function proxyUnset($element, $index)
-        |	{
-        |		unset($this->person[$element][$index]);
-        |	}
         |}
         |
         |$people = new Peoples;
         |
-        |var_dump($people->person[0]['name']);
-        |$people->person[0]['name'] = $people->person[0]['name'] . 'Bar';
-        |var_dump($people->person[0]['name']);
-        |$people->person[0]['name'] .= 'Baz';
-        |var_dump($people->person[0]['name']);
-        |
-        |echo "===ArrayOverloading===\n";
-        |
-        |$people = new Peoples;
-        |
         |var_dump($people[0]);
-        |var_dump($people[0]['name']);
-        |$people[0]['name'] = 'FooBar';
-        |var_dump($people[0]['name']);
-        |$people[0]['name'] = $people->person[0]['name'] . 'Bar';
-        |var_dump($people[0]['name']);
-        |$people[0]['name'] .= 'Baz';
-        |var_dump($people[0]['name']);
-        |unset($people[0]['name']);
-        |var_dump($people[0]);
-        |var_dump($people[0]['name']);
-        |$people[0]['name'] = 'BlaBla';
-        |var_dump($people[0]['name']);
-        |
-        |?>
-        |===DONE===""".stripMargin)
+        |var_dump($people->person);
+        |""".stripMargin)
   }
 }

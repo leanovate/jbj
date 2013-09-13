@@ -30,7 +30,7 @@ object OutputFunctions {
       value match {
         case ArrayVal(keyValues) =>
           val nextIdent = ident + "  "
-          ctx.out.println("%sarray(%d) {".format(ident, keyValues.size))
+          ctx.out.println("%s%sarray(%d) {".format(ident, isRef, keyValues.size))
           keyValues.foreach {
             case (IntegerVal(key), v) =>
               ctx.out.println("%s[%d]=>".format(nextIdent, key))

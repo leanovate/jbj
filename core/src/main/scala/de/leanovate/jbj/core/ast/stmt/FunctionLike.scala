@@ -91,7 +91,10 @@ trait FunctionLike extends BlockLike {
           val pVar = PVar(param.byVal)
           funcCtx.callerContext.poolAutoRelease(pVar)
           pVar
-        case Some(param) => param.byVal
+        case Some(param) =>
+          val pVal = param.byVal
+          funcCtx.callerContext.poolAutoRelease(pVal)
+          pVal
         case None => NullVal
       }
       case result: BreakExecResult =>
@@ -99,6 +102,7 @@ trait FunctionLike extends BlockLike {
       case result: ContinueExecResult =>
         throw new FatalErrorJbjException("Cannot break/continue %d level".format(result.depth))(funcCtx)
     }
+    funcCtx.autoRelease()
     funcCtx.cleanup()
     result
   }

@@ -133,30 +133,30 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
         ctx match {
           case MethodContext(inst, pMethod, _) =>
             if (obj.getProperty(name, Some(pMethod.declaringClass.name.toString)).isDefined) {
-              obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny.asVal)
+              obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
             } else {
               if (inst.pClass == obj.pClass && pMethod.name == "__set") {
-                obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny.asVal)
+                obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
               } else {
                 obj.pClass.findMethod("__set").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: PValParam(pAny.asVal) :: Nil)).getOrElse {
-                  obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny.asVal)
+                  obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
                 }
               }
             }
           case StaticMethodContext(pMethod, _) =>
             if (obj.getProperty(name, Some(pMethod.declaringClass.name.toString)).isDefined) {
-              obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny.asVal)
+              obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
             } else {
               obj.pClass.findMethod("__set").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: PValParam(pAny.asVal) :: Nil)).getOrElse {
-                obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny.asVal)
+                obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
               }
             }
           case _ =>
             if (obj.getProperty(name, None).isDefined) {
-              obj.setProperty(name, None, pAny.asVal)
+              obj.setProperty(name, None, pAny)
             } else {
               obj.pClass.findMethod("__set").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: PValParam(pAny.asVal) :: Nil)).getOrElse {
-                obj.setProperty(name, None, pAny.asVal)
+                obj.setProperty(name, None, pAny)
               }
             }
         }
