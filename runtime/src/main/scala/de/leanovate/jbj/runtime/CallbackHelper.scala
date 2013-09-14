@@ -90,7 +90,7 @@ object CallbackHelper {
             }
             optMethod.map {
               method =>
-                method.invoke(ctx, obj, parameters.map(PValParam.apply).toList)
+                method.invoke(obj, parameters.map(PValParam.apply).toList)
             }.getOrElse {
               NullVal
             }
@@ -99,7 +99,7 @@ object CallbackHelper {
               pClass =>
                 pClass.findMethod(methodName).map {
                   method =>
-                    method.invokeStatic(ctx, parameters.map(PValParam.apply).toList)
+                    method.invokeStatic(parameters.map(PValParam.apply).toList)
                 }.getOrElse {
                   NullVal
                 }

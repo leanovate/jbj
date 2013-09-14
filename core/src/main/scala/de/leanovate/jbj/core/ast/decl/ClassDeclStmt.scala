@@ -179,7 +179,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     ctx match {
       case MethodContext(inst, pMethod, _) if instance.pClass == this && pMethod.name == "__destruct" =>
       case _ =>
-        findDestructor.foreach(_.invoke(ctx, instance, Nil))
+        findDestructor.foreach(_.invoke(instance, Nil))
     }
     instance.cleanup()
   }
@@ -216,7 +216,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   @tailrec
   private def findAndInvokeConstructor(pClass: PClass, instance: ObjectVal, parameters: List[PParam])(implicit ctx: Context) {
     findConstructor(pClass) match {
-      case Some(constructor) => constructor.invoke(ctx, instance, parameters)
+      case Some(constructor) => constructor.invoke(instance, parameters)
       case None =>
         pClass.superClass match {
           case None =>

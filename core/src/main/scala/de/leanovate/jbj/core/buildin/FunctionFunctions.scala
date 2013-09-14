@@ -46,7 +46,7 @@ object FunctionFunctions {
               pClass =>
                 pClass.findMethod(methodName).map {
                   method =>
-                    method.invokeStatic(ctx, parameters.toList)
+                    method.invokeStatic(parameters.toList)
                 }.getOrElse {
                   ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, class '%s' does not have a method '%s'".format(pClass.name.toString, methodName))
                   NullVal
@@ -64,7 +64,7 @@ object FunctionFunctions {
             case Some(pClass) =>
               pClass.findMethod(classAndMethod(1)).map {
                 method =>
-                  method.invokeStatic(ctx, parameters.toList)
+                  method.invokeStatic(parameters.toList)
               }.getOrElse {
                 ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, class '%s' does not have a method '%s'".format(pClass.name.toString, classAndMethod(1)))
                 NullVal

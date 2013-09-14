@@ -41,14 +41,14 @@ object PArrayObject extends PClass {
 
   override def methods = Seq(
     new InstanceMethod(this, "offsetExists") {
-      def invoke(ctx: Context, instance: ObjectVal, parameters: List[PParam]) = {
+      def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = {
         if (parameters.length != 1) {
-          ctx.log.warn("PArrayObject::offsetExists() expects exactly 1 parameter, %d given".format(parameters.length))
+          callerCtx.log.warn("PArrayObject::offsetExists() expects exactly 1 parameter, %d given".format(parameters.length))
           NullVal
         } else {
-          instance.getProperty("storage", Some(name.toString))(ctx).map {
+          instance.getProperty("storage", Some(name.toString)).map {
             case array: ArrayVal =>
-              BooleanVal(array.getAt(parameters(0).byVal)(ctx).isDefined)
+              BooleanVal(array.getAt(parameters(0).byVal).isDefined)
             case _ =>
               BooleanVal.FALSE
           }.getOrElse(BooleanVal.FALSE)
@@ -56,14 +56,14 @@ object PArrayObject extends PClass {
       }
     },
     new InstanceMethod(this, "offsetGet") {
-      def invoke(ctx: Context, instance: ObjectVal, parameters: List[PParam]) = {
+      def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = {
         if (parameters.length != 1) {
-          ctx.log.warn("PArrayObject::offsetGet() expects exactly 1 parameter, %d given".format(parameters.length))
+          callerCtx.log.warn("PArrayObject::offsetGet() expects exactly 1 parameter, %d given".format(parameters.length))
           NullVal
         } else {
-          instance.getProperty("storage", Some(name.toString))(ctx).map {
+          instance.getProperty("storage", Some(name.toString)).map {
             case array: ArrayVal =>
-              array.getAt(parameters(0).byVal)(ctx).getOrElse(NullVal)
+              array.getAt(parameters(0).byVal).getOrElse(NullVal)
             case _ =>
               NullVal
           }.getOrElse(NullVal)
@@ -71,14 +71,14 @@ object PArrayObject extends PClass {
       }
     },
     new InstanceMethod(this, "offsetSet") {
-      def invoke(ctx: Context, instance: ObjectVal, parameters: List[PParam]) = {
+      def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = {
         if (parameters.length != 2) {
-          ctx.log.warn("PArrayObject::offsetGet() expects exactly 2 parameters, %d given".format(parameters.length))
+          callerCtx.log.warn("PArrayObject::offsetGet() expects exactly 2 parameters, %d given".format(parameters.length))
           NullVal
         } else {
-          instance.getProperty("storage", Some(name.toString))(ctx).map {
+          instance.getProperty("storage", Some(name.toString)).map {
             case array: ArrayVal =>
-              array.setAt(parameters(0).byVal, parameters(1).byVal)(ctx)
+              array.setAt(parameters(0).byVal, parameters(1).byVal)
               parameters(1).byVal
             case _ =>
               NullVal
@@ -87,13 +87,13 @@ object PArrayObject extends PClass {
       }
     },
     new InstanceMethod(this, "offsetUnset") {
-      def invoke(ctx: Context, instance: ObjectVal, parameters: List[PParam]) = {
+      def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = {
         if (parameters.length != 1) {
-          ctx.log.warn("PArrayObject::offsetGet() expects exactly 1 parameter, %d given".format(parameters.length))
+          callerCtx.log.warn("PArrayObject::offsetGet() expects exactly 1 parameter, %d given".format(parameters.length))
         } else {
-          instance.getProperty("storage", Some(name.toString))(ctx).foreach {
+          instance.getProperty("storage", Some(name.toString)).foreach {
             case array: ArrayVal =>
-              array.unsetAt(parameters(0).byVal)(ctx)
+              array.unsetAt(parameters(0).byVal)
             case _ =>
           }
         }

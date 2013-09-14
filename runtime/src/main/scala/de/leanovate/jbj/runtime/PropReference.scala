@@ -52,7 +52,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
                 ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
                 NullVal
               } else {
-                obj.pClass.findMethod("__get").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
+                obj.pClass.findMethod("__get").map(_.invoke(obj, PValParam(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
                   ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
                   NullVal
                 }
@@ -60,14 +60,14 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
             }
           case StaticMethodContext(pMethod, _) =>
             obj.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
-              obj.pClass.findMethod("__get").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
+              obj.pClass.findMethod("__get").map(_.invoke(obj, PValParam(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
                 ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
                 NullVal
               }
             }
           case _ =>
             obj.getProperty(name, None).map(_.asVal).getOrElse {
-              obj.pClass.findMethod("__get").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
+              obj.pClass.findMethod("__get").map(_.invoke(obj, PValParam(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
                 ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
                 NullVal
               }
@@ -141,7 +141,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
                 if (inst.pClass == obj.pClass && pMethod.name == "__set") {
                   obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
                 } else {
-                  obj.pClass.findMethod("__set").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: PValParam(pAny.asVal) :: Nil)).getOrElse {
+                  obj.pClass.findMethod("__set").map(_.invoke(obj, PValParam(StringVal(name)) :: PValParam(pAny.asVal) :: Nil)).getOrElse {
                     obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
                   }
                 }
@@ -153,7 +153,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
               case Some(_) =>
                 obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
               case None =>
-                obj.pClass.findMethod("__set").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: PValParam(pAny.asVal) :: Nil)).getOrElse {
+                obj.pClass.findMethod("__set").map(_.invoke(obj, PValParam(StringVal(name)) :: PValParam(pAny.asVal) :: Nil)).getOrElse {
                   obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
                 }
             }
@@ -164,7 +164,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
               case Some(_) =>
                 obj.setProperty(name, None, pAny)
               case None =>
-                obj.pClass.findMethod("__set").map(_.invoke(ctx, obj, PValParam(StringVal(name)) :: PValParam(pAny.asVal) :: Nil)).getOrElse {
+                obj.pClass.findMethod("__set").map(_.invoke(obj, PValParam(StringVal(name)) :: PValParam(pAny.asVal) :: Nil)).getOrElse {
                   obj.setProperty(name, None, pAny)
                 }
             }

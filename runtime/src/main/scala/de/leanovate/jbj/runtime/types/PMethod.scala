@@ -27,9 +27,9 @@ trait PMethod {
 
   def isProtected: Boolean
 
-  def invoke(ctx: Context, instance: ObjectVal, parameters: List[PParam]): PAny
+  def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context): PAny
 
-  def invokeStatic(ctx: Context, parameters: List[PParam]): PAny
+  def invokeStatic(parameters: List[PParam])(implicit callerCtx: Context): PAny
 
   def isCompatibleWith(otherMethod: PMethod): Boolean = {
     val otherParameters = otherMethod.parameters

@@ -20,7 +20,7 @@ class StdObjectVal(var pClass: PClass, var instanceNum: Long, protected val keyV
 
     pClass.findMethod("__clone").foreach {
       method =>
-        method.invoke(ctx, clone, Nil)
+        method.invoke(clone, Nil)
     }
     clone
   }

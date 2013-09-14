@@ -54,9 +54,9 @@ trait PClass {
       case Some(method) =>
         optInstance.map {
           instance =>
-            method.invoke(ctx, instance, parameters)
+            method.invoke(instance, parameters)(ctx)
         }.getOrElse {
-          method.invokeStatic(ctx, parameters)
+          method.invokeStatic(parameters)(ctx)
         }
       case None if optInstance.isDefined && (!ctx.isInstanceOf[MethodContext] ||
         ctx.asInstanceOf[MethodContext].pMethod.name != "__call" ||
@@ -68,10 +68,10 @@ trait PClass {
                 None -> param.byVal.copy
             }: _*)(ctx)
             if (method.isStatic)
-              method.invokeStatic(ctx, PValParam(StringVal(methodName)(ctx))(ctx) :: PValParam(parameterArray)(ctx) :: Nil)
+              method.invokeStatic(PValParam(StringVal(methodName)(ctx))(ctx) :: PValParam(parameterArray)(ctx) :: Nil)(ctx)
             else
-              method.invoke(ctx, optInstance.get,
-                PValParam(StringVal(methodName)(ctx))(ctx) :: PValParam(parameterArray)(ctx) :: Nil)
+              method.invoke(optInstance.get,
+                PValParam(StringVal(methodName)(ctx))(ctx) :: PValParam(parameterArray)(ctx) :: Nil)(ctx)
           case None =>
             throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))(ctx)
 

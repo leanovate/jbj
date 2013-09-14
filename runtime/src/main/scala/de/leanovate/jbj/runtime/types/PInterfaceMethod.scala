@@ -20,11 +20,11 @@ case class PInterfaceMethod(pInterface: PInterface, name: String, parameters: Se
     throw new JbjException("No declaring class for interface methods")
   }
 
-  def invoke(ctx: Context, instance: ObjectVal, parameters: List[PParam]) = {
-    throw new FatalErrorJbjException("Cannot call abstract method %s::%s()".format(pInterface.name.toString, name))(ctx)
+  def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = {
+    throw new FatalErrorJbjException("Cannot call abstract method %s::%s()".format(pInterface.name.toString, name))
   }
 
-  def invokeStatic(ctx: Context, parameters: List[PParam]) = {
-    throw new FatalErrorJbjException("Cannot call abstract method %s::%s()".format(pInterface.name.toString, name))(ctx)
+  def invokeStatic(parameters: List[PParam])(implicit callerCtx: Context) = {
+    throw new FatalErrorJbjException("Cannot call abstract method %s::%s()".format(pInterface.name.toString, name))
   }
 }
