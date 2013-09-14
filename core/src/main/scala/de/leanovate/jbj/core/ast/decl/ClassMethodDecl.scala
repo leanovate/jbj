@@ -8,7 +8,6 @@
 package de.leanovate.jbj.core.ast.decl
 
 import de.leanovate.jbj.core.ast._
-import de.leanovate.jbj.runtime._
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context.{GlobalContext, Context, MethodContext, StaticMethodContext}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
@@ -173,6 +172,16 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
             if ( !isCompatibleWith(otherMethod) || !otherMethod.isCompatibleWith(this)) {
               throw new FatalErrorJbjException("Declaration of %s::%s() must be compatible with %s::%s(%s)".
                 format(pClass.name.toString, name, interface.name.toString, name, otherMethod.parameters.map("$" + _.name).mkString(", ")))
+            }
+        }
+    }
+    pClass.superClass.foreach {
+      superClass =>
+        superClass.methods.get(name).foreach {
+          otherMethod =>
+            if ( !isCompatibleWith(otherMethod) || !otherMethod.isCompatibleWith(this)) {
+              ctx.log.strict("Declaration of %s::%s() should be compatible with %s::%s(%s)".
+                format(pClass.name.toString, name, superClass.name.toString, name, otherMethod.parameters.map("$" + _.name).mkString(", ")))
             }
         }
     }

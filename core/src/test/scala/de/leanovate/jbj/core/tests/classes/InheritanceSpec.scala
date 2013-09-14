@@ -145,5 +145,57 @@ class InheritanceSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "ZE2 method inheritance without interfaces" in {
+      // classes/inheritance_003.phpt
+      script(
+        """<?php
+          |
+          |class A
+          |{
+          |	function f($x) {}
+          |}
+          |
+          |class B extends A
+          |{
+          |	function f() {}
+          |}
+          |
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Strict Standards: Declaration of B::f() should be compatible with A::f($x) in /classes/InheritanceSpec.inlinePhp on line 10
+          |===DONE===
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 method inheritance without interfaces" in {
+      // classes/inheritance_004.phpt
+      script(
+        """<?php
+          |
+          |class A
+          |{
+          |	function f() {}
+          |}
+          |
+          |class B extends A
+          |{
+          |	function f($x) {}
+          |}
+          |
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Strict Standards: Declaration of B::f() should be compatible with A::f() in /classes/InheritanceSpec.inlinePhp on line 10
+          |===DONE===
+          |""".stripMargin
+      )
+    }
   }
 }
