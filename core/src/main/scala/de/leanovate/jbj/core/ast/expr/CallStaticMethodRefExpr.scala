@@ -19,10 +19,10 @@ case class CallStaticMethodRefExpr(className: Name, methodName: Name, parameters
     ctx.global.findClass(name, autoload = false).map {
       pClass =>
         ctx match {
-          case MethodContext(instance, currentMethod, _) if pClass.isAssignableFrom(currentMethod.declaringClass)=>
-            pClass.invokeMethod(ctx, Some(instance), methodName.evalName, parameters.map(ExprParam.apply))
+          case MethodContext(instance, currentMethod, _) if pClass.isAssignableFrom(currentMethod.declaringClass) =>
+            pClass.invokeMethod(Some(instance), methodName.evalName, parameters.map(ExprParam.apply))
           case _ =>
-            pClass.invokeMethod(ctx, None, methodName.evalName, parameters.map(ExprParam.apply))
+            pClass.invokeMethod(None, methodName.evalName, parameters.map(ExprParam.apply))
         }
     }.getOrElse {
       throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))

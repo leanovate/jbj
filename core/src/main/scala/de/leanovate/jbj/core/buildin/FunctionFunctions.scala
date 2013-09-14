@@ -36,7 +36,7 @@ object FunctionFunctions {
               obj.pClass -> methodName
             }
             if (pClass.isCallable(ctx, Some(obj), effectiveMethodName)) {
-              pClass.invokeMethod(ctx, Some(obj), effectiveMethodName, parameters.toList)
+              pClass.invokeMethod(Some(obj), effectiveMethodName, parameters.toList)
             } else {
               ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, class '%s' does not have a method '%s'".format(obj.pClass.name.toString, methodName))
               NullVal

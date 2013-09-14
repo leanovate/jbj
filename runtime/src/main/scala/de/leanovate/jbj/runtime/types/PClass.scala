@@ -48,36 +48,38 @@ trait PClass {
     }
   }
 
-  def invokeMethod(ctx: Context, optInstance: Option[ObjectVal], methodName: String,
-                   parameters: List[PParam]): PAny = {
+  def invokeMethod(optInstance: Option[ObjectVal], methodName: String,
+                   parameters: List[PParam])(implicit callerCtx: Context): PAny = {
     findMethod(methodName) match {
+      case Some(method) if method.isStatic =>
+        method.invokeStatic(parameters)
       case Some(method) =>
         optInstance.map {
           instance =>
-            method.invoke(instance, parameters)(ctx)
+            method.invoke(instance, parameters)
         }.getOrElse {
-          method.invokeStatic(parameters)(ctx)
+          method.invokeStatic(parameters)
         }
-      case None if optInstance.isDefined && (!ctx.isInstanceOf[MethodContext] ||
-        ctx.asInstanceOf[MethodContext].pMethod.name != "__call" ||
-        ctx.asInstanceOf[MethodContext].instance.pClass != this) =>
+      case None if optInstance.isDefined && (!callerCtx.isInstanceOf[MethodContext] ||
+        callerCtx.asInstanceOf[MethodContext].pMethod.name != "__call" ||
+        callerCtx.asInstanceOf[MethodContext].instance.pClass != this) =>
         optInstance.get.pClass.findMethod("__call") match {
           case Some(method) =>
             val parameterArray = ArrayVal(parameters.map {
               param =>
                 None -> param.byVal.copy
-            }: _*)(ctx)
+            }: _*)
             if (method.isStatic)
-              method.invokeStatic(PValParam(StringVal(methodName)(ctx))(ctx) :: PValParam(parameterArray)(ctx) :: Nil)(ctx)
+              method.invokeStatic(PValParam(StringVal(methodName)) :: PValParam(parameterArray) :: Nil)
             else
               method.invoke(optInstance.get,
-                PValParam(StringVal(methodName)(ctx))(ctx) :: PValParam(parameterArray)(ctx) :: Nil)(ctx)
+                PValParam(StringVal(methodName)) :: PValParam(parameterArray) :: Nil)
           case None =>
-            throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))(ctx)
+            throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))
 
         }
       case None =>
-        throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))(ctx)
+        throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))
     }
   }
 

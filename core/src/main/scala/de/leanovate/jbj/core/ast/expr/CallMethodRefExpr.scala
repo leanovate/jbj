@@ -17,7 +17,7 @@ case class CallMethodRefExpr(instanceExpr: Expr, methodName: Name, parameters: L
   extends CallRefExpr {
   def call(implicit ctx: Context): PAny = instanceExpr.eval.asVal match {
     case instance: ObjectVal =>
-      instance.pClass.invokeMethod(ctx, Some(instance), methodName.evalName, parameters.map(ExprParam.apply))
+      instance.pClass.invokeMethod(Some(instance), methodName.evalName, parameters.map(ExprParam.apply))
     case _ =>
       throw new FatalErrorJbjException("Call to a member function %s() on a non-object".format(methodName.evalName))
   }
