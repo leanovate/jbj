@@ -59,4 +59,12 @@ object RuntimeFunctions {
   def define(name: String, value: PVal, caseInsensitive: Option[Boolean])(implicit ctx: Context) {
     ctx.global.defineConstant(name, value, caseInsensitive.getOrElse(false))
   }
+
+  @GlobalFunction
+  def ini_set(name: String, value: PVal)(implicit ctx: Context) {
+    name.toLowerCase match {
+      case "error_reporting" =>
+        ctx.settings.setErrorReporting(JbjSettings.ErrorLevel.errorLevelsForValue(value.toInteger.asInt))
+    }
+  }
 }
