@@ -28,6 +28,8 @@ object PArrayAccess extends PInterface {
 
   def interfaces = List.empty
 
+  def interfaceConstants = Map.empty
+
   def methods = Seq(
     PInterfaceMethod(this, "offsetExists"),
     PInterfaceMethod(this, "offsetGet"),

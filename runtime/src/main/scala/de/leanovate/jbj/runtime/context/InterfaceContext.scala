@@ -7,17 +7,17 @@
 
 package de.leanovate.jbj.runtime.context
 
-import de.leanovate.jbj.runtime.{NodePosition, NamespaceName}
+import de.leanovate.jbj.runtime.types.{PInterface, PFunction}
+import de.leanovate.jbj.runtime.{NamespaceName, NodePosition}
 import scala.collection.immutable.Stack
 import de.leanovate.jbj.runtime.value.PVar
-import de.leanovate.jbj.runtime.types.{PFunction, PClass}
 
-case class ClassContext(pClass: PClass, callerCtx: Context, override val currentPosition: NodePosition) extends Context {
-  def name = pClass.name.toString
+case class InterfaceContext(pInterface: PInterface, callerCtx: Context, override val currentPosition: NodePosition) extends Context {
+  def name = pInterface.name.toString
 
   lazy val global = callerCtx.global
 
-  lazy val static = global.staticContext("Class_" + pClass.name.toString)
+  lazy val static = global.staticContext("Interface_" + pInterface.name.toString)
 
   lazy val settings = global.settings
 

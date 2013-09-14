@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.core.ast.decl
 
-import de.leanovate.jbj.runtime.context.{ClassContext, Context}
+import de.leanovate.jbj.runtime.context.{InterfaceContext, ClassContext, Context}
 import de.leanovate.jbj.runtime.value.{ObjectVal, PVal, ConstVal, NullVal}
 import de.leanovate.jbj.core.ast.stmt.StaticAssignment
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
@@ -23,6 +23,12 @@ case class ClassConstDecl(assignments: List[StaticAssignment]) extends ClassMemb
           throw new FatalErrorJbjException("Cannot redefine class constant %s::%s".format(pClass.name.toString, assignment.variableName))
         if (assignment.initial.exists(_.isInstanceOf[ArrayCreateExpr]))
           throw new FatalErrorJbjException("Arrays are not allowed in class constants")
+        pClass.interfaces.foreach {
+          interface =>
+            if (interface.interfaceConstants.get(assignment.variableName).isDefined)
+              throw new FatalErrorJbjException("Cannot inherit previously-inherited or override constant %s from interface %s".
+                format(assignment.variableName, interface.name.toString))
+        }
         pClass._classConstants(assignment.variableName) = new ConstVal {
           private var value: Option[PVal] = None
 
@@ -31,6 +37,36 @@ case class ClassConstDecl(assignments: List[StaticAssignment]) extends ClassMemb
               NullVal
             else {
               val classContext = ClassContext(pClass, ctx, position)
+              assignment.initial.get.eval(classContext).asVal
+            })
+            value.get
+          }
+        }
+    }
+  }
+
+  override def initializeInterface(pInterface: InterfaceDeclStmt)(implicit ctx: Context) {
+    assignments.foreach {
+      assignment =>
+        val position = ctx.currentPosition
+        if (pInterface._interfaceConstants.contains(assignment.variableName))
+          throw new FatalErrorJbjException("Cannot redefine class constant %s::%s".format(pInterface.name.toString, assignment.variableName))
+        if (assignment.initial.exists(_.isInstanceOf[ArrayCreateExpr]))
+          throw new FatalErrorJbjException("Arrays are not allowed in class constants")
+        pInterface.interfaces.foreach {
+          interface =>
+            if (interface.interfaceConstants.get(assignment.variableName).isDefined)
+              throw new FatalErrorJbjException("Cannot inherit previously-inherited or override constant %s from interface %s".
+                format(assignment.variableName, interface.name.toString))
+        }
+        pInterface._interfaceConstants(assignment.variableName) = new ConstVal {
+          private var value: Option[PVal] = None
+
+          override def asVal(implicit ctx: Context) = value.getOrElse {
+            value = Some(if (!assignment.initial.isDefined)
+              NullVal
+            else {
+              val classContext = InterfaceContext(pInterface, ctx, position)
               assignment.initial.get.eval(classContext).asVal
             })
             value.get

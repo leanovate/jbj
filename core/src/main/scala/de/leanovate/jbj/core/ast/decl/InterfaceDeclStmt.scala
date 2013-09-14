@@ -14,15 +14,21 @@ import scala.collection.immutable.List
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.types.{PMethod, PInterface}
+import de.leanovate.jbj.runtime.value.ConstVal
 
 case class InterfaceDeclStmt(name: NamespaceName, superInterfaces: List[NamespaceName],
                              decls: List[ClassMemberDecl])
   extends DeclStmt with PInterface {
 
+  protected[decl] val _interfaceConstants = mutable.Map.empty[String, ConstVal]
+
   private var _initialized = false
   private var _interfaces: List[PInterface] = Nil
 
   override def interfaces = _interfaces
+
+  override def interfaceConstants: Map[String, ConstVal] =
+    interfaces.flatMap(_.interfaceConstants.toList).toMap ++ _interfaceConstants.toMap
 
   override def register(implicit ctx: Context) {
   }

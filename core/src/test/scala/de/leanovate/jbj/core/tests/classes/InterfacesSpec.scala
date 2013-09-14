@@ -12,6 +12,98 @@ import de.leanovate.jbj.core.tests.TestJbjExecutor
 
 class InterfacesSpec extends SpecificationWithJUnit with TestJbjExecutor {
   "interfaces" should {
+    "ZE2 a class cannot extend an interface" in {
+      // classes/interface_and_extends.phpt
+      script(
+        """<?php
+          |
+          |interface Test
+          |{
+          |	function show();
+          |}
+          |
+          |class Tester extends Test
+          |{
+          |	function show() {
+          |		echo __METHOD__ . "\n";
+          |	}
+          |}
+          |
+          |$o = new Tester;
+          |$o->show();
+          |
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Class Tester cannot extend from interface Test in /classes/InterfacesSpec.inlinePhp on line 8
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 A class can only implement interfaces" in {
+      // classes/interface_class.phpt
+      script(
+        """<?php
+          |class base {
+          |}
+          |
+          |class derived implements base {
+          |}
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: derived cannot implement base - it is not an interface in /classes/InterfacesSpec.inlinePhp on line 5
+          |""".stripMargin
+      )
+    }
+
+    "Ensure an interface may not shadow an inherited constant." in {
+      // classes/interface_constant_inheritance_001.phpt
+      script(
+        """<?php
+          |interface I1 {
+          |	const FOO = 10;
+          |}
+          |
+          |interface I2 extends I1 {
+          |	const FOO = 10;
+          |}
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot inherit previously-inherited or override constant FOO from interface I1 in /classes/InterfacesSpec.inlinePhp on line 7
+          |""".stripMargin
+      )
+    }
+
+    "Ensure a class may not shadow a constant inherited from an interface." in {
+      // classes/interface_constant_inheritance_002.phpt
+      script(
+        """<?php
+          |interface I {
+          |	const FOO = 10;
+          |}
+          |
+          |class C implements I {
+          |	const FOO = 10;
+          |}
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot inherit previously-inherited or override constant FOO from interface I in /classes/InterfacesSpec.inlinePhp on line 7
+          |""".stripMargin
+      )
+    }
+
     "ZE2 An interface extends base interfaces" in {
       // classes/interface_doubled.phpt
       script(

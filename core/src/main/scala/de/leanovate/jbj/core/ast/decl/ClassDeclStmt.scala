@@ -56,8 +56,12 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     else {
       if (superClassName.isDefined) {
         _superClass = ctx.global.findClass(superClassName.get, autoload = true)
-        if (!superClass.isDefined)
-          throw new FatalErrorJbjException("Class '%s' not found".format(superClassName.get))
+        if (!superClass.isDefined) {
+          if (ctx.global.findInterface(superClassName.get, autoload = false).isDefined)
+            throw new FatalErrorJbjException("Class %s cannot extend from interface %s".format(name.toString, superClassName.get))
+          else
+            throw new FatalErrorJbjException("Class '%s' not found".format(superClassName.get))
+        }
         else if (superClass.get.isFinal)
           throw new FatalErrorJbjException(
             "Class %s may not inherit from final class (%s)".format(name.toString, superClassName.get.toString))
