@@ -52,6 +52,8 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
           global.log.warn("Call to private %s::%s() from context '%s' during shutdown ignored".format(instance.pClass.name.toString, name, ctx.name))
           return NullVal
         case MethodContext(_, pMethod, _) if declaringClass == pMethod.declaringClass =>
+        case MethodContext(_, _, _) if name == "__construct" =>
+          throw new FatalErrorJbjException("Cannot call private %s::%s()".format(declaringClass.name.toString, name))(ctx)
         case StaticMethodContext(pMethod, _) if declaringClass == pMethod.declaringClass =>
         case _ =>
           if (name == "__construct")

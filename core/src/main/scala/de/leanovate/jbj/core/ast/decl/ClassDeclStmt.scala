@@ -22,6 +22,7 @@ import scala.Some
 import de.leanovate.jbj.runtime.types.PProperty
 import de.leanovate.jbj.runtime.context.InstanceContext
 import de.leanovate.jbj.runtime.context.ClassContext
+import scala.annotation.tailrec
 
 case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
                          superClassName: Option[NamespaceName], implements: List[NamespaceName],
@@ -153,7 +154,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     val instance = newEmptyInstance(this)(ctx)
 
     initializeInstance(instance)(ctx)
-    findConstructor.foreach(_.invoke(ctx, instance, parameters))
+    findAndInvokeConstructor(this, instance, parameters)
     instance
   }
 
@@ -195,8 +196,20 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     result.toMap
   }
 
-  private def findConstructor: Option[PMethod] =
-    findMethod(name.toString).map(Some.apply).getOrElse(findMethod("__construct"))
+  @tailrec
+  private def findAndInvokeConstructor(pClass: PClass, instance: ObjectVal, parameters: List[PParam])(implicit ctx: Context) {
+    findConstructor(pClass) match {
+      case Some(constructor) => constructor.invoke(ctx, instance, parameters)
+      case None =>
+        pClass.superClass match {
+          case None =>
+          case Some(c) => findAndInvokeConstructor(c, instance, parameters)
+        }
+    }
+  }
+
+  private def findConstructor(pClass: PClass): Option[PMethod] =
+    pClass.findMethod(pClass.name.toString).map(Some.apply).getOrElse(pClass.findMethod("__construct"))
 
   private def findDestructor: Option[PMethod] = findMethod("__destruct")
 

@@ -259,5 +259,167 @@ class CtorDtorSpec extends SpecificationWithJUnit with TestJbjExecutor{
           |""".stripMargin
       )
     }
+
+    "ZE2 A class constructor must keep the signature of base class interfaces" in {
+      // classes/ctor_in_interface_03.phpt
+      script(
+        """<?php
+          |interface constr
+          |{
+          |	function __construct();
+          |}
+          |
+          |abstract class implem implements constr
+          |{
+          |}
+          |
+          |class derived extends implem
+          |{
+          |	function __construct($a)
+          |	{
+          |	}
+          |}
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Declaration of derived::__construct() must be compatible with constr::__construct() in /classes/CtorDtorSpec.inlinePhp on line 13
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 A class constructor must keep the signature of base class interfaces" in {
+      // classes/ctor_in_interface_04.phpt
+      script(
+        """<?php
+          |interface constr
+          |{
+          |	function __construct();
+          |}
+          |
+          |class implem implements constr
+          |{
+          |	function __construct()
+          |	{
+          |	}
+          |}
+          |
+          |class derived extends implem
+          |{
+          |	function __construct($a)
+          |	{
+          |	}
+          |}
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Declaration of derived::__construct() must be compatible with constr::__construct() in /classes/CtorDtorSpec.inlinePhp on line 16
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 The child class can re-use the parent class name for a function member" in {
+      // classes/ctor_name_clash.phpt
+      script(
+        """<?php
+          |class base {
+          |  function base() {
+          |    echo __CLASS__."::".__FUNCTION__."\n";
+          |  }
+          |}
+          |
+          |class derived extends base {
+          |  function base() {
+          |    echo __CLASS__."::".__FUNCTION__."\n";
+          |  }
+          |}
+          |
+          |$obj = new derived();
+          |$obj->base();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """base::base
+          |derived::base
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 A private constructor cannot be called" in {
+      // classes/ctor_visibility.phpt
+      script(
+        """<?php
+          |
+          |class Test
+          |{
+          |    function __construct()
+          |    {
+          |        echo __METHOD__ . "()\n";
+          |    }
+          |}
+          |
+          |class Derived extends Test
+          |{
+          |	function __construct()
+          |	{
+          |        echo __METHOD__ . "()\n";
+          |		parent::__construct();
+          |	}
+          |
+          |	static function f()
+          |	{
+          |		new Derived;
+          |	}
+          |}
+          |
+          |Derived::f();
+          |
+          |class TestPriv
+          |{
+          |    private function __construct()
+          |    {
+          |        echo __METHOD__ . "()\n";
+          |    }
+          |
+          |	static function f()
+          |	{
+          |		new TestPriv;
+          |	}
+          |}
+          |
+          |TestPriv::f();
+          |
+          |class DerivedPriv extends TestPriv
+          |{
+          |	function __construct()
+          |	{
+          |        echo __METHOD__ . "()\n";
+          |		parent::__construct();
+          |	}
+          |
+          |	static function f()
+          |	{
+          |		new DerivedPriv;
+          |	}
+          |}
+          |
+          |DerivedPriv::f();
+          |
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """Derived::__construct()
+          |Test::__construct()
+          |TestPriv::__construct()
+          |DerivedPriv::__construct()
+          |
+          |Fatal error: Cannot call private TestPriv::__construct() in /classes/CtorDtorSpec.inlinePhp on line 47
+          |""".stripMargin
+      )
+    }
   }
 }
