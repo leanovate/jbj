@@ -122,6 +122,10 @@ object GlobalFunctions {
           reify {
             PValConverter
           }
+        case t if t.typeSymbol == pVarClass =>
+          reify {
+            PVarConverter
+          }
         case t if t.typeSymbol == pAnyClass =>
           reify {
             PAnyConverter

@@ -12,7 +12,7 @@ import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
 import de.leanovate.jbj.runtime.context.{FunctionLikeContext, Context}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.ast.decl.TypeHint
-import de.leanovate.jbj.runtime.NamespaceName
+import de.leanovate.jbj.runtime.{CallbackHelper, NamespaceName}
 import de.leanovate.jbj.runtime.types.PParam
 
 object FunctionFunctions {
@@ -126,6 +126,19 @@ object FunctionFunctions {
       case _ =>
         ctx.log.warn("func_num_args():  Called from the global scope - no function context")
         -1
+    }
+  }
+
+  @GlobalFunction
+  def is_callable(callable: PVal, syntaxOnly: Option[Boolean], callableName: Option[PVar])(implicit ctx: Context): Boolean = {
+    if (syntaxOnly.getOrElse(false)) {
+      callable match {
+        case array: ArrayVal if array.size == 2 => true
+        case StringVal(str) if str.length > 0 => true
+        case _ => false
+      }
+    } else {
+      CallbackHelper.isValidCallback(callable)
     }
   }
 }
