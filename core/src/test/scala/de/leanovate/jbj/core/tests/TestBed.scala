@@ -68,17 +68,31 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |class test {
+        |ini_set("error_reporting",2039);
+        |class pass {
+        |	private static function show() {
+        |		echo "Call show()\n";
+        |	}
         |
-        |  protected function __clone() {
-        |  }
+        |	protected static function good() {
+        |		pass::show();
+        |	}
         |}
         |
-        |$obj = new test;
-        |$clone = clone $obj;
-        |$obj = NULL;
+        |class fail extends pass {
+        |	static function ok() {
+        |		pass::good();
+        |	}
         |
-        |echo "Done\n";
+        |	static function not_ok() {
+        |		pass::show();
+        |	}
+        |}
+        |
+        |fail::ok();
+        |fail::not_ok(); // calling a private function
+        |
+        |echo "Done\n"; // shouldn't be displayed
         |?>""".stripMargin)
   }
 }

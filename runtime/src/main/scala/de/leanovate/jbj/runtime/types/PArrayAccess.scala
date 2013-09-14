@@ -24,13 +24,13 @@ trait PArrayAccess {
 }
 
 object PArrayAccess extends PInterface {
-  def name = NamespaceName(relative = false, "ArrayAccess")
+  override def name = NamespaceName(relative = false, "ArrayAccess")
 
-  def interfaces = List.empty
+  override def interfaces = List.empty
 
-  def interfaceConstants = Map.empty
+  override def declaredConstants = Map.empty
 
-  def methods = Seq(
+  override def methods = Seq(
     PInterfaceMethod(this, "offsetExists"),
     PInterfaceMethod(this, "offsetGet"),
     PInterfaceMethod(this, "offsetSet"),

@@ -66,18 +66,31 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
           throw new FatalErrorJbjException(
             "Class %s may not inherit from final class (%s)".format(name.toString, superClassName.get.toString))
       }
-      _interfaces = implements.flatMap {
+      val interfaceConstant = mutable.Map.empty[String, String]
+      _interfaces = implements.reverse.flatMap {
         interfaceName =>
           ctx.global.findInterfaceOrClass(interfaceName, autoload = true) match {
             case Some(Left(interface)) =>
-              interface :: interface.interfaces
+              val interfaces = interface :: interface.interfaces
+              interfaces.foreach {
+                interface =>
+                  interface.declaredConstants.keys.foreach {
+                    constantName =>
+                      if (interfaceConstant.contains(constantName) && interfaceConstant(constantName) != interface.name.toString) {
+                        throw new FatalErrorJbjException("Cannot inherit previously-inherited or override constant %s from interface %s".
+                          format(constantName, interfaceConstant(constantName)))
+                      }
+                      interfaceConstant(constantName) = interface.name.toString
+                  }
+              }
+              interfaces
             case Some(Right(_)) =>
               throw new FatalErrorJbjException("%s cannot implement %s - it is not an interface".format(name.toString,
                 interfaceName.toString))
             case None =>
               throw new FatalErrorJbjException("Interface '%s' not found".format(interfaceName.toString))
           }
-      }.toSet ++ _superClass.map(_.interfaces).getOrElse(Set.empty)
+      }.toSet ++ _superClass.map(_.interfaces).getOrElse(List.empty)
 
       decls.foreach {
         method =>

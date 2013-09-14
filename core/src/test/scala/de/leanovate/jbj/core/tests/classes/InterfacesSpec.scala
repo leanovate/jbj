@@ -104,6 +104,54 @@ class InterfacesSpec extends SpecificationWithJUnit with TestJbjExecutor {
       )
     }
 
+    "Ensure a class may not inherit two constants with the same name from two separate interfaces." in {
+      // classes/interface_constant_inheritance_003.phpt
+      script(
+        """<?php
+          |interface I1 {
+          |	const FOO = 10;
+          |}
+          |
+          |interface I2 {
+          |	const FOO = 10;
+          |}
+          |
+          |class C implements I1,I2 {
+          |}
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot inherit previously-inherited or override constant FOO from interface I2 in /classes/InterfacesSpec.inlinePhp on line 10
+          |""".stripMargin
+      )
+    }
+
+    "Ensure a class may implement two interfaces which include the same constant (due to inheritance)." in {
+      // classes/interface_constant_inheritance_004.phpt
+      script(
+        """<?php
+          |interface IA {
+          |	const FOO = 10;
+          |}
+          |
+          |interface IB extends IA {
+          |}
+          |
+          |class C implements IA, IB {
+          |}
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """Done
+          |""".stripMargin
+      )
+    }
+
     "ZE2 An interface extends base interfaces" in {
       // classes/interface_doubled.phpt
       script(

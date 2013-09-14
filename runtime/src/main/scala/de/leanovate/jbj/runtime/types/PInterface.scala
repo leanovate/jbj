@@ -15,7 +15,10 @@ trait PInterface {
 
   def interfaces: List[PInterface]
 
-  def interfaceConstants: Map[String, ConstVal]
+  def declaredConstants: Map[String, ConstVal]
+
+  def interfaceConstants: Map[String, ConstVal] =
+    interfaces.flatMap(_.interfaceConstants.toList).toMap ++ declaredConstants.toMap
 
   def methods: Map[String, PMethod]
 

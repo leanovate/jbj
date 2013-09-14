@@ -27,8 +27,7 @@ case class InterfaceDeclStmt(name: NamespaceName, superInterfaces: List[Namespac
 
   override def interfaces = _interfaces
 
-  override def interfaceConstants: Map[String, ConstVal] =
-    interfaces.flatMap(_.interfaceConstants.toList).toMap ++ _interfaceConstants.toMap
+  override def declaredConstants = _interfaceConstants.toMap
 
   override def register(implicit ctx: Context) {
   }
