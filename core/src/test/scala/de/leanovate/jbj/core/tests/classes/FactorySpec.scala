@@ -345,5 +345,101 @@ class FactorySpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "ZE2 factory and singleton, test 7" in {
+      // classes/factory_and_singleton_007.phpt
+      script(
+        """<?php
+          |class test {
+          |
+          |  protected function __clone() {
+          |  }
+          |}
+          |
+          |$obj = new test;
+          |$clone = clone $obj;
+          |$obj = NULL;
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Call to protected test::__clone() from context '' in /classes/FactorySpec.inlinePhp on line 9
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 factory and singleton, test 8" in {
+      // classes/factory_and_singleton_008.phpt
+      script(
+        """<?php
+          |class test {
+          |
+          |  private function __clone() {
+          |  }
+          |}
+          |
+          |$obj = new test;
+          |$clone = clone $obj;
+          |$obj = NULL;
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Call to private test::__clone() from context '' in /classes/FactorySpec.inlinePhp on line 9
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 factory and singleton, test 9" in {
+      // classes/factory_and_singleton_009.phpt
+      script(
+        """<?php
+          |class test {
+          |
+          |  protected function __destruct() {
+          |  	echo __METHOD__ . "\n";
+          |  }
+          |}
+          |
+          |$obj = new test;
+          |
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """===DONE===
+          |
+          |Warning: Call to protected test::__destruct() from context '' during shutdown ignored in Unknown on line 0
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 factory and singleton, test 10" in {
+      // classes/factory_and_singleton_010.phpt
+      script(
+        """<?php
+          |class test {
+          |
+          |  private function __destruct() {
+          |  	echo __METHOD__ . "\n";
+          |  }
+          |}
+          |
+          |$obj = new test;
+          |
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """===DONE===
+          |
+          |Warning: Call to private test::__destruct() from context '' during shutdown ignored in Unknown on line 0
+          |""".stripMargin
+      )
+    }
   }
 }

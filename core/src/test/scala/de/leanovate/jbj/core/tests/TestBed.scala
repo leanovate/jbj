@@ -68,30 +68,17 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
+        |class test {
         |
-        |class ArrayAccessImpl implements ArrayAccess {
-        |	private $data = array();
-        |
-        |	public function offsetUnset($index) {}
-        |
-        |	public function offsetSet($index, $value) {
-        |		$this->data[$index] = $value;
-        |	}
-        |
-        |	public function offsetGet($index) {
-        |		return $this->data[$index];
-        |	}
-        |
-        |	public function offsetExists($index) {
-        |		return isset($this->data[$index]);
-        |	}
+        |  protected function __clone() {
+        |  }
         |}
         |
-        |$data = new ArrayAccessImpl();
-        |$test = 'some data';
-        |$data['element'] = NULL; // prevent notice
+        |$obj = new test;
+        |$clone = clone $obj;
+        |$obj = NULL;
         |
-        |?>
-        |===DONE===""".stripMargin)
+        |echo "Done\n";
+        |?>""".stripMargin)
   }
 }

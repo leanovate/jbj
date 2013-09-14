@@ -68,6 +68,7 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
       ctx match {
         case global: GlobalContext if global.inShutdown =>
           global.log.warn("Call to protected %s::%s() from context '%s' during shutdown ignored".format(declaringClass.name.toString, name, ctx.name))
+          return NullVal
         case MethodContext(_, pMethod, _) if declaringClass.isAssignableFrom(pMethod.declaringClass) =>
         case StaticMethodContext(pMethod, _) if declaringClass.isAssignableFrom(pMethod.declaringClass) =>
         case _ =>
