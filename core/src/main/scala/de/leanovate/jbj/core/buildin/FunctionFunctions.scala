@@ -102,7 +102,7 @@ object FunctionFunctions {
             BooleanVal.FALSE
         }
       case _ =>
-        ctx.log.warn("func_get_arg() expects parameter 1 to be long, %s given".format(TypeHint.displayType(value)))
+        ctx.log.warn("func_get_arg() expects parameter 1 to be long, %s given".format(value.typeName))
         BooleanVal.FALSE
     }
   }

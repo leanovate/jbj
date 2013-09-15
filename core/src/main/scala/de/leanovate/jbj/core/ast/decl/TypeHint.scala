@@ -11,7 +11,6 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context.{FunctionLikeContext, Context}
 import de.leanovate.jbj.runtime.exception.CatchableFatalError
 import scala.Some
-import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.runtime.NamespaceName
 
 sealed trait TypeHint {
@@ -21,16 +20,6 @@ sealed trait TypeHint {
 }
 
 object TypeHint {
-  def displayType(pVal: PVal) = pVal match {
-    case NullVal => "null"
-    case bool: BooleanVal => "boolean"
-    case int: IntegerVal => "integer"
-    case double: DoubleVal => "double"
-    case str: StringVal => "string"
-    case arr: ArrayVal => "array"
-    case obj: ObjectVal =>
-      "instance of %s".format(obj.pClass.name.toString)
-  }
 }
 
 object ArrayTypeHint extends TypeHint {
@@ -51,7 +40,7 @@ object ArrayTypeHint extends TypeHint {
         ctx match {
           case methodCtx: FunctionLikeContext =>
             CatchableFatalError("Argument %d passed to %s must be of the type array, %s given, called in %s on line %d and defined".
-              format(index + 1, methodCtx.functionSignature, TypeHint.displayType(pVal),
+              format(index + 1, methodCtx.functionSignature, pVal.typeName,
               methodCtx.callerContext.currentPosition.fileName, methodCtx.callerContext.currentPosition.line))
         }
     }
@@ -97,7 +86,7 @@ case class ClassTypeHint(className: NamespaceName) extends TypeHint {
               case methodCtx: FunctionLikeContext =>
                 CatchableFatalError("Argument %d passed to %s must implement interface %s, %s given, called in %s on line %d and defined".
                   format(index + 1, methodCtx.functionSignature,
-                  pInterface.name.toString, TypeHint.displayType(pVal),
+                  pInterface.name.toString, pVal.typeName,
                   methodCtx.callerContext.currentPosition.fileName, methodCtx.callerContext.currentPosition.line))
             }
         }
@@ -110,7 +99,7 @@ case class ClassTypeHint(className: NamespaceName) extends TypeHint {
               case methodCtx: FunctionLikeContext =>
                 CatchableFatalError("Argument %d passed to %s must be an instance of %s, %s given, called in %s on line %d and defined".
                   format(index + 1, methodCtx.functionSignature,
-                  pClass.name.toString, TypeHint.displayType(pVal),
+                  pClass.name.toString, pVal.typeName,
                   methodCtx.callerContext.currentPosition.fileName, methodCtx.callerContext.currentPosition.line))
             }
         }
@@ -122,7 +111,7 @@ case class ClassTypeHint(className: NamespaceName) extends TypeHint {
               case methodCtx: FunctionLikeContext =>
                 CatchableFatalError("Argument %d passed to %s must be an instance of %s, %s given, called in %s on line %d and defined".
                   format(index + 1, methodCtx.functionSignature,
-                  className.toString, TypeHint.displayType(pVal),
+                  className.toString, pVal.typeName,
                   methodCtx.callerContext.currentPosition.fileName, methodCtx.callerContext.currentPosition.line))
             }
         }

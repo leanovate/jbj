@@ -26,7 +26,7 @@ object ArrayFunctions {
       case array: ArrayVal =>
         BooleanVal(array.getAt(key).isDefined)
       case _ =>
-        ctx.log.warn("array_key_exists() expects parameter 2 to be array, %s given".format(TypeHint.displayType(value)))
+        ctx.log.warn("array_key_exists() expects parameter 2 to be array, %s given".format(value.typeName))
         NullVal
     }
   }
@@ -65,7 +65,7 @@ object ArrayFunctions {
           values.foreach(array.append)
           array.count
         case pVal =>
-          ctx.log.warn("array_push() expects parameter 1 to be array, %s given".format(TypeHint.displayType(pVal)))
+          ctx.log.warn("array_push() expects parameter 1 to be array, %s given".format(pVal.typeName))
           NullVal
       }
     }
@@ -81,7 +81,7 @@ object ArrayFunctions {
             value.asVal
         }.getOrElse(NullVal)
       case pVal =>
-        ctx.log.warn("array_pop() expects parameter 1 to be array, %s given".format(TypeHint.displayType(pVal)))
+        ctx.log.warn("array_pop() expects parameter 1 to be array, %s given".format(pVal.typeName))
         NullVal
     }
   }
