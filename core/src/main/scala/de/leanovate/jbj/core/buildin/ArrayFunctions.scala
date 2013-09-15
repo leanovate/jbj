@@ -60,7 +60,7 @@ object ArrayFunctions {
       ctx.log.warn("array_push() expects at least 2 parameters, 1 given")
       NullVal
     } else {
-      ref.asVal match {
+      ref.value match {
         case array: ArrayVal =>
           values.foreach(array.append)
           array.count
@@ -68,6 +68,21 @@ object ArrayFunctions {
           ctx.log.warn("array_push() expects parameter 1 to be array, %s given".format(TypeHint.displayType(pVal)))
           NullVal
       }
+    }
+  }
+
+  @GlobalFunction
+  def array_pop(ref: PVar)(implicit ctx: Context): PVal = {
+    ref.value match {
+      case array: ArrayVal =>
+        array.keyValues.lastOption.map {
+          case (key, value) =>
+            array.unsetAt(key)
+            value.asVal
+        }.getOrElse(NullVal)
+      case pVal =>
+        ctx.log.warn("array_pop() expects parameter 1 to be array, %s given".format(TypeHint.displayType(pVal)))
+        NullVal
     }
   }
 

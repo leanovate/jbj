@@ -10,6 +10,7 @@ package de.leanovate.jbj.core.buildin
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.value.IntegerVal
+import de.leanovate.jbj.runtime.context.Context
 
 object StringFunctions {
 
@@ -61,5 +62,16 @@ object StringFunctions {
       result(i * 2 + 1) = Character.forDigit(ch & 0xf, 16).toByte
     }
     result
+  }
+
+  @GlobalFunction
+  def trim(pVal: PVal)(implicit ctx: Context): PVal = {
+    pVal.concrete match {
+      case StringVal(str) =>
+        StringVal(str.trim)
+      case v =>
+        ctx.log.warn("trim() expects parameter 1 to be array, %s given".format(v.typeName))
+        NullVal
+    }
   }
 }
