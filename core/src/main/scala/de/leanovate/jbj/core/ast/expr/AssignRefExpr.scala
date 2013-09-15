@@ -7,13 +7,26 @@
 
 package de.leanovate.jbj.core.ast.expr
 
-import de.leanovate.jbj.core.ast.{Expr, RefExpr}
-import de.leanovate.jbj.runtime.Reference
+import de.leanovate.jbj.core.ast.{StaticInitializer, Expr, RefExpr}
+import de.leanovate.jbj.runtime.{VariableReference, Reference}
 import de.leanovate.jbj.runtime.value.{PVar, PAny}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.context.{MethodContext, StaticContext, Context}
+import de.leanovate.jbj.core.ast.name.StaticName
 
-case class AssignRefExpr(reference: RefExpr, expr: Expr) extends RefExpr {
+case class AssignRefExpr(reference: RefExpr, expr: Expr) extends RefExpr with StaticInitializer {
+  override def initializeStatic(staticCtx: StaticContext)(implicit ctx: Context) {
+    ctx match {
+      case MethodContext(_, _, _) =>
+        reference match {
+          case VariableRefExpr(StaticName("this")) =>
+            throw new FatalErrorJbjException("Cannot re-assign $this")
+          case _ =>
+        }
+      case _ =>
+    }
+  }
+
   override def eval(implicit ctx: Context) = evalRef.byVal
 
   override def evalRef(implicit ctx: Context) = new Reference {
