@@ -17,3 +17,6 @@ It is certainly not supposed to be an acronym for anything.
 # Licence
 
 jbj is published under the [MIT Licence](http://opensource.org/licenses/MIT)
+
+The regression test suite is based on the test suite of the PHP interpreter published under the [PHP License](http://www.php.net/license/3_01.txt).
+
