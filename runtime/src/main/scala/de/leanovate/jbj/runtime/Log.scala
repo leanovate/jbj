@@ -49,6 +49,18 @@ class Log(context: Context, out: OutputBuffer, err: Option[PrintStream]) {
     stdLog(JbjSettings.ErrorLevel.E_STRICT, "Strict Standards", msg)
   }
 
+  def userNotice(msg: String) {
+    stdLog(JbjSettings.ErrorLevel.E_USER_NOTICE, "Notice", msg)
+  }
+
+  def userWarn(msg: String) {
+    stdLog(JbjSettings.ErrorLevel.E_USER_WARNING, "Warning", msg)
+  }
+
+  def userError(msg: String) {
+    stdLog(JbjSettings.ErrorLevel.E_USER_ERROR, "Error", msg)
+  }
+
   def parseError(position: FileNodePosition, msg: String) {
     if (!silent && context.settings.getErrorReporting.contains(JbjSettings.ErrorLevel.E_PARSE)) {
       err.foreach(_.println("PHP Parse error: %s in %s on line %d".format(msg, position.fileName, position.line)))

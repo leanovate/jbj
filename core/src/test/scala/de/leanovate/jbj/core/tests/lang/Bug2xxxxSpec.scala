@@ -183,6 +183,27 @@ class Bug2xxxxSpec extends SpecificationWithJUnit with TestJbjExecutor{
       )
     }
 
+    "Bug #21094 (set_error_handler not accepting methods)" in {
+      // lang/bug21094.phpt
+      script(
+        """<?php
+          |class test {
+          |	function hdlr($errno, $errstr, $errfile, $errline) {
+          |		printf("[%d] errstr: %s, errfile: %s, errline: %d\n", $errno, $errstr, $errfile, $errline, $errstr);
+          |	}
+          |}
+          |
+          |set_error_handler(array(new test(), "hdlr"));
+          |
+          |trigger_error("test");
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """[1024] errstr: test, errfile: /lang/Bug2xxxxSpec.inlinePhp, errline: 10
+          |""".stripMargin
+      )
+    }
+
     "Bug #21600 (assign by reference function call changes variable contents)" in {
       // lang/bug21600.phpt
       script(

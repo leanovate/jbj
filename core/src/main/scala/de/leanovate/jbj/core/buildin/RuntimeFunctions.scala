@@ -67,4 +67,23 @@ object RuntimeFunctions {
         ctx.settings.setErrorReporting(JbjSettings.ErrorLevel.errorLevelsForValue(value.toInteger.asInt))
     }
   }
+
+  @GlobalFunction
+  def trigger_error(error_msg: String, error_type: Option[Int])(implicit ctx: Context): Boolean = {
+    val errorLevel = JbjSettings.ErrorLevel.errorLevelForValue(error_type.getOrElse(JbjSettings.ErrorLevel.E_USER_NOTICE.getValue))
+
+    Option(errorLevel) match {
+      case Some(JbjSettings.ErrorLevel.E_USER_NOTICE) =>
+        ctx.log.userNotice(error_msg)
+        true
+      case Some(JbjSettings.ErrorLevel.E_USER_WARNING) =>
+        ctx.log.userWarn(error_msg)
+        true
+      case Some(JbjSettings.ErrorLevel.E_USER_ERROR) =>
+        ctx.log.userError(error_msg)
+        true
+      case _ =>
+        false
+    }
+  }
 }

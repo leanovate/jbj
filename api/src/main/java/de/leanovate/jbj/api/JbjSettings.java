@@ -183,11 +183,19 @@ public class JbjSettings implements Cloneable {
             return value;
         }
 
+        public static ErrorLevel errorLevelForValue(int errorReporting) {
+            for (ErrorLevel errorLevel : ErrorLevel.values()) {
+                if (errorReporting == errorLevel.getValue())
+                    return errorLevel;
+            }
+            return null;
+        }
+
         public static EnumSet<ErrorLevel> errorLevelsForValue(int errorReporting) {
             EnumSet<ErrorLevel> result = EnumSet.noneOf(ErrorLevel.class);
 
-            for(ErrorLevel errorLevel : ErrorLevel.values()) {
-                if ( (errorLevel.getValue() & errorReporting) != 0) {
+            for (ErrorLevel errorLevel : ErrorLevel.values()) {
+                if ((errorLevel.getValue() & errorReporting) != 0) {
                     result.add(errorLevel);
                 }
             }
