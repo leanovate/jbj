@@ -14,7 +14,7 @@ abstract class LazyVal extends PVal {
 
   def toOutput(implicit ctx: Context) = value.toOutput
 
-  def toStr = value.toStr
+  def toStr(implicit ctx: Context) = value.toStr
 
   def toNum = value.toNum
 
@@ -36,7 +36,7 @@ abstract class LazyVal extends PVal {
 
   def typeName = value.typeName
 
-  def compare(other: PVal) = value.compare(other)
+  def compare(other: PVal)(implicit ctx: Context) = value.compare(other)
 
   override def asVal = value
 

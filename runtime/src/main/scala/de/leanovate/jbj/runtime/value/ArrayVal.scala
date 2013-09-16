@@ -26,7 +26,7 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
 
   override def toOutput(implicit ctx: Context) = "Array"
 
-  override def toStr = StringVal("Array".getBytes("UTF-8"))
+  override def toStr(implicit ctx: Context) = StringVal("Array".getBytes("UTF-8"))
 
   override def toNum = toInteger
 
@@ -60,7 +60,7 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
 
   override def size: Int = keyValueMap.size
 
-  override def compare(other: PVal): Int = other match {
+  override def compare(other: PVal)(implicit ctx: Context): Int = other match {
     case otherArray: ArrayVal =>
       val keyIt = keyValueMap.keysIterator
       while (keyIt.hasNext) {

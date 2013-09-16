@@ -17,7 +17,7 @@ class StringVal(var chars: Array[Byte]) extends PConcreteVal with ArrayLike {
 
   override def toOutput(implicit ctx: Context) = asString
 
-  override def toStr: StringVal = this
+  override def toStr(implicit ctx: Context): StringVal = this
 
   override def toNum: NumericVal = asUtf8String match {
     case NumericVal.numericPattern(num, null, null) if !num.isEmpty && num != "-" && num != "." =>
@@ -96,7 +96,7 @@ class StringVal(var chars: Array[Byte]) extends PConcreteVal with ArrayLike {
 
   override def size: Int = chars.length
 
-  override def compare(other: PVal): Int = other match {
+  override def compare(other: PVal)(implicit ctx: Context): Int = other match {
     case otherStr: StringVal if isStrongNumericPattern && otherStr.isStrongNumericPattern =>
       new String(chars).toDouble.compare(new String(chars).toDouble)
     case otherStr: StringVal => StringVal.compare(chars, otherStr.chars)

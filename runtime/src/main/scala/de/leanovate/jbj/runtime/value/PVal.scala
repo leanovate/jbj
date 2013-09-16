@@ -13,7 +13,7 @@ import scala.xml.NodeSeq
 trait PVal extends PAny {
   def toOutput(implicit ctx: Context): String
 
-  def toStr: StringVal
+  def toStr(implicit ctx: Context): StringVal
 
   def toNum: NumericVal
 
@@ -37,7 +37,7 @@ trait PVal extends PAny {
 
   def typeName: String
 
-  def compare(other: PVal): Int
+  def compare(other: PVal)(implicit ctx: Context): Int
 
   override def asVal = this
 

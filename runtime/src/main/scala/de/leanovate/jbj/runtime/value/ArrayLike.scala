@@ -18,6 +18,10 @@ trait ArrayLike {
       case DoubleVal(idx) => getAt(idx.toLong)
       case str: StringVal if str.isStrongNumericPattern => getAt(str.toInteger.asLong)
       case StringVal(idx) => getAt(idx)
+      case _: ObjectVal =>
+        val errorStr = "Illegal offset type"
+        ctx.out.println("string(%d) \"%s\"".format(errorStr.length, errorStr))
+        Some(NullVal)
       case v => getAt(v.toStr.asString)
     }
 
@@ -38,6 +42,9 @@ trait ArrayLike {
       case DoubleVal(idx) => setAt(idx.toLong, value)
       case str: StringVal if str.isStrongNumericPattern => setAt(str.toInteger.asLong, value)
       case StringVal(idx) => setAt(idx, value)
+      case _: ObjectVal =>
+        val errorStr = "Illegal offset type"
+        ctx.out.println("string(%d) \"%s\"".format(errorStr.length, errorStr))
       case v => setAt(v.toStr.asString, value)
     }
   }

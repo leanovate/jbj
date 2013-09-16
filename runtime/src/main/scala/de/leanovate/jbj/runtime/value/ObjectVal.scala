@@ -27,9 +27,23 @@ trait ObjectVal extends PConcreteVal {
 
   def keyValues(implicit ctx: Context): Seq[(Key, PAny)] = keyValueMap.toSeq
 
-  override def toOutput(implicit ctx: Context) = "Array"
+  override def toOutput(implicit ctx: Context) = pClass.findMethod("__toString").map {
+    method =>
+      method.invoke(this, Nil).asVal.concrete match {
+        case StringVal(str) =>
+          str
+        case _ =>
+          val errorStr = "Method %s::__toString() must return a string value".format(pClass.name.toString)
+          ctx.out.println("string(%d) \"%s\"".format(errorStr.length, errorStr))
+          ""
+      }
+  }.getOrElse {
+    val errorStr = "Object of class %s could not be converted to string".format(pClass.name.toString)
+    ctx.out.println("string(%d) \"%s\"".format(errorStr.length, errorStr))
+    ""
+  }
 
-  override def toStr = StringVal("object".getBytes("UTF-8"))
+  override def toStr(implicit ctx: Context) = StringVal(toOutput)
 
   override def toNum = toInteger
 
@@ -56,7 +70,7 @@ trait ObjectVal extends PConcreteVal {
 
   override def typeName = "instance of %s".format(pClass.name.toString)
 
-  override def compare(other: PVal): Int = other match {
+  override def compare(other: PVal)(implicit ctx: Context): Int = other match {
     case otherObj: ObjectVal =>
       if (pClass != otherObj.pClass)
         return Int.MinValue

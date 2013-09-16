@@ -78,6 +78,7 @@ object ArrayFunctions {
         array.keyValues.lastOption.map {
           case (key, value) =>
             array.unsetAt(key)
+            array.iteratorReset()
             value.asVal
         }.getOrElse(NullVal)
       case pVal =>

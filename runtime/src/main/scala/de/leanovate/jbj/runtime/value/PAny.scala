@@ -20,7 +20,7 @@ trait PAny {
 
   def release()(implicit ctx: Context) {}
 
-  def :==(other: PAny): PVal = BooleanVal(asVal.compare(other.asVal) == 0)
+  def :==(other: PAny)(implicit ctx: Context): PVal = BooleanVal(asVal.compare(other.asVal) == 0)
 
   def ===(other: PAny): PVal = (this.asVal, other.asVal) match {
     case (BooleanVal(leftVal), BooleanVal(rightVal)) => BooleanVal(leftVal == rightVal)
@@ -40,21 +40,21 @@ trait PAny {
     case _ => BooleanVal.TRUE
   }
 
-  def :!=(other: PAny): PVal = BooleanVal(asVal.compare(other.asVal) != 0)
+  def :!=(other: PAny)(implicit ctx: Context): PVal = BooleanVal(asVal.compare(other.asVal) != 0)
 
-  def <(other: PAny): PVal = {
+  def <(other: PAny)(implicit ctx: Context): PVal = {
     val comp = asVal.compare(other.asVal)
     BooleanVal(comp < 0 && comp != Int.MinValue)
   }
 
-  def <=(other: PAny): PVal = {
+  def <=(other: PAny)(implicit ctx: Context): PVal = {
     val comp = asVal.compare(other.asVal)
     BooleanVal(comp <= 0 && comp != Int.MinValue)
   }
 
-  def >(other: PAny): PVal = BooleanVal(asVal.compare(other.asVal) > 0)
+  def >(other: PAny)(implicit ctx: Context): PVal = BooleanVal(asVal.compare(other.asVal) > 0)
 
-  def >=(other: PAny): PVal = BooleanVal(asVal.compare(other.asVal) >= 0)
+  def >=(other: PAny)(implicit ctx: Context): PVal = BooleanVal(asVal.compare(other.asVal) >= 0)
 
   def +(other: PAny): PVal = this.asVal.toNum + other.asVal.toNum
 
@@ -66,7 +66,7 @@ trait PAny {
 
   def %(other: PAny): PVal = this.asVal.toInteger % other.asVal.toInteger
 
-  def !(other: PAny): PVal = this.asVal.toStr ! other.asVal.toStr
+  def !(other: PAny)(implicit ctx: Context): PVal = this.asVal.toStr ! other.asVal.toStr
 
   def &(other: PAny): PVal = (this.asVal, other.asVal) match {
     case (leftVal: StringVal, rightVal: StringVal) => leftVal & rightVal

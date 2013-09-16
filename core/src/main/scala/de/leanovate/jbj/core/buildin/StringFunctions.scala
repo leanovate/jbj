@@ -13,6 +13,26 @@ import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.runtime.context.Context
 
 object StringFunctions {
+  @GlobalFunction
+  def bin2hex(str: Array[Byte]): Array[Byte] = {
+    val result = new Array[Byte](str.length * 2)
+    for (i <- Range(0, str.length)) {
+      val ch = str(i)
+      result(i * 2) = Character.forDigit((ch >> 4) & 0xf, 16).toByte
+      result(i * 2 + 1) = Character.forDigit(ch & 0xf, 16).toByte
+    }
+    result
+  }
+
+  @GlobalFunction
+  def sprintf(format: String, args: PVal*)(implicit ctx: Context): String = {
+    format.format(args.map {
+      case DoubleVal(d) => d
+      case IntegerVal(v) => v
+      case StringVal(str) => str
+      case v => v.toStr.asString
+    }: _*)
+  }
 
   @GlobalFunction
   def strlen(str: Array[Byte]): Int = str.length
@@ -54,23 +74,14 @@ object StringFunctions {
   def strtoupper(str: String): String = str.toUpperCase
 
   @GlobalFunction
-  def bin2hex(str: Array[Byte]): Array[Byte] = {
-    val result = new Array[Byte](str.length * 2)
-    for (i <- Range(0, str.length)) {
-      val ch = str(i)
-      result(i * 2) = Character.forDigit((ch >> 4) & 0xf, 16).toByte
-      result(i * 2 + 1) = Character.forDigit(ch & 0xf, 16).toByte
-    }
-    result
-  }
-
-  @GlobalFunction
   def trim(pVal: PVal)(implicit ctx: Context): PVal = {
     pVal.concrete match {
       case StringVal(str) =>
         StringVal(str.trim)
+      case obj:ObjectVal =>
+        StringVal(obj.toStr.asString.trim)
       case v =>
-        ctx.log.warn("trim() expects parameter 1 to be array, %s given".format(v.typeName))
+        ctx.log.warn("trim() expects parameter 1 to be string, %s given".format(v.typeName))
         NullVal
     }
   }

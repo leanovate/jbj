@@ -69,73 +69,76 @@ object TestBed {
     test(
       """<?php
         |
-        |echo "\nDirectly changing array values.\n";
-        |$a = array("original.1","original.2","original.3");
-        |foreach ($a as $k=>$v) {
-        |	$a[$k]="changed.$k";
-        |	var_dump($v);
+        |function my_error_handler($errno, $errstr, $errfile, $errline) {
+        |	var_dump($errstr);
         |}
-        |var_dump($a);
         |
-        |echo "\nModifying the foreach \$value.\n";
-        |$a = array("original.1","original.2","original.3");
-        |foreach ($a as $k=>$v) {
-        |	$v="changed.$k";
+        |set_error_handler('my_error_handler');
+        |
+        |class test1
+        |{
         |}
-        |var_dump($a);
         |
-        |
-        |echo "\nModifying the foreach &\$value.\n";
-        |$a = array("original.1","original.2","original.3");
-        |foreach ($a as $k=>&$v) {
-        |	$v="changed.$k";
-        |}
-        |var_dump($a);
-        |
-        |echo "\nPushing elements onto an unreferenced array.\n";
-        |$a = array("original.1","original.2","original.3");
-        |$counter=0;
-        |foreach ($a as $v) {
-        |	array_push($a, "new.$counter");
-        |
-        |	//avoid infinite loop if test is failing
-        |    if ($counter++>10) {
-        |    	echo "Loop detected\n";
-        |    	break;
+        |class test2
+        |{
+        |    function __toString()
+        |    {
+        |    	echo __METHOD__ . "()\n";
+        |        return "Converted\n";
         |    }
         |}
-        |var_dump($a);
         |
-        |echo "\nPushing elements onto an unreferenced array, using &\$value.\n";
-        |$a = array("original.1","original.2","original.3");
-        |$counter=0;
-        |foreach ($a as &$v) {
-        |	array_push($a, "new.$counter");
-        |
-        |	//avoid infinite loop if test is failing
-        |    if ($counter++>10) {
-        |    	echo "Loop detected\n";
-        |    	break;
+        |class test3
+        |{
+        |    function __toString()
+        |    {
+        |    	echo __METHOD__ . "()\n";
+        |        return 42;
         |    }
         |}
-        |var_dump($a);
+        |echo "====test1====\n";
+        |$o = new test1;
+        |print_r($o);
+        |var_dump((string)$o);
+        |var_dump($o);
         |
-        |echo "\nPopping elements off an unreferenced array.\n";
-        |$a = array("original.1","original.2","original.3");
-        |foreach ($a as $v) {
-        |	array_pop($a);
-        |	var_dump($v);
-        |}
-        |var_dump($a);
+        |echo "====test2====\n";
+        |$o = new test2;
+        |print_r($o);
+        |print $o;
+        |var_dump($o);
+        |echo "====test3====\n";
+        |echo $o;
         |
-        |echo "\nPopping elements off an unreferenced array, using &\$value.\n";
-        |$a = array("original.1","original.2","original.3");
-        |foreach ($a as &$v) {
-        |	array_pop($a);
-        |	var_dump($v);
-        |}
-        |var_dump($a);
+        |echo "====test4====\n";
+        |echo "string:".$o;
         |
-        |?>""".stripMargin)
+        |echo "====test5====\n";
+        |echo 1 . $o;
+        |echo 1 , $o;
+        |
+        |echo "====test6====\n";
+        |echo $o . $o;
+        |echo $o , $o;
+        |
+        |echo "====test7====\n";
+        |$ar = array();
+        |$ar[$o->__toString()] = "ERROR";
+        |echo $ar[$o];
+        |
+        |echo "====test8====\n";
+        |var_dump(trim($o));
+        |var_dump(trim((string)$o));
+        |
+        |echo "====test9====\n";
+        |echo sprintf("%s", $o);
+        |
+        |echo "====test10====\n";
+        |$o = new test3;
+        |var_dump($o);
+        |echo $o;
+        |
+        |?>
+        |====DONE====""".stripMargin)
   }
 }

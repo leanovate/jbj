@@ -39,9 +39,9 @@ object BooleanVal {
 
     override def toInteger = IntegerVal(1)
 
-    override def toStr = StringVal("1".getBytes("UTF-8"))
+    override def toStr(implicit ctx: Context) = StringVal("1".getBytes("UTF-8"))
 
-    override def compare(other: PVal): Int = other match {
+    override def compare(other: PVal)(implicit ctx: Context): Int = other match {
       case BooleanVal(otherBool) => if (otherBool) 0 else 1
       case NumericVal(otherDouble) => 1.0.compare(otherDouble)
       case str:StringVal => if (str.chars.length > 0) 0 else 1
@@ -61,9 +61,9 @@ object BooleanVal {
 
     override def toInteger = IntegerVal(0)
 
-    override def toStr = StringVal(Array.emptyByteArray)
+    override def toStr(implicit ctx: Context) = StringVal(Array.emptyByteArray)
 
-    override def compare(other: PVal): Int = other match {
+    override def compare(other: PVal)(implicit ctx: Context): Int = other match {
       case BooleanVal(otherBool) => if (otherBool) -1 else 0
       case NumericVal(otherDouble) => 0.0.compare(otherDouble)
       case str:StringVal => if (str.chars.length > 0) -1 else 0

@@ -12,7 +12,7 @@ import de.leanovate.jbj.runtime.context.Context
 object NullVal extends PConcreteVal {
   override def toOutput(implicit ctx: Context) = ""
 
-  override def toStr = StringVal(Array.empty[Byte])
+  override def toStr(implicit ctx: Context) = StringVal(Array.empty[Byte])
 
   override def toNum = toInteger
 
@@ -34,7 +34,7 @@ object NullVal extends PConcreteVal {
 
   override def typeName = "null"
 
-  override def compare(other: PVal): Int = other match {
+  override def compare(other: PVal)(implicit ctx: Context): Int = other match {
     case BooleanVal(otherBool) => if (otherBool) 1 else 0
     case NumericVal(otherDouble) => 0.0.compare(otherDouble)
     case _ => StringVal.compare(Array[Byte](), other.toStr.chars)

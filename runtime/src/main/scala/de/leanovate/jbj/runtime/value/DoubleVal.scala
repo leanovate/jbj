@@ -15,7 +15,7 @@ import de.leanovate.jbj.runtime.context.Context
 case class DoubleVal(asDouble: Double) extends NumericVal {
   override def toOutput(implicit ctx: Context) = compatbleStr
 
-  override def toStr: StringVal = StringVal(compatbleStr.getBytes("UTF-8"))
+  override def toStr(implicit ctx: Context): StringVal = StringVal(compatbleStr.getBytes("UTF-8"))
 
   override def toDouble = this
 
@@ -33,7 +33,7 @@ case class DoubleVal(asDouble: Double) extends NumericVal {
 
   override def typeName = "double"
 
-  override def compare(other: PVal): Int = other match {
+  override def compare(other: PVal)(implicit ctx: Context): Int = other match {
     case NumericVal(otherDouble) => asDouble.compare(otherDouble)
     case _ => StringVal.compare(asDouble.toString.getBytes, other.toStr.chars)
   }
