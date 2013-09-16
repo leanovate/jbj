@@ -12,7 +12,7 @@ import de.leanovate.jbj.runtime.context.Context
 import ObjectPropertyKey.{Key, IntKey, PublicKey, ProtectedKey, PrivateKey}
 import de.leanovate.jbj.runtime.types.{PInterface, PClass}
 import de.leanovate.jbj.api.JbjException
-import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.exception.{CatchableFatalError, FatalErrorJbjException}
 
 trait ObjectVal extends PConcreteVal {
   def pClass: PClass
@@ -36,8 +36,7 @@ trait ObjectVal extends PConcreteVal {
           case StringVal(str) =>
             str
           case _ =>
-            val errorStr = "Method %s::__toString() must return a string value".format(pClass.name.toString)
-            ctx.out.println("string(%d) \"%s\"".format(errorStr.length, errorStr))
+            CatchableFatalError("Method %s::__toString() must return a string value".format(pClass.name.toString))
             ""
         }
       } catch {
@@ -45,8 +44,7 @@ trait ObjectVal extends PConcreteVal {
           throw new FatalErrorJbjException("Method %s::__toString() must not throw an exception".format(pClass.name.toString))
       }
   }.getOrElse {
-    val errorStr = "Object of class %s could not be converted to string".format(pClass.name.toString)
-    ctx.out.println("string(%d) \"%s\"".format(errorStr.length, errorStr))
+    CatchableFatalError("Object of class %s could not be converted to string".format(pClass.name.toString))
     ""
   }
 

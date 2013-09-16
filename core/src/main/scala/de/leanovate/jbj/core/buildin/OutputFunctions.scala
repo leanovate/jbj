@@ -13,6 +13,15 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 object OutputFunctions {
+  @GlobalFunction
+  def printf(format: String, args: PVal*)(implicit ctx: Context) {
+    ctx.out.print(format.format(args.map {
+      case DoubleVal(d) => d
+      case IntegerVal(v) => v
+      case StringVal(str) => str
+      case v => v.toStr.asString
+    }: _*))
+  }
 
   @GlobalFunction
   def var_dump(values: PAny*)(implicit ctx: Context) {

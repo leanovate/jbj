@@ -81,7 +81,7 @@ class Log(context: Context, out: OutputBuffer, err: Option[PrintStream]) {
           out.println(message)
         }
       }
-      if ( context.settings.isTrackErrors) {
+      if (context.settings.isTrackErrors) {
         context.defineVariable("php_errormsg", PVar(StringVal(msg)(context)))
       }
       true
