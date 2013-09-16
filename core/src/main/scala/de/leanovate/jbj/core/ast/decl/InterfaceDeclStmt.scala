@@ -15,6 +15,7 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.types.{PMethod, PInterface}
 import de.leanovate.jbj.runtime.value.ConstVal
+import de.leanovate.jbj.api.JbjException
 
 case class InterfaceDeclStmt(name: NamespaceName, superInterfaces: List[NamespaceName],
                              decls: List[ClassMemberDecl])
@@ -30,33 +31,12 @@ case class InterfaceDeclStmt(name: NamespaceName, superInterfaces: List[Namespac
   override def declaredConstants = _interfaceConstants.toMap
 
   override def register(implicit ctx: Context) {
+    initialize(autoload = false, ignoreErrors = true)
   }
 
   override def exec(implicit ctx: Context) = {
-    if (ctx.global.findInterfaceOrClass(name, autoload = false).isDefined)
-      throw new FatalErrorJbjException("Cannot redeclare class %s".format(name))
-    else {
-      _interfaces = superInterfaces.map {
-        interfaceName =>
-          ctx.global.findInterfaceOrClass(interfaceName, autoload = true) match {
-            case Some(Left(interface)) => interface
-            case Some(Right(_)) =>
-              throw new FatalErrorJbjException("%s cannot implement %s - it is not an interface".format(name.toString,
-                interfaceName.toString))
-            case None =>
-              throw new FatalErrorJbjException("Interface '%s' not found".format(interfaceName.toString))
-          }
-      }
-
-      decls.foreach {
-        method =>
-          ctx.currentPosition = method.position
-          method.initializeInterface(this)
-      }
-
-      ctx.global.defineInterface(this)
-    }
-    _initialized = true
+    if (!_initialized)
+      initialize(autoload = true, ignoreErrors = false)
     SuccessExecResult
   }
 
@@ -71,5 +51,39 @@ case class InterfaceDeclStmt(name: NamespaceName, superInterfaces: List[Namespac
       case _ =>
     }
     result.toMap
+  }
+
+  private def initialize(autoload: Boolean, ignoreErrors: Boolean)(implicit ctx: Context) {
+    if (ctx.global.findInterfaceOrClass(name, autoload = false).isDefined)
+      throw new FatalErrorJbjException("Cannot redeclare class %s".format(name))
+    else {
+      _interfaces = superInterfaces.map {
+        interfaceName =>
+          ctx.global.findInterfaceOrClass(interfaceName, autoload) match {
+            case Some(Left(interface)) => interface
+            case Some(Right(_)) =>
+              if (ignoreErrors)
+                return
+              else
+                throw new FatalErrorJbjException("%s cannot implement %s - it is not an interface".format(name.toString,
+                  interfaceName.toString))
+            case None =>
+              if (ignoreErrors)
+                return
+              else
+                throw new FatalErrorJbjException("Interface '%s' not found".format(interfaceName.toString))
+          }
+      }
+
+      decls.foreach {
+        method =>
+          ctx.currentPosition = method.position
+          method.initializeInterface(this)
+      }
+
+      ctx.global.defineInterface(this)
+    }
+    _initialized = true
+
   }
 }

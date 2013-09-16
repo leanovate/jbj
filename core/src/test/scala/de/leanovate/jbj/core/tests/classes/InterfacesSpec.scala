@@ -708,7 +708,7 @@ class InterfacesSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       ).result must haveOutput(
         """
-          |Fatal error: Class Exception_foo contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (Throwable::getErrno) in /classes/InterfacesSpec.inlinePhp on line 11
+          |Fatal error: Class Exception_foo contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (Throwable::getErrno) in /classes/InterfacesSpec.inlinePhp on line 8
           |""".stripMargin
       )
     }

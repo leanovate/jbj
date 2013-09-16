@@ -171,7 +171,7 @@ class AbstractSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       ).result must haveOutput(
         """
-          |Fatal error: Class derived contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (derived::show) in /classes/AbstractSpec.inlinePhp on line 7
+          |Fatal error: Class derived contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (derived::show) in /classes/AbstractSpec.inlinePhp on line 6
           |""".stripMargin
       )
     }
@@ -234,7 +234,7 @@ class AbstractSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       ).result must haveOutput(
         """
-          |Fatal error: Class fail contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (fail::show) in /classes/AbstractSpec.inlinePhp on line 4
+          |Fatal error: Class fail contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (fail::show) in /classes/AbstractSpec.inlinePhp on line 3
           |""".stripMargin
       )
     }
@@ -259,7 +259,7 @@ class AbstractSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       ).result must haveOutput(
         """
-          |Fatal error: Class fail contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (fail::show) in /classes/AbstractSpec.inlinePhp on line 10
+          |Fatal error: Class fail contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (fail::show) in /classes/AbstractSpec.inlinePhp on line 9
           |""".stripMargin
       )
     }
@@ -300,7 +300,7 @@ class AbstractSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |
           |Strict Standards: Static function fail::func() should not be abstract in /classes/AbstractSpec.inlinePhp(17) : eval()'d code on line 4
           |
-          |Fatal error: Class fail contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (fail::func) in /classes/AbstractSpec.inlinePhp(17) : eval()'d code on line 4
+          |Fatal error: Class fail contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (fail::func) in /classes/AbstractSpec.inlinePhp(17) : eval()'d code on line 2
           |""".stripMargin
       )
     }

@@ -30,6 +30,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   extends DeclStmt with PClass {
 
   private var _initialized = false
+  private var _methodsInitialized = false
   private var _staticInitialized = false
   protected[decl] val _classConstants = mutable.Map.empty[String, ConstVal]
 
@@ -48,76 +49,12 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
     superClass.map(_.classConstants).getOrElse(Map.empty) ++ _classConstants.toMap
 
   override def register(implicit ctx: Context) {
+    initialize(autoload = false, ignoreErrors = true)
   }
 
   override def exec(implicit ctx: Context) = {
-    if (ctx.global.findInterfaceOrClass(name, autoload = false).isDefined)
-      throw new FatalErrorJbjException("Cannot redeclare class %s".format(name))
-    else {
-      if (superClassName.isDefined) {
-        _superClass = ctx.global.findClass(superClassName.get, autoload = true)
-        if (!superClass.isDefined) {
-          if (ctx.global.findInterface(superClassName.get, autoload = false).isDefined)
-            throw new FatalErrorJbjException("Class %s cannot extend from interface %s".format(name.toString, superClassName.get))
-          else
-            throw new FatalErrorJbjException("Class '%s' not found".format(superClassName.get))
-        }
-        else if (superClass.get.isFinal)
-          throw new FatalErrorJbjException(
-            "Class %s may not inherit from final class (%s)".format(name.toString, superClassName.get.toString))
-      }
-      val interfaceConstant = mutable.Map.empty[String, String]
-      _interfaces = implements.reverse.flatMap {
-        interfaceName =>
-          ctx.global.findInterfaceOrClass(interfaceName, autoload = true) match {
-            case Some(Left(interface)) =>
-              val interfaces = interface :: interface.interfaces
-              interfaces.foreach {
-                interface =>
-                  interface.declaredConstants.keys.foreach {
-                    constantName =>
-                      if (interfaceConstant.contains(constantName) && interfaceConstant(constantName) != interface.name.toString) {
-                        throw new FatalErrorJbjException("Cannot inherit previously-inherited or override constant %s from interface %s".
-                          format(constantName, interfaceConstant(constantName)))
-                      }
-                      interfaceConstant(constantName) = interface.name.toString
-                  }
-              }
-              interfaces
-            case Some(Right(_)) =>
-              throw new FatalErrorJbjException("%s cannot implement %s - it is not an interface".format(name.toString,
-                interfaceName.toString))
-            case None =>
-              throw new FatalErrorJbjException("Interface '%s' not found".format(interfaceName.toString))
-          }
-      }.toSet ++ _superClass.map(_.interfaces).getOrElse(List.empty)
-
-      decls.foreach {
-        method =>
-          ctx.currentPosition = method.position
-          method.initializeClass(this)
-      }
-      if (!isAbstract) {
-        val missingImplementations = _interfaces.flatMap {
-          interface =>
-            interface.methods.flatMap {
-              case (methodName, method) if !methods.contains(methodName) =>
-                Seq("%s::%s".format(interface.name.toString, method.name))
-              case _ => Seq.empty
-            }
-        } ++ methods.values.filter(_.isAbstract).map {
-          method =>
-            "%s::%s".format(name.toString, method.name)
-        }
-        if (!missingImplementations.isEmpty) {
-          throw new FatalErrorJbjException("Class %s contains %d abstract method and must therefore be declared abstract or implement the remaining methods (%s)".
-            format(name.toString, missingImplementations.size, missingImplementations.mkString(", ")))
-        }
-      }
-
-      ctx.global.defineClass(this)
-    }
-    _initialized = true
+    if (!_initialized)
+      initialize(autoload = true, ignoreErrors = false)
     SuccessExecResult
   }
 
@@ -232,4 +169,106 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
 
 
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(decls)
+
+  private def initialize(autoload: Boolean, ignoreErrors: Boolean)(implicit ctx: Context) {
+    if (ctx.global.findInterfaceOrClass(name, autoload = false).isDefined)
+      if (ignoreErrors)
+        return
+      else
+        throw new FatalErrorJbjException("Cannot redeclare class %s".format(name))
+    else {
+      if (superClassName.isDefined) {
+        _superClass = ctx.global.findClass(superClassName.get, autoload)
+        if (!superClass.isDefined) {
+          if (ctx.global.findInterface(superClassName.get, autoload = false).isDefined) {
+            if (ignoreErrors)
+              return
+            else
+              throw new FatalErrorJbjException("Class %s cannot extend from interface %s".format(name.toString, superClassName.get))
+          } else {
+            if (ignoreErrors)
+              return
+            else
+              throw new FatalErrorJbjException("Class '%s' not found".format(superClassName.get))
+          }
+        }
+        else if (superClass.get.isFinal) {
+          if (ignoreErrors)
+            return
+          else
+            throw new FatalErrorJbjException(
+              "Class %s may not inherit from final class (%s)".format(name.toString, superClassName.get.toString))
+        }
+      }
+      val interfaceConstant = mutable.Map.empty[String, String]
+      _interfaces = implements.reverse.flatMap {
+        interfaceName =>
+          ctx.global.findInterfaceOrClass(interfaceName, autoload) match {
+            case Some(Left(interface)) =>
+              val interfaces = interface :: interface.interfaces
+              interfaces.foreach {
+                interface =>
+                  interface.declaredConstants.keys.foreach {
+                    constantName =>
+                      if (interfaceConstant.contains(constantName) && interfaceConstant(constantName) != interface.name.toString) {
+                        if (ignoreErrors)
+                          return
+                        else
+                          throw new FatalErrorJbjException("Cannot inherit previously-inherited or override constant %s from interface %s".
+                            format(constantName, interfaceConstant(constantName)))
+                      }
+                      interfaceConstant(constantName) = interface.name.toString
+                  }
+              }
+              interfaces
+            case Some(Right(_)) =>
+              if (ignoreErrors)
+                return
+              else
+                throw new FatalErrorJbjException("%s cannot implement %s - it is not an interface".format(name.toString,
+                  interfaceName.toString))
+            case None =>
+              if (ignoreErrors)
+                return
+              else
+                throw new FatalErrorJbjException("Interface '%s' not found".format(interfaceName.toString))
+          }
+      }.toSet ++ _superClass.map(_.interfaces).getOrElse(List.empty)
+
+      if (!_methodsInitialized) {
+        decls.foreach {
+          method =>
+            ctx.currentPosition = method.position
+            method.initializeClass(this)
+        }
+        ctx.currentPosition = position
+        _methodsInitialized = true
+      }
+      if (!isAbstract) {
+        val missingImplementations = _interfaces.flatMap {
+          interface =>
+            interface.methods.flatMap {
+              case (methodName, method) if !methods.contains(methodName) =>
+                Seq("%s::%s".format(interface.name.toString, method.name))
+              case _ => Seq.empty
+            }
+        } ++ methods.values.filter(_.isAbstract).map {
+          method =>
+            "%s::%s".format(name.toString, method.name)
+        }
+        if (!missingImplementations.isEmpty) {
+          if (ignoreErrors)
+            return
+          else
+            throw new FatalErrorJbjException("Class %s contains %d abstract method and must therefore be declared abstract or implement the remaining methods (%s)".
+              format(name.toString, missingImplementations.size, missingImplementations.mkString(", ")))
+        }
+      }
+
+      ctx.global.defineClass(this)
+    }
+
+    _initialized = true
+  }
+
 }
