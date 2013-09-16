@@ -57,6 +57,30 @@ class Lang5Spec extends SpecificationWithJUnit with TestJbjExecutor {
       )
     }
 
+    "Dynamic access of constants" in {
+      // lang/042.phpt
+      script(
+        """<?php
+          |class A {
+          |    const B = 'foo';
+          |}
+          |
+          |$classname       =  'A';
+          |$wrongClassname  =  'B';
+          |
+          |echo $classname::B."\n";
+          |echo $wrongClassname::B."\n";
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """foo
+          |
+          |Fatal error: Class 'B' not found in /lang/Lang5Spec.inlinePhp on line 10
+          |""".stripMargin
+      )
+    }
+
     "Dynamic call for static methods" in {
       // lang/043
       script(

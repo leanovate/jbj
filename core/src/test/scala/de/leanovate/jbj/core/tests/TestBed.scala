@@ -68,30 +68,8 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |
-        |class father {
-        |	function f0() {}
-        |	function f1() {}
-        |	public function f2() {}
-        |	protected function f3() {}
-        |	private function f4() {}
-        |}
-        |
-        |class same extends father {
-        |
-        |	// overload fn with same visibility
-        |	function f0() {}
-        |	public function f1() {}
-        |	public function f2() {}
-        |	protected function f3() {}
-        |	private function f4() {}
-        |}
-        |
-        |class fail extends same {
-        |	protected function f0() {}
-        |}
-        |
-        |echo "Done\n"; // shouldn't be displayed
+        |error_reporting(E_ALL & ~E_NOTICE);
+        |echo "blah-$foo\n";
         |?>""".stripMargin)
   }
 }

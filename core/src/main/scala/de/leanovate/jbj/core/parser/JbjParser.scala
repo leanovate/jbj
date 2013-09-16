@@ -403,7 +403,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       ref => IncrAndGetExpr(ref)
     } | "--" ~> variable ^^ {
       ref => DecrAndGetExpr(ref)
-    } | variable | scalar | combinedScalarOffset |
+    } | variable ||| scalar | combinedScalarOffset |
       "print" ~> expr ^^ {
         e => PrintExpr(e)
       } | parenthesisExpr
