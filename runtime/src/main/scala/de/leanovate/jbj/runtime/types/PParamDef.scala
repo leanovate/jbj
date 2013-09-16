@@ -14,9 +14,9 @@ trait PParamDef {
 
   def typeHint: Option[TypeHint]
 
-  def isCompatible(other: PParamDef): Boolean = typeHint.flatMap {
+  def isCompatible(other: PParamDef): Boolean = typeHint.map {
     thisTypeHint =>
-      other.typeHint.map {
+      other.typeHint.exists {
         otherTypeHint =>
           thisTypeHint.isCompatible(otherTypeHint)
       }

@@ -275,5 +275,65 @@ class TypeHintingSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Check type hint compatibility in overrides with array hints." in {
+      // classes/type_hinting_005b.phpt
+      script(
+        """<?php
+          |Class C { function f(array $a) {} }
+          |
+          |echo "No hint, should be array.\n";
+          |Class D extends C { function f($a) {} }
+          |?>
+          |==DONE==
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Strict Standards: Declaration of D::f() should be compatible with C::f(array $a) in /classes/TypeHintingSpec.inlinePhp on line 5
+          |No hint, should be array.
+          |==DONE==
+          |""".stripMargin
+      )
+    }
+
+    "Check type hint compatibility in overrides with array hints." in {
+      // classes/type_hinting_005c.phpt
+      script(
+        """<?php
+          |Class C { function f(SomeClass $a) {} }
+          |
+          |echo "Array hint, should be class.\n";
+          |Class D extends C { function f(array $a) {} }
+          |?>
+          |==DONE==
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Strict Standards: Declaration of D::f() should be compatible with C::f(SomeClass $a) in /classes/TypeHintingSpec.inlinePhp on line 5
+          |Array hint, should be class.
+          |==DONE==
+          |""".stripMargin
+      )
+    }
+
+    "Check type hint compatibility in overrides with array hints." in {
+      // classes/type_hinting_005d.phpt
+      script(
+        """<?php
+          |Class C { function f($a) {} }
+          |
+          |echo "Array hint, should be nothing.\n";
+          |Class D extends C { function f(array $a) {} }
+          |?>
+          |==DONE==
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Strict Standards: Declaration of D::f() should be compatible with C::f($a) in /classes/TypeHintingSpec.inlinePhp on line 5
+          |Array hint, should be nothing.
+          |==DONE==
+          |""".stripMargin
+      )
+    }
   }
 }
