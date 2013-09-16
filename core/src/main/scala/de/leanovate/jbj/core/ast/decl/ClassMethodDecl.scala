@@ -21,9 +21,9 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
 
   private lazy val staticInitializers = StaticInitializer.collect(stmts.getOrElse(Nil): _*)
 
-  lazy val isPrivate = activeModifieres.contains(MemberModifier.PRIVATE)
+  def isPrivate = activeModifieres.contains(MemberModifier.PRIVATE)
 
-  lazy val isProtected = activeModifieres.contains(MemberModifier.PROTECTED)
+  def isProtected = activeModifieres.contains(MemberModifier.PROTECTED)
 
   lazy val isStatic = activeModifieres.contains(MemberModifier.STATIC)
 
@@ -163,6 +163,8 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
         throw new FatalErrorJbjException("Cannot make non static method %s::%s() static in class %s".format(pClass.superClass.get.name.toString, name, pClass.name.toString))
       } else if (parentMethod.exists(_.isFinal)) {
         throw new FatalErrorJbjException("Cannot override final method %s::%s()".format(parentMethod.get.declaringClass.name.toString, name))
+      } else if (!isPublic && parentMethod.exists(_.isPublic)) {
+        throw new FatalErrorJbjException("Access level to %s::%s() must be public (as in class same)".format(pClass.name, name, parentMethod.get.declaringClass.name.toString))
       }
     }
     pClass.interfaces.foreach {

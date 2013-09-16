@@ -68,15 +68,30 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |Class C { function f(array $a) {} }
         |
-        |echo "Compatible hint.\n";
-        |Class D1 extends C { function f(array $a) {} }
+        |class father {
+        |	function f0() {}
+        |	function f1() {}
+        |	public function f2() {}
+        |	protected function f3() {}
+        |	private function f4() {}
+        |}
         |
-        |echo "Class hint, should be array.\n";
-        |Class D2 extends C { function f(SomeClass $a) {} }
-        |?>
-        |==DONE==
-        |""".stripMargin)
+        |class same extends father {
+        |
+        |	// overload fn with same visibility
+        |	function f0() {}
+        |	public function f1() {}
+        |	public function f2() {}
+        |	protected function f3() {}
+        |	private function f4() {}
+        |}
+        |
+        |class fail extends same {
+        |	protected function f0() {}
+        |}
+        |
+        |echo "Done\n"; // shouldn't be displayed
+        |?>""".stripMargin)
   }
 }

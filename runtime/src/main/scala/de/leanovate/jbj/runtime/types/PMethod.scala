@@ -27,6 +27,8 @@ trait PMethod {
 
   def isProtected: Boolean
 
+  def isPublic = !isProtected && !isPrivate
+
   def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context): PAny
 
   def invokeStatic(parameters: List[PParam])(implicit callerCtx: Context): PAny

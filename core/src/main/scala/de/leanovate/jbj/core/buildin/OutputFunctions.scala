@@ -147,6 +147,8 @@ object OutputFunctions {
             }
           }
           builder.result()
+        case BooleanVal.TRUE => "true"
+        case BooleanVal.FALSE => "false"
       }
     }
     ctx.out.print(dump(value :: Nil, ""))
@@ -198,7 +200,7 @@ object OutputFunctions {
               builder ++= "    [%s:*:protected] => %s\n".format(key, dump(v :: stack, ident + "        "))
             case (ObjectPropertyKey.PrivateKey(key, className), v) =>
               builder ++= ident
-              builder ++= "    [%s:%s:private] => %s\n".format(key, className,dump(v :: stack, ident + "        "))
+              builder ++= "    [%s:%s:private] => %s\n".format(key, className, dump(v :: stack, ident + "        "))
           }
           builder ++= ident
           builder ++= ")\n"
