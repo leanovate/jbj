@@ -20,9 +20,11 @@ object ScriptLexer extends Lexer with CommonScriptLexerPatterns {
       str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> Some(InitialLexerMode) |
       str("<<<") ~> rep1(chrExcept('\'', '\r', '\n', EofCh)) <~ newLine ^^ {
         endMarker => HereDocStart(endMarker.mkString("")) -> Some(HeredocLexerMode(endMarker.mkString("")))
-      } | commonScriptToken ^^ {
-      t => t -> None
-    } | '\"' ^^^ Keyword("\"") -> Some(DoubleQuotedLexerMode)
+      } |
+      str("->") ^^^ Keyword("->") -> Some(LookingForPropertyLexerMode(ScriptingLexerMode)) |
+      commonScriptToken ^^ {
+        t => t -> None
+      } | '\"' ^^^ Keyword("\"") -> Some(DoubleQuotedLexerMode)
 
   def commonScriptToken: Parser[Token] =
     identChar ~ rep(identChar | digit) ^^ {
