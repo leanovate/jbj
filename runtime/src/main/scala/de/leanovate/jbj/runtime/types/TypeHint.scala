@@ -5,7 +5,7 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core.ast.decl
+package de.leanovate.jbj.runtime.types
 
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context.{FunctionLikeContext, Context}
@@ -14,15 +14,21 @@ import scala.Some
 import de.leanovate.jbj.runtime.NamespaceName
 
 sealed trait TypeHint {
+  def display: String
+
   def checkEmpty(index: Int)(implicit ctx: Context)
 
   def check(pVar: PVar, index: Int)(implicit ctx: Context)
+
+  def isCompatible(other: TypeHint): Boolean
 }
 
 object TypeHint {
 }
 
 object ArrayTypeHint extends TypeHint {
+  def display: String = "array"
+
   override def checkEmpty(index: Int)(implicit ctx: Context) {
     ctx match {
       case methodCtx: FunctionLikeContext =>
@@ -45,17 +51,29 @@ object ArrayTypeHint extends TypeHint {
         }
     }
   }
+
+  override def isCompatible(other: TypeHint): Boolean = {
+    other == this
+  }
 }
 
 object CallableTypeHint extends TypeHint {
+  def display: String = "callable"
+
   override def checkEmpty(index: Int)(implicit ctx: Context) {
   }
 
   override def check(pVar: PVar, index: Int)(implicit ctx: Context) {
   }
+
+  override def isCompatible(other: TypeHint): Boolean = {
+    other == this
+  }
 }
 
 case class ClassTypeHint(className: NamespaceName) extends TypeHint {
+  def display: String = className.toString
+
   override def checkEmpty(index: Int)(implicit ctx: Context) {
     ctx.global.findInterfaceOrClass(className, autoload = false) match {
       case Some(Left(pInterface)) =>
@@ -116,5 +134,9 @@ case class ClassTypeHint(className: NamespaceName) extends TypeHint {
             }
         }
     }
+  }
+
+  override def isCompatible(other: TypeHint): Boolean = {
+    other == this
   }
 }

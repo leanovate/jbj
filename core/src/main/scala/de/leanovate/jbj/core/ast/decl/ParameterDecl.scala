@@ -12,7 +12,7 @@ import de.leanovate.jbj.core.ast.{Node, Expr}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.ast.expr.value.ConstGetExpr
-import de.leanovate.jbj.runtime.types.PParamDef
+import de.leanovate.jbj.runtime.types.{ClassTypeHint, TypeHint, PParamDef}
 
 case class ParameterDecl(typeHint: Option[TypeHint], variableName: String, byRef: Boolean, default: Option[Expr])
   extends Node with PParamDef {

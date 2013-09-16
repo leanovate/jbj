@@ -171,7 +171,7 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
           otherMethod =>
             if (!isCompatibleWith(otherMethod) || !otherMethod.isCompatibleWith(this)) {
               throw new FatalErrorJbjException("Declaration of %s::%s() must be compatible with %s::%s(%s)".
-                format(pClass.name.toString, name, interface.name.toString, name, otherMethod.parameters.map("$" + _.name).mkString(", ")))
+                format(pClass.name.toString, name, interface.name.toString, name, otherMethod.parameters.map(_.display).mkString(", ")))
             }
         }
     }
@@ -181,7 +181,7 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
           otherMethod =>
             if (!isCompatibleWith(otherMethod) || !otherMethod.isCompatibleWith(this)) {
               ctx.log.strict("Declaration of %s::%s() should be compatible with %s::%s(%s)".
-                format(pClass.name.toString, name, superClass.name.toString, name, otherMethod.parameters.map("$" + _.name).mkString(", ")))
+                format(pClass.name.toString, name, superClass.name.toString, name, otherMethod.parameters.map(_.display).mkString(", ")))
             }
         }
     }

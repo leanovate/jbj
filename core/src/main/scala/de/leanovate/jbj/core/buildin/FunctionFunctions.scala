@@ -11,9 +11,8 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
 import de.leanovate.jbj.runtime.context.{FunctionLikeContext, Context}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.core.ast.decl.TypeHint
 import de.leanovate.jbj.runtime.{CallbackHelper, NamespaceName}
-import de.leanovate.jbj.runtime.types.PParam
+import de.leanovate.jbj.runtime.types.{TypeHint, PParam}
 
 object FunctionFunctions {
   @GlobalFunction

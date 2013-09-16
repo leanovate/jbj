@@ -12,5 +12,16 @@ trait PParamDef {
 
   def hasDefault: Boolean
 
-  def isCompatible(other: PParamDef): Boolean = true
+  def typeHint: Option[TypeHint]
+
+  def isCompatible(other: PParamDef): Boolean = typeHint.flatMap {
+    thisTypeHint =>
+      other.typeHint.map {
+        otherTypeHint =>
+          thisTypeHint.isCompatible(otherTypeHint)
+      }
+  }.getOrElse(true)
+
+  def display: String =
+    typeHint.map(_.display + " $").getOrElse("$") + name
 }

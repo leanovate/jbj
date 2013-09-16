@@ -251,5 +251,29 @@ class TypeHintingSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Check type hint compatibility in overrides with array hints." in {
+      // classes/type_hinting_005a.phpt
+      script(
+        """<?php
+          |Class C { function f(array $a) {} }
+          |
+          |echo "Compatible hint.\n";
+          |Class D1 extends C { function f(array $a) {} }
+          |
+          |echo "Class hint, should be array.\n";
+          |Class D2 extends C { function f(SomeClass $a) {} }
+          |?>
+          |==DONE==
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Strict Standards: Declaration of D2::f() should be compatible with C::f(array $a) in /classes/TypeHintingSpec.inlinePhp on line 8
+          |Compatible hint.
+          |Class hint, should be array.
+          |==DONE==
+          |""".stripMargin
+      )
+    }
   }
 }
