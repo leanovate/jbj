@@ -58,6 +58,7 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
   def stack: Stack[NodePosition] = Stack.empty[NodePosition]
 
   val instanceCounter = new AtomicLong(0)
+  val lambdaCounter = new AtomicLong(0)
 
   val GLOBALS = ArrayVal()
 

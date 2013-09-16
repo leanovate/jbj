@@ -12,6 +12,27 @@ import de.leanovate.jbj.core.tests.TestJbjExecutor
 
 class Bug1xxxxSpec extends SpecificationWithJUnit with TestJbjExecutor {
   "Bugs #1xxxx" should {
+    "Bug #17115 (lambda functions produce segfault with static vars)" in {
+      // lang/bug17115.phpt
+      script(
+        """<?php
+          |$func = create_function('','
+          |	static $foo = 0;
+          |	return $foo++;
+          |');
+          |var_dump($func());
+          |var_dump($func());
+          |var_dump($func());
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """int(0)
+          |int(1)
+          |int(2)
+          |""".stripMargin
+      )
+    }
+
     "Bug #18872 (class constant used as default parameter)" in {
       // lang/bug18872.phpt
       script(

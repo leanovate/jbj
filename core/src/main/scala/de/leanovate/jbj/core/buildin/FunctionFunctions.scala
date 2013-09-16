@@ -10,11 +10,29 @@ package de.leanovate.jbj.core.buildin
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
 import de.leanovate.jbj.runtime.context.{FunctionLikeContext, Context}
-import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.runtime.{CallbackHelper, NamespaceName}
+import de.leanovate.jbj.runtime.exception.{ParseJbjException, FatalErrorJbjException}
+import de.leanovate.jbj.runtime.{ReturnExecResult, CallbackHelper, NamespaceName}
 import de.leanovate.jbj.runtime.types.{TypeHint, PParam}
+import de.leanovate.jbj.core.parser.{ParseContext, JbjParser}
+import java.util.concurrent.atomic.AtomicLong
 
 object FunctionFunctions {
+  @GlobalFunction
+  def create_function(args: String, code: String)(implicit ctx: Context): String = {
+    try {
+      val functionName = "lambda_%d".format(ctx.global.lambdaCounter.incrementAndGet())
+      val functionDecl = "<?php function %s(%s) { %s }".format(functionName, args, code)
+      val parser = new JbjParser(ParseContext("%s(%d) : create_function()'d code".format(ctx.currentPosition.fileName, ctx.currentPosition.line), ctx.settings))
+      val prog = parser.parse(functionDecl)
+
+      prog.exec
+      functionName
+    } catch {
+      case e: ParseJbjException =>
+        throw new FatalErrorJbjException("syntax error, unexpected %s".format(e.msg))
+    }
+  }
+
   @GlobalFunction
   def call_user_func(callable: PVal, parameters: PParam*)(implicit ctx: Context): PAny =
     callable match {
