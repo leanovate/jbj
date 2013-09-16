@@ -164,7 +164,9 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
       } else if (parentMethod.exists(_.isFinal)) {
         throw new FatalErrorJbjException("Cannot override final method %s::%s()".format(parentMethod.get.declaringClass.name.toString, name))
       } else if (!isPublic && parentMethod.exists(_.isPublic)) {
-        throw new FatalErrorJbjException("Access level to %s::%s() must be public (as in class same)".format(pClass.name, name, parentMethod.get.declaringClass.name.toString))
+        throw new FatalErrorJbjException("Access level to %s::%s() must be public (as in class %s)".format(pClass.name, name, parentMethod.get.declaringClass.name.toString))
+      } else if (isPrivate && parentMethod.exists(_.isProtected)) {
+        throw new FatalErrorJbjException("Access level to %s::%s() must be protected (as in class %s) or weaker".format(pClass.name, name, parentMethod.get.declaringClass.name.toString))
       }
     }
     pClass.interfaces.foreach {

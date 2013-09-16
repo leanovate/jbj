@@ -341,5 +341,222 @@ class VisibilitySpec extends SpecificationWithJUnit with TestJbjExecutor{
           |""".stripMargin
       )
     }
+
+    "ZE2 A redeclared method must have the same or higher visibility" in {
+      // classes/visibility_003a.phpt
+      script(
+        """<?php
+          |
+          |class father {
+          |	function f0() {}
+          |	function f1() {}
+          |	public function f2() {}
+          |	protected function f3() {}
+          |	private function f4() {}
+          |}
+          |
+          |class same extends father {
+          |
+          |	// overload fn with same visibility
+          |	function f0() {}
+          |	public function f1() {}
+          |	public function f2() {}
+          |	protected function f3() {}
+          |	private function f4() {}
+          |}
+          |
+          |class fail extends same {
+          |	public function f3() {}
+          |}
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """Done
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 A redeclared method must have the same or higher visibility" in {
+      // classes/visibility_003b.phpt
+      script(
+        """<?php
+          |
+          |class father {
+          |	function f0() {}
+          |	function f1() {}
+          |	public function f2() {}
+          |	protected function f3() {}
+          |	private function f4() {}
+          |}
+          |
+          |class same extends father {
+          |
+          |	// overload fn with same visibility
+          |	function f0() {}
+          |	public function f1() {}
+          |	public function f2() {}
+          |	protected function f3() {}
+          |	private function f4() {}
+          |}
+          |
+          |class fail extends same {
+          |	private function f3() {}
+          |}
+          |
+          |echo "Done\n"; // shouldn't be displayed
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Access level to fail::f3() must be protected (as in class same) or weaker in /classes/VisibilitySpec.inlinePhp on line 22
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 A redeclared method must have the same or higher visibility" in {
+      // classes/visibility_003c.phpt
+      script(
+        """<?php
+          |
+          |class father {
+          |	function f0() {}
+          |	function f1() {}
+          |	public function f2() {}
+          |	protected function f3() {}
+          |	private function f4() {}
+          |}
+          |
+          |class same extends father {
+          |
+          |	// overload fn with same visibility
+          |	function f0() {}
+          |	public function f1() {}
+          |	public function f2() {}
+          |	protected function f3() {}
+          |	private function f4() {}
+          |}
+          |
+          |class fail extends same {
+          |	function f3() {}
+          |}
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """Done
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 A redeclared method must have the same or higher visibility" in {
+      // classes/visibility_004a.phpt
+      script(
+        """<?php
+          |
+          |class father {
+          |	function f0() {}
+          |	function f1() {}
+          |	public function f2() {}
+          |	protected function f3() {}
+          |	private function f4() {}
+          |}
+          |
+          |class same extends father {
+          |
+          |	// overload fn with same visibility
+          |	function f0() {}
+          |	public function f1() {}
+          |	public function f2() {}
+          |	protected function f3() {}
+          |	private function f4() {}
+          |}
+          |
+          |class fail extends same {
+          |	public function f4() {}
+          |}
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """Done
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 A redeclared method must have the same or higher visibility" in {
+      // classes/visibility_004b.phpt
+      script(
+        """<?php
+          |
+          |class father {
+          |	function f0() {}
+          |	function f1() {}
+          |	public function f2() {}
+          |	protected function f3() {}
+          |	private function f4() {}
+          |}
+          |
+          |class same extends father {
+          |
+          |	// overload fn with same visibility
+          |	function f0() {}
+          |	public function f1() {}
+          |	public function f2() {}
+          |	protected function f3() {}
+          |	private function f4() {}
+          |}
+          |
+          |class fail extends same {
+          |	protected function f4() {}
+          |}
+          |
+          |echo "Done\n"; // shouldn't be displayed
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """Done
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 A redeclared method must have the same or higher visibility" in {
+      // classes/visibility_004c.phpt
+      script(
+        """<?php
+          |
+          |class father {
+          |	function f0() {}
+          |	function f1() {}
+          |	public function f2() {}
+          |	protected function f3() {}
+          |	private function f4() {}
+          |}
+          |
+          |class same extends father {
+          |
+          |	// overload fn with same visibility
+          |	function f0() {}
+          |	public function f1() {}
+          |	public function f2() {}
+          |	protected function f3() {}
+          |	private function f4() {}
+          |}
+          |
+          |class fail extends same {
+          |	function f4() {}
+          |}
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """Done
+          |""".stripMargin
+      )
+    }
   }
 }
