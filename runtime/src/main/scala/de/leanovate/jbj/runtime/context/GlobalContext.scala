@@ -91,6 +91,8 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
     }
   }
 
+  def declaredClasses: Seq[PClass] = jbj.predefinedClasses.values.toSeq ++ classes.values.toSeq
+
   def findClass(name: NamespaceName, autoload: Boolean): Option[PClass] = {
     val result = jbj.predefinedClasses.get(name.lowercase).map(Some.apply).getOrElse(classes.get(name.lowercase)).map(classInitializer)
 

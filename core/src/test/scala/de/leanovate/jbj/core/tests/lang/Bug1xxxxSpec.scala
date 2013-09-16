@@ -56,6 +56,23 @@ class Bug1xxxxSpec extends SpecificationWithJUnit with TestJbjExecutor {
       )
     }
 
+    "Bug #19566 (get_declared_classes() segfaults)" in {
+      // lang/bug19566.phpt
+      script(
+        """<?php
+          |class foo {}
+          |$result = get_declared_classes();
+          |if(array_search('foo', $result) > 0) {
+          |  echo "Success\n";
+          |}
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """Success
+          |""".stripMargin
+      )
+    }
+
     "Bug #19943 (memleaks)" in {
       // lang/bug19943.phpt
       script(

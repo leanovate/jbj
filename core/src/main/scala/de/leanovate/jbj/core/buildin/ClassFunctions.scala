@@ -13,15 +13,6 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.NamespaceName
 
 object ClassFunctions {
-
-  @GlobalFunction
-  def get_class(value: PVal)(implicit ctx: Context): PVal = value match {
-    case obj: ObjectVal => StringVal(obj.pClass.name.toString)
-    case _ =>
-      ctx.log.warn("get_class() expects parameter 1 to be object, string given")
-      BooleanVal.FALSE
-  }
-
   @GlobalFunction
   def class_exists(name: String, autoload: Option[Boolean])(implicit ctx: Context): Boolean = {
     ctx.global.findClass(NamespaceName(name), autoload.getOrElse(true)).isDefined
@@ -30,6 +21,22 @@ object ClassFunctions {
   @GlobalFunction
   def interface_exists(name: String, autoload: Option[Boolean])(implicit ctx: Context): Boolean = {
     ctx.global.findInterface(NamespaceName(name), autoload.getOrElse(true)).isDefined
+  }
+
+  @GlobalFunction
+  def get_declared_classes()(implicit ctx: Context): PVal = {
+    ArrayVal(ctx.global.declaredClasses.map {
+      pClass =>
+        None -> StringVal(pClass.name.toString)
+    }: _*)
+  }
+
+  @GlobalFunction
+  def get_class(value: PVal)(implicit ctx: Context): PVal = value match {
+    case obj: ObjectVal => StringVal(obj.pClass.name.toString)
+    case _ =>
+      ctx.log.warn("get_class() expects parameter 1 to be object, string given")
+      BooleanVal.FALSE
   }
 
   @GlobalFunction

@@ -88,6 +88,24 @@ object ArrayFunctions {
   }
 
   @GlobalFunction
+  def array_search(needle: PVal, haystack: PVal, strict: Option[Boolean])(implicit ctx: Context): PVal = {
+    haystack.concrete match {
+      case array: ArrayVal =>
+        array.keyValues.find {
+          case (key, value) if strict.getOrElse(false) =>
+            (value === needle).toBool.asBoolean
+          case (key, value) =>
+            (value :== needle).toBool.asBoolean
+        }.map {
+          case (key, value) => key
+        }.getOrElse(NullVal)
+      case pVal =>
+        ctx.log.warn("array_search() expects parameter 21 to be array, %s given".format(pVal.typeName))
+        NullVal
+    }
+  }
+
+  @GlobalFunction
   def array_shift(ref: PVar)(implicit ctx: Context): PVal = {
     ref.value match {
       case array: ArrayVal =>

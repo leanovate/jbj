@@ -68,8 +68,9 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |error_reporting(E_ALL & ~E_NOTICE);
-        |echo "blah-$foo\n";
+        |class foo {}
+        |$result = get_declared_classes();
+        |var_dump(array_search('foo', $result));
         |?>""".stripMargin)
   }
 }
