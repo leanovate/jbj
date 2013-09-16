@@ -146,5 +146,78 @@ class ToStringSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "ZE2 __toString() in __destruct" in {
+      // classes/tostring_002.phpt
+      script(
+        """<?php
+          |
+          |class Test
+          |{
+          |	function __toString()
+          |	{
+          |		return "Hello\n";
+          |	}
+          |
+          |	function __destruct()
+          |	{
+          |		echo $this;
+          |	}
+          |}
+          |
+          |$o = new Test;
+          |$o = NULL;
+          |
+          |$o = new Test;
+          |
+          |?>
+          |====DONE====
+          |""".stripMargin
+      ).result must haveOutput(
+        """Hello
+          |====DONE====
+          |Hello
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 __toString() in __destruct/exception" in {
+      // classes/tostring_003.phpt
+      script(
+        """<?php
+          |
+          |class Test
+          |{
+          |	function __toString()
+          |	{
+          |		throw new Exception("Damn!");
+          |		return "Hello\n";
+          |	}
+          |
+          |	function __destruct()
+          |	{
+          |		echo $this;
+          |	}
+          |}
+          |
+          |try
+          |{
+          |	$o = new Test;
+          |	$o = NULL;
+          |}
+          |catch(Exception $e)
+          |{
+          |	var_dump($e->getMessage());
+          |}
+          |
+          |?>
+          |====DONE====
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Method Test::__toString() must not throw an exception in /classes/ToStringSpec.inlinePhp on line 13
+          |""".stripMargin
+      )
+    }
   }
 }
