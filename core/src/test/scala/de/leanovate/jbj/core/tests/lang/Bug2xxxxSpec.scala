@@ -589,5 +589,22 @@ class Bug2xxxxSpec extends SpecificationWithJUnit with TestJbjExecutor{
           |""".stripMargin
       )
     }
+
+    "Bug #22690 (ob_start() is broken with create_function() callbacks)" in {
+      // lang/bug22690.phpt
+      script(
+        """<?php
+          |	$foo = create_function('$s', 'return strtoupper($s);');
+          |	ob_start($foo);
+          |	echo $foo("bar\n");
+          |?>
+          |bar
+          |""".stripMargin
+      ).result must haveOutput(
+        """BAR
+          |BAR
+          |""".stripMargin
+      )
+    }
   }
 }
