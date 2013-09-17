@@ -51,29 +51,39 @@ public class JbjSettings implements Cloneable {
             ErrorLevel.E_RECOVERABLE_ERROR, ErrorLevel.E_DEPRECATED, ErrorLevel.E_USER_DEPRECATED);
 
     /**
-     * Corresponds to: always_populate_raw_post_data.
+     * Corresponds to: <tt>always_populate_raw_post_data</tt>.
      */
     private boolean alwaysPopulateRawPostData = false;
 
     /**
-     * Corresponds to: post_max_size
+     * Corresponds to: <tt>post_max_size</tt>.
      */
     private long postMaxSize = -1;
 
     /**
-     * Corresponds to: max_input_nesting_level
+     * Corresponds to: <tt>max_input_nesting_level</tt>.
      */
     private int maxInputNestingLevel = -1;
 
     /**
-     * Corresponds to: track_errors
+     * Corresponds to: <tt>track_errors</tt>.
      */
     private boolean trackErrors = false;
 
     /**
-     * Corresponds to: display_errors
+     * Corresponds to: <tt>display_errors</tt>.
      */
     private DisplayError displayErrors = DisplayError.STDOUT;
+
+    /**
+     * Corresponds to: <tt>short_open_tag</tt>.
+     */
+    private boolean shortOpenTag = false;
+
+    /**
+     * Corresponds to: <tt>asp_tags</tt>.
+     */
+    private boolean aspTags = false;
 
     public Charset getCharset() {
         return charset;
@@ -146,6 +156,22 @@ public class JbjSettings implements Cloneable {
 
     public void setDisplayErrors(DisplayError displayErrors) {
         this.displayErrors = displayErrors;
+    }
+
+    public boolean isShortOpenTag() {
+        return shortOpenTag;
+    }
+
+    public void setShortOpenTag(boolean shortOpenTag) {
+        this.shortOpenTag = shortOpenTag;
+    }
+
+    public boolean isAspTags() {
+        return aspTags;
+    }
+
+    public void setAspTags(boolean aspTags) {
+        this.aspTags = aspTags;
     }
 
     public JbjSettings clone() {

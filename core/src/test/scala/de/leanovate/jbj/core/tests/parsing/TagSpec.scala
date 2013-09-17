@@ -23,7 +23,7 @@ class TagSpec extends SpecificationWithJUnit with TestJbjExecutor {
     "<?" in {
       script(
         """Start <div><? echo "Hello World"?></div> End"""
-      ).result must haveOutput(
+      ).withShortOpenTag(true).result must haveOutput(
         """Start <div>Hello World</div> End"""
       )
     }
@@ -31,7 +31,7 @@ class TagSpec extends SpecificationWithJUnit with TestJbjExecutor {
     "<?=" in {
       script(
         """Start <div><?= "Hello World"?></div> End"""
-      ).result must haveOutput(
+      ).withShortOpenTag(true).result must haveOutput(
         """Start <div>Hello World</div> End"""
       )
     }
@@ -39,7 +39,7 @@ class TagSpec extends SpecificationWithJUnit with TestJbjExecutor {
     "<%" in {
       script(
         """Start <div><% echo "Hello World"%></div> End"""
-      ).result must haveOutput(
+      ).withAspTags(true).result must haveOutput(
         """Start <div>Hello World</div> End"""
       )
     }
@@ -47,7 +47,7 @@ class TagSpec extends SpecificationWithJUnit with TestJbjExecutor {
     "<%=" in {
       script(
         """Start <div><%= "Hello World"%></div> End"""
-      ).result must haveOutput(
+      ).withAspTags(true).result must haveOutput(
         """Start <div>Hello World</div> End"""
       )
     }

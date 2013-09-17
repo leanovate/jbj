@@ -13,18 +13,18 @@ import de.leanovate.jbj.core.parser.JbjTokens.EOF
 import de.leanovate.jbj.core.parser.JbjTokens.Keyword
 import de.leanovate.jbj.core.parser.JbjTokens.StringLit
 
-object ScriptLexer extends Lexer with CommonScriptLexerPatterns {
+case class ScriptLexer(mode: ScriptingLexerMode) extends Lexer with CommonScriptLexerPatterns {
   val token: Parser[(Token, Option[LexerMode])] =
-    str("?>") <~ opt(newLine) ^^^ Keyword(";") -> Some(InitialLexerMode) |
-      str("%>") <~ opt(newLine) ^^^ Keyword(";") -> Some(InitialLexerMode) |
-      str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> Some(InitialLexerMode) |
+    str("?>") <~ opt(newLine) ^^^ Keyword(";") -> Some(mode.prevMode) |
+      str("%>") <~ opt(newLine) ^^^ Keyword(";") -> Some(mode.prevMode) |
+      str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> Some(mode.prevMode) |
       str("<<<") ~> rep1(chrExcept('\'', '\r', '\n', EofCh)) <~ newLine ^^ {
-        endMarker => HereDocStart(endMarker.mkString("")) -> Some(HeredocLexerMode(endMarker.mkString("")))
+        endMarker => HereDocStart(endMarker.mkString("")) -> Some(HeredocLexerMode(endMarker.mkString(""), mode))
       } |
-      str("->") ^^^ Keyword("->") -> Some(LookingForPropertyLexerMode(ScriptingLexerMode)) |
+      str("->") ^^^ Keyword("->") -> Some(LookingForPropertyLexerMode(mode)) |
       commonScriptToken ^^ {
         t => t -> None
-      } | '\"' ^^^ Keyword("\"") -> Some(DoubleQuotedLexerMode)
+      } | '\"' ^^^ Keyword("\"") -> Some(DoubleQuotedLexerMode(mode))
 
   def commonScriptToken: Parser[Token] =
     identChar ~ rep(identChar | digit) ^^ {

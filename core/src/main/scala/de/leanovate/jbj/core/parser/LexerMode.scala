@@ -12,30 +12,30 @@ sealed trait LexerMode {
   def newLexer(): Lexer
 }
 
-object InitialLexerMode extends LexerMode {
-  def newLexer() =  InitialLexer
+case class InitialLexerMode(shortOpenTag: Boolean, aspTags: Boolean) extends LexerMode {
+  def newLexer() = InitialLexer(this)
 }
 
-object ScriptingLexerMode extends LexerMode {
-  def newLexer() =  ScriptLexer
+case class ScriptingLexerMode(prevMode: LexerMode) extends LexerMode {
+  def newLexer() = ScriptLexer(this)
 }
 
-object DoubleQuotedLexerMode extends LexerMode {
-  def newLexer() =  DoubleQuotesLexer
+case class DoubleQuotedLexerMode(prevMode: LexerMode) extends LexerMode {
+  def newLexer() = DoubleQuotesLexer(this)
 }
 
-case class HeredocLexerMode(endMarker: String) extends LexerMode {
-  def newLexer() =  new HereDocLexer(endMarker)
+case class HeredocLexerMode(endMarker: String, prevMode: LexerMode) extends LexerMode {
+  def newLexer() = new HereDocLexer(this)
 }
 
 case class EncapsScriptingLexerMode(prevMode: LexerMode) extends LexerMode {
-  def newLexer() =  new EncapsScriptingLexer(prevMode)
+  def newLexer() = new EncapsScriptingLexer(prevMode)
 }
 
 case class LookingForPropertyLexerMode(prevMode: LexerMode) extends LexerMode {
-  def newLexer() =  new LookingForPropertyLexer(prevMode)
+  def newLexer() = new LookingForPropertyLexer(prevMode)
 }
 
 case class LookingForVarnameLexerMode(prevMode: LexerMode) extends LexerMode {
-  def newLexer() =  new LookingForVarnameLexer(prevMode)
+  def newLexer() = new LookingForVarnameLexer(prevMode)
 }

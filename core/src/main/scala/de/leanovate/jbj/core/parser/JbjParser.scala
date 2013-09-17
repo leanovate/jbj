@@ -38,7 +38,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   private val keywordCache = mutable.HashMap[String, Parser[String]]()
 
   def parse(s: String): Prog = {
-    val tokens = new TokenReader(s, InitialLexer)
+    val tokens = new TokenReader(s, InitialLexerMode(parseCtx.settings.isShortOpenTag, parseCtx.settings.isAspTags).newLexer())
     phrase(start)(tokens) match {
       case Success(tree, _) => tree
       case e: NoSuccess =>
@@ -47,7 +47,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   }
 
   def parseStmt(s: String): Prog = {
-    val tokens = new TokenReader(s, ScriptLexer)
+    val tokens = new TokenReader(s, ScriptingLexerMode(InitialLexerMode(parseCtx.settings.isShortOpenTag, parseCtx.settings.isAspTags)).newLexer())
     phrase(start)(tokens) match {
       case Success(result, _) => result
       case e: NoSuccess =>

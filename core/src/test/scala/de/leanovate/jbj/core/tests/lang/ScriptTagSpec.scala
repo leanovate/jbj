@@ -23,8 +23,8 @@ class ScriptTagSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |#comment
           |echo "oi\n"; //ignore here
           |# 2nd comment
-          |""".stripMargin
-      ).result must haveOutput (
+          | """.stripMargin
+      ).result must haveOutput(
         """ola
           |ola2
           |ola3
@@ -41,11 +41,96 @@ class ScriptTagSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |echo "Used a short tag\n";
           |?>
           |Finished""".stripMargin
-      ).result must haveOutput(
+      ).withShortOpenTag(true).result must haveOutput(
         """Used a short tag
           |Finished""".stripMargin
       )
     }
-  }
 
+    "short_open_tag: Off" in {
+      // lang/short_tags.002.phpt
+      script(
+        """<?
+          |echo "Used a short tag\n";
+          |?>
+          |Finished
+          |""".stripMargin
+      ).withShortOpenTag(false).result must haveOutput(
+        """<?
+          |echo "Used a short tag\n";
+          |?>
+          |Finished
+          |""".stripMargin
+      )
+    }
+
+    "short_open_tag: On, asp_tags: On" in {
+      // lang/short_tags.003.phpt
+      script(
+        """<?='this should get echoed'?>
+          |
+          |<%= 'so should this' %>
+          |
+          |<?php
+          |$a = 'This gets echoed twice';
+          |?>
+          |
+          |<?= $a?>
+          |
+          |<%= $a%>
+          |
+          |<? $b=3; ?>
+          |
+          |<?php
+          |   echo "{$b}";
+          |?>
+          |""".stripMargin
+      ).withShortOpenTag(true).withAspTags(true).result must haveOutput(
+        """this should get echoed
+          |so should this
+          |
+          |This gets echoed twice
+          |This gets echoed twice
+          |
+          |3""".stripMargin
+      )
+    }
+
+    "short_open_tag: Off, asp_tags: Off" in {
+      // lang/short_tags.004.phpt
+      script(
+        """<%= 'so should this' %>
+          |
+          |<?php
+          |$a = 'This gets echoed twice';
+          |?>
+          |
+          |<?= $a?>
+          |
+          |<%= $a%>
+          |
+          |<? $b=3; ?>
+          |
+          |<?php
+          |   echo "{$b}";
+          |?>
+          |<?= "{$b}"?>
+          |""".stripMargin
+      ).withShortOpenTag(false).withAspTags(false).result must haveOutput(
+        """<%= 'so should this' %>
+          |
+          |
+          |This gets echoed twice
+          |<%= $a%>
+          |
+          |<? $b=3; ?>
+          |
+          |
+          |Notice: Undefined variable: b in /lang/ScriptTagSpec.inlinePhp on line 14
+          |
+          |Notice: Undefined variable: b in /lang/ScriptTagSpec.inlinePhp on line 16
+          |""".stripMargin
+      )
+    }
+  }
 }

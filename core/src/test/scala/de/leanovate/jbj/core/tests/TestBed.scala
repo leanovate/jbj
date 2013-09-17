@@ -9,16 +9,20 @@ package de.leanovate.jbj.core.tests
 
 import scala.util.parsing.input.Reader
 import de.leanovate.jbj.core.parser.JbjTokens.Token
-import de.leanovate.jbj.core.parser.{JbjParser, ParseContext, InitialLexer, TokenReader}
+import de.leanovate.jbj.core.parser._
 import de.leanovate.jbj.core.ast.Prog
 import de.leanovate.jbj.core.JbjEnv
 import de.leanovate.jbj.api.JbjSettings
 import de.leanovate.jbj.runtime.env.CgiEnvironment
+import de.leanovate.jbj.core.parser.InitialLexer
+import de.leanovate.jbj.core.parser.ParseContext
+import de.leanovate.jbj.core.JbjEnv
+import scala.Some
 
 object TestBed {
   //Simplify testing
   def test(exprstr: String) = {
-    var tokens: Reader[Token] = new TokenReader(exprstr, InitialLexer)
+    var tokens: Reader[Token] = new TokenReader(exprstr, InitialLexerMode(shortOpenTag = true, aspTags = true).newLexer())
 
     println("Tokens")
     var count = 0
@@ -29,7 +33,7 @@ object TestBed {
     }
 
     val jbj = JbjEnv(TestLocator, errorStream = Some(System.err))
-    val tokens2 = new TokenReader(exprstr, InitialLexer)
+    val tokens2 = new TokenReader(exprstr, InitialLexerMode(shortOpenTag = true, aspTags = true).newLexer())
     val parser = new JbjParser(ParseContext("/classes/bla.php", jbj.settings))
     parser.phrase(parser.start)(tokens2) match {
       case parser.Success(tree: Prog, _) =>

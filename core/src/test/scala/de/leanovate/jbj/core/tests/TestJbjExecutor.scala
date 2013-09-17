@@ -61,6 +61,16 @@ trait TestJbjExecutor {
       this
     }
 
+    def withShortOpenTag(shortOpenTag: Boolean) = {
+      jbj.settings.setShortOpenTag(shortOpenTag)
+      this
+    }
+
+    def withAspTags(aspTags: Boolean) = {
+      jbj.settings.setAspTags(aspTags)
+      this
+    }
+
     def withGet(uriStr: String, cookies: Seq[CookieInfo] = Seq.empty) = {
       CgiEnvironment.httpRequest(TestRequestInfo.get(uriStr, cookies))
       this

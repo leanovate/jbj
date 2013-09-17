@@ -12,19 +12,27 @@ import scala.util.parsing.input.CharArrayReader.EofCh
 import de.leanovate.jbj.core.parser.JbjTokens.Inline
 import de.leanovate.jbj.core.parser.JbjTokens.EOF
 
-object InitialLexer extends Lexer with CommonLexerPatterns {
+case class InitialLexer(mode: InitialLexerMode) extends Lexer with CommonLexerPatterns {
   val token: Parser[(Token, Option[LexerMode])] =
-    (scriptStart ^^^ Inline("") -> Some(ScriptingLexerMode)
-      | str("<?php") ~ whitespaceChar ^^^ Inline("") -> Some(ScriptingLexerMode)
-      | str("<?=") ^^^ Keyword("echo") -> Some(ScriptingLexerMode)
-      | str("<?") ^^^ Inline("") -> Some(ScriptingLexerMode)
-      | str("<%=") ^^^ Keyword("echo") -> Some(ScriptingLexerMode)
-      | str("<%") ^^^ Inline("") -> Some(ScriptingLexerMode)
-      | '<' ^^^ Inline("<") -> None
-      | EofCh ^^^ EOF -> None
-      | rep(chrExcept(EofCh, '<')) ^^ {
-      chars => Inline(chars mkString "") -> None
-    })
+    scriptStart ^^^ Inline("") -> Some(ScriptingLexerMode(mode)) |
+      str("<?php") ~ whitespaceChar ^^^ Inline("") -> Some(ScriptingLexerMode(mode)) |
+      str("<?=") ^^^ Keyword("echo") -> Some(ScriptingLexerMode(mode)) |
+      (if (mode.shortOpenTag)
+        str("<?") ^^^ Inline("") -> Some(ScriptingLexerMode(mode))
+      else
+        failure("No short open tag")
+        ) |
+      (if (mode.aspTags)
+        str("<%=") ^^^ Keyword("echo") -> Some(ScriptingLexerMode(mode))
+          | str("<%") ^^^ Inline("") -> Some(ScriptingLexerMode(mode))
+      else
+        failure("No asp tags")
+        ) |
+      '<' ^^^ Inline("<") -> None |
+      EofCh ^^^ EOF -> None |
+      rep(chrExcept(EofCh, '<')) ^^ {
+        chars => Inline(chars mkString "") -> None
+      }
 
   private def scriptStart = str("<script") ~ optWhitespace ~ str("language") ~ optWhitespace ~ '=' ~
     optWhitespace ~ opt(quote) ~ str("php") ~ opt(quote) ~ optWhitespace ~ '>'
