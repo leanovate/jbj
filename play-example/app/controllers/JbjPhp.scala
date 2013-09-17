@@ -5,10 +5,13 @@ import java.io.{PrintStream, ByteArrayOutputStream, File}
 import play.api.Logger
 import de.leanovate.jbj.core.JbjEnvironmentBuilder
 import de.leanovate.jbj.runtime.exception.NotFoundJbjException
+import de.leanovate.jbj.api.JbjSettings
 
 object JbjPhp extends Controller {
-
-  private val jbj = JbjEnvironmentBuilder().withScriptLocator(PlayJbjScriptLocator).withErrStream(System.err).build()
+  private val jbjSettings = new JbjSettings
+  jbjSettings.setShortOpenTag(true)
+  jbjSettings.setAspTags(true)
+  private val jbj = JbjEnvironmentBuilder().withScriptLocator(PlayJbjScriptLocator).withErrStream(System.err).withSettings(jbjSettings).build()
 
   def get(path: String, file: String, pathInfo: String) = Action {
     request =>
