@@ -90,26 +90,29 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
   override def getAt(index: String)(implicit ctx: Context): Option[PAny] =
     keyValueMap.get(index)
 
-  override def setAt(index: Long, value: PAny)(implicit ctx: Context) {
+  override def setAt(index: Long, value: PAny)(implicit ctx: Context) = {
     if (index > maxIndex) {
       maxIndex = index
     }
     value.retain()
     keyValueMap.get(index).foreach(_.release())
     keyValueMap.put(index, value)
+    value
   }
 
-  override def setAt(index: String, value: PAny)(implicit ctx: Context) {
+  override def setAt(index: String, value: PAny)(implicit ctx: Context) = {
     value.retain()
     keyValueMap.get(index).foreach(_.release())
     keyValueMap.put(index, value)
+    value
   }
 
-  override def append(value: PAny)(implicit ctx: Context) {
+  override def append(value: PAny)(implicit ctx: Context) = {
     maxIndex += 1
     value.retain()
     keyValueMap.get(maxIndex).foreach(_.release())
     keyValueMap.put(maxIndex, value)
+    value
   }
 
   override def unsetAt(index: Long)(implicit ctx: Context) {

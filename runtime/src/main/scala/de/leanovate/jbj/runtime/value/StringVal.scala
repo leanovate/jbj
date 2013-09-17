@@ -148,9 +148,10 @@ class StringVal(var chars: Array[Byte]) extends PConcreteVal with ArrayLike {
     Some(StringVal(Array(chars(0))))
   }
 
-  override def setAt(index: Long, value: PAny)(implicit ctx: Context) {
+  override def setAt(index: Long, value: PAny)(implicit ctx: Context) = {
     if (index < 0) {
       ctx.log.warn("Illegal string offset:  %d".format(index))
+      value
     } else {
       val chs = value.asVal.toStr.chars
       val ch: Byte = if (!chs.isEmpty) chs(0) else 0
@@ -165,14 +166,15 @@ class StringVal(var chars: Array[Byte]) extends PConcreteVal with ArrayLike {
       } else {
         chars(index.toInt) = ch
       }
+      new StringVal(Array[Byte](ch))
     }
   }
 
-  override def setAt(index: String, value: PAny)(implicit ctx: Context) {
+  override def setAt(index: String, value: PAny)(implicit ctx: Context) = {
     setAt(0, value)
   }
 
-  override def append(value: PAny)(implicit ctx: Context) {
+  override def append(value: PAny)(implicit ctx: Context) = {
     throw new FatalErrorJbjException("[] operator not supported for strings")
   }
 

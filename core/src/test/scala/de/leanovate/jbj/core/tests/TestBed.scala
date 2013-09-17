@@ -68,91 +68,37 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |class foo
-        |{
-        |	public $list = array();
-        |
-        |	function finalize() {
-        |		print __CLASS__."::".__FUNCTION__."\n";
-        |		$cl = &$this->list;
-        |	}
-        |
-        |	function &method1() {
-        |		print __CLASS__."::".__FUNCTION__."\n";
-        |		return @$this->foo;
-        |	}
-        |
-        |	function &method2() {
-        |		print __CLASS__."::".__FUNCTION__."\n";
-        |		return $this->foo;
-        |	}
-        |
-        |	function method3() {
-        |		print __CLASS__."::".__FUNCTION__."\n";
-        |		return @$this->foo;
-        |	}
+        |function error_hdlr($errno, $errstr) {
+        |	echo "[$errstr]\n";
         |}
         |
-        |class bar
-        |{
-        |	function run1() {
-        |		print __CLASS__."::".__FUNCTION__."\n";
-        |		$this->instance = new foo();
-        |		$this->instance->method1($this);
-        |		$this->instance->method1($this);
-        |	}
+        |set_error_handler('error_hdlr');
         |
-        |	function run2() {
-        |		print __CLASS__."::".__FUNCTION__."\n";
-        |		$this->instance = new foo();
-        |		$this->instance->method2($this);
-        |		$this->instance->method2($this);
-        |	}
+        |$i = 4;
+        |$s = "string";
         |
-        |	function run3() {
-        |		print __CLASS__."::".__FUNCTION__."\n";
-        |		$this->instance = new foo();
-        |		$this->instance->method3($this);
-        |		$this->instance->method3($this);
-        |	}
-        |}
-        |
-        |function ouch(&$bar) {
-        |	print __FUNCTION__."\n";
-        |	@$a = $a;
-        |	$bar->run1();
-        |}
-        |
-        |function ok1(&$bar) {
-        |	print __FUNCTION__."\n";
-        |	$bar->run1();
-        |}
-        |
-        |function ok2(&$bar) {
-        |	print __FUNCTION__."\n";
-        |	@$a = $a;
-        |	$bar->run2();
-        |}
-        |
-        |function ok3(&$bar) {
-        |	print __FUNCTION__."\n";
-        |	@$a = $a;
-        |	$bar->run3();
-        |}
-        |
-        |$bar = &new bar();
-        |ok1($bar);
-        |$bar->instance->finalize();
-        |print "done!\n";
-        |ok2($bar);
-        |$bar->instance->finalize();
-        |print "done!\n";
-        |ok3($bar);
-        |$bar->instance->finalize();
-        |print "done!\n";
-        |ouch($bar);
-        |$bar->instance->finalize();
-        |print "I'm alive!\n";
-        |?>>""".stripMargin)
+        |$result = "* *-*";
+        |var_dump($result);
+        |$result[6] = '*';
+        |var_dump($result);
+        |$result[1] = $i;
+        |var_dump($result);
+        |$result[3] = $s;
+        |var_dump($result);
+        |$result[7] = 0;
+        |var_dump($result);
+        |$a = $result[1] = $result[3] = '-';
+        |var_dump($result);
+        |$b = $result[3] = $result[5] = $s;
+        |var_dump($result);
+        |$c = $result[0] = $result[2] = $result[4] = $i;
+        |var_dump($result);
+        |$d = $result[6] = $result[8] = 5;
+        |var_dump($result);
+        |$e = $result[1] = $result[6];
+        |var_dump($result);
+        |var_dump($a, $b, $c, $d, $e);
+        |$result[-1] = 'a';
+        |?>""".stripMargin)
   }
 }

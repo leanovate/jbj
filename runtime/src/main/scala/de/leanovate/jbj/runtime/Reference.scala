@@ -58,6 +58,8 @@ trait Reference {
       byVal.concrete match {
         case obj: ObjectVal if obj.instanceOf(PArrayAccess) =>
           new ObjectDimReference(PArrayAccess.cast(obj), optKey)
+        case str:StringVal =>
+          new StringDimReference(str, optKey)
         case _ =>
           new ArrayDimReference(this, optKey)
       }

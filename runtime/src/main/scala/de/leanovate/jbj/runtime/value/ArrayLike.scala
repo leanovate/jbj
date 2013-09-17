@@ -29,14 +29,14 @@ trait ArrayLike {
 
   def getAt(index: String)(implicit ctx: Context): Option[PAny]
 
-  def setAt(optIndex: Option[PVal], value: PAny)(implicit ctx: Context) {
+  def setAt(optIndex: Option[PVal], value: PAny)(implicit ctx: Context): PAny = {
     if (optIndex.isDefined)
       setAt(optIndex.get, value)
     else
       append(value)
   }
 
-  def setAt(index: PVal, value: PAny)(implicit ctx: Context) {
+  def setAt(index: PVal, value: PAny)(implicit ctx: Context): PAny = {
     index.asVal match {
       case IntegerVal(idx) => setAt(idx, value)
       case DoubleVal(idx) => setAt(idx.toLong, value)
@@ -45,15 +45,16 @@ trait ArrayLike {
       case _: ObjectVal =>
         val errorStr = "Illegal offset type"
         ctx.out.println("string(%d) \"%s\"".format(errorStr.length, errorStr))
+        value
       case v => setAt(v.toStr.asString, value)
     }
   }
 
-  def setAt(index: Long, value: PAny)(implicit ctx: Context)
+  def setAt(index: Long, value: PAny)(implicit ctx: Context): PAny
 
-  def setAt(index: String, value: PAny)(implicit ctx: Context)
+  def setAt(index: String, value: PAny)(implicit ctx: Context): PAny
 
-  def append(value: PAny)(implicit ctx: Context)
+  def append(value: PAny)(implicit ctx: Context): PAny
 
   def unsetAt(index: PVal)(implicit ctx: Context) {
     index.asVal match {
