@@ -81,5 +81,22 @@ class Bug23xxxSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |Done""".stripMargin
       )
     }
+
+    "Bug #23624 (foreach leaves current array key as null)" in {
+      // lang/bug23624.phpt
+      script(
+        """<?php
+          |    $arr = array ('one', 'two', 'three');
+          |    var_dump(current($arr));
+          |    foreach($arr as $key => $value);
+          |    var_dump(current($arr));
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """string(3) "one"
+          |bool(false)
+          |""".stripMargin
+      )
+    }
   }
 }

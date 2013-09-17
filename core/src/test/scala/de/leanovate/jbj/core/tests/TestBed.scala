@@ -72,11 +72,18 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |	$foo = create_function('$s', 'return strtoupper($s);');
-        |	ob_start($foo);
-        |	echo $foo("bar\n");
-        |?>
-        |bar
-        |""".stripMargin)
+        |  /* This works */
+        |  $f = array('7' => 0);
+        |  var_dump($f);
+        |  var_dump(array_key_exists(7, $f));
+        |  var_dump(array_key_exists('7', $f));
+        |
+        |  print "----------\n";
+        |  /* This doesn't */
+        |  $f = array_flip(array('7'));
+        |  var_dump($f);
+        |  var_dump(array_key_exists(7, $f));
+        |  var_dump(array_key_exists('7', $f));
+        |?>""".stripMargin)
   }
 }

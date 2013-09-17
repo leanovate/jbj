@@ -138,12 +138,7 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
       BooleanVal.FALSE
     } else {
       iteratorState.get.head match {
-        case (key: Long, value) =>
-          ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
-            Some(IntegerVal(0)) -> IntegerVal(key), Some(StringVal("key")) -> IntegerVal(key))
-        case (key: String, value) =>
-          ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
-            Some(IntegerVal(0)) -> StringVal(key), Some(StringVal("key")) -> StringVal(key))
+        case (_, value) => value.asVal
       }
     }
 

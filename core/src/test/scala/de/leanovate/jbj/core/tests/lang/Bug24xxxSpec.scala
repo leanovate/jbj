@@ -46,5 +46,82 @@ class Bug24xxxSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Bug #24436 (isset() and empty() produce errors with non-existent variables in objects)" in {
+      // lang/bug24436.phpt
+      script(
+        """<?php
+          |class test {
+          |	function __construct() {
+          |		if (empty($this->test[0][0])) { print "test1";}
+          |		if (!isset($this->test[0][0])) { print "test2";}
+          |	}
+          |}
+          |
+          |$test1 = new test();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """test1test2""".stripMargin
+      )
+    }
+
+    "Bug #24499 (bogus handling of a public property as a private one)" in {
+      // lang/bug24499.phpt
+      script(
+        """<?php
+          |class Id {
+          |        private $id="priv";
+          |
+          |        public function tester($obj)
+          |        {
+          |	        	$obj->id = "bar";
+          |        }
+          |}
+          |
+          |$id = new Id();
+          |@$obj->foo = "bar";
+          |$id->tester($obj);
+          |print_r($obj);
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """stdClass Object
+          |(
+          |    [foo] => bar
+          |    [id] => bar
+          |)
+          |""".stripMargin
+      )
+    }
+
+    "Bug #24573 (debug_backtrace() crashes if $this is set to null)" in {
+      // lang/bug24573.phpt
+      script(
+        """<?php
+          |
+          |class Foo {
+          |  function Bar() {
+          |    $__this = $this;
+          |    $this = null;
+          |    debug_backtrace();
+          |    $this = $__this;
+          |  }
+          |}
+          |
+          |$f = new Foo;
+          |
+          |$f->Bar();
+          |
+          |echo "OK\n";
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot re-assign $this in /lang/Bug24xxxSpec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
   }
 }
