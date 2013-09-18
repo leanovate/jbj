@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.runtime.env
 
-import de.leanovate.jbj.runtime.value.{PVar, PVal, StringVal, ArrayVal}
+import de.leanovate.jbj.runtime.value.{PVal, StringVal, ArrayVal}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.NoNodePosition
 
@@ -18,9 +18,7 @@ object CliEnvironment {
     val serverArgv = ArrayVal(Option.empty[PVal] -> StringVal(fileName) :: args.map {
       str => Option.empty[PVal] -> StringVal(str)
     }.toList: _*)
-    ctx.defineVariable("_SERVER", PVar(ArrayVal(
-      Some(StringVal("argv")) -> serverArgv,
-      Some(StringVal("argc")) -> serverArgv.count
-    )))
+    ctx.global._SERVER.setAt("argv", serverArgv)
+    ctx.global._SERVER.setAt("argc", serverArgv.count)
   }
 }

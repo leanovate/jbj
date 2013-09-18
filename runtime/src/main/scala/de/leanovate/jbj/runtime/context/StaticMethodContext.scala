@@ -35,6 +35,7 @@ case class StaticMethodContext(pMethod: PMethod, callerContext: Context) extends
   lazy val stack: Stack[NodePosition] = callerContext.stack.push(callerContext.currentPosition)
 
   defineVariable("GLOBALS", PVar(global.GLOBALS))
+  defineVariable("_SERVER", PVar(global._SERVER))
 
   override def findVariable(name: String): Option[PVar] = localVariables.get(name)
 

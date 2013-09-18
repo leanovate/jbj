@@ -220,5 +220,77 @@ class Bug24xxxSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    """Bug #24783 ($key not binary safe in "foreach($arr as $key => $val)")""" in {
+      // lang/bug24783.phpt
+      script(
+        """<?php
+          |error_reporting(E_ALL);
+          |	$arr = array ("foo\0bar" => "foo\0bar");
+          |	foreach ($arr as $key => $val) {
+          |		echo strlen($key), ': ';
+          |		echo urlencode($key), ' => ', urlencode($val), "\n";
+          |	}
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """7: foo%00bar => foo%00bar
+          |""".stripMargin
+      )
+    }
+
+    "Bug #24908 (super-globals can not be used in __destruct())" in {
+      // lang/bug24908.phpt
+      script(
+        """<?php
+          |class test {
+          |	function __construct() {
+          |		if (count($_SERVER)) echo "O";
+          |	}
+          |	function __destruct() {
+          |		if (count($_SERVER)) echo "K\n";
+          |	}
+          |}
+          |$test = new test();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """OK
+          |""".stripMargin
+      )
+    }
+
+    "Bug #24926 (lambda function (create_function()) cannot be stored in a class property)" in {
+      // lang/bug24926.phpt
+      script(
+        """<?php
+          |
+          |error_reporting (E_ALL);
+          |
+          |class foo {
+          |
+          |    public $functions = array();
+          |
+          |    function foo()
+          |    {
+          |        $function = create_function('', 'return "FOO\n";');
+          |        print($function());
+          |
+          |        $this->functions['test'] = $function;
+          |        print($this->functions['test']());    // werkt al niet meer
+          |
+          |    }
+          |}
+          |
+          |$a = new foo ();
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """FOO
+          |FOO
+          |""".stripMargin
+      )
+    }
   }
 }

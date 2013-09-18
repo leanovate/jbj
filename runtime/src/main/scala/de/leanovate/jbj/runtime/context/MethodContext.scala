@@ -36,6 +36,7 @@ case class MethodContext(instance: ObjectVal, pMethod: PMethod, callerContext: C
   lazy val stack: Stack[NodePosition] = callerContext.stack.push(callerContext.currentPosition)
 
   defineVariable("GLOBALS", PVar(global.GLOBALS))
+  defineVariable("_SERVER", PVar(global._SERVER))
   defineVariable("this", PVar(instance))
 
   override def findVariable(name: String): Option[PVar] = localVariables.get(name)

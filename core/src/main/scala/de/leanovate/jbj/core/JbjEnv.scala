@@ -12,7 +12,7 @@ import java.io.{OutputStream, PrintStream}
 import de.leanovate.jbj.runtime.context.Context
 import scala.collection.JavaConverters._
 import scala.collection.Map
-import de.leanovate.jbj.runtime.value.PVal
+import de.leanovate.jbj.runtime.value.{PVar, ArrayVal, StringVal, PVal}
 import de.leanovate.jbj.api._
 import de.leanovate.jbj.runtime.exception.NotFoundJbjException
 import de.leanovate.jbj.runtime.env.{CliEnvironment, CgiEnvironment}
@@ -57,7 +57,10 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
 
   def newGlobalContext(out: OutputStream) = {
     val contextSettings = settings.clone()
-    GlobalContext(this, OutputBuffer(out, contextSettings), errorStream, contextSettings)
+    implicit val ctx = GlobalContext(this, OutputBuffer(out, contextSettings), errorStream, contextSettings)
+    ctx._SERVER.setAt("PHP_SELF", StringVal("-"))
+
+    ctx
   }
 
   def parse(fileName: String): Option[Either[Prog, Throwable]] = cache.get(fileName) match {

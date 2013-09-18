@@ -11,6 +11,7 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.runtime.context.Context
+import java.net.URLEncoder
 
 object StringFunctions {
   @GlobalFunction
@@ -78,11 +79,16 @@ object StringFunctions {
     pVal.concrete match {
       case StringVal(str) =>
         StringVal(str.trim)
-      case obj:ObjectVal =>
+      case obj: ObjectVal =>
         StringVal(obj.toStr.asString.trim)
       case v =>
         ctx.log.warn("trim() expects parameter 1 to be string, %s given".format(v.typeName))
         NullVal
     }
+  }
+
+  @GlobalFunction
+  def urlencode(str: String): String = {
+    URLEncoder.encode(str, "UTF-8")
   }
 }

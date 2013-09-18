@@ -61,8 +61,10 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
   val lambdaCounter = new AtomicLong(0)
 
   val GLOBALS = ArrayVal()
+  val _SERVER = ArrayVal()
 
   GLOBALS.setAt("GLOBALS", GLOBALS)(this)
+  GLOBALS.setAt("_SERVER", _SERVER)(this)
 
   def include(file: String)(implicit ctx: Context): Option[(JbjScript, Boolean)] = jbj.parse(file) match {
     case Some(Left(script)) =>
