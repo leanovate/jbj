@@ -12,6 +12,7 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.TypeHint
+import de.leanovate.jbj.runtime.CallbackHelper
 
 object ArrayFunctions {
   @GlobalFunction
@@ -152,8 +153,55 @@ object ArrayFunctions {
     }
   }
 
-  def array_walk(value: PVal, callback: PVal, userdata: Option[PVal])(implicit ctx: Context) {
+  @GlobalFunction
+  def array_walk(value: PVal, callback: PVal, optUserdata: Option[PVal])(implicit ctx: Context) {
+    val withKeys = CallbackHelper.callbackParams(callback).headOption.exists(_.size >= 2)
+    val byRef = CallbackHelper.callbackParams(callback).headOption.exists(_.headOption.exists(_.byRef))
     value match {
+      case array: ArrayVal if byRef =>
+        array.keyValues.foreach {
+          case (k, v: PVal) =>
+            val pVar = PVar(v)
+            array.setAt(k, pVar)
+            optUserdata.map {
+              case userdata if withKeys =>
+                CallbackHelper.callCallback(callback, k, pVar, userdata)
+              case userdata =>
+                CallbackHelper.callCallback(callback, pVar, userdata)
+            }.getOrElse {
+              if (withKeys)
+                CallbackHelper.callCallback(callback, k, pVar)
+              else
+                CallbackHelper.callCallback(callback, pVar)
+            }
+          case (k, pVar: PVar) =>
+            optUserdata.map {
+              case userdata if withKeys =>
+                CallbackHelper.callCallback(callback, k, pVar, userdata)
+              case userdata =>
+                CallbackHelper.callCallback(callback, pVar, userdata)
+            }.getOrElse {
+              if (withKeys)
+                CallbackHelper.callCallback(callback, k, pVar)
+              else
+                CallbackHelper.callCallback(callback, pVar)
+            }
+        }
+      case ArrayVal(keyValues) =>
+        keyValues.foreach {
+          case (k, v) =>
+            optUserdata.map {
+              case userdata if withKeys =>
+                CallbackHelper.callCallback(callback, k, v, userdata)
+              case userdata =>
+                CallbackHelper.callCallback(callback, v, userdata)
+            }.getOrElse {
+              if (withKeys)
+                CallbackHelper.callCallback(callback, k, v)
+              else
+                CallbackHelper.callCallback(callback, v)
+            }
+        }
       case v =>
         ctx.log.warn("array_walk() expects parameter 1 to be array, %s given".format(v.typeName))
     }

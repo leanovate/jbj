@@ -159,5 +159,66 @@ class Bug24xxxSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Bug #24658 (combo of typehint / reference causes crash)" in {
+      // lang/bug24658.phpt
+      script(
+        """<?php
+          |class foo {}
+          |function no_typehint($a) {
+          |	var_dump($a);
+          |}
+          |function typehint(foo $a) {
+          |	var_dump($a);
+          |}
+          |function no_typehint_ref(&$a) {
+          |	var_dump($a);
+          |}
+          |function typehint_ref(foo &$a) {
+          |	var_dump($a);
+          |}
+          |$v = new foo();
+          |$a = array(new foo(), 1, 2);
+          |no_typehint($v);
+          |typehint($v);
+          |no_typehint_ref($v);
+          |typehint_ref($v);
+          |echo "===no_typehint===\n";
+          |array_walk($a, 'no_typehint');
+          |echo "===no_typehint_ref===\n";
+          |array_walk($a, 'no_typehint_ref');
+          |echo "===typehint===\n";
+          |array_walk($a, 'typehint');
+          |echo "===typehint_ref===\n";
+          |array_walk($a, 'typehint_ref');
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """object(foo)#1 (0) {
+          |}
+          |object(foo)#1 (0) {
+          |}
+          |object(foo)#1 (0) {
+          |}
+          |object(foo)#1 (0) {
+          |}
+          |===no_typehint===
+          |object(foo)#2 (0) {
+          |}
+          |int(1)
+          |int(2)
+          |===no_typehint_ref===
+          |object(foo)#2 (0) {
+          |}
+          |int(1)
+          |int(2)
+          |===typehint===
+          |object(foo)#2 (0) {
+          |}
+          |
+          |Catchable fatal error: Argument 1 passed to typehint() must be an instance of foo, integer given, called in /lang/Bug24xxxSpec.inlinePhp on line 26 and defined in /lang/Bug24xxxSpec.inlinePhp on line 6
+          |""".stripMargin
+      )
+    }
   }
 }

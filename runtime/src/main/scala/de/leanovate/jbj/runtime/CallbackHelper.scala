@@ -9,7 +9,7 @@ package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.types.{PParamDef, PValParam}
+import de.leanovate.jbj.runtime.types.{PAnyParam, PParamDef, PValParam}
 
 object CallbackHelper {
   def isValidCallback(callable: PVal)(implicit ctx: Context): Boolean =
@@ -70,7 +70,7 @@ object CallbackHelper {
         ctx.findFunction(NamespaceName(functionName)).map(_ => functionName)
     }
 
-  def callCallback(callable: PVal, parameters: PVal*)(implicit ctx: Context): PAny =
+  def callCallback(callable: PVal, parameters: PAny*)(implicit ctx: Context): PAny =
     callable match {
       case array: ArrayVal if array.keyValues.size != 2 =>
         NullVal
@@ -90,7 +90,7 @@ object CallbackHelper {
             }
             optMethod.map {
               method =>
-                method.invoke(obj, parameters.map(PValParam.apply).toList)
+                method.invoke(obj, parameters.map(PAnyParam.apply).toList)
             }.getOrElse {
               NullVal
             }
@@ -99,7 +99,7 @@ object CallbackHelper {
               pClass =>
                 pClass.findMethod(methodName).map {
                   method =>
-                    method.invokeStatic(parameters.map(PValParam.apply).toList)
+                    method.invokeStatic(parameters.map(PAnyParam.apply).toList)
                 }.getOrElse {
                   NullVal
                 }
@@ -111,7 +111,7 @@ object CallbackHelper {
         val functionName = name.toStr.asString
         ctx.findFunction(NamespaceName(functionName)).map {
           func =>
-            func.call(parameters.map(PValParam.apply).toList)
+            func.call(parameters.map(PAnyParam.apply).toList)
         }.getOrElse {
           NullVal
         }

@@ -70,10 +70,10 @@ trait PClass {
                 None -> param.byVal.copy
             }: _*)
             if (method.isStatic)
-              method.invokeStatic(PValParam(StringVal(methodName)) :: PValParam(parameterArray) :: Nil)
+              method.invokeStatic(PAnyParam(StringVal(methodName)) :: PAnyParam(parameterArray) :: Nil)
             else
               method.invoke(optInstance.get,
-                PValParam(StringVal(methodName)) :: PValParam(parameterArray) :: Nil)
+                PAnyParam(StringVal(methodName)) :: PAnyParam(parameterArray) :: Nil)
           case None =>
             throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))
 
