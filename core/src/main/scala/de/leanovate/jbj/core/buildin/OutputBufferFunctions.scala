@@ -27,7 +27,7 @@ object OutputBufferFunctions {
           def transform(flags: Int, bytes: Array[Byte], offset: Int, length: Int) = {
             try {
               ctx.global.isOutputBufferingCallback = true
-              CallbackHelper.callCallabck(callback.get,
+              CallbackHelper.callCallback(callback.get,
                 new StringVal(bytes.slice(offset, offset + length)), IntegerVal(flags)).asVal.toStr.chars
             } finally {
               ctx.global.isOutputBufferingCallback = false

@@ -196,7 +196,7 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
   def cleanup() {
     shutdownHandler.foreach {
       callback =>
-        CallbackHelper.callCallabck(callback, shutdownParameters: _*)(this)
+        CallbackHelper.callCallback(callback, shutdownParameters: _*)(this)
     }
     currentPosition = NoNodePosition
     _inShutdown = true

@@ -9,7 +9,7 @@ package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.types.PValParam
+import de.leanovate.jbj.runtime.types.{PParamDef, PValParam}
 
 object CallbackHelper {
   def isValidCallback(callable: PVal)(implicit ctx: Context): Boolean =
@@ -70,7 +70,7 @@ object CallbackHelper {
         ctx.findFunction(NamespaceName(functionName)).map(_ => functionName)
     }
 
-  def callCallabck(callable: PVal, parameters: PVal*)(implicit ctx: Context): PAny =
+  def callCallback(callable: PVal, parameters: PVal*)(implicit ctx: Context): PAny =
     callable match {
       case array: ArrayVal if array.keyValues.size != 2 =>
         NullVal
@@ -116,4 +116,35 @@ object CallbackHelper {
           NullVal
         }
     }
+
+  def callbackParams(callable: PVal)(implicit ctx: Context): Option[Seq[PParamDef]] =
+    callable match {
+      case array: ArrayVal if array.keyValues.size != 2 =>
+        None
+      case array: ArrayVal =>
+        val objOrClassName = array.keyValues.head._2.asVal
+        val methodName = array.keyValues.last._2.asVal.toStr.asString
+        objOrClassName match {
+          case obj: ObjectVal =>
+            val optMethod = if (methodName.contains("::")) {
+              val classAndMethod = methodName.split("::")
+              ctx.global.findClass(NamespaceName(classAndMethod(0)), autoload = false).flatMap {
+                pClass =>
+                  pClass.findMethod(classAndMethod(1))
+              }
+            } else {
+              obj.pClass.findMethod(methodName)
+            }
+            optMethod.map(_.parameters)
+          case name =>
+            ctx.global.findClass(NamespaceName(name.toStr.asString), autoload = false).flatMap {
+              pClass =>
+                pClass.findMethod(methodName).map(_.parameters)
+            }
+        }
+      case name =>
+        val functionName = name.toStr.asString
+        ctx.findFunction(NamespaceName(functionName)).map(_.parameters)
+    }
+
 }

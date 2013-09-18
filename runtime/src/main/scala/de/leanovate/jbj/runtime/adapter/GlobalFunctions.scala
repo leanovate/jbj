@@ -13,7 +13,7 @@ import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
 import de.leanovate.jbj.runtime.{context, NamespaceName}
 import de.leanovate.jbj.runtime.value.{PVal, PVar, PAny}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
-import de.leanovate.jbj.runtime.types.{PParam, PFunction}
+import de.leanovate.jbj.runtime.types.{PParamDef, PParam, PFunction}
 
 object GlobalFunctions {
   def functions(inst: Any): Seq[PFunction] = macro functions_impl
@@ -62,10 +62,28 @@ object GlobalFunctions {
       val functionName = c.Expr[String](Literal(Constant(member.name.encoded)))
       val impl = c.Expr(Block(parameters.map(_._2) ++ tooManyHandler, Apply(Select(Ident(inst.actualType.termSymbol), member.name), parameters.map(_._1))))
       val resultConverter = converterForType(member.returnType)
+      val paramDefs = c.Expr[Seq[PParamDef]](Apply(Select(Ident(newTermName("Seq")), newTermName("apply")),
+        memberParams.map {
+          parameter =>
+            val name = c.Expr[String](Literal(Constant(parameter.name.toString)))
+            val byRef = parameter.typeSignature match {
+              case TypeRef(_, sym, _) if sym == pVarClass =>
+                c.Expr[Boolean](Literal(Constant(true)))
+              case _ =>
+                c.Expr[Boolean](Literal(Constant(false)))
+            }
+
+            reify {
+              AdaptedParamDef(name.splice, false, byRef.splice, None)
+            }.tree
+        }
+      ))
 
       reify {
         new PFunction {
           def name = NamespaceName.apply(functionName.splice)
+
+          def parameters = paramDefs.splice
 
           def call(parameters: List[PParam])(implicit callerCtx: context.Context): PAny = {
             val result = impl.splice

@@ -12,6 +12,8 @@ trait PParamDef {
 
   def hasDefault: Boolean
 
+  def byRef: Boolean
+
   def typeHint: Option[TypeHint]
 
   def isCompatible(other: PParamDef): Boolean = typeHint.map {

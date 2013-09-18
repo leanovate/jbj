@@ -104,7 +104,7 @@ class Log(context: Context, out: OutputBuffer, err: Option[PrintStream]) {
     implicit val global = context.global
     global.errorHandler.exists {
       case errorHandler if (context.global.errorHandlerTypes & errorLevel.getValue) != 0 =>
-        CallbackHelper.callCallabck(errorHandler, IntegerVal(errorLevel.getValue), StringVal(msg),
+        CallbackHelper.callCallback(errorHandler, IntegerVal(errorLevel.getValue), StringVal(msg),
           StringVal(position.fileName), IntegerVal(position.line), ArrayVal()).asVal match {
           case BooleanVal.FALSE => false
           case _ => true

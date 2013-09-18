@@ -28,7 +28,7 @@ object ArrayFunctions {
         keyValues.foreach {
           case (k, v) =>
             v.asVal.concrete match {
-              case str:StringVal =>
+              case str: StringVal =>
                 result.setAt(Some(str), k)
               case IntegerVal(idx) =>
                 result.setAt(idx, k)
@@ -149,6 +149,13 @@ object ArrayFunctions {
       case v =>
         ctx.log.warn("array_shift() expects parameter 1 to be array, %s given".format(v.typeName))
         NullVal
+    }
+  }
+
+  def array_walk(value: PVal, callback: PVal, userdata: Option[PVal])(implicit ctx: Context) {
+    value match {
+      case v =>
+        ctx.log.warn("array_walk() expects parameter 1 to be array, %s given".format(v.typeName))
     }
   }
 

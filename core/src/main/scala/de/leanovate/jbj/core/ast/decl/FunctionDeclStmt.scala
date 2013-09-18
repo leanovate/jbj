@@ -19,6 +19,8 @@ case class FunctionDeclStmt(name: NamespaceName, returnByRef: Boolean, parameter
   private lazy val staticInitializers = StaticInitializer.collect(stmts: _*)
   var _registered = false
 
+  override def parameters = parameterDecls.toSeq
+
   override def exec(implicit ctx: Context) = {
     if (!_registered) {
       parameterDecls.foreach(_.check)

@@ -5,16 +5,9 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.runtime.types
+package de.leanovate.jbj.runtime.adapter
 
-import de.leanovate.jbj.runtime.value.PAny
-import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.NamespaceName
+import de.leanovate.jbj.runtime.types.{TypeHint, PParamDef}
 
-trait PFunction {
-  def name: NamespaceName
-
-  def parameters: Seq[PParamDef]
-
-  def call(parameters: List[PParam])(implicit callerCtx: Context): PAny
+case class AdaptedParamDef(name: String, hasDefault: Boolean, byRef: Boolean, typeHint: Option[TypeHint]) extends PParamDef {
 }
