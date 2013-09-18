@@ -95,5 +95,122 @@ class Bug25xxxSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Bug #25922 (SEGV in error_handler when context is destroyed)" in {
+      // lang/bug25922.phpt
+      script(
+        """<?php
+          |function my_error_handler($error, $errmsg='', $errfile='', $errline=0, $errcontext='')
+          |{
+          |	echo "$errmsg\n";
+          |	$errcontext = '';
+          |}
+          |
+          |set_error_handler('my_error_handler');
+          |
+          |function test()
+          |{
+          |	echo "Undefined index here: '{$data['HTTP_HEADER']}'\n";
+          |}
+          |test();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """Undefined variable: data
+          |Undefined index here: ''
+          |""".stripMargin
+      )
+    }
+
+    "Bug #26182 (Object properties created redundantly)" in {
+      // lang/bug26182.phpt
+      script(
+        """<?php
+          |
+          |class A {
+          |    function NotAConstructor ()
+          |    {
+          |        if (isset($this->x)) {
+          |            //just for demo
+          |        }
+          |    }
+          |}
+          |
+          |$t = new A ();
+          |
+          |print_r($t);
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """A Object
+          |(
+          |)
+          |""".stripMargin
+      )
+    }
+
+    "Bug #26696 (string index in a switch() crashes with multiple matches)" in {
+      // lang/bug26696.phpt
+      script(
+        """<?php
+          |
+          |$str = 'asdd/?';
+          |$len = strlen($str);
+          |for ($i = 0; $i < $len; $i++) {
+          |	switch ($str[$i]) {
+          |		case '?':
+          |			echo "OK\n";
+          |			break;
+          |	}
+          |}
+          |
+          |$str = '*';
+          |switch ($str[0]) {
+          |	case '*';
+          |		echo "OK\n";
+          |		break;
+          |	default:
+          |		echo 'Default RAN!';
+          |}
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """OK
+          |OK
+          |""".stripMargin
+      )
+    }
+
+    "Bug #26866 (segfault when exception raised in __get)" in {
+      // lang/bug26866.phpt
+      script(
+        """<?php
+          |class bar {
+          |	function get_name() {
+          |		return 'bar';
+          |	}
+          |}
+          |class foo {
+          |	function __get($sName) {
+          |		throw new Exception('Exception!');
+          |		return new bar();
+          |	}
+          |}
+          |$foo = new foo();
+          |try {
+          |	echo $foo->bar->get_name();
+          |}
+          |catch (Exception $E) {
+          |	echo "Exception raised!\n";
+          |}
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """Exception raised!
+          |""".stripMargin
+      )
+    }
   }
 }

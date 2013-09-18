@@ -72,21 +72,24 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |
-        |	function testfunc ($var) {
-        |		echo "testfunc $var\n";
+        |class bar {
+        |	function get_name() {
+        |		return 'bar';
         |	}
-        |
-        |	class foo {
-        |		public $arr = array('testfunc');
-        |		function bar () {
-        |			$this->arr[0]('testvalue');
-        |		}
+        |}
+        |class foo {
+        |	function __get($sName) {
+        |		throw new Exception('Exception!');
+        |		return new bar();
         |	}
-        |
-        |	$a = new foo ();
-        |	$a->bar ();
-        |
+        |}
+        |$foo = new foo();
+        |try {
+        |	echo $foo->bar->get_name();
+        |}
+        |catch (Exception $E) {
+        |	echo "Exception raised!\n";
+        |}
         |?>""".stripMargin)
   }
 }
