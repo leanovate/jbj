@@ -11,6 +11,9 @@ import java.io.OutputStream
 
 case class BufferedOutputHandler(out: OutputStream, level: Int, optTransformer: Option[OutputTransformer], chunkSize: Int, maxSize: Int)
   extends OutputStream with OutputHandler {
+
+  import OutputHandler._
+
   private var _bufferSize = if (maxSize < 0) 16384 else maxSize
   private var buffer: Array[Byte] = new Array[Byte](bufferSize)
   private var count = 0
@@ -62,7 +65,7 @@ case class BufferedOutputHandler(out: OutputStream, level: Int, optTransformer: 
   }
 
   override def flush() {
-    flushBuffer(PHP_OUTPUT_HANDLER_FLUSH)
+    flushBuffer((if (_first) PHP_OUTPUT_HANDLER_START else PHP_OUTPUT_HANDLER_WRITE) | PHP_OUTPUT_HANDLER_FLUSH)
   }
 
   override def close() {
@@ -78,12 +81,14 @@ case class BufferedOutputHandler(out: OutputStream, level: Int, optTransformer: 
   }
 
   override def endFlush() {
-    flushBuffer(PHP_OUTPUT_HANDLER_FLUSH | PHP_OUTPUT_HANDLER_FINAL)
+    flushBuffer((if (_first) PHP_OUTPUT_HANDLER_START else PHP_OUTPUT_HANDLER_WRITE) |
+      PHP_OUTPUT_HANDLER_FLUSH | PHP_OUTPUT_HANDLER_FINAL)
   }
 
   override def clean() {
     optTransformer.foreach {
       transformer =>
+        _first = false
         transformer.transform(PHP_OUTPUT_HANDLER_CLEAN, buffer, 0, count)
     }
     count = 0
@@ -111,7 +116,7 @@ case class BufferedOutputHandler(out: OutputStream, level: Int, optTransformer: 
   }
 
   private def flushBuffer(flags: Int) {
-    if (count > 0 || (flags & PHP_OUTPUT_HANDLER_FINAL) != 0 ) {
+    if (count > 0 || (flags & PHP_OUTPUT_HANDLER_FINAL) != 0) {
       pushBuffer(flags, buffer, 0, count)
       count = 0
     }

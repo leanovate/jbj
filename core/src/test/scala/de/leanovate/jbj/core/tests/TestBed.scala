@@ -72,26 +72,37 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |
-        |error_reporting (E_ALL);
-        |
-        |class foo {
-        |
-        |    public $functions = array();
-        |
-        |    function foo()
-        |    {
-        |        $function = create_function('', 'return "FOO\n";');
-        |        print($function());
-        |
-        |        $this->functions['test'] = $function;
-        |        print($this->functions['test']());    // werkt al niet meer
-        |
-        |    }
+        |function test($s, $mode)
+        |{
+        |	return (($mode & PHP_OUTPUT_HANDLER_START)?"[":"") . $s . (($mode & PHP_OUTPUT_HANDLER_END)?"]\n":"");
+        |}
+        |function t1()
+        |{
+        |	ob_start("test");
+        |	echo "Hello from t1 1 ";
+        |        echo "Hello from t1 2 ";
+        |        ob_end_flush();
+        |}
+        |function t2()
+        |{
+        |	ob_start("test");
+        |	echo "Hello from t2 1 ";
+        |        ob_flush();
+        |        echo "Hello from t2 2 ";
+        |        ob_end_flush();
+        |}
+        |function t3()
+        |{
+        |	ob_start("test");
+        |        echo "Hello from t3 1 ";
+        |        ob_clean();
+        |        echo "Hello from t3 2 ";
+        |        ob_end_flush();
         |}
         |
-        |$a = new foo ();
-        |
+        |t1(); echo "\n";
+        |t2(); echo "\n";
+        |t3(); echo "\n";
         |?>""".stripMargin)
   }
 }

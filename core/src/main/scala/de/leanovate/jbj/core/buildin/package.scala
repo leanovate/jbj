@@ -13,6 +13,7 @@ import scala.collection.JavaConverters._
 import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 import de.leanovate.jbj.runtime.types._
 import de.leanovate.jbj.runtime.value.IntegerVal
+import de.leanovate.jbj.runtime.output.OutputHandler
 
 package object buildin {
   val buildinFunctions: Seq[PFunction] =
@@ -32,6 +33,8 @@ package object buildin {
     "TRUE" -> BooleanVal.TRUE,
     "FALSE" -> BooleanVal.FALSE,
     "NULL" -> NullVal,
+    "PHP_OUTPUT_HANDLER_START" -> IntegerVal(OutputHandler.PHP_OUTPUT_HANDLER_START),
+    "PHP_OUTPUT_HANDLER_END" -> IntegerVal(OutputHandler.PHP_OUTPUT_HANDLER_END),
     "DIRECTORY_SEPARATOR" -> new StringVal(Array[Byte]('/')),
     "E_ERROR" -> IntegerVal(JbjSettings.ErrorLevel.E_ERROR.getValue),
     "E_WARNING" -> IntegerVal(JbjSettings.ErrorLevel.E_WARNING.getValue),

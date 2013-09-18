@@ -8,6 +8,35 @@
 package de.leanovate.jbj.runtime.output
 
 trait OutputHandler {
+
+  def name: Option[String]
+
+  def level: Int
+
+  def bufferUsed: Int
+
+  def bufferSize: Int
+
+  def bufferType: Int
+
+  def bufferFlags: Int
+
+  def bufferChunkSize: Int
+
+  def endClean()
+
+  def endFlush()
+
+  def clean()
+
+  def contents: Option[Array[Byte]]
+
+  def suspend() {}
+
+  def resume() {}
+}
+
+object OutputHandler {
   /* standard passthru */
   val PHP_OUTPUT_HANDLER_WRITE = 0x00
   /* start */
@@ -36,29 +65,4 @@ trait OutputHandler {
   val PHP_OUTPUT_HANDLER_DISABLED = 0x2000
   val PHP_OUTPUT_HANDLER_PROCESSED = 0x4000
 
-  def name: Option[String]
-
-  def level: Int
-
-  def bufferUsed: Int
-
-  def bufferSize: Int
-
-  def bufferType: Int
-
-  def bufferFlags: Int
-
-  def bufferChunkSize: Int
-
-  def endClean()
-
-  def endFlush()
-
-  def clean()
-
-  def contents: Option[Array[Byte]]
-
-  def suspend() {}
-
-  def resume() {}
 }

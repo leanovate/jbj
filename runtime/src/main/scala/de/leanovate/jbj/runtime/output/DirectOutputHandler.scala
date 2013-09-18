@@ -16,9 +16,9 @@ case class DirectOutputHandler(out: OutputStream, level: Int) extends OutputStre
 
   override def bufferSize = 0
 
-  override def bufferType = PHP_OUTPUT_HANDLER_INTERNAL
+  override def bufferType = OutputHandler.PHP_OUTPUT_HANDLER_INTERNAL
 
-  override def bufferFlags = PHP_OUTPUT_HANDLER_STDFLAGS | bufferType
+  override def bufferFlags = OutputHandler.PHP_OUTPUT_HANDLER_STDFLAGS | bufferType
 
   override def bufferChunkSize = 0
 
