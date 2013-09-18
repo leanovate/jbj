@@ -21,6 +21,29 @@ object ArrayFunctions {
   }
 
   @GlobalFunction
+  def array_flip(value: PVal)(implicit ctx: Context): PVal = {
+    value.concrete match {
+      case ArrayVal(keyValues) =>
+        val result = ArrayVal()
+        keyValues.foreach {
+          case (k, v) =>
+            v.asVal.concrete match {
+              case str:StringVal =>
+                result.setAt(Some(str), k)
+              case IntegerVal(idx) =>
+                result.setAt(idx, k)
+              case _ =>
+                ctx.log.warn("array_flip(): Can only flip STRING and INTEGER values!")
+            }
+        }
+        result
+      case pVal =>
+        ctx.log.warn("array_flip() expects parameter 1 to be array, %s given".format(value.typeName))
+        NullVal
+    }
+  }
+
+  @GlobalFunction
   def array_key_exists(key: PVal, value: PVal)(implicit ctx: Context): PVal = {
     value match {
       case array: ArrayVal =>

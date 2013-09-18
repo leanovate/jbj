@@ -205,5 +205,5 @@ object ArrayVal {
     }.result())
   }
 
-  def unapply(array: ArrayVal)(implicit ctx: Context) = Some(array.keyValues)
+  def unapply(array: ArrayVal)(implicit ctx: Context): Option[Seq[(PVal, PAny)]] = Some(array.keyValues)
 }
