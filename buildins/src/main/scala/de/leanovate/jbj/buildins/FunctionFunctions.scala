@@ -5,16 +5,14 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core.buildin
+package de.leanovate.jbj.buildins
 
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
 import de.leanovate.jbj.runtime.context.{FunctionLikeContext, Context}
 import de.leanovate.jbj.runtime.exception.{ParseJbjException, FatalErrorJbjException}
-import de.leanovate.jbj.runtime.{ReturnExecResult, CallbackHelper, NamespaceName}
-import de.leanovate.jbj.runtime.types.{TypeHint, PParam}
-import de.leanovate.jbj.core.parser.{ParseContext, JbjParser}
-import java.util.concurrent.atomic.AtomicLong
+import de.leanovate.jbj.runtime.{CallbackHelper, NamespaceName}
+import de.leanovate.jbj.runtime.types.PParam
 
 object FunctionFunctions {
   @GlobalFunction
@@ -22,10 +20,7 @@ object FunctionFunctions {
     try {
       val functionName = "lambda_%d".format(ctx.global.lambdaCounter.incrementAndGet())
       val functionDecl = "<?php function %s(%s) { %s }".format(functionName, args, code)
-      val parser = new JbjParser(ParseContext("%s(%d) : create_function()'d code".format(ctx.currentPosition.fileName, ctx.currentPosition.line), ctx.settings))
-      val prog = parser.parse(functionDecl)
-
-      prog.exec
+      ctx.global.jbj.exec(functionDecl, ctx)
       functionName
     } catch {
       case e: ParseJbjException =>

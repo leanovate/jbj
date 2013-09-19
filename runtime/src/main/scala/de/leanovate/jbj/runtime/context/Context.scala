@@ -14,9 +14,9 @@ import de.leanovate.jbj.runtime._
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.output.OutputBuffer
 import de.leanovate.jbj.runtime.types.PFunction
-import de.leanovate.jbj.api.http.JbjSettings
+import de.leanovate.jbj.api.http.{JbjProcessContext, JbjSettings}
 
-trait Context {
+trait Context extends JbjProcessContext {
   private val _autoReleasePool = mutable.ListBuffer.empty[PAny]
   private var _currentPosition: NodePosition = NoNodePosition
 

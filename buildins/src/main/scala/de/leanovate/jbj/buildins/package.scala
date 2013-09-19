@@ -10,6 +10,7 @@ package object buildins {
       GlobalFunctions.functions(DateFunctions) ++
       GlobalFunctions.functions(EnvironmentFunctions) ++
       GlobalFunctions.functions(FileFunctions) ++
+      GlobalFunctions.functions(FunctionFunctions) ++
       GlobalFunctions.functions(OutputBufferFunctions) ++
       GlobalFunctions.functions(OutputFunctions) ++
       GlobalFunctions.functions(RuntimeFunctions) ++

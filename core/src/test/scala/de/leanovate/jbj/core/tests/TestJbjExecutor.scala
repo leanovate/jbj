@@ -22,7 +22,7 @@ trait TestJbjExecutor {
     val bErr = new ByteArrayOutputStream()
     val err = new PrintStream(bErr, false, "UTF-8")
 
-    val jbj = JbjEnvironmentBuilder().withScriptLocator(TestLocator).withErrStream(bErr).build().asInstanceOf[JbjEnv]
+    val jbj = JbjEnvironmentBuilder().withScriptLocator(TestLocator).withErrStream(bErr).build()
     val pseudoFileName = TestJbjExecutor.this.getClass.getName.replace("de.leanovate.jbj.core.tests", "").replace('.', '/') + ".inlinePhp"
     val bOut = new ByteArrayOutputStream()
     val out = new PrintStream(bOut, false, "UTF-8")

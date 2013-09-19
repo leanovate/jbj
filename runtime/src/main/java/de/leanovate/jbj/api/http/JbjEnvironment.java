@@ -21,7 +21,7 @@ import java.util.List;
  * <p/>
  * Usually you only need one of theses for all your PHP scripts.
  */
-public interface JbjEnvironment {
+public interface JbjEnvironment<Ctx extends JbjProcessContext> {
 
     /**
      * Just run a PHP script.
@@ -50,43 +50,58 @@ public interface JbjEnvironment {
     void run(String phpScript, RequestInfo request, Response output);
 
     /**
+     * Create a new process context.
+     *
+     * @param output where to write the stdout to
+     */
+    Ctx createProcessContext(OutputStream output);
+
+    /**
+     * Execute a script within a process context.
+     *
+     * @param phpCommands the PHP commands to execute/evaluate
+     * @param context     the process context
+     */
+    void exec(String phpCommands, Ctx context);
+
+    /**
      * JBJ environment builder.
      */
-    abstract class Builder {
+    abstract class Builder<Env extends JbjEnvironment> {
         protected JbjSettings settings = new JbjSettings();
         protected JbjScriptLocator scriptLocator = new DefaultJbjScriptLocator();
         protected JbjProcessExecutor processExecutor = new DefaultJbjProcessExecutor();
         protected FileSystem fileSystem = FileSystems.getDefault();
         protected OutputStream errorStream = null;
-        protected List<JbjExtension> extendions = new ArrayList<>();
+        protected List<JbjExtension> extensions = new ArrayList<>();
 
-        public Builder withSettings(JbjSettings settings) {
+        public Builder<Env> withSettings(JbjSettings settings) {
             this.settings = settings;
             return this;
         }
 
-        public Builder withScriptLocator(JbjScriptLocator scriptLocator) {
+        public Builder<Env> withScriptLocator(JbjScriptLocator scriptLocator) {
             this.scriptLocator = scriptLocator;
             return this;
         }
 
-        public Builder withProcessExecutor(JbjProcessExecutor processExecutor) {
+        public Builder<Env> withProcessExecutor(JbjProcessExecutor processExecutor) {
             this.processExecutor = processExecutor;
             return this;
         }
 
-        public Builder withFileSystem(FileSystem fileSystem) {
+        public Builder<Env> withFileSystem(FileSystem fileSystem) {
             this.fileSystem = fileSystem;
             return this;
         }
 
-        public Builder withErrStream(OutputStream errorStream) {
+        public Builder<Env> withErrStream(OutputStream errorStream) {
             this.errorStream = errorStream;
             return this;
         }
 
-        public Builder withExtension(JbjExtension extension) {
-            extendions.add(extension);
+        public Builder<Env> withExtension(JbjExtension extension) {
+            extensions.add(extension);
             return this;
         }
 
@@ -94,6 +109,6 @@ public interface JbjEnvironment {
          * Build the environment.
          */
         @Nonnull
-        public abstract JbjEnvironment build();
+        public abstract Env build();
     }
 }

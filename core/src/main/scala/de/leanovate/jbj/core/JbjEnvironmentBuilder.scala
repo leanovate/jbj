@@ -12,9 +12,9 @@ import de.leanovate.jbj.api.http.JbjEnvironment
 import scala.collection.JavaConversions._
 import de.leanovate.jbj.buildins.BuildinsExtension
 
-case class JbjEnvironmentBuilder() extends JbjEnvironment.Builder {
+case class JbjEnvironmentBuilder() extends JbjEnvironment.Builder[JbjEnv] {
   def build() =
-    JbjEnv(scriptLocator, settings, BuildinsExtension +: extendions.toSeq, Option(errorStream).map {
+    JbjEnv(scriptLocator, settings, BuildinsExtension +: extensions.toSeq, Option(errorStream).map {
       err =>
         new PrintStream(err, false, "UTF-8")
     })

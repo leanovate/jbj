@@ -31,7 +31,7 @@ object TestBed {
       count += 1
     }
 
-    val jbj = JbjEnvironmentBuilder().withScriptLocator(TestLocator).withErrStream(System.err).build().asInstanceOf[JbjEnv]
+    val jbj = JbjEnvironmentBuilder().withScriptLocator(TestLocator).withErrStream(System.err).build()
     val tokens2 = new TokenReader(exprstr, InitialLexerMode(shortOpenTag = true, aspTags = true).newLexer())
     val parser = new JbjParser(ParseContext("/classes/bla.php", jbj.settings))
     parser.phrase(parser.start)(tokens2) match {

@@ -12,18 +12,12 @@ import java.io.{OutputStream, PrintStream}
 import de.leanovate.jbj.runtime.context.Context
 import scala.collection.JavaConverters._
 import scala.collection.Map
-import de.leanovate.jbj.runtime.value.{PVar, ArrayVal, StringVal, PVal}
-import de.leanovate.jbj.api._
+import de.leanovate.jbj.runtime.value.{StringVal, PVal}
 import de.leanovate.jbj.runtime.exception.NotFoundJbjException
 import de.leanovate.jbj.runtime.env.{CliEnvironment, CgiEnvironment}
 import de.leanovate.jbj.core.ast.Prog
 import de.leanovate.jbj.core.parser.JbjParser
 import de.leanovate.jbj.api.http._
-import de.leanovate.jbj.core.parser.ParseContext
-import scala.Some
-import de.leanovate.jbj.runtime.exception.ExitJbjException
-import de.leanovate.jbj.runtime.context.GlobalContext
-import de.leanovate.jbj.runtime.output.OutputBuffer
 import de.leanovate.jbj.runtime.types.{PClass, PInterface, PFunction}
 import de.leanovate.jbj.core.parser.ParseContext
 import scala.Some
@@ -34,7 +28,7 @@ import de.leanovate.jbj.runtime.output.OutputBuffer
 case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
                   settings: JbjSettings = new JbjSettings,
                   extensions: Seq[JbjExtension] = Seq.empty,
-                  errorStream: Option[PrintStream] = None) extends JbjEnvironment with JbjRuntimeEnv {
+                  errorStream: Option[PrintStream] = None) extends JbjEnvironment[Context] with JbjRuntimeEnv {
 
   case class CacheEntry(etag: String, entry: Either[Prog, Throwable])
 
@@ -105,6 +99,15 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
 
     CgiEnvironment.httpRequest(request)
     runImpl(phpScript)
+  }
+
+  def createProcessContext(out:OutputStream) = newGlobalContext(out)
+
+  def exec(phpCommands: String, context: Context) {
+    val parser = new JbjParser(ParseContext("%s(%d) : create_function()'d code".format(context.currentPosition.fileName, context.currentPosition.line), context.settings))
+    val prog = parser.parse(phpCommands)
+
+    prog.exec(context)
   }
 
   private def runImpl(phpScript: String)(implicit ctx: Context) {
