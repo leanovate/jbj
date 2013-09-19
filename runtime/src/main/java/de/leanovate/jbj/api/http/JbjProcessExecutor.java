@@ -5,7 +5,7 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.api;
+package de.leanovate.jbj.api.http;
 
 /**
  * Execute external processes.

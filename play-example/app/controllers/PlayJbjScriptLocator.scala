@@ -5,7 +5,7 @@ import java.io.File
 import play.api.Play
 import play.api.Play.current
 import scala.io.Source
-import de.leanovate.jbj.api.JbjScriptLocator
+import de.leanovate.jbj.api.http.JbjScriptLocator
 
 object PlayJbjScriptLocator extends JbjScriptLocator {
   def getETag(fileName: String) = {

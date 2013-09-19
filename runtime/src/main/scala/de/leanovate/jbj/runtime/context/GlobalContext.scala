@@ -14,10 +14,10 @@ import scala.collection.immutable.Stack
 import de.leanovate.jbj.runtime.exception.CompileErrorException
 import de.leanovate.jbj.runtime.value._
 import java.util.concurrent.atomic.AtomicLong
-import de.leanovate.jbj.api.JbjSettings
 import scala.collection.JavaConversions._
 import de.leanovate.jbj.runtime.types._
 import de.leanovate.jbj.runtime.output.OutputBuffer
+import de.leanovate.jbj.api.http.JbjSettings
 
 case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[PrintStream], settings: JbjSettings)
   extends Context {

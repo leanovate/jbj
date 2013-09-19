@@ -9,7 +9,7 @@ package de.leanovate.jbj.runtime.exception
 
 import de.leanovate.jbj.runtime.value.ObjectVal
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.api.JbjException
+import de.leanovate.jbj.api.http.JbjException
 
 case class RuntimeJbjException(exception: ObjectVal)(implicit ctx: Context)
   extends JbjException(exception.getProperty("message", None).map(_.asVal.toStr.asString).getOrElse("")) {

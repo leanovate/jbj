@@ -1,9 +1,9 @@
 package de.leanovate.jbj.runtime.types
 
-import de.leanovate.jbj.api.JbjException
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.value.ObjectVal
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.api.http.JbjException
 
 case class PInterfaceMethod(pInterface: PInterface, name: String, parameters: Seq[PParamDef] = Seq.empty) extends PMethod {
   def isFinal = false

@@ -26,11 +26,11 @@ import scala.util.parsing.combinator.{PackratParsers, Parsers}
 import scala.language.implicitConversions
 import de.leanovate.jbj.runtime.exception.ParseJbjException
 import de.leanovate.jbj.runtime.value.StringVal
-import de.leanovate.jbj.api.JbjSettings
 import de.leanovate.jbj.core.parser.JbjTokens.ArrayCast
 import de.leanovate.jbj.core.parser.JbjTokens.DoubleCast
 import de.leanovate.jbj.runtime.{FileNodePosition, NamespaceName}
 import de.leanovate.jbj.runtime.types.{ClassTypeHint, CallableTypeHint, ArrayTypeHint, TypeHint}
+import de.leanovate.jbj.api.http.JbjSettings
 
 class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   type Elem = JbjTokens.Token

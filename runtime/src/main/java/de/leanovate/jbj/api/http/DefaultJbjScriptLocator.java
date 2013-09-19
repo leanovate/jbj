@@ -5,7 +5,7 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.api;
+package de.leanovate.jbj.api.http;
 
 import javax.annotation.Nullable;
 import java.io.*;

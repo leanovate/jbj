@@ -5,7 +5,7 @@ import java.io.{PrintStream, ByteArrayOutputStream, File}
 import play.api.Logger
 import de.leanovate.jbj.core.JbjEnvironmentBuilder
 import de.leanovate.jbj.runtime.exception.NotFoundJbjException
-import de.leanovate.jbj.api.JbjSettings
+import de.leanovate.jbj.api.http.JbjSettings
 
 object JbjPhp extends Controller {
   private val jbjSettings = new JbjSettings

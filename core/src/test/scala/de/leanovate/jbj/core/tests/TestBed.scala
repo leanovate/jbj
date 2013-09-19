@@ -12,12 +12,12 @@ import de.leanovate.jbj.core.parser.JbjTokens.Token
 import de.leanovate.jbj.core.parser._
 import de.leanovate.jbj.core.ast.Prog
 import de.leanovate.jbj.core.JbjEnv
-import de.leanovate.jbj.api.JbjSettings
 import de.leanovate.jbj.runtime.env.CgiEnvironment
 import de.leanovate.jbj.core.parser.InitialLexer
 import de.leanovate.jbj.core.parser.ParseContext
 import de.leanovate.jbj.core.JbjEnv
 import scala.Some
+import de.leanovate.jbj.api.http.JbjSettings
 
 object TestBed {
   //Simplify testing

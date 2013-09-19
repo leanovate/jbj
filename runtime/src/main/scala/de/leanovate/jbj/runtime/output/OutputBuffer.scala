@@ -9,7 +9,7 @@ package de.leanovate.jbj.runtime.output
 
 import java.io.OutputStream
 import scala.collection.mutable
-import de.leanovate.jbj.api.JbjSettings
+import de.leanovate.jbj.api.http.JbjSettings
 
 case class OutputBuffer(out: OutputStream, settings: JbjSettings) {
   var currentOut: OutputStream with OutputHandler = if (settings.getOutputBuffering == 0)

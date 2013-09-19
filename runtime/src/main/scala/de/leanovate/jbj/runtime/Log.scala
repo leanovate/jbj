@@ -9,11 +9,12 @@ package de.leanovate.jbj.runtime
 
 import java.io.PrintStream
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.api.JbjSettings
-import de.leanovate.jbj.api.JbjSettings.{DisplayError, ErrorLevel}
+import de.leanovate.jbj.api.http.JbjSettings
+import JbjSettings.{DisplayError, ErrorLevel}
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.output.OutputBuffer
 import de.leanovate.jbj.runtime.value.IntegerVal
+import de.leanovate.jbj.api.http.JbjSettings
 
 class Log(context: Context, out: OutputBuffer, err: Option[PrintStream]) {
   var silent: Boolean = false

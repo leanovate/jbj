@@ -13,9 +13,8 @@ import de.leanovate.jbj.runtime.env.{CliEnvironment, CgiEnvironment}
 import org.specs2.matcher.{MatchResult, BeEqualTo, Expectable, Matcher}
 import de.leanovate.jbj.core.JbjEnv
 import scala.Some
-import de.leanovate.jbj.api.{JbjException, JbjSettings}
 import de.leanovate.jbj.runtime.exception.ParseJbjException
-import de.leanovate.jbj.api.http.CookieInfo
+import de.leanovate.jbj.api.http.{JbjSettings, JbjException, CookieInfo}
 
 trait TestJbjExecutor {
 

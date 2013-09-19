@@ -5,10 +5,7 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.api;
-
-import de.leanovate.jbj.api.http.RequestInfo;
-import de.leanovate.jbj.api.http.Response;
+package de.leanovate.jbj.api.http;
 
 import javax.annotation.Nonnull;
 import java.io.OutputStream;

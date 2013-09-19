@@ -10,10 +10,10 @@ package de.leanovate.jbj.core.buildin
 import de.leanovate.jbj.runtime.value.PVal
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.api.JbjSettings
 import java.util
 import scala.collection.JavaConversions._
 import de.leanovate.jbj.runtime.CallbackHelper
+import de.leanovate.jbj.api.http.JbjSettings
 
 object RuntimeFunctions {
 

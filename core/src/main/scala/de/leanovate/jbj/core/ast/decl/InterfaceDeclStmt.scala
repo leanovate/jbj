@@ -15,7 +15,7 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.types.{PMethod, PInterface}
 import de.leanovate.jbj.runtime.value.ConstVal
-import de.leanovate.jbj.api.JbjException
+import de.leanovate.jbj.api.http.JbjException
 
 case class InterfaceDeclStmt(name: NamespaceName, superInterfaces: List[NamespaceName],
                              decls: List[ClassMemberDecl])

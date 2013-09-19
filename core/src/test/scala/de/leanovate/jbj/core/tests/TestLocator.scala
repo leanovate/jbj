@@ -8,7 +8,7 @@
 package de.leanovate.jbj.core.tests
 
 import scala.io.Source
-import de.leanovate.jbj.api.JbjScriptLocator
+import de.leanovate.jbj.api.http.JbjScriptLocator
 
 object TestLocator extends JbjScriptLocator {
   def getETag(fileName: String) = {

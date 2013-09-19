@@ -9,7 +9,8 @@ package de.leanovate.jbj.core.tests.basic
 
 import org.specs2.mutable.SpecificationWithJUnit
 import de.leanovate.jbj.core.tests.{TestCookieInfo, TestJbjExecutor}
-import de.leanovate.jbj.api.JbjSettings.DisplayError
+import de.leanovate.jbj.api.http.JbjSettings
+import JbjSettings.DisplayError
 
 class Basic3Spec extends SpecificationWithJUnit with TestJbjExecutor {
   "Basic 3 tests" should {

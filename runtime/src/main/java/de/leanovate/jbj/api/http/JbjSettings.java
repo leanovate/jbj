@@ -5,7 +5,7 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.api;
+package de.leanovate.jbj.api.http;
 
 import java.nio.charset.Charset;
 import java.util.EnumSet;

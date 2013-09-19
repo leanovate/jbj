@@ -7,8 +7,8 @@
 
 package de.leanovate.jbj.runtime.exception
 
-import de.leanovate.jbj.api.JbjException
 import de.leanovate.jbj.runtime.FileNodePosition
+import de.leanovate.jbj.api.http.JbjException
 
 class ParseJbjException(var msg: String, var pos: FileNodePosition) extends JbjException(msg) {
 

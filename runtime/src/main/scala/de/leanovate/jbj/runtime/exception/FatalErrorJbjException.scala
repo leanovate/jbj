@@ -8,7 +8,7 @@
 package de.leanovate.jbj.runtime.exception
 
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.api.JbjException
+import de.leanovate.jbj.api.http.JbjException
 
 class FatalErrorJbjException(message: String)(implicit ctx: Context) extends JbjException(message) {
   ctx.log.fatal(message)

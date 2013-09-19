@@ -11,8 +11,8 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime.context.Context
 import ObjectPropertyKey.{Key, IntKey, PublicKey, ProtectedKey, PrivateKey}
 import de.leanovate.jbj.runtime.types.{PInterface, PClass}
-import de.leanovate.jbj.api.JbjException
 import de.leanovate.jbj.runtime.exception.{CatchableFatalError, FatalErrorJbjException}
+import de.leanovate.jbj.api.http.JbjException
 
 trait ObjectVal extends PConcreteVal {
   def pClass: PClass
