@@ -7,10 +7,14 @@
 
 package de.leanovate.jbj.api.http;
 
+import de.leanovate.jbj.runtime.JbjExtension;
+
 import javax.annotation.Nonnull;
 import java.io.OutputStream;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * JBJ runtime environment.
@@ -54,6 +58,7 @@ public interface JbjEnvironment {
         protected JbjProcessExecutor processExecutor = new DefaultJbjProcessExecutor();
         protected FileSystem fileSystem = FileSystems.getDefault();
         protected OutputStream errorStream = null;
+        protected List<JbjExtension> extendions = new ArrayList<>();
 
         public Builder withSettings(JbjSettings settings) {
             this.settings = settings;
@@ -77,6 +82,11 @@ public interface JbjEnvironment {
 
         public Builder withErrStream(OutputStream errorStream) {
             this.errorStream = errorStream;
+            return this;
+        }
+
+        public Builder withExtension(JbjExtension extension) {
+            extendions.add(extension);
             return this;
         }
 

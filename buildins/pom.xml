@@ -6,53 +6,21 @@
         <artifactId>jbj-parent</artifactId>
         <groupId>de.leanovate.jbj</groupId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>..</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jbj-runtime</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>jbj-buildins</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-reflect</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.specs2</groupId>
-            <artifactId>specs2_${play2-scala.version}</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>jbj-runtime</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
-                <executions>
-                    <execution>
-                        <id>default-compile</id>
-                        <phase>process-classes</phase>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.scala-tools</groupId>
                 <artifactId>maven-scala-plugin</artifactId>
@@ -85,15 +53,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.scala-tools</groupId>
-                <artifactId>maven-scala-plugin</artifactId>
-                <version>2.15.2</version>
-            </plugin>
-        </plugins>
-    </reporting>
 
 </project>

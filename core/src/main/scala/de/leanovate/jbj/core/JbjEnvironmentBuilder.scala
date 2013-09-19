@@ -9,7 +9,13 @@ package de.leanovate.jbj.core
 
 import java.io.PrintStream
 import de.leanovate.jbj.api.http.JbjEnvironment
+import scala.collection.JavaConversions._
+import de.leanovate.jbj.buildins.BuildinsExtension
 
 case class JbjEnvironmentBuilder() extends JbjEnvironment.Builder {
-  def build() = JbjEnv(scriptLocator, settings, Seq.empty, Option(errorStream).map(new PrintStream(_, false, "UTF-8")))
+  def build() =
+    JbjEnv(scriptLocator, settings, BuildinsExtension +: extendions.toSeq, Option(errorStream).map {
+      err =>
+        new PrintStream(err, false, "UTF-8")
+    })
 }
