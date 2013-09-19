@@ -8,12 +8,15 @@
 package de.leanovate.jbj.buildins
 
 import de.leanovate.jbj.runtime.JbjExtension
-import de.leanovate.jbj.runtime.types.PFunction
+import de.leanovate.jbj.runtime.types._
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.output.OutputHandler
 import de.leanovate.jbj.api.http.JbjSettings
 import de.leanovate.jbj.runtime.value.IntegerVal
 import scala.collection.JavaConverters._
+import de.leanovate.jbj.runtime.value.IntegerVal
+import de.leanovate.jbj.runtime.value.IntegerVal
+import de.leanovate.jbj.runtime.value.IntegerVal
 
 object BuildinsExtension extends JbjExtension {
   val name = "Buildins"
@@ -46,4 +49,8 @@ object BuildinsExtension extends JbjExtension {
   )
 
   override def functions: Seq[PFunction] = buildinFunctions
+
+  override def classes: Seq[PClass] =  Seq(PStdClass, PException, PArrayObject)
+
+  override def interfaces: Seq[PInterface] = Seq(PArrayAccess)
 }

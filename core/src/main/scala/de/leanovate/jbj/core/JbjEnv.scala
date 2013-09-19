@@ -35,21 +35,21 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
   private val cache = new java.util.concurrent.ConcurrentHashMap[String, CacheEntry]().asScala
 
   val preedfinedConstants: Map[String, PVal] =
-    (extensions.flatMap(_.constants) ++ buildin.buildinConstants).toMap
+    extensions.flatMap(_.constants).toMap
 
   val predefinedFunctions: Map[Seq[String], PFunction] =
-    (extensions.flatMap(_.functions) ++ buildin.buildinFunctions).map {
+    extensions.flatMap(_.functions).map {
       function => function.name.lowercase -> function
     }.toMap
 
   val predefinedInterfaces: Map[Seq[String], PInterface] =
-    buildin.buildinInterfaces.map {
+    extensions.flatMap(_.interfaces).map {
       i =>
         i.name.lowercase -> i
     }.toMap
 
   val predefinedClasses: Map[Seq[String], PClass] =
-    (extensions.flatMap(_.classes) ++ buildin.buildinClasses).map {
+    extensions.flatMap(_.classes).map {
       c =>
         c.name.lowercase -> c
     }.toMap
@@ -101,7 +101,7 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
     runImpl(phpScript)
   }
 
-  def createProcessContext(out:OutputStream) = newGlobalContext(out)
+  def createProcessContext(out: OutputStream) = newGlobalContext(out)
 
   def exec(phpCommands: String, context: Context) {
     val parser = new JbjParser(ParseContext("%s(%d) : create_function()'d code".format(context.currentPosition.fileName, context.currentPosition.line), context.settings))

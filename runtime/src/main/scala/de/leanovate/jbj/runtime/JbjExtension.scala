@@ -8,7 +8,7 @@
 package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.runtime.value.PVal
-import de.leanovate.jbj.runtime.types.{PClass, PFunction}
+import de.leanovate.jbj.runtime.types.{PInterface, PClass, PFunction}
 
 trait JbjExtension {
   def name: String
@@ -18,4 +18,6 @@ trait JbjExtension {
   def functions: Seq[PFunction] = Seq.empty
 
   def classes: Seq[PClass] = Seq.empty
+
+  def interfaces: Seq[PInterface] = Seq.empty
 }
