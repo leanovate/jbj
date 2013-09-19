@@ -11,7 +11,7 @@ import java.io.{ByteArrayOutputStream, PrintStream}
 import de.leanovate.jbj.core.parser.JbjParser
 import de.leanovate.jbj.runtime.env.{CliEnvironment, CgiEnvironment}
 import org.specs2.matcher.{MatchResult, BeEqualTo, Expectable, Matcher}
-import de.leanovate.jbj.core.JbjEnv
+import de.leanovate.jbj.core.{JbjEnvironmentBuilder, JbjEnv}
 import scala.Some
 import de.leanovate.jbj.runtime.exception.ParseJbjException
 import de.leanovate.jbj.api.http.{JbjSettings, JbjException, CookieInfo}
@@ -22,7 +22,7 @@ trait TestJbjExecutor {
     val bErr = new ByteArrayOutputStream()
     val err = new PrintStream(bErr, false, "UTF-8")
 
-    val jbj = JbjEnv(TestLocator, errorStream = Some(err))
+    val jbj = JbjEnvironmentBuilder().withScriptLocator(TestLocator).withErrStream(bErr).build().asInstanceOf[JbjEnv]
     val pseudoFileName = TestJbjExecutor.this.getClass.getName.replace("de.leanovate.jbj.core.tests", "").replace('.', '/') + ".inlinePhp"
     val bOut = new ByteArrayOutputStream()
     val out = new PrintStream(bOut, false, "UTF-8")

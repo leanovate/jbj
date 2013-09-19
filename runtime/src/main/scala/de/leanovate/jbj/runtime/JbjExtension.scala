@@ -15,7 +15,7 @@ trait JbjExtension {
 
   def constants: Seq[(String, PVal)] = Seq.empty
 
-  def function: Seq[PFunction] = Seq.empty
+  def functions: Seq[PFunction] = Seq.empty
 
   def classes: Seq[PClass] = Seq.empty
 }

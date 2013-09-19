@@ -44,7 +44,7 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
     (extensions.flatMap(_.constants) ++ buildin.buildinConstants).toMap
 
   val predefinedFunctions: Map[Seq[String], PFunction] =
-    (extensions.flatMap(_.function) ++ buildin.buildinFunctions).map {
+    (extensions.flatMap(_.functions) ++ buildin.buildinFunctions).map {
       function => function.name.lowercase -> function
     }.toMap
 

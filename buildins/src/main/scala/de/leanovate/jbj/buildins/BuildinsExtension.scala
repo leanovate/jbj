@@ -8,7 +8,11 @@
 package de.leanovate.jbj.buildins
 
 import de.leanovate.jbj.runtime.JbjExtension
+import de.leanovate.jbj.runtime.types.PFunction
+import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
 object BuildinsExtension extends JbjExtension {
   val name = "Buildins"
+
+  override def functions: Seq[PFunction] = buildinFunctions
 }

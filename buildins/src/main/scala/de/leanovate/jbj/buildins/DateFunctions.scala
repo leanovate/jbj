@@ -5,11 +5,12 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core.buildin
+package de.leanovate.jbj.buildins
 
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
-import java.util.Calendar
 import de.leanovate.jbj.runtime.context.Context
+import java.util.Calendar
+import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
 object DateFunctions {
   @GlobalFunction

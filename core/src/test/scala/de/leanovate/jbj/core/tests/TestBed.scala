@@ -11,11 +11,10 @@ import scala.util.parsing.input.Reader
 import de.leanovate.jbj.core.parser.JbjTokens.Token
 import de.leanovate.jbj.core.parser._
 import de.leanovate.jbj.core.ast.Prog
-import de.leanovate.jbj.core.JbjEnv
+import de.leanovate.jbj.core.{JbjEnvironmentBuilder, JbjEnv}
 import de.leanovate.jbj.runtime.env.CgiEnvironment
 import de.leanovate.jbj.core.parser.InitialLexer
 import de.leanovate.jbj.core.parser.ParseContext
-import de.leanovate.jbj.core.JbjEnv
 import scala.Some
 import de.leanovate.jbj.api.http.JbjSettings
 
@@ -32,7 +31,7 @@ object TestBed {
       count += 1
     }
 
-    val jbj = JbjEnv(TestLocator, errorStream = Some(System.err))
+    val jbj = JbjEnvironmentBuilder().withScriptLocator(TestLocator).withErrStream(System.err).build().asInstanceOf[JbjEnv]
     val tokens2 = new TokenReader(exprstr, InitialLexerMode(shortOpenTag = true, aspTags = true).newLexer())
     val parser = new JbjParser(ParseContext("/classes/bla.php", jbj.settings))
     parser.phrase(parser.start)(tokens2) match {
