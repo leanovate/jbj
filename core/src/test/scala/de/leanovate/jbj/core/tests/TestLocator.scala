@@ -26,7 +26,7 @@ object TestLocator extends JbjScriptLocator {
       TestLocator.getClass.getResource(fileName)
     ).map {
       url =>
-        new JbjScriptLocator.Script(fileName, url.toString, Source.fromInputStream(url.openStream()).mkString)
+        new JbjScriptLocator.Script(fileName.toLowerCase, url.toString, Source.fromInputStream(url.openStream()).mkString)
     }.orNull
   }
 }

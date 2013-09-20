@@ -95,5 +95,49 @@ class Bug3xxxxSpec extends SpecificationWithJUnit with TestJbjExecutor  {
           |""".stripMargin
       )
     }
+
+    "Bug #32924 (prepend does not add file to included files)" in {
+      // lang/bug32924.phpt
+      script(
+        """<?php
+          |include_once(dirname(__FILE__).'/inc.inc');
+          |require_once(dirname(__FILE__).'/inc.inc');
+          |?>
+          |END
+          |""".stripMargin
+      ).result must haveOutput(
+        """Included!
+          |END
+          |""".stripMargin
+      )
+    }
+
+    "Bug #35382 (Comment in end of file produces fatal error)" in {
+      // lang/bug35382.phpt
+      script(
+        """<?php
+          |eval("echo 'Hello'; // comment");
+          |echo " World";
+          |//last line comment
+          |""".stripMargin
+      ).result must haveOutput(
+        """Hello World""".stripMargin
+      )
+    }
+
+    "Bug #38579 (include_once() may include the same file twice)" in {
+      // lang/bug38579.phpt
+      script(
+        """<?php
+          |$file = dirname(__FILE__)."/bug38579.inc";
+          |include_once(strtolower($file));
+          |include_once(strtoupper($file));
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """ok
+          |""".stripMargin
+      )
+    }
   }
 }
