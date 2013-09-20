@@ -1,9 +1,9 @@
-package de.leanovate.jbj
+package de.leanovate.jbj.buildins
 
 import de.leanovate.jbj.runtime.types.PFunction
 import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
-package object buildins {
+package object functions {
   val buildinFunctions: Seq[PFunction] =
     GlobalFunctions.functions(ArrayFunctions) ++
       GlobalFunctions.functions(ClassFunctions) ++
@@ -16,6 +16,4 @@ package object buildins {
       GlobalFunctions.functions(RuntimeFunctions) ++
       GlobalFunctions.functions(StringFunctions) ++
       GlobalFunctions.functions(ValueFunctions)
-
-
 }

@@ -5,17 +5,11 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.buildins
+package de.leanovate.jbj.buildins.functions
 
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 
-object FileFunctions {
+object EnvironmentFunctions {
   @GlobalFunction
-  def dirname(fileName: String): String = {
-    val idx = fileName.lastIndexOf('/')
-    if (idx >= 0)
-      fileName.substring(0, idx)
-    else
-      ""
-  }
+  def zend_version(): String = "2.5.0"
 }

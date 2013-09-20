@@ -5,7 +5,7 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.buildins
+package de.leanovate.jbj.buildins.functions
 
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}

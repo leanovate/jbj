@@ -48,9 +48,9 @@ object BuildinsExtension extends JbjExtension {
     })
   )
 
-  override def functions: Seq[PFunction] = buildinFunctions
+  override def functions: Seq[PFunction] = de.leanovate.jbj.buildins.functions.buildinFunctions
 
-  override def classes: Seq[PClass] =  Seq(PStdClass, PException, PArrayObject)
+  override def classes: Seq[PClass] = Seq(PStdClass, PException, PArrayObject)
 
   override def interfaces: Seq[PInterface] = Seq(PArrayAccess)
 }
