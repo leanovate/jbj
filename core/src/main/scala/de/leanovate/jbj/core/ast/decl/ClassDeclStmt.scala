@@ -117,8 +117,8 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
       case MethodContext(inst, pMethod, _) if instance.pClass == this && pMethod.name == "__destruct" =>
       case _ =>
         findDestructor.foreach(_.invoke(instance, Nil))
+        instance.cleanup()
     }
-    instance.cleanup()
   }
 
   override lazy val properties: Map[String, PProperty] = {
