@@ -29,7 +29,4 @@ object ValueFunctions {
 
   @GlobalFunction
   def gettype(value: PVal): String = value.typeName
-
-  @GlobalFunction
-  def defined(name: String)(implicit ctx: Context): Boolean = ctx.global.findConstant(name).isDefined
 }

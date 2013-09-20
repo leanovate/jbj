@@ -148,10 +148,14 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
     }
 
   def defineConstant(name: String, value: PVal, caseInsensitive: Boolean) {
-    if (caseInsensitive)
-      constants.put(CaseInsensitiveConstantKey(name.toLowerCase), value)
-    else
-      constants.put(CaseSensitiveConstantKey(name), value)
+    if (name.contains("::")) {
+      log.warn("Class constants cannot be defined or redefined")
+    } else {
+      if (caseInsensitive)
+        constants.put(CaseInsensitiveConstantKey(name.toLowerCase), value)
+      else
+        constants.put(CaseSensitiveConstantKey(name), value)
+    }
   }
 
   override def findVariable(name: String) = GLOBALS.getAt(name)(this).map {

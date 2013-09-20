@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.buildins
 
-import de.leanovate.jbj.runtime.value.PVal
+import de.leanovate.jbj.runtime.value.{NullVal, PVal}
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.context.Context
 import java.util
@@ -58,6 +58,15 @@ object RuntimeFunctions {
   @GlobalFunction
   def define(name: String, value: PVal, caseInsensitive: Option[Boolean])(implicit ctx: Context) {
     ctx.global.defineConstant(name, value, caseInsensitive.getOrElse(false))
+  }
+
+  @GlobalFunction
+  def defined(name: String)(implicit ctx: Context): Boolean = ctx.global.findConstant(name).isDefined
+
+  @GlobalFunction
+  def constant(name: String)(implicit ctx: Context): PVal = ctx.global.findConstant(name).getOrElse {
+    ctx.log.warn("constant(): Couldn't find constant %s".format(name))
+    NullVal
   }
 
   @GlobalFunction
