@@ -11,7 +11,7 @@ import org.specs2.mutable.SpecificationWithJUnit
 import de.leanovate.jbj.core.tests.TestJbjExecutor
 
 class Bug25xxxSpec extends SpecificationWithJUnit with TestJbjExecutor {
-  "Bugs #25xxx" should {
+  "Bugs #25xxx and #26xxx" should {
     """Bug #25145 (SEGV on recpt of form input with name like "123[]")""" in {
       // lang/bug25145.phpt
       script(

@@ -87,6 +87,7 @@ object ArrayFunctions {
       ref.value match {
         case array: ArrayVal =>
           values.foreach(array.append)
+          array.iteratorReset()
           array.count
         case pVal =>
           ctx.log.warn("array_push() expects parameter 1 to be array, %s given".format(pVal.typeName))

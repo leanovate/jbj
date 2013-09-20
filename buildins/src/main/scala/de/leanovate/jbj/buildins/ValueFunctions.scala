@@ -9,6 +9,7 @@ package de.leanovate.jbj.buildins
 
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.value.{ArrayVal, PVal}
+import de.leanovate.jbj.runtime.context.Context
 
 object ValueFunctions {
   @GlobalFunction
@@ -19,4 +20,10 @@ object ValueFunctions {
     case _: ArrayVal => true
     case _ => false
   }
+
+  @GlobalFunction
+  def gettype(value: PVal): String = value.typeName
+
+  @GlobalFunction
+  def defined(name: String)(implicit ctx: Context): Boolean = ctx.global.findConstant(name).isDefined
 }

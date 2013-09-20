@@ -26,19 +26,12 @@ class StringDimReference(parentStr: StringVal, optArrayKey: Option[PVal])(implic
     if (optArrayKey.isEmpty)
       throw new FatalErrorJbjException("Cannot use [] for reading")
     else {
-      val result = parentStr.getAt(optArrayKey.get)
-      if (!result.isDefined) {
-        optArrayKey.get.concrete match {
-          case IntegerVal(idx) =>
-            ctx.log.notice("Undefined offset: %d".format(idx))
-          case DoubleVal(idx) =>
-            ctx.log.notice("Undefined offset: %d".format(idx.toLong))
-          case str: StringVal if str.isStrongNumericPattern =>
-            ctx.log.notice("Undefined offset: %d".format(str.toInteger.asLong))
-          case idx =>
-            ctx.log.notice("Undefined index: %s".format(idx.toStr.asString))
-        }
+      optArrayKey.get.concrete match {
+        case idx: StringVal if !idx.isStrongNumericPattern =>
+          ctx.log.warn("Illegal string offset '%s'".format(idx.toStr.asString))
+        case _ =>
       }
+      val result = parentStr.getAt(optArrayKey.get)
       result.map(_.asVal).getOrElse(NullVal)
     }
   }

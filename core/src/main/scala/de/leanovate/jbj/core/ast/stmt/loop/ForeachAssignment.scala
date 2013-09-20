@@ -14,12 +14,16 @@ import de.leanovate.jbj.core.ast.expr.ListRefExpr
 import de.leanovate.jbj.runtime.context.Context
 
 sealed trait ForeachAssignment extends Node {
+  def hasValueRef: Boolean
+
   def assignKey(key: PVal)(implicit ctx: Context)
 
   def assignValue(value: PAny, key: PVal, array: ArrayVal)(implicit ctx: Context)
 }
 
 case class ValueForeachAssignment(reference: RefExpr) extends ForeachAssignment {
+  override def hasValueRef = false
+
   override def assignKey(key: PVal)(implicit ctx: Context) {
     reference.evalRef.assign(key)
   }
@@ -31,6 +35,8 @@ case class ValueForeachAssignment(reference: RefExpr) extends ForeachAssignment 
 }
 
 case class RefForeachAssignment(reference: RefExpr) extends ForeachAssignment {
+  override def hasValueRef = true
+
   override def assignKey(key: PVal)(implicit ctx: Context) {
     throw new FatalErrorJbjException("Key element cannot be a reference")
   }
@@ -50,11 +56,13 @@ case class RefForeachAssignment(reference: RefExpr) extends ForeachAssignment {
 }
 
 case class ListForeachAssignment(reference: ListRefExpr) extends ForeachAssignment {
-  def assignKey(key: PVal)(implicit ctx: Context) {
+  override def hasValueRef = false
+
+  override def assignKey(key: PVal)(implicit ctx: Context) {
     throw new FatalErrorJbjException("Cannot use list as key element")
   }
 
-  def assignValue(value: PAny, key: PVal, array: ArrayVal)(implicit ctx: Context) {
+  override def assignValue(value: PAny, key: PVal, array: ArrayVal)(implicit ctx: Context) {
     reference.evalRef.assign(value)
   }
 
