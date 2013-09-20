@@ -194,6 +194,14 @@ object ArrayVal {
             if (intVal > nextIndex)
               nextIndex = intVal
             intVal
+          case BooleanVal.TRUE =>
+            if (1L > nextIndex)
+              nextIndex = 1L
+            1L
+          case BooleanVal.FALSE =>
+            if (0L > nextIndex)
+              nextIndex = 0L
+            0L
           case value =>
             value.toStr.asString
         }.getOrElse {

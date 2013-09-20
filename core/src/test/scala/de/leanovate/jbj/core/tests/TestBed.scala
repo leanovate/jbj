@@ -71,13 +71,19 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |$var="This is a string";
-        |
-        |$dummy="";
-        |unset($dummy);
-        |
-        |foreach($var['nosuchkey'] as $v) {
+        |class T {
+        |	static $a = array(false=>"false", true=>"true");
         |}
+        |print_r(T::$a);
+        |?>
+        |----------
+        |<?php
+        |define("X",0);
+        |define("Y",1);
+        |class T2 {
+        |	static $a = array(X=>"false", Y=>"true");
+        |}
+        |print_r(T2::$a);
         |?>""".stripMargin)
   }
 }

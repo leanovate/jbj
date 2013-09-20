@@ -120,5 +120,22 @@ class Bug27xxxSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Bug #29893 (segfault when using array as index)" in {
+      // lang/bug29893.phpt
+      script(
+        """<?php
+          |$base = 50;
+          |$base[$base] -= 0;
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Warning: Cannot use a scalar value as an array in /lang/Bug27xxxSpec.inlinePhp on line 3
+          |===DONE===
+          |""".stripMargin
+      )
+    }
   }
 }
