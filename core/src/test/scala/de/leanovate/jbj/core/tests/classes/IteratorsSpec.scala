@@ -448,5 +448,193 @@ class IteratorsSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "ZE2 iterators and array wrapping" in {
+      // classes/iterators_006.phpt
+      script(
+        """<?php
+          |
+          |class ai implements Iterator {
+          |
+          |	private $array;
+          |
+          |	function __construct() {
+          |		$this->array = array('foo', 'bar', 'baz');
+          |	}
+          |
+          |	function rewind() {
+          |		reset($this->array);
+          |		$this->next();
+          |	}
+          |
+          |	function valid() {
+          |		return $this->key !== NULL;
+          |	}
+          |
+          |	function key() {
+          |		return $this->key;
+          |	}
+          |
+          |	function current() {
+          |		return $this->current;
+          |	}
+          |
+          |	function next() {
+          |		list($this->key, $this->current) = each($this->array);
+          |//		list($key, $current) = each($this->array);
+          |//		$this->key = $key;
+          |//		$this->current = $current;
+          |	}
+          |}
+          |
+          |class a implements IteratorAggregate {
+          |
+          |	public function getIterator() {
+          |		return new ai();
+          |	}
+          |}
+          |
+          |$array = new a();
+          |
+          |foreach ($array as $property => $value) {
+          |	print "$property: $value\n";
+          |}
+          |
+          |#$array = $array->getIterator();
+          |#$array->rewind();
+          |#$array->valid();
+          |#var_dump($array->key());
+          |#var_dump($array->current());
+          |echo "===2nd===\n";
+          |
+          |$array = new ai();
+          |
+          |foreach ($array as $property => $value) {
+          |	print "$property: $value\n";
+          |}
+          |
+          |echo "===3rd===\n";
+          |
+          |foreach ($array as $property => $value) {
+          |	print "$property: $value\n";
+          |}
+          |
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """0: foo
+          |1: bar
+          |2: baz
+          |===2nd===
+          |0: foo
+          |1: bar
+          |2: baz
+          |===3rd===
+          |0: foo
+          |1: bar
+          |2: baz
+          |===DONE===
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 iterators and exceptions" in {
+      // classes/iterators_007.phpt
+      script(
+        """<?php
+          |class Test implements Iterator
+          |{
+          |	public $arr = array(1, 2, 3);
+          |	public $x = 0;
+          |
+          |	public function rewind()    { if ($this->x == 0) throw new Exception(__METHOD__); reset($this->arr); }
+          |	public function current()   { if ($this->x == 1) throw new Exception(__METHOD__); return current($this->arr); }
+          |	public function key()       { if ($this->x == 2) throw new Exception(__METHOD__); return key($this->arr); }
+          |	public function next()      { if ($this->x == 3) throw new Exception(__METHOD__); next($this->arr); }
+          |	public function valid()     { if ($this->x == 4) throw new Exception(__METHOD__); return (key($this->arr) !== NULL); }
+          |}
+          |
+          |$t = new Test();
+          |
+          |while($t->x < 5)
+          |{
+          |	try
+          |	{
+          |	    foreach($t as $k => $v)
+          |	    {
+          |	        echo "Current\n";
+          |	    }
+          |	}
+          |	catch(Exception $e)
+          |	{
+          |	    echo "Caught in " . $e->getMessage() . "()\n";
+          |	}
+          |	$t->x++;
+          |}
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """Caught in Test::rewind()
+          |Caught in Test::current()
+          |Caught in Test::key()
+          |Current
+          |Caught in Test::next()
+          |Caught in Test::valid()
+          |===DONE===
+          |""".stripMargin
+      )
+    }
+
+    "Ensure plain userspace superclass does not override special iterator behaviour on child class." in {
+      // classes/iterators_008.phpt
+      script(
+        """<?php
+          |Class C {}
+          |
+          |class D extends C implements Iterator {
+          |
+          |  private $counter = 2;
+          |
+          |  public function valid() {
+          |    echo __METHOD__ . "($this->counter)\n";
+          |    return $this->counter;
+          |  }
+          |
+          |  public function next() {
+          |    $this->counter--;
+          |    echo __METHOD__ . "($this->counter)\n";
+          |  }
+          |
+          |  public function rewind() {
+          |    echo __METHOD__ . "($this->counter)\n";
+          |  }
+          |
+          |  public function current() {
+          |    echo __METHOD__ . "($this->counter)\n";
+          |  }
+          |
+          |  public function key() {
+          |    echo __METHOD__ . "($this->counter)\n";
+          |  }
+          |
+          |}
+          |
+          |foreach (new D as $x) {}
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """D::rewind(2)
+          |D::valid(2)
+          |D::current(2)
+          |D::next(1)
+          |D::valid(1)
+          |D::current(1)
+          |D::next(0)
+          |D::valid(0)
+          |""".stripMargin
+      )
+    }
   }
 }

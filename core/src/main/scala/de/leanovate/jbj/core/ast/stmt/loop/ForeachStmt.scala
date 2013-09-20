@@ -35,6 +35,10 @@ case class ForeachStmt(valueExpr: Expr,
         val result = execIterator(iterator)
         iterator.obj.release()
         result
+      case obj: ObjectVal if obj.instanceOf(PIterator) =>
+        val iterator = PIterator.cast(obj)
+        iterator.rewind()
+        execIterator(iterator)
       case _ =>
         ctx.log.warn("Invalid argument supplied for foreach()")
         SuccessExecResult

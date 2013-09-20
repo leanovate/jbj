@@ -219,8 +219,41 @@ object ArrayFunctions {
 
   @GlobalFunction
   def current(value: PVal)(implicit ctx: Context): PVal = value match {
-    case array: ArrayVal => array.iteratorCurrent
-    case obj: ObjectVal => obj.iteratorCurrent
+    case array: ArrayVal =>
+      array.iteratorCurrent match {
+        case keyValue : ArrayVal =>
+          keyValue.getAt("value").get.asVal
+        case _ =>
+          BooleanVal.FALSE
+      }
+    case obj: ObjectVal =>
+      obj.iteratorCurrent match {
+        case keyValue : ArrayVal =>
+          keyValue.getAt("value").get.asVal
+        case _ =>
+          BooleanVal.FALSE
+      }
+    case _ =>
+      ctx.log.warn("Variable passed to current() is not an array or object")
+      NullVal
+  }
+
+  @GlobalFunction
+  def key(value: PVal)(implicit ctx: Context): PVal = value match {
+    case array: ArrayVal =>
+      array.iteratorCurrent match {
+        case keyValue : ArrayVal =>
+          keyValue.getAt("key").get.asVal
+        case _ =>
+          BooleanVal.FALSE
+      }
+    case obj: ObjectVal =>
+      obj.iteratorCurrent match {
+        case keyValue : ArrayVal =>
+          keyValue.getAt("key").get.asVal
+        case _ =>
+          BooleanVal.FALSE
+      }
     case _ =>
       ctx.log.warn("Variable passed to current() is not an array or object")
       NullVal
