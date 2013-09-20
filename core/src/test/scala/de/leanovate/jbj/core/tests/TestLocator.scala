@@ -21,9 +21,9 @@ object TestLocator extends JbjScriptLocator {
 
   def readScript(fileName: String) = {
     Option(if (fileName.startsWith("/"))
-      TestLocator.getClass.getResource(fileName.substring(1))
+      TestLocator.getClass.getResource(fileName.substring(1).toLowerCase)
     else
-      TestLocator.getClass.getResource(fileName)
+      TestLocator.getClass.getResource(fileName.toLowerCase)
     ).map {
       url =>
         new JbjScriptLocator.Script(fileName.toLowerCase, url.toString, Source.fromInputStream(url.openStream()).mkString)
