@@ -10,27 +10,35 @@ package de.leanovate.jbj.core.ast.stmt.loop
 import de.leanovate.jbj.core.ast._
 import de.leanovate.jbj.runtime._
 import scala.annotation.tailrec
-import de.leanovate.jbj.runtime.value.{PAny, PVal, ArrayVal}
+import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.buildins.types.{PIteratorAggregate, PIterator}
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.ReturnExecResult
 import de.leanovate.jbj.runtime.ContinueExecResult
 
-case class ForeachStmt(arrayExpr: Expr,
+case class ForeachStmt(valueExpr: Expr,
                        keyAssign: Option[ForeachAssignment],
                        valueAssign: ForeachAssignment,
                        stmts: List[Stmt]) extends Stmt with BlockLike {
 
   def exec(implicit ctx: Context) = {
-    arrayExpr.eval.asVal match {
+    valueExpr.eval.concrete match {
       case array: ArrayVal =>
         array.iteratorReset()
         execValues(array, array.keyValues.toList)
+      case obj: ObjectVal if obj.instanceOf(PIteratorAggregate) =>
+        val iterator = PIteratorAggregate.cast(obj).getIterator()
+        iterator.obj.retain()
+        iterator.rewind()
+        val result = execIterator(iterator)
+        iterator.obj.release()
+        result
       case _ =>
         ctx.log.warn("Invalid argument supplied for foreach()")
+        SuccessExecResult
     }
-    SuccessExecResult
   }
 
   @tailrec
@@ -39,7 +47,19 @@ case class ForeachStmt(arrayExpr: Expr,
       case head :: tail =>
         array.iteratorAdvance()
         keyAssign.foreach(_.assignKey(head._1))
-        valueAssign.assignValue(head._2, head._1, array)
+        val value = if (valueAssign.hasValueRef) {
+          head._2 match {
+            case pVar: PVar =>
+              pVar
+            case pVal: PVal =>
+              val pVar = PVar(pVal)
+              array.setAt(head._1, pVar)
+              pVar
+          }
+        } else {
+          head._2
+        }
+        valueAssign.assignValue(value)
         execStmts(stmts) match {
           case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
           case BreakExecResult(_) => SuccessExecResult
@@ -52,6 +72,22 @@ case class ForeachStmt(arrayExpr: Expr,
     }
   }
 
+  private def execIterator(iterator: PIterator)(implicit ctx: Context): ExecResult = {
+    while (iterator.valid) {
+      valueAssign.assignValue(iterator.current)
+      keyAssign.foreach(_.assignKey(iterator.key))
+      execStmts(stmts) match {
+        case BreakExecResult(depth) if depth > 1 => return BreakExecResult(depth - 1)
+        case BreakExecResult(_) => return SuccessExecResult
+        case ContinueExecResult(depth) if depth > 1 => return ContinueExecResult(depth - 1)
+        case result: ReturnExecResult => return result
+        case _ =>
+      }
+      iterator.next()
+    }
+    SuccessExecResult
+  }
+
   override def visit[R](visitor: NodeVisitor[R]) =
-    visitor(this).thenChild(arrayExpr).thenChild(keyAssign).thenChild(valueAssign).thenChildren(stmts)
+    visitor(this).thenChild(valueExpr).thenChild(keyAssign).thenChild(valueAssign).thenChildren(stmts)
 }

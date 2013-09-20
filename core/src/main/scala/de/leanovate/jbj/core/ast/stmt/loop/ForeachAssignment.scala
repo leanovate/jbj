@@ -18,7 +18,7 @@ sealed trait ForeachAssignment extends Node {
 
   def assignKey(key: PVal)(implicit ctx: Context)
 
-  def assignValue(value: PAny, key: PVal, array: ArrayVal)(implicit ctx: Context)
+  def assignValue(value: PAny)(implicit ctx: Context)
 }
 
 case class ValueForeachAssignment(reference: RefExpr) extends ForeachAssignment {
@@ -28,7 +28,7 @@ case class ValueForeachAssignment(reference: RefExpr) extends ForeachAssignment 
     reference.evalRef.assign(key)
   }
 
-  override def assignValue(value: PAny, key: PVal, array: ArrayVal)(implicit ctx: Context) {
+  override def assignValue(value: PAny)(implicit ctx: Context) {
     reference.evalRef.assign(value.asVal)
   }
 
@@ -41,15 +41,8 @@ case class RefForeachAssignment(reference: RefExpr) extends ForeachAssignment {
     throw new FatalErrorJbjException("Key element cannot be a reference")
   }
 
-  override def assignValue(value: PAny, key: PVal, array: ArrayVal)(implicit ctx: Context) {
-    value match {
-      case pVar: PVar =>
-        reference.evalRef.assign(pVar)
-      case pVal: PVal =>
-        val pVar = PVar(pVal)
-        array.setAt(key, pVar)
-        reference.evalRef.assign(pVar)
-    }
+  override def assignValue(value: PAny)(implicit ctx: Context) {
+    reference.evalRef.assign(value)
   }
 
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(reference)
@@ -62,7 +55,7 @@ case class ListForeachAssignment(reference: ListRefExpr) extends ForeachAssignme
     throw new FatalErrorJbjException("Cannot use list as key element")
   }
 
-  override def assignValue(value: PAny, key: PVal, array: ArrayVal)(implicit ctx: Context) {
+  override def assignValue(value: PAny)(implicit ctx: Context) {
     reference.evalRef.assign(value)
   }
 

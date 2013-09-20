@@ -17,6 +17,7 @@ import scala.collection.JavaConverters._
 import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.runtime.value.IntegerVal
+import de.leanovate.jbj.buildins.types.{PTraversable, PIterator, PIteratorAggregate}
 
 object BuildinsExtension extends JbjExtension {
   val name = "Buildins"
@@ -52,5 +53,5 @@ object BuildinsExtension extends JbjExtension {
 
   override def classes: Seq[PClass] = Seq(PStdClass, PException, PArrayObject)
 
-  override def interfaces: Seq[PInterface] = Seq(PArrayAccess)
+  override def interfaces: Seq[PInterface] = Seq(PArrayAccess, PTraversable, PIterator, PIteratorAggregate)
 }
