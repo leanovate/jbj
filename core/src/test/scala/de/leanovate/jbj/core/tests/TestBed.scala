@@ -71,31 +71,8 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |class obj {
-        |	function method() {}
-        |}
-        |
-        |$o->root=new obj();
-        |
         |ob_start();
-        |var_dump($o);
-        |$x=ob_get_contents();
-        |ob_end_clean();
-        |
-        |$o->root->method();
-        |
-        |ob_start();
-        |var_dump($o);
-        |$y=ob_get_contents();
-        |ob_end_clean();
-        |if ($x == $y) {
-        |    print "success";
-        |} else {
-        |    print "failure
-        |x=$x
-        |y=$y
-        |";
-        |}
-        |?>""".stripMargin)
+        |while(@ob_end_clean());
+        |var_dump(ob_get_clean());""".stripMargin)
   }
 }

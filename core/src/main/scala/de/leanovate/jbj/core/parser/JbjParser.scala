@@ -202,7 +202,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val caseSeparator: PackratParser[Any] = ":" | ";"
 
   lazy val whileStatement: PackratParser[List[Stmt]] = ":" ~> innerStatementList <~ "endwhile" <~ ";" |
-    statement ^^ (List(_))
+    statement ^^ (List(_)) | ";" ^^^ Nil
 
   lazy val elseIfList: PackratParser[List[ElseIfBlock]] = rep("elseif" ~> parenthesisExpr ~ statement ^^ {
     case cond ~ stmt => ElseIfBlock(cond, stmt :: Nil)
