@@ -7,12 +7,11 @@
 
 package de.leanovate.jbj.runtime.value
 
-import scala.collection.mutable
 import de.leanovate.jbj.runtime.value.ObjectPropertyKey.Key
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PClass
 
-class StdObjectVal(var pClass: PClass, var instanceNum: Long, protected val keyValueMap: mutable.LinkedHashMap[Key, PAny])
+class StdObjectVal(var pClass: PClass, var instanceNum: Long, protected val keyValueMap: ExtendedLinkedHashMap[Key])
   extends ObjectVal {
 
   override def clone(implicit ctx: Context) = {

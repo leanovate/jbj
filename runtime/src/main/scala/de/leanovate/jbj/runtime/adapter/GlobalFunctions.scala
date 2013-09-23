@@ -59,18 +59,18 @@ object GlobalFunctions {
         case _ =>
           Nil
       }
-      val functionName = c.Expr[String](Literal(Constant(member.name.encoded)))
+      val functionName = c.literal(member.name.encoded)
       val impl = c.Expr(Block(parameters.map(_._2) ++ tooManyHandler, Apply(Select(Ident(inst.actualType.termSymbol), member.name), parameters.map(_._1))))
       val resultConverter = converterForType(member.returnType)
       val paramDefs = c.Expr[Seq[PParamDef]](Apply(Select(Ident(newTermName("Seq")), newTermName("apply")),
         memberParams.map {
           parameter =>
-            val name = c.Expr[String](Literal(Constant(parameter.name.toString)))
+            val name = c.literal(parameter.name.toString)
             val byRef = parameter.typeSignature match {
               case TypeRef(_, sym, _) if sym == pVarClass =>
-                c.Expr[Boolean](Literal(Constant(true)))
+                c.literal(true)
               case _ =>
-                c.Expr[Boolean](Literal(Constant(false)))
+                c.literal(false)
             }
 
             reify {
@@ -164,7 +164,7 @@ object GlobalFunctions {
     }
 
     def notEnoughWarn(name: String, expected: Int): c.Expr[Any] = {
-      val msg = c.Expr[String](Literal(Constant("%s() expects exactly %d parameter, %%d given".format(name, expected))))
+      val msg = c.literal("%s() expects exactly %d parameter, %%d given".format(name, expected))
       val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
       val ctx = c.Expr[context.Context](Ident(newTermName("callerCtx")))
       val ret = c.Expr[Unit](Return(Select(Ident(c.mirror.staticModule("de.leanovate.jbj.runtime.value.BooleanVal")), newTermName("FALSE"))))
@@ -175,7 +175,7 @@ object GlobalFunctions {
     }
 
     def tooManyWarn(remain: Tree, name: String, expected: Int): c.Expr[Any] = {
-      val msg = c.Expr[String](Literal(Constant("%s() expects exactly %d parameter, %%d given".format(name, expected))))
+      val msg = c.literal("%s() expects exactly %d parameter, %%d given".format(name, expected))
       val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
       val ctx = c.Expr[context.Context](Ident(newTermName("callerCtx")))
       var remainExpr = c.Expr[List[PParam]](remain)
@@ -189,7 +189,7 @@ object GlobalFunctions {
     }
 
     def notEnoughThrowFatal(name: String, expected: Int): c.Expr[Any] = {
-      val msg = c.Expr[String](Literal(Constant("%s() expects at least %d parameter, %%d given".format(name, expected))))
+      val msg = c.literal("%s() expects at least %d parameter, %%d given".format(name, expected))
       val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
       val ctx = c.Expr(Ident(newTermName("callerCtx")))
       reify {

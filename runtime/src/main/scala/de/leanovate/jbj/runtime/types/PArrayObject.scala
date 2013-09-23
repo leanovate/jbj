@@ -10,7 +10,6 @@ package de.leanovate.jbj.runtime.types
 import de.leanovate.jbj.runtime.NamespaceName
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context.Context
-import scala.collection.mutable
 import de.leanovate.jbj.runtime.adapter.InstanceMethod
 
 object PArrayObject extends PClass {
@@ -33,7 +32,7 @@ object PArrayObject extends PClass {
   }
 
   override def newInstance(parameters: List[PParam])(implicit ctx: Context) =
-    new StdObjectVal(this, ctx.global.instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ObjectPropertyKey.Key, PAny])
+    new StdObjectVal(this, ctx.global.instanceCounter.incrementAndGet(), new ExtendedLinkedHashMap[ObjectPropertyKey.Key])
 
   override def destructInstance(instance: ObjectVal)(implicit ctx: Context) {}
 

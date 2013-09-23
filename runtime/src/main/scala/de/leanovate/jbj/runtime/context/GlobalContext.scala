@@ -18,6 +18,7 @@ import scala.collection.JavaConversions._
 import de.leanovate.jbj.runtime.types._
 import de.leanovate.jbj.runtime.output.OutputBuffer
 import de.leanovate.jbj.api.http.JbjSettings
+import de.leanovate.jbj.runtime.value.ObjectPropertyKey.Key
 
 case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[PrintStream], settings: JbjSettings)
   extends Context {
@@ -187,7 +188,7 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
   def staticClassObject(pClass: PClass): ObjectVal = {
     val identifier = "Class_" + pClass.toString
     val classStaticObject = staticClassObjects.getOrElseUpdate(identifier, {
-      val obj = new StdObjectVal(PStdClass, -1, mutable.LinkedHashMap.empty)
+      val obj = new StdObjectVal(PStdClass, -1, new ExtendedLinkedHashMap[Key])
       obj.retain()
       obj
     })

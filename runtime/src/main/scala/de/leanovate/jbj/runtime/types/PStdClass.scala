@@ -28,7 +28,7 @@ object PStdClass extends PClass {
   override def initializeStatic(staticContext: ObjectVal)(implicit ctx: Context) {}
 
   override def newInstance(parameters: List[PParam])(implicit ctx: Context) =
-    new StdObjectVal(this, ctx.global.instanceCounter.incrementAndGet(), mutable.LinkedHashMap.empty[ObjectPropertyKey.Key, PAny])
+    new StdObjectVal(this, ctx.global.instanceCounter.incrementAndGet(), new ExtendedLinkedHashMap[ObjectPropertyKey.Key])
 
   override def destructInstance(instance: ObjectVal)(implicit ctx: Context) {}
 

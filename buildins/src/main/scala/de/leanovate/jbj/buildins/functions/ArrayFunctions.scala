@@ -62,7 +62,7 @@ object ArrayFunctions {
       NullVal
     } else {
       var count: Long = -1
-      var builder = mutable.LinkedHashMap.newBuilder[Any, PAny]
+      var builder = new ExtendedLinkedHashMap[Any]
       values.foreach {
         case array: ArrayVal =>
           array.keyValues.map {
@@ -74,7 +74,7 @@ object ArrayFunctions {
           }
         case _ =>
       }
-      new ArrayVal(builder.result())
+      new ArrayVal(builder)
     }
   }
 
@@ -136,7 +136,7 @@ object ArrayFunctions {
       case array: ArrayVal =>
         var count: Long = -1
         val keyValues = array.keyValues
-        var builder = mutable.LinkedHashMap.newBuilder[Any, PAny]
+        var builder = new ExtendedLinkedHashMap[Any]
         if (!keyValues.isEmpty) {
           keyValues.tail.foreach {
             case (IntegerVal(_), value) =>
@@ -146,7 +146,7 @@ object ArrayFunctions {
               builder += key -> value
           }
         }
-        ref.value = new ArrayVal(builder.result())
+        ref.value = new ArrayVal(builder)
         keyValues.headOption.map(_._2.asVal).getOrElse(NullVal)
       case v =>
         ctx.log.warn("array_shift() expects parameter 1 to be array, %s given".format(v.typeName))

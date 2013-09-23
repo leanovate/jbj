@@ -7,7 +7,6 @@
 
 package de.leanovate.jbj.runtime.value
 
-import scala.collection.mutable
 import de.leanovate.jbj.runtime.context.Context
 import ObjectPropertyKey.{Key, IntKey, PublicKey, ProtectedKey, PrivateKey}
 import de.leanovate.jbj.runtime.types.{PInterface, PClass}
@@ -19,7 +18,7 @@ trait ObjectVal extends PConcreteVal {
 
   def instanceNum: Long
 
-  protected def keyValueMap: mutable.LinkedHashMap[Key, PAny]
+  protected def keyValueMap: ExtendedLinkedHashMap[Key]
 
   private var _refCount = 0
 
@@ -58,7 +57,7 @@ trait ObjectVal extends PConcreteVal {
 
   override def toBool = BooleanVal.TRUE
 
-  override def toArray(implicit ctx: Context) = new ArrayVal(keyValueMap.map {
+  override def toArray(implicit ctx: Context) = new ArrayVal(keyValueMap.mapDirect {
     case (IntKey(key), value) => key -> value
     case (ProtectedKey(key), value) => "\0*\0" + key -> value
     case (PrivateKey(key, className), value) => "\0" + className + "\0" + key -> value
@@ -237,7 +236,7 @@ object ObjectVal {
     var nextIndex: Long = -1
 
     val result = new StdObjectVal(pClass, ctx.global.instanceCounter.incrementAndGet,
-      keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[Key, PAny]) {
+      keyValues.foldLeft(new ExtendedLinkedHashMap[Key]) {
         (builder, keyValue) =>
           val key: Key = keyValue._1.map {
             case IntegerVal(value) =>
@@ -256,7 +255,7 @@ object ObjectVal {
           }
 
           builder += (key -> keyValue._2)
-      }.result())
+      })
     ctx.poolAutoRelease(result)
     result
   }

@@ -7,17 +7,16 @@
 
 package de.leanovate.jbj.runtime.value
 
-import scala.collection.mutable
 import de.leanovate.jbj.runtime.context.Context
 
-class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extends PConcreteVal with ArrayLike {
+class ArrayVal(private val keyValueMap: ExtendedLinkedHashMap[Any]) extends PConcreteVal with ArrayLike {
 
   private var maxIndex: Long = (-1L :: keyValueMap.keys.map {
     case idx: Long => idx
     case _ => -1L
   }.toList).max
 
-  private var iteratorState: Option[BufferedIterator[(Any, PAny)]] = None
+  private val iteratorStateHolder = new Holder[IteratorState](keyValueMap.iteratorState)
 
   def keyValues(implicit ctx: Context): Seq[(PVal, PAny)] = keyValueMap.toSeq.map {
     case (key: Long, value) => IntegerVal(key) -> value
@@ -43,8 +42,8 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
   def isEmpty = keyValueMap.isEmpty
 
   override def copy = {
-    iteratorState = None
-    new ArrayVal(keyValueMap.map {
+    iteratorStateHolder.clear()
+    new ArrayVal(keyValueMap.mapDirect {
       case (key, pVar: PVar) =>
         pVar.retain()
         key -> pVar
@@ -125,50 +124,24 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
 
   def count: IntegerVal = IntegerVal(keyValueMap.size)
 
-  def iteratorHasNext: Boolean = {
-    if (iteratorState.isEmpty) {
-      val it = keyValueMap.iterator
-      iteratorState = Some(it.buffered)
-    }
-    iteratorState.get.hasNext
+  def iteratorState = iteratorStateHolder.get()
+
+  def iteratorState_=(iteratorState: IteratorState) {
+    iteratorStateHolder.set(iteratorState)
   }
 
-  def iteratorCurrent(implicit ctx: Context): PVal =
-    if (!iteratorHasNext) {
-      BooleanVal.FALSE
-    } else {
-      iteratorState.get.head match {
-        case (key: Long, value) =>
-          ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
-            Some(IntegerVal(0)) -> IntegerVal(key), Some(StringVal("key")) -> IntegerVal(key))
-        case (key: String, value) =>
-          ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
-            Some(IntegerVal(0)) -> StringVal(key), Some(StringVal("key")) -> StringVal(key))
-      }
-    }
+  def iteratorHasNext: Boolean = iteratorStateHolder.get().hasNext
 
-  def iteratorNext()(implicit ctx: Context): PVal =
-    if (!iteratorHasNext) {
-      BooleanVal.FALSE
-    } else {
-      iteratorState.get.next() match {
-        case (key: Long, value) =>
-          ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
-            Some(IntegerVal(0)) -> IntegerVal(key), Some(StringVal("key")) -> IntegerVal(key))
-        case (key: String, value) =>
-          ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
-            Some(IntegerVal(0)) -> StringVal(key), Some(StringVal("key")) -> StringVal(key))
-      }
-    }
+  def iteratorCurrent(implicit ctx: Context): PVal = iteratorStateHolder.get().current
+
+  def iteratorNext()(implicit ctx: Context): PVal = iteratorStateHolder.get().next
 
   def iteratorAdvance() {
-    if (iteratorHasNext) {
-      iteratorState.get.next()
-    }
+    iteratorStateHolder.get().advance()
   }
 
   def iteratorReset() {
-    iteratorState = None
+    iteratorStateHolder.clear()
   }
 
   def cleanup()(implicit ctx: Context) {
@@ -177,12 +150,12 @@ class ArrayVal(private val keyValueMap: mutable.LinkedHashMap[Any, PAny]) extend
 }
 
 object ArrayVal {
-  def apply(): ArrayVal = new ArrayVal(mutable.LinkedHashMap.empty[Any, PAny])
+  def apply(): ArrayVal = new ArrayVal(new ExtendedLinkedHashMap)
 
   def apply(keyValues: (Option[PVal], PAny)*)(implicit ctx: Context): ArrayVal = {
     var nextIndex: Long = -1
 
-    new ArrayVal(keyValues.foldLeft(mutable.LinkedHashMap.newBuilder[Any, PAny]) {
+    new ArrayVal(keyValues.foldLeft(new ExtendedLinkedHashMap[Any]) {
       (builder, keyValue) =>
         val key = keyValue._1.map {
           case IntegerVal(value) =>
@@ -215,7 +188,7 @@ object ArrayVal {
         }
 
         builder += key -> keyValue._2
-    }.result())
+    })
   }
 
   def unapply(array: ArrayVal)(implicit ctx: Context): Option[Seq[(PVal, PAny)]] = Some(array.keyValues)
