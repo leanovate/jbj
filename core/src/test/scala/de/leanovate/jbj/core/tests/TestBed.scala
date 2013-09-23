@@ -71,73 +71,52 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
+        |// From php.net/foreach:
+        |// "Unless the array is referenced, foreach operates on a copy of the specified array."
         |
-        |echo "\nDirectly changing array values.\n";
-        |$a = array("original.1","original.2","original.3");
-        |foreach ($a as $k=>$v) {
-        |	$a[$k]="changed.$k";
-        |	var_dump($v);
+        |echo "\nRemove elements from a referenced array during loop\n";
+        |$refedArray=array("original.0", "original.1", "original.2");
+        |$ref=&$refedArray;
+        |foreach ($refedArray as $k=>$v1) {
+        |	array_pop($refedArray);
+        |	echo "key: $k; value: $v1\n";
         |}
-        |var_dump($a);
         |
-        |echo "\nModifying the foreach \$value.\n";
-        |$a = array("original.1","original.2","original.3");
-        |foreach ($a as $k=>$v) {
-        |	$v="changed.$k";
+        |echo "\nRemove elements from a referenced array during loop, using &\$value\n";
+        |$refedArray=array("original.0", "original.1", "original.2");
+        |$ref=&$refedArray;
+        |foreach ($refedArray as $k=>&$v2) {
+        |	array_pop($refedArray);
+        |	echo "key: $k; value: $v2\n";
         |}
-        |var_dump($a);
         |
+        |echo "\nAdd elements to a referenced array during loop\n";
+        |$refedArray=array("original.0", "original.1", "original.2");
+        |$ref=&$refedArray;
+        |$count=0;
+        |foreach ($refedArray as $k=>$v3) {
+        |	array_push($refedArray, "new.$k");
+        |	echo "key: $k; value: $v3\n";
         |
-        |echo "\nModifying the foreach &\$value.\n";
-        |$a = array("original.1","original.2","original.3");
-        |foreach ($a as $k=>&$v) {
-        |	$v="changed.$k";
+        |	if ($count++>5) {
+        |		echo "Loop detected, as expected.\n";
+        |		break;
+        |	}
         |}
-        |var_dump($a);
         |
-        |echo "\nPushing elements onto an unreferenced array.\n";
-        |$a = array("original.1","original.2","original.3");
-        |$counter=0;
-        |foreach ($a as $v) {
-        |	array_push($a, "new.$counter");
+        |echo "\nAdd elements to a referenced array during loop, using &\$value\n";
+        |$refedArray=array("original.0", "original.1", "original.2");
+        |$ref=&$refedArray;
+        |$count=0;
+        |foreach ($refedArray as $k=>&$v4) {
+        |	array_push($refedArray, "new.$k");
+        |	echo "key: $k; value: $v4\n";
         |
-        |	//avoid infinite loop if test is failing
-        |    if ($counter++>10) {
-        |    	echo "Loop detected\n";
-        |    	break;
-        |    }
+        |	if ($count++>5) {
+        |		echo "Loop detected, as expected.\n";
+        |		break;
+        |	}
         |}
-        |var_dump($a);
-        |
-        |echo "\nPushing elements onto an unreferenced array, using &\$value.\n";
-        |$a = array("original.1","original.2","original.3");
-        |$counter=0;
-        |foreach ($a as &$v) {
-        |	array_push($a, "new.$counter");
-        |
-        |	//avoid infinite loop if test is failing
-        |    if ($counter++>10) {
-        |    	echo "Loop detected\n";
-        |    	break;
-        |    }
-        |}
-        |var_dump($a);
-        |
-        |echo "\nPopping elements off an unreferenced array.\n";
-        |$a = array("original.1","original.2","original.3");
-        |foreach ($a as $v) {
-        |	array_pop($a);
-        |	var_dump($v);
-        |}
-        |var_dump($a);
-        |
-        |echo "\nPopping elements off an unreferenced array, using &\$value.\n";
-        |$a = array("original.1","original.2","original.3");
-        |foreach ($a as &$v) {
-        |	array_pop($a);
-        |	var_dump($v);
-        |}
-        |var_dump($a);
         |
         |?>""".stripMargin)
   }

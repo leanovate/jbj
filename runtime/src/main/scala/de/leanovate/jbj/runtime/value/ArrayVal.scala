@@ -16,7 +16,11 @@ class ArrayVal(private val keyValueMap: ExtendedLinkedHashMap[Any]) extends PCon
     case _ => -1L
   }.toList).max
 
+  private var _refCount = 0
+
   private val iteratorStateHolder = new Holder[IteratorState](keyValueMap.iteratorState)
+
+  def refCount = _refCount
 
   def keyValues(implicit ctx: Context): Seq[(PVal, PAny)] = keyValueMap.toSeq.map {
     case (key: Long, value) => IntegerVal(key) -> value
@@ -120,6 +124,16 @@ class ArrayVal(private val keyValueMap: ExtendedLinkedHashMap[Any]) extends PCon
 
   override def unsetAt(index: String)(implicit ctx: Context) {
     keyValueMap.remove(index).foreach(_.release())
+  }
+
+  override def retain() {
+    _refCount += 1
+  }
+
+  override def release()(implicit ctx: Context) {
+    _refCount -= 1
+    if (_refCount == 0)
+      cleanup()
   }
 
   def count: IntegerVal = IntegerVal(keyValueMap.size)

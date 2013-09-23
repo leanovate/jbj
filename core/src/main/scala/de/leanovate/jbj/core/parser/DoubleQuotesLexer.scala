@@ -18,8 +18,8 @@ case class DoubleQuotesLexer(mode: DoubleQuotedLexerMode) extends Lexer with Com
       str => EncapsAndWhitespace(str) -> None
     } | '$' ~ '{' ^^^ (Keyword("${") -> None) |
       '{' ~ guard('$') ^^^ (Keyword("{$") -> Some(EncapsScriptingLexerMode(mode))) |
-      '$' ~> rep1(identChar) ^^ {
-        name => Variable(name mkString "") -> None
+      '$' ~> identChar ~ rep(identChar | digit) ^^ {
+        case first ~ rest => Variable(first :: rest mkString "") -> None
       } | '"' ^^^ Keyword("\"") -> Some(mode.prevMode)
 
   private def doubleQuotedChar: Parser[Char] = encapsCharReplacements | chrExcept('\"', '$', '{', EofCh) |

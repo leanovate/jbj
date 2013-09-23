@@ -64,6 +64,7 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
   val GLOBALS = ArrayVal()
   val _SERVER = ArrayVal()
 
+  GLOBALS.retain()
   GLOBALS.setAt("GLOBALS", GLOBALS)(this)
   GLOBALS.setAt("_SERVER", _SERVER)(this)
 

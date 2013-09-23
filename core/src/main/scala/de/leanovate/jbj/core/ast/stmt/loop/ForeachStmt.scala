@@ -17,6 +17,7 @@ import de.leanovate.jbj.buildins.types.{PIteratorAggregate, PIterator}
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.ReturnExecResult
 import de.leanovate.jbj.runtime.ContinueExecResult
+import de.leanovate.jbj.core.ast.expr.ReferableExprParam
 
 case class ForeachStmt(valueExpr: Expr,
                        keyAssign: Option[ForeachAssignment],
@@ -24,10 +25,17 @@ case class ForeachStmt(valueExpr: Expr,
                        stmts: List[Stmt]) extends Stmt with BlockLike {
 
   def exec(implicit ctx: Context) = {
-    valueExpr.eval.concrete match {
+    val (value, isReferenced) = valueExpr match {
+      case refExpr: RefExpr =>
+        val ref = refExpr.evalRef
+        ref.byVal.concrete -> (ref.byVar.refCount > 1)
+      case expr =>
+        expr.eval.concrete -> false
+    }
+    value match {
       case array: ArrayVal =>
         array.iteratorReset()
-        execValues(array, array.iteratorState.copy(fixedEntries = !valueAssign.hasValueRef))
+        execValues(array, array.iteratorState.copy(fixedEntries = !isReferenced && !valueAssign.hasValueRef))
       case obj: ObjectVal if obj.instanceOf(PIteratorAggregate) =>
         val iterator = PIteratorAggregate.cast(obj).getIterator()
         iterator.obj.retain()
