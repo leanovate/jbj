@@ -56,7 +56,9 @@ class PVar(private var current: Option[PConcreteVal] = None) extends PAny {
   override def asVar = this
 
   override def toString: String = {
-    val builder = new StringBuilder("PVar(")
+    val builder = new StringBuilder("PVar@")
+    builder.append(hashCode())
+    builder.append("(")
     builder.append(value)
     builder.append(", ")
     builder.append(refCount)

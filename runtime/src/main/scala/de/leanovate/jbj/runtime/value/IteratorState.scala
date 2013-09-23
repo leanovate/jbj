@@ -12,9 +12,17 @@ import de.leanovate.jbj.runtime.context.Context
 trait IteratorState {
   protected def currentKeyValue: (Any, PAny)
 
+  def currentKey(implicit ctx: Context): PVal = mapKey(currentKeyValue._1)
+
+  def currentValue: PAny = currentKeyValue._2
+
+  def currentValue_=(pAny: PAny)(implicit ctx: Context)
+
   def hasNext: Boolean
 
   def advance()
+
+  def copy(fixedEntries: Boolean): IteratorState
 
   def current(implicit ctx: Context): PVal =
     if (hasNext)
@@ -29,6 +37,11 @@ trait IteratorState {
       result
     } else
       BooleanVal.FALSE
+
+  private def mapKey(key: Any)(implicit ctx: Context): PVal = key match {
+    case key: Long => IntegerVal(key)
+    case key: String => StringVal(key)
+  }
 
   private def keyValueArray(keyValue: (Any, PAny))(implicit ctx: Context): PVal = keyValue match {
     case (key: Long, value) =>

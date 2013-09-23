@@ -27,7 +27,7 @@ case class ForeachStmt(valueExpr: Expr,
     valueExpr.eval.concrete match {
       case array: ArrayVal =>
         array.iteratorReset()
-        execValues(array, array.keyValues.toList)
+        execValues(array, array.iteratorState.copy(fixedEntries = !valueAssign.hasValueRef))
       case obj: ObjectVal if obj.instanceOf(PIteratorAggregate) =>
         val iterator = PIteratorAggregate.cast(obj).getIterator()
         iterator.obj.retain()
@@ -45,35 +45,33 @@ case class ForeachStmt(valueExpr: Expr,
     }
   }
 
-  @tailrec
-  private def execValues(array: ArrayVal, remain: List[(PVal, PAny)])(implicit context: Context): ExecResult = {
-    remain match {
-      case head :: tail =>
-        array.iteratorAdvance()
-        keyAssign.foreach(_.assignKey(head._1))
-        val value = if (valueAssign.hasValueRef) {
-          head._2 match {
-            case pVar: PVar =>
-              pVar
-            case pVal: PVal =>
-              val pVar = PVar(pVal)
-              array.setAt(head._1, pVar)
-              pVar
-          }
-        } else {
-          head._2
+  private def execValues(array: ArrayVal, iteratorState: IteratorState)(implicit context: Context): ExecResult = {
+    while (iteratorState.hasNext) {
+      keyAssign.foreach(_.assignKey(iteratorState.currentKey))
+      val value = if (valueAssign.hasValueRef) {
+        iteratorState.currentValue match {
+          case pVar: PVar =>
+            pVar
+          case pVal: PVal =>
+            val pVar = PVar(pVal)
+            iteratorState.currentValue = pVar
+            pVar
         }
-        valueAssign.assignValue(value)
-        execStmts(stmts) match {
-          case BreakExecResult(depth) if depth > 1 => BreakExecResult(depth - 1)
-          case BreakExecResult(_) => SuccessExecResult
-          case ContinueExecResult(depth) if depth > 1 => ContinueExecResult(depth - 1)
-          case ContinueExecResult(_) => execValues(array, tail)
-          case result: ReturnExecResult => result
-          case _ => execValues(array, tail)
-        }
-      case Nil => SuccessExecResult
+      } else {
+        iteratorState.currentValue
+      }
+      valueAssign.assignValue(value)
+      iteratorState.advance()
+      array.iteratorState = iteratorState.copy(fixedEntries = false)
+      execStmts(stmts) match {
+        case BreakExecResult(depth) if depth > 1 => return BreakExecResult(depth - 1)
+        case BreakExecResult(_) => return SuccessExecResult
+        case ContinueExecResult(depth) if depth > 1 => return ContinueExecResult(depth - 1)
+        case result: ReturnExecResult => return result
+        case _ =>
+      }
     }
+    SuccessExecResult
   }
 
   private def execIterator(iterator: PIterator)(implicit ctx: Context): ExecResult = {
