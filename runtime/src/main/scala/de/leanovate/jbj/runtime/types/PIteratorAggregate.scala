@@ -17,11 +17,11 @@ trait PIteratorAggregate {
 
   def getIterator()(implicit ctx: Context): PIterator
 
-  def foreachByVal(f: (PVal, PAny) => Unit)(implicit ctx: Context) {
+  def foreachByVal[R](f: (PVal, PAny) => Option[R])(implicit ctx: Context): Option[R] = {
     foreachByVar(f)
   }
 
-  def foreachByVar(f: (PVal, PVar) => Unit)(implicit ctx: Context) {
+  def foreachByVar[R](f: (PVal, PVar) => Option[R])(implicit ctx: Context): Option[R] = {
     val iterator = getIterator()
     iterator.obj.retain()
 

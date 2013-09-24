@@ -31,33 +31,21 @@ case class ForeachStmt(valueExpr: Expr,
         expr.eval.concrete -> false
     }
     if (isReferenced || valueAssign.hasValueRef) {
-      value.foreachByVar {
-        (key, value) =>
-          keyAssign.foreach(_.assignKey(key))
-          valueAssign.assignValue(value)
-          execStmts(stmts) match {
-            case BreakExecResult(depth) if depth > 1 => return BreakExecResult(depth - 1)
-            case BreakExecResult(_) => return SuccessExecResult
-            case ContinueExecResult(depth) if depth > 1 => return ContinueExecResult(depth - 1)
-            case result: ReturnExecResult => return result
-            case _ =>
-          }
-      }
-      SuccessExecResult
+      value.foreachByVar(execKeyValue).getOrElse(SuccessExecResult)
     } else {
-      value.foreachByVal {
-        (key, value) =>
-          keyAssign.foreach(_.assignKey(key))
-          valueAssign.assignValue(value)
-          execStmts(stmts) match {
-            case BreakExecResult(depth) if depth > 1 => return BreakExecResult(depth - 1)
-            case BreakExecResult(_) => return SuccessExecResult
-            case ContinueExecResult(depth) if depth > 1 => return ContinueExecResult(depth - 1)
-            case result: ReturnExecResult => return result
-            case _ =>
-          }
-      }
-      SuccessExecResult
+      value.foreachByVal(execKeyValue).getOrElse(SuccessExecResult)
+    }
+  }
+
+  private def execKeyValue(key: PVal, value: PAny)(implicit ctx: Context): Option[ExecResult] = {
+    keyAssign.foreach(_.assignKey(key))
+    valueAssign.assignValue(value)
+    execStmts(stmts) match {
+      case BreakExecResult(depth) if depth > 1 => Some(BreakExecResult(depth - 1))
+      case BreakExecResult(_) => Some(SuccessExecResult)
+      case ContinueExecResult(depth) if depth > 1 => Some(ContinueExecResult(depth - 1))
+      case result: ReturnExecResult => Some(result)
+      case _ => None
     }
   }
 
