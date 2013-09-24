@@ -9,6 +9,7 @@ package de.leanovate.jbj.runtime.types
 
 import de.leanovate.jbj.runtime.NamespaceName
 import de.leanovate.jbj.runtime.value.ConstVal
+import de.leanovate.jbj.runtime.context.Context
 
 trait PInterface {
   def name: NamespaceName
@@ -21,6 +22,8 @@ trait PInterface {
     interfaces.flatMap(_.interfaceConstants.toList).toMap ++ declaredConstants.toMap
 
   def methods: Map[String, PMethod]
+
+  def initializeClass(pClass: PClass)(implicit ctx: Context) {}
 
   final def isAssignableFrom(other: PClass): Boolean = other.interfaces.contains(this)
 }

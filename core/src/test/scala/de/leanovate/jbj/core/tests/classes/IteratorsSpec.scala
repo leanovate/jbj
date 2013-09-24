@@ -449,6 +449,93 @@ class IteratorsSpec extends SpecificationWithJUnit with TestJbjExecutor {
       )
     }
 
+    "ZE2 iterators must be implemented" in {
+      // classes/iterators_004.phpt
+      script(
+        """<?php
+          |
+          |echo "1st try\n";
+          |
+          |class c1 {}
+          |
+          |$obj = new c1();
+          |
+          |foreach($obj as $w) {
+          |	echo "object:$w\n";
+          |}
+          |
+          |echo "2nd try\n";
+          |
+          |class c2 {
+          |
+          |	public $max = 3;
+          |	public $num = 0;
+          |
+          |	function current() {
+          |		echo __METHOD__ . "\n";
+          |		return $this->num;
+          |	}
+          |	function next() {
+          |		echo __METHOD__ . "\n";
+          |		$this->num++;
+          |	}
+          |	function valid() {
+          |		echo __METHOD__ . "\n";
+          |		return $this->num < $this->max;
+          |	}
+          |	function key() {
+          |		echo __METHOD__ . "\n";
+          |		switch($this->num) {
+          |			case 0: return "1st";
+          |			case 1: return "2nd";
+          |			case 2: return "3rd";
+          |			default: return "???";
+          |		}
+          |	}
+          |}
+          |
+          |$obj = new c2();
+          |
+          |foreach($obj as $v => $w) {
+          |	echo "object:$v=>$w\n";
+          |}
+          |
+          |print "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """1st try
+          |2nd try
+          |object:max=>3
+          |object:num=>0
+          |Done
+          |""".stripMargin
+      )
+    }
+
+    "ZE2 iterators cannot implement Traversable alone" in {
+      // classes/iterators_005.phpt
+      script(
+        """<?php
+          |
+          |class test implements Traversable {
+          |}
+          |
+          |$obj = new test;
+          |
+          |foreach($obj as $v);
+          |
+          |print "Done\n";
+          |/* the error doesn't show the filename but 'Unknown' */
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Class test must implement interface Traversable as part of either Iterator or IteratorAggregate in /classes/IteratorsSpec.inlinePhp on line 3
+          |""".stripMargin
+      )
+    }
+
     "ZE2 iterators and array wrapping" in {
       // classes/iterators_006.phpt
       script(

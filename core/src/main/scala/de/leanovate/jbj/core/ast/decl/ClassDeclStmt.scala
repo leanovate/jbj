@@ -235,6 +235,11 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
           }
       }.toSet ++ _superClass.map(_.interfaces).getOrElse(List.empty)
 
+      _interfaces.foreach {
+        interface =>
+          interface.initializeClass(this)
+      }
+
       if (!_methodsInitialized) {
         decls.foreach {
           method =>
