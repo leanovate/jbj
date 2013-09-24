@@ -71,46 +71,67 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
+        |class c_iter implements Iterator {
         |
-        |class bad1 implements IteratorAggregate {
-        |	function getIterator() {
-        |		return null;
+        |	private $obj;
+        |	private $num = 0;
+        |
+        |	function __construct($obj) {
+        |		echo __METHOD__ . "\n";
+        |		$this->obj = $obj;
         |	}
-        |}
-        |
-        |class bad2 implements IteratorAggregate {
-        |	function getIterator() {
-        |		return new stdClass;
+        |	function rewind() {
+        |		echo __METHOD__ . "\n";
+        |		$this->num = 0;
         |	}
-        |}
-        |
-        |class bad3 implements IteratorAggregate {
-        |	function getIterator() {
-        |		return 1;
+        |	function valid() {
+        |		$more = $this->num < $this->obj->max;
+        |		echo __METHOD__ . ' = ' .($more ? 'true' : 'false') . "\n";
+        |		return $more;
         |	}
-        |}
-        |
-        |class bad4 implements IteratorAggregate {
-        |	function getIterator() {
-        |		return array(1,2,3);
+        |	function current() {
+        |		echo __METHOD__ . "\n";
+        |		return $this->num;
         |	}
-        |}
-        |
-        |
-        |function f($className) {
-        |	try {
-        |		foreach (new $className as $k=>$v) {
-        |			echo "$k => $v\n";
+        |	function next() {
+        |		echo __METHOD__ . "\n";
+        |		$this->num++;
+        |	}
+        |	function key() {
+        |		echo __METHOD__ . "\n";
+        |		switch($this->num) {
+        |			case 0: return "1st";
+        |			case 1: return "2nd";
+        |			case 2: return "3rd";
+        |			default: return "???";
         |		}
-        |	} catch (Exception $e) {
-        |			echo $e->getLine() . ": " . $e->getMessage() ."\n";
+        |	}
+        |	function __destruct() {
         |	}
         |}
         |
-        |f("bad1");
-        |f("bad2");
-        |f("bad3");
-        |f("bad4");
+        |class c implements IteratorAggregate {
+        |
+        |	public $max = 3;
+        |
+        |	function getIterator() {
+        |		echo __METHOD__ . "\n";
+        |		return new c_iter($this);
+        |	}
+        |	function __destruct() {
+        |	}
+        |}
+        |
+        |$t = new c();
+        |
+        |foreach($t as $k => $v) {
+        |	foreach($t as $w) {
+        |		echo "double:$v:$w\n";
+        |		break;
+        |	}
+        |}
+        |
+        |unset($t);
         |
         |?>
         |""".stripMargin)

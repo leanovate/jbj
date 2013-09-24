@@ -60,6 +60,8 @@ object PIteratorAggregate extends PInterface {
       _obj.pClass.invokeMethod(Some(obj), "getIterator", Nil).asVal.concrete match {
         case obj: ObjectVal if obj.instanceOf(PIterator) =>
           PIterator.cast(obj)
+        case obj: ObjectVal if obj.instanceOf(PIteratorAggregate) =>
+          PIteratorAggregate.cast(obj).getIterator()
         case _ =>
           throw RuntimeJbjException("Objects returned by %s::getIterator() must be traversable or implement interface Iterator".
             format(obj.pClass.name.toString))
