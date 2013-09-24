@@ -55,11 +55,11 @@ class PVar(private var current: Option[PConcreteVal] = None) extends PAny {
 
   override def asVar = this
 
-  override def foreachByVal[R](f: (PVal, PAny) => Option[R])(implicit ctx: Context): Option[R] = {
+  override def foreachByVal[R](f: (PVal, PAny) => Option[R], fixedEntries: Boolean)(implicit ctx: Context): Option[R] = {
     if (refCount > 1)
       value.foreachByVar(f)
     else
-      value.foreachByVal(f)
+      value.foreachByVal(f, fixedEntries)
   }
 
   override def foreachByVar[R](f: (PVal, PVar) => Option[R])(implicit ctx: Context): Option[R] = {

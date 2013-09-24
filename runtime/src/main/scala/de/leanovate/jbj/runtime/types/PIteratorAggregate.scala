@@ -18,7 +18,14 @@ trait PIteratorAggregate {
   def getIterator()(implicit ctx: Context): PIterator
 
   def foreachByVal[R](f: (PVal, PAny) => Option[R])(implicit ctx: Context): Option[R] = {
-    foreachByVar(f)
+    val iterator = getIterator()
+    iterator.obj.retain()
+
+    try {
+      iterator.foreachByVal(f)
+    } finally {
+      iterator.obj.release()
+    }
   }
 
   def foreachByVar[R](f: (PVal, PVar) => Option[R])(implicit ctx: Context): Option[R] = {

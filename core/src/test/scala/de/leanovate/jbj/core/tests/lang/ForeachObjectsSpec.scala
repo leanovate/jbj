@@ -151,6 +151,35 @@ class ForeachObjectsSpec extends SpecificationWithJUnit with TestJbjExecutor {
       )
     }
 
+    "foreach with iterator and &$value reference" in {
+      // lang/foreachLoopIterator.002.phpt
+      script(
+        """<?php
+          |
+          |class MyIterator implements Iterator {
+          |	public function valid() { return true; }
+          |	public function next() {	}
+          |	public function rewind() {	}
+          |	public function current() {	}
+          |	public function key() {	}
+          |}
+          |
+          |$f = new MyIterator;
+          |echo "-----( Try to iterate with &\$value: )-----\n";
+          |foreach ($f as $k=>&$v) {
+          |	echo "$k => $v\n";
+          |}
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """-----( Try to iterate with &$value: )-----
+          |
+          |Fatal error: An iterator cannot be used with foreach by reference in /lang/ForeachObjectsSpec.inlinePhp on line 13
+          |""".stripMargin
+      )
+    }
+
     "Foreach loop on objects - basic loop with just value and key => value." in {
       // lang/foreachLoopObjects.001.phpt
       script(

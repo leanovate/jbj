@@ -71,68 +71,84 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
+        |class c_iter implements Iterator {
         |
-        |class MealIterator implements Iterator {
-        |	private $pos=0;
-        |	private $myContent=array("breakfast", "lunch", "dinner");
+        |	private $obj;
+        |	private $num = 0;
         |
-        |	public function valid() {
-        |		global $indent;
-        |		echo "$indent--> " . __METHOD__ . " ($this->pos)\n";
-        |		return $this->pos<3;
+        |	function __construct($obj) {
+        |		echo __METHOD__ . "\n";
+        |		$this->num = 0;
+        |		$this->obj = $obj;
         |	}
-        |
-        |	public function next() {
-        |		global $indent;
-        |		echo "$indent--> " . __METHOD__ . " ($this->pos)\n";
-        |		return $this->myContent[$this->pos++];
+        |	function rewind() {
         |	}
-        |
-        |	public function rewind() {
-        |		global $indent;
-        |		echo "$indent--> " . __METHOD__ . " ($this->pos)\n";
-        |		$this->pos=0;
+        |	function valid() {
+        |		$more = $this->num < $this->obj->max;
+        |		echo __METHOD__ . ' = ' .($more ? 'true' : 'false') . "\n";
+        |		return $more;
         |	}
-        |
-        |	public function current() {
-        |		global $indent;
-        |		echo "$indent--> " . __METHOD__ . " ($this->pos)\n";
-        |		return $this->myContent[$this->pos];
+        |	function current() {
+        |		echo __METHOD__ . "\n";
+        |		return $this->num;
         |	}
-        |
-        |	public function key() {
-        |		global $indent;
-        |		echo "$indent--> " . __METHOD__ . " ($this->pos)\n";
-        |		return "meal " . $this->pos;
+        |	function next() {
+        |		echo __METHOD__ . "\n";
+        |		$this->num++;
         |	}
-        |
+        |	function key() {
+        |		echo __METHOD__ . "\n";
+        |		switch($this->num) {
+        |			case 0: return "1st";
+        |			case 1: return "2nd";
+        |			case 2: return "3rd";
+        |			default: return "???";
+        |		}
+        |	}
         |}
         |
-        |$f = new MealIterator;
-        |var_dump($f);
+        |class c implements IteratorAggregate {
         |
-        |echo "-----( Simple iteration: )-----\n";
-        |foreach ($f as $k=>$v) {
-        |	echo "$k => $v\n";
-        |}
+        |	public $max = 3;
         |
-        |$f->rewind();
-        |
-        |$indent = " ";
-        |
-        |echo "\n\n\n-----( Nested iteration: )-----\n";
-        |$count=1;
-        |foreach ($f as $k=>$v) {
-        |	echo "\nTop level "  .  $count++ . ": \n";
-        |	echo "$k => $v\n";
-        |	$indent = "     ";
-        |	foreach ($f as $k=>$v) {
-        |		echo "     $k => $v\n";
+        |	function getIterator() {
+        |		echo __METHOD__ . "\n";
+        |		return new c_iter($this);
         |	}
-        |	$indent = " ";
-        |
         |}
         |
+        |echo "===Array===\n";
+        |
+        |$a = array(0,1,2);
+        |foreach($a as $v) {
+        |	echo "array:$v\n";
+        |}
+        |
+        |echo "===Manual===\n";
+        |$t = new c();
+        |for ($iter = $t->getIterator(); $iter->valid(); $iter->next()) {
+        |	echo $iter->current() . "\n";
+        |}
+        |
+        |echo "===foreach/std===\n";
+        |foreach($t as $v) {
+        |	echo "object:$v\n";
+        |}
+        |
+        |echo "===foreach/rec===\n";
+        |foreach($t as $v) {
+        |	foreach($t as $w) {
+        |		echo "double:$v:$w\n";
+        |	}
+        |}
+        |
+        |echo "===foreach/key===\n";
+        |foreach($t as $i => $v) {
+        |	echo "object:$i=>$v\n";
+        |}
+        |
+        |print "Done\n";
+        |exit(0);
         |?>
         |""".stripMargin)
   }

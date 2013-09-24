@@ -222,14 +222,14 @@ trait ObjectVal extends PConcreteVal {
     keyValueMap.values.foreach(_.release())
   }
 
-  override def foreachByVal[R](f: (PVal, PAny) => Option[R])(implicit ctx: Context) = {
+  override def foreachByVal[R](f: (PVal, PAny) => Option[R], fixedEntries: Boolean)(implicit ctx: Context) = {
     if (PIteratorAggregate.isAssignableFrom(pClass))
       PIteratorAggregate.cast(this).foreachByVal(f)
     else if (PIterator.isAssignableFrom(pClass))
       PIterator.cast(this).foreachByVal(f)
     else {
       iteratorReset()
-      val it = iteratorState.copy(fixedEntries = true)
+      val it = iteratorState.copy(fixedEntries)
       var result = Option.empty[R]
       while (it.hasNext && result.isEmpty) {
         val key = it.currentKey

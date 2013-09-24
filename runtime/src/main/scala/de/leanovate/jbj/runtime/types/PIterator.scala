@@ -11,6 +11,7 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.NamespaceName
 import de.leanovate.jbj.runtime.context.Context
 import scala.Some
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 trait PIterator {
   def obj: ObjectVal
@@ -26,10 +27,6 @@ trait PIterator {
   def key(implicit ctx: Context): PVal
 
   def foreachByVal[R](f: (PVal, PAny) => Option[R])(implicit ctx: Context): Option[R] = {
-    foreachByVar(f)
-  }
-
-  def foreachByVar[R](f: (PVal, PVar) => Option[R])(implicit ctx: Context): Option[R] = {
     rewind()
     var result = Option.empty[R]
     while (result.isEmpty && valid) {
@@ -44,6 +41,10 @@ trait PIterator {
         next()
     }
     result
+  }
+
+  def foreachByVar[R](f: (PVal, PVar) => Option[R])(implicit ctx: Context): Option[R] = {
+    throw new FatalErrorJbjException("An iterator cannot be used with foreach by reference")
   }
 }
 

@@ -30,10 +30,10 @@ case class ForeachStmt(valueExpr: Expr,
       case expr =>
         expr.eval.concrete -> false
     }
-    if (isReferenced || valueAssign.hasValueRef) {
+    if (valueAssign.hasValueRef) {
       value.foreachByVar(execKeyValue).getOrElse(SuccessExecResult)
     } else {
-      value.foreachByVal(execKeyValue).getOrElse(SuccessExecResult)
+      value.foreachByVal(execKeyValue, fixedEntries = !isReferenced).getOrElse(SuccessExecResult)
     }
   }
 
