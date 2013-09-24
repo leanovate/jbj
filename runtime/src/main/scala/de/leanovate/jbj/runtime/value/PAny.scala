@@ -98,4 +98,7 @@ trait PAny {
     case value => ~value.toInteger
   }
 
+  def foreachByVal(f: (PVal, PAny) => Unit)(implicit ctx: Context)
+
+  def foreachByVar(f: (PVal, PVar) => Unit)(implicit ctx: Context)
 }

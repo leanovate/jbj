@@ -168,6 +168,37 @@ class ArrayVal(private val keyValueMap: ExtendedLinkedHashMap[Any]) extends PCon
   def cleanup()(implicit ctx: Context) {
     keyValueMap.values.foreach(_.release())
   }
+
+  override def foreachByVal(f: (PVal, PAny) => Unit)(implicit ctx: Context) {
+    iteratorReset()
+    val it = iteratorState.copy(fixedEntries = true)
+    while (it.hasNext) {
+      val key = it.currentKey
+      val value = it.currentValue
+      it.advance()
+      iteratorState = it.copy(fixedEntries = false)
+      f(key, value)
+    }
+  }
+
+  override def foreachByVar(f: (PVal, PVar) => Unit)(implicit ctx: Context) {
+    iteratorReset()
+    val it = iteratorState.copy(fixedEntries = false)
+    while (it.hasNext) {
+      val key = it.currentKey
+      val value = it.currentValue match {
+        case pVar: PVar =>
+          pVar
+        case pVal: PVal =>
+          val pVar = PVar(pVal)
+          it.currentValue = pVar
+          pVar
+      }
+      it.advance()
+      iteratorState = it.copy(fixedEntries = false)
+      f(key, value)
+    }
+  }
 }
 
 object ArrayVal {

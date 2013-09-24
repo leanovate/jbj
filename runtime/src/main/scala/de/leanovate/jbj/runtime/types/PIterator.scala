@@ -5,13 +5,12 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.buildins.types
+package de.leanovate.jbj.runtime.types
 
-import de.leanovate.jbj.runtime.value.{PAny, PVal, ObjectVal}
-import de.leanovate.jbj.runtime.types.{PInterfaceMethod, PInterface}
+import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.NamespaceName
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.adapter.BooleanConverter
+import scala.Some
 
 trait PIterator {
   def obj: ObjectVal
@@ -25,6 +24,24 @@ trait PIterator {
   def next()(implicit ctx: Context)
 
   def key(implicit ctx: Context): PVal
+
+  def foreachByVal(f: (PVal, PAny) => Unit)(implicit ctx: Context) {
+    foreachByVar(f)
+  }
+
+  def foreachByVar(f: (PVal, PVar) => Unit)(implicit ctx: Context) {
+    rewind()
+    while (valid) {
+      val currentValue = current
+      val currentKey = new LazyVal {
+        def value = key.concrete
+      }
+
+      f(currentKey, currentValue.asVar)
+
+      next()
+    }
+  }
 }
 
 object PIterator extends PInterface {

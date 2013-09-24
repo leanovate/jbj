@@ -9,7 +9,7 @@ package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.context.Context
 import ObjectPropertyKey.{Key, IntKey, PublicKey, ProtectedKey, PrivateKey}
-import de.leanovate.jbj.runtime.types.{PInterface, PClass}
+import de.leanovate.jbj.runtime.types.{PIterator, PIteratorAggregate, PInterface, PClass}
 import de.leanovate.jbj.runtime.exception.{CatchableFatalError, FatalErrorJbjException}
 import de.leanovate.jbj.api.http.JbjException
 
@@ -220,6 +220,49 @@ trait ObjectVal extends PConcreteVal {
 
   def cleanup()(implicit ctx: Context) {
     keyValueMap.values.foreach(_.release())
+  }
+
+  override def foreachByVal(f: (PVal, PAny) => Unit)(implicit ctx: Context) {
+    if (PIteratorAggregate.isAssignableFrom(pClass))
+      PIteratorAggregate.cast(this).foreachByVal(f)
+    else if (PIterator.isAssignableFrom(pClass))
+      PIterator.cast(this).foreachByVal(f)
+    else {
+      iteratorReset()
+      val it = iteratorState.copy(fixedEntries = true)
+      while (it.hasNext) {
+        val key = it.currentKey
+        val value = it.currentValue
+        it.advance()
+        iteratorState = it.copy(fixedEntries = false)
+        f(key, value)
+      }
+    }
+  }
+
+  override def foreachByVar(f: (PVal, PVar) => Unit)(implicit ctx: Context) {
+    if (PIteratorAggregate.isAssignableFrom(pClass))
+      PIteratorAggregate.cast(this).foreachByVar(f)
+    else if (PIterator.isAssignableFrom(pClass))
+      PIterator.cast(this).foreachByVar(f)
+    else {
+      iteratorReset()
+      val it = iteratorState.copy(fixedEntries = true)
+      while (it.hasNext) {
+        val key = it.currentKey
+        val value = it.currentValue match {
+          case pVar: PVar =>
+            pVar
+          case pVal: PVal =>
+            val pVar = PVar(pVal)
+            iteratorState.currentValue = pVar
+            pVar
+        }
+        it.advance()
+        iteratorState = it.copy(fixedEntries = false)
+        f(key, value)
+      }
+    }
   }
 }
 

@@ -1,6 +1,5 @@
-package de.leanovate.jbj.buildins.types
+package de.leanovate.jbj.runtime.types
 
-import de.leanovate.jbj.runtime.types.PInterface
 import de.leanovate.jbj.runtime.NamespaceName
 
 object PTraversable extends PInterface {

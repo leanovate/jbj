@@ -5,18 +5,32 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.buildins.types
+package de.leanovate.jbj.runtime.types
 
-import de.leanovate.jbj.runtime.types.{PException, PInterfaceMethod, PInterface}
 import de.leanovate.jbj.runtime.NamespaceName
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.value.{PAny, ObjectVal}
+import de.leanovate.jbj.runtime.value.{PVal, PVar, PAny, ObjectVal}
 import de.leanovate.jbj.runtime.exception.RuntimeJbjException
 
 trait PIteratorAggregate {
   def obj: ObjectVal
 
   def getIterator()(implicit ctx: Context): PIterator
+
+  def foreachByVal(f: (PVal, PAny) => Unit)(implicit ctx: Context) {
+    foreachByVar(f)
+  }
+
+  def foreachByVar(f: (PVal, PVar) => Unit)(implicit ctx: Context) {
+    val iterator = getIterator()
+    iterator.obj.retain()
+
+    try {
+      iterator.foreachByVar(f)
+    } finally {
+      iterator.obj.release()
+    }
+  }
 }
 
 object PIteratorAggregate extends PInterface {
@@ -45,4 +59,5 @@ object PIteratorAggregate extends PInterface {
       }
     }
   }
+
 }

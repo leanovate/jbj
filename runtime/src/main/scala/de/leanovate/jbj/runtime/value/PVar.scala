@@ -55,6 +55,17 @@ class PVar(private var current: Option[PConcreteVal] = None) extends PAny {
 
   override def asVar = this
 
+  override def foreachByVal(f: (PVal, PAny) => Unit)(implicit ctx: Context) {
+    if ( refCount > 1)
+      value.foreachByVar(f)
+    else
+      value.foreachByVal(f)
+  }
+
+  override def foreachByVar(f: (PVal, PVar) => Unit)(implicit ctx: Context) {
+    value.foreachByVar(f)
+  }
+
   override def toString: String = {
     val builder = new StringBuilder("PVar@")
     builder.append(hashCode())

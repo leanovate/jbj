@@ -46,4 +46,12 @@ trait PVal extends PAny {
   def concrete: PConcreteVal
 
   def toXml: NodeSeq = NodeSeq.Empty
+
+  override def foreachByVal(f: (PVal, PAny) => Unit)(implicit ctx: Context) {
+    ctx.log.warn("Invalid argument supplied for foreach()")
+  }
+
+  override def foreachByVar(f: (PVal, PVar) => Unit)(implicit ctx: Context) {
+    ctx.log.warn("Invalid argument supplied for foreach()")
+  }
 }
