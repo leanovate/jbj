@@ -18,7 +18,14 @@ class ArrayVal(private val keyValueMap: ExtendedLinkedHashMap[Any]) extends PCon
 
   private var _refCount = 0
 
-  private val iteratorStateHolder = new Holder[IteratorState](keyValueMap.iteratorState)
+  private val iteratorStateHolder = new Holder[IteratorState](keyValueMap.iteratorState(new KeyFilter[Any] {
+    def accept(key: Any) = true
+
+    def mapKey(key: Any)(implicit ctx: Context) = key match {
+      case key: Long => IntegerVal(key)
+      case key: String => StringVal(key)
+    }
+  }))
 
   def refCount = _refCount
 

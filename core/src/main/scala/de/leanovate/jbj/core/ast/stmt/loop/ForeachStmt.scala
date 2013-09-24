@@ -9,7 +9,6 @@ package de.leanovate.jbj.core.ast.stmt.loop
 
 import de.leanovate.jbj.core.ast._
 import de.leanovate.jbj.runtime._
-import scala.annotation.tailrec
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.runtime.context.Context
@@ -17,7 +16,6 @@ import de.leanovate.jbj.buildins.types.{PIteratorAggregate, PIterator}
 import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.ReturnExecResult
 import de.leanovate.jbj.runtime.ContinueExecResult
-import de.leanovate.jbj.core.ast.expr.ReferableExprParam
 
 case class ForeachStmt(valueExpr: Expr,
                        keyAssign: Option[ForeachAssignment],
@@ -47,6 +45,9 @@ case class ForeachStmt(valueExpr: Expr,
         val iterator = PIterator.cast(obj)
         iterator.rewind()
         execIterator(iterator)
+      case obj: ObjectVal =>
+        obj.iteratorReset()
+        execValues(obj, obj.iteratorState.copy(fixedEntries = !isReferenced && !valueAssign.hasValueRef))
       case _ =>
         ctx.log.warn("Invalid argument supplied for foreach()")
         SuccessExecResult
@@ -54,6 +55,35 @@ case class ForeachStmt(valueExpr: Expr,
   }
 
   private def execValues(array: ArrayVal, iteratorState: IteratorState)(implicit context: Context): ExecResult = {
+    while (iteratorState.hasNext) {
+      keyAssign.foreach(_.assignKey(iteratorState.currentKey))
+      val value = if (valueAssign.hasValueRef) {
+        iteratorState.currentValue match {
+          case pVar: PVar =>
+            pVar
+          case pVal: PVal =>
+            val pVar = PVar(pVal)
+            iteratorState.currentValue = pVar
+            pVar
+        }
+      } else {
+        iteratorState.currentValue
+      }
+      valueAssign.assignValue(value)
+      iteratorState.advance()
+      array.iteratorState = iteratorState.copy(fixedEntries = false)
+      execStmts(stmts) match {
+        case BreakExecResult(depth) if depth > 1 => return BreakExecResult(depth - 1)
+        case BreakExecResult(_) => return SuccessExecResult
+        case ContinueExecResult(depth) if depth > 1 => return ContinueExecResult(depth - 1)
+        case result: ReturnExecResult => return result
+        case _ =>
+      }
+    }
+    SuccessExecResult
+  }
+
+  private def execValues(array: ObjectVal, iteratorState: IteratorState)(implicit context: Context): ExecResult = {
     while (iteratorState.hasNext) {
       keyAssign.foreach(_.assignKey(iteratorState.currentKey))
       val value = if (valueAssign.hasValueRef) {

@@ -71,53 +71,169 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |// From php.net/foreach:
-        |// "Unless the array is referenced, foreach operates on a copy of the specified array."
         |
-        |echo "\nRemove elements from a referenced array during loop\n";
-        |$refedArray=array("original.0", "original.1", "original.2");
-        |$ref=&$refedArray;
-        |foreach ($refedArray as $k=>$v1) {
-        |	array_pop($refedArray);
-        |	echo "key: $k; value: $v1\n";
+        |class C {
+        |	public $a = "Original a";
+        |	public $b = "Original b";
+        |	public $c = "Original c";
+        |	protected $d = "Original d";
+        |	private $e = "Original e";
+        |
+        |	function doForEachC() {
+        |		echo "in C::doForEachC\n";
+        |		foreach ($this as $k=>&$v) {
+        |			var_dump($v);
+        |			$v="changed.$k";
+        |		}
+        |	}
+        |
+        |	static function doForEach($obj) {
+        |		echo "in C::doForEach\n";
+        |		foreach ($obj as $k=>&$v) {
+        |			var_dump($v);
+        |			$v="changed.$k";
+        |		}
+        |	}
+        |
+        |	function doForEachOnThis() {
+        |		echo "in C::doForEachOnThis\n";
+        |		foreach ($this as $k=>&$v) {
+        |			var_dump($v);
+        |			$v="changed.$k";
+        |		}
+        |	}
+        |
         |}
         |
-        |echo "\nRemove elements from a referenced array during loop, using &\$value\n";
-        |$refedArray=array("original.0", "original.1", "original.2");
-        |$ref=&$refedArray;
-        |foreach ($refedArray as $k=>&$v2) {
-        |	array_pop($refedArray);
-        |	echo "key: $k; value: $v2\n";
-        |}
+        |class D extends C {
         |
-        |echo "\nAdd elements to a referenced array during loop\n";
-        |$refedArray=array("original.0", "original.1", "original.2");
-        |$ref=&$refedArray;
-        |$count=0;
-        |foreach ($refedArray as $k=>$v3) {
-        |	array_push($refedArray, "new.$k");
-        |	echo "key: $k; value: $v3\n";
+        |	private $f = "Original f";
+        |	protected $g = "Original g";
         |
-        |	if ($count++>5) {
-        |		echo "Loop detected, as expected.\n";
-        |		break;
+        |	static function doForEach($obj) {
+        |		echo "in D::doForEach\n";
+        |		foreach ($obj as $k=>&$v) {
+        |			var_dump($v);
+        |			$v="changed.$k";
+        |		}
+        |	}
+        |
+        |	function doForEachOnThis() {
+        |		echo "in D::doForEachOnThis\n";
+        |		foreach ($this as $k=>&$v) {
+        |			var_dump($v);
+        |			$v="changed.$k";
+        |		}
         |	}
         |}
         |
-        |echo "\nAdd elements to a referenced array during loop, using &\$value\n";
-        |$refedArray=array("original.0", "original.1", "original.2");
-        |$ref=&$refedArray;
-        |$count=0;
-        |foreach ($refedArray as $k=>&$v4) {
-        |	array_push($refedArray, "new.$k");
-        |	echo "key: $k; value: $v4\n";
+        |class E extends D {
+        |	public $a = "Overridden a";
+        |	public $b = "Overridden b";
+        |	public $c = "Overridden c";
+        |	protected $d = "Overridden d";
+        |	private $e = "Overridden e";
         |
-        |	if ($count++>5) {
-        |		echo "Loop detected, as expected.\n";
-        |		break;
+        |	static function doForEach($obj) {
+        |		echo "in E::doForEach\n";
+        |		foreach ($obj as $k=>&$v) {
+        |			var_dump($v);
+        |			$v="changed.$k";
+        |		}
+        |	}
+        |
+        |	function doForEachOnThis() {
+        |		echo "in E::doForEachOnThis\n";
+        |		foreach ($this as $k=>&$v) {
+        |			var_dump($v);
+        |			$v="changed.$k";
+        |		}
         |	}
         |}
         |
+        |echo "\n\nIterate over various generations from within overridden methods:\n";
+        |echo "\n--> Using instance of C:\n";
+        |$myC = new C;
+        |$myC->doForEachOnThis();
+        |var_dump($myC);
+        |echo "\n--> Using instance of D:\n";
+        |$myD = new D;
+        |$myD->doForEachOnThis();
+        |var_dump($myD);
+        |echo "\n--> Using instance of E:\n";
+        |$myE = new E;
+        |$myE->doForEachOnThis();
+        |var_dump($myE);
+        |
+        |echo "\n\nIterate over various generations from within an inherited method:\n";
+        |echo "\n--> Using instance of C:\n";
+        |$myC = new C;
+        |$myC->doForEachC();
+        |var_dump($myC);
+        |echo "\n--> Using instance of D:\n";
+        |$myD = new D;
+        |$myD->doForEachC();
+        |var_dump($myD);
+        |echo "\n--> Using instance of E:\n";
+        |$myE = new E;
+        |$myE->doForEachC();
+        |var_dump($myE);
+        |
+        |echo "\n\nIterate over various generations from within an overridden static method:\n";
+        |echo "\n--> Using instance of C:\n";
+        |$myC = new C;
+        |C::doForEach($myC);
+        |var_dump($myC);
+        |$myC = new C;
+        |D::doForEach($myC);
+        |var_dump($myC);
+        |$myC = new C;
+        |E::doForEach($myC);
+        |var_dump($myC);
+        |echo "\n--> Using instance of D:\n";
+        |$myD = new D;
+        |C::doForEach($myD);
+        |var_dump($myD);
+        |$myD = new D;
+        |D::doForEach($myD);
+        |var_dump($myD);
+        |$myD = new D;
+        |E::doForEach($myD);
+        |var_dump($myD);
+        |echo "\n--> Using instance of E:\n";
+        |$myE = new E;
+        |C::doForEach($myE);
+        |var_dump($myE);
+        |$myE = new E;
+        |D::doForEach($myE);
+        |var_dump($myE);
+        |$myE = new E;
+        |E::doForEach($myE);
+        |var_dump($myE);
+        |
+        |
+        |echo "\n\nIterate over various generations from outside the object:\n";
+        |echo "\n--> Using instance of C:\n";
+        |$myC = new C;
+        |foreach ($myC as $k=>&$v) {
+        |	var_dump($v);
+        |	$v="changed.$k";
+        |}
+        |var_dump($myC);
+        |echo "\n--> Using instance of D:\n";
+        |$myD = new D;
+        |foreach ($myD as $k=>&$v) {
+        |	var_dump($v);
+        |	$v="changed.$k";
+        |}
+        |var_dump($myD);
+        |echo "\n--> Using instance of E:\n";
+        |$myE = new E;
+        |foreach ($myE as $k=>&$v) {
+        |	var_dump($v);
+        |	$v="changed.$k";
+        |}
+        |var_dump($myE);
         |?>""".stripMargin)
   }
 }

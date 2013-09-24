@@ -22,7 +22,19 @@ trait ObjectVal extends PConcreteVal {
 
   private var _refCount = 0
 
-  private var iteratorState: Option[BufferedIterator[(Any, PAny)]] = None
+  private val iteratorStateHolder = new Holder[IteratorState](keyValueMap.iteratorState(new KeyFilter[Key] {
+    def accept(key: Key) = key match {
+      case IntKey(_) => true
+      case PublicKey(_) => true
+      case _ => false
+    }
+
+    def mapKey(key: Key)(implicit ctx: Context) = key match {
+      case IntKey(k) => IntegerVal(k)
+      case PublicKey(k) => StringVal(k)
+      case _ => throw new RuntimeException("Invalid key")
+    }
+  }))
 
   def refCount = _refCount
 
@@ -186,44 +198,24 @@ trait ObjectVal extends PConcreteVal {
     }
   }
 
-  def iteratorHasNext: Boolean = {
-    if (iteratorState.isEmpty) {
-      val it = keyValueMap.iterator
-      iteratorState = Some(it.buffered)
-    }
-    iteratorState.get.hasNext
+  def iteratorState = iteratorStateHolder.get()
+
+  def iteratorState_=(iteratorState: IteratorState) {
+    iteratorStateHolder.set(iteratorState)
   }
 
-  def iteratorCurrent(implicit ctx: Context): PVal =
-    if (!iteratorHasNext) {
-      BooleanVal.FALSE
-    } else {
-      iteratorState.get.head match {
-        case (key: Long, value) =>
-          ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
-            Some(IntegerVal(0)) -> IntegerVal(key), Some(StringVal("key")) -> IntegerVal(key))
-        case (key: String, value) =>
-          ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
-            Some(IntegerVal(0)) -> StringVal(key), Some(StringVal("key")) -> StringVal(key))
-      }
-    }
+  def iteratorHasNext: Boolean = iteratorStateHolder.get().hasNext
 
-  def iteratorNext(implicit ctx: Context): PVal =
-    if (!iteratorHasNext) {
-      BooleanVal.FALSE
-    } else {
-      iteratorState.get.next() match {
-        case (key: Long, value) =>
-          ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
-            Some(IntegerVal(0)) -> IntegerVal(key), Some(StringVal("key")) -> IntegerVal(key))
-        case (key: String, value) =>
-          ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
-            Some(IntegerVal(0)) -> StringVal(key), Some(StringVal("key")) -> StringVal(key))
-      }
-    }
+  def iteratorCurrent(implicit ctx: Context): PVal = iteratorStateHolder.get().current
+
+  def iteratorNext()(implicit ctx: Context): PVal = iteratorStateHolder.get().next
+
+  def iteratorAdvance() {
+    iteratorStateHolder.get().advance()
+  }
 
   def iteratorReset() {
-    iteratorState = None
+    iteratorStateHolder.clear()
   }
 
   def cleanup()(implicit ctx: Context) {

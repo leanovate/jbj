@@ -3,8 +3,14 @@ package de.leanovate.jbj.runtime.value
 import scala.collection.{Iterator, mutable}
 import de.leanovate.jbj.runtime.context.Context
 
+trait KeyFilter[A] {
+  def accept(key: A): Boolean
+
+  def mapKey(key: A)(implicit ctx: Context): PVal
+}
+
 class ExtendedLinkedHashMap[A] extends mutable.LinkedHashMap[A, PAny] {
-  def iteratorState = new FloatingIteratorState(firstEntry)
+  def iteratorState(keyFilter: KeyFilter[A]) = new FloatingIteratorState(keyFilter, firstEntry)
 
   def mapDirect[B](f: ((A, PAny)) => (B, PAny)): ExtendedLinkedHashMap[B] = {
     val b = new ExtendedLinkedHashMap[B]
@@ -14,10 +20,14 @@ class ExtendedLinkedHashMap[A] extends mutable.LinkedHashMap[A, PAny] {
 
   override def clone(): ExtendedLinkedHashMap[A] = new ExtendedLinkedHashMap[A] ++= repr
 
-  class FloatingIteratorState(private var cur: Entry) extends IteratorState {
-    override protected def currentKeyValue = {
+  class FloatingIteratorState(keyFilter: KeyFilter[A], private var cur: Entry) extends IteratorState {
+    while ((cur ne null) && !keyFilter.accept(cur.key)) {
+      cur = cur.later
+    }
+
+    override protected def currentKeyValue(implicit ctx: Context) = {
       if (hasNext)
-        (cur.key, cur.value)
+        (keyFilter.mapKey(cur.key), cur.value)
       else
         Iterator.empty.next()
     }
@@ -31,8 +41,10 @@ class ExtendedLinkedHashMap[A] extends mutable.LinkedHashMap[A, PAny] {
     override def hasNext = cur ne null
 
     override def advance() {
-      if (hasNext)
+      cur = cur.later
+      while ((cur ne null) && !keyFilter.accept(cur.key)) {
         cur = cur.later
+      }
     }
 
     override def copy(fixedEntries: Boolean) = {
@@ -41,19 +53,20 @@ class ExtendedLinkedHashMap[A] extends mutable.LinkedHashMap[A, PAny] {
         var c = cur
 
         while (c ne null) {
-          builder += c
+          if (keyFilter.accept(c.key))
+            builder += c
           c = c.later
         }
-        new FixedEntryIteratorState(builder.result().iterator.buffered)
+        new FixedEntryIteratorState(keyFilter, builder.result().iterator.buffered)
       } else
-        new FloatingIteratorState(cur)
+        new FloatingIteratorState(keyFilter, cur)
     }
   }
 
-  class FixedEntryIteratorState(iterator: BufferedIterator[Entry]) extends IteratorState {
-    override protected def currentKeyValue = {
+  class FixedEntryIteratorState(keyFilter: KeyFilter[A], iterator: BufferedIterator[Entry]) extends IteratorState {
+    override protected def currentKeyValue(implicit ctx: Context) = {
       if (hasNext)
-        (iterator.head.key, iterator.head.value)
+        (keyFilter.mapKey(iterator.head.key), iterator.head.value)
       else
         Iterator.empty.next()
     }
@@ -78,15 +91,17 @@ class ExtendedLinkedHashMap[A] extends mutable.LinkedHashMap[A, PAny] {
           var c = iterator.head
 
           while (c ne null) {
-            builder += c
+            if (keyFilter.accept(c.key))
+              builder += c
             c = c.later
           }
-          new FixedEntryIteratorState(builder.result().iterator.buffered)
+          new FixedEntryIteratorState(keyFilter, builder.result().iterator.buffered)
         } else
-          new FloatingIteratorState(iterator.head)
+          new FloatingIteratorState(keyFilter, iterator.head)
       } else {
-        new FloatingIteratorState(null)
+        new FloatingIteratorState(keyFilter, null)
       }
     }
   }
+
 }

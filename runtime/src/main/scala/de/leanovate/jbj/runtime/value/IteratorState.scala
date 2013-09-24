@@ -10,11 +10,11 @@ package de.leanovate.jbj.runtime.value
 import de.leanovate.jbj.runtime.context.Context
 
 trait IteratorState {
-  protected def currentKeyValue: (Any, PAny)
+  protected def currentKeyValue(implicit ctx: Context): (PVal, PAny)
 
-  def currentKey(implicit ctx: Context): PVal = mapKey(currentKeyValue._1)
+  def currentKey(implicit ctx: Context): PVal = currentKeyValue._1
 
-  def currentValue: PAny = currentKeyValue._2
+  def currentValue(implicit ctx: Context): PAny = currentKeyValue._2
 
   def currentValue_=(pAny: PAny)(implicit ctx: Context)
 
@@ -26,29 +26,20 @@ trait IteratorState {
 
   def current(implicit ctx: Context): PVal =
     if (hasNext)
-      keyValueArray(currentKeyValue)
+      keyValueArray(currentKey, currentValue)
     else
       BooleanVal.FALSE
 
   def next()(implicit ctx: Context): PVal =
     if (hasNext) {
-      val result = keyValueArray(currentKeyValue)
+      val result = keyValueArray(currentKey, currentValue)
       advance()
       result
     } else
       BooleanVal.FALSE
 
-  private def mapKey(key: Any)(implicit ctx: Context): PVal = key match {
-    case key: Long => IntegerVal(key)
-    case key: String => StringVal(key)
-  }
-
-  private def keyValueArray(keyValue: (Any, PAny))(implicit ctx: Context): PVal = keyValue match {
-    case (key: Long, value) =>
-      ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
-        Some(IntegerVal(0)) -> IntegerVal(key), Some(StringVal("key")) -> IntegerVal(key))
-    case (key: String, value) =>
-      ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
-        Some(IntegerVal(0)) -> StringVal(key), Some(StringVal("key")) -> StringVal(key))
+  private def keyValueArray(key: PVal, value: PAny)(implicit ctx: Context): PVal = {
+    ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
+      Some(IntegerVal(0)) -> key, Some(StringVal("key")) -> key)
   }
 }
