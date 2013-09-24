@@ -39,6 +39,7 @@ object PException extends PClass {
   override def newInstance(parameters: List[PParam])(implicit ctx: Context) = {
     val instance = newEmptyInstance(this)
 
+    initializeInstance(instance)
     parameters.map(_.byVal) match {
       case msg :: Nil =>
         instance.definePublicProperty("message", msg.toStr)
@@ -66,6 +67,16 @@ object PException extends PClass {
           NullVal
         } else {
           instance.getProperty("message", None).getOrElse(NullVal)
+        }
+      }
+    },
+    new InstanceMethod(this, "getLine") {
+      def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = {
+        if (parameters.length > 0) {
+          callerCtx.log.warn("Exception::getLine() expects exactly 0 parameters, %d given".format(parameters.length))
+          NullVal
+        } else {
+          instance.getProperty("line", None).getOrElse(NullVal)
         }
       }
     }
