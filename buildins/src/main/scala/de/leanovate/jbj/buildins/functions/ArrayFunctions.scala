@@ -155,6 +155,25 @@ object ArrayFunctions {
   }
 
   @GlobalFunction
+  def array_unshift(ref: PVar, values: PVal*)(implicit ctx: Context): PVal = {
+    if (values.isEmpty) {
+      ctx.log.warn("array_unshift() expects at least 2 parameters, 1 given")
+      NullVal
+    } else {
+      ref.value match {
+        case array: ArrayVal =>
+          array.prepend(values: _*)
+          array.iteratorReset()
+          array.count
+        case pVal =>
+          ctx.log.warn("array_unshift() expects parameter 1 to be array, %s given".format(pVal.typeName))
+          NullVal
+      }
+    }
+
+  }
+
+  @GlobalFunction
   def array_walk(value: PVal, callback: PVal, optUserdata: Option[PVal])(implicit ctx: Context) {
     val withKeys = CallbackHelper.callbackParams(callback).headOption.exists(_.size >= 2)
     val byRef = CallbackHelper.callbackParams(callback).headOption.exists(_.headOption.exists(_.byRef))
@@ -221,14 +240,14 @@ object ArrayFunctions {
   def current(value: PVal)(implicit ctx: Context): PVal = value match {
     case array: ArrayVal =>
       array.iteratorCurrent match {
-        case keyValue : ArrayVal =>
+        case keyValue: ArrayVal =>
           keyValue.getAt("value").get.asVal
         case _ =>
           BooleanVal.FALSE
       }
     case obj: ObjectVal =>
       obj.iteratorCurrent match {
-        case keyValue : ArrayVal =>
+        case keyValue: ArrayVal =>
           keyValue.getAt("value").get.asVal
         case _ =>
           BooleanVal.FALSE
@@ -242,14 +261,14 @@ object ArrayFunctions {
   def key(value: PVal)(implicit ctx: Context): PVal = value match {
     case array: ArrayVal =>
       array.iteratorCurrent match {
-        case keyValue : ArrayVal =>
+        case keyValue: ArrayVal =>
           keyValue.getAt("key").get.asVal
         case _ =>
           BooleanVal.FALSE
       }
     case obj: ObjectVal =>
       obj.iteratorCurrent match {
-        case keyValue : ArrayVal =>
+        case keyValue: ArrayVal =>
           keyValue.getAt("key").get.asVal
         case _ =>
           BooleanVal.FALSE

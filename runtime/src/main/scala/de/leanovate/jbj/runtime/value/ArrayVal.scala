@@ -9,7 +9,7 @@ package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.context.Context
 
-class ArrayVal(private val keyValueMap: ExtendedLinkedHashMap[Any]) extends PConcreteVal with ArrayLike {
+class ArrayVal(private var keyValueMap: ExtendedLinkedHashMap[Any]) extends PConcreteVal with ArrayLike {
 
   private var maxIndex: Long = (-1L :: keyValueMap.keys.map {
     case idx: Long => idx
@@ -115,6 +115,25 @@ class ArrayVal(private val keyValueMap: ExtendedLinkedHashMap[Any]) extends PCon
     keyValueMap.get(index).foreach(_.release())
     keyValueMap.put(index, value)
     value
+  }
+
+  def prepend(values: PAny*)(implicit ctx: Context) {
+    var index: Long = 0
+    val newKeyValueMap = new ExtendedLinkedHashMap[Any]
+    values.foreach {
+      value =>
+        value.retain()
+        newKeyValueMap.put(index, value)
+        index += 1
+    }
+    keyValueMap.foreach {
+      case (_: Long, value) =>
+        newKeyValueMap.put(index, value)
+        index += 1
+      case (key: String, value) =>
+        newKeyValueMap.put(key, value)
+    }
+    keyValueMap = newKeyValueMap
   }
 
   override def append(value: PAny)(implicit ctx: Context) = {

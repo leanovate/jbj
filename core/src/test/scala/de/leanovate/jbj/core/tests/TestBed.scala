@@ -71,67 +71,70 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |class c_iter implements Iterator {
         |
-        |	private $obj;
-        |	private $num = 0;
+        |define('MAX_LOOPS',5);
         |
-        |	function __construct($obj) {
-        |		echo __METHOD__ . "\n";
-        |		$this->obj = $obj;
+        |function withRefValue($elements, $transform) {
+        |	echo "\n---( Array with $elements element(s): )---\n";
+        |	//Build array:
+        |	for ($i=0; $i<$elements; $i++) {
+        |		$a[] = "v.$i";
         |	}
-        |	function rewind() {
-        |		echo __METHOD__ . "\n";
-        |		$this->num = 0;
-        |	}
-        |	function valid() {
-        |		$more = $this->num < $this->obj->max;
-        |		echo __METHOD__ . ' = ' .($more ? 'true' : 'false') . "\n";
-        |		return $more;
-        |	}
-        |	function current() {
-        |		echo __METHOD__ . "\n";
-        |		return $this->num;
-        |	}
-        |	function next() {
-        |		echo __METHOD__ . "\n";
-        |		$this->num++;
-        |	}
-        |	function key() {
-        |		echo __METHOD__ . "\n";
-        |		switch($this->num) {
-        |			case 0: return "1st";
-        |			case 1: return "2nd";
-        |			case 2: return "3rd";
-        |			default: return "???";
+        |	$counter=0;
+        |
+        |	echo "--> State of array before loop:\n";
+        |	var_dump($a);
+        |
+        |	echo "--> Do loop:\n";
+        |	foreach ($a as $k=>$v) {
+        |		echo "     iteration $counter:  \$k=$k; \$v=$v\n";
+        |		eval($transform);
+        |		$counter++;
+        |		if ($counter>MAX_LOOPS) {
+        |			echo "  ** Stuck in a loop! **\n";
+        |			break;
         |		}
         |	}
-        |	function __destruct() {
-        |	}
+        |
+        |	echo "--> State of array after loop:\n";
+        |	var_dump($a);
         |}
         |
-        |class c implements IteratorAggregate {
         |
-        |	public $max = 3;
+        |echo "\nPopping elements off end of an unreferenced array";
+        |$transform = 'array_pop($a);';
+        |withRefValue(1, $transform);
+        |withRefValue(2, $transform);
+        |withRefValue(3, $transform);
+        |withRefValue(4, $transform);
         |
-        |	function getIterator() {
-        |		echo __METHOD__ . "\n";
-        |		return new c_iter($this);
-        |	}
-        |	function __destruct() {
-        |	}
-        |}
+        |echo "\n\n\nShift elements off start of an unreferenced array";
+        |$transform = 'array_shift($a);';
+        |withRefValue(1, $transform);
+        |withRefValue(2, $transform);
+        |withRefValue(3, $transform);
+        |withRefValue(4, $transform);
         |
-        |$t = new c();
+        |echo "\n\n\nRemove current element of an unreferenced array";
+        |$transform = 'unset($a[$k]);';
+        |withRefValue(1, $transform);
+        |withRefValue(2, $transform);
+        |withRefValue(3, $transform);
+        |withRefValue(4, $transform);
         |
-        |foreach($t as $k => $v) {
-        |	foreach($t as $w) {
-        |		echo "double:$v:$w\n";
-        |		break;
-        |	}
-        |}
+        |echo "\n\n\nAdding elements to the end of an unreferenced array";
+        |$transform = 'array_push($a, "new.$counter");';
+        |withRefValue(1, $transform);
+        |withRefValue(2, $transform);
+        |withRefValue(3, $transform);
+        |withRefValue(4, $transform);
         |
-        |unset($t);
+        |echo "\n\n\nAdding elements to the start of an unreferenced array";
+        |$transform = 'array_unshift($a, "new.$counter");';
+        |withRefValue(1, $transform);
+        |withRefValue(2, $transform);
+        |withRefValue(3, $transform);
+        |withRefValue(4, $transform);
         |
         |?>
         |""".stripMargin)
