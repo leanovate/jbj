@@ -97,8 +97,4 @@ trait PAny {
     case value: StringVal => ~value
     case value => ~value.toInteger
   }
-
-  def foreachByVal[R](f: (PVal, PAny) => Option[R], fixedEntries:Boolean)(implicit ctx: Context): Option[R]
-
-  def foreachByVar[R](f: (PVal, PVar) => Option[R])(implicit ctx: Context): Option[R]
 }

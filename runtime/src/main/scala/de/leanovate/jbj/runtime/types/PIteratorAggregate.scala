@@ -27,17 +27,6 @@ trait PIteratorAggregate {
       iterator.obj.release()
     }
   }
-
-  def foreachByVar[R](f: (PVal, PVar) => Option[R])(implicit ctx: Context): Option[R] = {
-    val iterator = getIterator()
-    iterator.obj.retain()
-
-    try {
-      iterator.foreachByVar(f)
-    } finally {
-      iterator.obj.release()
-    }
-  }
 }
 
 object PIteratorAggregate extends PInterface {
@@ -68,5 +57,4 @@ object PIteratorAggregate extends PInterface {
       }
     }
   }
-
 }

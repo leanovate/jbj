@@ -42,10 +42,6 @@ trait PIterator {
     }
     result
   }
-
-  def foreachByVar[R](f: (PVal, PVar) => Option[R])(implicit ctx: Context): Option[R] = {
-    throw new FatalErrorJbjException("An iterator cannot be used with foreach by reference")
-  }
 }
 
 object PIterator extends PInterface {

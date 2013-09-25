@@ -188,34 +188,13 @@ class ArrayVal(private var keyValueMap: ExtendedLinkedHashMap[Any]) extends PCon
     keyValueMap.values.foreach(_.release())
   }
 
-  override def foreachByVal[R](f: (PVal, PAny) => Option[R], fixedEntries: Boolean)(implicit ctx: Context) = {
+  override def foreachByVal[R](f: (PVal, PAny) => Option[R])(implicit ctx: Context) = {
     iteratorReset()
-    val it = iteratorState.copy(fixedEntries)
+    val it = iteratorState.copy(fixedEntries = true)
     var result = Option.empty[R]
     while (it.hasNext && result.isEmpty) {
       val key = it.currentKey
       val value = it.currentValue
-      it.advance()
-      iteratorState = it.copy(fixedEntries = false)
-      result = f(key, value)
-    }
-    result
-  }
-
-  override def foreachByVar[R](f: (PVal, PVar) => Option[R])(implicit ctx: Context) = {
-    iteratorReset()
-    val it = iteratorState.copy(fixedEntries = false)
-    var result = Option.empty[R]
-    while (it.hasNext && result.isEmpty) {
-      val key = it.currentKey
-      val value = it.currentValue match {
-        case pVar: PVar =>
-          pVar
-        case pVal: PVal =>
-          val pVar = PVar(pVal)
-          it.currentValue = pVar
-          pVar
-      }
       it.advance()
       iteratorState = it.copy(fixedEntries = false)
       result = f(key, value)

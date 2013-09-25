@@ -10,7 +10,8 @@ package de.leanovate.jbj.runtime
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context.Context
 import scala.Some
-import de.leanovate.jbj.runtime.types.PArrayAccess
+import de.leanovate.jbj.runtime.types.{PIterator, PIteratorAggregate, PArrayAccess}
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 trait Reference {
   def isConstant: Boolean
@@ -58,7 +59,7 @@ trait Reference {
       byVal.concrete match {
         case obj: ObjectVal if obj.instanceOf(PArrayAccess) =>
           new ObjectDimReference(PArrayAccess.cast(obj), optKey)
-        case str:StringVal =>
+        case str: StringVal =>
           new StringDimReference(str, optKey)
         case _ =>
           new ArrayDimReference(this, optKey)
@@ -68,6 +69,66 @@ trait Reference {
   }
 
   def prop(name: String)(implicit ctx: Context) = new PropReference(this, name)
+
+  def foreachByVal[R](f: (PVal, PAny) => Option[R])(implicit ctx: Context) = {
+    if (byVar.refCount > 1) {
+      foreachByVar(f)
+    } else {
+      byVal.concrete.foreachByVal(f)
+    }
+  }
+
+  def foreachByVar[R](f: (PVal, PVar) => Option[R])(implicit ctx: Context) = {
+    byVal.concrete match {
+      case array: ArrayVal =>
+        array.iteratorReset()
+        val it = array.iteratorState.copy(fixedEntries = false)
+        var result = Option.empty[R]
+        while (it.hasNext && result.isEmpty) {
+          val key = it.currentKey
+          val value = it.currentValue match {
+            case pVar: PVar =>
+              pVar
+            case pVal: PVal =>
+              val pVar = PVar(pVal)
+              it.currentValue = pVar
+              pVar
+          }
+          it.advance()
+          array.iteratorState = it.copy(fixedEntries = false)
+          result = f(key, value)
+        }
+        result
+      case obj: ObjectVal =>
+        if (obj.instanceOf(PIteratorAggregate))
+          throw new FatalErrorJbjException("An iterator cannot be used with foreach by reference")
+        else if (obj.instanceOf(PIterator))
+          throw new FatalErrorJbjException("An iterator cannot be used with foreach by reference")
+        else {
+          obj.iteratorReset()
+          val it = obj.iteratorState.copy(fixedEntries = true)
+          var result = Option.empty[R]
+          while (it.hasNext && result.isEmpty) {
+            val key = it.currentKey
+            val value = it.currentValue match {
+              case pVar: PVar =>
+                pVar
+              case pVal: PVal =>
+                val pVar = PVar(pVal)
+                obj.iteratorState.currentValue = pVar
+                pVar
+            }
+            it.advance()
+            obj.iteratorState = it.copy(fixedEntries = false)
+            result = f(key, value)
+          }
+          result
+        }
+      case _ =>
+        ctx.log.warn("Invalid argument supplied for foreach()")
+        None
+    }
+  }
 }
 
 object Reference {

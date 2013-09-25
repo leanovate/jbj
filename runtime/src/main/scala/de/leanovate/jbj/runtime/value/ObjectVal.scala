@@ -222,45 +222,18 @@ trait ObjectVal extends PConcreteVal {
     keyValueMap.values.foreach(_.release())
   }
 
-  override def foreachByVal[R](f: (PVal, PAny) => Option[R], fixedEntries: Boolean)(implicit ctx: Context) = {
+  override def foreachByVal[R](f: (PVal, PAny) => Option[R])(implicit ctx: Context) = {
     if (PIteratorAggregate.isAssignableFrom(pClass))
       PIteratorAggregate.cast(this).foreachByVal(f)
     else if (PIterator.isAssignableFrom(pClass))
       PIterator.cast(this).foreachByVal(f)
     else {
       iteratorReset()
-      val it = iteratorState.copy(fixedEntries)
-      var result = Option.empty[R]
-      while (it.hasNext && result.isEmpty) {
-        val key = it.currentKey
-        val value = it.currentValue
-        it.advance()
-        iteratorState = it.copy(fixedEntries = false)
-        result = f(key, value)
-      }
-      result
-    }
-  }
-
-  override def foreachByVar[R](f: (PVal, PVar) => Option[R])(implicit ctx: Context) = {
-    if (PIteratorAggregate.isAssignableFrom(pClass))
-      PIteratorAggregate.cast(this).foreachByVar(f)
-    else if (PIterator.isAssignableFrom(pClass))
-      PIterator.cast(this).foreachByVar(f)
-    else {
-      iteratorReset()
       val it = iteratorState.copy(fixedEntries = true)
       var result = Option.empty[R]
       while (it.hasNext && result.isEmpty) {
         val key = it.currentKey
-        val value = it.currentValue match {
-          case pVar: PVar =>
-            pVar
-          case pVal: PVal =>
-            val pVar = PVar(pVal)
-            iteratorState.currentValue = pVar
-            pVar
-        }
+        val value = it.currentValue
         it.advance()
         iteratorState = it.copy(fixedEntries = false)
         result = f(key, value)

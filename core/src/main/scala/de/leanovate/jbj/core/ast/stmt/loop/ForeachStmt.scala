@@ -16,6 +16,7 @@ import de.leanovate.jbj.runtime.BreakExecResult
 import de.leanovate.jbj.runtime.ReturnExecResult
 import de.leanovate.jbj.runtime.ContinueExecResult
 import de.leanovate.jbj.runtime.types.{PIteratorAggregate, PIterator}
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class ForeachStmt(valueExpr: Expr,
                        keyAssign: Option[ForeachAssignment],
@@ -23,17 +24,18 @@ case class ForeachStmt(valueExpr: Expr,
                        stmts: List[Stmt]) extends Stmt with BlockLike {
 
   def exec(implicit ctx: Context): ExecResult = {
-    val (value, isReferenced) = valueExpr match {
+    valueExpr match {
       case refExpr: RefExpr =>
         val ref = refExpr.evalRef
-        ref.byVal.concrete -> (ref.byVar.refCount > 1)
+        if (valueAssign.hasValueRef)
+          ref.foreachByVar(execKeyValue).getOrElse(SuccessExecResult)
+        else
+          ref.foreachByVal(execKeyValue).getOrElse(SuccessExecResult)
       case expr =>
-        expr.eval.concrete -> false
-    }
-    if (valueAssign.hasValueRef) {
-      value.foreachByVar(execKeyValue).getOrElse(SuccessExecResult)
-    } else {
-      value.foreachByVal(execKeyValue, fixedEntries = !isReferenced).getOrElse(SuccessExecResult)
+        if (valueAssign.hasValueRef)
+          throw new FatalErrorJbjException("Cannot create references to elements of a temporary array expression")
+        else
+          expr.eval.foreachByVal(execKeyValue).getOrElse(SuccessExecResult)
     }
   }
 

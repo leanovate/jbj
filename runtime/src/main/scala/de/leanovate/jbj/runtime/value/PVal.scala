@@ -47,12 +47,7 @@ trait PVal extends PAny {
 
   def toXml: NodeSeq = NodeSeq.Empty
 
-  override def foreachByVal[R](f: (PVal, PAny) => Option[R], fixedEntries:Boolean)(implicit ctx: Context): Option[R] = {
-    ctx.log.warn("Invalid argument supplied for foreach()")
-    None
-  }
-
-  override def foreachByVar[R](f: (PVal, PVar) => Option[R])(implicit ctx: Context): Option[R] = {
+  def foreachByVal[R](f: (PVal, PAny) => Option[R])(implicit ctx: Context): Option[R] = {
     ctx.log.warn("Invalid argument supplied for foreach()")
     None
   }
