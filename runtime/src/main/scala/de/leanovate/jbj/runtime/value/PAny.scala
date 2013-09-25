@@ -66,7 +66,7 @@ trait PAny {
 
   def %(other: PAny): PVal = this.asVal.toInteger % other.asVal.toInteger
 
-  def !(other: PAny)(implicit ctx: Context): PVal = this.asVal.toStr ! other.asVal.toStr
+  def __(other: PAny)(implicit ctx: Context): PVal = this.asVal.toStr __ other.asVal.toStr
 
   def &(other: PAny): PVal = (this.asVal, other.asVal) match {
     case (leftVal: StringVal, rightVal: StringVal) => leftVal & rightVal
