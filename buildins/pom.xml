@@ -42,22 +42,14 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.scala-tools</groupId>
-                <artifactId>maven-scala-plugin</artifactId>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>main-scalac</id>
                         <goals>
                             <goal>compile</goal>
-                        </goals>
-                        <phase>compile</phase>
-                    </execution>
-                    <execution>
-                        <id>test-scalac</id>
-                        <goals>
                             <goal>testCompile</goal>
                         </goals>
-                        <phase>test-compile</phase>
                     </execution>
                 </executions>
             </plugin>
