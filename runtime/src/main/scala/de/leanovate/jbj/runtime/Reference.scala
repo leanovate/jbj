@@ -99,6 +99,17 @@ trait Reference {
     val position = ctx.currentPosition
     var result = Option.empty[R]
     while (currentIt.hasNext && result.isEmpty) {
+      ctx.currentPosition = position
+      byVal.concrete match {
+        case array: ArrayVal =>
+          currentIt = array.updateIteratorState(currentIt.copy(fixedEntries = false))
+        case obj: ObjectVal =>
+          currentIt = obj.updateIteratorState(currentIt.copy(fixedEntries = false))
+        case _ =>
+          ctx.log.warn("Invalid argument supplied for foreach()")
+          return Option.empty[R]
+      }
+
       val key = currentIt.currentKey
       val value = currentIt.currentValue match {
         case pVar: PVar =>
@@ -109,14 +120,11 @@ trait Reference {
           pVar
       }
       currentIt.advance()
-      ctx.currentPosition = position
       byVal.concrete match {
         case array: ArrayVal =>
           result = f(key, value)
-          currentIt = array.updateIteratorState(currentIt.copy(fixedEntries = false))
         case obj: ObjectVal =>
           result = f(key, value)
-          currentIt = obj.updateIteratorState(currentIt.copy(fixedEntries = false))
         case _ =>
           ctx.log.warn("Invalid argument supplied for foreach()")
           return Option.empty[R]

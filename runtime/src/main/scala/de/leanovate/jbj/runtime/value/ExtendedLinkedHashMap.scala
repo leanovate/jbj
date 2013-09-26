@@ -62,7 +62,12 @@ class ExtendedLinkedHashMap[A] extends mutable.LinkedHashMap[A, PAny] {
         new FloatingIteratorState(keyFilter, cur)
     }
 
-    override def isCompatible(map: mutable.LinkedHashMap[_, _]) = true
+    override def isCompatible(map: mutable.LinkedHashMap[_, _]) = map match {
+      case extendedMap: ExtendedLinkedHashMap[A] if cur ne null =>
+        extendedMap.findEntry(cur.key) eq cur
+      case extendedMap: ExtendedLinkedHashMap[A] => true
+      case _ => false
+    }
   }
 
   class FixedEntryIteratorState(keyFilter: KeyFilter[A], iterator: BufferedIterator[Entry]) extends IteratorState {
@@ -107,4 +112,5 @@ class ExtendedLinkedHashMap[A] extends mutable.LinkedHashMap[A, PAny] {
 
     override def isCompatible(map: mutable.LinkedHashMap[_, _]) = true
   }
+
 }
