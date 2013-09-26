@@ -71,70 +71,23 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |
-        |define('MAX_LOOPS',5);
-        |
-        |function withRefValue($elements, $transform) {
-        |	echo "\n---( Array with $elements element(s): )---\n";
-        |	//Build array:
-        |	for ($i=0; $i<$elements; $i++) {
-        |		$a[] = "v.$i";
-        |	}
-        |	$counter=0;
-        |
-        |	echo "--> State of array before loop:\n";
-        |	var_dump($a);
-        |
-        |	echo "--> Do loop:\n";
-        |	foreach ($a as $k=>$v) {
-        |		echo "     iteration $counter:  \$k=$k; \$v=$v\n";
-        |		eval($transform);
-        |		$counter++;
-        |		if ($counter>MAX_LOOPS) {
-        |			echo "  ** Stuck in a loop! **\n";
-        |			break;
-        |		}
-        |	}
-        |
-        |	echo "--> State of array after loop:\n";
-        |	var_dump($a);
+        |echo "\nChange from array to non iterable:\n";
+        |$a = array(1,2,3);
+        |$b=&$a;
+        |foreach ($a as $v) {
+        |	var_dump($v);
+        |	$b=1;
         |}
         |
-        |
-        |echo "\nPopping elements off end of an unreferenced array";
-        |$transform = 'array_pop($a);';
-        |withRefValue(1, $transform);
-        |withRefValue(2, $transform);
-        |withRefValue(3, $transform);
-        |withRefValue(4, $transform);
-        |
-        |echo "\n\n\nShift elements off start of an unreferenced array";
-        |$transform = 'array_shift($a);';
-        |withRefValue(1, $transform);
-        |withRefValue(2, $transform);
-        |withRefValue(3, $transform);
-        |withRefValue(4, $transform);
-        |
-        |echo "\n\n\nRemove current element of an unreferenced array";
-        |$transform = 'unset($a[$k]);';
-        |withRefValue(1, $transform);
-        |withRefValue(2, $transform);
-        |withRefValue(3, $transform);
-        |withRefValue(4, $transform);
-        |
-        |echo "\n\n\nAdding elements to the end of an unreferenced array";
-        |$transform = 'array_push($a, "new.$counter");';
-        |withRefValue(1, $transform);
-        |withRefValue(2, $transform);
-        |withRefValue(3, $transform);
-        |withRefValue(4, $transform);
-        |
-        |echo "\n\n\nAdding elements to the start of an unreferenced array";
-        |$transform = 'array_unshift($a, "new.$counter");';
-        |withRefValue(1, $transform);
-        |withRefValue(2, $transform);
-        |withRefValue(3, $transform);
-        |withRefValue(4, $transform);
+        |echo "\nChange from object to non iterable:\n";
+        |$a = new stdClass;
+        |$a->a=1;
+        |$a->b=2;
+        |$b=&$a;
+        |foreach ($a as $v) {
+        |	var_dump($v);
+        |	$b='x';
+        |}
         |
         |?>
         |""".stripMargin)

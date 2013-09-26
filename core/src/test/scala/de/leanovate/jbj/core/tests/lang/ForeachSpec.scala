@@ -631,6 +631,45 @@ class ForeachSpec extends SpecificationWithJUnit with TestJbjExecutor {
       )
     }
 
+    "Changing from an interable type to a non iterable type during the iteration" in {
+      // lang/foreachLoop.011.phpt
+      script(
+        """<?php
+          |echo "\nChange from array to non iterable:\n";
+          |$a = array(1,2,3);
+          |$b=&$a;
+          |foreach ($a as $v) {
+          |	var_dump($v);
+          |	$b=1;
+          |}
+          |
+          |echo "\nChange from object to non iterable:\n";
+          |$a = new stdClass;
+          |$a->a=1;
+          |$a->b=2;
+          |$b=&$a;
+          |foreach ($a as $v) {
+          |	var_dump($v);
+          |	$b='x';
+          |}
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Change from array to non iterable:
+          |int(1)
+          |
+          |Warning: Invalid argument supplied for foreach() in /lang/ForeachSpec.inlinePhp on line 5
+          |
+          |Change from object to non iterable:
+          |int(1)
+          |
+          |Warning: Invalid argument supplied for foreach() in /lang/ForeachSpec.inlinePhp on line 15
+          |""".stripMargin
+      )
+    }
+
     "Directly modifying an unreferenced array when foreach'ing over it." in {
       // lang/foreachLoop.012.phpt
       script(
