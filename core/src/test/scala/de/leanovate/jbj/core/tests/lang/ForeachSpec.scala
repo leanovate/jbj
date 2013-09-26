@@ -3063,5 +3063,21 @@ class ForeachSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Ensure foreach works with arrays with Binary keys." in {
+      // lang/foreachLoop.017.phpt
+      script(
+        """<?php
+          |$a = array ( "\x90" => 10 );
+          |foreach ($a as $val=>$key) echo $key;
+          |echo "\nDone\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """10
+          |Done
+          |""".stripMargin
+      )
+    }
   }
 }
