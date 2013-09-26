@@ -8,6 +8,7 @@
 package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.context.Context
+import scala.collection.mutable
 
 trait IteratorState {
   protected def currentKeyValue(implicit ctx: Context): (PVal, PAny)
@@ -37,6 +38,8 @@ trait IteratorState {
       result
     } else
       BooleanVal.FALSE
+
+  def isCompatible(map: mutable.LinkedHashMap[_, _]): Boolean
 
   private def keyValueArray(key: PVal, value: PAny)(implicit ctx: Context): PVal = {
     ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,

@@ -1,6 +1,6 @@
 package de.leanovate.jbj.runtime.value
 
-import scala.collection.{Iterator, mutable}
+import scala.collection.{mutable, Iterator}
 import de.leanovate.jbj.runtime.context.Context
 
 trait KeyFilter[A] {
@@ -61,6 +61,8 @@ class ExtendedLinkedHashMap[A] extends mutable.LinkedHashMap[A, PAny] {
       } else
         new FloatingIteratorState(keyFilter, cur)
     }
+
+    override def isCompatible(map: mutable.LinkedHashMap[_, _]) = true
   }
 
   class FixedEntryIteratorState(keyFilter: KeyFilter[A], iterator: BufferedIterator[Entry]) extends IteratorState {
@@ -102,6 +104,7 @@ class ExtendedLinkedHashMap[A] extends mutable.LinkedHashMap[A, PAny] {
         new FloatingIteratorState(keyFilter, null)
       }
     }
-  }
 
+    override def isCompatible(map: mutable.LinkedHashMap[_, _]) = true
+  }
 }

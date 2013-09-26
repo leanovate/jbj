@@ -11,11 +11,9 @@ import scala.util.parsing.input.Reader
 import de.leanovate.jbj.core.parser.JbjTokens.Token
 import de.leanovate.jbj.core.parser._
 import de.leanovate.jbj.core.ast.Prog
-import de.leanovate.jbj.core.{JbjEnvironmentBuilder, JbjEnv}
+import de.leanovate.jbj.core.JbjEnvironmentBuilder
 import de.leanovate.jbj.runtime.env.CgiEnvironment
-import de.leanovate.jbj.core.parser.InitialLexer
 import de.leanovate.jbj.core.parser.ParseContext
-import scala.Some
 import de.leanovate.jbj.api.http.JbjSettings
 
 object TestBed {
@@ -71,23 +69,42 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |echo "\nChange from array to non iterable:\n";
-        |$a = array(1,2,3);
-        |$b=&$a;
-        |foreach ($a as $v) {
-        |	var_dump($v);
-        |	$b=1;
+        |
+        |define('MAX_LOOPS',5);
+        |
+        |function withRefValue($elements, $transform) {
+        |	echo "\n---( Array with $elements element(s): )---\n";
+        |	//Build array:
+        |	for ($i=0; $i<$elements; $i++) {
+        |		$a[] = "v.$i";
+        |	}
+        |	$counter=0;
+        |
+        |	echo "--> State of array before loop:\n";
+        |	var_dump($a);
+        |
+        |	echo "--> Do loop:\n";
+        |	foreach ($a as $k=>&$v) {
+        |		echo "     iteration $counter:  \$k=$k; \$v=$v\n";
+        |		eval($transform);
+        |		$counter++;
+        |		if ($counter>MAX_LOOPS) {
+        |			echo "  ** Stuck in a loop! **\n";
+        |			break;
+        |		}
+        |	}
+        |
+        |	echo "--> State of array after loop:\n";
+        |	var_dump($a);
         |}
         |
-        |echo "\nChange from object to non iterable:\n";
-        |$a = new stdClass;
-        |$a->a=1;
-        |$a->b=2;
-        |$b=&$a;
-        |foreach ($a as $v) {
-        |	var_dump($v);
-        |	$b='x';
-        |}
+        |
+        |echo "\nPopping elements off end of an unreferenced array, using &\$value.";
+        |$transform = 'array_pop($a);';
+        |withRefValue(1, $transform);
+        |withRefValue(2, $transform);
+        |withRefValue(3, $transform);
+        |withRefValue(4, $transform);
         |
         |?>
         |""".stripMargin)

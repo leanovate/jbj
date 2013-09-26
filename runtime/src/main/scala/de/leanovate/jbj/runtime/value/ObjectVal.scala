@@ -198,10 +198,12 @@ trait ObjectVal extends PConcreteVal {
     }
   }
 
-  def iteratorState = iteratorStateHolder.get()
-
-  def iteratorState_=(iteratorState: IteratorState) {
-    iteratorStateHolder.set(iteratorState)
+  def updateIteratorState(iteratorState: IteratorState): IteratorState = {
+    if (iteratorState.isCompatible(keyValueMap))
+      iteratorStateHolder.set(iteratorState)
+    else
+      iteratorStateHolder.clear()
+    iteratorStateHolder.get()
   }
 
   def iteratorHasNext: Boolean = iteratorStateHolder.get().hasNext
@@ -214,8 +216,9 @@ trait ObjectVal extends PConcreteVal {
     iteratorStateHolder.get().advance()
   }
 
-  def iteratorReset() {
+  def iteratorReset(): IteratorState = {
     iteratorStateHolder.clear()
+    iteratorStateHolder.get()
   }
 
   def cleanup()(implicit ctx: Context) {
@@ -228,14 +231,13 @@ trait ObjectVal extends PConcreteVal {
     else if (PIterator.isAssignableFrom(pClass))
       PIterator.cast(this).foreachByVal(f)
     else {
-      iteratorReset()
-      val it = iteratorState.copy(fixedEntries = true)
+      val it = iteratorReset().copy(fixedEntries = true)
       var result = Option.empty[R]
       while (it.hasNext && result.isEmpty) {
         val key = it.currentKey
         val value = it.currentValue
         it.advance()
-        iteratorState = it.copy(fixedEntries = false)
+        updateIteratorState(it.copy(fixedEntries = false))
         result = f(key, value)
       }
       result
