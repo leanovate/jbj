@@ -18,7 +18,7 @@ case class NamespaceName(relative: Boolean, path: String*) {
     if (relative) {
       if (!path.isEmpty && ctx.global.namespaceAliases.contains(path(0))) {
         NamespaceName(relative = false, ctx.global.namespaceAliases(path(0)).path ++ path.drop(1): _ *)
-      } else if (!path.startsWith(ctx.global.currentNamespace.path)) {
+      } else if (!path.startsWith(ctx.global.currentNamespace.path) && !ctx.global.currentNamespace.path.startsWith(path)) {
         NamespaceName(relative = false, ctx.global.currentNamespace.path ++ path: _ *)
       } else
         this
