@@ -7,8 +7,8 @@
 
 package de.leanovate.jbj.runtime.value
 
-import de.leanovate.jbj.runtime.context.Context
-import ObjectPropertyKey.{Key, IntKey, PublicKey, ProtectedKey, PrivateKey}
+import de.leanovate.jbj.runtime.context.{StaticMethodContext, MethodContext, Context}
+import ObjectPropertyKey.{Key, IntKey, PublicKey, ProtectedKey, PrivateKey, PublicKeyFilter, PrivateKeyFilter}
 import de.leanovate.jbj.runtime.types.{PIterator, PIteratorAggregate, PInterface, PClass}
 import de.leanovate.jbj.runtime.exception.{CatchableFatalError, FatalErrorJbjException}
 import de.leanovate.jbj.api.http.JbjException
@@ -22,19 +22,7 @@ trait ObjectVal extends PConcreteVal {
 
   private var _refCount = 0
 
-  private val iteratorStateHolder = new Holder[IteratorState](keyValueMap.iteratorState(new KeyFilter[Key] {
-    def accept(key: Key) = key match {
-      case IntKey(_) => true
-      case PublicKey(_) => true
-      case _ => false
-    }
-
-    def mapKey(key: Key)(implicit ctx: Context) = key match {
-      case IntKey(k) => IntegerVal(k)
-      case PublicKey(k) => StringVal(k)
-      case _ => throw new RuntimeException("Invalid key")
-    }
-  }))
+  private val iteratorStateHolder = new Holder[IteratorState](keyValueMap.iteratorState(PublicKeyFilter))
 
   def refCount = _refCount
 
@@ -216,8 +204,15 @@ trait ObjectVal extends PConcreteVal {
     iteratorStateHolder.get().advance()
   }
 
-  def iteratorReset(): IteratorState = {
+  def iteratorReset()(implicit ctx: Context): IteratorState = {
     iteratorStateHolder.clear()
+    ctx match {
+      case MethodContext(_, method, _) if method.declaringClass.isAssignableFrom(pClass) =>
+        iteratorStateHolder.set(keyValueMap.iteratorState(PrivateKeyFilter(method.declaringClass.name.toString)))
+      case StaticMethodContext(method, _) if method.declaringClass.isAssignableFrom(pClass) || pClass.isAssignableFrom(method.declaringClass) =>
+        iteratorStateHolder.set(keyValueMap.iteratorState(PrivateKeyFilter(method.declaringClass.name.toString)))
+      case _ =>
+    }
     iteratorStateHolder.get()
   }
 
