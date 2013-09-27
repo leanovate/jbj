@@ -24,18 +24,21 @@ import de.leanovate.jbj.runtime.context.InstanceContext
 import de.leanovate.jbj.runtime.context.ClassContext
 import scala.annotation.tailrec
 
-case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
+case class ClassDeclStmt(classEntry: ClassEntry.Type, declaredName: NamespaceName,
                          superClassName: Option[NamespaceName], implements: List[NamespaceName],
                          decls: List[ClassMemberDecl])
   extends DeclStmt with PClass {
 
   private var _initialized = false
+  private var _name = declaredName
   private var _methodsInitialized = false
   private var _staticInitialized = false
   protected[decl] val _classConstants = mutable.Map.empty[String, ConstVal]
 
   private var _superClass: Option[PClass] = None
   private var _interfaces: Set[PInterface] = Set.empty
+
+  override def name = _name
 
   override def isAbstract = classEntry == ClassEntry.ABSTRACT_CLASS
 
@@ -171,6 +174,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, name: NamespaceName,
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(decls)
 
   private def initialize(autoload: Boolean, ignoreErrors: Boolean)(implicit ctx: Context) {
+    _name = declaredName.absolute
     if (ctx.global.findInterfaceOrClass(name, autoload = false).isDefined)
       if (ignoreErrors)
         return

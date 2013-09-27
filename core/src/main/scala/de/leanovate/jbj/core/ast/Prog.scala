@@ -25,6 +25,7 @@ case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike 
     }
 
     registerDecls
+    ctx.global.resetCurrentNamepsace()
     execStmts(stmts.toList)
   }
 

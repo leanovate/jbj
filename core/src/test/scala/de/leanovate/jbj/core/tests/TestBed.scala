@@ -69,44 +69,29 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
+        |namespace test\ns1;
         |
-        |define('MAX_LOOPS',5);
+        |class Foo {
         |
-        |function withRefValue($elements, $transform) {
-        |	echo "\n---( Array with $elements element(s): )---\n";
-        |	//Build array:
-        |	for ($i=0; $i<$elements; $i++) {
-        |		$a[] = "v.$i";
-        |	}
-        |	$counter=0;
+        |  function __construct() {
+        |    echo __CLASS__,"\n";
+        |  }
         |
-        |	echo "--> State of array before loop:\n";
-        |	var_dump($a);
+        |  function bar() {
+        |    echo __CLASS__,"\n";
+        |  }
         |
-        |	echo "--> Do loop:\n";
-        |	foreach ($a as $k=>&$v) {
-        |		echo "     iteration $counter:  \$k=$k; \$v=$v\n";
-        |		eval($transform);
-        |		$counter++;
-        |		if ($counter>MAX_LOOPS) {
-        |			echo "  ** Stuck in a loop! **\n";
-        |			break;
-        |		}
-        |	}
-        |
-        |	echo "--> State of array after loop:\n";
-        |	var_dump($a);
+        |  static function baz() {
+        |    echo __CLASS__,"\n";
+        |  }
         |}
         |
-        |
-        |echo "\nPopping elements off end of an unreferenced array, using &\$value.";
-        |$transform = 'array_pop($a);';
-        |withRefValue(1, $transform);
-        |withRefValue(2, $transform);
-        |withRefValue(3, $transform);
-        |withRefValue(4, $transform);
-        |
-        |?>
+        |$x = new Foo;
+        |$x->bar();
+        |Foo::baz();
+        |$y = new \test\ns1\Foo;
+        |$y->bar();
+        |\test\ns1\Foo::baz();
         |""".stripMargin)
   }
 }

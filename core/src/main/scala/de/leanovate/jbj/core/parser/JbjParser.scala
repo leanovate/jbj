@@ -65,8 +65,17 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     path => NamespaceName(relative = true, path: _*)
   }
 
-  lazy val topStatement: PackratParser[Stmt] = statement | functionDeclarationStatement |
-    classDeclarationStatement | constantDeclaration
+  lazy val topStatement: PackratParser[Stmt] =
+    statement |
+      functionDeclarationStatement |
+      classDeclarationStatement |
+      "namespace" ~> namespaceName <~ ";" ^^ {
+        name => SetNamespaceDeclStmt(name)
+      } |
+      "namespace" ~> namespaceName ~ "{" ~ topStatementList <~ "}" ^^ {
+        case name ~ _ ~ stmts => NamespaceDeclStmt(name, stmts)
+      } |
+      constantDeclaration
 
   lazy val constantDeclaration: PackratParser[Stmt] = "const" ~> rep1(identLit ~ "=" ~ staticScalar ^^ {
     case name ~ _ ~ s => StaticAssignment(name, Some(s))

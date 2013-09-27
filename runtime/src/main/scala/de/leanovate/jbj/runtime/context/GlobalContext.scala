@@ -24,6 +24,8 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
   extends Context {
   private var _inShutdown = false
 
+  private var _currentNamespace = NamespaceName(relative = false)
+
   private val interfaces = mutable.Map.empty[Seq[String], PInterface]
 
   private val classes = mutable.Map.empty[Seq[String], PClass]
@@ -86,7 +88,14 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
   }
 
   def findInterface(name: NamespaceName, autoload: Boolean): Option[PInterface] = {
-    val result = jbj.predefinedInterfaces.get(name.lowercase).map(Some.apply).getOrElse(interfaces.get(name.lowercase)).map(interfaceInitializer)
+    val result = if (name.relative) {
+      jbj.predefinedInterfaces.get(name.lowercase).map(Some.apply).
+        getOrElse(interfaces.get(name.lowercase)).map(Some.apply).
+        getOrElse(jbj.predefinedInterfaces.get(name.absolute(this).lowercase)).map(Some.apply).
+        getOrElse(interfaces.get(name.absolute(this).lowercase)).map(interfaceInitializer)
+    } else {
+      jbj.predefinedInterfaces.get(name.lowercase).map(Some.apply).getOrElse(interfaces.get(name.lowercase)).map(interfaceInitializer)
+    }
 
     if (autoload) {
       result.map(Some.apply).getOrElse(tryAutoload(name, findInterface))
@@ -98,7 +107,14 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
   def declaredClasses: Seq[PClass] = jbj.predefinedClasses.values.toSeq ++ classes.values.toSeq
 
   def findClass(name: NamespaceName, autoload: Boolean): Option[PClass] = {
-    val result = jbj.predefinedClasses.get(name.lowercase).map(Some.apply).getOrElse(classes.get(name.lowercase)).map(classInitializer)
+    val result = if (name.relative) {
+      jbj.predefinedClasses.get(name.lowercase).map(Some.apply).
+        getOrElse(classes.get(name.lowercase)).map(Some.apply).
+        getOrElse(jbj.predefinedClasses.get(name.absolute(this).lowercase)).map(Some.apply).
+        getOrElse(classes.get(name.absolute(this).lowercase)).map(classInitializer)
+    } else {
+      jbj.predefinedClasses.get(name.lowercase).map(Some.apply).getOrElse(classes.get(name.lowercase)).map(classInitializer)
+    }
 
     if (autoload) {
       result.map(Some.apply).getOrElse(tryAutoload(name, findClass))
@@ -213,6 +229,16 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
     GLOBALS.cleanup()(this)
 
     out.closeAll()
+  }
+
+  def currentNamespace: NamespaceName = _currentNamespace
+
+  def currentNamespace_=(name: NamespaceName) {
+    _currentNamespace = name
+  }
+
+  def resetCurrentNamepsace() {
+    _currentNamespace = NamespaceName(relative = false)
   }
 
   private def classInitializer(pClass: PClass): PClass = {
