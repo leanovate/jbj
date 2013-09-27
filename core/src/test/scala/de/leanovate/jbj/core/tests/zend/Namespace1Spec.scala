@@ -6,7 +6,7 @@ import de.leanovate.jbj.core.tests.TestJbjExecutor
 class Namespace1Spec extends SpecificationWithJUnit with TestJbjExecutor {
   "Namespaces" should {
     "001: Class in namespace" in {
-      // ../php-src/Zend/tests/ns_001.phpt
+      // Zend/tests/ns_001.phpt
       script(
         """<?php
           |namespace test\ns1;
@@ -36,6 +36,38 @@ class Namespace1Spec extends SpecificationWithJUnit with TestJbjExecutor {
       ).result must haveOutput(
         """test\ns1\Foo
           |test\ns1\Foo
+          |test\ns1\Foo
+          |test\ns1\Foo
+          |test\ns1\Foo
+          |test\ns1\Foo
+          |""".stripMargin
+      )
+    }
+
+    "002: Import in namespace" in {
+      // Zend/tests/ns_002.phpt
+      script(
+        """<?php
+          |namespace test\ns1;
+          |
+          |class Foo {
+          |  static function bar() {
+          |    echo __CLASS__,"\n";
+          |  }
+          |}
+          |
+          |use test\ns1\Foo as Bar;
+          |use test\ns1 as ns2;
+          |use test\ns1;
+          |
+          |Foo::bar();
+          |\test\ns1\Foo::bar();
+          |Bar::bar();
+          |ns2\Foo::bar();
+          |ns1\Foo::bar();
+          |""".stripMargin
+      ).result must haveOutput(
+        """test\ns1\Foo
           |test\ns1\Foo
           |test\ns1\Foo
           |test\ns1\Foo

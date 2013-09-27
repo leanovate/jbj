@@ -72,26 +72,20 @@ object TestBed {
         |namespace test\ns1;
         |
         |class Foo {
-        |
-        |  function __construct() {
-        |    echo __CLASS__,"\n";
-        |  }
-        |
-        |  function bar() {
-        |    echo __CLASS__,"\n";
-        |  }
-        |
-        |  static function baz() {
+        |  static function bar() {
         |    echo __CLASS__,"\n";
         |  }
         |}
         |
-        |$x = new Foo;
-        |$x->bar();
-        |Foo::baz();
-        |$y = new \test\ns1\Foo;
-        |$y->bar();
-        |\test\ns1\Foo::baz();
+        |use test\ns1\Foo as Bar;
+        |use test\ns1 as ns2;
+        |use test\ns1;
+        |
+        |Foo::bar();
+        |\test\ns1\Foo::bar();
+        |Bar::bar();
+        |ns2\Foo::bar();
+        |ns1\Foo::bar();
         |""".stripMargin)
   }
 }

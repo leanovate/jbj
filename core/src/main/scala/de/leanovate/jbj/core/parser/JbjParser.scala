@@ -66,16 +66,23 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   }
 
   lazy val topStatement: PackratParser[Stmt] =
-    statement |
-      functionDeclarationStatement |
-      classDeclarationStatement |
+    statement | functionDeclarationStatement | classDeclarationStatement |
       "namespace" ~> namespaceName <~ ";" ^^ {
         name => SetNamespaceDeclStmt(name)
-      } |
-      "namespace" ~> namespaceName ~ "{" ~ topStatementList <~ "}" ^^ {
-        case name ~ _ ~ stmts => NamespaceDeclStmt(name, stmts)
-      } |
-      constantDeclaration
+      } | "namespace" ~> namespaceName ~ "{" ~ topStatementList <~ "}" ^^ {
+      case name ~ _ ~ stmts => NamespaceDeclStmt(name, stmts)
+    } | "namespace" ~> "{" ~> topStatementList <~ "}" ^^ {
+      stmts => NamespaceDeclStmt(NamespaceName(relative = false), stmts)
+    } | "use" ~> rep(useDeclaration) <~ ";" ^^ {
+      useAsDecls => UseDeclStmt(useAsDecls)
+    } | constantDeclaration
+
+  lazy val useDeclaration: PackratParser[UseAsDecl] =
+    namespaceName ~ opt("as" ~> identLit) ^^ {
+      case name ~ alias => UseAsDecl(name, alias)
+    } | "\\" ~> namespaceName ~ opt("as" ~> identLit) ^^ {
+      case name ~ alias => UseAsDecl(NamespaceName(relative = false, name.path: _*), alias)
+    }
 
   lazy val constantDeclaration: PackratParser[Stmt] = "const" ~> rep1(identLit ~ "=" ~ staticScalar ^^ {
     case name ~ _ ~ s => StaticAssignment(name, Some(s))
