@@ -3,6 +3,7 @@ package de.leanovate.jbj.core.ast.decl
 import de.leanovate.jbj.core.ast.DeclStmt
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.{SuccessExecResult, NamespaceName}
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class UseDeclStmt(useAsDecls: List[UseAsDecl]) extends DeclStmt {
   def register(implicit ctx: Context) {
@@ -20,11 +21,16 @@ case class UseDeclStmt(useAsDecls: List[UseAsDecl]) extends DeclStmt {
     aliasBuilder ++= ctx.global.namespaceAliases
 
     useAsDecls.foreach {
-      case UseAsDecl(name, None) =>
-        aliasBuilder += name.lastPath -> name.absolute
-      case UseAsDecl(name, Some(alias)) =>
-        aliasBuilder += alias -> name.absolute
+      useAs =>
+        val (alias, name) = useAs match {
+          case UseAsDecl(n, None) => n.lastPath -> n.absolute
+          case UseAsDecl(n, Some(a)) => a -> n.absolute
+        }
+        if (ctx.global.findInterfaceOrClass(NamespaceName(alias), autoload = false).isDefined)
+          throw new FatalErrorJbjException("Cannot use %s as %s because the name is already in use".format(name.toString, alias))
+        aliasBuilder += alias -> name
     }
+
     ctx.global.namespaceAliases = aliasBuilder.result()
 
   }
