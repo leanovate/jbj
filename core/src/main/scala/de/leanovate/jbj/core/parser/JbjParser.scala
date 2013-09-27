@@ -509,6 +509,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       "__LINE__" ^^^ LineNumberConstExpr() |
       "__FUNCTION__" ^^^ FunctionNameConstExpr() |
       "__METHOD__" ^^^ MethodNameConstExpr() |
+      "__NAMESPACE__" ^^^ NamespaceNameConstExpr() |
       hereDocStartLit ~> opt(encapsAndWhitespaceLit) <~ hereDocEndLit ^^ {
         s => ScalarExpr(StringVal(s.getOrElse("").getBytes(parseCtx.settings.getCharset)))
       }

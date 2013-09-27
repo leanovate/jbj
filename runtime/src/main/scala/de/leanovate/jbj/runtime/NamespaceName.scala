@@ -31,7 +31,11 @@ case class NamespaceName(relative: Boolean, path: String*) {
 }
 
 object NamespaceName {
-  def apply(name: String): NamespaceName = NamespaceName(relative = name.startsWith("\\"), name.split( """\\"""): _*)
+  def apply(name: String): NamespaceName = if (name.startsWith("\\")) {
+    NamespaceName(relative = false, name.drop(1).split( """\\"""): _*)
+  } else {
+    NamespaceName(relative = true, name.split( """\\"""): _*)
+  }
 
   def unapply(namespaceName: NamespaceName) = Some(namespaceName.lowercase.mkString("\\"))
 }

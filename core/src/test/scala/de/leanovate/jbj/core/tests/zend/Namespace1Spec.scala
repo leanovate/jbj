@@ -160,5 +160,39 @@ class Namespace1Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "008: __NAMESPACE__ constant and runtime names (ns name)" in {
+      // ../php-src/Zend/tests/ns_008.phpt
+      script(
+        """<?php
+          |namespace test;
+          |
+          |class foo {
+          |}
+          |
+          |$x = __NAMESPACE__ . "\\foo";
+          |echo get_class(new $x),"\n";
+          |""".stripMargin
+      ).result must haveOutput(
+        """test\foo
+          |""".stripMargin
+      )
+    }
+
+    "009: __NAMESPACE__ constant and runtime names (php name)" in {
+      // ../php-src/Zend/tests/ns_009.phpt
+      script(
+        """<?php
+          |class foo {
+          |}
+          |
+          |$x = __NAMESPACE__ . "\\foo";
+          |echo get_class(new $x),"\n";
+          |""".stripMargin
+      ).result must haveOutput(
+        """foo
+          |""".stripMargin
+      )
+    }
   }
 }
