@@ -15,8 +15,10 @@ import de.leanovate.jbj.runtime.context.Context
 case class IncludeExpr(file: Expr) extends Expr {
   override def eval(implicit ctx: Context) = {
     val filename = file.eval.asVal.toStr.asString
+    val currentNamespace = ctx.global.currentNamespace
+    val currentAliases = ctx.global.namespaceAliases
 
-    ctx.global.include(filename) match {
+    val result =    ctx.global.include(filename) match {
       case Some((script, _)) =>
         script.exec match {
           case ReturnExecResult(returnExpr) => returnExpr.map(_.byVal).getOrElse(NullVal)
@@ -26,5 +28,9 @@ case class IncludeExpr(file: Expr) extends Expr {
         ctx.log.warn("include(): Failed opening '%s' for inclusion (include_path='%s')".format(filename, ctx.currentPosition.fileName))
         BooleanVal.FALSE
     }
+
+    ctx.global.currentNamespace = currentNamespace
+    ctx.global.namespaceAliases = currentAliases
+    result
   }
 }

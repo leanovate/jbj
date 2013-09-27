@@ -16,6 +16,7 @@ case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike 
   private lazy val deprecatedNodes = visit(new Prog.DeprectatedNodeVisitor).results
 
   override def exec(implicit ctx: Context): ExecResult = {
+    ctx.global.resetCurrentNamepsace()
     staticInitializers.foreach(_.initializeStatic(ctx.static))
     ctx.static.initialized = true
 
@@ -33,7 +34,6 @@ case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike 
 }
 
 object Prog {
-
   class DeprectatedNodeVisitor extends NodeVisitor[(Node, NodePosition)] {
     var pos: NodePosition = NoNodePosition
 
@@ -48,5 +48,4 @@ object Prog {
       case _ => NextChild()
     }
   }
-
 }
