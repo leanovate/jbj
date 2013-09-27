@@ -13,5 +13,5 @@ import de.leanovate.jbj.runtime.NamespaceName
 trait Name extends Node {
   def evalName(implicit ctx: Context): String
 
-  def evalNamespaceName(implicit ctx: Context): NamespaceName = NamespaceName(evalName)
+  def evalNamespaceName(implicit ctx: Context): NamespaceName = NamespaceName(evalName).absolute
 }

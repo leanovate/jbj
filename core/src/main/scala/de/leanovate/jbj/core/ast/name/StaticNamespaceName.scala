@@ -14,5 +14,5 @@ import de.leanovate.jbj.runtime.NamespaceName
 case class StaticNamespaceName(namespaceName: NamespaceName) extends Name {
   override def evalName(implicit ctx: Context) = evalNamespaceName.toString
 
-  override def evalNamespaceName(implicit ctx: Context) = namespaceName
+  override def evalNamespaceName(implicit ctx: Context) = namespaceName.absolute
 }

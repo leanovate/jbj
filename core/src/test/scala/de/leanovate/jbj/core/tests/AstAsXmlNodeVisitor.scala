@@ -10,7 +10,7 @@ package de.leanovate.jbj.core.tests
 import de.leanovate.jbj.core.ast.{Prog, Node, NodeVisitor}
 import scala.xml.{Text, PCData, NodeSeq}
 import de.leanovate.jbj.core.ast.stmt.{EchoStmt, BlockStmt, ExprStmt, InlineStmt}
-import de.leanovate.jbj.core.ast.expr.{VariableRefExpr, AssignRefExpr, CallFunctionRefExpr}
+import de.leanovate.jbj.core.ast.expr.{NewRefExpr, VariableRefExpr, AssignRefExpr, CallFunctionRefExpr}
 import de.leanovate.jbj.core.ast.name.{StaticNamespaceName, StaticName}
 import de.leanovate.jbj.core.ast.stmt.loop.ForStmt
 import de.leanovate.jbj.core.ast.decl.{ParameterDecl, ClassMethodDecl, InterfaceDeclStmt, ClassDeclStmt}
@@ -112,6 +112,12 @@ object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
             </extends>
         }}{interfaceDecl.decls.flatMap(_.visit(this).results)}
         </class>
+      )
+    case newRefExpr: NewRefExpr =>
+      NextSibling(
+        <new>
+          {newRefExpr.className.visit(this).results}
+        </new>
       )
     case exprStmt: ExprStmt =>
       NextSibling(

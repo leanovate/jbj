@@ -85,10 +85,7 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
   }
 
   def findInterface(name: NamespaceName, autoload: Boolean): Option[PInterface] = {
-    val result = name.checkCandidates {
-      candidate =>
-        jbj.predefinedInterfaces.get(candidate.lowercase).map(Some.apply).getOrElse(interfaces.get(candidate.lowercase)).map(interfaceInitializer)
-    }(this)
+    val result = jbj.predefinedInterfaces.get(name.lowercase).map(Some.apply).getOrElse(interfaces.get(name.lowercase)).map(interfaceInitializer)
 
     if (autoload) {
       result.map(Some.apply).getOrElse(tryAutoload(name, findInterface))
@@ -100,10 +97,7 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
   def declaredClasses: Seq[PClass] = jbj.predefinedClasses.values.toSeq ++ classes.values.toSeq
 
   def findClass(name: NamespaceName, autoload: Boolean): Option[PClass] = {
-    val result = name.checkCandidates {
-      candidate =>
-        jbj.predefinedClasses.get(candidate.lowercase).map(Some.apply).getOrElse(classes.get(candidate.lowercase)).map(classInitializer)
-    }(this)
+    val result = jbj.predefinedClasses.get(name.lowercase).map(Some.apply).getOrElse(classes.get(name.lowercase)).map(classInitializer)
 
     if (autoload) {
       result.map(Some.apply).getOrElse(tryAutoload(name, findClass))
@@ -182,7 +176,10 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
   }
 
   def findFunction(name: NamespaceName) =
-    jbj.predefinedFunctions.get(name.lowercase).map(Some.apply).getOrElse(functions.get(name.lowercase))
+    jbj.predefinedFunctions.get(name.lowercase).map(Some.apply).
+      getOrElse(functions.get(name.lowercase)).map(Some.apply).
+      getOrElse(jbj.predefinedFunctions.get(Seq(name.lastPath.toLowerCase))).map(Some.apply).
+      getOrElse(functions.get(Seq(name.lastPath.toLowerCase)))
 
   def defineFunction(function: PFunction) {
     functions.put(function.name.lowercase, function)

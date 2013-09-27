@@ -75,5 +75,37 @@ class Namespace1Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "003: Name conflict (ns name)" in {
+      // ../php-src/Zend/tests/ns_003.phpt
+      script(
+        """<?php
+          |namespace test\ns1;
+          |
+          |class Exception {
+          |}
+          |
+          |echo get_class(new Exception()),"\n";
+          |""".stripMargin
+      ).result must haveOutput(
+        """test\ns1\Exception
+          |""".stripMargin
+      )
+    }
+
+    "004: Using global class name from namespace (unqualified - fail)" in {
+      // Zend/tests/ns_004.phpt
+      script(
+        """<?php
+          |namespace test\ns1;
+          |
+          |echo get_class(new Exception()),"\n";
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Class 'test\ns1\Exception' not found in /zend/Namespace1Spec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
   }
 }
