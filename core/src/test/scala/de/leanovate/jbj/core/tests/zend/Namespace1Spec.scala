@@ -4,7 +4,7 @@ import org.specs2.mutable.SpecificationWithJUnit
 import de.leanovate.jbj.core.tests.TestJbjExecutor
 
 class Namespace1Spec extends SpecificationWithJUnit with TestJbjExecutor {
-  "Namespaces" should {
+  "Namespaces test 001-009" should {
     "001: Class in namespace" in {
       // Zend/tests/ns_001.phpt
       script(

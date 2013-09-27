@@ -14,10 +14,14 @@ import de.leanovate.jbj.runtime.context.{Context, FunctionContext}
 import de.leanovate.jbj.core.ast.stmt.FunctionLike
 import de.leanovate.jbj.runtime.types.{PParam, PFunction}
 
-case class FunctionDeclStmt(name: NamespaceName, returnByRef: Boolean, parameterDecls: List[ParameterDecl], stmts: List[Stmt])
+case class FunctionDeclStmt(declaredName: NamespaceName, returnByRef: Boolean, parameterDecls: List[ParameterDecl], stmts: List[Stmt])
   extends DeclStmt with PFunction with BlockLike with FunctionLike {
+
+  private var _name = declaredName
   private lazy val staticInitializers = StaticInitializer.collect(stmts: _*)
   var _registered = false
+
+  override def name = _name
 
   override def parameters = parameterDecls.toSeq
 
@@ -30,6 +34,7 @@ case class FunctionDeclStmt(name: NamespaceName, returnByRef: Boolean, parameter
   }
 
   override def register(implicit ctx: Context) {
+    _name = declaredName.absolute
     parameterDecls.foreach(_.check)
     ctx.defineFunction(this)
     _registered = true
