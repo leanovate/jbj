@@ -174,7 +174,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, declaredName: NamespaceNam
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(decls)
 
   private def initialize(autoload: Boolean, ignoreErrors: Boolean)(implicit ctx: Context) {
-    _name = declaredName.absolute
+    _name = declaredName.absolutePrefix
     if (ctx.global.findInterfaceOrClass(name, autoload = false).isDefined)
       if (ignoreErrors)
         return

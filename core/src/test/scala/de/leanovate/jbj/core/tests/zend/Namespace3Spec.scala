@@ -105,5 +105,72 @@ class Namespace3Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "025: Name ambiguity (class name & part of namespace name)" in {
+      // ../php-src/Zend/tests/ns_025.phpt
+      script(
+        """<?php
+          |namespace Foo\Bar;
+          |
+          |class Foo {
+          |  function __construct() {
+          |  	echo __CLASS__,"\n";
+          |  }
+          |  static function Bar() {
+          |  	echo __CLASS__,"\n";
+          |  }
+          |}
+          |
+          |$x = new Foo;
+          |Foo::Bar();
+          |$x = new \Foo\Bar\Foo;
+          |\Foo\Bar\Foo::Bar();
+          |""".stripMargin
+      ).result must haveOutput(
+        """Foo\Bar\Foo
+          |Foo\Bar\Foo
+          |Foo\Bar\Foo
+          |Foo\Bar\Foo
+          |""".stripMargin
+      )
+    }
+
+    "026: Name ambiguity (class name & namespace name)" in {
+      // ../php-src/Zend/tests/ns_026.phpt
+      script(
+        """<?php
+          |namespace Foo;
+          |
+          |class Foo {
+          |  function __construct() {
+          |  	echo "Method - ".__CLASS__."::".__FUNCTION__."\n";
+          |  }
+          |  static function Bar() {
+          |  	echo "Method - ".__CLASS__."::".__FUNCTION__."\n";
+          |  }
+          |}
+          |
+          |function Bar() {
+          |  echo "Func   - ".__FUNCTION__."\n";
+          |}
+          |
+          |$x = new Foo;
+          |\Foo\Bar();
+          |$x = new \Foo\Foo;
+          |\Foo\Foo::Bar();
+          |\Foo\Bar();
+          |Foo\Bar();
+          |""".stripMargin
+      ).result must haveOutput(
+        """Method - Foo\Foo::__construct
+          |Func   - Foo\Bar
+          |Method - Foo\Foo::__construct
+          |Method - Foo\Foo::Bar
+          |Func   - Foo\Bar
+          |
+          |Fatal error: Call to undefined function Foo\Foo\Bar() in /zend/Namespace3Spec.inlinePhp on line 22
+          |""".stripMargin
+      )
+    }
   }
 }

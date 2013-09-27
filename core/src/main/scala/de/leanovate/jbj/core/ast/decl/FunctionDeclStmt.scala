@@ -34,7 +34,7 @@ case class FunctionDeclStmt(declaredName: NamespaceName, returnByRef: Boolean, p
   }
 
   override def register(implicit ctx: Context) {
-    _name = declaredName.absolute
+    _name = declaredName.absolutePrefix
     parameterDecls.foreach(_.check)
     ctx.defineFunction(this)
     _registered = true
