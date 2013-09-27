@@ -107,5 +107,58 @@ class Namespace1Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "005: Name conflict (php name in case if ns name exists)" in {
+      // Zend/tests/ns_005.phpt
+      script(
+        """<?php
+          |namespace test\ns1;
+          |
+          |class Exception {
+          |}
+          |
+          |echo get_class(new \Exception()),"\n";
+          |""".stripMargin
+      ).result must haveOutput(
+        """Exception
+          |""".stripMargin
+      )
+    }
+
+    "006: Run-time name conflict (ns name)" in {
+      // Zend/tests/ns_006.phpt
+      script(
+        """<?php
+          |namespace test\ns1;
+          |
+          |class Exception {
+          |}
+          |
+          |$x = "test\\ns1\\Exception";
+          |echo get_class(new $x),"\n";
+          |""".stripMargin
+      ).result must haveOutput(
+        """test\ns1\Exception
+          |""".stripMargin
+      )
+    }
+
+    "007: Run-time name conflict (php name)" in {
+      // Zend/tests/ns_007.phpt
+      script(
+        """<?php
+          |namespace test\ns1;
+          |
+          |class Exception {
+          |}
+          |
+          |$x = "Exception";
+          |echo get_class(new $x),"\n";
+          |""".stripMargin
+      ).result must haveOutput(
+        """Exception
+          |""".stripMargin
+      )
+    }
   }
 }
