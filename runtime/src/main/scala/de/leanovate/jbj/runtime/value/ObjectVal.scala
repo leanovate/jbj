@@ -226,14 +226,17 @@ trait ObjectVal extends PConcreteVal {
     else if (PIterator.isAssignableFrom(pClass))
       PIterator.cast(this).foreachByVal(f)
     else {
-      val it = iteratorReset().copy(fixedEntries = true)
+      var it = iteratorReset().copy(fixedEntries = false)
       var result = Option.empty[R]
       while (it.hasNext && result.isEmpty) {
-        val key = it.currentKey
-        val value = it.currentValue
-        it.advance()
-        updateIteratorState(it.copy(fixedEntries = false))
-        result = f(key, value)
+        it = updateIteratorState(it.copy(fixedEntries = false))
+
+        if (it.hasNext) {
+          val key = it.currentKey
+          val value = it.currentValue
+          it.advance()
+          result = f(key, value)
+        }
       }
       result
     }

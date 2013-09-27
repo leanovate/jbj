@@ -110,24 +110,26 @@ trait Reference {
           return Option.empty[R]
       }
 
-      val key = currentIt.currentKey
-      val value = currentIt.currentValue match {
-        case pVar: PVar =>
-          pVar
-        case pVal: PVal =>
-          val pVar = PVar(pVal)
-          currentIt.currentValue = pVar
-          pVar
-      }
-      currentIt.advance()
-      byVal.concrete match {
-        case array: ArrayVal =>
-          result = f(key, value)
-        case obj: ObjectVal =>
-          result = f(key, value)
-        case _ =>
-          ctx.log.warn("Invalid argument supplied for foreach()")
-          return Option.empty[R]
+      if (currentIt.hasNext) {
+        val key = currentIt.currentKey
+        val value = currentIt.currentValue match {
+          case pVar: PVar =>
+            pVar
+          case pVal: PVal =>
+            val pVar = PVar(pVal)
+            currentIt.currentValue = pVar
+            pVar
+        }
+        currentIt.advance()
+        byVal.concrete match {
+          case array: ArrayVal =>
+            result = f(key, value)
+          case obj: ObjectVal =>
+            result = f(key, value)
+          case _ =>
+            ctx.log.warn("Invalid argument supplied for foreach()")
+            return Option.empty[R]
+        }
       }
     }
     result
