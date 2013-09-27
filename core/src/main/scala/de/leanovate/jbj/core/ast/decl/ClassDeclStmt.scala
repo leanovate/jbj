@@ -174,6 +174,8 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, declaredName: NamespaceNam
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(decls)
 
   private def initialize(autoload: Boolean, ignoreErrors: Boolean)(implicit ctx: Context) {
+    if ( ctx.global.namespaceAliases.contains(declaredName.toString))
+      throw new FatalErrorJbjException("Cannot declare class %s because the name is already in use".format(declaredName.toString))
     _name = declaredName.absolutePrefix
     if (ctx.global.findInterfaceOrClass(name, autoload = false).isDefined)
       if (ignoreErrors)
