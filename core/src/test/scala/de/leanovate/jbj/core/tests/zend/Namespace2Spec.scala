@@ -119,5 +119,129 @@ class Namespace2Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "013: Name conflict and functions (ns name)" in {
+      // Zend/tests/ns_013.phpt
+      script(
+        """<?php
+          |namespace test\ns1;
+          |
+          |function strlen($x) {
+          |	return __FUNCTION__;
+          |}
+          |
+          |echo strlen("Hello"),"\n";
+          |""".stripMargin
+      ).result must haveOutput(
+        """test\ns1\strlen
+          |""".stripMargin
+      )
+    }
+
+    "014: Name conflict and functions (php name)" in {
+      // Zend/tests/ns_014.phpt
+      script(
+        """<?php
+          |namespace test\ns1;
+          |
+          |echo strlen("Hello"),"\n";
+          |""".stripMargin
+      ).result must haveOutput(
+        """5
+          |""".stripMargin
+      )
+    }
+
+    "015: Name conflict and functions (php name in case if ns name exists)" in {
+      // Zend/tests/ns_015.phpt
+      script(
+        """<?php
+          |namespace test\ns1;
+          |
+          |function strlen($x) {
+          |	return __FUNCTION__;
+          |}
+          |
+          |echo \strlen("Hello"),"\n";
+          |""".stripMargin
+      ).result must haveOutput(
+        """5
+          |""".stripMargin
+      )
+    }
+
+    "016: Run-time name conflict and functions (ns name)" in {
+      // ../php-src/Zend/tests/ns_016.phpt
+      script(
+        """<?php
+          |namespace test\ns1;
+          |
+          |function strlen($x) {
+          |	return __FUNCTION__;
+          |}
+          |
+          |$x = "test\\ns1\\strlen";
+          |echo $x("Hello"),"\n";
+          |""".stripMargin
+      ).result must haveOutput(
+        """test\ns1\strlen
+          |""".stripMargin
+      )
+    }
+
+    "017: Run-time name conflict and functions (php name)" in {
+      // ../php-src/Zend/tests/ns_017.phpt
+      script(
+        """<?php
+          |namespace test\ns1;
+          |
+          |function strlen($x) {
+          |	return __FUNCTION__;
+          |}
+          |
+          |$x = "strlen";
+          |echo $x("Hello"),"\n";
+          |""".stripMargin
+      ).result must haveOutput(
+        """5
+          |""".stripMargin
+      )
+    }
+
+    "018: __NAMESPACE__ constant and runtime names (ns name)" in {
+      // ../php-src/Zend/tests/ns_018.phpt
+      script(
+        """<?php
+          |namespace test;
+          |
+          |function foo() {
+          |	return __FUNCTION__;
+          |}
+          |
+          |$x = __NAMESPACE__ . "\\foo";
+          |echo $x(),"\n";
+          |""".stripMargin
+      ).result must haveOutput(
+        """test\foo
+          |""".stripMargin
+      )
+    }
+
+    "019: __NAMESPACE__ constant and runtime names (php name)" in {
+      // ../php-src/Zend/tests/ns_019.phpt
+      script(
+        """<?php
+          |function foo() {
+          |	return __FUNCTION__;
+          |}
+          |
+          |$x = __NAMESPACE__ . "\\foo";
+          |echo $x(),"\n";
+          |""".stripMargin
+      ).result must haveOutput(
+        """foo
+          |""".stripMargin
+      )
+    }
   }
 }
