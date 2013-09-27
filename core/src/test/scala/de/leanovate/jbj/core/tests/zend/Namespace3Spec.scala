@@ -57,7 +57,7 @@ class Namespace3Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "022: Name search priority (first look into import, then into current namespace and then for class)" in {
-      // ../php-src/Zend/tests/ns_022.phpt
+      // Zend/tests/ns_022.phpt
       script(
         """<?php
           |namespace a\b\c;
@@ -76,6 +76,32 @@ class Namespace3Spec extends SpecificationWithJUnit with TestJbjExecutor {
       ).result must haveOutput(
         """a\b\c\foo
           |Test::foo
+          |""".stripMargin
+      )
+    }
+
+    "023: __NAMESPACE__ constant" in {
+      // Zend/tests/ns_023.phpt
+      script(
+        """<?php
+          |namespace test\foo;
+          |
+          |var_dump(__NAMESPACE__);
+          |""".stripMargin
+      ).result must haveOutput(
+        """string(8) "test\foo"
+          |""".stripMargin
+      )
+    }
+
+    "024: __NAMESPACE__ constant out of namespace" in {
+      // Zend/tests/ns_024.phpt
+      script(
+        """<?php
+          |var_dump(__NAMESPACE__);
+          |""".stripMargin
+      ).result must haveOutput(
+        """string(0) ""
           |""".stripMargin
       )
     }
