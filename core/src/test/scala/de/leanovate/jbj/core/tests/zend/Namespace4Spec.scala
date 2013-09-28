@@ -72,5 +72,18 @@ class Namespace4Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "033: Import statement with non-compound name" in {
+      // ../php-src/Zend/tests/ns_033.phpt
+      script(
+        """<?php
+          |use A;
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Warning: The use statement with non-compound name 'A' has no effect in /zend/Namespace4Spec.inlinePhp on line 2
+          |""".stripMargin
+      )
+    }
   }
 }
