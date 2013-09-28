@@ -150,5 +150,114 @@ class Namespace4Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "036: Name ambiguity in compile-time constant reference (ns name)" in {
+      // Zend/tests/ns_036.phpt
+      script(
+        """<?php
+          |namespace A;
+          |use A as B;
+          |class ArrayObject {
+          |	const STD_PROP_LIST = 2;
+          |}
+          |function f1($x = ArrayObject::STD_PROP_LIST) {
+          |	var_dump($x);
+          |}
+          |function f2($x = \ArrayObject::STD_PROP_LIST) {
+          |	var_dump($x);
+          |}
+          |function f3($x = \A\ArrayObject::STD_PROP_LIST) {
+          |	var_dump($x);
+          |}
+          |function f4($x = B\ArrayObject::STD_PROP_LIST) {
+          |	var_dump($x);
+          |}
+          |var_dump(ArrayObject::STD_PROP_LIST);
+          |var_dump(\ArrayObject::STD_PROP_LIST);
+          |var_dump(B\ArrayObject::STD_PROP_LIST);
+          |var_dump(\A\ArrayObject::STD_PROP_LIST);
+          |f1();
+          |f2();
+          |f3();
+          |f4();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """int(2)
+          |int(1)
+          |int(2)
+          |int(2)
+          |int(2)
+          |int(1)
+          |int(2)
+          |int(2)
+          |""".stripMargin
+      )
+    }
+
+    "037: Name ambiguity (namespace name or namespace's class name)" in {
+      // Zend/tests/ns_037.phpt
+      script(
+        """<?php
+          |namespace X;
+          |use X as Y;
+          |class X {
+          |	const C = "const ok\n";
+          |	static $var = "var ok\n";
+          |	function __construct() {
+          |		echo "class ok\n";
+          |	}
+          |	static function bar() {
+          |		echo "method ok\n";
+          |	}
+          |}
+          |new X();
+          |new Y\X();
+          |new \X\X();
+          |X::bar();
+          |Y\X::bar();
+          |\X\X::bar();
+          |echo X::C;
+          |echo Y\X::C;
+          |echo \X\X::C;
+          |echo X::$var;
+          |echo Y\X::$var;
+          |echo \X\X::$var;
+          |""".stripMargin
+      ).result must haveOutput(
+        """class ok
+          |class ok
+          |class ok
+          |method ok
+          |method ok
+          |method ok
+          |const ok
+          |const ok
+          |const ok
+          |var ok
+          |var ok
+          |var ok
+          |""".stripMargin
+      )
+    }
+
+    "038: Name ambiguity (namespace name or internal class name)" in {
+      // Zend/tests/ns_038.phpt
+      script(
+        """<?php
+          |namespace Exception;
+          |function foo() {
+          |  echo "ok\n";
+          |}
+          |\Exception\foo();
+          |\Exception::bar();
+          |""".stripMargin
+      ).result must haveOutput(
+        """ok
+          |
+          |Fatal error: Call to undefined method Exception::bar() in /zend/Namespace4Spec.inlinePhp on line 7
+          |""".stripMargin
+      )
+    }
   }
 }
