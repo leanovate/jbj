@@ -259,5 +259,35 @@ class Namespace4Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "039: Constant declaration" in {
+      // Zend/tests/ns_039.phpt
+      script(
+        """<?php
+          |function foo($a = A) {
+          |	echo "$a\n";
+          |}
+          |function bar($a = array(A => B)) {
+          |	foreach ($a as $key => $val) {
+          |		echo "$key\n";
+          |		echo "$val\n";
+          |	}
+          |}
+          |const A = "ok";
+          |const B = A;
+          |echo A . "\n";
+          |echo B . "\n";
+          |foo();
+          |bar();
+          |""".stripMargin
+      ).result must haveOutput(
+        """ok
+          |ok
+          |ok
+          |ok
+          |ok
+          |""".stripMargin
+      )
+    }
   }
 }
