@@ -23,7 +23,14 @@ object PArrayObject extends PClass {
 
   override def interfaces = Set(PArrayAccess)
 
-  override def classConstants: Map[String, ConstVal] = Map.empty
+  override def classConstants: Map[String, ConstVal] = Map(
+    "STD_PROP_LIST" -> new ConstVal {
+      def asVal(implicit ctx: Context) = IntegerVal(1)
+    },
+    "ARRAY_AS_PROPS" -> new ConstVal {
+      def asVal(implicit ctx: Context) = IntegerVal(2)
+    }
+  )
 
   override def initializeStatic(staticContext: ObjectVal)(implicit ctx: Context) {}
 
