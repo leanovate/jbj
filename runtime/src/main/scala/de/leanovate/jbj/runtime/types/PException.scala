@@ -24,7 +24,7 @@ object PException extends PClass {
 
   override def interfaces = Set.empty
 
-  override def classConstants: Map[String, ConstVal] = Map.empty
+  override def classConstants: Map[String, PVal] = Map.empty
 
   override def initializeStatic(staticContext: ObjectVal)(implicit ctx: Context) {}
 

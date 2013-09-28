@@ -26,7 +26,7 @@ trait PClass {
 
   def interfaces: Set[PInterface]
 
-  def classConstants: Map[String, ConstVal]
+  def classConstants: Map[String, PVal]
 
   def initializeStatic(staticContext: ObjectVal)(implicit ctx: Context)
 

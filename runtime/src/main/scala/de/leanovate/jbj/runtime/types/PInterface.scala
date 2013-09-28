@@ -8,17 +8,17 @@
 package de.leanovate.jbj.runtime.types
 
 import de.leanovate.jbj.runtime.NamespaceName
-import de.leanovate.jbj.runtime.value.ConstVal
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.value.PVal
 
 trait PInterface {
   def name: NamespaceName
 
   def interfaces: List[PInterface]
 
-  def declaredConstants: Map[String, ConstVal]
+  def declaredConstants: Map[String, PVal]
 
-  def interfaceConstants: Map[String, ConstVal] =
+  def interfaceConstants: Map[String, PVal] =
     interfaces.flatMap(_.interfaceConstants.toList).toMap ++ declaredConstants.toMap
 
   def methods: Map[String, PMethod]

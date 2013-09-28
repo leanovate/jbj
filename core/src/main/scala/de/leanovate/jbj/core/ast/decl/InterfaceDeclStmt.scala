@@ -14,14 +14,13 @@ import scala.collection.immutable.List
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.types.{PMethod, PInterface}
-import de.leanovate.jbj.runtime.value.ConstVal
-import de.leanovate.jbj.api.http.JbjException
+import de.leanovate.jbj.runtime.value.PVal
 
 case class InterfaceDeclStmt(name: NamespaceName, superInterfaces: List[NamespaceName],
                              decls: List[ClassMemberDecl])
   extends DeclStmt with PInterface {
 
-  protected[decl] val _interfaceConstants = mutable.Map.empty[String, ConstVal]
+  protected[decl] val _interfaceConstants = mutable.Map.empty[String, PVal]
 
   private var _initialized = false
   private var _interfaces: List[PInterface] = Nil

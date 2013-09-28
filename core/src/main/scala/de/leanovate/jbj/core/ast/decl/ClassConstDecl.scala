@@ -7,11 +7,14 @@
 
 package de.leanovate.jbj.core.ast.decl
 
-import de.leanovate.jbj.runtime.context.{InterfaceContext, ClassContext, Context}
-import de.leanovate.jbj.runtime.value.{ObjectVal, PVal, ConstVal, NullVal}
-import de.leanovate.jbj.core.ast.stmt.StaticAssignment
+import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.context.InterfaceContext
 import de.leanovate.jbj.core.ast.expr.ArrayCreateExpr
+import de.leanovate.jbj.runtime.context.ClassContext
+import de.leanovate.jbj.core.ast.stmt.StaticAssignment
+import scala.Some
 
 
 case class ClassConstDecl(assignments: List[StaticAssignment]) extends ClassMemberDecl {
@@ -29,17 +32,17 @@ case class ClassConstDecl(assignments: List[StaticAssignment]) extends ClassMemb
               throw new FatalErrorJbjException("Cannot inherit previously-inherited or override constant %s from interface %s".
                 format(assignment.variableName, interface.name.toString))
         }
-        pClass._classConstants(assignment.variableName) = new ConstVal {
-          private var value: Option[PVal] = None
+        pClass._classConstants(assignment.variableName) = new LazyVal {
+          private var _value: Option[PConcreteVal] = None
 
-          override def asVal(implicit ctx: Context) = value.getOrElse {
-            value = Some(if (!assignment.initial.isDefined)
+          override def value = _value.getOrElse {
+            _value = Some(if (!assignment.initial.isDefined)
               NullVal
             else {
               val classContext = ClassContext(pClass, ctx, position)
-              assignment.initial.get.eval(classContext).asVal
+              assignment.initial.get.eval(classContext).asVal.concrete
             })
-            value.get
+            _value.get
           }
         }
     }
@@ -59,17 +62,17 @@ case class ClassConstDecl(assignments: List[StaticAssignment]) extends ClassMemb
               throw new FatalErrorJbjException("Cannot inherit previously-inherited or override constant %s from interface %s".
                 format(assignment.variableName, interface.name.toString))
         }
-        pInterface._interfaceConstants(assignment.variableName) = new ConstVal {
-          private var value: Option[PVal] = None
+        pInterface._interfaceConstants(assignment.variableName) = new LazyVal {
+          private var _value: Option[PConcreteVal] = None
 
-          override def asVal(implicit ctx: Context) = value.getOrElse {
-            value = Some(if (!assignment.initial.isDefined)
+          override def value = _value.getOrElse {
+            _value = Some(if (!assignment.initial.isDefined)
               NullVal
             else {
               val classContext = InterfaceContext(pInterface, ctx, position)
-              assignment.initial.get.eval(classContext).asVal
+              assignment.initial.get.eval(classContext).asVal.concrete
             })
-            value.get
+            _value.get
           }
         }
     }

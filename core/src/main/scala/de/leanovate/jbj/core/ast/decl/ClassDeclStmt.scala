@@ -10,7 +10,7 @@ package de.leanovate.jbj.core.ast.decl
 import de.leanovate.jbj.core.ast._
 import de.leanovate.jbj.runtime._
 import scala.collection.mutable
-import de.leanovate.jbj.runtime.value.{PVar, PVal, ConstVal, ObjectVal}
+import de.leanovate.jbj.runtime.value.{PVar, PVal, ObjectVal}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context._
 import scala.collection.immutable.List
@@ -33,7 +33,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, declaredName: NamespaceNam
   private var _name = declaredName
   private var _methodsInitialized = false
   private var _staticInitialized = false
-  protected[decl] val _classConstants = mutable.Map.empty[String, ConstVal]
+  protected[decl] val _classConstants = mutable.Map.empty[String, PVal]
 
   private var _superClass: Option[PClass] = None
   private var _interfaces: Set[PInterface] = Set.empty
@@ -48,7 +48,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, declaredName: NamespaceNam
 
   override def interfaces = _interfaces
 
-  override def classConstants: Map[String, ConstVal] =
+  override def classConstants: Map[String, PVal] =
     superClass.map(_.classConstants).getOrElse(Map.empty) ++ _classConstants.toMap
 
   override def register(implicit ctx: Context) {
