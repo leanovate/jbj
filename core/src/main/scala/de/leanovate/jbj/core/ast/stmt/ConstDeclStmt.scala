@@ -16,7 +16,7 @@ case class ConstDeclStmt(assignments: List[StaticAssignment]) extends Stmt{
   override def exec(implicit ctx: Context) = {
     assignments.foreach {
       case StaticAssignment(name, Some(expr)) =>
-        ctx.global.defineConstant(NamespaceName(name), new LazyVal {
+        ctx.global.defineConstant(NamespaceName(name).absolutePrefix, new LazyVal {
           def value = expr.eval.concrete
         }, caseInsensitive = false)
       case _ =>

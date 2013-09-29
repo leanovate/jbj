@@ -14,7 +14,7 @@ import de.leanovate.jbj.runtime.NamespaceName
 
 case class ConstGetExpr(constName: NamespaceName, relative: Boolean = true) extends Expr {
   override def eval(implicit ctx: Context) = {
-    ctx.global.findConstant(constName).getOrElse {
+    ctx.global.findConstant(constName.absolute).getOrElse {
       ctx.log.notice("Use of undefined constant %s - assumed '%s'".format(constName, constName))
       StringVal(constName.toString)
     }
