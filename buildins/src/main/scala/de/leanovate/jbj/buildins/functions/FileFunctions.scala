@@ -11,6 +11,15 @@ import de.leanovate.jbj.runtime.annotations.GlobalFunction
 
 object FileFunctions {
   @GlobalFunction
+  def basename(fileName: String): String = {
+    val idx = fileName.lastIndexOf('/')
+    if (idx >= 0)
+      fileName.substring(idx + 1)
+    else
+      ""
+  }
+
+  @GlobalFunction
   def dirname(fileName: String): String = {
     val idx = fileName.lastIndexOf('/')
     if (idx >= 0)
