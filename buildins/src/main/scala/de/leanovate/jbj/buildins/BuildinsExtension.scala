@@ -45,7 +45,11 @@ object BuildinsExtension extends JbjExtension {
     "E_USER_DEPRECATED" -> IntegerVal(JbjSettings.ErrorLevel.E_USER_DEPRECATED.getValue),
     "E_ALL" -> IntegerVal(JbjSettings.E_ALL.asScala.foldLeft(0) {
       (v, enum) => v | enum.getValue
-    })
+    }),
+    "INI_USER" -> IntegerVal(1),
+    "INI_PREDIR" -> IntegerVal(2),
+    "INT_SYSTEM" -> IntegerVal(4),
+    "INI_ALL" -> IntegerVal(7)
   )
 
   override def functions: Seq[PFunction] = de.leanovate.jbj.buildins.functions.buildinFunctions

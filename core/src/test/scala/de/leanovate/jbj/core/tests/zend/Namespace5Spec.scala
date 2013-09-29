@@ -137,5 +137,35 @@ class Namespace5Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "044: Name conflict and constants (php name)" in {
+      // ../php-src/Zend/tests/ns_044.phpt
+      script(
+        """<?php
+          |namespace test\ns1;
+          |
+          |var_dump(INI_ALL);
+          |""".stripMargin
+      ).result must haveOutput(
+        """int(7)
+          |""".stripMargin
+      )
+    }
+
+    "045: Name conflict and constants (php name in case if ns name exists)" in {
+      // ../php-src/Zend/tests/ns_045.phpt
+      script(
+        """<?php
+          |namespace test\ns1;
+          |
+          |const INI_ALL = 0;
+          |
+          |var_dump(\INI_ALL);
+          |""".stripMargin
+      ).result must haveOutput(
+        """int(7)
+          |""".stripMargin
+      )
+    }
   }
 }

@@ -142,16 +142,18 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
   }
 
   def findConstant(name: NamespaceName): Option[PVal] = {
-    jbj.preedfinedConstants.get(name.lastPath.toLowerCase).map(Some.apply).getOrElse {
-      constants.get(CaseSensitiveConstantKey(name.path)).map(Some.apply).getOrElse {
-        constants.get(CaseInsensitiveConstantKey(name.lowercase))
+    println(">>> " + name.relative + " " + name.path)
+    println(constants.keys)
+    constants.get(CaseSensitiveConstantKey(name.path)).map(Some.apply).getOrElse {
+      constants.get(CaseInsensitiveConstantKey(name.lowercase)).map(Some.apply).getOrElse {
+        jbj.preedfinedConstants.get(name.lastPath.toLowerCase)
       }
     }
-//      .map(Some.apply).getOrElse {
-//      constants.get(CaseSensitiveConstantKey(Seq(name.lastPath))).map(Some.apply).getOrElse {
-//        constants.get(CaseInsensitiveConstantKey(Seq(name.lastPath.toLowerCase)))
-//      }
-//    }
+    //      .map(Some.apply).getOrElse {
+    //      constants.get(CaseSensitiveConstantKey(Seq(name.lastPath))).map(Some.apply).getOrElse {
+    //        constants.get(CaseInsensitiveConstantKey(Seq(name.lastPath.toLowerCase)))
+    //      }
+    //    }
   }
 
   def defineConstant(name: NamespaceName, value: PVal, caseInsensitive: Boolean) {
