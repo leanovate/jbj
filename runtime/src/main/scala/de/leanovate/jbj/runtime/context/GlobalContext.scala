@@ -141,21 +141,22 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
     interfaces.put(pInterface.name.lowercase, pInterface)
   }
 
-  def findConstant(name: String): Option[PVal] =
-    jbj.preedfinedConstants.get(name.toUpperCase).map(Some.apply).getOrElse {
-      constants.get(CaseSensitiveConstantKey(name)).map(Some.apply).getOrElse {
-        constants.get(CaseInsensitiveConstantKey(name.toLowerCase))
+  def findConstant(name: NamespaceName): Option[PVal] = {
+    jbj.preedfinedConstants.get(name.lastPath.toLowerCase).map(Some.apply).getOrElse {
+      constants.get(CaseSensitiveConstantKey(name.path)).map(Some.apply).getOrElse {
+        constants.get(CaseInsensitiveConstantKey(name.lowercase))
       }
     }
+  }
 
-  def defineConstant(name: String, value: PVal, caseInsensitive: Boolean) {
-    if (name.contains("::")) {
+  def defineConstant(name: NamespaceName, value: PVal, caseInsensitive: Boolean) {
+    if (name.toString.contains("::")) {
       log.warn("Class constants cannot be defined or redefined")
     } else {
       if (caseInsensitive)
-        constants.put(CaseInsensitiveConstantKey(name.toLowerCase), value)
+        constants.put(CaseInsensitiveConstantKey(name.lowercase), value)
       else
-        constants.put(CaseSensitiveConstantKey(name), value)
+        constants.put(CaseSensitiveConstantKey(name.path), value)
     }
   }
 

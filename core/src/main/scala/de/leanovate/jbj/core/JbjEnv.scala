@@ -35,7 +35,10 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
   private val cache = new java.util.concurrent.ConcurrentHashMap[String, CacheEntry]().asScala
 
   val preedfinedConstants: Map[String, PVal] =
-    extensions.flatMap(_.constants).toMap
+    extensions.flatMap(_.constants).map {
+      case (name, value) =>
+        name.toLowerCase -> value
+    }.toMap
 
   val predefinedFunctions: Map[Seq[String], PFunction] =
     extensions.flatMap(_.functions).map {

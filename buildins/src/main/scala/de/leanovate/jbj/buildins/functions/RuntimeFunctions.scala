@@ -12,7 +12,7 @@ import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.context.Context
 import java.util
 import scala.collection.JavaConversions._
-import de.leanovate.jbj.runtime.CallbackHelper
+import de.leanovate.jbj.runtime.{NamespaceName, CallbackHelper}
 import de.leanovate.jbj.api.http.JbjSettings
 
 object RuntimeFunctions {
@@ -57,14 +57,14 @@ object RuntimeFunctions {
 
   @GlobalFunction
   def define(name: String, value: PVal, caseInsensitive: Option[Boolean])(implicit ctx: Context) {
-    ctx.global.defineConstant(name, value, caseInsensitive.getOrElse(false))
+    ctx.global.defineConstant(NamespaceName(name), value, caseInsensitive.getOrElse(false))
   }
 
   @GlobalFunction
-  def defined(name: String)(implicit ctx: Context): Boolean = ctx.global.findConstant(name).isDefined
+  def defined(name: String)(implicit ctx: Context): Boolean = ctx.global.findConstant(NamespaceName(name)).isDefined
 
   @GlobalFunction
-  def constant(name: String)(implicit ctx: Context): PVal = ctx.global.findConstant(name).getOrElse {
+  def constant(name: String)(implicit ctx: Context): PVal = ctx.global.findConstant(NamespaceName(name)).getOrElse {
     ctx.log.warn("constant(): Couldn't find constant %s".format(name))
     NullVal
   }

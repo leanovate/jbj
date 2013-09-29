@@ -9,14 +9,14 @@ package de.leanovate.jbj.core.ast.stmt
 
 import de.leanovate.jbj.core.ast.Stmt
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.SuccessExecResult
+import de.leanovate.jbj.runtime.{NamespaceName, SuccessExecResult}
 import de.leanovate.jbj.runtime.value.LazyVal
 
 case class ConstDeclStmt(assignments: List[StaticAssignment]) extends Stmt{
   override def exec(implicit ctx: Context) = {
     assignments.foreach {
       case StaticAssignment(name, Some(expr)) =>
-        ctx.global.defineConstant(name, new LazyVal {
+        ctx.global.defineConstant(NamespaceName(name), new LazyVal {
           def value = expr.eval.concrete
         }, caseInsensitive = false)
       case _ =>
