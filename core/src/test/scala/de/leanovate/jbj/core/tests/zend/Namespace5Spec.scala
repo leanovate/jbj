@@ -139,7 +139,7 @@ class Namespace5Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "044: Name conflict and constants (php name)" in {
-      // ../php-src/Zend/tests/ns_044.phpt
+      // Zend/tests/ns_044.phpt
       script(
         """<?php
           |namespace test\ns1;
@@ -153,7 +153,7 @@ class Namespace5Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "045: Name conflict and constants (php name in case if ns name exists)" in {
-      // ../php-src/Zend/tests/ns_045.phpt
+      // Zend/tests/ns_045.phpt
       script(
         """<?php
           |namespace test\ns1;
@@ -164,6 +164,68 @@ class Namespace5Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       ).result must haveOutput(
         """int(7)
+          |""".stripMargin
+      )
+    }
+
+    "046: Run-time name conflict and constants (ns name)" in {
+      // Zend/tests/ns_046.phpt
+      script(
+        """<?php
+          |namespace test\ns1;
+          |
+          |const INI_ALL = 0;
+          |
+          |var_dump(constant("test\\ns1\\INI_ALL"));
+          |""".stripMargin
+      ).result must haveOutput(
+        """int(0)
+          |""".stripMargin
+      )
+    }
+
+    "047: Run-time name conflict and constants (php name)" in {
+      // Zend/tests/ns_047.phpt
+      script(
+        """<?php
+          |namespace test\ns1;
+          |
+          |const INI_ALL = 0;
+          |
+          |var_dump(constant("INI_ALL"));
+          |""".stripMargin
+      ).result must haveOutput(
+        """int(7)
+          |""".stripMargin
+      )
+    }
+
+    "048: __NAMESPACE__ constant and runtime names (ns name)" in {
+      // Zend/tests/ns_048.phpt
+      script(
+        """<?php
+          |namespace test\ns1;
+          |
+          |const FOO = 0;
+          |
+          |var_dump(constant(__NAMESPACE__ . "\\FOO"));
+          |""".stripMargin
+      ).result must haveOutput(
+        """int(0)
+          |""".stripMargin
+      )
+    }
+
+    "049: __NAMESPACE__ constant and runtime names (php name)" in {
+      // Zend/tests/ns_049.phpt
+      script(
+        """<?php
+          |const FOO = 0;
+          |
+          |var_dump(constant(__NAMESPACE__ . "\\FOO"));
+          |""".stripMargin
+      ).result must haveOutput(
+        """int(0)
           |""".stripMargin
       )
     }
