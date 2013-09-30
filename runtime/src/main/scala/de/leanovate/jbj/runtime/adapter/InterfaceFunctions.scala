@@ -1,7 +1,7 @@
 package de.leanovate.jbj.runtime.adapter
 
 import language.experimental.macros
-import de.leanovate.jbj.runtime.types.{PInterface, PInterfaceMethod}
+import de.leanovate.jbj.runtime.types.{PInterface}
 import scala.reflect.macros.Context
 import de.leanovate.jbj.runtime.annotations.InstanceFunction
 

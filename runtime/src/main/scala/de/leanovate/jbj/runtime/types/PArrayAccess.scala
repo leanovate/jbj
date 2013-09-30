@@ -10,6 +10,7 @@ package de.leanovate.jbj.runtime.types
 import de.leanovate.jbj.runtime.value.{ObjectVal, PAny, PVal}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.NamespaceName
+import de.leanovate.jbj.runtime.adapter.PInterfaceMethod
 
 trait PArrayAccess {
   def obj: ObjectVal

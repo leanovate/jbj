@@ -11,6 +11,7 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.NamespaceName
 import de.leanovate.jbj.runtime.context.Context
 import scala.Some
+import de.leanovate.jbj.runtime.adapter.PInterfaceMethod
 
 trait PIterator {
   def obj: ObjectVal

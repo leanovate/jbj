@@ -11,6 +11,7 @@ import de.leanovate.jbj.runtime.NamespaceName
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.value.{PVal, PVar, PAny, ObjectVal}
 import de.leanovate.jbj.runtime.exception.RuntimeJbjException
+import de.leanovate.jbj.runtime.adapter.PInterfaceMethod
 
 trait PIteratorAggregate {
   def obj: ObjectVal
