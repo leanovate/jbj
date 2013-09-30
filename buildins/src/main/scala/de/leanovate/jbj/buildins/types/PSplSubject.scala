@@ -17,7 +17,7 @@ trait PSplSubject {
 }
 
 object PSplSubject extends PInterface {
-  def name = NamespaceName(relative = false, "SplSubject")
+  def name = NamespaceName(relative = false, prefixed = false, "SplSubject")
 
   def interfaces = List.empty
 

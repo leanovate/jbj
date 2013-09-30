@@ -5,7 +5,7 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 object PTraversable extends PInterface {
-  override def name = NamespaceName(relative = false, "Traversable")
+  override def name = NamespaceName(relative = false, prefixed = false, "Traversable")
 
   override def interfaces = List.empty
 

@@ -16,7 +16,7 @@ object PStdClass extends PClass {
 
   override def isFinal = false
 
-  override def name = NamespaceName(relative = false, "stdClass")
+  override def name = NamespaceName(relative = false, prefixed = false, "stdClass")
 
   override def superClass = None
 

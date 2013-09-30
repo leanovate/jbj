@@ -69,11 +69,48 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |namespace test\ns1;
+        |namespace Test\ns1;
         |
-        |const INI_ALL = 0;
+        |const C = "const ok\n";
         |
-        |var_dump(\INI_ALL);
+        |function foo() {
+        |	return "func ok\n";
+        |}
+        |
+        |class foo {
+        |	const C = "const ok\n";
+        |	const C2 = namespace\C;
+        |	static $var = "var ok\n";
+        |	function __construct() {
+        |		echo "class ok\n";
+        |	}
+        |	static function bar() {
+        |		return "method ok\n";
+        |	}
+        |}
+        |
+        |function f1($x=namespace\C) {
+        |	return $x;
+        |}
+        |function f2($x=namespace\foo::C) {
+        |	return $x;
+        |}
+        |
+        |function f3(namespace\foo $x) {
+        |	return "ok\n";
+        |}
+        |
+        |echo namespace\C;
+        |echo namespace\foo();
+        |echo namespace\foo::C;
+        |echo namespace\foo::C2;
+        |echo namespace\foo::$var;
+        |echo namespace\foo::bar();
+        |echo namespace\f1();
+        |echo namespace\f2();
+        |echo namespace\f3(new namespace\foo());
+        |echo namespace\nknown;
+        |?>
         |""".stripMargin)
   }
 }

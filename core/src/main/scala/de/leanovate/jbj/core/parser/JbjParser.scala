@@ -62,7 +62,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val topStatementList: PackratParser[List[Stmt]] = rep(topStatement)
 
   lazy val namespaceName: PackratParser[NamespaceName] = rep1sep(identLit, "\\") ^^ {
-    path => NamespaceName(relative = true, path: _*)
+    path => NamespaceName(relative = true, prefixed = false, path: _*)
   }
 
   lazy val topStatement: PackratParser[Stmt] =
@@ -72,7 +72,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       } | "namespace" ~> namespaceName ~ "{" ~ topStatementList <~ "}" ^^ {
       case name ~ _ ~ stmts => NamespaceDeclStmt(name, stmts)
     } | "namespace" ~> "{" ~> topStatementList <~ "}" ^^ {
-      stmts => NamespaceDeclStmt(NamespaceName(relative = false), stmts)
+      stmts => NamespaceDeclStmt(NamespaceName(relative = false, prefixed = false), stmts)
     } | "use" ~> rep(useDeclaration) <~ ";" ^^ {
       useAsDecls => UseDeclStmt(useAsDecls)
     } | constantDeclaration <~ ";"
@@ -81,7 +81,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     namespaceName ~ opt("as" ~> identLit) ^^ {
       case name ~ alias => UseAsDecl(name, alias)
     } | "\\" ~> namespaceName ~ opt("as" ~> identLit) ^^ {
-      case name ~ alias => UseAsDecl(NamespaceName(relative = false, name.path: _*), alias)
+      case name ~ alias => UseAsDecl(NamespaceName(relative = false, prefixed = false, name.path: _*), alias)
     }
 
   lazy val constantDeclaration: PackratParser[Stmt] = "const" ~> rep1(identLit ~ "=" ~ staticScalar ^^ {
@@ -159,16 +159,16 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val untickedFunctionDeclarationStatement: PackratParser[FunctionDeclStmt] =
     "function" ~ opt("&") ~ identLit ~ "(" ~ parameterList ~ ")" ~ "{" ~ innerStatementList <~ "}" ^^ {
       case func ~ isRef ~ name ~ _ ~ params ~ _ ~ _ ~ body =>
-        FunctionDeclStmt(NamespaceName(relative = true, name), isRef.isDefined, params, body)
+        FunctionDeclStmt(NamespaceName(relative = true, prefixed = false, name), isRef.isDefined, params, body)
     }
 
   lazy val untickedClassDeclarationStatement: PackratParser[Stmt] =
     classEntryType ~ identLit ~ extendsFrom ~ implementsList ~ "{" ~ classStatementList <~ "}" ^^ {
       case entry ~ name ~ exts ~ impls ~ _ ~ decls =>
-        ClassDeclStmt(entry, NamespaceName(relative = true, name), exts, impls, decls)
+        ClassDeclStmt(entry, NamespaceName(relative = true, prefixed = false, name), exts, impls, decls)
     } | "interface" ~> identLit ~ interfaceExtendsList ~ "{" ~ classStatementList <~ "}" ^^ {
       case name ~ exts ~ _ ~ decls =>
-        InterfaceDeclStmt(NamespaceName(relative = true, name), exts, decls)
+        InterfaceDeclStmt(NamespaceName(relative = true, prefixed = false, name), exts, decls)
     }
 
   lazy val classEntryType: PackratParser[ClassEntry.Type] =
@@ -439,9 +439,9 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val functionCall: PackratParser[RefExpr] = namespaceName ~ functionCallParameterList ^^ {
     case name ~ params => CallFunctionRefExpr(StaticNamespaceName(name), params)
   } | "namespace" ~> "\\" ~> namespaceName ~ functionCallParameterList ^^ {
-    case name ~ params => CallFunctionRefExpr(StaticNamespaceName(NamespaceName(relative = false, name.path: _*)), params)
+    case name ~ params => CallFunctionRefExpr(StaticNamespaceName(NamespaceName(relative = false, prefixed = true, name.path: _*)), params)
   } | "\\" ~> namespaceName ~ functionCallParameterList ^^ {
-    case name ~ params => CallFunctionRefExpr(StaticNamespaceName(NamespaceName(relative = false, name.path: _*)), params)
+    case name ~ params => CallFunctionRefExpr(StaticNamespaceName(NamespaceName(relative = false, prefixed = false, name.path: _*)), params)
   } | className ~ "::" ~ variableName ~ functionCallParameterList ^^ {
     case cname ~ _ ~ method ~ params => CallStaticMethodRefExpr(cname, method, params)
   } | className ~ "::" ~ variableWithoutObjects ~ functionCallParameterList ^^ {
@@ -472,17 +472,17 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       case NamespaceName("parent") => ParentName
       case name => StaticNamespaceName(name)
     } | "namespace" ~> "\\" ~> namespaceName ^^ {
-      n => StaticNamespaceName(NamespaceName(relative = false, n.path: _*))
+      n => StaticNamespaceName(NamespaceName(relative = false, prefixed = true, n.path: _*))
     } | "\\" ~> namespaceName ^^ {
-      n => StaticNamespaceName(NamespaceName(relative = false, n.path: _*))
+      n => StaticNamespaceName(NamespaceName(relative = false, prefixed = false, n.path: _*))
     }
 
   lazy val fullyQualifiedClassName: PackratParser[NamespaceName] =
     namespaceName |
       "namespace" ~> "\\" ~> namespaceName ^^ {
-        n => NamespaceName(relative = false, n.path: _*)
+        n => NamespaceName(relative = false, prefixed = true, n.path: _*)
       } | "\\" ~> namespaceName ^^ {
-      n => NamespaceName(relative = false, n.path: _*)
+      n => NamespaceName(relative = false, prefixed = false, n.path: _*)
     }
 
   lazy val classNameReference: PackratParser[Name] = className | dynamicClassNameReference
@@ -518,9 +518,9 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     commonScalar | staticClassNameScalar | staticClassConstant | namespaceName ^^ {
       name => ConstGetExpr(name)
     } | "namespace" ~> "\\" ~> namespaceName ^^ {
-      name => ConstGetExpr(NamespaceName(relative = false, name.path :_*))
+      name => ConstGetExpr(NamespaceName(relative = false, prefixed = true, name.path :_*))
     } | "\\" ~> namespaceName ^^ {
-      name => ConstGetExpr(NamespaceName(relative = false, name.path :_*))
+      name => ConstGetExpr(NamespaceName(relative = false, prefixed = false, name.path :_*))
     } | "+" ~> staticScalar ^^ {
       s => PosExpr(s)
     } | "-" ~> staticScalar ^^ {
@@ -538,9 +538,9 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val scalar: PackratParser[Expr] = classNameScalar | classConstant | namespaceName ^^ {
     name => ConstGetExpr(name)
   } | "namespace" ~> "\\" ~> namespaceName ^^ {
-    name => ConstGetExpr(NamespaceName(relative = false, name.path :_*))
+    name => ConstGetExpr(NamespaceName(relative = false, prefixed = true, name.path :_*))
   } | "\\" ~> namespaceName ^^ {
-    name => ConstGetExpr(NamespaceName(relative = false, name.path :_*))
+    name => ConstGetExpr(NamespaceName(relative = false, prefixed = false, name.path :_*))
   } | commonScalar | "\"" ~> encapsList <~ "\"" ^^ {
     interpolated => InterpolatedStringExpr(interpolated)
   } | hereDocStartLit ~> encapsList <~ hereDocEndLit ^^ {

@@ -17,7 +17,7 @@ object PArrayObject extends PClass {
 
   override def isFinal = false
 
-  override def name = NamespaceName(relative = false, "ArrayObject")
+  override def name = NamespaceName(relative = false, prefixed = false, "ArrayObject")
 
   override def superClass = None
 

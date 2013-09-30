@@ -44,7 +44,7 @@ trait PIterator {
 }
 
 object PIterator extends PInterface with PInterfaceAdapter[PIterator] {
-  override def name = NamespaceName(relative = false, "Iterator")
+  override def name = NamespaceName(relative = false, prefixed = false, "Iterator")
 
   override def interfaces = List(PTraversable)
 

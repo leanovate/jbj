@@ -24,7 +24,7 @@ trait PArrayAccess {
 }
 
 object PArrayAccess extends PInterface {
-  override def name = NamespaceName(relative = false, "ArrayAccess")
+  override def name = NamespaceName(relative = false, prefixed = false, "ArrayAccess")
 
   override def interfaces = List.empty
 

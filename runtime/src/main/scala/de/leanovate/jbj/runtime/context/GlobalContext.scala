@@ -24,7 +24,7 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
   extends Context {
   private var _inShutdown = false
 
-  private var _currentNamespace = NamespaceName(relative = false)
+  private var _currentNamespace = NamespaceName(relative = false, prefixed = false)
   private var _namespaceAliases = Map.empty[String, NamespaceName]
 
   private val interfaces = mutable.Map.empty[Seq[String], PInterface]
@@ -123,7 +123,7 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
   private def tryAutoload[T](name: NamespaceName, retry: (NamespaceName, Boolean) => Option[T]): Option[T] = {
     implicit val ctx = this
 
-    findFunction(NamespaceName(relative = true, "__autoload")).flatMap {
+    findFunction(NamespaceName(relative = true, prefixed = false, "__autoload")).flatMap {
       case autoloadFunc if !autoloading.contains(name.toString.toLowerCase) =>
         autoloading.add(name.toString.toLowerCase)
         autoloadFunc.call(PAnyParam(StringVal(name.toString)) :: Nil)
@@ -236,7 +236,7 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
   }
 
   def resetCurrentNamepsace() {
-    _currentNamespace = NamespaceName(relative = false)
+    _currentNamespace = NamespaceName(relative = false, prefixed = false)
     _namespaceAliases = Map.empty
   }
 

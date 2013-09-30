@@ -18,7 +18,7 @@ object PException extends PClass {
 
   override def isFinal = false
 
-  override def name = NamespaceName(relative = false, "Exception")
+  override def name = NamespaceName(relative = false, prefixed = false, "Exception")
 
   override def superClass = None
 
