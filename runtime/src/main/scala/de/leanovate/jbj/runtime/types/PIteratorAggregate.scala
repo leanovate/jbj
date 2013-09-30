@@ -29,7 +29,7 @@ trait PIteratorAggregate {
   }
 }
 
-object PIteratorAggregate extends PInterface {
+object PIteratorAggregate extends PInterface with PInterfaceAdapter[PIteratorAggregate] {
   override def name = NamespaceName(relative = false, "IteratorAggregate")
 
   override def interfaces = List(PTraversable)

@@ -142,8 +142,6 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
   }
 
   def findConstant(name: NamespaceName): Option[PVal] = {
-    println(">>> " + name.relative + " " + name.path)
-    println(constants.keys)
     constants.get(CaseSensitiveConstantKey(name.path)).map(Some.apply).getOrElse {
       constants.get(CaseInsensitiveConstantKey(name.lowercase)).map(Some.apply).getOrElse {
         jbj.preedfinedConstants.get(name.lastPath.toLowerCase)

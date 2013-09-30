@@ -11,7 +11,6 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.NamespaceName
 import de.leanovate.jbj.runtime.context.Context
 import scala.Some
-import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 trait PIterator {
   def obj: ObjectVal
@@ -44,7 +43,7 @@ trait PIterator {
   }
 }
 
-object PIterator extends PInterface {
+object PIterator extends PInterface with PInterfaceAdapter[PIterator] {
   override def name = NamespaceName(relative = false, "Iterator")
 
   override def interfaces = List(PTraversable)

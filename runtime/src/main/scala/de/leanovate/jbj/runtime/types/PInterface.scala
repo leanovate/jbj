@@ -9,7 +9,7 @@ package de.leanovate.jbj.runtime.types
 
 import de.leanovate.jbj.runtime.NamespaceName
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.value.PVal
+import de.leanovate.jbj.runtime.value.{ObjectVal, PVal}
 
 trait PInterface {
   def name: NamespaceName
@@ -26,4 +26,10 @@ trait PInterface {
   def initializeClass(pClass: PClass)(implicit ctx: Context) {}
 
   final def isAssignableFrom(other: PClass): Boolean = other.interfaces.contains(this)
+}
+
+trait PInterfaceAdapter[T] {
+  self: PInterface =>
+
+  def cast(obj: ObjectVal): T
 }

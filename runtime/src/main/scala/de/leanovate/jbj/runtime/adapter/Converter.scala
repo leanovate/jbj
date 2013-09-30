@@ -12,7 +12,7 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 
 trait Converter[ScalaType, JbjType <: PAny] {
-  def toScalaWithConversion(expr: PParam)(implicit ctx: Context): ScalaType
+  def toScalaWithConversion(param: PParam)(implicit ctx: Context): ScalaType
 
   def toScala(value: JbjType)(implicit ctx: Context): ScalaType
 
