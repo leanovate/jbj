@@ -1,7 +1,7 @@
 package de.leanovate.jbj.runtime.adapter
 
 import language.experimental.macros
-import de.leanovate.jbj.runtime.types.{PInterface}
+import de.leanovate.jbj.runtime.types.{ClassTypeHint, TypeHint, PParamDef, PInterface}
 import scala.reflect.macros.Context
 import de.leanovate.jbj.runtime.annotations.InstanceFunction
 
@@ -12,6 +12,18 @@ object InterfaceFunctions {
     import c.universe._
     val interfaceType = weakTypeOf[T]
 
+    def typeHint(parameter: Symbol): c.Expr[Option[TypeHint]] = parameter.typeSignature match {
+      case TypeRef(_, sym, _) if sym.companionSymbol.typeSignature <:< typeOf[PInterface] =>
+        val interface = c.Expr[PInterface](Ident(sym.companionSymbol))
+        reify {
+          Some(ClassTypeHint(interface.splice.name))
+        }
+      case _ =>
+        reify {
+          Option.empty[TypeHint]
+        }
+    }
+
     val methods = interfaceType.members.filter {
       member =>
         member.isMethod && member.annotations.exists(_.tpe == typeOf[InstanceFunction])
@@ -20,8 +32,18 @@ object InterfaceFunctions {
         val args = method.annotations.find(_.tpe == typeOf[InstanceFunction]).get.scalaArgs
         val actualName = c.eval(c.Expr[Option[String]](c.resetAllAttrs(args(0)))).getOrElse(method.name.encoded)
         val name = c.literal(actualName)
+        val parameters = method.asMethod.paramss.flatten.map {
+          param =>
+            val paramName = c.literal(param.name.encoded)
+            val th = typeHint(param)
+            reify {
+              SimpleParamDef(paramName.splice, hasDefault = false, byRef = false, th.splice)
+            }.tree
+        }.toList
+        val parametersSeq = c.Expr[Seq[PParamDef]](Apply(Select(Ident(newTermName("Seq")), newTermName("apply")), parameters))
+
         reify {
-          PInterfaceMethod(interface.splice, name.splice)
+          PInterfaceMethod(interface.splice, name.splice, parametersSeq.splice)
         }.tree
     }.toList
 

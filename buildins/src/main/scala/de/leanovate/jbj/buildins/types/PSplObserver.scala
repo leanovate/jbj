@@ -1,9 +1,9 @@
 package de.leanovate.jbj.buildins.types
 
 import de.leanovate.jbj.runtime.annotations.InstanceFunction
-import de.leanovate.jbj.runtime.types.{ClassTypeHint, PInterface}
+import de.leanovate.jbj.runtime.types.PInterface
 import de.leanovate.jbj.runtime.NamespaceName
-import de.leanovate.jbj.runtime.adapter.{SimpleParamDef, PInterfaceMethod}
+import de.leanovate.jbj.runtime.adapter.InterfaceFunctions
 import de.leanovate.jbj.runtime.value.DelegateObjectVal
 
 trait PSplObserver extends DelegateObjectVal {
@@ -18,10 +18,5 @@ object PSplObserver extends PInterface {
 
   def declaredConstants = Map.empty
 
-  def methods = Seq(
-    PInterfaceMethod(this, "update", Seq(SimpleParamDef("subject", hasDefault = false, byRef = false, Some(ClassTypeHint(PSplSubject.name)))))
-  ).map {
-    method =>
-      method.name.toLowerCase -> method
-  }.toMap
+  def methods = InterfaceFunctions.methods[PSplObserver](this)
 }
