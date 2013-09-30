@@ -9,23 +9,22 @@ package de.leanovate.jbj.runtime.types
 
 import de.leanovate.jbj.runtime.NamespaceName
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.value.{PVal, PVar, PAny, ObjectVal}
+import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.exception.RuntimeJbjException
+import scala.Some
 import de.leanovate.jbj.runtime.adapter.PInterfaceMethod
 
-trait PIteratorAggregate {
-  def obj: ObjectVal
-
+trait PIteratorAggregate extends DelegateObjectVal {
   def getIterator()(implicit ctx: Context): PIterator
 
-  def foreachByVal[R](f: (PVal, PAny) => Option[R])(implicit ctx: Context): Option[R] = {
+  override def foreachByVal[R](f: (PVal, PAny) => Option[R])(implicit ctx: Context): Option[R] = {
     val iterator = getIterator()
-    iterator.obj.retain()
+    iterator.retain()
 
     try {
       iterator.foreachByVal(f)
     } finally {
-      iterator.obj.release()
+      iterator.release()
     }
   }
 }
@@ -44,17 +43,17 @@ object PIteratorAggregate extends PInterface with PInterfaceAdapter[PIteratorAgg
   }.toMap
 
   def cast(_obj: ObjectVal): PIteratorAggregate = new PIteratorAggregate {
-    def obj = _obj
+    def delegate = _obj
 
     def getIterator()(implicit ctx: Context) = {
-      _obj.pClass.invokeMethod(Some(obj), "getIterator", Nil).asVal.concrete match {
+      _obj.pClass.invokeMethod(Some(this), "getIterator", Nil).asVal.concrete match {
         case obj: ObjectVal if obj.instanceOf(PIterator) =>
           PIterator.cast(obj)
         case obj: ObjectVal if obj.instanceOf(PIteratorAggregate) =>
           PIteratorAggregate.cast(obj).getIterator()
         case _ =>
           throw RuntimeJbjException("Objects returned by %s::getIterator() must be traversable or implement interface Iterator".
-            format(obj.pClass.name.toString))
+            format(pClass.name.toString))
       }
     }
   }

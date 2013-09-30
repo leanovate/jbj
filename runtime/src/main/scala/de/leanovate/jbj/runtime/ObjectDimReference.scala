@@ -56,7 +56,7 @@ class ObjectDimReference(arrayAccess: PArrayAccess, optArrayKey: Option[PVal])(i
   }
 
   override def checkIndirect = {
-    ctx.log.notice("Indirect modification of overloaded element of %s has no effect".format(arrayAccess.obj.pClass.name.toString))
+    ctx.log.notice("Indirect modification of overloaded element of %s has no effect".format(arrayAccess.pClass.name.toString))
     false
   }
 

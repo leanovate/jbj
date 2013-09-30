@@ -18,13 +18,11 @@ trait ObjectVal extends PConcreteVal {
 
   def instanceNum: Long
 
-  protected def keyValueMap: ExtendedLinkedHashMap[Key]
-
-  private var _refCount = 0
+  protected[value] def keyValueMap: ExtendedLinkedHashMap[Key]
 
   private val iteratorStateHolder = new Holder[IteratorState](keyValueMap.iteratorState(PublicKeyFilter))
 
-  def refCount = _refCount
+  def refCount
 
   def keyValues(implicit ctx: Context): Seq[(Key, PAny)] = keyValueMap.toSeq
 
@@ -98,16 +96,6 @@ trait ObjectVal extends PConcreteVal {
       }
       0
     case _ => 1
-  }
-
-  override def retain() {
-    _refCount += 1
-  }
-
-  override def release()(implicit ctx: Context) {
-    _refCount -= 1
-    if (_refCount == 0)
-      pClass.destructInstance(this)
   }
 
   final def instanceOf(other: PInterface): Boolean = other.isAssignableFrom(pClass)
@@ -220,7 +208,7 @@ trait ObjectVal extends PConcreteVal {
     keyValueMap.values.foreach(_.release())
   }
 
-  override def foreachByVal[R](f: (PVal, PAny) => Option[R])(implicit ctx: Context) = {
+  override def foreachByVal[R](f: (PVal, PAny) => Option[R])(implicit ctx: Context): Option[R] = {
     if (PIteratorAggregate.isAssignableFrom(pClass))
       PIteratorAggregate.cast(this).foreachByVal(f)
     else if (PIterator.isAssignableFrom(pClass))

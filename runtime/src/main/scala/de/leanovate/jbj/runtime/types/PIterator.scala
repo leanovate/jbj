@@ -13,9 +13,7 @@ import de.leanovate.jbj.runtime.context.Context
 import scala.Some
 import de.leanovate.jbj.runtime.adapter.PInterfaceMethod
 
-trait PIterator {
-  def obj: ObjectVal
-
+trait PIterator extends DelegateObjectVal {
   def rewind()(implicit ctx: Context)
 
   def valid(implicit ctx: Context): Boolean
@@ -26,7 +24,7 @@ trait PIterator {
 
   def key(implicit ctx: Context): PVal
 
-  def foreachByVal[R](f: (PVal, PAny) => Option[R])(implicit ctx: Context): Option[R] = {
+  override def foreachByVal[R](f: (PVal, PAny) => Option[R])(implicit ctx: Context): Option[R] = {
     rewind()
     var result = Option.empty[R]
     while (result.isEmpty && valid) {
@@ -62,7 +60,7 @@ object PIterator extends PInterface with PInterfaceAdapter[PIterator] {
   }.toMap
 
   def cast(_obj: ObjectVal): PIterator = new PIterator {
-    def obj = _obj
+    def delegate = _obj
 
     def rewind()(implicit ctx: Context) {
       _obj.pClass.invokeMethod(Some(_obj), "rewind", Nil)

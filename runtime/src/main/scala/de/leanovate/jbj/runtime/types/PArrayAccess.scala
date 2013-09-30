@@ -7,14 +7,12 @@
 
 package de.leanovate.jbj.runtime.types
 
-import de.leanovate.jbj.runtime.value.{ObjectVal, PAny, PVal}
+import de.leanovate.jbj.runtime.value.{DelegateObjectVal, ObjectVal, PAny, PVal}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.NamespaceName
 import de.leanovate.jbj.runtime.adapter.PInterfaceMethod
 
-trait PArrayAccess {
-  def obj: ObjectVal
-
+trait PArrayAccess extends DelegateObjectVal {
   def offsetExists(idx: PVal)(implicit ctx: Context): Boolean
 
   def offsetGet(idx: PVal)(implicit ctx: Context): PAny
@@ -41,22 +39,22 @@ object PArrayAccess extends PInterface {
   }.toMap
 
   def cast(_obj: ObjectVal): PArrayAccess = new PArrayAccess {
-    def obj = _obj
+    def delegate = _obj
 
     def offsetUnset(idx: PVal)(implicit ctx: Context) {
-      _obj.pClass.invokeMethod(Some(obj), "offsetUnset", PAnyParam(idx) :: Nil)
+      _obj.pClass.invokeMethod(Some(this), "offsetUnset", PAnyParam(idx) :: Nil)
     }
 
     def offsetExists(idx: PVal)(implicit ctx: Context) =
-      _obj.pClass.invokeMethod(Some(obj), "offsetExists", PAnyParam(idx) :: Nil).asVal.toBool.asBoolean
+      _obj.pClass.invokeMethod(Some(this), "offsetExists", PAnyParam(idx) :: Nil).asVal.toBool.asBoolean
 
 
     def offsetGet(idx: PVal)(implicit ctx: Context) =
-      _obj.pClass.invokeMethod(Some(obj), "offsetGet", PAnyParam(idx) :: Nil)
+      _obj.pClass.invokeMethod(Some(this), "offsetGet", PAnyParam(idx) :: Nil)
 
 
     def offsetSet(idx: PVal, value: PVal)(implicit ctx: Context) = {
-      _obj.pClass.invokeMethod(Some(obj), "offsetSet", PAnyParam(idx) :: PAnyParam(value) :: Nil)
+      _obj.pClass.invokeMethod(Some(this), "offsetSet", PAnyParam(idx) :: PAnyParam(value) :: Nil)
     }
   }
 }

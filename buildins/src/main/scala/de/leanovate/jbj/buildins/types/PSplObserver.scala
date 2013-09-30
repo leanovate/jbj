@@ -4,8 +4,9 @@ import de.leanovate.jbj.runtime.annotations.InstanceFunction
 import de.leanovate.jbj.runtime.types.{ClassTypeHint, PInterface}
 import de.leanovate.jbj.runtime.NamespaceName
 import de.leanovate.jbj.runtime.adapter.{SimpleParamDef, PInterfaceMethod}
+import de.leanovate.jbj.runtime.value.DelegateObjectVal
 
-trait PSplObserver {
+trait PSplObserver extends DelegateObjectVal {
   @InstanceFunction
   def update(subject: PSplSubject)
 }
