@@ -61,7 +61,7 @@ class Namespace6Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "053: Run-time constant definition" in {
-      // ../php-src/Zend/tests/ns_053.phpt
+      // Zend/tests/ns_053.phpt
       script(
         """<?php
           |namespace test\ns1;
@@ -73,6 +73,39 @@ class Namespace6Spec extends SpecificationWithJUnit with TestJbjExecutor {
       ).result must haveOutput(
         """Namespace6Spec.inlinePhp
           |Namespace6Spec.inlinePhp
+          |""".stripMargin
+      )
+    }
+
+    "055: typehints in namespaces" in {
+      // Zend/tests/ns_055.phpt
+      script(
+        """<?php
+          |namespace test\ns1;
+          |
+          |class Foo {
+          |	function test1(Foo $x) {
+          |		echo "ok\n";
+          |	}
+          |	function test2(\test\ns1\Foo $x) {
+          |		echo "ok\n";
+          |	}
+          |	function test3(\Exception $x) {
+          |		echo "ok\n";
+          |	}
+          |}
+          |
+          |$foo = new Foo();
+          |$ex = new \Exception();
+          |$foo->test1($foo);
+          |$foo->test2($foo);
+          |$foo->test3($ex);
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """ok
+          |ok
+          |ok
           |""".stripMargin
       )
     }

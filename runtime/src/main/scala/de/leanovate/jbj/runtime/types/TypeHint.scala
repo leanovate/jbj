@@ -75,7 +75,7 @@ case class ClassTypeHint(className: NamespaceName) extends TypeHint {
   def display: String = className.toString
 
   override def checkEmpty(index: Int)(implicit ctx: Context) {
-    ctx.global.findInterfaceOrClass(className, autoload = false) match {
+    ctx.global.findInterfaceOrClass(className.absolute, autoload = false) match {
       case Some(Left(pInterface)) =>
         ctx match {
           case methodCtx: FunctionLikeContext =>
@@ -94,7 +94,7 @@ case class ClassTypeHint(className: NamespaceName) extends TypeHint {
   }
 
   override def check(pVar: PVar, index: Int)(implicit ctx: Context) {
-    ctx.global.findInterfaceOrClass(className, autoload = false) match {
+    ctx.global.findInterfaceOrClass(className.absolute, autoload = false) match {
       case Some(Left(pInterface)) =>
         pVar.value match {
           case obj: ObjectVal if obj.instanceOf(pInterface) =>
