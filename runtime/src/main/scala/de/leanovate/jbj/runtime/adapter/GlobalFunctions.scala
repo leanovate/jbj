@@ -66,13 +66,13 @@ object GlobalFunctions {
             val name = c.literal(parameter.name.toString)
             val byRef = parameter.typeSignature match {
               case TypeRef(_, sym, _) if sym == pVarClass =>
-                c.literal(true)
+                c.literalTrue
               case _ =>
-                c.literal(false)
+                c.literalFalse
             }
 
             reify {
-              AdaptedParamDef(name.splice, false, byRef.splice, None)
+              AdaptedParamDef(name.splice, hasDefault = false, byRef.splice, None)
             }.tree
         }
       ))

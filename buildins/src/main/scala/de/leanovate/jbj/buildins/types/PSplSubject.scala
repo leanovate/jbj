@@ -24,7 +24,7 @@ object PSplSubject extends PInterface with PInterfaceAdapter[PSplSubject] {
 
   def declaredConstants = Map.empty
 
-  def methods = InterfaceFunctions.methods[PSplSubject](this)
+  def methods = InterfaceFunctions.methods[PSplSubject]
 
-  def cast(obj: ObjectVal) = ???
+  def cast(obj: ObjectVal) = InterfaceFunctions.cast[PSplSubject](obj)
 }

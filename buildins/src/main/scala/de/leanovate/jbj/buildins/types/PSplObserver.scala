@@ -5,10 +5,11 @@ import de.leanovate.jbj.runtime.types.{PInterfaceAdapter, PInterface}
 import de.leanovate.jbj.runtime.NamespaceName
 import de.leanovate.jbj.runtime.adapter.InterfaceFunctions
 import de.leanovate.jbj.runtime.value.{ObjectVal, DelegateObjectVal}
+import de.leanovate.jbj.runtime.context.Context
 
 trait PSplObserver extends DelegateObjectVal {
   @InstanceFunction
-  def update(subject: PSplSubject)
+  def update(subject: PSplSubject)(implicit ctx: Context)
 }
 
 object PSplObserver extends PInterface with PInterfaceAdapter[PSplObserver] {
@@ -18,7 +19,7 @@ object PSplObserver extends PInterface with PInterfaceAdapter[PSplObserver] {
 
   def declaredConstants = Map.empty
 
-  def methods = InterfaceFunctions.methods[PSplObserver](this)
+  def methods = InterfaceFunctions.methods[PSplObserver]
 
-  def cast(obj: ObjectVal) = ???
+  def cast(obj: ObjectVal) = InterfaceFunctions.cast[PSplObserver](obj)
 }
