@@ -20,10 +20,8 @@ object GlobalFunctions {
 
   def functions_impl(c: Context)(inst: c.Expr[Any]): c.Expr[Seq[PFunction]] = {
     import c.universe._
+    val converterHelper = new ConverterHelper[c.type](c)
     val pVarClass = typeOf[PVar].typeSymbol
-    val pValClass = typeOf[PVal].typeSymbol
-    val pAnyClass = typeOf[PAny].typeSymbol
-    val paramClass = typeOf[PParam].typeSymbol
 
     def function_impl(member: MethodSymbol): c.Expr[PFunction] = {
       val args = member.annotations.find(_.tpe == typeOf[GlobalFunction]).get.scalaArgs
@@ -61,7 +59,7 @@ object GlobalFunctions {
       }
       val functionName = c.literal(member.name.encoded)
       val impl = c.Expr(Block(parameters.map(_._2) ++ tooManyHandler, Apply(Select(Ident(inst.actualType.termSymbol), member.name), parameters.map(_._1))))
-      val resultConverter = converterForType(member.returnType)
+      val resultConverter = converterHelper.converterForType(member.returnType)
       val paramDefs = c.Expr[Seq[PParamDef]](Apply(Select(Ident(newTermName("Seq")), newTermName("apply")),
         memberParams.map {
           parameter =>
@@ -101,66 +99,17 @@ object GlobalFunctions {
     }
     def mapParameter(_type: Type): (c.Expr[ParameterAdapter[_]], Boolean) = _type match {
       case TypeRef(_, sym, a) if sym == definitions.RepeatedParamClass => reify {
-        VarargParameterAdapter(converterForType(a.head).splice)
+        VarargParameterAdapter(converterHelper.converterForType(a.head).splice)
       } -> true
       case TypeRef(_, sym, a) if sym == definitions.OptionClass => reify {
-        OptionParameterAdapter(converterForType(a.head).splice)
+        OptionParameterAdapter(converterHelper.converterForType(a.head).splice)
       } -> false
       case TypeRef(_, sym, _) if sym == pVarClass => reify {
         RefParameterAdapter
       } -> false
       case t => reify {
-        DefaultParamterAdapter(converterForType(t).splice)
+        DefaultParamterAdapter(converterHelper.converterForType(t).splice)
       } -> false
-    }
-
-    def converterForType(_type: Type): c.Expr[Converter[_, _ <: PAny]] = {
-      _type match {
-        case t if t.typeSymbol == definitions.StringClass =>
-          reify {
-            StringConverter
-          }
-        case t if t.typeSymbol == definitions.IntClass =>
-          reify {
-            IntConverter
-          }
-        case t if t.typeSymbol == definitions.LongClass =>
-          reify {
-            LongConverter
-          }
-        case t if t.typeSymbol == definitions.DoubleClass =>
-          reify {
-            DoubleConverter
-          }
-        case t if t.typeSymbol == definitions.BooleanClass =>
-          reify {
-            BooleanConverter
-          }
-        case t if t.typeSymbol == pValClass =>
-          reify {
-            PValConverter
-          }
-        case t if t.typeSymbol == pVarClass =>
-          reify {
-            PVarConverter
-          }
-        case t if t.typeSymbol == pAnyClass =>
-          reify {
-            PAnyConverter
-          }
-        case t if t.typeSymbol == paramClass =>
-          reify {
-            ParamConverter
-          }
-        case t if t.typeSymbol == definitions.UnitClass =>
-          reify {
-            UnitConverter
-          }
-        case TypeRef(_, sym, a) if sym == definitions.ArrayClass && a.head.typeSymbol == definitions.ByteClass =>
-          reify {
-            ByteArrayConverter
-          }
-      }
     }
 
     def notEnoughWarn(name: String, expected: Int): c.Expr[Any] = {
@@ -178,7 +127,7 @@ object GlobalFunctions {
       val msg = c.literal("%s() expects exactly %d parameter, %%d given".format(name, expected))
       val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
       val ctx = c.Expr[context.Context](Ident(newTermName("callerCtx")))
-      var remainExpr = c.Expr[List[PParam]](remain)
+      val remainExpr = c.Expr[List[PParam]](remain)
       val ret = c.Expr[Unit](Return(Select(Ident(c.mirror.staticModule("de.leanovate.jbj.runtime.value.BooleanVal")), newTermName("FALSE"))))
       reify {
         if (!remainExpr.splice.isEmpty) {
@@ -204,6 +153,7 @@ object GlobalFunctions {
       member =>
         function_impl(member.asMethod).tree
     }.toList
+    //    c.echo(c.enclosingPosition, "Add global functions: " + exprs.mkString("\n"))
     c.Expr[Seq[PFunction]](Apply(Select(Ident(newTermName("Seq")), newTermName("apply")),
       exprs))
   }

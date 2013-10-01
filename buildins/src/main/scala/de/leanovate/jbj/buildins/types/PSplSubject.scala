@@ -1,10 +1,10 @@
 package de.leanovate.jbj.buildins.types
 
-import de.leanovate.jbj.runtime.types.PInterface
+import de.leanovate.jbj.runtime.types.{PInterfaceAdapter, PInterface}
 import de.leanovate.jbj.runtime.NamespaceName
 import de.leanovate.jbj.runtime.adapter.InterfaceFunctions
 import de.leanovate.jbj.runtime.annotations.InstanceFunction
-import de.leanovate.jbj.runtime.value.DelegateObjectVal
+import de.leanovate.jbj.runtime.value.{ObjectVal, DelegateObjectVal}
 
 trait PSplSubject extends DelegateObjectVal {
   @InstanceFunction
@@ -17,7 +17,7 @@ trait PSplSubject extends DelegateObjectVal {
   def pNotify()
 }
 
-object PSplSubject extends PInterface {
+object PSplSubject extends PInterface with PInterfaceAdapter[PSplSubject] {
   def name = NamespaceName(relative = false, prefixed = false, "SplSubject")
 
   def interfaces = List.empty
@@ -25,4 +25,6 @@ object PSplSubject extends PInterface {
   def declaredConstants = Map.empty
 
   def methods = InterfaceFunctions.methods[PSplSubject](this)
+
+  def cast(obj: ObjectVal) = ???
 }

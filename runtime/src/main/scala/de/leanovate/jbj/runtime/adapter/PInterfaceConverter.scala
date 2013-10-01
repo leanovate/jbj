@@ -4,7 +4,7 @@ import de.leanovate.jbj.runtime.value.ObjectVal
 import de.leanovate.jbj.runtime.types.{PInterfaceAdapter, PParam}
 import de.leanovate.jbj.runtime.context.Context
 
-case class PInterfaceConverter[T](adapter: PInterfaceAdapter[T]) extends Converter[T, ObjectVal] {
+case class PInterfaceConverter[T <: ObjectVal](adapter: PInterfaceAdapter[T]) extends Converter[T, ObjectVal] {
   override def toScalaWithConversion(param: PParam)(implicit ctx: Context) = {
     param.byVal.concrete match {
       case obj: ObjectVal =>
@@ -16,5 +16,5 @@ case class PInterfaceConverter[T](adapter: PInterfaceAdapter[T]) extends Convert
     adapter.cast(value)
   }
 
-  override def toJbj(value: T)(implicit ctx: Context) = ???
+  override def toJbj(value: T)(implicit ctx: Context) = value
 }
