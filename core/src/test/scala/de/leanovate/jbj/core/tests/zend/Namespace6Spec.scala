@@ -110,6 +110,7 @@ class Namespace6Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
     "055: typehints in namespaces" in {
       // Zend/tests/ns_055.phpt
       script(
