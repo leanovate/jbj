@@ -1,10 +1,12 @@
 package de.leanovate.jbj.runtime.adapter
 
 import language.experimental.macros
-import de.leanovate.jbj.runtime.types.{ClassTypeHint, TypeHint, PParamDef, PInterface}
+import de.leanovate.jbj.runtime.types._
 import scala.reflect.macros.Context
-import de.leanovate.jbj.runtime.annotations.InstanceFunction
 import de.leanovate.jbj.runtime.value.ObjectVal
+import scala.Some
+import de.leanovate.jbj.runtime.types.ClassTypeHint
+import de.leanovate.jbj.runtime.annotations.InstanceFunction
 
 object InterfaceFunctions {
   def methods[T]: Map[String, PInterfaceMethod] = macro methodsImpl[T]
@@ -69,6 +71,8 @@ object InterfaceFunctions {
   def castImpl[T: c.WeakTypeTag](c: Context)(obj: c.Expr[ObjectVal]): c.Expr[T] = {
     import c.universe._
 
+    val converterHelper = new ConverterHelper[c.type](c)
+    val anonType = newTypeName("$anon")
     val interfaceType = weakTypeOf[T]
     val constructor = DefDef(Modifiers(), nme.CONSTRUCTOR, List(), List(List()), TypeTree(),
       Block(List(Apply(Select(Super(This(tpnme.EMPTY), tpnme.EMPTY), nme.CONSTRUCTOR), List())), Literal(Constant())))
@@ -78,6 +82,8 @@ object InterfaceFunctions {
         member.isMethod && member.annotations.exists(_.tpe == typeOf[InstanceFunction])
     }.map {
       method =>
+        val args = method.annotations.find(_.tpe == typeOf[InstanceFunction]).get.scalaArgs
+        val actualName = c.eval(c.Expr[Option[String]](c.resetAllAttrs(args(0)))).getOrElse(method.name.encoded)
         val parameters = method.asMethod.paramss.map {
           params =>
             params.map {
@@ -87,13 +93,35 @@ object InterfaceFunctions {
                 ValDef(Modifiers(Flag.PARAM), param.name.toTermName, Ident(param.typeSignature.typeSymbol), EmptyTree)
             }
         }
-        DefDef(Modifiers(), method.name, List(), parameters, TypeTree(), Select(Ident(newTermName("Predef")), newTermName("$qmark$qmark$qmark")))
+        val resultConverter = converterHelper.converterForType(method.asMethod.returnType)
+        val nonImplictParams = method.asMethod.paramss.flatten.filter(!_.isImplicit)
+        val pAnyParam = reify {
+          PAnyParam
+        }.tree
+        val implementation = Block(
+          nonImplictParams.map {
+            param =>
+              val paramConverter = converterHelper.converterForType(param.typeSignature)
+              ValDef(Modifiers(), newTermName(param.name.encoded + "Val"), TypeTree(),
+                Apply(Select(paramConverter.tree, newTermName("toJbj")), List(Ident(param.name))))
+          }.toList,
+          Apply(Select(resultConverter.tree, newTermName("toScalaWithConversion")), List(
+            Apply(Select(Select(This(anonType), newTermName("pClass")), newTermName("invokeMethod")), List[Tree](
+              Apply(Select(Ident(newTermName("Some")), newTermName("apply")), List(This(anonType))),
+              Literal(Constant(actualName)),
+              Apply(Select(Ident(newTermName("List")), newTermName("apply")), nonImplictParams.map {
+                param =>
+                  Apply(Select(pAnyParam, newTermName("apply")), List(Ident(newTermName(param.name.encoded + "Val"))))
+              }.toList)
+            )))
+          ))
+        DefDef(Modifiers(), method.name, List(), parameters, TypeTree(), implementation)
     }.toList
     c.Expr[T](Block(
       List(
-        ClassDef(Modifiers(Flag.FINAL), newTypeName("$anon"), List(),
+        ClassDef(Modifiers(Flag.FINAL), anonType, List(),
           Template(List(Ident(interfaceType.typeSymbol)), emptyValDef, constructor :: delegate :: methods))
       ),
-      Apply(Select(New(Ident(newTypeName("$anon"))), nme.CONSTRUCTOR), List())))
+      Apply(Select(New(Ident(anonType)), nme.CONSTRUCTOR), List())))
   }
 }

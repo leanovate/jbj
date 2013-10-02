@@ -7,14 +7,16 @@
 
 package de.leanovate.jbj.runtime.adapter
 
-import de.leanovate.jbj.runtime.value.{NullVal, PVal}
+import de.leanovate.jbj.runtime.value.{PAny, NullVal, PVal}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 
 object UnitConverter extends Converter[Unit, PVal] {
-  def toScalaWithConversion(param: PParam)(implicit ctx: Context) {}
+  override def toScalaWithConversion(param: PAny)(implicit ctx: Context) {}
 
-  def toScala(value: PVal)(implicit ctx: Context) {}
+  override def toScalaWithConversion(param: PParam)(implicit ctx: Context) {}
 
-  def toJbj(value: Unit)(implicit ctx: Context) = NullVal
+  override def toScala(value: PVal)(implicit ctx: Context) {}
+
+  override def toJbj(value: Unit)(implicit ctx: Context) = NullVal
 }

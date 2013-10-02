@@ -42,19 +42,19 @@ object PArrayAccess extends PInterface {
     def delegate = _obj
 
     def offsetUnset(idx: PVal)(implicit ctx: Context) {
-      _obj.pClass.invokeMethod(Some(this), "offsetUnset", PAnyParam(idx) :: Nil)
+      pClass.invokeMethod(Some(this), "offsetUnset", PAnyParam(idx) :: Nil)
     }
 
     def offsetExists(idx: PVal)(implicit ctx: Context) =
-      _obj.pClass.invokeMethod(Some(this), "offsetExists", PAnyParam(idx) :: Nil).asVal.toBool.asBoolean
+      pClass.invokeMethod(Some(this), "offsetExists", PAnyParam(idx) :: Nil).asVal.toBool.asBoolean
 
 
     def offsetGet(idx: PVal)(implicit ctx: Context) =
-      _obj.pClass.invokeMethod(Some(this), "offsetGet", PAnyParam(idx) :: Nil)
+      pClass.invokeMethod(Some(this), "offsetGet", PAnyParam(idx) :: Nil)
 
 
     def offsetSet(idx: PVal, value: PVal)(implicit ctx: Context) = {
-      _obj.pClass.invokeMethod(Some(this), "offsetSet", PAnyParam(idx) :: PAnyParam(value) :: Nil)
+      pClass.invokeMethod(Some(this), "offsetSet", PAnyParam(idx) :: PAnyParam(value) :: Nil)
     }
   }
 }

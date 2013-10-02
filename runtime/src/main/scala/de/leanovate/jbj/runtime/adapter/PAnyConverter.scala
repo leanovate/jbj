@@ -12,6 +12,8 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 
 object PAnyConverter extends Converter[PAny, PAny] {
+  override def toScalaWithConversion(pAny: PAny)(implicit ctx: Context) = pAny.asVal
+
   override def toScalaWithConversion(param: PParam)(implicit ctx: Context) = param.byVal
 
   override def toScala(value: PAny)(implicit ctx: Context) = value

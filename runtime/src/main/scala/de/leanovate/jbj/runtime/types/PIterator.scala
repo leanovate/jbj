@@ -63,21 +63,21 @@ object PIterator extends PInterface with PInterfaceAdapter[PIterator] {
     def delegate = _obj
 
     def rewind()(implicit ctx: Context) {
-      _obj.pClass.invokeMethod(Some(_obj), "rewind", Nil)
+      pClass.invokeMethod(Some(this), "rewind", Nil)
     }
 
     def valid(implicit ctx: Context) = {
-      _obj.pClass.invokeMethod(Some(_obj), "valid", Nil).asVal.toBool.asBoolean
+      pClass.invokeMethod(Some(this), "valid", Nil).asVal.toBool.asBoolean
     }
 
     def current(implicit ctx: Context) =
-      _obj.pClass.invokeMethod(Some(_obj), "current", Nil)
+      pClass.invokeMethod(Some(this), "current", Nil)
 
     def next()(implicit ctx: Context) {
-      _obj.pClass.invokeMethod(Some(_obj), "next", Nil)
+      pClass.invokeMethod(Some(this), "next", Nil)
     }
 
     def key(implicit ctx: Context) =
-      _obj.pClass.invokeMethod(Some(_obj), "key", Nil).asVal
+      pClass.invokeMethod(Some(this), "key", Nil).asVal
   }
 }

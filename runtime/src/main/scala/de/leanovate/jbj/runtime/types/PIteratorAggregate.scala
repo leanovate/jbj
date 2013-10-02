@@ -46,7 +46,7 @@ object PIteratorAggregate extends PInterface with PInterfaceAdapter[PIteratorAgg
     def delegate = _obj
 
     def getIterator()(implicit ctx: Context) = {
-      _obj.pClass.invokeMethod(Some(this), "getIterator", Nil).asVal.concrete match {
+      pClass.invokeMethod(Some(this), "getIterator", Nil).asVal.concrete match {
         case obj: ObjectVal if obj.instanceOf(PIterator) =>
           PIterator.cast(obj)
         case obj: ObjectVal if obj.instanceOf(PIteratorAggregate) =>

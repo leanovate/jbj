@@ -7,14 +7,16 @@
 
 package de.leanovate.jbj.runtime.adapter
 
-import de.leanovate.jbj.runtime.value.PVal
+import de.leanovate.jbj.runtime.value.{PAny, PVal}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.{PAnyParam, PValParam, PParam}
 
 object ParamConverter extends Converter[PParam, PVal] {
-  def toScalaWithConversion(param: PParam)(implicit ctx: Context) = param
+  override def toScalaWithConversion(pAny: PAny)(implicit ctx: Context) = PAnyParam(pAny)
 
-  def toScala(value: PVal)(implicit ctx: Context) = PAnyParam(value)
+  override def toScalaWithConversion(param: PParam)(implicit ctx: Context) = param
 
-  def toJbj(param: PParam)(implicit ctx: Context) = param.byVal
+  override def toScala(value: PVal)(implicit ctx: Context) = PAnyParam(value)
+
+  override def toJbj(param: PParam)(implicit ctx: Context) = param.byVal
 }

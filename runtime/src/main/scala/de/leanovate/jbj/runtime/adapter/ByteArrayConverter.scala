@@ -7,14 +7,16 @@
 
 package de.leanovate.jbj.runtime.adapter
 
-import de.leanovate.jbj.runtime.value.StringVal
+import de.leanovate.jbj.runtime.value.{PAny, StringVal}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 
 object ByteArrayConverter extends Converter[Array[Byte], StringVal] {
-  def toScalaWithConversion(param: PParam)(implicit ctx: Context) = param.byVal.toStr.chars
+  override def toScalaWithConversion(pAny: PAny)(implicit ctx: Context) = pAny.asVal.toStr.chars
 
-  def toScala(value: StringVal)(implicit ctx: Context) = value.chars
+  override def toScalaWithConversion(param: PParam)(implicit ctx: Context) = param.byVal.toStr.chars
 
-  def toJbj(value: Array[Byte])(implicit ctx: Context) = StringVal(value)
+  override def toScala(value: StringVal)(implicit ctx: Context) = value.chars
+
+  override def toJbj(value: Array[Byte])(implicit ctx: Context) = StringVal(value)
 }
