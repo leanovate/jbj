@@ -73,7 +73,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       case name ~ _ ~ stmts => NamespaceDeclStmt(name, stmts)
     } | "namespace" ~> "{" ~> topStatementList <~ "}" ^^ {
       stmts => NamespaceDeclStmt(NamespaceName(relative = false, prefixed = false), stmts)
-    } | "use" ~> rep(useDeclaration) <~ ";" ^^ {
+    } | "use" ~> rep1sep(useDeclaration, ",") <~ ";" ^^ {
       useAsDecls => UseDeclStmt(useAsDecls)
     } | constantDeclaration <~ ";"
 

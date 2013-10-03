@@ -69,27 +69,8 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
+        |use X\Y as test, X\Z as test2;
         |
-        |class foo {
-        |	public $e = array();
-        |
-        |	public function __construct() {
-        |		$this->e[] = $this;
-        |	}
-        |
-        |	public function __set($a, $b) {
-        |		var_dump($a, $b);
-        |	}
-        |	public function __get($a) {
-        |		var_dump($a);
-        |		return $this;
-        |	}
-        |}
-        |
-        |$x = new foo;
-        |$x->d->e[0]->f = 2;
-        |
-        |?>
         |""".stripMargin)
   }
 }

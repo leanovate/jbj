@@ -127,5 +127,23 @@ class Namespace7Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "065: Multiple names in use statement" in {
+      // Zend/tests/ns_065.phpt
+      script(
+        """<?php
+          |use X\Y as test, X\Z as test2;
+          |
+          |require "ns_065.inc";
+          |
+          |test\foo();
+          |test2\foo();
+          |""".stripMargin
+      ).result must haveOutput(
+        """X\Y\foo
+          |X\Z\foo
+          |""".stripMargin
+      )
+    }
   }
 }
