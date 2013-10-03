@@ -66,7 +66,7 @@ class ArrayVal(private var keyValueMap: ExtendedLinkedHashMap[Any]) extends PCon
 
   override def decr = this
 
-  override def typeName: String = "array"
+  override def typeName(simple: Boolean = false): String = "array"
 
   override def size: Int = keyValueMap.size
 

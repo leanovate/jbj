@@ -26,7 +26,7 @@ abstract class BooleanVal extends PConcreteVal {
 
   override def decr = this
 
-  override def typeName = "boolean"
+  override def typeName(simple: Boolean = false) = "boolean"
 }
 
 object BooleanVal {

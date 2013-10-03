@@ -34,7 +34,7 @@ abstract class LazyVal extends PVal {
 
   def decr = value.decr
 
-  def typeName = value.typeName
+  def typeName(simple :Boolean = false) = value.typeName(simple)
 
   def compare(other: PVal)(implicit ctx: Context) = value.compare(other)
 

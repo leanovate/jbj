@@ -35,7 +35,7 @@ trait PVal extends PAny {
 
   def decr: PVal
 
-  def typeName: String
+  def typeName(simple: Boolean = false): String
 
   def compare(other: PVal)(implicit ctx: Context): Int
 

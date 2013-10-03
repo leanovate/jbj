@@ -31,7 +31,7 @@ case class DoubleVal(asDouble: Double) extends NumericVal {
 
   override def decr = DoubleVal(asDouble - 1)
 
-  override def typeName = "double"
+  override def typeName(simple: Boolean = false) = "double"
 
   override def compare(other: PVal)(implicit ctx: Context): Int = other match {
     case NumericVal(otherDouble) => asDouble.compare(otherDouble)

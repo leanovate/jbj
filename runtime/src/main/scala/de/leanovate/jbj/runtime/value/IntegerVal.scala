@@ -25,7 +25,7 @@ case class IntegerVal(asLong: Long) extends NumericVal {
 
   override def decr = if (asLong > Long.MinValue) IntegerVal(asLong - 1) else DoubleVal(asLong.toDouble - 1)
 
-  override def typeName = "integer"
+  override def typeName(simple: Boolean = false) = "integer"
 
   override def compare(other: PVal)(implicit ctx: Context): Int = other match {
     case IntegerVal(otherLong) => asLong.compare(otherLong)

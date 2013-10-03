@@ -32,7 +32,7 @@ object NullVal extends PConcreteVal {
 
   override def decr = NullVal
 
-  override def typeName = "null"
+  override def typeName(simple: Boolean = false) = "null"
 
   override def compare(other: PVal)(implicit ctx: Context): Int = other match {
     case BooleanVal(otherBool) => if (otherBool) 1 else 0

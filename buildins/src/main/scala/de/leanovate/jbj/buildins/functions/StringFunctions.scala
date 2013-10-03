@@ -82,7 +82,7 @@ object StringFunctions {
       case obj: ObjectVal =>
         StringVal(obj.toStr.asString.trim)
       case v =>
-        ctx.log.warn("trim() expects parameter 1 to be string, %s given".format(v.typeName))
+        ctx.log.warn("trim() expects parameter 1 to be string, %s given".format(v.typeName(simple = true)))
         NullVal
     }
   }

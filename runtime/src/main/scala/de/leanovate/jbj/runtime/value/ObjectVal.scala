@@ -70,7 +70,7 @@ trait ObjectVal extends PConcreteVal {
 
   override def decr = this
 
-  override def typeName = "instance of %s".format(pClass.name.toString)
+  override def typeName(simple: Boolean = false) = if(simple) "object" else "instance of %s".format(pClass.name.toString)
 
   override def compare(other: PVal)(implicit ctx: Context): Int = other match {
     case otherObj: ObjectVal =>

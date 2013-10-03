@@ -46,7 +46,7 @@ object ArrayTypeHint extends TypeHint {
         ctx match {
           case methodCtx: FunctionLikeContext =>
             CatchableFatalError("Argument %d passed to %s must be of the type array, %s given, called in %s on line %d and defined".
-              format(index + 1, methodCtx.functionSignature, pVal.typeName,
+              format(index + 1, methodCtx.functionSignature, pVal.typeName(simple = true),
               methodCtx.callerContext.currentPosition.fileName, methodCtx.callerContext.currentPosition.line))
         }
     }
@@ -104,7 +104,7 @@ case class ClassTypeHint(className: NamespaceName) extends TypeHint {
               case methodCtx: FunctionLikeContext =>
                 CatchableFatalError("Argument %d passed to %s must implement interface %s, %s given, called in %s on line %d and defined".
                   format(index + 1, methodCtx.functionSignature,
-                  pInterface.name.toString, pVal.typeName,
+                  pInterface.name.toString, pVal.typeName(simple = false),
                   methodCtx.callerContext.currentPosition.fileName, methodCtx.callerContext.currentPosition.line))
             }
         }
@@ -117,7 +117,7 @@ case class ClassTypeHint(className: NamespaceName) extends TypeHint {
               case methodCtx: FunctionLikeContext =>
                 CatchableFatalError("Argument %d passed to %s must be an instance of %s, %s given, called in %s on line %d and defined".
                   format(index + 1, methodCtx.functionSignature,
-                  pClass.name.toString, pVal.typeName,
+                  pClass.name.toString, pVal.typeName(simple = false),
                   methodCtx.callerContext.currentPosition.fileName, methodCtx.callerContext.currentPosition.line))
             }
         }
@@ -129,7 +129,7 @@ case class ClassTypeHint(className: NamespaceName) extends TypeHint {
               case methodCtx: FunctionLikeContext =>
                 CatchableFatalError("Argument %d passed to %s must be an instance of %s, %s given, called in %s on line %d and defined".
                   format(index + 1, methodCtx.functionSignature,
-                  className.toString, pVal.typeName,
+                  className.toString, pVal.typeName(simple = false),
                   methodCtx.callerContext.currentPosition.fileName, methodCtx.callerContext.currentPosition.line))
             }
         }

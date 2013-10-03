@@ -92,7 +92,7 @@ class StringVal(var chars: Array[Byte]) extends PConcreteVal with ArrayLike {
 
   override def decr = if (isStrongNumericPattern) toNum.decr else this
 
-  override def typeName = "string"
+  override def typeName(simple: Boolean = false) = "string"
 
   override def size: Int = chars.length
 

@@ -28,5 +28,5 @@ object ValueFunctions {
   }
 
   @GlobalFunction
-  def gettype(value: PVal): String = value.typeName
+  def gettype(value: PVal): String = value.typeName(simple = false)
 }

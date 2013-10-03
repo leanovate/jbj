@@ -1,3 +1,10 @@
+/*    _ _     _                                        *\
+**   (_) |__ (_)  License: MIT  (2013)                 **
+**   | |  _ \| |    http://opensource.org/licenses/MIT **
+**   | | |_) | |                                       **
+**  _/ |____// |  Author: Bodo Junglas                 **
+\* |__/    |__/                 (Tests based on PHP)   */
+
 package de.leanovate.jbj.core.tests.zend
 
 import org.specs2.mutable.SpecificationWithJUnit
@@ -176,7 +183,7 @@ class Namespace7Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "068: Code before namespace" in {
-      // ../php-src/Zend/tests/ns_068.phpt
+      // Zend/tests/ns_068.phpt
       script(
         """<?php
           |echo __NAMESPACE__ . "\n";
@@ -190,6 +197,35 @@ class Namespace7Spec extends SpecificationWithJUnit with TestJbjExecutor {
       ).result must haveOutput(
         """
           |Fatal error: Namespace declaration statement has to be the very first statement in the script in /zend/Namespace7Spec.inlinePhp on line 2
+          |""".stripMargin
+      )
+    }
+
+    "069: Include inside namespaced method" in {
+      // Zend/tests/ns_069.phpt
+      script(
+        """<?php
+          |
+          |namespace foo;
+          |
+          |class Test {
+          |  static function f() {
+          |    var_dump((binary)__NAMESPACE__);
+          |    include __DIR__ . '/ns_069.inc';
+          |    var_dump((binary)__NAMESPACE__);
+          |  }
+          |}
+          |
+          |Test::f();
+          |
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """string(3) "foo"
+          |string(0) ""
+          |string(3) "foo"
+          |===DONE===
           |""".stripMargin
       )
     }
