@@ -9,6 +9,10 @@ package de.leanovate.jbj.core.ast
 
 import de.leanovate.jbj.runtime.{NoNodePosition, NodePosition, JbjScript, ExecResult}
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.core.ast.decl.{NamespaceDeclStmt, SetNamespaceDeclStmt}
+import scala.annotation.tailrec
+import de.leanovate.jbj.core.ast.stmt.InlineStmt
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike with JbjScript {
   private lazy val staticInitializers = StaticInitializer.collect(this)
@@ -16,6 +20,15 @@ case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike 
   private lazy val deprecatedNodes = visit(new Prog.DeprectatedNodeVisitor).results
 
   override def exec(implicit ctx: Context): ExecResult = {
+    val hasNameSpace = stmts.exists {
+      case _: SetNamespaceDeclStmt => true
+      case _: NamespaceDeclStmt => true
+      case _ => false
+    }
+    if (hasNameSpace) {
+      checkStmtsBeforeNamespace(stmts.toList)
+    }
+
     ctx.global.resetCurrentNamepsace()
     staticInitializers.foreach(_.initializeStatic(ctx.static))
     ctx.static.initialized = true
@@ -31,9 +44,23 @@ case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike 
   }
 
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(stmts)
+
+  @tailrec
+  private def checkStmtsBeforeNamespace(stmts: List[Stmt])(implicit ctx: Context) {
+    stmts match {
+      case (_: InlineStmt) :: tail => checkStmtsBeforeNamespace(tail)
+      case (_: NamespaceDeclStmt) :: tail =>
+      case (_: SetNamespaceDeclStmt) :: tail =>
+      case stmt :: tail =>
+        ctx.currentPosition = stmt.position
+        throw new FatalErrorJbjException("Namespace declaration statement has to be the very first statement in the script")
+      case Nil =>
+    }
+  }
 }
 
 object Prog {
+
   class DeprectatedNodeVisitor extends NodeVisitor[(Node, NodePosition)] {
     var pos: NodePosition = NoNodePosition
 
@@ -48,4 +75,5 @@ object Prog {
       case _ => NextChild()
     }
   }
+
 }

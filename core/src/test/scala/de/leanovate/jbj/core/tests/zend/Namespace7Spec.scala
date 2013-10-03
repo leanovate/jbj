@@ -174,5 +174,24 @@ class Namespace7Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "068: Code before namespace" in {
+      // ../php-src/Zend/tests/ns_068.phpt
+      script(
+        """<?php
+          |echo __NAMESPACE__ . "\n";
+          |namespace foo;
+          |echo __NAMESPACE__ . "\n";
+          |namespace bar;
+          |echo __NAMESPACE__ . "\n";
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Namespace declaration statement has to be the very first statement in the script in /zend/Namespace7Spec.inlinePhp on line 2
+          |""".stripMargin
+      )
+    }
   }
 }
