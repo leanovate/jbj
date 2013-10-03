@@ -506,6 +506,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     } | stringLit ^^ {
       s => ScalarExpr(StringVal(s.getBytes(parseCtx.settings.getCharset)))
     } | "__FILE__" ^^^ FileNameConstExpr() |
+      "__DIR__" ^^^ DirNameConstExpr() |
       "__LINE__" ^^^ LineNumberConstExpr() |
       "__FUNCTION__" ^^^ FunctionNameConstExpr() |
       "__METHOD__" ^^^ MethodNameConstExpr() |
@@ -518,9 +519,9 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     commonScalar | staticClassNameScalar | staticClassConstant | namespaceName ^^ {
       name => ConstGetExpr(name)
     } | "namespace" ~> "\\" ~> namespaceName ^^ {
-      name => ConstGetExpr(NamespaceName(relative = false, prefixed = true, name.path :_*))
+      name => ConstGetExpr(NamespaceName(relative = false, prefixed = true, name.path: _*))
     } | "\\" ~> namespaceName ^^ {
-      name => ConstGetExpr(NamespaceName(relative = false, prefixed = false, name.path :_*))
+      name => ConstGetExpr(NamespaceName(relative = false, prefixed = false, name.path: _*))
     } | "+" ~> staticScalar ^^ {
       s => PosExpr(s)
     } | "-" ~> staticScalar ^^ {
@@ -538,9 +539,9 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val scalar: PackratParser[Expr] = classNameScalar | classConstant | namespaceName ^^ {
     name => ConstGetExpr(name)
   } | "namespace" ~> "\\" ~> namespaceName ^^ {
-    name => ConstGetExpr(NamespaceName(relative = false, prefixed = true, name.path :_*))
+    name => ConstGetExpr(NamespaceName(relative = false, prefixed = true, name.path: _*))
   } | "\\" ~> namespaceName ^^ {
-    name => ConstGetExpr(NamespaceName(relative = false, prefixed = false, name.path :_*))
+    name => ConstGetExpr(NamespaceName(relative = false, prefixed = false, name.path: _*))
   } | commonScalar | "\"" ~> encapsList <~ "\"" ^^ {
     interpolated => InterpolatedStringExpr(interpolated)
   } | hereDocStartLit ~> encapsList <~ hereDocEndLit ^^ {

@@ -84,11 +84,16 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
         }
   }
 
-  def findInterface(name: NamespaceName, autoload: Boolean): Option[PInterface] = {
-    val result = jbj.predefinedInterfaces.get(name.lowercase).map(Some.apply).getOrElse(interfaces.get(name.lowercase)).map(interfaceInitializer)
+  def findInterface(name: NamespaceName, autoload: Boolean, includePredefined: Boolean = true): Option[PInterface] = {
+    val result = interfaces.get(name.lowercase).map(Some.apply).getOrElse {
+      if (includePredefined)
+        jbj.predefinedInterfaces.get(name.lowercase)
+      else
+        None
+    }.map(interfaceInitializer)
 
     if (autoload) {
-      result.map(Some.apply).getOrElse(tryAutoload(name, findInterface))
+      result.map(Some.apply).getOrElse(tryAutoload(name, findInterface(_, _, includePredefined)))
     } else {
       result
     }
@@ -96,25 +101,30 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
 
   def declaredClasses: Seq[PClass] = jbj.predefinedClasses.values.toSeq ++ classes.values.toSeq
 
-  def findClass(name: NamespaceName, autoload: Boolean): Option[PClass] = {
-    val result = jbj.predefinedClasses.get(name.lowercase).map(Some.apply).getOrElse(classes.get(name.lowercase)).map(classInitializer)
+  def findClass(name: NamespaceName, autoload: Boolean, includePredefined: Boolean = true): Option[PClass] = {
+    val result = classes.get(name.lowercase).map(Some.apply).getOrElse {
+      if (includePredefined)
+        jbj.predefinedClasses.get(name.lowercase)
+      else
+        None
+    }.map(classInitializer)
 
     if (autoload) {
-      result.map(Some.apply).getOrElse(tryAutoload(name, findClass))
+      result.map(Some.apply).getOrElse(tryAutoload(name, findClass(_, _, includePredefined)))
     } else {
       result
     }
   }
 
-  def findInterfaceOrClass(name: NamespaceName, autoload: Boolean): Option[Either[PInterface, PClass]] = {
-    val result = findInterface(name, autoload = false).map {
+  def findInterfaceOrClass(name: NamespaceName, autoload: Boolean, includePredefined: Boolean = true): Option[Either[PInterface, PClass]] = {
+    val result = findInterface(name, autoload = false, includePredefined).map {
       interface => Some(Left(interface))
     }.getOrElse {
-      findClass(name, autoload = false).map(Right(_))
+      findClass(name, autoload = false, includePredefined).map(Right(_))
     }
 
     if (autoload) {
-      result.map(Some.apply).getOrElse(tryAutoload(name, findInterfaceOrClass))
+      result.map(Some.apply).getOrElse(tryAutoload(name, findInterfaceOrClass(_, _, includePredefined)))
     } else {
       result
     }

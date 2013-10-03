@@ -1,3 +1,10 @@
+/*    _ _     _                                        *\
+**   (_) |__ (_)  License: MIT  (2013)                 **
+**   | |  _ \| |    http://opensource.org/licenses/MIT **
+**   | | |_) | |                                       **
+**  _/ |____// |  Author: Bodo Junglas                 **
+\* |__/    |__/                                        */
+
 package de.leanovate.jbj.core.ast.decl
 
 import de.leanovate.jbj.core.ast.DeclStmt
@@ -29,7 +36,7 @@ case class UseDeclStmt(useAsDecls: List[UseAsDecl]) extends DeclStmt {
           case UseAsDecl(name, None) =>
             aliasBuilder += name.lastPath -> name.absolute
           case UseAsDecl(name, Some(alias)) =>
-            if (ctx.global.findInterfaceOrClass(NamespaceName(alias).absolute, autoload = false).isDefined)
+            if (ctx.global.findInterfaceOrClass(NamespaceName(alias).absolute, autoload = false, includePredefined = false).isDefined)
               throw new FatalErrorJbjException("Cannot use %s as %s because the name is already in use".format(name.toString, alias))
             aliasBuilder += alias -> name
         }
