@@ -160,5 +160,19 @@ class Namespace7Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "067: Name ambiguity (import name & internal class name)" in {
+      // Zend/tests/ns_067.phpt
+      script(
+        """<?php
+          |include __DIR__ . '/ns_022.inc';
+          |include __DIR__ . '/ns_027.inc';
+          |include __DIR__ . '/ns_067.inc';
+          |""".stripMargin
+      ).result must haveOutput(
+        """Foo\Bar\Foo
+          |""".stripMargin
+      )
+    }
   }
 }

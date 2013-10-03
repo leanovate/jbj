@@ -84,16 +84,11 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
         }
   }
 
-  def findInterface(name: NamespaceName, autoload: Boolean, includePredefined: Boolean = true): Option[PInterface] = {
-    val result = interfaces.get(name.lowercase).map(Some.apply).getOrElse {
-      if (includePredefined)
-        jbj.predefinedInterfaces.get(name.lowercase)
-      else
-        None
-    }.map(interfaceInitializer)
+  def findInterface(name: NamespaceName, autoload: Boolean): Option[PInterface] = {
+    val result = interfaces.get(name.lowercase).map(Some.apply).getOrElse(jbj.predefinedInterfaces.get(name.lowercase)).map(interfaceInitializer)
 
     if (autoload) {
-      result.map(Some.apply).getOrElse(tryAutoload(name, findInterface(_, _, includePredefined)))
+      result.map(Some.apply).getOrElse(tryAutoload(name, findInterface))
     } else {
       result
     }
@@ -101,30 +96,25 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
 
   def declaredClasses: Seq[PClass] = jbj.predefinedClasses.values.toSeq ++ classes.values.toSeq
 
-  def findClass(name: NamespaceName, autoload: Boolean, includePredefined: Boolean = true): Option[PClass] = {
-    val result = classes.get(name.lowercase).map(Some.apply).getOrElse {
-      if (includePredefined)
-        jbj.predefinedClasses.get(name.lowercase)
-      else
-        None
-    }.map(classInitializer)
+  def findClass(name: NamespaceName, autoload: Boolean): Option[PClass] = {
+    val result = classes.get(name.lowercase).map(Some.apply).getOrElse(jbj.predefinedClasses.get(name.lowercase)).map(classInitializer)
 
     if (autoload) {
-      result.map(Some.apply).getOrElse(tryAutoload(name, findClass(_, _, includePredefined)))
+      result.map(Some.apply).getOrElse(tryAutoload(name, findClass))
     } else {
       result
     }
   }
 
-  def findInterfaceOrClass(name: NamespaceName, autoload: Boolean, includePredefined: Boolean = true): Option[Either[PInterface, PClass]] = {
-    val result = findInterface(name, autoload = false, includePredefined).map {
+  def findInterfaceOrClass(name: NamespaceName, autoload: Boolean): Option[Either[PInterface, PClass]] = {
+    val result = findInterface(name, autoload = false).map {
       interface => Some(Left(interface))
     }.getOrElse {
-      findClass(name, autoload = false, includePredefined).map(Right(_))
+      findClass(name, autoload = false).map(Right(_))
     }
 
     if (autoload) {
-      result.map(Some.apply).getOrElse(tryAutoload(name, findInterfaceOrClass(_, _, includePredefined)))
+      result.map(Some.apply).getOrElse(tryAutoload(name, findInterfaceOrClass))
     } else {
       result
     }
@@ -145,10 +135,12 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
 
   def defineClass(pClass: PClass) {
     classes.put(pClass.name.lowercase, pClass)
+    namespaceAliases += pClass.name.lastPath -> pClass.name
   }
 
   def defineInterface(pInterface: PInterface) {
     interfaces.put(pInterface.name.lowercase, pInterface)
+    namespaceAliases += pInterface.name.lastPath -> pInterface.name
   }
 
   def findConstant(name: NamespaceName): Option[PVal] = {
@@ -157,11 +149,6 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
         jbj.preedfinedConstants.get(name.lastPath.toLowerCase)
       }
     }
-    //      .map(Some.apply).getOrElse {
-    //      constants.get(CaseSensitiveConstantKey(Seq(name.lastPath))).map(Some.apply).getOrElse {
-    //        constants.get(CaseInsensitiveConstantKey(Seq(name.lastPath.toLowerCase)))
-    //      }
-    //    }
   }
 
   def defineConstant(name: NamespaceName, value: PVal, caseInsensitive: Boolean) {
