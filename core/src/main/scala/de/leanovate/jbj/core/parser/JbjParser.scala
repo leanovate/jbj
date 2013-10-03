@@ -422,7 +422,10 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     } | variable ||| scalar | combinedScalarOffset |
       "print" ~> expr ^^ {
         e => PrintExpr(e)
-      } | parenthesisExpr
+      } | opt("static") ~ "function" ~ opt("&") ~ "(" ~ parameterList ~ ")" ~ "{" ~ innerStatementList <~ "}" ^^ {
+      case Some(_) ~ _ ~ optRef ~ _ ~ params ~ _ ~ _ ~ stmts => StaticLambdaDeclExpr(optRef.isDefined, params, stmts)
+      case None ~ _ ~ optRef ~ _ ~ params ~ _ ~ _ ~ stmts => LambdaDeclExpr(optRef.isDefined, params, stmts)
+    } | parenthesisExpr
 
   lazy val combinedScalarOffset: PackratParser[Expr] = combinedScalar ~ rep("[" ~> dimOffset <~ "]") ^^ {
     case s ~ dims => dims.foldLeft(s) {

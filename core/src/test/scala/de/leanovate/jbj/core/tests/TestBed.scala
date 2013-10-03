@@ -70,27 +70,24 @@ object TestBed {
     test(
       """<?php
         |
-        |namespace foo;
+        |$lambda1 = function () {
+        |        echo "Hello World!\n";
+        |};
         |
-        |interface foo {
+        |$lambda2 = function ($x) {
+        |        echo "Hello $x!\n";
+        |};
         |
-        |}
+        |var_dump($lambda1);
+        |var_dump(new stdClass);
+        |var_dump(is_callable($lambda1));
+        |var_dump(is_callable($lambda2));
+        |$lambda1();
+        |$lambda2("Universe");
+        |call_user_func($lambda1);
+        |call_user_func($lambda2, "Universe");
         |
-        |class bar {
-        |	public function __construct(foo $x = NULL) {
-        |		var_dump($x);
-        |	}
-        |}
-        |
-        |class test implements foo {
-        |
-        |}
-        |
-        |
-        |new bar(new test);
-        |new bar(null);
-        |new bar(new \stdclass);
-        |
+        |echo "Done\n";
         |?>
         |""".stripMargin)
   }
