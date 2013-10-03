@@ -9,6 +9,9 @@ case class NamespaceDeclStmt(name: NamespaceName, stmts: List[Stmt]) extends Dec
     val currentNamespace = ctx.global.currentNamespace
     val currentAliases = ctx.global.namespaceAliases
 
+    ctx.global.currentNamespace = name.absolute
+    ctx.global.resetCurrentNamepsace()
+
     registerDecls
 
     ctx.global.currentNamespace = currentNamespace
@@ -18,6 +21,9 @@ case class NamespaceDeclStmt(name: NamespaceName, stmts: List[Stmt]) extends Dec
   def exec(implicit ctx: Context) = {
     val currentNamespace = ctx.global.currentNamespace
     val currentAliases = ctx.global.namespaceAliases
+
+    ctx.global.currentNamespace = name.absolute
+    ctx.global.resetCurrentNamepsace()
 
     val result = execStmts(stmts)
 

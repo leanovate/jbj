@@ -69,47 +69,26 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |namespace Test\ns1;
-        |
-        |const C = "const ok\n";
-        |
-        |function foo() {
-        |	return "func ok\n";
-        |}
         |
         |class foo {
-        |	const C = "const ok\n";
-        |	const C2 = namespace\C;
-        |	static $var = "var ok\n";
-        |	function __construct() {
-        |		echo "class ok\n";
+        |	public $e = array();
+        |
+        |	public function __construct() {
+        |		$this->e[] = $this;
         |	}
-        |	static function bar() {
-        |		return "method ok\n";
+        |
+        |	public function __set($a, $b) {
+        |		var_dump($a, $b);
+        |	}
+        |	public function __get($a) {
+        |		var_dump($a);
+        |		return $this;
         |	}
         |}
         |
-        |function f1($x=namespace\C) {
-        |	return $x;
-        |}
-        |function f2($x=namespace\foo::C) {
-        |	return $x;
-        |}
+        |$x = new foo;
+        |$x->d->e[0]->f = 2;
         |
-        |function f3(namespace\foo $x) {
-        |	return "ok\n";
-        |}
-        |
-        |echo namespace\C;
-        |echo namespace\foo();
-        |echo namespace\foo::C;
-        |echo namespace\foo::C2;
-        |echo namespace\foo::$var;
-        |echo namespace\foo::bar();
-        |echo namespace\f1();
-        |echo namespace\f2();
-        |echo namespace\f3(new namespace\foo());
-        |echo namespace\nknown;
         |?>
         |""".stripMargin)
   }

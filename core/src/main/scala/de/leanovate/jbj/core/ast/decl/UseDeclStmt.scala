@@ -29,7 +29,7 @@ case class UseDeclStmt(useAsDecls: List[UseAsDecl]) extends DeclStmt {
           case UseAsDecl(name, None) =>
             aliasBuilder += name.lastPath -> name.absolute
           case UseAsDecl(name, Some(alias)) =>
-            if (ctx.global.findInterfaceOrClass(NamespaceName(alias), autoload = false).isDefined)
+            if (ctx.global.findInterfaceOrClass(NamespaceName(alias).absolute, autoload = false).isDefined)
               throw new FatalErrorJbjException("Cannot use %s as %s because the name is already in use".format(name.toString, alias))
             aliasBuilder += alias -> name
         }

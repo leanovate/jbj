@@ -16,6 +16,8 @@ import scala.Some
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) extends Reference {
+  private var _getResult: Option[PVal] = None
+
   override def isConstant = false
 
   override def isDefined = {
@@ -67,7 +69,14 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
             }
           case _ =>
             obj.getProperty(name, None).map(_.asVal).getOrElse {
-              obj.pClass.findMethod("__get").map(_.invoke(obj, PAnyParam(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
+              obj.pClass.findMethod("__get").map {
+                getMethod =>
+                  _getResult.getOrElse {
+                    val result = getMethod.invoke(obj, PAnyParam(StringVal(name)) :: Nil).asVal
+                    _getResult = Some(result)
+                    result
+                  }
+              }.getOrElse {
                 ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
                 NullVal
               }
