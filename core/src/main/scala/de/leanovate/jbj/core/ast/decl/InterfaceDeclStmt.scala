@@ -16,14 +16,17 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.types.{PMethod, PInterface}
 import de.leanovate.jbj.runtime.value.PVal
 
-case class InterfaceDeclStmt(name: NamespaceName, superInterfaces: List[NamespaceName],
+case class InterfaceDeclStmt(declaredName: NamespaceName, superInterfaces: List[NamespaceName],
                              decls: List[ClassMemberDecl])
   extends DeclStmt with PInterface {
 
   protected[decl] val _interfaceConstants = mutable.Map.empty[String, PVal]
 
   private var _initialized = false
+  private var _name = declaredName
   private var _interfaces: List[PInterface] = Nil
+
+  override def name = _name
 
   override def interfaces = _interfaces
 
@@ -53,6 +56,7 @@ case class InterfaceDeclStmt(name: NamespaceName, superInterfaces: List[Namespac
   }
 
   private def initialize(autoload: Boolean, ignoreErrors: Boolean)(implicit ctx: Context) {
+    _name = declaredName.absolutePrefix
     if (ctx.global.findInterfaceOrClass(name, autoload = false).isDefined)
       throw new FatalErrorJbjException("Cannot redeclare class %s".format(name))
     else {

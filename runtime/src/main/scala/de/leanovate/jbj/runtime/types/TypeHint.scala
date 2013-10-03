@@ -94,7 +94,7 @@ case class ClassTypeHint(className: NamespaceName) extends TypeHint {
   }
 
   override def check(pVar: PVar, index: Int)(implicit ctx: Context) {
-    ctx.global.findInterfaceOrClass(className.absolute, autoload = false) match {
+    ctx.global.findInterfaceOrClass(className.absolutePrefix, autoload = false) match {
       case Some(Left(pInterface)) =>
         pVar.value match {
           case obj: ObjectVal if obj.instanceOf(pInterface) =>
@@ -129,7 +129,7 @@ case class ClassTypeHint(className: NamespaceName) extends TypeHint {
               case methodCtx: FunctionLikeContext =>
                 CatchableFatalError("Argument %d passed to %s must be an instance of %s, %s given, called in %s on line %d and defined".
                   format(index + 1, methodCtx.functionSignature,
-                  className.toString, pVal.typeName(simple = false),
+                  className.absolutePrefix.toString, pVal.typeName(simple = false),
                   methodCtx.callerContext.currentPosition.fileName, methodCtx.callerContext.currentPosition.line))
             }
         }

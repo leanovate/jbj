@@ -63,5 +63,43 @@ class Namespace8Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Testing parameter type-hinted with interface" in {
+      // end/tests/ns_072.phpt
+      script(
+        """<?php
+          |
+          |namespace foo;
+          |
+          |interface foo {
+          |
+          |}
+          |
+          |class bar {
+          |	public function __construct(foo $x = NULL) {
+          |		var_dump($x);
+          |	}
+          |}
+          |
+          |class test implements foo {
+          |
+          |}
+          |
+          |
+          |new bar(new test);
+          |new bar(null);
+          |new bar(new \stdclass);
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """object(foo\test)#2 (0) {
+          |}
+          |NULL
+          |
+          |Catchable fatal error: Argument 1 passed to foo\bar::__construct() must implement interface foo\foo, instance of stdClass given, called in /zend/Namespace8Spec.inlinePhp on line 22 and defined in /zend/Namespace8Spec.inlinePhp on line 10
+          |""".stripMargin
+      )
+    }
   }
 }

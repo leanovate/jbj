@@ -184,7 +184,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, declaredName: NamespaceNam
         throw new FatalErrorJbjException("Cannot redeclare class %s".format(name))
     else {
       if (superClassName.isDefined) {
-        _superClass = ctx.global.findClass(superClassName.get, autoload)
+        _superClass = ctx.global.findClass(superClassName.get.absolutePrefix, autoload)
         if (!superClass.isDefined) {
           if (ctx.global.findInterface(superClassName.get, autoload = false).isDefined) {
             if (ignoreErrors)
@@ -209,7 +209,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, declaredName: NamespaceNam
       val interfaceConstant = mutable.Map.empty[String, String]
       _interfaces = implements.reverse.flatMap {
         interfaceName =>
-          ctx.global.findInterfaceOrClass(interfaceName, autoload) match {
+          ctx.global.findInterfaceOrClass(interfaceName.absolutePrefix, autoload) match {
             case Some(Left(interface)) =>
               val interfaces = interface :: interface.interfaces
               interfaces.foreach {
