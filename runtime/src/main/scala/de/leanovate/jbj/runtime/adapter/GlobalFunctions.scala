@@ -72,7 +72,7 @@ object GlobalFunctions {
             }
 
             reify {
-              AdaptedParamDef(name.splice, hasDefault = false, byRef.splice, None)
+              AdaptedParamDef(name.splice, None, byRef.splice, None)
             }.tree
         }
       ))

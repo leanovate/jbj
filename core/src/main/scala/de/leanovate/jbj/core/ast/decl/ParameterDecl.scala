@@ -14,18 +14,18 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.ast.expr.value.ConstGetExpr
 import de.leanovate.jbj.runtime.types.{ClassTypeHint, TypeHint, PParamDef}
 
-case class ParameterDecl(typeHint: Option[TypeHint], variableName: String, byRef: Boolean, default: Option[Expr])
+case class ParameterDecl(typeHint: Option[TypeHint], name: String, byRef: Boolean, defaultExpr: Option[Expr])
   extends Node with PParamDef {
 
-  override def name = variableName
-
-  override def hasDefault = default.isDefined
-
-  def defaultVal(implicit ctx: Context): Option[PVal] = default.map(_.eval.asVal)
+  override def default = defaultExpr.map {
+    expr => {
+      ctx => expr.eval(ctx)
+    }
+  }
 
   def check(implicit ctx: Context) {
-    if (typeHint.isDefined && typeHint.get.isInstanceOf[ClassTypeHint] && default.isDefined && (!default.get.isInstanceOf[ConstGetExpr] ||
-      default.get.asInstanceOf[ConstGetExpr].constName.toString.toLowerCase != "null")) {
+    if (typeHint.isDefined && typeHint.get.isInstanceOf[ClassTypeHint] && defaultExpr.isDefined && (!defaultExpr.get.isInstanceOf[ConstGetExpr] ||
+      defaultExpr.get.asInstanceOf[ConstGetExpr].constName.toString.toLowerCase != "null")) {
       throw new FatalErrorJbjException("Default value for parameters with a class type hint can only be NULL")
     }
   }

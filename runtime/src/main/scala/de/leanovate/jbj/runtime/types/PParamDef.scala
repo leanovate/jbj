@@ -7,10 +7,13 @@
 
 package de.leanovate.jbj.runtime.types
 
+import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.value.PVal
+
 trait PParamDef {
   def name: String
 
-  def hasDefault: Boolean
+  def default: Option[Context => PVal]
 
   def byRef: Boolean
 

@@ -23,55 +23,6 @@ trait FunctionLike extends BlockLike {
 
   def parameterDecls: List[ParameterDecl]
 
-  def setParameters(funcCtx: FunctionLikeContext, callerContext: Context, parameters: List[PParam]) {
-    val parameterIt = parameters.iterator
-    val arguments = Seq.newBuilder[PAny]
-    parameterDecls.zipWithIndex.foreach {
-      case (parameterDecl, index) =>
-        if (parameterIt.hasNext) {
-          val param = parameterIt.next()
-          if (parameterDecl.byRef) {
-            val pVar = param.byRef match {
-              case pVar: PVar => pVar
-              case pAny =>
-                callerContext.log.strict("Only variables should be passed by reference")
-                pAny.asVar
-            }
-            checkAndDefine(funcCtx, parameterDecl, index, pVar)
-            arguments += pVar
-          } else {
-            val pVal = param.byVal
-            checkAndDefine(funcCtx, parameterDecl, index, PVar(pVal))
-            arguments += pVal
-          }
-        } else {
-          parameterDecl.defaultVal(funcCtx) match {
-            case Some(pVal) =>
-              checkAndDefine(funcCtx, parameterDecl, index, PVar(pVal))
-              arguments += pVal
-            case None =>
-              checkEmpty(funcCtx, parameterDecl, index)
-              arguments += NullVal
-          }
-        }
-    }
-    parameterIt.foreach {
-      param =>
-        val pVal = param.byVal
-        arguments += pVal
-    }
-    funcCtx.functionArguments = arguments.result()
-  }
-
-  private def checkEmpty(funcCtx: Context, parameterDecl: ParameterDecl, index: Int) {
-    parameterDecl.typeHint.foreach(_.checkEmpty(index)(funcCtx))
-  }
-
-  private def checkAndDefine(funcCtx: Context, parameterDecl: ParameterDecl, index: Int, pVar: PVar) {
-    parameterDecl.typeHint.foreach(_.check(pVar, index)(funcCtx))
-    funcCtx.defineVariable(parameterDecl.variableName, pVar)
-  }
-
   def perform(funcCtx: FunctionLikeContext, returnByRef: Boolean, stmts: List[Stmt]) = {
     val result = execStmts(stmts)(funcCtx) match {
       case SuccessExecResult => NullVal

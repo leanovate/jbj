@@ -7,13 +7,13 @@
 
 package de.leanovate.jbj.core.ast.expr
 
-import de.leanovate.jbj.core.ast.{Name, Expr}
-import de.leanovate.jbj.runtime.value.PAny
+import de.leanovate.jbj.core.ast.Expr
+import de.leanovate.jbj.runtime.NamespaceName
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.value.PAny
 
-case class CallFunctionRefExpr(functionName: Name, parameters: List[Expr]) extends CallRefExpr {
+case class CallByNameRefExpr(functionName: NamespaceName, parameters: List[Expr]) extends CallRefExpr {
   def call(implicit ctx: Context): PAny = {
-    val name = functionName.evalNamespaceName
-    ctx.call(name, parameters.map(ExprParam.apply))
+    ctx.call(functionName.absolutePrefix, parameters.map(ExprParam.apply))
   }
 }

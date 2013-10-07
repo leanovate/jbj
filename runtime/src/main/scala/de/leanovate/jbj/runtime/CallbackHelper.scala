@@ -9,7 +9,7 @@ package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.types.{PAnyParam, PParamDef, PValParam}
+import de.leanovate.jbj.runtime.types.{PClosure, PAnyParam, PParamDef, PValParam}
 
 object CallbackHelper {
   def isValidCallback(callable: PVal)(implicit ctx: Context): Boolean =
@@ -36,6 +36,8 @@ object CallbackHelper {
                 pClass.findMethod(methodName).isDefined
             }
         }
+      case obj: ObjectVal if obj.instanceOf(PClosure) =>
+        true
       case name =>
         val functionName = name.toStr.asString
         ctx.findFunction(NamespaceName(functionName)).isDefined

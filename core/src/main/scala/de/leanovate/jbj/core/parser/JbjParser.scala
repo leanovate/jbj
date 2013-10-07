@@ -440,11 +440,11 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   }
 
   lazy val functionCall: PackratParser[RefExpr] = namespaceName ~ functionCallParameterList ^^ {
-    case name ~ params => CallFunctionRefExpr(StaticNamespaceName(name), params)
+    case name ~ params => CallByNameRefExpr(name, params)
   } | "namespace" ~> "\\" ~> namespaceName ~ functionCallParameterList ^^ {
-    case name ~ params => CallFunctionRefExpr(StaticNamespaceName(NamespaceName(relative = false, prefixed = true, name.path: _*)), params)
+    case name ~ params => CallByNameRefExpr(NamespaceName(relative = false, prefixed = true, name.path: _*), params)
   } | "\\" ~> namespaceName ~ functionCallParameterList ^^ {
-    case name ~ params => CallFunctionRefExpr(StaticNamespaceName(NamespaceName(relative = false, prefixed = false, name.path: _*)), params)
+    case name ~ params => CallByNameRefExpr(NamespaceName(relative = false, prefixed = false, name.path: _*), params)
   } | className ~ "::" ~ variableName ~ functionCallParameterList ^^ {
     case cname ~ _ ~ method ~ params => CallStaticMethodRefExpr(cname, method, params)
   } | className ~ "::" ~ variableWithoutObjects ~ functionCallParameterList ^^ {
@@ -463,10 +463,10 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       CallStaticMethodRefExpr(cname, method, params)
   } | variableWithoutObjects ~ functionCallParameterList ^^ {
     case ((n, dims)) ~ params =>
-      val func = DynamicName(dims.foldLeft(VariableRefExpr(n).asInstanceOf[RefExpr]) {
+      val func = dims.foldLeft(VariableRefExpr(n).asInstanceOf[RefExpr]) {
         (ref, dim) => DimRefExpr(ref, dim)
-      })
-      CallFunctionRefExpr(func, params)
+      }
+      CallByExprRefExpr(func, params)
   }
 
   lazy val className: PackratParser[Name] =
@@ -568,7 +568,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
           params =>
             ref match {
               case PropertyRefExpr(instance, name) => CallMethodRefExpr(instance, name, params)
-              case nameExpr => CallFunctionRefExpr(DynamicName(nameExpr), params)
+              case nameExpr => CallByExprRefExpr(nameExpr, params)
             }
         }.getOrElse(ref)
         varProps.foldLeft(methodRef) {
@@ -588,7 +588,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
           params =>
             ref match {
               case PropertyRefExpr(instance, name) => CallMethodRefExpr(instance, name, params)
-              case nameExpr => CallFunctionRefExpr(DynamicName(nameExpr), params)
+              case nameExpr => CallByExprRefExpr(nameExpr, params)
             }
         }.getOrElse(ref)
   }

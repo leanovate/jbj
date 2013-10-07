@@ -41,7 +41,7 @@ object InterfaceFunctions {
             val paramName = c.literal(param.name.encoded)
             val th = typeHint(param)
             reify {
-              AdaptedParamDef(paramName.splice, hasDefault = false, byRef = false, th.splice)
+              AdaptedParamDef(paramName.splice, None, byRef = false, th.splice)
             }.tree
         }.toList
         val parametersSeq = c.Expr[Seq[PParamDef]](Apply(Select(Ident(newTermName("Seq")), newTermName("apply")), parameters))

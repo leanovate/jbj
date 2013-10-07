@@ -9,11 +9,21 @@ package de.leanovate.jbj.core.tests
 
 import de.leanovate.jbj.core.ast.{Prog, Node, NodeVisitor}
 import scala.xml.{Text, PCData, NodeSeq}
-import de.leanovate.jbj.core.ast.stmt.{EchoStmt, BlockStmt, ExprStmt, InlineStmt}
-import de.leanovate.jbj.core.ast.expr.{NewRefExpr, VariableRefExpr, AssignRefExpr, CallFunctionRefExpr}
-import de.leanovate.jbj.core.ast.name.{StaticNamespaceName, StaticName}
+import de.leanovate.jbj.core.ast.expr._
+import de.leanovate.jbj.core.ast.stmt.BlockStmt
+import de.leanovate.jbj.core.ast.expr.VariableRefExpr
 import de.leanovate.jbj.core.ast.stmt.loop.ForStmt
-import de.leanovate.jbj.core.ast.decl.{ParameterDecl, ClassMethodDecl, InterfaceDeclStmt, ClassDeclStmt}
+import de.leanovate.jbj.core.ast.expr.AssignRefExpr
+import de.leanovate.jbj.core.ast.decl.ParameterDecl
+import de.leanovate.jbj.core.ast.decl.ClassDeclStmt
+import de.leanovate.jbj.core.ast.name.StaticName
+import de.leanovate.jbj.core.ast.name.StaticNamespaceName
+import de.leanovate.jbj.core.ast.decl.InterfaceDeclStmt
+import de.leanovate.jbj.core.ast.stmt.InlineStmt
+import de.leanovate.jbj.core.ast.expr.NewRefExpr
+import de.leanovate.jbj.core.ast.stmt.ExprStmt
+import de.leanovate.jbj.core.ast.decl.ClassMethodDecl
+import de.leanovate.jbj.core.ast.stmt.EchoStmt
 
 object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
   def apply(node: Node) = node match {
@@ -34,16 +44,27 @@ object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
           {block.stmts.flatMap(_.visit(this).results)}
         </block>
       )
-    case callFunction: CallFunctionRefExpr =>
+    case callFunction: CallByNameRefExpr =>
       NextSibling(
-        <call-function>
+        <call>
           <name>
-            {callFunction.functionName.visit(this).results}
+            {callFunction.functionName.toString}
           </name>
           <parameters>
             {callFunction.parameters.flatMap(_.visit(this).results)}
           </parameters>
-        </call-function>
+        </call>
+      )
+    case callFunction: CallByExprRefExpr =>
+      NextSibling(
+        <call>
+          <callable>
+            {callFunction.callable.visit(this).results}
+          </callable>
+          <parameters>
+            {callFunction.parameters.flatMap(_.visit(this).results)}
+          </parameters>
+        </call>
       )
     case classDecl: ClassDeclStmt =>
       NextSibling(
@@ -129,13 +150,13 @@ object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
       NextSibling(
         <parameter>
           <name>
-            {parameterDecl.variableName}
+            {parameterDecl.name}
           </name>{parameterDecl.typeHint.map {
           typeHint =>
             <typeHine>
               {typeHint}
             </typeHine>
-        }.getOrElse(NodeSeq.Empty)}{parameterDecl.default.map {
+        }.getOrElse(NodeSeq.Empty)}{parameterDecl.defaultExpr.map {
           defaultExpr =>
             <default>
               {defaultExpr.visit(this).results}

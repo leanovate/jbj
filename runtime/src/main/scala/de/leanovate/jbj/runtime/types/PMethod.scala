@@ -39,7 +39,7 @@ trait PMethod {
       case (parameter, idx) if idx < otherParameters.size =>
         parameter.isCompatible(otherParameters(idx))
       case (parameter, _) =>
-        parameter.hasDefault
+        parameter.default.isDefined
     }
   }
 }

@@ -5,12 +5,14 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.runtime.adapter
+package de.leanovate.jbj.core.ast.expr
 
-import de.leanovate.jbj.runtime.types.{TypeHint, PParamDef}
-import de.leanovate.jbj.runtime.value.PVal
+import de.leanovate.jbj.core.ast.Expr
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.value.PAny
 
-case class AdaptedParamDef(name: String, default: Option[Context => PVal], byRef: Boolean, typeHint: Option[TypeHint])
-  extends PParamDef {
+case class CallByExprRefExpr(callable: Expr, parameters: List[Expr]) extends CallRefExpr {
+  def call(implicit ctx: Context): PAny = {
+    callable.eval.call(parameters.map(ExprParam.apply))
+  }
 }
