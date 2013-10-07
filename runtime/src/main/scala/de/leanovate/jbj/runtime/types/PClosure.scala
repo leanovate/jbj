@@ -12,9 +12,11 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context.{FunctionContext, FunctionLikeContext, Context}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
-class PClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], position: NodePosition,
+sealed trait PClosure
+
+class GlobalPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], position: NodePosition,
                lexicalValues: Seq[(String, PVar)], invoke: FunctionLikeContext => PAny)
-  extends StdObjectVal(PClosure, instanceNum, new ExtendedLinkedHashMap[ObjectPropertyKey.Key]) {
+  extends StdObjectVal(PClosure, instanceNum, new ExtendedLinkedHashMap[ObjectPropertyKey.Key]) with PClosure {
 
   lexicalValues.foreach(_._2.retain())
 
@@ -55,7 +57,8 @@ object PClosure extends PClass {
   override def newInstance(parameters: List[PParam])(implicit ctx: Context) =
     new StdObjectVal(this, ctx.global.instanceCounter.incrementAndGet(), new ExtendedLinkedHashMap[ObjectPropertyKey.Key])
 
-  override def destructInstance(instance: ObjectVal)(implicit ctx: Context) {}
+  override def destructInstance(instance: ObjectVal)(implicit ctx: Context) {
+  }
 
   override def properties = Map.empty
 
@@ -63,6 +66,6 @@ object PClosure extends PClass {
 
   def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], lexicalValues: Seq[(String, PVar)],
             invoke: FunctionLikeContext => PAny)(implicit ctx: Context): ObjectVal =
-    new PClosure(ctx.global.instanceCounter.incrementAndGet(), returnByRef, parameterDecls,
+    new GlobalPClosure(ctx.global.instanceCounter.incrementAndGet(), returnByRef, parameterDecls,
       ctx.currentPosition, lexicalValues, invoke)
 }

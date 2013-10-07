@@ -12,6 +12,7 @@ import de.leanovate.jbj.runtime.{NodePosition, NamespaceName}
 import scala.collection.mutable
 import scala.collection.immutable.Stack
 import de.leanovate.jbj.runtime.types.{PFunction, PMethod}
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class StaticMethodContext(pMethod: PMethod, callerContext: Context) extends FunctionLikeContext {
   private val localVariables = mutable.Map.empty[String, PVar]

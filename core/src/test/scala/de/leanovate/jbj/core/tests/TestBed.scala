@@ -70,21 +70,64 @@ object TestBed {
     test(
       """<?php
         |
-        |$x = 4;
+        |class A {
+        |	private $x;
         |
-        |$lambda1 = function () use ($x) {
-        |	echo "$x\n";
-        |};
+        |	function __construct($x) {
+        |		$this->x = $x;
+        |	}
         |
-        |$lambda2 = function () use (&$x) {
-        |	echo "$x\n";
-        |};
+        |	function __destruct() {
+        |		echo "Destroyed\n";
+        |	}
         |
-        |$lambda1();
-        |$lambda2();
-        |$x++;
-        |$lambda1();
-        |$lambda2();
+        |	function getIncer($val) {
+        |		return function() use ($val) {
+        |			$this->x += $val;
+        |		};
+        |	}
+        |
+        |	function getPrinter() {
+        |		return function() {
+        |			echo $this->x."\n";
+        |		};
+        |	}
+        |
+        |	function getError() {
+        |		return static function() {
+        |			echo $this->x."\n";
+        |		};
+        |	}
+        |
+        |	function printX() {
+        |		echo $this->x."\n";
+        |	}
+        |}
+        |
+        |$a = new A(3);
+        |$incer = $a->getIncer(2);
+        |$printer = $a->getPrinter();
+        |$error = $a->getError();
+        |
+        |$a->printX();
+        |$printer();
+        |$incer();
+        |$a->printX();
+        |$printer();
+        |
+        |unset($a);
+        |
+        |$incer();
+        |$printer();
+        |
+        |unset($incer);
+        |$printer();
+        |
+        |echo "Here\n";
+        |unset($printer);
+        |echo "Here1\n";
+        |
+        |$error();
         |
         |echo "Done\n";
         |?>
