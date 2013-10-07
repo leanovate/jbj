@@ -9,7 +9,7 @@ package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.types.{PAnyParam, PParam}
+import de.leanovate.jbj.runtime.types.PParam
 import de.leanovate.jbj.runtime.NamespaceName
 
 class StringVal(var chars: Array[Byte]) extends PConcreteVal with ArrayLike {

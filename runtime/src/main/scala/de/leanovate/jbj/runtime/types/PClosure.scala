@@ -7,17 +7,23 @@
 
 package de.leanovate.jbj.runtime.types
 
-import de.leanovate.jbj.runtime.NamespaceName
+import de.leanovate.jbj.runtime.{NodePosition, NamespaceName}
 import de.leanovate.jbj.runtime.value._
-import de.leanovate.jbj.runtime.context.{FunctionLikeContext, Context}
+import de.leanovate.jbj.runtime.context.{FunctionContext, FunctionLikeContext, Context}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
-class PClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], invoke: FunctionLikeContext => PAny)
+class PClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], position: NodePosition,
+               invoke: FunctionLikeContext => PAny)
   extends StdObjectVal(PClosure, instanceNum, new ExtendedLinkedHashMap[ObjectPropertyKey.Key]) {
 
-  override def call(params: List[PParam])(implicit ctx: Context) =
-    throw new FatalErrorJbjException("Implement this")
+  override def call(params: List[PParam])(implicit callerCtx: Context): PAny = {
+    val funcCtx = FunctionContext(NamespaceName("lambda-" + instanceNum), callerCtx)
 
+    funcCtx.currentPosition = position
+
+    funcCtx.setParameters(callerCtx, parameterDecls, params)
+    invoke(funcCtx)
+  }
 }
 
 object PClosure extends PClass {
@@ -45,5 +51,5 @@ object PClosure extends PClass {
   override def methods = Map.empty
 
   def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], invoke: FunctionLikeContext => PAny)(implicit ctx: Context): ObjectVal =
-    new PClosure(ctx.global.instanceCounter.incrementAndGet(), returnByRef, parameterDecls, invoke)
+    new PClosure(ctx.global.instanceCounter.incrementAndGet(), returnByRef, parameterDecls, ctx.currentPosition, invoke)
 }

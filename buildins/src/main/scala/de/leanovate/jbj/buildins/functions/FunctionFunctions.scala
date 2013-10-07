@@ -12,7 +12,7 @@ import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
 import de.leanovate.jbj.runtime.context.{FunctionLikeContext, Context}
 import de.leanovate.jbj.runtime.exception.{ParseJbjException, FatalErrorJbjException}
 import de.leanovate.jbj.runtime.{CallbackHelper, NamespaceName}
-import de.leanovate.jbj.runtime.types.PParam
+import de.leanovate.jbj.runtime.types.{PClosure, PParam}
 
 object FunctionFunctions {
   @GlobalFunction
@@ -68,6 +68,8 @@ object FunctionFunctions {
               NullVal
             }
         }
+      case closure: PClosure =>
+        closure.call(parameters.toList)
       case name =>
         val functionName = name.toStr.asString
         if (functionName.contains("::")) {

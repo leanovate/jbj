@@ -36,7 +36,7 @@ object CallbackHelper {
                 pClass.findMethod(methodName).isDefined
             }
         }
-      case obj: ObjectVal if obj.instanceOf(PClosure) =>
+      case _: PClosure =>
         true
       case name =>
         val functionName = name.toStr.asString
