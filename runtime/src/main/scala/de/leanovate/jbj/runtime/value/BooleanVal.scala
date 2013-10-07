@@ -8,6 +8,8 @@
 package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.types.PParam
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 abstract class BooleanVal extends PConcreteVal {
   def asBoolean: Boolean
@@ -27,6 +29,11 @@ abstract class BooleanVal extends PConcreteVal {
   override def decr = this
 
   override def typeName(simple: Boolean = false) = "boolean"
+
+  override def isCallable(implicit ctx: Context) = false
+
+  override def call(params: List[PParam])(implicit ctx: Context) =
+    throw new FatalErrorJbjException("Function name must be a string")
 }
 
 object BooleanVal {

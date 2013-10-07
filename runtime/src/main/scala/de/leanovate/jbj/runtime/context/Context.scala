@@ -13,8 +13,9 @@ import de.leanovate.jbj.runtime.value.{PAny, PVar}
 import de.leanovate.jbj.runtime._
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.output.OutputBuffer
-import de.leanovate.jbj.runtime.types.PFunction
+import de.leanovate.jbj.runtime.types.{PParam, PFunction}
 import de.leanovate.jbj.api.http.{JbjProcessContext, JbjSettings}
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 trait Context extends JbjProcessContext {
   private val _autoReleasePool = mutable.ListBuffer.empty[PAny]
@@ -41,6 +42,12 @@ trait Context extends JbjProcessContext {
   lazy val log: Log = new Log(this, out, err)
 
   def stack: Stack[NodePosition]
+
+  def call(name: NamespaceName, params: List[PParam]): PAny = findFunction(name).map {
+    func => func.call(params)(this)
+  }.getOrElse {
+    throw new FatalErrorJbjException("Call to undefined function %s()".format(name.toString))(this)
+  }
 
   def findFunction(name: NamespaceName): Option[PFunction]
 

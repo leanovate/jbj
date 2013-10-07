@@ -7,11 +7,19 @@
 
 package de.leanovate.jbj.runtime.value
 
-import de.leanovate.jbj.runtime.context.{StaticMethodContext, MethodContext, Context}
-import ObjectPropertyKey.{Key, IntKey, PublicKey, ProtectedKey, PrivateKey, PublicKeyFilter, PrivateKeyFilter}
-import de.leanovate.jbj.runtime.types.{PIterator, PIteratorAggregate, PInterface, PClass}
+import de.leanovate.jbj.runtime.context.Context
+import ObjectPropertyKey.{Key, PublicKeyFilter}
+import de.leanovate.jbj.runtime.types._
 import de.leanovate.jbj.runtime.exception.{CatchableFatalError, FatalErrorJbjException}
 import de.leanovate.jbj.api.http.JbjException
+import de.leanovate.jbj.runtime.value.ObjectPropertyKey.ProtectedKey
+import de.leanovate.jbj.runtime.value.ObjectPropertyKey.PrivateKey
+import de.leanovate.jbj.runtime.context.MethodContext
+import de.leanovate.jbj.runtime.value.ObjectPropertyKey.PublicKey
+import scala.Some
+import de.leanovate.jbj.runtime.value.ObjectPropertyKey.IntKey
+import de.leanovate.jbj.runtime.value.ObjectPropertyKey.PrivateKeyFilter
+import de.leanovate.jbj.runtime.context.StaticMethodContext
 
 trait ObjectVal extends PConcreteVal {
   def pClass: PClass
@@ -229,6 +237,11 @@ trait ObjectVal extends PConcreteVal {
       result
     }
   }
+
+  override def isCallable(implicit ctx: Context) = false
+
+  override def call(params: List[PParam])(implicit ctx: Context) =
+    throw new FatalErrorJbjException("Function name must be a string")
 }
 
 object ObjectVal {

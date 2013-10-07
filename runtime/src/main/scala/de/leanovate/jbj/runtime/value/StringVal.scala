@@ -9,6 +9,8 @@ package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.types.{PAnyParam, PParam}
+import de.leanovate.jbj.runtime.NamespaceName
 
 class StringVal(var chars: Array[Byte]) extends PConcreteVal with ArrayLike {
   def asString(implicit ctx: Context) = new String(chars, ctx.settings.getCharset)
@@ -226,6 +228,12 @@ class StringVal(var chars: Array[Byte]) extends PConcreteVal with ArrayLike {
     }
     StringVal(result)
   }
+
+  override def isCallable(implicit ctx: Context) =
+    ctx.findFunction(NamespaceName(asString)).isDefined
+
+  override def call(params: List[PParam])(implicit ctx: Context) =
+    ctx.findFunction(NamespaceName(asString)).map(_.call(params)).getOrElse(NullVal)
 
   override def toXml =
     <string>

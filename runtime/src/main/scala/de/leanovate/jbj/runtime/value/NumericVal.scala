@@ -8,12 +8,14 @@
 package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.types.PParam
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 
 trait NumericVal extends PConcreteVal {
   override def toNum: NumericVal = this
 
-  override def toArray(implicit ctx:Context) = ArrayVal(None -> this)
+  override def toArray(implicit ctx: Context) = ArrayVal(None -> this)
 
   override def isNull = false
 
@@ -37,12 +39,12 @@ trait NumericVal extends PConcreteVal {
     case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal - rightVal)
   }
 
-  def *(other: PVal): PVal =     (this, other) match {
-      case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal == 0 => IntegerVal(0)
-      case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal == Long.MinValue && leftVal == 1 => IntegerVal(Long.MinValue)
-      case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal > 0 && leftVal <= Long.MaxValue / rightVal && leftVal >= Long.MinValue / rightVal => IntegerVal(leftVal * rightVal)
-      case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal < 0 && leftVal <= -Long.MaxValue / rightVal && leftVal >= Long.MaxValue / rightVal => IntegerVal(leftVal * rightVal)
-      case (NumericVal(leftVal), NumericVal(rightVal)) =>        DoubleVal(leftVal * rightVal)
+  def *(other: PVal): PVal = (this, other) match {
+    case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal == 0 => IntegerVal(0)
+    case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal == Long.MinValue && leftVal == 1 => IntegerVal(Long.MinValue)
+    case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal > 0 && leftVal <= Long.MaxValue / rightVal && leftVal >= Long.MinValue / rightVal => IntegerVal(leftVal * rightVal)
+    case (IntegerVal(leftVal), IntegerVal(rightVal)) if rightVal < 0 && leftVal <= -Long.MaxValue / rightVal && leftVal >= Long.MaxValue / rightVal => IntegerVal(leftVal * rightVal)
+    case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal * rightVal)
   }
 
   def /(other: PVal): PVal = (this, other) match {
@@ -51,6 +53,10 @@ trait NumericVal extends PConcreteVal {
     case (NumericVal(leftVal), NumericVal(rightVal)) => DoubleVal(leftVal / rightVal)
   }
 
+  override def isCallable(implicit ctx: Context) = false
+
+  override def call(params: List[PParam])(implicit ctx: Context) =
+    throw new FatalErrorJbjException("Function name must be a string")
 }
 
 object NumericVal {

@@ -8,6 +8,7 @@
 package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.types.PParam
 
 class PVar(private var current: Option[PConcreteVal] = None) extends PAny {
   current.foreach(_.retain())
@@ -54,6 +55,10 @@ class PVar(private var current: Option[PConcreteVal] = None) extends PAny {
   }
 
   override def asVar = this
+
+  override def isCallable(implicit ctx: Context) = asVal.isCallable
+
+  override def call(params: List[PParam])(implicit ctx: Context) = asVal.call(params)
 
   override def toString: String = {
     val builder = new StringBuilder("PVar@")

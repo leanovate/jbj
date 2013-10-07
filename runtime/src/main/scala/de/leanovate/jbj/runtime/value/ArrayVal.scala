@@ -8,6 +8,8 @@
 package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.types.PParam
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 class ArrayVal(private var keyValueMap: ExtendedLinkedHashMap[Any]) extends PConcreteVal with ArrayLike {
 
@@ -203,6 +205,11 @@ class ArrayVal(private var keyValueMap: ExtendedLinkedHashMap[Any]) extends PCon
     }
     result
   }
+
+  override def isCallable(implicit ctx: Context) = false
+
+  override def call(params: List[PParam])(implicit ctx: Context) =
+    throw new FatalErrorJbjException("Function name must be a string")
 }
 
 object ArrayVal {

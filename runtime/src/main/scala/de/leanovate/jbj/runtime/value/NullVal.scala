@@ -8,6 +8,8 @@
 package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.types.PParam
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 object NullVal extends PConcreteVal {
   override def toOutput(implicit ctx: Context) = ""
@@ -39,6 +41,11 @@ object NullVal extends PConcreteVal {
     case NumericVal(otherDouble) => 0.0.compare(otherDouble)
     case _ => StringVal.compare(Array[Byte](), other.toStr.chars)
   }
+
+  override def isCallable(implicit ctx: Context) = false
+
+  override def call(params: List[PParam])(implicit ctx: Context) =
+    throw new FatalErrorJbjException("Function name must be a string")
 
   override def toXml = <null/>
 }

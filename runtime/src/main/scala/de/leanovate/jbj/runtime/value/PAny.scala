@@ -8,6 +8,7 @@
 package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.types.PParam
 
 trait PAny {
   def toOutput(implicit ctx: Context): String
@@ -97,4 +98,8 @@ trait PAny {
     case value: StringVal => ~value
     case value => ~value.toInteger
   }
+
+  def isCallable(implicit ctx: Context): Boolean
+
+  def call(params: List[PParam])(implicit ctx: Context): PAny
 }

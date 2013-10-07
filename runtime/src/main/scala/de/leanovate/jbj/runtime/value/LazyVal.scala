@@ -8,6 +8,8 @@
 package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.types.PParam
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 abstract class LazyVal extends PVal {
   def value: PConcreteVal
@@ -41,4 +43,8 @@ abstract class LazyVal extends PVal {
   override def asVal = value
 
   override def concrete = value
+
+  override def isCallable(implicit ctx: Context) = value.isCallable
+
+  override def call(params: List[PParam])(implicit ctx: Context) = value.call(params)
 }
