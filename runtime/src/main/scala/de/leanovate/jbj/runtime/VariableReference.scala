@@ -39,5 +39,4 @@ case class VariableReference(name: String)(implicit ctx: Context) extends Refere
 
 object VariableReference {
   def $(name: String)(implicit ctx: Context): Reference = new VariableReference(name)
-
 }

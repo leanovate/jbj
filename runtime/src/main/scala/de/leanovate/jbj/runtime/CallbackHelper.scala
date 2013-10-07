@@ -109,6 +109,8 @@ object CallbackHelper {
               NullVal
             }
         }
+      case closure :PClosure =>
+        closure.call(parameters.map(PAnyParam.apply).toList)
       case name =>
         val functionName = name.toStr.asString
         ctx.findFunction(NamespaceName(functionName)).map {

@@ -422,9 +422,9 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     } | variable ||| scalar | combinedScalarOffset |
       "print" ~> expr ^^ {
         e => PrintExpr(e)
-      } | opt("static") ~ "function" ~ opt("&") ~ "(" ~ parameterList ~ ")" ~ "{" ~ innerStatementList <~ "}" ^^ {
-      case Some(_) ~ _ ~ optRef ~ _ ~ params ~ _ ~ _ ~ stmts => StaticLambdaDeclExpr(optRef.isDefined, params, stmts)
-      case None ~ _ ~ optRef ~ _ ~ params ~ _ ~ _ ~ stmts => LambdaDeclExpr(optRef.isDefined, params, stmts)
+      } | opt("static") ~ "function" ~ opt("&") ~ "(" ~ parameterList ~ ")" ~ opt(lexicalVars) ~ "{" ~ innerStatementList <~ "}" ^^ {
+      case Some(_) ~ _ ~ optRef ~ _ ~ params ~ _ ~ vars ~ _ ~ stmts => StaticLambdaDeclExpr(optRef.isDefined, params, vars.getOrElse(Seq.empty), stmts)
+      case None ~ _ ~ optRef ~ _ ~ params ~ _ ~ vars ~ _ ~ stmts => LambdaDeclExpr(optRef.isDefined, params, vars.getOrElse(Seq.empty), stmts)
     } | parenthesisExpr
 
   lazy val combinedScalarOffset: PackratParser[Expr] = combinedScalar ~ rep("[" ~> dimOffset <~ "]") ^^ {
@@ -438,6 +438,11 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   } | "[" ~> arrayPairList <~ "]" ^^ {
     keyValues => ArrayCreateExpr(keyValues)
   }
+
+  lazy val lexicalVars: PackratParser[List[LexicalVar]] = "use" ~> "(" ~> rep1sep(
+    opt("&") ~ variableLit ^^ {
+      case optRef ~ name => LexicalVar(name, byRef = optRef.isDefined)
+    }, ",") <~ ")"
 
   lazy val functionCall: PackratParser[RefExpr] = namespaceName ~ functionCallParameterList ^^ {
     case name ~ params => CallByNameRefExpr(name, params)

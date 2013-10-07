@@ -70,22 +70,21 @@ object TestBed {
     test(
       """<?php
         |
-        |$lambda1 = function () {
-        |        echo "Hello World!\n";
+        |$x = 4;
+        |
+        |$lambda1 = function () use ($x) {
+        |	echo "$x\n";
         |};
         |
-        |$lambda2 = function ($x) {
-        |        echo "Hello $x!\n";
+        |$lambda2 = function () use (&$x) {
+        |	echo "$x\n";
         |};
         |
-        |var_dump($lambda1);
-        |var_dump(new stdClass);
-        |var_dump(is_callable($lambda1));
-        |var_dump(is_callable($lambda2));
         |$lambda1();
-        |$lambda2("Universe");
-        |call_user_func($lambda1);
-        |call_user_func($lambda2, "Universe");
+        |$lambda2();
+        |$x++;
+        |$lambda1();
+        |$lambda2();
         |
         |echo "Done\n";
         |?>

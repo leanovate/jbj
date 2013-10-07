@@ -11,6 +11,6 @@ import de.leanovate.jbj.core.ast.{Stmt, Expr}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.core.ast.decl.ParameterDecl
 
-case class StaticLambdaDeclExpr(returnByRef: Boolean, parameterDecls: List[ParameterDecl], stmts: List[Stmt]) extends Expr {
+case class StaticLambdaDeclExpr(returnByRef: Boolean, parameterDecls: List[ParameterDecl], lexicalVars: Seq[LexicalVar], stmts: List[Stmt]) extends Expr {
   def eval(implicit ctx: Context) = ???
 }
