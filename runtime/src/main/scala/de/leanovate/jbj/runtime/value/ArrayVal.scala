@@ -194,7 +194,7 @@ class ArrayVal(private var keyValueMap: ExtendedLinkedHashMap[Any]) extends PCon
   }
 
   override def foreachByVal[R](f: (PVal, PAny) => Option[R])(implicit ctx: Context) = {
-    val it =  iteratorReset().copy(fixedEntries = true)
+    val it = iteratorReset().copy(fixedEntries = true)
     var result = Option.empty[R]
     while (it.hasNext && result.isEmpty) {
       val key = it.currentKey
@@ -218,7 +218,7 @@ object ArrayVal {
   def apply(keyValues: (Option[PVal], PAny)*)(implicit ctx: Context): ArrayVal = {
     var nextIndex: Long = -1
 
-    new ArrayVal(keyValues.foldLeft(new ExtendedLinkedHashMap[Any]) {
+    val result = new ArrayVal(keyValues.foldLeft(new ExtendedLinkedHashMap[Any]) {
       (builder, keyValue) =>
         val key = keyValue._1.map {
           case IntegerVal(value) =>
@@ -250,8 +250,11 @@ object ArrayVal {
           nextIndex
         }
 
+        keyValue._2.retain()
         builder += key -> keyValue._2
     })
+    ctx.poolAutoRelease(result)
+    result
   }
 
   def unapply(array: ArrayVal)(implicit ctx: Context): Option[Seq[(PVal, PAny)]] = Some(array.keyValues)

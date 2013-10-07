@@ -30,7 +30,7 @@ trait ObjectVal extends PConcreteVal {
 
   private val iteratorStateHolder = new Holder[IteratorState](keyValueMap.iteratorState(PublicKeyFilter))
 
-  def refCount
+  def refCount: Int
 
   def keyValues(implicit ctx: Context): Seq[(Key, PAny)] = keyValueMap.toSeq
 
