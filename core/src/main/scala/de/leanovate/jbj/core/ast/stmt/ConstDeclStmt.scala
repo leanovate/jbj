@@ -21,6 +21,8 @@ case class ConstDeclStmt(assignments: List[StaticAssignment]) extends Stmt{
         expr match {
           case _: ArrayCreateExpr =>
             throw new FatalErrorJbjException("Arrays are not allowed as constants")
+          case _ if name.equalsIgnoreCase("null") =>
+            throw new FatalErrorJbjException("Cannot redeclare constant 'NULL'")
           case _ =>
             ctx.global.defineConstant(NamespaceName(name).absolutePrefix, new LazyVal {
               def value = expr.eval.concrete

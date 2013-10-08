@@ -154,5 +154,200 @@ class Namespace8Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "075: Redefining compile-time constants" in {
+      // Zend/tests/ns_075.phpt
+      script(
+        """<?php
+          |namespace foo;
+          |const NULL = 1;
+          |
+          |echo NULL;
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot redeclare constant 'NULL' in /zend/Namespace8Spec.inlinePhp on line 3
+          |""".stripMargin
+      )
+    }
+
+    "076: Unknown constants in namespace" in {
+      // Zend/tests/ns_076.phpt
+      script(
+        """<?php
+          |namespace foo;
+          |
+          |$a = array(unknown => unknown);
+          |
+          |echo unknown;
+          |echo "\n";
+          |var_dump($a);
+          |echo \nknown;
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Notice: Use of undefined constant unknown - assumed 'unknown' in /zend/Namespace8Spec.inlinePhp on line 4
+          |
+          |Notice: Use of undefined constant unknown - assumed 'unknown' in /zend/Namespace8Spec.inlinePhp on line 4
+          |
+          |Notice: Use of undefined constant unknown - assumed 'unknown' in /zend/Namespace8Spec.inlinePhp on line 6
+          |unknown
+          |array(1) {
+          |  ["unknown"]=>
+          |  string(7) "unknown"
+          |}
+          |
+          |Fatal error: Undefined constant 'nknown' in /zend/Namespace8Spec.inlinePhp on line 9
+          |""".stripMargin
+      )
+    }
+
+    "077: Unknown compile-time constants in namespace" in {
+      // Zend/tests/ns_077_1.phpt
+      script(
+        """<?php
+          |namespace foo;
+          |
+          |function foo($a = array(0 => \nknown))
+          |{
+          |}
+          |
+          |foo();
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Undefined constant 'nknown' in /zend/Namespace8Spec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
+
+    "077: Unknown compile-time constants in namespace" in {
+      // Zend/tests/ns_077_2.phpt
+      script(
+        """<?php
+          |namespace foo;
+          |
+          |function foo($a = array(\nknown => unknown))
+          |{
+          |}
+          |
+          |foo();
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Undefined constant 'nknown' in /zend/Namespace8Spec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
+
+    "077: Unknown compile-time constants in namespace" in {
+      // Zend/tests/ns_077_3.phpt
+      script(
+        """<?php
+          |namespace foo;
+          |
+          |function foo($a = array(namespace\nknown => unknown))
+          |{
+          |}
+          |
+          |foo();
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Undefined constant 'foo\nknown' in /zend/Namespace8Spec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
+
+    "077: Unknown compile-time constants in namespace" in {
+      // Zend/tests/ns_077_4.phpt
+      script(
+        """<?php
+          |namespace foo;
+          |
+          |function foo($a = array(0 => namespace\nknown))
+          |{
+          |}
+          |
+          |foo();
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Undefined constant 'foo\nknown' in /zend/Namespace8Spec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
+
+    "077: Unknown compile-time constants in namespace" in {
+      // Zend/tests/ns_077_5.phpt
+      script(
+        """<?php
+          |
+          |function foo($a = array(0 => \nknown))
+          |{
+          |}
+          |
+          |foo();
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Undefined constant 'nknown' in /zend/Namespace8Spec.inlinePhp on line 3
+          |""".stripMargin
+      )
+    }
+
+    "077: Unknown compile-time constants in namespace" in {
+      // Zend/tests/ns_077_6.phpt
+      script(
+        """<?php
+          |
+          |function foo($a = array(0 => \nknown))
+          |{
+          |}
+          |
+          |foo();
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Undefined constant 'nknown' in /zend/Namespace8Spec.inlinePhp on line 3
+          |""".stripMargin
+      )
+    }
+
+    "077: Unknown compile-time constants in namespace" in {
+      // Zend/tests/ns_077_7.phpt
+      script(
+        """<?php
+          |
+          |function foo($a = array(0 => namespace\nknown))
+          |{
+          |}
+          |
+          |foo();
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Undefined constant 'nknown' in /zend/Namespace8Spec.inlinePhp on line 3
+          |""".stripMargin
+      )
+    }
+
+    "077: Unknown compile-time constants in namespace" in {
+      // Zend/tests/ns_077_8.phpt
+      script(
+        """<?php
+          |
+          |function foo($a = array(namespace\nknown => unknown))
+          |{
+          |}
+          |
+          |foo();
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Undefined constant 'nknown' in /zend/Namespace8Spec.inlinePhp on line 3
+          |""".stripMargin
+      )
+    }
   }
 }
