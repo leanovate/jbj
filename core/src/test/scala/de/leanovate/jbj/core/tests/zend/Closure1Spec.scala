@@ -160,7 +160,7 @@ class Closure1Spec  extends SpecificationWithJUnit with TestJbjExecutor{
     }
 
     "Closure 005: Lambda inside class, lifetime of $this" in {
-      // ../php-src/Zend/tests/closure_005.phpt
+      // Zend/tests/closure_005.phpt
       script(
         """<?php
           |
@@ -234,6 +234,73 @@ class Closure1Spec  extends SpecificationWithJUnit with TestJbjExecutor{
           |Destroyed
           |
           |Fatal error: Using $this when not in object context in /zend/Closure1Spec.inlinePhp on line 28
+          |""".stripMargin
+      )
+    }
+
+    "Closure 006: Nested lambdas" in {
+      // Zend/tests/closure_006.phpt
+      script(
+        """<?php
+          |
+          |$getClosure = function ($v) {
+          |	return function () use ($v) {
+          |		echo "Hello World: $v!\n";
+          |	};
+          |};
+          |
+          |$closure = $getClosure (2);
+          |$closure ();
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """Hello World: 2!
+          |Done
+          |""".stripMargin
+      )
+    }
+
+    "Closure 007: Nested lambdas in classes" in {
+      // Zend/tests/closure_007.phpt
+      script(
+        """<?php
+          |
+          |class A {
+          |	private $x = 0;
+          |
+          |	function getClosureGetter () {
+          |		return function () {
+          |			return function () {
+          |				$this->x++;
+          |			};
+          |		};
+          |	}
+          |
+          |	function printX () {
+          |		echo $this->x."\n";
+          |	}
+          |}
+          |
+          |$a = new A;
+          |$a->printX();
+          |$getClosure = $a->getClosureGetter();
+          |$a->printX();
+          |$closure = $getClosure();
+          |$a->printX();
+          |$closure();
+          |$a->printX();
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """0
+          |0
+          |0
+          |1
+          |Done
           |""".stripMargin
       )
     }

@@ -65,7 +65,7 @@ class Namespace8Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "Testing parameter type-hinted with interface" in {
-      // end/tests/ns_072.phpt
+      // Zend/tests/ns_072.phpt
       script(
         """<?php
           |
@@ -98,6 +98,59 @@ class Namespace8Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |NULL
           |
           |Catchable fatal error: Argument 1 passed to foo\bar::__construct() must implement interface foo\foo, instance of stdClass given, called in /zend/Namespace8Spec.inlinePhp on line 22 and defined in /zend/Namespace8Spec.inlinePhp on line 10
+          |""".stripMargin
+      )
+    }
+
+    "Testing type-hinted lambda parameter inside namespace" in {
+      // Zend/tests/ns_073.phpt
+      script(
+        """<?php
+          |
+          |namespace foo;
+          |
+          |$x = function (\stdclass $x = NULL) {
+          |	var_dump($x);
+          |};
+          |
+          |$x(NULL);
+          |$x(new \stdclass);
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """NULL
+          |object(stdClass)#2 (0) {
+          |}
+          |""".stripMargin
+      )
+    }
+
+    "Testing type-hinted lambda parameter inside namespace" in {
+      // Zend/tests/ns_074.phpt
+      script(
+        """<?php
+          |
+          |namespace foo;
+          |
+          |$x = function (\stdclass $x = NULL) {
+          |	var_dump($x);
+          |};
+          |
+          |class stdclass extends \stdclass { }
+          |
+          |$x(NULL);
+          |$x(new stdclass);
+          |$x(new \stdclass);
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """NULL
+          |object(foo\stdclass)#2 (0) {
+          |}
+          |object(stdClass)#3 (0) {
+          |}
           |""".stripMargin
       )
     }
