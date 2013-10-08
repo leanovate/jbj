@@ -8,7 +8,8 @@
 package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.runtime.value.{PVal, PVar, PAny, NullVal}
-import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.context.{StaticMethodContext, Context}
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class VariableReference(name: String)(implicit ctx: Context) extends Reference {
   override def isConstant = false
@@ -16,8 +17,13 @@ case class VariableReference(name: String)(implicit ctx: Context) extends Refere
   override def isDefined = ctx.findVariable(name).exists(!_.value.isNull)
 
   override def byVal = ctx.findVariable(name).map(_.asLazyVal).getOrElse {
-    ctx.log.notice("Undefined variable: %s".format(name))
-    NullVal
+    ctx match {
+      case StaticMethodContext(_, _, false) =>
+        throw new FatalErrorJbjException("Using $this when not in object context")
+      case _ =>
+        ctx.log.notice("Undefined variable: %s".format(name))
+        NullVal
+    }
   }
 
   override def byVar = ctx.findOrDefineVariable(name)

@@ -9,7 +9,7 @@ package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.value._
-import de.leanovate.jbj.runtime.types.{PAnyParam, PClass, PStdClass, PValParam}
+import de.leanovate.jbj.runtime.types.{PAnyParam, PClass, PStdClass}
 import de.leanovate.jbj.runtime.context.MethodContext
 import de.leanovate.jbj.runtime.context.StaticMethodContext
 import scala.Some
@@ -27,7 +27,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
           if ((ctx match {
             case MethodContext(_, pMethod, _) =>
               obj.getProperty(name, Some(pMethod.declaringClass.name.toString))
-            case StaticMethodContext(pMethod, _) =>
+            case StaticMethodContext(pMethod, _, _) =>
               obj.getProperty(name, Some(pMethod.declaringClass.name.toString))
             case _ =>
               obj.getProperty(name, None)
@@ -60,7 +60,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
                 }
               }
             }
-          case StaticMethodContext(pMethod, _) =>
+          case StaticMethodContext(pMethod, _, _) =>
             obj.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
               obj.pClass.findMethod("__get").map(_.invoke(obj, PAnyParam(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
                 ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
@@ -104,7 +104,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
               obj.setProperty(name, Some(pMethod.declaringClass.name.toString), result)
               result
             }
-          case StaticMethodContext(pMethod, _) =>
+          case StaticMethodContext(pMethod, _, _) =>
             obj.getProperty(name, Some(pMethod.declaringClass.name.toString)).map {
               case pVar: PVar => pVar
               case value: PVal =>
@@ -155,7 +155,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
                   }
                 }
             }
-          case StaticMethodContext(pMethod, _) =>
+          case StaticMethodContext(pMethod, _, _) =>
             obj.getProperty(name, Some(pMethod.declaringClass.name.toString)) match {
               case Some(pVar: PVar) if pAny.isInstanceOf[PVal] =>
                 pVar.value = pAny.asInstanceOf[PVal]
@@ -191,7 +191,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
         ctx match {
           case MethodContext(_, pMethod, _) =>
             obj.unsetProperty(name, Some(pMethod.declaringClass.name.toString))
-          case StaticMethodContext(pMethod, _) =>
+          case StaticMethodContext(pMethod, _, _) =>
             obj.unsetProperty(name, Some(pMethod.declaringClass.name.toString))
           case _ =>
             obj.unsetProperty(name, None)

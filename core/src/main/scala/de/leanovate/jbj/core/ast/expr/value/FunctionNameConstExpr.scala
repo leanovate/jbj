@@ -14,7 +14,7 @@ import de.leanovate.jbj.runtime.value.StringVal
 case class FunctionNameConstExpr() extends Expr {
   def eval(implicit ctx: Context) = ctx match {
     case MethodContext(_, pMethod, _) => StringVal(pMethod.name)
-    case StaticMethodContext(pMethod, _) => StringVal(pMethod.name)
+    case StaticMethodContext(pMethod, _, _) => StringVal(pMethod.name)
     case FunctionContext(name, _) => StringVal(name.toString)
     case _ => StringVal("")
   }

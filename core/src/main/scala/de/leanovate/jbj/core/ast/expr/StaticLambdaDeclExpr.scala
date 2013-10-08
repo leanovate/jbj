@@ -8,7 +8,7 @@
 package de.leanovate.jbj.core.ast.expr
 
 import de.leanovate.jbj.core.ast.{StaticInitializer, Stmt, Expr}
-import de.leanovate.jbj.runtime.context.{FunctionLikeContext, Context}
+import de.leanovate.jbj.runtime.context.{MethodContext, FunctionLikeContext, Context}
 import de.leanovate.jbj.core.ast.decl.ParameterDecl
 import de.leanovate.jbj.core.ast.stmt.FunctionLike
 import de.leanovate.jbj.runtime.types.PClosure
@@ -20,7 +20,7 @@ case class StaticLambdaDeclExpr(returnByRef: Boolean, parameterDecls: List[Param
   private lazy val staticInitializers = StaticInitializer.collect(stmts: _*)
 
   override def eval(implicit ctx: Context) = {
-    PClosure(returnByRef, parameterDecls, lexicalVars.map {
+    val lexicalValues = lexicalVars.map {
       lexicalVar =>
         val varRef = VariableReference(lexicalVar.variableName)
         (lexicalVar.variableName, if (lexicalVar.byRef) {
@@ -28,7 +28,8 @@ case class StaticLambdaDeclExpr(returnByRef: Boolean, parameterDecls: List[Param
         } else {
           PVar(varRef.byVal)
         })
-    }, {
+    }
+    val invoke = {
       funcCtx: FunctionLikeContext =>
         if (!funcCtx.static.initialized) {
           staticInitializers.foreach(_.initializeStatic(funcCtx.static))
@@ -36,6 +37,12 @@ case class StaticLambdaDeclExpr(returnByRef: Boolean, parameterDecls: List[Param
         }
 
         perform(funcCtx, returnByRef, stmts)
-    })
+    }
+    ctx match {
+      case MethodContext(instance, _, _) =>
+        PClosure(returnByRef, parameterDecls, instance.pClass, lexicalValues, invoke)
+      case _ =>
+        PClosure(returnByRef, parameterDecls, lexicalValues, invoke)
+    }
   }
 }

@@ -205,7 +205,7 @@ trait ObjectVal extends PConcreteVal {
     ctx match {
       case MethodContext(_, method, _) if method.declaringClass.isAssignableFrom(pClass) =>
         iteratorStateHolder.set(keyValueMap.iteratorState(PrivateKeyFilter(method.declaringClass.name.toString)))
-      case StaticMethodContext(method, _) if method.declaringClass.isAssignableFrom(pClass) || pClass.isAssignableFrom(method.declaringClass) =>
+      case StaticMethodContext(method, _, _) if method.declaringClass.isAssignableFrom(pClass) || pClass.isAssignableFrom(method.declaringClass) =>
         iteratorStateHolder.set(keyValueMap.iteratorState(PrivateKeyFilter(method.declaringClass.name.toString)))
       case _ =>
     }

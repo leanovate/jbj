@@ -12,9 +12,8 @@ import de.leanovate.jbj.runtime.{NodePosition, NamespaceName}
 import scala.collection.mutable
 import scala.collection.immutable.Stack
 import de.leanovate.jbj.runtime.types.{PFunction, PMethod}
-import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
-case class StaticMethodContext(pMethod: PMethod, callerContext: Context) extends FunctionLikeContext {
+case class StaticMethodContext(pMethod: PMethod, callerContext: Context, allowThis: Boolean) extends FunctionLikeContext {
   private val localVariables = mutable.Map.empty[String, PVar]
 
   private val identifier = "Method_" + pMethod.declaringClass.name.toString + "::" + pMethod.name
