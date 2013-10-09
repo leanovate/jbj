@@ -27,7 +27,9 @@ case class ScriptLexer(mode: ScriptingLexerMode) extends Lexer with CommonScript
       } | '\"' ^^^ Keyword("\"") -> Some(DoubleQuotedLexerMode(mode))
 
   def commonScriptToken: Parser[Token] =
-    identChar ~ rep(identChar | digit) ^^ {
+    str("__HALT_COMPILER") ~> tabsOrSpaces ~> '(' ~> tabsOrSpaces ~> ')' ~> tabsOrSpaces ~> ';' ~> rep(chrExcept(EofCh)) ^^^ {
+      Keyword("__HALT_COMPILER")
+    } | identChar ~ rep(identChar | digit) ^^ {
       case first ~ rest => processIdent(first :: rest mkString "")
     } | rep(digit) ~ '.' ~ rep1(digit) ~ opt(exponent) ^^ {
       case first ~ dot ~ rest ~ exponent =>

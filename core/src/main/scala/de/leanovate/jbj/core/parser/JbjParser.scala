@@ -75,6 +75,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       stmts => NamespaceDeclStmt(NamespaceName(relative = false, prefixed = false), stmts)
     } | "use" ~> rep1sep(useDeclaration, ",") <~ ";" ^^ {
       useAsDecls => UseDeclStmt(useAsDecls)
+    } | "__HALT_COMPILER" ^^^ {
+      HaltCompilerStmt()
     } | constantDeclaration <~ ";"
 
   lazy val useDeclaration: PackratParser[UseAsDecl] =

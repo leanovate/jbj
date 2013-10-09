@@ -401,7 +401,7 @@ class Namespace8Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       ).result must haveOutput(
         """
-          |Fatal error: Namespace declarations cannot be nested in /zend/Namespace8Spec.inlinePhp on line 2
+          |Fatal error: Namespace declarations cannot be nested in /zend/Namespace8Spec.inlinePhp on line 3
           |""".stripMargin
       )
     }

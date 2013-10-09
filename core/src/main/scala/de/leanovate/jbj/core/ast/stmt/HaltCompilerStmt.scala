@@ -5,23 +5,14 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.core.ast
+package de.leanovate.jbj.core.ast.stmt
 
+import de.leanovate.jbj.core.ast.Stmt
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.SuccessExecResult
 
-trait DeclStmt extends Stmt {
-  def register(implicit ctx: Context)
-}
-
-object DeclStmt {
-  def collect(nodes: Node*) = {
-    nodes.flatMap(_.visit[DeclStmt](new NodeVisitor[DeclStmt] {
-      def apply(node: Node) = {
-        node match {
-          case decl: DeclStmt => NextSibling(decl)
-          case _ => NextChild()
-        }
-      }
-    }).results)
+case class HaltCompilerStmt() extends Stmt {
+  override def exec(implicit ctx: Context) = {
+    SuccessExecResult
   }
 }

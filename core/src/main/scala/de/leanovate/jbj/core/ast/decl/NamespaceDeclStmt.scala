@@ -6,6 +6,8 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class NamespaceDeclStmt(name: NamespaceName, stmts: List[Stmt]) extends DeclStmt with BlockLike {
+  override lazy val declStmts = DeclStmt.collect(stmts :_*)
+
   override def register(implicit ctx: Context) {
     if (ctx.global.namespaceExclusive)
       throw new FatalErrorJbjException("Namespace declarations cannot be nested")

@@ -69,10 +69,15 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |namespace foo;
-        |const NULL = 1;
-        |
-        |echo NULL;
+        |namespace foo {
+        |echo "hi\n";
+        |}
+        |__HALT_COMPILER();
+        |namespace unprocessed {
+        |echo "should not echo\n";
+        |}
+        |?>
+        |===DONE===
         |""".stripMargin)
   }
 }
