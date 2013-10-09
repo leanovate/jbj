@@ -18,7 +18,7 @@ import de.leanovate.jbj.runtime.context.MethodContext
 sealed trait PClosure
 
 class InstancePClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], position: NodePosition,
-                       instance: ObjectVal, lexicalValues: Seq[(String, PVar)], invoke: FunctionLikeContext => PAny)
+                       instance: ObjectVal, lexicalValues: Seq[(String, PAny)], invoke: FunctionLikeContext => PAny)
   extends StdObjectVal(PClosure, instanceNum, new ExtendedLinkedHashMap[ObjectPropertyKey.Key]) with PClosure {
 
   instance.retain()
@@ -34,8 +34,10 @@ class InstancePClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: 
 
     funcCtx.setParameters(callerCtx, parameterDecls, params)
     lexicalValues.foreach {
-      case (variableName, pVar) =>
+      case (variableName, pVar: PVar) =>
         funcCtx.defineVariable(variableName, pVar)
+      case (variableName, pVal: PVal) =>
+        funcCtx.defineVariable(variableName, PVar(pVal))
     }
     invoke(funcCtx)
   }
@@ -48,7 +50,7 @@ class InstancePClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: 
 }
 
 class StaticPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], position: NodePosition,
-                     pClass: PClass, lexicalValues: Seq[(String, PVar)], invoke: FunctionLikeContext => PAny)
+                     pClass: PClass, lexicalValues: Seq[(String, PAny)], invoke: FunctionLikeContext => PAny)
   extends StdObjectVal(PClosure, instanceNum, new ExtendedLinkedHashMap[ObjectPropertyKey.Key]) with PClosure {
 
   lexicalValues.foreach(_._2.retain())
@@ -63,8 +65,10 @@ class StaticPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: Li
 
     funcCtx.setParameters(callerCtx, parameterDecls, params)
     lexicalValues.foreach {
-      case (variableName, pVar) =>
+      case (variableName, pVar: PVar) =>
         funcCtx.defineVariable(variableName, pVar)
+      case (variableName, pVal: PVal) =>
+        funcCtx.defineVariable(variableName, PVar(pVal))
     }
     invoke(funcCtx)
   }
@@ -76,7 +80,7 @@ class StaticPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: Li
 }
 
 class GlobalPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], position: NodePosition,
-                     lexicalValues: Seq[(String, PVar)], invoke: FunctionLikeContext => PAny)
+                     lexicalValues: Seq[(String, PAny)], invoke: FunctionLikeContext => PAny)
   extends StdObjectVal(PClosure, instanceNum, new ExtendedLinkedHashMap[ObjectPropertyKey.Key]) with PClosure {
 
   lexicalValues.foreach(_._2.retain())
@@ -88,8 +92,10 @@ class GlobalPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: Li
 
     funcCtx.setParameters(callerCtx, parameterDecls, params)
     lexicalValues.foreach {
-      case (variableName, pVar) =>
+      case (variableName, pVar: PVar) =>
         funcCtx.defineVariable(variableName, pVar)
+      case (variableName, pVal: PVal) =>
+        funcCtx.defineVariable(variableName, PVar(pVal))
     }
     invoke(funcCtx)
   }
@@ -126,7 +132,7 @@ object PClosure extends PClass {
 
   override def methods = Map.empty
 
-  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], instance: ObjectVal, lexicalValues: Seq[(String, PVar)],
+  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], instance: ObjectVal, lexicalValues: Seq[(String, PAny)],
             invoke: FunctionLikeContext => PAny)(implicit ctx: Context): ObjectVal = {
     val result = new InstancePClosure(ctx.global.instanceCounter.incrementAndGet(), returnByRef, parameterDecls,
       ctx.currentPosition, instance, lexicalValues, invoke)
@@ -134,7 +140,7 @@ object PClosure extends PClass {
     result
   }
 
-  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], pClass: PClass, lexicalValues: Seq[(String, PVar)],
+  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], pClass: PClass, lexicalValues: Seq[(String, PAny)],
             invoke: FunctionLikeContext => PAny)(implicit ctx: Context): ObjectVal = {
     val result = new StaticPClosure(ctx.global.instanceCounter.incrementAndGet(), returnByRef, parameterDecls,
       ctx.currentPosition, pClass, lexicalValues, invoke)
@@ -142,7 +148,7 @@ object PClosure extends PClass {
     result
   }
 
-  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], lexicalValues: Seq[(String, PVar)],
+  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], lexicalValues: Seq[(String, PAny)],
             invoke: FunctionLikeContext => PAny)(implicit ctx: Context): ObjectVal = {
     val result = new GlobalPClosure(ctx.global.instanceCounter.incrementAndGet(), returnByRef, parameterDecls,
       ctx.currentPosition, lexicalValues, invoke)

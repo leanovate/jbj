@@ -26,7 +26,7 @@ case class StaticLambdaDeclExpr(returnByRef: Boolean, parameterDecls: List[Param
         (lexicalVar.variableName, if (lexicalVar.byRef) {
           varRef.byVar
         } else {
-          PVar(varRef.byVal)
+          varRef.byVal.concrete
         })
     }
     val invoke = {
