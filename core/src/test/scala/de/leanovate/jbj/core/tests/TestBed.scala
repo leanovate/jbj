@@ -69,15 +69,20 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |namespace foo {
-        |echo "hi\n";
+        |
+        |class test {
+        |	function foo($arg) {}
         |}
-        |__HALT_COMPILER();
-        |namespace unprocessed {
-        |echo "should not echo\n";
+        |
+        |class test2 extends test {
+        |	function foo($arg) {}
         |}
-        |?>
-        |===DONE===
-        |""".stripMargin)
+        |
+        |class test3 extends test {
+        |	function foo($arg, $arg2) {}
+        |}
+        |
+        |echo "Done\n";
+        |?>""".stripMargin)
   }
 }

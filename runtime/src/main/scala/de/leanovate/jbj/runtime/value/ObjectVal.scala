@@ -103,6 +103,14 @@ trait ObjectVal extends PConcreteVal {
         }
       }
       0
+    case BooleanVal(value) =>
+      true.compareTo(value)
+    case IntegerVal(value) =>
+      ctx.log.notice("Object of class %s could not be converted to int".format(pClass.name.toString))
+      1L.compareTo(value)
+    case DoubleVal(value) =>
+      ctx.log.notice("Object of class %s could not be converted to double".format(pClass.name.toString))
+      1.0.compareTo(value)
     case _ => 1
   }
 

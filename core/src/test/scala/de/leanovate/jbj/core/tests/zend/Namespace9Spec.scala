@@ -13,7 +13,7 @@ import de.leanovate.jbj.core.tests.TestJbjExecutor
 class Namespace9Spec extends SpecificationWithJUnit with TestJbjExecutor {
   "Namespace tests 080-" should {
     "080: bracketed namespaces and __HALT_COMPILER();" in {
-      // ../php-src/Zend/tests/ns_080.phpt
+      // Zend/tests/ns_080.phpt
       script(
         """<?php
           |namespace foo {
@@ -33,7 +33,7 @@ class Namespace9Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "081: bracketed namespace with nested unbracketed namespace" in {
-      // ../php-src/Zend/tests/ns_081.phpt
+      // Zend/tests/ns_081.phpt
       script(
         """<?php
           |namespace foo {
@@ -62,7 +62,7 @@ class Namespace9Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "082: bracketed namespace with closing tag" in {
-      // ../php-src/Zend/tests/ns_082.phpt
+      // Zend/tests/ns_082.phpt
       script(
         """<?php
           |namespace foo {
@@ -79,7 +79,7 @@ class Namespace9Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "083: bracketed namespace with junk before the ns declaration" in {
-      // ../php-src/Zend/tests/ns_083.phpt
+      // Zend/tests/ns_083.phpt
       script(
         """<?php
           |$a = 'oops';
@@ -99,7 +99,7 @@ class Namespace9Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "084: unbracketed namespace with nested bracketed namespace" in {
-      // ../php-src/Zend/tests/ns_084.phpt
+      // Zend/tests/ns_084.phpt
       script(
         """<?php
           |namespace foo;
@@ -128,7 +128,7 @@ class Namespace9Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "085: bracketed namespace" in {
-      // ../php-src/Zend/tests/ns_085.phpt
+      // Zend/tests/ns_085.phpt
       script(
         """<?php
           |namespace foo {
@@ -160,7 +160,7 @@ class Namespace9Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "086: bracketed namespace with encoding" in {
-      // ../php-src/Zend/tests/ns_086.phpt
+      // Zend/tests/ns_086.phpt
       script(
         """<?php
           |declare(encoding='utf-8');
