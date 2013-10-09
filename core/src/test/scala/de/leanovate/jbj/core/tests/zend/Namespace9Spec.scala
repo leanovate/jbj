@@ -126,5 +126,70 @@ class Namespace9Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "085: bracketed namespace" in {
+      // ../php-src/Zend/tests/ns_085.phpt
+      script(
+        """<?php
+          |namespace foo {
+          |use \foo;
+          |class bar {
+          |	function __construct() {echo __METHOD__,"\n";}
+          |}
+          |new foo;
+          |new bar;
+          |}
+          |namespace {
+          |class foo {
+          |	function __construct() {echo __METHOD__,"\n";}
+          |}
+          |use foo\bar as foo1;
+          |new foo1;
+          |new foo;
+          |echo "===DONE===\n";
+          |}
+          |""".stripMargin
+      ).result must haveOutput(
+        """foo::__construct
+          |foo\bar::__construct
+          |foo\bar::__construct
+          |foo::__construct
+          |===DONE===
+          |""".stripMargin
+      )
+    }
+
+    "086: bracketed namespace with encoding" in {
+      // ../php-src/Zend/tests/ns_086.phpt
+      script(
+        """<?php
+          |declare(encoding='utf-8');
+          |namespace foo {
+          |use \foo;
+          |class bar {
+          |	function __construct() {echo __METHOD__,"\n";}
+          |}
+          |new foo;
+          |new bar;
+          |}
+          |namespace {
+          |class foo {
+          |	function __construct() {echo __METHOD__,"\n";}
+          |}
+          |use foo\bar as foo1;
+          |new foo1;
+          |new foo;
+          |echo "===DONE===\n";
+          |}
+          |""".stripMargin
+      ).result must haveOutput(
+        """foo::__construct
+          |foo\bar::__construct
+          |foo\bar::__construct
+          |foo::__construct
+          |===DONE===
+          |""".stripMargin
+      )
+    }
   }
 }

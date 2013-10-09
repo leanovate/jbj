@@ -138,6 +138,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
         ForeachStmt(array, None, valueAssign, stmts)
       case array ~ _ ~ keyAssign ~ Some(valueAssign) ~ _ ~ stmts =>
         ForeachStmt(array, Some(keyAssign), valueAssign, stmts)
+    } | "declare" ~> "(" ~> declareList ~ ")" ~ declareStatement ^^ {
+      case declares ~ _ ~ stmts => DeclareDeclStmt(declares, stmts)
     } | "try" ~> "{" ~> innerStatementList ~ "}" ~ catchStatement ~ finallyStatement ^^ {
       case tryStmts ~ _ ~ catchBlocks ~ finallyStmts => TryCatchStmt(tryStmts, catchBlocks, finallyStmts)
     } | "throw" ~> expr ^^ {
@@ -205,6 +207,14 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val foreachStatement: PackratParser[List[Stmt]] =
     ":" ~> innerStatementList <~ "endforeach" <~ ";" | statement ^^ (List(_)) | ";" ^^^ Nil
+
+  lazy val declareStatement: PackratParser[List[Stmt]] =
+    ":" ~> innerStatementList <~ "enddeclare" <~ ";" | statement ^^ (List(_)) | ";" ^^^ Nil
+
+  lazy val declareList: PackratParser[List[Declare]] =
+    rep1sep(identLit ~ "=" ~ staticScalar ^^ {
+      case name ~ _ ~ value => Declare(name, value)
+    }, ",")
 
   lazy val switchCaseList: PackratParser[List[SwitchCase]] =
     "{" ~> opt(";") ~> caseList <~ "}" |

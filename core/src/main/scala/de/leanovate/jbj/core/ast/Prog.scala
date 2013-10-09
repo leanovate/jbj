@@ -11,7 +11,7 @@ import de.leanovate.jbj.runtime.{NoNodePosition, NodePosition, JbjScript, ExecRe
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.core.ast.decl.{NamespaceDeclStmt, SetNamespaceDeclStmt}
 import scala.annotation.tailrec
-import de.leanovate.jbj.core.ast.stmt.InlineStmt
+import de.leanovate.jbj.core.ast.stmt.{DeclareDeclStmt, InlineStmt}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike with JbjScript {
@@ -51,6 +51,7 @@ case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike 
       case (_: InlineStmt) :: tail => checkStmtsBeforeNamespace(tail)
       case (_: NamespaceDeclStmt) :: tail =>
       case (_: SetNamespaceDeclStmt) :: tail =>
+      case (_: DeclareDeclStmt) :: tail =>
       case stmt :: tail =>
         ctx.currentPosition = stmt.position
         throw new FatalErrorJbjException("Namespace declaration statement has to be the very first statement in the script")
