@@ -8,7 +8,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 case class SetNamespaceDeclStmt(name: NamespaceName) extends DeclStmt {
   def register(implicit ctx: Context) {
     if (ctx.global.namespaceExclusive)
-      throw new FatalErrorJbjException("Namespace declarations cannot be nested")
+      throw new FatalErrorJbjException("Cannot mix bracketed namespace declarations with unbracketed namespace declarations")
 
     ctx.global.resetCurrentNamepsace()
     ctx.global.currentNamespace = name
@@ -16,7 +16,7 @@ case class SetNamespaceDeclStmt(name: NamespaceName) extends DeclStmt {
 
   def exec(implicit ctx: Context) = {
     if (ctx.global.namespaceExclusive)
-      throw new FatalErrorJbjException("Namespace declarations cannot be nested")
+      throw new FatalErrorJbjException("Cannot mix bracketed namespace declarations with unbracketed namespace declarations")
 
     ctx.global.resetCurrentNamepsace()
     ctx.global.currentNamespace = name

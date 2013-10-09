@@ -31,6 +31,100 @@ class Namespace9Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
-  }
 
+    "081: bracketed namespace with nested unbracketed namespace" in {
+      // ../php-src/Zend/tests/ns_081.phpt
+      script(
+        """<?php
+          |namespace foo {
+          |use \foo;
+          |class bar {
+          |	function __construct() {echo __METHOD__,"\n";}
+          |}
+          |new foo;
+          |new bar;
+          |namespace oops;
+          |class foo {
+          |	function __construct() {echo __METHOD__,"\n";}
+          |}
+          |use foo\bar as foo1;
+          |new foo1;
+          |new foo;
+          |}
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot mix bracketed namespace declarations with unbracketed namespace declarations in /zend/Namespace9Spec.inlinePhp on line 9
+          |""".stripMargin
+      )
+    }
+
+    "082: bracketed namespace with closing tag" in {
+      // ../php-src/Zend/tests/ns_082.phpt
+      script(
+        """<?php
+          |namespace foo {
+          |}
+          |namespace ok {
+          |echo "ok\n";
+          |}
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """ok
+          |""".stripMargin
+      )
+    }
+
+    "083: bracketed namespace with junk before the ns declaration" in {
+      // ../php-src/Zend/tests/ns_083.phpt
+      script(
+        """<?php
+          |$a = 'oops';
+          |echo $a;
+          |namespace foo {
+          |}
+          |namespace ok {
+          |echo "ok\n";
+          |}
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Namespace declaration statement has to be the very first statement in the script in /zend/Namespace9Spec.inlinePhp on line 2
+          |""".stripMargin
+      )
+    }
+
+    "084: unbracketed namespace with nested bracketed namespace" in {
+      // ../php-src/Zend/tests/ns_084.phpt
+      script(
+        """<?php
+          |namespace foo;
+          |use \foo;
+          |class bar {
+          |	function __construct() {echo __METHOD__,"\n";}
+          |}
+          |new foo;
+          |new bar;
+          |namespace oops {
+          |class foo {
+          |	function __construct() {echo __METHOD__,"\n";}
+          |}
+          |use foo\bar as foo1;
+          |new foo1;
+          |new foo;
+          |}
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot mix bracketed namespace declarations with unbracketed namespace declarations in /zend/Namespace9Spec.inlinePhp on line 9
+          |""".stripMargin
+      )
+    }
+  }
 }
