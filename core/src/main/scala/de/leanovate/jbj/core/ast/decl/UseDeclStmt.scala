@@ -28,21 +28,17 @@ case class UseDeclStmt(useAsDecls: List[UseAsDecl]) extends DeclStmt {
     aliasBuilder ++= ctx.global.namespaceAliases
 
     useAsDecls.foreach {
-      useAs =>
-        useAs match {
-          case UseAsDecl(name, None) if name.relative && name.path.length < 2 =>
-            if (warnings)
-              ctx.log.warn("The use statement with non-compound name '%s' has no effect".format(name.toString))
-          case UseAsDecl(name, None) =>
-            aliasBuilder += name.lastPath -> name.absolute
-          case UseAsDecl(name, Some(alias)) =>
-            if (ctx.global.namespaceAliases.contains(alias))
-              throw new FatalErrorJbjException("Cannot use %s as %s because the name is already in use".format(name.toString, alias))
-            aliasBuilder += alias -> name
-        }
+      case UseAsDecl(name, None) if ctx.global.currentNamespace.path.length == 0 && name.path.length < 2 =>
+        if (warnings)
+          ctx.log.warn("The use statement with non-compound name '%s' has no effect".format(name.toString))
+      case UseAsDecl(name, None) =>
+        aliasBuilder += name.lastPath -> name.absolute
+      case UseAsDecl(name, Some(alias)) =>
+        if (ctx.global.namespaceAliases.contains(alias))
+          throw new FatalErrorJbjException("Cannot use %s as %s because the name is already in use".format(name.toString, alias))
+        aliasBuilder += alias -> name
     }
 
     ctx.global.namespaceAliases = aliasBuilder.result()
-
   }
 }

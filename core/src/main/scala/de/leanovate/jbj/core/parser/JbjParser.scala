@@ -59,7 +59,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     stmts => Prog(parseCtx.fileName, stmts)
   }
 
-  lazy val topStatementList: PackratParser[List[Stmt]] = rep(topStatement)
+  lazy val topStatementList: PackratParser[List[Stmt]] = rep(topStatement <~ rep(";"))
 
   lazy val namespaceName: PackratParser[NamespaceName] = rep1sep(identLit, "\\") ^^ {
     path => NamespaceName(relative = true, prefixed = false, path: _*)
@@ -79,7 +79,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val useDeclaration: PackratParser[UseAsDecl] =
     namespaceName ~ opt("as" ~> identLit) ^^ {
-      case name ~ alias => UseAsDecl(name, alias)
+      case name ~ alias => UseAsDecl(NamespaceName(relative = false, prefixed = false, name.path: _*), alias)
     } | "\\" ~> namespaceName ~ opt("as" ~> identLit) ^^ {
       case name ~ alias => UseAsDecl(NamespaceName(relative = false, prefixed = false, name.path: _*), alias)
     }

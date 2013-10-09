@@ -349,5 +349,61 @@ class Namespace8Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "002: Import - different syntaxes" in {
+      // Zend/tests/ns_078.phpt
+      script(
+        """<?php
+          |namespace test\ns1;
+          |
+          |class Foo {
+          |  static function bar() {
+          |    echo __CLASS__,"\n";
+          |  }
+          |}
+          |
+          |class Foo2 {
+          |  static function bar() {
+          |    echo __CLASS__,"\n";
+          |  }
+          |}
+          |
+          |namespace xyz;
+          |use test\ns1\Foo;
+          |use test\ns1\Foo as Bar;
+          |use \test\ns1\Foo2;
+          |use \test\ns1\Foo2 as Bar2;
+          |
+          |Foo::bar();
+          |Bar::bar();
+          |Foo2::bar();
+          |Bar2::bar();
+          |""".stripMargin
+      ).result must haveOutput(
+        """test\ns1\Foo
+          |test\ns1\Foo
+          |test\ns1\Foo2
+          |test\ns1\Foo2
+          |""".stripMargin
+      )
+    }
+
+    "079: nested namespaces" in {
+      // Zend/tests/ns_079.phpt
+      script(
+        """<?php
+          |namespace foo {
+          |    namespace oops {
+          |    }
+          |}
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Namespace declarations cannot be nested in /zend/Namespace8Spec.inlinePhp on line 2
+          |""".stripMargin
+      )
+    }
   }
 }

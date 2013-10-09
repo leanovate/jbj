@@ -24,6 +24,7 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
   extends Context {
   private var _inShutdown = false
 
+  var namespaceExclusive = false
   private var _currentNamespace = NamespaceName(relative = false, prefixed = false)
   private var _namespaceAliases = Map.empty[String, NamespaceName]
 
