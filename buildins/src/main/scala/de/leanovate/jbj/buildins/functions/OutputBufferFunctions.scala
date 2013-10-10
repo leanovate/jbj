@@ -20,7 +20,7 @@ object OutputBufferFunctions {
   @GlobalFunction
   def ob_start(callback: Option[PVal], size: Option[Int], erase: Option[Boolean])(implicit ctx: Context): Boolean = {
     if (callback.isDefined) {
-      if (CallbackHelper.isValidCallback(callback.get)) {
+      if (CallbackHelper.isValidCallback(callback.get, None)) {
         val outputTransformer = new OutputTransformer {
           def name = CallbackHelper.callbackName(callback.get).getOrElse("default output handler")
 

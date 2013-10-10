@@ -9,10 +9,10 @@ package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.types.{PClosure, PAnyParam, PParamDef, PValParam}
+import de.leanovate.jbj.runtime.types.{PClosure, PAnyParam, PParamDef}
 
 object CallbackHelper {
-  def isValidCallback(callable: PVal)(implicit ctx: Context): Boolean =
+  def isValidCallback(callable: PVal, callableName: Option[PVar])(implicit ctx: Context): Boolean =
     callable match {
       case array: ArrayVal if array.keyValues.size != 2 => false
       case array: ArrayVal =>
@@ -37,6 +37,10 @@ object CallbackHelper {
             }
         }
       case _: PClosure =>
+        callableName.foreach(_.value = StringVal("Closure::__invoke"))
+        true
+      case obj: ObjectVal if obj.pClass.findMethod("__invoke").isDefined =>
+        callableName.foreach(_.value = StringVal(obj.pClass.name.toString + "::__invoke"))
         true
       case name =>
         val functionName = name.toStr.asString
@@ -109,7 +113,7 @@ object CallbackHelper {
               NullVal
             }
         }
-      case closure :PClosure =>
+      case closure: PClosure =>
         closure.call(parameters.map(PAnyParam.apply).toList)
       case name =>
         val functionName = name.toStr.asString

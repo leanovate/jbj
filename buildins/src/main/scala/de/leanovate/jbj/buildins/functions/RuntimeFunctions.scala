@@ -30,7 +30,7 @@ object RuntimeFunctions {
 
   @GlobalFunction
   def set_error_handler(value: PVal, errorTypes: Option[Int])(implicit ctx: Context) {
-    if (CallbackHelper.isValidCallback(value)) {
+    if (CallbackHelper.isValidCallback(value, None)) {
       ctx.global.errorHandlerTypes = errorTypes.getOrElse {
         JbjSettings.E_ALL.foldLeft(0) {
           (r, errorLevel) => r | errorLevel.getValue
@@ -45,7 +45,7 @@ object RuntimeFunctions {
   @GlobalFunction
   def register_shutdown_function(optCallback: Option[PVal], parameters: PVal*)(implicit ctx: Context) {
     optCallback match {
-      case Some(callback) if !CallbackHelper.isValidCallback(callback) =>
+      case Some(callback) if !CallbackHelper.isValidCallback(callback, None) =>
         ctx.log.warn("register_shutdown_function(): Invalid shutdown callback '%s' passed".format(callback.toStr.asString))
       case Some(callback) =>
         ctx.global.shutdownHandler = Some(callback)

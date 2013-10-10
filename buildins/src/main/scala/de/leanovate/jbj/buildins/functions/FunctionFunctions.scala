@@ -149,10 +149,16 @@ object FunctionFunctions {
       callable match {
         case array: ArrayVal if array.size == 2 => true
         case StringVal(str) if str.length > 0 => true
+        case _: PClosure =>
+          callableName.foreach(_.value = StringVal("Closure::__invoke"))
+          true
+        case obj: ObjectVal if obj.pClass.findMethod("__invoke").isDefined =>
+          callableName.foreach(_.value = StringVal(obj.pClass.name.toString + "::__invoke"))
+          true
         case _ => false
       }
     } else {
-      CallbackHelper.isValidCallback(callable)
+      CallbackHelper.isValidCallback(callable, callableName)
     }
   }
 }
