@@ -13,6 +13,7 @@ import de.leanovate.jbj.runtime.context._
 import de.leanovate.jbj.runtime.adapter.InstanceMethod
 import de.leanovate.jbj.runtime.context.FunctionContext
 import de.leanovate.jbj.runtime.context.MethodContext
+import scala.collection.mutable
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef],
@@ -22,10 +23,14 @@ sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, paramete
 
   lexicalValues.foreach(_._2.retain())
 
+  private val activeContexts = mutable.Set.empty[Context]
+
   def newFunctionContext(implicit callerCtx: Context): FunctionLikeContext
 
   override def call(params: List[PParam])(implicit callerCtx: Context): PAny = {
     val funcCtx = newFunctionContext
+
+    activeContexts += funcCtx
 
     funcCtx.currentPosition = position
 
@@ -36,10 +41,14 @@ sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, paramete
       case (variableName, pVal: PVal) =>
         funcCtx.defineVariable(variableName, PVar(pVal))
     }
-    invoke(funcCtx)
+    val result = invoke(funcCtx)
+    activeContexts -= funcCtx
+    result
   }
 
   override def cleanup()(implicit ctx: Context) {
+    if (activeContexts.contains(ctx))
+      throw new FatalErrorJbjException("Cannot destroy active lambda function")
     super.cleanup()
     lexicalValues.foreach(_._2.release())
   }
@@ -52,7 +61,7 @@ class InstancePClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: 
   instance.retain()
 
   override def newFunctionContext(implicit callerCtx: Context) = {
-    val pMethod = new InstanceMethod(instance.pClass, "lambda-" + instanceNum, parameterDecls, isFinal = true) {
+    val pMethod = new InstanceMethod(instance.pClass, "Closure::lambda-" + instanceNum, parameterDecls, isFinal = true) {
       def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = ???
     }
     MethodContext(instance, pMethod, callerCtx)
@@ -69,7 +78,7 @@ class StaticPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: Li
   extends PClosure(instanceNum, returnByRef, parameterDecls, position, lexicalValues, invoke) {
 
   override def newFunctionContext(implicit callerCtx: Context) = {
-    val pMethod = new InstanceMethod(pClass, "lambda-" + instanceNum, parameterDecls, isFinal = true) {
+    val pMethod = new InstanceMethod(pClass, "Closure::lambda-" + instanceNum, parameterDecls, isFinal = true) {
       def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = ???
     }
     StaticMethodContext(pMethod, callerCtx, allowThis = false)
@@ -81,7 +90,7 @@ class GlobalPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: Li
   extends PClosure(instanceNum, returnByRef, parameterDecls, position, lexicalValues, invoke) {
 
   override def newFunctionContext(implicit callerCtx: Context) = {
-    FunctionContext(NamespaceName("lambda-" + instanceNum), callerCtx)
+    FunctionContext(NamespaceName("Closure::lambda-" + instanceNum), callerCtx)
   }
 }
 

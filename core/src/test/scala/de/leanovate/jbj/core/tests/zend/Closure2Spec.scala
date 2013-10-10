@@ -277,5 +277,23 @@ class Closure2Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Closure 017: Trying to destroy an active lambda function" in {
+      // Zend/tests/closure_017.phpt
+      script(
+        """<?php
+          |
+          |$a = function(&$a) { $a = 1; };
+          |
+          |$a($a);
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot destroy active lambda function in /zend/Closure2Spec.inlinePhp on line 3
+          |""".stripMargin
+      )
+    }
   }
 }

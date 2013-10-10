@@ -69,35 +69,24 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |class Foo {
-        |	function __invoke() {
-        |		echo "Hello World!\n";
+        |
+        |class foo {
+        |	public function test(&$x) {
+        |		static $lambda;
+        |		$lambda = function &() use (&$x) {
+        |			return $x = $x * $x;
+        |		};
+        |		return $lambda();
         |	}
         |}
         |
-        |function foo() {
-        |	return function() {
-        |		echo "Hello World!\n";
-        |	};
-        |}
-        |$test = new Foo;
-        |var_dump(is_callable($test, true, $name));
-        |echo $name."\n";
-        |var_dump(is_callable($test, false, $name));
-        |echo $name."\n";
-        |var_dump(is_callable(array($test,"__invoke"), true, $name));
-        |echo $name."\n";
-        |var_dump(is_callable(array($test,"__invoke"), false, $name));
-        |echo $name."\n";
-        |$test = foo();
-        |var_dump(is_callable($test, true, $name));
-        |echo $name."\n";
-        |var_dump(is_callable($test, false, $name));
-        |echo $name."\n";
-        |var_dump(is_callable(array($test,"__invoke"), true, $name));
-        |echo $name."\n";
-        |var_dump(is_callable(array($test,"__invoke"), false, $name));
-        |echo $name."\n";
+        |$test = new foo;
+        |
+        |$y = 2;
+        |var_dump($test->test($y));
+        |var_dump($x = $test->test($y));
+        |var_dump($y, $x);
+        |
         |?>""".stripMargin)
   }
 }
