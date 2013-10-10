@@ -248,8 +248,14 @@ trait ObjectVal extends PConcreteVal {
 
   override def isCallable(implicit ctx: Context) = false
 
-  override def call(params: List[PParam])(implicit ctx: Context): PAny =
-    throw new FatalErrorJbjException("Function name must be a string")
+  override def call(params: List[PParam])(implicit ctx: Context): PAny = {
+    pClass.findMethod("__invoke").map {
+      method =>
+        method.invoke(this, params)
+    }.getOrElse {
+      throw new FatalErrorJbjException("Function name must be a string")
+    }
+  }
 }
 
 object ObjectVal {

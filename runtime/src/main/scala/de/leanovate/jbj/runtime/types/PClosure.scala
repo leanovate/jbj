@@ -112,12 +112,7 @@ object PClosure extends PClass {
   override def methods = Seq(
     new InstanceMethod(this, "__invoke") {
       def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = {
-        instance match {
-          case pClosure: PClosure =>
-            pClosure.call(parameters)
-          case _ =>
-            throw new FatalErrorJbjException("__invoke called on invalid closure")
-        }
+        instance.call(parameters)
       }
     }
   ).map {

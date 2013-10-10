@@ -81,10 +81,23 @@ object TestBed {
         |	};
         |}
         |$test = new Foo;
-        |$test->__invoke();
+        |var_dump(is_callable($test, true, $name));
+        |echo $name."\n";
+        |var_dump(is_callable($test, false, $name));
+        |echo $name."\n";
+        |var_dump(is_callable(array($test,"__invoke"), true, $name));
+        |echo $name."\n";
+        |var_dump(is_callable(array($test,"__invoke"), false, $name));
+        |echo $name."\n";
         |$test = foo();
-        |$test->__invoke();
-        |$test = foo()->__invoke();
+        |var_dump(is_callable($test, true, $name));
+        |echo $name."\n";
+        |var_dump(is_callable($test, false, $name));
+        |echo $name."\n";
+        |var_dump(is_callable(array($test,"__invoke"), true, $name));
+        |echo $name."\n";
+        |var_dump(is_callable(array($test,"__invoke"), false, $name));
+        |echo $name."\n";
         |?>""".stripMargin)
   }
 }
