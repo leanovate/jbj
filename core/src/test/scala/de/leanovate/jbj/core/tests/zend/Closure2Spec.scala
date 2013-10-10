@@ -82,5 +82,35 @@ class Closure2Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Closure 013: __invoke() on temporary result" in {
+      // Zend/tests/closure_013.phpt
+      script(
+        """<?php
+          |class Foo {
+          |	function __invoke() {
+          |		echo "Hello World!\n";
+          |	}
+          |}
+          |
+          |function foo() {
+          |	return function() {
+          |		echo "Hello World!\n";
+          |	};
+          |}
+          |$test = new Foo;
+          |$test->__invoke();
+          |$test = foo();
+          |$test->__invoke();
+          |$test = foo()->__invoke();
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """Hello World!
+          |Hello World!
+          |Hello World!
+          |""".stripMargin
+      )
+    }
   }
 }

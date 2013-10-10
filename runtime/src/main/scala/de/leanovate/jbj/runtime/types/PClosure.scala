@@ -13,6 +13,7 @@ import de.leanovate.jbj.runtime.context._
 import de.leanovate.jbj.runtime.adapter.InstanceMethod
 import de.leanovate.jbj.runtime.context.FunctionContext
 import de.leanovate.jbj.runtime.context.MethodContext
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef],
                                position: NodePosition, lexicalValues: Seq[(String, PAny)],
@@ -108,7 +109,21 @@ object PClosure extends PClass {
 
   override def properties = Map.empty
 
-  override def methods = Map.empty
+  override def methods = Seq(
+    new InstanceMethod(this, "__invoke") {
+      def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = {
+        instance match {
+          case pClosure: PClosure =>
+            pClosure.call(parameters)
+          case _ =>
+            throw new FatalErrorJbjException("__invoke called on invalid closure")
+        }
+      }
+    }
+  ).map {
+    method =>
+      method.name.toLowerCase -> method
+  }.toMap
 
   def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], instance: ObjectVal, lexicalValues: Seq[(String, PAny)],
             invoke: FunctionLikeContext => PAny)(implicit ctx: Context): ObjectVal = {
