@@ -10,25 +10,21 @@ package de.leanovate.jbj.runtime.types
 import de.leanovate.jbj.runtime.{NodePosition, NamespaceName}
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context._
-import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.adapter.InstanceMethod
 import de.leanovate.jbj.runtime.context.FunctionContext
 import de.leanovate.jbj.runtime.context.MethodContext
 
-sealed trait PClosure
+sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef],
+                               position: NodePosition, lexicalValues: Seq[(String, PAny)],
+                               invoke: FunctionLikeContext => PAny)
+  extends StdObjectVal(PClosure, instanceNum, new ExtendedLinkedHashMap[ObjectPropertyKey.Key]) {
 
-class InstancePClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], position: NodePosition,
-                       instance: ObjectVal, lexicalValues: Seq[(String, PAny)], invoke: FunctionLikeContext => PAny)
-  extends StdObjectVal(PClosure, instanceNum, new ExtendedLinkedHashMap[ObjectPropertyKey.Key]) with PClosure {
-
-  instance.retain()
   lexicalValues.foreach(_._2.retain())
 
+  def newFunctionContext(implicit callerCtx: Context): FunctionLikeContext
+
   override def call(params: List[PParam])(implicit callerCtx: Context): PAny = {
-    val pMethod = new InstanceMethod(instance.pClass, "lambda-" + instanceNum, parameterDecls, isFinal = true) {
-      def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = ???
-    }
-    val funcCtx = MethodContext(instance, pMethod, callerCtx)
+    val funcCtx = newFunctionContext
 
     funcCtx.currentPosition = position
 
@@ -45,64 +41,46 @@ class InstancePClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: 
   override def cleanup()(implicit ctx: Context) {
     super.cleanup()
     lexicalValues.foreach(_._2.release())
+  }
+}
+
+class InstancePClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], position: NodePosition,
+                       instance: ObjectVal, lexicalValues: Seq[(String, PAny)], invoke: FunctionLikeContext => PAny)
+  extends PClosure(instanceNum, returnByRef, parameterDecls, position, lexicalValues, invoke) {
+
+  instance.retain()
+
+  override def newFunctionContext(implicit callerCtx: Context) = {
+    val pMethod = new InstanceMethod(instance.pClass, "lambda-" + instanceNum, parameterDecls, isFinal = true) {
+      def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = ???
+    }
+    MethodContext(instance, pMethod, callerCtx)
+  }
+
+  override def cleanup()(implicit ctx: Context) {
+    super.cleanup()
     instance.release()
   }
 }
 
 class StaticPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], position: NodePosition,
                      pClass: PClass, lexicalValues: Seq[(String, PAny)], invoke: FunctionLikeContext => PAny)
-  extends StdObjectVal(PClosure, instanceNum, new ExtendedLinkedHashMap[ObjectPropertyKey.Key]) with PClosure {
+  extends PClosure(instanceNum, returnByRef, parameterDecls, position, lexicalValues, invoke) {
 
-  lexicalValues.foreach(_._2.retain())
-
-  override def call(params: List[PParam])(implicit callerCtx: Context): PAny = {
+  override def newFunctionContext(implicit callerCtx: Context) = {
     val pMethod = new InstanceMethod(pClass, "lambda-" + instanceNum, parameterDecls, isFinal = true) {
       def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = ???
     }
-    val funcCtx = StaticMethodContext(pMethod, callerCtx, allowThis = false)
-
-    funcCtx.currentPosition = position
-
-    funcCtx.setParameters(callerCtx, parameterDecls, params)
-    lexicalValues.foreach {
-      case (variableName, pVar: PVar) =>
-        funcCtx.defineVariable(variableName, pVar)
-      case (variableName, pVal: PVal) =>
-        funcCtx.defineVariable(variableName, PVar(pVal))
-    }
-    invoke(funcCtx)
-  }
-
-  override def cleanup()(implicit ctx: Context) {
-    super.cleanup()
-    lexicalValues.foreach(_._2.release())
+    StaticMethodContext(pMethod, callerCtx, allowThis = false)
   }
 }
 
 class GlobalPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], position: NodePosition,
                      lexicalValues: Seq[(String, PAny)], invoke: FunctionLikeContext => PAny)
-  extends StdObjectVal(PClosure, instanceNum, new ExtendedLinkedHashMap[ObjectPropertyKey.Key]) with PClosure {
+  extends PClosure(instanceNum, returnByRef, parameterDecls, position, lexicalValues, invoke) {
 
-  lexicalValues.foreach(_._2.retain())
-
-  override def call(params: List[PParam])(implicit callerCtx: Context): PAny = {
-    val funcCtx = FunctionContext(NamespaceName("lambda-" + instanceNum), callerCtx)
-
-    funcCtx.currentPosition = position
-
-    funcCtx.setParameters(callerCtx, parameterDecls, params)
-    lexicalValues.foreach {
-      case (variableName, pVar: PVar) =>
-        funcCtx.defineVariable(variableName, pVar)
-      case (variableName, pVal: PVal) =>
-        funcCtx.defineVariable(variableName, PVar(pVal))
-    }
-    invoke(funcCtx)
-  }
-
-  override def cleanup()(implicit ctx: Context) {
-    super.cleanup()
-    lexicalValues.foreach(_._2.release())
+  override def newFunctionContext(implicit callerCtx: Context) = {
+    FunctionContext(NamespaceName("lambda-" + instanceNum), callerCtx)
   }
 }
 
