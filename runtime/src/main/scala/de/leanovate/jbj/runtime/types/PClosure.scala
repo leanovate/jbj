@@ -14,7 +14,7 @@ import de.leanovate.jbj.runtime.adapter.InstanceMethod
 import de.leanovate.jbj.runtime.context.FunctionContext
 import de.leanovate.jbj.runtime.context.MethodContext
 import scala.collection.mutable
-import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.exception.{CatchableFatalError, FatalErrorJbjException}
 
 sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef],
                                position: NodePosition,
@@ -24,6 +24,9 @@ sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, paramete
   private val activeContexts = mutable.Set.empty[Context]
 
   def newFunctionContext(implicit callerCtx: Context): FunctionLikeContext
+
+  override def setProperty(name: String, className: Option[String], value: PAny)(implicit ctx: Context) =
+    CatchableFatalError("Closure object cannot have properties")
 
   override def call(params: List[PParam])(implicit callerCtx: Context): PAny = {
     val funcCtx = newFunctionContext
