@@ -50,6 +50,19 @@ object ClassFunctions {
   }
 
   @GlobalFunction
+  def is_a(value:PVal, name:String)(implicit ctx:Context): Boolean = value match {
+    case obj:ObjectVal =>
+      ctx.global.findInterfaceOrClass(NamespaceName(name), autoload = false).exists {
+        case Left(pInterface) =>
+          pInterface.isAssignableFrom(obj.pClass)
+        case Right(pClass) =>
+          pClass.isAssignableFrom(obj.pClass)
+      }
+    case _ =>
+      false
+  }
+
+  @GlobalFunction
   def is_subclass_of(value: PVal, name: String)(implicit ctx: Context): Boolean = value match {
     case obj: ObjectVal =>
       obj.pClass.superClass.flatMap {

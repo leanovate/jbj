@@ -69,6 +69,8 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
             }
           case _ =>
             obj.getProperty(name, None).map(_.asVal).getOrElse {
+              if ( obj.hasPrivateProperty(name))
+                throw new FatalErrorJbjException("Cannot access private property %s::$%s".format(obj.pClass.name.toString, name))
               obj.pClass.findMethod("__get").map {
                 getMethod =>
                   _getResult.getOrElse {

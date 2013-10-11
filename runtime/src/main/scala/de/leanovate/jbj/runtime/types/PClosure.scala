@@ -17,11 +17,9 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef],
-                               position: NodePosition, lexicalValues: Seq[(String, PAny)],
+                               position: NodePosition,
                                invoke: FunctionLikeContext => PAny)
   extends StdObjectVal(PClosure, instanceNum, new ExtendedLinkedHashMap[ObjectPropertyKey.Key]) {
-
-  lexicalValues.foreach(_._2.retain())
 
   private val activeContexts = mutable.Set.empty[Context]
 
@@ -35,11 +33,16 @@ sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, paramete
     funcCtx.currentPosition = position
 
     funcCtx.setParameters(callerCtx, parameterDecls, params, detailedError = true)
-    lexicalValues.foreach {
-      case (variableName, pVar: PVar) =>
-        funcCtx.defineVariable(variableName, pVar)
-      case (variableName, pVal: PVal) =>
-        funcCtx.defineVariable(variableName, PVar(pVal))
+    getProperty("static", None)(funcCtx).foreach {
+      case array: ArrayVal =>
+        array.keyValues.foreach {
+          case (variableName: StringVal, pVar: PVar) =>
+            funcCtx.defineVariable(variableName.asString, pVar)
+          case (variableName: StringVal, pVal: PVal) =>
+            funcCtx.defineVariable(variableName.asString, PVar(pVal))
+          case _ =>
+        }
+      case _ =>
     }
     val result = invoke(funcCtx)
     activeContexts -= funcCtx
@@ -50,15 +53,12 @@ sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, paramete
     if (activeContexts.contains(ctx))
       throw new FatalErrorJbjException("Cannot destroy active lambda function")
     super.cleanup()
-    lexicalValues.foreach(_._2.release())
   }
 }
 
 class InstancePClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], position: NodePosition,
-                       instance: ObjectVal, lexicalValues: Seq[(String, PAny)], invoke: FunctionLikeContext => PAny)
-  extends PClosure(instanceNum, returnByRef, parameterDecls, position, lexicalValues, invoke) {
-
-  instance.retain()
+                       instance: ObjectVal, invoke: FunctionLikeContext => PAny)
+  extends PClosure(instanceNum, returnByRef, parameterDecls, position, invoke) {
 
   override def newFunctionContext(implicit callerCtx: Context) = {
     val pMethod = new InstanceMethod(instance.pClass, "Closure::lambda-" + instanceNum, parameterDecls, isFinal = true) {
@@ -66,16 +66,11 @@ class InstancePClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: 
     }
     MethodContext(instance, pMethod, callerCtx)
   }
-
-  override def cleanup()(implicit ctx: Context) {
-    super.cleanup()
-    instance.release()
-  }
 }
 
 class StaticPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], position: NodePosition,
-                     pClass: PClass, lexicalValues: Seq[(String, PAny)], invoke: FunctionLikeContext => PAny)
-  extends PClosure(instanceNum, returnByRef, parameterDecls, position, lexicalValues, invoke) {
+                     pClass: PClass, invoke: FunctionLikeContext => PAny)
+  extends PClosure(instanceNum, returnByRef, parameterDecls, position, invoke) {
 
   override def newFunctionContext(implicit callerCtx: Context) = {
     val pMethod = new InstanceMethod(pClass, "Closure::lambda-" + instanceNum, parameterDecls, isFinal = true) {
@@ -86,8 +81,8 @@ class StaticPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: Li
 }
 
 class GlobalPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], position: NodePosition,
-                     lexicalValues: Seq[(String, PAny)], invoke: FunctionLikeContext => PAny)
-  extends PClosure(instanceNum, returnByRef, parameterDecls, position, lexicalValues, invoke) {
+                     invoke: FunctionLikeContext => PAny)
+  extends PClosure(instanceNum, returnByRef, parameterDecls, position, invoke) {
 
   override def newFunctionContext(implicit callerCtx: Context) = {
     FunctionContext(NamespaceName("Closure::lambda-" + instanceNum), callerCtx)
@@ -129,26 +124,30 @@ object PClosure extends PClass {
       method.name.toLowerCase -> method
   }.toMap
 
-  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], instance: ObjectVal, lexicalValues: Seq[(String, PAny)],
+  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], instance: ObjectVal, lexicalValues: ArrayVal,
             invoke: FunctionLikeContext => PAny)(implicit ctx: Context): ObjectVal = {
     val result = new InstancePClosure(ctx.global.instanceCounter.incrementAndGet(), returnByRef, parameterDecls,
-      ctx.currentPosition, instance, lexicalValues, invoke)
+      ctx.currentPosition, instance, invoke)
+    result.definePublicProperty("static", lexicalValues)
+    result.definePublicProperty("this", instance)
     ctx.poolAutoRelease(result)
     result
   }
 
-  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], pClass: PClass, lexicalValues: Seq[(String, PAny)],
+  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], pClass: PClass, lexicalValues: ArrayVal,
             invoke: FunctionLikeContext => PAny)(implicit ctx: Context): ObjectVal = {
     val result = new StaticPClosure(ctx.global.instanceCounter.incrementAndGet(), returnByRef, parameterDecls,
-      ctx.currentPosition, pClass, lexicalValues, invoke)
+      ctx.currentPosition, pClass, invoke)
+    result.definePublicProperty("static", lexicalValues)
     ctx.poolAutoRelease(result)
     result
   }
 
-  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], lexicalValues: Seq[(String, PAny)],
+  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], lexicalValues: ArrayVal,
             invoke: FunctionLikeContext => PAny)(implicit ctx: Context): ObjectVal = {
     val result = new GlobalPClosure(ctx.global.instanceCounter.incrementAndGet(), returnByRef, parameterDecls,
-      ctx.currentPosition, lexicalValues, invoke)
+      ctx.currentPosition, invoke)
+    result.definePublicProperty("static", lexicalValues)
     ctx.poolAutoRelease(result)
     result
   }

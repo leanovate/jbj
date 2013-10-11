@@ -130,6 +130,11 @@ trait ObjectVal extends PConcreteVal {
     }
   }
 
+  def hasPrivateProperty(name:String) = keyValueMap.keys.exists {
+    case PrivateKey(n, _) if n == name => true
+    case _ => false
+  }
+
   def definePrivateProperty(name: String, className: String, value: PAny)(implicit ctx: Context) {
     val key = PrivateKey(name, className)
     value.retain()

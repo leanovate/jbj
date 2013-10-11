@@ -297,7 +297,7 @@ class Closure2Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "Closure 018: Assigning lambda to static var and returning by ref" in {
-      // ../php-src/Zend/tests/closure_018.phpt
+      // Zend/tests/closure_018.phpt
       script(
         """<?php
           |

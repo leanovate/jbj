@@ -32,9 +32,9 @@ object OutputFunctions {
 
     def dump(stack: List[PAny], ident: String) {
       val (value, isRef) = stack.head match {
-        case valueRef: PVar if valueRef.refCount > 1 => valueRef.value -> "&"
-        case valueRef: PVar => valueRef.value -> ""
-        case value: PVal => value -> ""
+        case valueRef: PVar if valueRef.refCount > 1 => valueRef.value.concrete -> "&"
+        case valueRef: PVar => valueRef.value.concrete -> ""
+        case value: PVal => value.concrete -> ""
       }
       value match {
         case ArrayVal(keyValues) =>
@@ -43,13 +43,13 @@ object OutputFunctions {
           keyValues.foreach {
             case (IntegerVal(key), v) =>
               ctx.out.println("%s[%d]=>".format(nextIdent, key))
-              if (stack.exists(_.eq(v)))
+              if (stack.exists(_.asVal.concrete == v.asVal.concrete))
                 ctx.out.println("%s*RECURSION*".format(nextIdent))
               else
                 dump(v :: stack, nextIdent)
             case (StringVal(key), v) =>
               ctx.out.println( """%s["%s"]=>""".format(nextIdent, key))
-              if (stack.exists(_.eq(v)))
+              if (stack.exists(_.asVal.concrete == v.asVal.concrete))
                 ctx.out.println("%s*RECURSION*".format(nextIdent))
               else
                 dump(v :: stack, nextIdent)
@@ -69,25 +69,25 @@ object OutputFunctions {
           keyValues.foreach {
             case (ObjectPropertyKey.IntKey(key), v) =>
               ctx.out.println("%s[%d]=>".format(nextIdent, key))
-              if (stack.exists(_.eq(v)))
+              if (stack.exists(_.asVal.concrete == v.asVal.concrete))
                 ctx.out.println("%s*RECURSION*".format(nextIdent))
               else
                 dump(v :: stack, nextIdent)
             case (ObjectPropertyKey.PublicKey(key), v) =>
               ctx.out.println( """%s["%s"]=>""".format(nextIdent, key))
-              if (stack.exists(_.eq(v)))
+              if (stack.exists(_.asVal.concrete == v.asVal.concrete))
                 ctx.out.println("%s*RECURSION*".format(nextIdent))
               else
                 dump(v :: stack, nextIdent)
             case (ObjectPropertyKey.ProtectedKey(key), v) =>
               ctx.out.println( """%s["%s":protected]=>""".format(nextIdent, key))
-              if (stack.exists(_.eq(v)))
+              if (stack.exists(_.asVal.concrete == v.asVal.concrete))
                 ctx.out.println("%s*RECURSION*".format(nextIdent))
               else
                 dump(v :: stack, nextIdent)
             case (ObjectPropertyKey.PrivateKey(key, className), v) =>
               ctx.out.println( """%s["%s":"%s":private]=>""".format(nextIdent, key, className))
-              if (stack.exists(_.eq(v)))
+              if (stack.exists(_.asVal.concrete == v.asVal.concrete))
                 ctx.out.println("%s*RECURSION*".format(nextIdent))
               else
                 dump(v :: stack, nextIdent)
@@ -98,7 +98,7 @@ object OutputFunctions {
       }
     }
 
-    values.foreach(v => dump(v :: Nil, ""))
+    values.foreach(v => dump(v.asVal.concrete :: Nil, ""))
   }
 
   @GlobalFunction

@@ -70,20 +70,23 @@ object TestBed {
     test(
       """<?php
         |
-        |$lambda = function &(&$x) {
-        |	return $x = $x * $x;
-        |};
+        |class foo {
+        |	private $test = 3;
         |
-        |function test() {
-        |	global $lambda;
+        |	public function x() {
+        |		$a = &$this;
+        |		$this->a = function() use (&$a) { return $a; };
+        |		var_dump($this->a->__invoke());
+        |		var_dump(is_a($this->a, 'closure'));
+        |		var_dump(is_callable($this->a));
         |
-        |	$y = 3;
-        |	var_dump($GLOBALS['lambda']($y));
-        |	var_dump($lambda($y));
-        |	var_dump($GLOBALS['lambda'](1));
+        |		return $this->a;
+        |	}
         |}
         |
-        |test();
+        |$foo = new foo;
+        |$y = $foo->x();
+        |var_dump($y()->test);
         |
         |?>""".stripMargin)
   }
