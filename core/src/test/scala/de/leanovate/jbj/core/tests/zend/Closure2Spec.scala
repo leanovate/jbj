@@ -328,5 +328,36 @@ class Closure2Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Closure 019: Calling lambda using $GLOBALS and global $var" in {
+      // Zend/tests/closure_019.phpt
+      script(
+        """<?php
+          |
+          |$lambda = function &(&$x) {
+          |	return $x = $x * $x;
+          |};
+          |
+          |function test() {
+          |	global $lambda;
+          |
+          |	$y = 3;
+          |	var_dump($GLOBALS['lambda']($y));
+          |	var_dump($lambda($y));
+          |	var_dump($GLOBALS['lambda'](1));
+          |}
+          |
+          |test();
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """int(9)
+          |int(81)
+          |
+          |Fatal error: Cannot pass parameter 1 by reference in /zend/Closure2Spec.inlinePhp on line 13
+          |""".stripMargin
+      )
+    }
   }
 }

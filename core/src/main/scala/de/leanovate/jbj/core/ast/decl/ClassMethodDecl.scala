@@ -88,7 +88,7 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
       methodCtx.static.initialized = true
     }
 
-    methodCtx.setParameters(callerCtx, parameterDecls, parameters)
+    methodCtx.setParameters(callerCtx, parameterDecls, parameters, detailedError = false)
     perform(methodCtx, returnByRef, stmts.getOrElse(Nil))
   }
 
@@ -123,7 +123,7 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
       methodCtx.static.initialized = true
     }
 
-    methodCtx.setParameters(callerCtx, parameterDecls, parameters)
+    methodCtx.setParameters(callerCtx, parameterDecls, parameters, detailedError = false)
 
     if (!isStatic)
       callerCtx.log.strict("Non-static method %s::%s() should not be called statically".format(declaringClass.name.toString, name))

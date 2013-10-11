@@ -34,7 +34,7 @@ sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, paramete
 
     funcCtx.currentPosition = position
 
-    funcCtx.setParameters(callerCtx, parameterDecls, params)
+    funcCtx.setParameters(callerCtx, parameterDecls, params, detailedError = true)
     lexicalValues.foreach {
       case (variableName, pVar: PVar) =>
         funcCtx.defineVariable(variableName, pVar)

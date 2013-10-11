@@ -8,9 +8,7 @@ import de.leanovate.jbj.runtime.types.PParam
 class ExprParam(expr: Expr)(implicit ctx: Context) extends PParam {
   override def hasRef = false
 
-  override def byRef = {
-    throw new FatalErrorJbjException("Only variables can be passed by reference")
-  }
+  override def byRef = None
 
   override def byVal = expr.eval.asVal
 }

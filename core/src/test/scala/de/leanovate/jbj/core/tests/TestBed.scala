@@ -70,22 +70,20 @@ object TestBed {
     test(
       """<?php
         |
-        |class foo {
-        |	public function test(&$x) {
-        |		static $lambda;
-        |		$lambda = function &() use (&$x) {
-        |			return $x = $x * $x;
-        |		};
-        |		return $lambda();
-        |	}
+        |$lambda = function &(&$x) {
+        |	return $x = $x * $x;
+        |};
+        |
+        |function test() {
+        |	global $lambda;
+        |
+        |	$y = 3;
+        |	var_dump($GLOBALS['lambda']($y));
+        |	var_dump($lambda($y));
+        |	var_dump($GLOBALS['lambda'](1));
         |}
         |
-        |$test = new foo;
-        |
-        |$y = 2;
-        |var_dump($test->test($y));
-        |var_dump($x = $test->test($y));
-        |var_dump($y, $x);
+        |test();
         |
         |?>""".stripMargin)
   }

@@ -18,7 +18,7 @@ trait FunctionLikeContext extends Context {
 
   def callerContext: Context
 
-  def setParameters(callerContext: Context, parameterDecls: List[PParamDef], parameters: List[PParam]) {
+  def setParameters(callerContext: Context, parameterDecls: List[PParamDef], parameters: List[PParam], detailedError: Boolean) {
     val parameterIt = parameters.iterator
     val arguments = Seq.newBuilder[PAny]
     parameterDecls.zipWithIndex.foreach {
@@ -31,8 +31,10 @@ trait FunctionLikeContext extends Context {
               case Some(pAny) =>
                 callerContext.log.strict("Only variables should be passed by reference")
                 pAny.asVar
+              case None if detailedError =>
+                throw new FatalErrorJbjException("Cannot pass parameter %d by reference".format(index + 1))(callerContext)
               case None =>
-                throw new FatalErrorJbjException("Only variables can be passed by reference")(this)
+                throw new FatalErrorJbjException("Only variables can be passed by reference")(callerContext)
             }
             checkAndDefine(parameterDecl, index, pVar)
             arguments += pVar

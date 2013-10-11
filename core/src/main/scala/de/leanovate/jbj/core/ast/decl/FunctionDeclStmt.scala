@@ -50,7 +50,7 @@ case class FunctionDeclStmt(declaredName: NamespaceName, returnByRef: Boolean, p
       funcCtx.static.initialized = true
     }
 
-    funcCtx.setParameters(callerCtx, parameterDecls, parameters)
+    funcCtx.setParameters(callerCtx, parameterDecls, parameters, detailedError = false)
     perform(funcCtx, returnByRef, stmts)
   }
 
