@@ -70,19 +70,18 @@ object TestBed {
     test(
       """<?php
         |
-        |function test(closure $a) {
-        |	var_dump($a());
-        |}
         |
+        |print <<<ENDOFHEREDOC
+        |This is heredoc test #$a.
         |
-        |test(function() { return new stdclass; });
+        |ENDOFHEREDOC;
         |
-        |test(function() { });
+        |$x = <<<ENDOFHEREDOC
+        |This is heredoc test #$b.
         |
-        |$a = function($x) use ($y) {};
-        |test($a);
+        |ENDOFHEREDOC;
         |
-        |test(new stdclass);
+        |print "{$x}";
         |
         |?>""".stripMargin)
   }
