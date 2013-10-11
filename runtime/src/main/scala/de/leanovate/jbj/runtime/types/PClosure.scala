@@ -71,7 +71,7 @@ class InstancePClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: 
   }
 
   override def clone(implicit ctx: Context): PVal = {
-    PClosure(returnByRef, parameterDecls, instance, getProperty("static", None).get.asInstanceOf[ArrayVal], invoke)
+    PClosure(returnByRef, parameterDecls, instance, getProperty("static", None).map(_.asInstanceOf[ArrayVal]), invoke)
   }
 }
 
@@ -87,7 +87,7 @@ class StaticPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: Li
   }
 
   override def clone(implicit ctx: Context): PVal = {
-    PClosure(returnByRef, parameterDecls, pClass, getProperty("static", None).get.asInstanceOf[ArrayVal], invoke)
+    PClosure(returnByRef, parameterDecls, pClass, getProperty("static", None).map(_.asInstanceOf[ArrayVal]), invoke)
   }
 }
 
@@ -100,7 +100,7 @@ class GlobalPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: Li
   }
 
   override def clone(implicit ctx: Context): PVal = {
-    PClosure(returnByRef, parameterDecls, getProperty("static", None).get.asInstanceOf[ArrayVal], invoke)
+    PClosure(returnByRef, parameterDecls, getProperty("static", None).map(_.asInstanceOf[ArrayVal]), invoke)
   }
 }
 
@@ -139,30 +139,30 @@ object PClosure extends PClass {
       method.name.toLowerCase -> method
   }.toMap
 
-  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], instance: ObjectVal, lexicalValues: ArrayVal,
+  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], instance: ObjectVal, lexicalValues: Option[ArrayVal],
             invoke: FunctionLikeContext => PAny)(implicit ctx: Context): ObjectVal = {
     val result = new InstancePClosure(ctx.global.instanceCounter.incrementAndGet(), returnByRef, parameterDecls,
       ctx.currentPosition, instance, invoke)
-    result.definePublicProperty("static", lexicalValues)
+    lexicalValues.foreach(result.definePublicProperty("static", _))
     result.definePublicProperty("this", instance)
     ctx.poolAutoRelease(result)
     result
   }
 
-  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], pClass: PClass, lexicalValues: ArrayVal,
+  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], pClass: PClass, lexicalValues: Option[ArrayVal],
             invoke: FunctionLikeContext => PAny)(implicit ctx: Context): ObjectVal = {
     val result = new StaticPClosure(ctx.global.instanceCounter.incrementAndGet(), returnByRef, parameterDecls,
       ctx.currentPosition, pClass, invoke)
-    result.definePublicProperty("static", lexicalValues)
+    lexicalValues.foreach(result.definePublicProperty("static", _))
     ctx.poolAutoRelease(result)
     result
   }
 
-  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], lexicalValues: ArrayVal,
+  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], lexicalValues: Option[ArrayVal],
             invoke: FunctionLikeContext => PAny)(implicit ctx: Context): ObjectVal = {
     val result = new GlobalPClosure(ctx.global.instanceCounter.incrementAndGet(), returnByRef, parameterDecls,
       ctx.currentPosition, invoke)
-    result.definePublicProperty("static", lexicalValues)
+    lexicalValues.foreach(result.definePublicProperty("static", _))
     ctx.poolAutoRelease(result)
     result
   }

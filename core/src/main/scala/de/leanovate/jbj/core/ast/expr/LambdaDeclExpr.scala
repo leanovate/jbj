@@ -20,7 +20,7 @@ case class LambdaDeclExpr(returnByRef: Boolean, parameterDecls: List[ParameterDe
   private lazy val staticInitializers = StaticInitializer.collect(stmts: _*)
 
   override def eval(implicit ctx: Context) = {
-    val lexicalValues = ArrayVal(lexicalVars.map {
+    val lexicalValues = if (!lexicalVars.isEmpty) Some(ArrayVal(lexicalVars.map {
       lexicalVar =>
         val varRef = VariableReference(lexicalVar.variableName)
         (Some(StringVal(lexicalVar.variableName)), if (lexicalVar.byRef) {
@@ -28,7 +28,9 @@ case class LambdaDeclExpr(returnByRef: Boolean, parameterDecls: List[ParameterDe
         } else {
           varRef.byVal.concrete
         })
-    } :_*)
+    }: _*))
+    else
+      None
     val invoke = {
       funcCtx: FunctionLikeContext =>
         if (!funcCtx.static.initialized) {
