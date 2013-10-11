@@ -10,6 +10,7 @@ package de.leanovate.jbj.runtime.adapter
 import de.leanovate.jbj.runtime.value.PVar
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 object RefParameterAdapter extends ParameterAdapter[PVar] {
   def requiredCount = 1
@@ -18,10 +19,12 @@ object RefParameterAdapter extends ParameterAdapter[PVar] {
     parameters match {
       case head :: tail =>
         val pVar = head.byRef match {
-          case pVar: PVar => pVar
-          case pAny =>
+          case Some(pVar: PVar) => pVar
+          case Some(pAny) =>
             ctx.log.strict("Only variables should be passed by reference")
             pAny.asVar
+          case None =>
+            throw new FatalErrorJbjException("Only variables can be passed by reference")
         }
         Some(pVar, tail)
       case Nil => None

@@ -12,7 +12,7 @@ import de.leanovate.jbj.runtime.value.{PVal, PAny}
 trait PParam {
   def hasRef: Boolean
 
-  def byRef: PAny
+  def byRef: Option[PAny]
 
   def byVal: PVal
 }

@@ -14,7 +14,7 @@ import de.leanovate.jbj.runtime.context.Context
 object PVarConverter extends Converter[PVar, PVar] {
   override def toScalaWithConversion(pAny: PAny)(implicit ctx: Context) = pAny.asVar
 
-  override def toScalaWithConversion(param: PParam)(implicit ctx: Context) = param.byRef.asVar
+  override def toScalaWithConversion(param: PParam)(implicit ctx: Context) = param.byRef.map(_.asVar).getOrElse(PVar(param.byVal))
 
   override def toScala(value: PVar)(implicit ctx: Context) = value
 

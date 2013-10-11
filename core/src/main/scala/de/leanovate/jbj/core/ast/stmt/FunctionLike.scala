@@ -28,14 +28,16 @@ trait FunctionLike extends BlockLike {
       case SuccessExecResult => NullVal
       case ret: ReturnExecResult => ret.param match {
         case Some(param) if param.hasRef && returnByRef => param.byRef match {
-          case pVar: PVar =>
+          case Some(pVar: PVar) =>
             funcCtx.callerContext.poolAutoRelease(pVar)
             pVar
-          case pAny =>
+          case Some(pAny) =>
             funcCtx.log.notice("Only variable references should be returned by reference")
             val pVar = pAny.asVar
             funcCtx.callerContext.poolAutoRelease(pVar)
             pVar
+          case None =>
+            throw new FatalErrorJbjException("Only variable references should be returned by reference")(funcCtx)
         }
         case Some(param) if returnByRef =>
           funcCtx.log.notice("Only variable references should be returned by reference")

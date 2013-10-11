@@ -7,9 +7,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 class PValParam(pVal: PVal)(implicit ctx: Context) extends PParam {
   override def hasRef = false
 
-  override def byRef = {
-    throw new FatalErrorJbjException("Only variables can be passed by reference")
-  }
+  override def byRef = None
 
   override def byVal = pVal
 }
@@ -17,7 +15,7 @@ class PValParam(pVal: PVal)(implicit ctx: Context) extends PParam {
 class PVarParam(pVar: PVar)(implicit ctx: Context) extends PParam {
   override def hasRef = true
 
-  override def byRef = pVar
+  override def byRef = Some(pVar)
 
   override def byVal = pVar.value
 }

@@ -9,6 +9,7 @@ package de.leanovate.jbj.runtime.context
 
 import de.leanovate.jbj.runtime.value.{NullVal, PVar, PAny}
 import de.leanovate.jbj.runtime.types.{PParamDef, PParam}
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 trait FunctionLikeContext extends Context {
   var functionArguments: Seq[PAny] = Seq.empty
@@ -26,10 +27,12 @@ trait FunctionLikeContext extends Context {
           val param = parameterIt.next()
           if (parameterDecl.byRef) {
             val pVar = param.byRef match {
-              case pVar: PVar => pVar
-              case pAny =>
+              case Some(pVar: PVar) => pVar
+              case Some(pAny) =>
                 callerContext.log.strict("Only variables should be passed by reference")
                 pAny.asVar
+              case None =>
+                throw new FatalErrorJbjException("Only variables can be passed by reference")(this)
             }
             checkAndDefine(parameterDecl, index, pVar)
             arguments += pVar
