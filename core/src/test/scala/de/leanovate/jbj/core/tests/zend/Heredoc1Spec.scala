@@ -95,5 +95,33 @@ class Heredoc1Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "braces variable replacement test (heredoc)" in {
+      // Zend/tests/heredoc_004.phpt
+      script(
+        """<?php
+          |
+          |require_once 'nowdoc.inc';
+          |
+          |print <<<ENDOFHEREDOC
+          |This is heredoc test #{$a}.
+          |
+          |ENDOFHEREDOC;
+          |
+          |$x = <<<ENDOFHEREDOC
+          |This is heredoc test #{$b}.
+          |
+          |ENDOFHEREDOC;
+          |
+          |print "{$x}";
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """This is heredoc test #1.
+          |This is heredoc test #2.
+          |""".stripMargin
+      )
+    }
   }
 }
