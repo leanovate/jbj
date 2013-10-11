@@ -28,7 +28,7 @@ class StdObjectVal(var pClass: PClass, var instanceNum: Long, protected[value] v
       pClass.destructInstance(this)
   }
 
-  override def clone(implicit ctx: Context) = {
+  override def clone(implicit ctx: Context): PVal = {
     val clone = new StdObjectVal(pClass, ctx.global.instanceCounter.incrementAndGet(), keyValueMap.clone())
 
     pClass.findMethod("__clone").foreach {

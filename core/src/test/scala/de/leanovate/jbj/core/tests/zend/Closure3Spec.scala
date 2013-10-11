@@ -120,5 +120,53 @@ class Closure3Spec extends SpecificationWithJUnit with TestJbjExecutor {
         """Done""".stripMargin
       )
     }
+
+    "Closure 024: Clone the Closure object" in {
+      // Zend/tests/closure_024.phpt
+      script(
+        """<?php
+          |
+          |$a = 1;
+          |$c = function($add) use(&$a) { return $a+$add; };
+          |
+          |$cc = clone $c;
+          |
+          |echo $c(10)."\n";
+          |echo $cc(10)."\n";
+          |
+          |$a++;
+          |
+          |echo $c(10)."\n";
+          |echo $cc(10)."\n";
+          |
+          |echo "Done.\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """11
+          |11
+          |12
+          |12
+          |Done.
+          |""".stripMargin
+      )
+    }
+
+    "Closure 025: Using closure in create_function()" in {
+      // Zend/tests/closure_025.phpt
+      script(
+        """<?php
+          |
+          |$a = create_function('$x', 'return function($y) use ($x) { return $x * $y; };');
+          |
+          |var_dump($a(2)->__invoke(4));
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """int(8)
+          |""".stripMargin
+      )
+    }
   }
 }

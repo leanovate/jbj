@@ -69,6 +69,10 @@ class InstancePClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: 
     }
     MethodContext(instance, pMethod, callerCtx)
   }
+
+  override def clone(implicit ctx: Context): PVal = {
+    PClosure(returnByRef, parameterDecls, instance, getProperty("static", None).get.asInstanceOf[ArrayVal], invoke)
+  }
 }
 
 class StaticPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], position: NodePosition,
@@ -81,6 +85,10 @@ class StaticPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: Li
     }
     StaticMethodContext(pMethod, callerCtx, allowThis = false)
   }
+
+  override def clone(implicit ctx: Context): PVal = {
+    PClosure(returnByRef, parameterDecls, pClass, getProperty("static", None).get.asInstanceOf[ArrayVal], invoke)
+  }
 }
 
 class GlobalPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], position: NodePosition,
@@ -89,6 +97,10 @@ class GlobalPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: Li
 
   override def newFunctionContext(implicit callerCtx: Context) = {
     FunctionContext(NamespaceName("Closure::lambda-" + instanceNum), callerCtx)
+  }
+
+  override def clone(implicit ctx: Context): PVal = {
+    PClosure(returnByRef, parameterDecls, getProperty("static", None).get.asInstanceOf[ArrayVal], invoke)
   }
 }
 
