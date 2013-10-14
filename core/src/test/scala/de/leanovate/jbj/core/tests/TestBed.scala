@@ -70,11 +70,15 @@ object TestBed {
     test(
       """<?php
         |
-        |$b = function() { return func_get_args(); };
-        |$a = 'b';
-        |var_dump($a);
-        |var_dump($$a);
-        |var_dump($$a(1));
+        |$x = function () use (&$x) {
+        |	$h = function () use ($x) {
+        |		var_dump($x);
+        |		return 1;
+        |	};
+        |	return $h();
+        |};
+        |
+        |var_dump($x());
         |
         |?>""".stripMargin)
   }

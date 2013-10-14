@@ -56,5 +56,92 @@ class Closure4Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Closure 033: Dynamic closure property and private function" in {
+      // Zend/tests/closure_033.phpt
+      script(
+        """<?php
+          |
+          |class Test {
+          |	public $func;
+          |	function __construct() {
+          |		$this->func = function() {
+          |			echo __METHOD__ . "()\n";
+          |		};
+          |	}
+          |	private function func() {
+          |		echo __METHOD__ . "()\n";
+          |	}
+          |}
+          |
+          |$o = new Test;
+          |$f = $o->func;
+          |$f();
+          |$o->func();
+          |
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """Test::{closure}()
+          |
+          |Fatal error: Call to private method Test::func() from context '' in /zend/Closure4Spec.inlinePhp on line 18
+          |""".stripMargin
+      )
+    }
+
+    "Closure 033: Recursive var_dump on closures" in {
+      // Zend/tests/closure_034.phpt
+      script(
+        """<?php
+          |
+          |$a = function () use(&$a) {};
+          |var_dump($a);
+          |
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """object(Closure)#1 (1) {
+          |  ["static"]=>
+          |  array(1) {
+          |    ["a"]=>
+          |    *RECURSION*
+          |  }
+          |}
+          |===DONE===
+          |""".stripMargin
+      )
+    }
+
+    "Testing recursion detection with Closures" in {
+      // ../php-src/Zend/tests/closure_035.phpt
+      script(
+        """<?php
+          |
+          |$x = function () use (&$x) {
+          |	$h = function () use ($x) {
+          |		var_dump($x);
+          |		return 1;
+          |	};
+          |	return $h();
+          |};
+          |
+          |var_dump($x());
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """object(Closure)#1 (1) {
+          |  ["static"]=>
+          |  array(1) {
+          |    ["x"]=>
+          |    *RECURSION*
+          |  }
+          |}
+          |int(1)
+          |""".stripMargin
+      )
+    }
   }
 }

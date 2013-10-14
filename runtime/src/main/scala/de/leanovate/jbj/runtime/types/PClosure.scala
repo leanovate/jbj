@@ -70,11 +70,11 @@ class InstancePClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: 
   extends PClosure(instanceNum, returnByRef, parameterDecls, position, invoke) {
 
   override def newFunctionContext(implicit callerCtx: Context) = {
-    val pMethod = new InstanceMethod(instance.pClass, "Closure::lambda-" + instanceNum, parameterDecls, isFinal = true) {
+    val pMethod = new InstanceMethod(instance.pClass, "{closure}", parameterDecls, isFinal = true) {
       def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = ???
     }
     new MethodContext(instance, pMethod, callerCtx) {
-      override def functionSignature = "{closure}()"
+      override lazy val static = global.staticContext("Closure::lambda-" + instanceNum)
     }
   }
 
@@ -88,11 +88,11 @@ class StaticPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: Li
   extends PClosure(instanceNum, returnByRef, parameterDecls, position, invoke) {
 
   override def newFunctionContext(implicit callerCtx: Context) = {
-    val pMethod = new InstanceMethod(pClass, "Closure::lambda-" + instanceNum, parameterDecls, isFinal = true) {
+    val pMethod = new InstanceMethod(pClass, "{closure}", parameterDecls, isFinal = true) {
       def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = ???
     }
     new StaticMethodContext(pMethod, callerCtx, allowThis = false) {
-      override def functionSignature = "{closure}()"
+      override lazy val static = global.staticContext("Closure::lambda-" + instanceNum)
     }
   }
 
@@ -106,9 +106,8 @@ class GlobalPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: Li
   extends PClosure(instanceNum, returnByRef, parameterDecls, position, invoke) {
 
   override def newFunctionContext(implicit callerCtx: Context) = {
-    new FunctionContext(NamespaceName("Closure::lambda-" + instanceNum), callerCtx) {
-      override def functionSignature = "{closure}()"
-
+    new FunctionContext(NamespaceName("{closure}"), callerCtx) {
+      override lazy val static = global.staticContext("Closure::lambda-" + instanceNum)
     }
   }
 
