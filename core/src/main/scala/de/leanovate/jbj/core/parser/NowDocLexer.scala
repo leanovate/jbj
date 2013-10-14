@@ -16,7 +16,7 @@ class NowDocLexer(mode: NowdocLexerMode) extends Lexer with CommonLexerPatterns 
       str => EncapsAndWhitespace(str) -> None
     }
 
-  private def nowDocChar: Parser[Char] = encapsCharReplacements |
+  private def nowDocChar: Parser[Char] =
     chrExcept('\n', EofCh) | '\n' <~ not(str(mode.endMarker))
 
   private def nowDocStr: Parser[String] = rep1(nowDocChar) ^^ (_ mkString "")
