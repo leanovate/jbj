@@ -76,11 +76,15 @@ object TestBed {
         |class d { public function __construct() { $this->d = 4; } };
         |$d = new d;
         |
-        |print <<<ENDOFHEREDOC
-        |ENDOFHEREDOC;
+        |print <<<'ENDOFNOWDOC'
+        |This is a nowdoc test.
         |
-        |$x = <<<ENDOFHEREDOC
-        |ENDOFHEREDOC;
+        |ENDOFNOWDOC;
+        |
+        |$x = <<<'ENDOFNOWDOC'
+        |This is another nowdoc test.
+        |With another line in it.
+        |ENDOFNOWDOC;
         |
         |print "{$x}";
         |

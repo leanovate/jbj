@@ -28,6 +28,10 @@ case class HeredocLexerMode(endMarker: String, prevMode: LexerMode) extends Lexe
   def newLexer() = new HereDocLexer(this)
 }
 
+case class NowdocLexerMode(endMarker: String, prevMode: LexerMode) extends LexerMode {
+  def newLexer() = new NowDocLexer(this)
+}
+
 case class EncapsScriptingLexerMode(prevMode: LexerMode) extends LexerMode {
   def newLexer() = new EncapsScriptingLexer(prevMode)
 }

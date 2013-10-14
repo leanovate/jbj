@@ -21,6 +21,9 @@ case class ScriptLexer(mode: ScriptingLexerMode) extends Lexer with CommonScript
       opt('b') ~> str("<<<") ~> '"' ~> rep1(chrExcept('\'', '\r', '\n', '"', EofCh)) <~ '"' <~ newLine ^^ {
         endMarker => HereDocStart(endMarker.mkString("")) -> Some(HeredocLexerMode(endMarker.mkString(""), mode))
       } |
+      opt('b') ~> str("<<<") ~> '\'' ~> rep1(chrExcept('\'', '\r', '\n', '"', EofCh)) <~ '\'' <~ newLine ^^ {
+        endMarker => HereDocStart(endMarker.mkString("")) -> Some(NowdocLexerMode(endMarker.mkString(""), mode))
+      } |
       opt('b') ~> str("<<<") ~> rep1(chrExcept('\'', '\r', '\n', '"', EofCh)) <~ newLine ^^ {
         endMarker => HereDocStart(endMarker.mkString("")) -> Some(HeredocLexerMode(endMarker.mkString("").trim, mode))
       } |
