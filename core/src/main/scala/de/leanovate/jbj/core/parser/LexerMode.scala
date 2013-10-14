@@ -39,3 +39,7 @@ case class LookingForPropertyLexerMode(prevMode: LexerMode) extends LexerMode {
 case class LookingForVarnameLexerMode(prevMode: LexerMode) extends LexerMode {
   def newLexer() = new LookingForVarnameLexer(prevMode)
 }
+
+case class VarOffsetLexerMode(prevMode:LexerMode) extends LexerMode {
+  def newLexer() = new VarOffsetLexer(this)
+}

@@ -18,9 +18,13 @@ case class DoubleQuotesLexer(mode: DoubleQuotedLexerMode) extends Lexer with Com
       str => EncapsAndWhitespace(str) -> None
     } | '$' ~ '{' ^^^ (Keyword("${") -> None) |
       '{' ~ guard('$') ^^^ (Keyword("{$") -> Some(EncapsScriptingLexerMode(mode))) |
-      '$' ~> identChar ~ rep(identChar | digit) ^^ {
-        case first ~ rest => Variable(first :: rest mkString "") -> None
-      } | '"' ^^^ Keyword("\"") -> Some(mode.prevMode)
+      '$' ~> identChar ~ rep(identChar | digit) <~ guard('-' ~ '>' ~ identChar) ^^ {
+        case first ~ rest => Variable(first :: rest mkString "") -> Some(LookingForPropertyLexerMode(mode))
+      } | '$' ~> identChar ~ rep(identChar | digit) <~ guard('[') ^^ {
+      case first ~ rest => Variable(first :: rest mkString "") -> Some(VarOffsetLexerMode(mode))
+    } | '$' ~> identChar ~ rep(identChar | digit) ^^ {
+      case first ~ rest => Variable(first :: rest mkString "") -> None
+    } | '"' ^^^ Keyword("\"") -> Some(mode.prevMode)
 
   private def doubleQuotedChar: Parser[Char] = encapsCharReplacements | chrExcept('\"', '$', '{', EofCh) |
     '$' <~ not(identChar | '{') | '{' <~ not('$')

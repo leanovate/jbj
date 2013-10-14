@@ -123,5 +123,61 @@ class Heredoc1Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "unbraced complex variable replacement test (heredoc)" in {
+      // Zend/tests/heredoc_005.phpt
+      script(
+        """<?php
+          |
+          |require_once 'nowdoc.inc';
+          |
+          |print <<<ENDOFHEREDOC
+          |This is heredoc test #s $a, $b, $c['c'], and $d->d.
+          |
+          |ENDOFHEREDOC;
+          |
+          |$x = <<<ENDOFHEREDOC
+          |This is heredoc test #s $a, $b, $c['c'], and $d->d.
+          |
+          |ENDOFHEREDOC;
+          |
+          |print "{$x}";
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Parse error: Base Failure in /zend/Heredoc1Spec.inlinePhp on line 6
+          |""".stripMargin
+      )
+    }
+
+    "braced complex variable replacement test (heredoc)" in {
+      // Zend/tests/heredoc_006.phpt
+      script(
+        """<?php
+          |
+          |require_once 'nowdoc.inc';
+          |
+          |print <<<ENDOFHEREDOC
+          |This is heredoc test #s {$a}, {$b}, {$c['c']}, and {$d->d}.
+          |
+          |ENDOFHEREDOC;
+          |
+          |$x = <<<ENDOFHEREDOC
+          |This is heredoc test #s {$a}, {$b}, {$c['c']}, and {$d->d}.
+          |
+          |ENDOFHEREDOC;
+          |
+          |print "{$x}";
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """This is heredoc test #s 1, 2, 3, and 4.
+          |This is heredoc test #s 1, 2, 3, and 4.
+          |""".stripMargin
+      )
+    }
   }
 }

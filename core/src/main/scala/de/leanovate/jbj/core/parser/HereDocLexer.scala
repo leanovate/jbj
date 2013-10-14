@@ -19,9 +19,13 @@ class HereDocLexer(mode: HeredocLexerMode) extends Lexer with CommonLexerPattern
       name => Variable(name mkString "") -> Some(LookingForPropertyLexerMode(mode))
     } | '$' ~ '{' ^^^ (Keyword("${") -> None) |
       '{' ~ guard('$') ^^^ (Keyword("{$") -> Some(EncapsScriptingLexerMode(mode))) |
-      '$' ~> identChar ~ rep(identChar | digit) ^^ {
-        case first ~ rest => Variable(first :: rest mkString "") -> None
-      } | newLine ~> str(mode.endMarker) ^^ {
+      '$' ~> identChar ~ rep(identChar | digit) <~ guard('-' ~ '>' ~ identChar) ^^ {
+        case first ~ rest => Variable(first :: rest mkString "") -> Some(LookingForPropertyLexerMode(mode))
+      } | '$' ~> identChar ~ rep(identChar | digit) <~ guard('[') ^^ {
+      case first ~ rest => Variable(first :: rest mkString "") -> Some(VarOffsetLexerMode(mode))
+    } | '$' ~> identChar ~ rep(identChar | digit) ^^ {
+      case first ~ rest => Variable(first :: rest mkString "") -> None
+    } | newLine ~> str(mode.endMarker) ^^ {
       s => HereDocEnd(s) -> Some(mode.prevMode)
     } | hereDocStr ^^ {
       str => EncapsAndWhitespace(str) -> None
