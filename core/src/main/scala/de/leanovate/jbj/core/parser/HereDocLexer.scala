@@ -25,9 +25,11 @@ class HereDocLexer(mode: HeredocLexerMode) extends Lexer with CommonLexerPattern
       case first ~ rest => Variable(first :: rest mkString "") -> Some(VarOffsetLexerMode(mode))
     } | '$' ~> identChar ~ rep(identChar | digit) ^^ {
       case first ~ rest => Variable(first :: rest mkString "") -> None
-    } | newLine ~> str(mode.endMarker) ^^ {
+    } | opt(newLine) ~> str(mode.endMarker) <~ guard(';') ^^ {
       s => HereDocEnd(s) -> Some(mode.prevMode)
     } | hereDocStr ^^ {
+      str => EncapsAndWhitespace(str) -> None
+    } | newLine ^^ {
       str => EncapsAndWhitespace(str) -> None
     }
 

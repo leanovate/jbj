@@ -179,5 +179,103 @@ class Heredoc1Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "braced and unbraced complex variable replacement test (heredoc)" in {
+      // Zend/tests/heredoc_007.phpt
+      script(
+        """<?php
+          |
+          |require_once 'nowdoc.inc';
+          |
+          |print <<<ENDOFHEREDOC
+          |This is heredoc test #s $a, {$b}, {$c['c']}, and {$d->d}.
+          |
+          |ENDOFHEREDOC;
+          |
+          |$x = <<<ENDOFHEREDOC
+          |This is heredoc test #s $a, {$b}, {$c['c']}, and {$d->d}.
+          |
+          |ENDOFHEREDOC;
+          |
+          |print "{$x}";
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """This is heredoc test #s 1, 2, 3, and 4.
+          |This is heredoc test #s 1, 2, 3, and 4.
+          |""".stripMargin
+      )
+    }
+
+    "empty doc test (heredoc)" in {
+      // Zend/tests/heredoc_008.phpt
+      script(
+        """<?php
+          |
+          |require_once 'nowdoc.inc';
+          |
+          |print <<<ENDOFHEREDOC
+          |ENDOFHEREDOC;
+          |
+          |$x = <<<ENDOFHEREDOC
+          |ENDOFHEREDOC;
+          |
+          |print "{$x}";
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """""".stripMargin
+      )
+    }
+
+    "Torture the T_END_HEREDOC rules (heredoc)" in {
+      // ../php-src/Zend/tests/heredoc_009.phpt
+      script(
+        """<?php
+          |
+          |require_once 'nowdoc.inc';
+          |
+          |print <<<ENDOFHEREDOC
+          |ENDOFHEREDOC    ;
+          |    ENDOFHEREDOC;
+          |ENDOFHEREDOC
+          |    ENDOFHEREDOC
+          |$ENDOFHEREDOC;
+          |
+          |ENDOFHEREDOC;
+          |
+          |$x = <<<ENDOFHEREDOC
+          |ENDOFHEREDOC    ;
+          |    ENDOFHEREDOC;
+          |ENDOFHEREDOC
+          |    ENDOFHEREDOC
+          |$ENDOFHEREDOC;
+          |
+          |ENDOFHEREDOC;
+          |
+          |print "{$x}";
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Notice: Undefined variable: ENDOFHEREDOC in /zend/Heredoc1Spec.inlinePhp on line 5
+          |ENDOFHEREDOC    ;
+          |    ENDOFHEREDOC;
+          |ENDOFHEREDOC
+          |    ENDOFHEREDOC
+          |;
+          |
+          |Notice: Undefined variable: ENDOFHEREDOC in /zend/Heredoc1Spec.inlinePhp on line 14
+          |ENDOFHEREDOC    ;
+          |    ENDOFHEREDOC;
+          |ENDOFHEREDOC
+          |    ENDOFHEREDOC
+          |;
+          |""".stripMargin
+      )
+    }
   }
 }
