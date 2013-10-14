@@ -228,5 +228,78 @@ class Closure3Spec extends SpecificationWithJUnit with TestJbjExecutor {
       )
     }
 
+    "Closure 027: Testing Closure type-hint" in {
+      // Zend/tests/closure_027.phpt
+      script(
+        """<?php
+          |
+          |function test(closure $a) {
+          |	var_dump($a());
+          |}
+          |
+          |
+          |test(function() { return new stdclass; });
+          |
+          |test(function() { });
+          |
+          |$a = function($x) use ($y) {};
+          |test($a);
+          |
+          |test(new stdclass);
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """object(stdClass)#2 (0) {
+          |}
+          |NULL
+          |
+          |Notice: Undefined variable: y in /zend/Closure3Spec.inlinePhp on line 12
+          |
+          |Warning: Missing argument 1 for {closure}(), called in /zend/Closure3Spec.inlinePhp on line 4 and defined in /zend/Closure3Spec.inlinePhp on line 12
+          |NULL
+          |
+          |Catchable fatal error: Argument 1 passed to test() must be an instance of Closure, instance of stdClass given, called in /zend/Closure3Spec.inlinePhp on line 15 and defined in /zend/Closure3Spec.inlinePhp on line 3
+          |""".stripMargin
+      )
+    }
+
+    "Closure 028: Trying to use lambda directly in foreach" in {
+      // Zend/tests/closure_028.phpt
+      script(
+        """<?php
+          |
+          |foreach (function(){ return 1; } as $y) {
+          |	var_dump($y);
+          |}
+          |
+          |print "ok\n";
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """ok
+          |""".stripMargin
+      )
+    }
+
+    "Closure 029: Testing lambda with instanceof operator" in {
+      // Zend/tests/closure_029.phpt
+      script(
+        """<?php
+          |
+          |var_dump(function() { } instanceof closure);
+          |var_dump(function(&$x) { } instanceof closure);
+          |var_dump(@function(&$x) use ($y, $z) { } instanceof closure);
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """bool(true)
+          |bool(true)
+          |bool(true)
+          |""".stripMargin
+      )
+    }
   }
 }

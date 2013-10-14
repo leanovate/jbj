@@ -51,6 +51,8 @@ trait FunctionLikeContext extends Context {
               arguments += pVal
             case None =>
               checkEmpty(parameterDecl, index)
+              log.warn("Missing argument %d for %s, called in %s on line %d and defined".
+                format(index + 1, functionSignature, callerContext.currentPosition.fileName, callerContext.currentPosition.line))
               arguments += NullVal
           }
         }

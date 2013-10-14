@@ -70,23 +70,19 @@ object TestBed {
     test(
       """<?php
         |
-        |$a = 1;
-        |$b = 2;
-        |$c = array( 'c' => 3, );
-        |class d { public function __construct() { $this->d = 4; } };
-        |$d = new d;
+        |function test(closure $a) {
+        |	var_dump($a());
+        |}
         |
-        |print <<<'ENDOFNOWDOC'
-        |This is a nowdoc test.
         |
-        |ENDOFNOWDOC;
+        |test(function() { return new stdclass; });
         |
-        |$x = <<<'ENDOFNOWDOC'
-        |This is another nowdoc test.
-        |With another line in it.
-        |ENDOFNOWDOC;
+        |test(function() { });
         |
-        |print "{$x}";
+        |$a = function($x) use ($y) {};
+        |test($a);
+        |
+        |test(new stdclass);
         |
         |?>""".stripMargin)
   }

@@ -67,7 +67,9 @@ class InstancePClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: 
     val pMethod = new InstanceMethod(instance.pClass, "Closure::lambda-" + instanceNum, parameterDecls, isFinal = true) {
       def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = ???
     }
-    MethodContext(instance, pMethod, callerCtx)
+    new MethodContext(instance, pMethod, callerCtx) {
+      override def functionSignature = "{closure}()"
+    }
   }
 
   override def clone(implicit ctx: Context): PVal = {
@@ -83,7 +85,9 @@ class StaticPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: Li
     val pMethod = new InstanceMethod(pClass, "Closure::lambda-" + instanceNum, parameterDecls, isFinal = true) {
       def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = ???
     }
-    StaticMethodContext(pMethod, callerCtx, allowThis = false)
+    new StaticMethodContext(pMethod, callerCtx, allowThis = false) {
+      override def functionSignature = "{closure}()"
+    }
   }
 
   override def clone(implicit ctx: Context): PVal = {
@@ -96,7 +100,10 @@ class GlobalPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: Li
   extends PClosure(instanceNum, returnByRef, parameterDecls, position, invoke) {
 
   override def newFunctionContext(implicit callerCtx: Context) = {
-    FunctionContext(NamespaceName("Closure::lambda-" + instanceNum), callerCtx)
+    new FunctionContext(NamespaceName("Closure::lambda-" + instanceNum), callerCtx) {
+      override def functionSignature = "{closure}()"
+
+    }
   }
 
   override def clone(implicit ctx: Context): PVal = {
