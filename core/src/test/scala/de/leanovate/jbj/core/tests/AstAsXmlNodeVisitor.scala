@@ -16,8 +16,7 @@ import de.leanovate.jbj.core.ast.stmt.loop.ForStmt
 import de.leanovate.jbj.core.ast.expr.AssignRefExpr
 import de.leanovate.jbj.core.ast.decl.ParameterDecl
 import de.leanovate.jbj.core.ast.decl.ClassDeclStmt
-import de.leanovate.jbj.core.ast.name.StaticName
-import de.leanovate.jbj.core.ast.name.StaticNamespaceName
+import de.leanovate.jbj.core.ast.name.{DynamicName, StaticName, StaticNamespaceName}
 import de.leanovate.jbj.core.ast.decl.InterfaceDeclStmt
 import de.leanovate.jbj.core.ast.stmt.InlineStmt
 import de.leanovate.jbj.core.ast.expr.NewRefExpr
@@ -91,6 +90,12 @@ object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
             {classMethodDecl.name}
           </name>{classMethodDecl.parameterDecls.flatMap(_.visit(this).results)}{classMethodDecl.stmts.toSeq.flatMap(_.flatMap(_.visit(this).results))}
         </method>
+      )
+    case dynamicName: DynamicName =>
+      NextSibling(
+        <dynamic-name>
+          {dynamicName.expr.visit(this).results}
+        </dynamic-name>
       )
     case echoStmt: EchoStmt =>
       NextSibling(

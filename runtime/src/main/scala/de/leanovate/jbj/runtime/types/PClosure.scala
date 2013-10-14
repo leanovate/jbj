@@ -15,6 +15,7 @@ import de.leanovate.jbj.runtime.context.FunctionContext
 import de.leanovate.jbj.runtime.context.MethodContext
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.exception.{CatchableFatalError, FatalErrorJbjException}
+import de.leanovate.jbj.runtime.value.ObjectPropertyKey.PublicKey
 
 sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef],
                                position: NodePosition,
@@ -28,6 +29,11 @@ sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, paramete
   override def setProperty(name: String, className: Option[String], value: PAny)(implicit ctx: Context) =
     CatchableFatalError("Closure object cannot have properties")
 
+  override def getProperty(name: String, className: Option[String])(implicit ctx: Context) = {
+    CatchableFatalError("Closure object cannot have properties")
+    Some(NullVal)
+  }
+
   override def call(params: List[PParam])(implicit callerCtx: Context): PAny = {
     val funcCtx = newFunctionContext
 
@@ -36,7 +42,7 @@ sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, paramete
     funcCtx.currentPosition = position
 
     funcCtx.setParameters(callerCtx, parameterDecls, params, detailedError = true)
-    getProperty("static", None)(funcCtx).foreach {
+    keyValueMap.get(PublicKey("static")).foreach {
       case array: ArrayVal =>
         array.keyValues.foreach {
           case (variableName: StringVal, pVar: PVar) =>
@@ -91,7 +97,7 @@ class StaticPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: Li
   }
 
   override def clone(implicit ctx: Context): PVal = {
-    PClosure(returnByRef, parameterDecls, pClass, getProperty("static", None).map(_.asInstanceOf[ArrayVal]), invoke)
+    PClosure(returnByRef, parameterDecls, pClass, keyValueMap.get(PublicKey("static")).map(_.asInstanceOf[ArrayVal]), invoke)
   }
 }
 
@@ -107,7 +113,7 @@ class GlobalPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: Li
   }
 
   override def clone(implicit ctx: Context): PVal = {
-    PClosure(returnByRef, parameterDecls, getProperty("static", None).map(_.asInstanceOf[ArrayVal]), invoke)
+    PClosure(returnByRef, parameterDecls, keyValueMap.get(PublicKey("static")).map(_.asInstanceOf[ArrayVal]), invoke)
   }
 }
 

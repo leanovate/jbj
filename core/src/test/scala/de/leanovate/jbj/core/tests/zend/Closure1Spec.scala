@@ -10,7 +10,7 @@ package de.leanovate.jbj.core.tests.zend
 import org.specs2.mutable.SpecificationWithJUnit
 import de.leanovate.jbj.core.tests.TestJbjExecutor
 
-class Closure1Spec  extends SpecificationWithJUnit with TestJbjExecutor{
+class Closure1Spec extends SpecificationWithJUnit with TestJbjExecutor {
   "Closure tests 001-009" should {
     "Closure 001: Lambda without lexical variables" in {
       // Zend/tests/closure_001.phpt
@@ -34,7 +34,7 @@ class Closure1Spec  extends SpecificationWithJUnit with TestJbjExecutor{
           |
           |echo "Done\n";
           |?>
-          |""".stripMargin
+          | """.stripMargin
       ).result must haveOutput(
         """bool(true)
           |bool(true)
@@ -43,7 +43,7 @@ class Closure1Spec  extends SpecificationWithJUnit with TestJbjExecutor{
           |Hello World!
           |Hello Universe!
           |Done
-          |""".stripMargin
+          | """.stripMargin
       )
     }
 
@@ -70,14 +70,14 @@ class Closure1Spec  extends SpecificationWithJUnit with TestJbjExecutor{
           |
           |echo "Done\n";
           |?>
-          |""".stripMargin
+          | """.stripMargin
       ).result must haveOutput(
         """4
           |4
           |4
           |5
           |Done
-          |""".stripMargin
+          | """.stripMargin
       )
     }
 
@@ -108,14 +108,14 @@ class Closure1Spec  extends SpecificationWithJUnit with TestJbjExecutor{
           |
           |echo "Done\n";
           |?>
-          |""".stripMargin
+          | """.stripMargin
       ).result must haveOutput(
         """4
           |4
           |4
           |5
           |Done
-          |""".stripMargin
+          | """.stripMargin
       )
     }
 
@@ -148,14 +148,14 @@ class Closure1Spec  extends SpecificationWithJUnit with TestJbjExecutor{
           |
           |echo "Done\n";
           |?>
-          |""".stripMargin
+          | """.stripMargin
       ).result must haveOutput(
         """4
           |4
           |4
           |5
           |Done
-          |""".stripMargin
+          | """.stripMargin
       )
     }
 
@@ -223,7 +223,7 @@ class Closure1Spec  extends SpecificationWithJUnit with TestJbjExecutor{
           |
           |echo "Done\n";
           |?>
-          |""".stripMargin
+          | """.stripMargin
       ).result must haveOutput(
         """3
           |3
@@ -254,11 +254,11 @@ class Closure1Spec  extends SpecificationWithJUnit with TestJbjExecutor{
           |
           |echo "Done\n";
           |?>
-          |""".stripMargin
+          | """.stripMargin
       ).result must haveOutput(
         """Hello World: 2!
           |Done
-          |""".stripMargin
+          | """.stripMargin
       )
     }
 
@@ -294,14 +294,14 @@ class Closure1Spec  extends SpecificationWithJUnit with TestJbjExecutor{
           |
           |echo "Done\n";
           |?>
-          |""".stripMargin
+          | """.stripMargin
       ).result must haveOutput(
         """0
           |0
           |0
           |1
           |Done
-          |""".stripMargin
+          | """.stripMargin
       )
     }
 
@@ -329,7 +329,7 @@ class Closure1Spec  extends SpecificationWithJUnit with TestJbjExecutor{
           |$y(5);
           |$y(6);
           |?>
-          |""".stripMargin
+          | """.stripMargin
       ).result must haveOutput(
         """1:1:1
           |2:2:1
@@ -337,7 +337,7 @@ class Closure1Spec  extends SpecificationWithJUnit with TestJbjExecutor{
           |4:1:1
           |5:2:1:1
           |6:3:2:1:1
-          |""".stripMargin
+          | """.stripMargin
       )
     }
   }

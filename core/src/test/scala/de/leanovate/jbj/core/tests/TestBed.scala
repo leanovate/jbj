@@ -70,19 +70,11 @@ object TestBed {
     test(
       """<?php
         |
-        |function test(closure $a) {
-        |	var_dump($a());
-        |}
-        |
-        |
-        |test(function() { return new stdclass; });
-        |
-        |test(function() { });
-        |
-        |$a = function($x) use ($y) {};
-        |test($a);
-        |
-        |test(new stdclass);
+        |$b = function() { return func_get_args(); };
+        |$a = 'b';
+        |var_dump($a);
+        |var_dump($$a);
+        |var_dump($$a(1));
         |
         |?>""".stripMargin)
   }

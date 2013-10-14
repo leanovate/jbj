@@ -479,6 +479,11 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       })
       CallStaticMethodRefExpr(cname, method, params)
   } | variableWithoutObjects ~ functionCallParameterList ^^ {
+    case (DynamicName(expr : RefExpr), dims) ~ params =>
+      val func = dims.foldLeft(expr) {
+        (ref, dim) => DimRefExpr(ref, dim)
+      }
+      CallByExprRefExpr(func, params)
     case ((n, dims)) ~ params =>
       val func = dims.foldLeft(VariableRefExpr(n).asInstanceOf[RefExpr]) {
         (ref, dim) => DimRefExpr(ref, dim)
