@@ -231,7 +231,7 @@ class Heredoc1Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "Torture the T_END_HEREDOC rules (heredoc)" in {
-      // ../php-src/Zend/tests/heredoc_009.phpt
+      // Zend/tests/heredoc_009.phpt
       script(
         """<?php
           |

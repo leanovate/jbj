@@ -18,8 +18,11 @@ case class ScriptLexer(mode: ScriptingLexerMode) extends Lexer with CommonScript
     str("?>") <~ opt(newLine) ^^^ Keyword(";") -> Some(mode.prevMode) |
       str("%>") <~ opt(newLine) ^^^ Keyword(";") -> Some(mode.prevMode) |
       str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> Some(mode.prevMode) |
-      opt('b') ~> str("<<<") ~> rep1(chrExcept('\'', '\r', '\n', EofCh)) <~ newLine ^^ {
+      opt('b') ~> str("<<<") ~> '"' ~> rep1(chrExcept('\'', '\r', '\n', '"', EofCh)) <~ '"' <~ newLine ^^ {
         endMarker => HereDocStart(endMarker.mkString("")) -> Some(HeredocLexerMode(endMarker.mkString(""), mode))
+      } |
+      opt('b') ~> str("<<<") ~> rep1(chrExcept('\'', '\r', '\n', '"', EofCh)) <~ newLine ^^ {
+        endMarker => HereDocStart(endMarker.mkString("")) -> Some(HeredocLexerMode(endMarker.mkString("").trim, mode))
       } |
       str("->") ^^^ Keyword("->") -> Some(LookingForPropertyLexerMode(mode)) |
       commonScriptToken ^^ {
