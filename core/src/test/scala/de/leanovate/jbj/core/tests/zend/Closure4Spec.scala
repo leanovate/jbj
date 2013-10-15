@@ -298,7 +298,7 @@ class Closure4Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "Closure 039: Rebinding closures, change scope, same runtime type" in {
-      // ../php-src/Zend/tests/closure_039.phpt
+      // Zend/tests/closure_039.phpt
       script(
         """<?php
           |

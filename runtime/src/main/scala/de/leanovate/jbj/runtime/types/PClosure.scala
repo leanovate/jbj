@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.runtime.types
 
-import de.leanovate.jbj.runtime.{NodePosition, NamespaceName}
+import de.leanovate.jbj.runtime.{NamespaceName, NodePosition}
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context._
 import de.leanovate.jbj.runtime.adapter.{StaticMethod, InstanceMethod}
@@ -111,7 +111,8 @@ class StaticPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: Li
   override def bindTo(newThis: Option[ObjectVal], newScope: Option[PClass])(implicit ctx: Context) = {
     newThis match {
       case Some(newInstance) =>
-        PClosure(returnByRef, parameterDecls, newScope.getOrElse(scopeClass), newInstance,
+        ctx.log.warn("Cannot bind an instance to a static closure")
+        PClosure(returnByRef, parameterDecls, newScope.getOrElse(scopeClass),
           keyValueMap.get(PublicKey("static")).map(_.asInstanceOf[ArrayVal]), invoke)
       case None =>
         PClosure(returnByRef, parameterDecls, newScope.getOrElse(scopeClass),
@@ -187,27 +188,42 @@ object PClosure extends PClass {
       }
     },
     new InstanceMethod(this, "bindTo") {
-      def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = {
+      def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context): PAny = {
         if (parameters.length == 0) {
-          throw new FatalErrorJbjException("Closure::bindTo() expects at least 1 argument")
+          callerCtx.log.warn("Closure::bindTo() expects at least 1 parameter, 0 given")
+          return NullVal
+        } else if (parameters.length > 2) {
+          callerCtx.log.warn("Closure::bindTo() expects at most 2 parameters, %d given".format(parameters.length))
+          return NullVal
         }
         val newInstance = parameters(0).byVal.concrete match {
           case obj: ObjectVal => Some(obj)
           case NullVal => None
-          case _ =>
-            throw new FatalErrorJbjException("Closure::bindTo() expects argument 1 to be an object")
+          case pVal =>
+            callerCtx.log.warn("Closure::bindTo() expects parameter 1 to be object, %s given".format(pVal.typeName()))
+            return NullVal
         }
-        val newScope = if (parameters.length > 1) {
+        val newScopeName = if (parameters.length > 1) {
           parameters(1).byVal.concrete match {
-            case obj: ObjectVal => Some(obj.pClass)
+            case obj: ObjectVal => Some(obj.pClass.name)
             case StringVal("static") => None
-            case StringVal(n) => callerCtx.global.findClass(NamespaceName(n), autoload = false)
-            case NullVal => Some(PStdClass)
-            case _ =>
-              throw new FatalErrorJbjException("Closure::bindTo() expects argument 2 to be a class name or object")
+            case StringVal(n) => Some(NamespaceName(n))
+            case NullVal => Some(NamespaceName("stdClass"))
+            case array: ArrayVal =>
+              callerCtx.log.notice("Array to string conversion")
+              Some(NamespaceName("Array"))
+            case pVal =>
+              Some(NamespaceName(pVal.toStr.asString))
           }
         } else {
           None
+        }
+        val newScope = newScopeName.flatMap {
+          n =>
+            callerCtx.global.findClass(n, autoload = false).map(Some.apply).getOrElse {
+              callerCtx.log.warn("Class '%s' not found".format(n.toString))
+              return NullVal
+            }
         }
 
         instance match {
@@ -231,20 +247,31 @@ object PClosure extends PClass {
         val newInstance = parameters(1).byVal.concrete match {
           case obj: ObjectVal => Some(obj)
           case NullVal => None
-          case _ =>
-            throw new FatalErrorJbjException("Closure::bind() expects argument 2 to be an object")
+          case pVal =>
+            callerCtx.log.warn("Closure::bindTo() expects parameter 2 to be object, %s given".format(pVal.typeName()))
+            None
         }
-        val newScope = if (parameters.length > 1) {
+        val newScopeName = if (parameters.length > 1) {
           parameters(1).byVal.concrete match {
-            case obj: ObjectVal => Some(obj.pClass)
+            case obj: ObjectVal => Some(obj.pClass.name)
             case StringVal("static") => None
-            case StringVal(n) => callerCtx.global.findClass(NamespaceName(n), autoload = false)
-            case NullVal => Some(PStdClass)
-            case _ =>
-              throw new FatalErrorJbjException("Closure::bind() expects argument 3 to be a class name or object")
+            case StringVal(n) => Some(NamespaceName(n))
+            case NullVal => Some(NamespaceName("stdClass"))
+            case array: ArrayVal =>
+              callerCtx.log.notice("Array to string conversion")
+              Some(NamespaceName("Array"))
+            case pVal =>
+              Some(NamespaceName(pVal.toStr.asString))
           }
         } else {
           None
+        }
+        val newScope = newScopeName.flatMap {
+          n =>
+            callerCtx.global.findClass(n, autoload = false).map(Some.apply).getOrElse {
+              callerCtx.log.warn("Class '%s' not found".format(n.toString))
+              None
+            }
         }
 
         closure.bindTo(newInstance, newScope)

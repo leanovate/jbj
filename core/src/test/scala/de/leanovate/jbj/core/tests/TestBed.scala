@@ -70,48 +70,66 @@ object TestBed {
     test(
       """<?php
         |
+        |/* It's impossible to preserve the previous scope when doing so would break
+        | * the invariants that, for non-static closures, having a scope is equivalent
+        | * to having a bound instance. */
+        |
+        |$staticUnscoped = static function () {
+        |	echo "scoped to A: "; var_dump(isset(A::$priv));
+        |	echo "bound: ", isset($this)?get_class($this):"no";
+        |};
+        |
+        |$nonstaticUnscoped = function () {
+        |	echo "scoped to A: "; var_dump(isset(A::$priv));
+        |	echo "bound: ", isset($this)?get_class($this):"no";
+        |};
+        |
         |class A {
-        |	private $x;
-        |
-        |	public function __construct($v) {
-        |		$this->x = $v;
+        |	private static $priv = 7;
+        |	function getClosure() {
+        |		return function () {
+        |			echo "scoped to A: "; var_dump(isset(A::$priv));
+        |			echo "bound: ", isset($this)?get_class($this):"no";
+        |		};
         |	}
-        |
-        |	public function getIncrementor() {
-        |		return function() { return ++$this->x; };
-        |	}
-        |}
-        |class B extends A {
-        |	private $x;
-        |	public function __construct($v) {
-        |		parent::__construct($v);
-        |		$this->x = $v*2;
+        |	function getStaticClosure() {
+        |		return static function () {
+        |			echo "scoped to A: "; var_dump(isset(A::$priv));
+        |			echo "bound: ", isset($this)?get_class($this):"no";
+        |		};
         |	}
         |}
+        |class B extends A {}
         |
-        |$a = new B(-5);
-        |$b = new B(10);
+        |$a = new A();
+        |$staticScoped = $a->getStaticClosure();
+        |$nonstaticScoped = $a->getClosure();
         |
-        |$ca = $a->getIncrementor();
-        |var_dump($ca());
+        |echo "Before binding", "\n";
+        |$staticUnscoped(); echo "\n";
+        |$nonstaticUnscoped(); echo "\n";
+        |$staticScoped(); echo "\n";
+        |$nonstaticScoped(); echo "\n";
         |
-        |echo "Testing with scope given as object", "\n";
+        |echo "After binding, no instance", "\n";
+        |$d = $staticUnscoped->bindTo(null); $d(); echo "\n";
+        |$d = $nonstaticUnscoped->bindTo(null); $d(); echo "\n";
+        |$d = $staticScoped->bindTo(null); $d(); echo "\n";
+        |$d = $nonstaticScoped->bindTo(null); $d(); echo "\n";
+        |//$d should have been turned to static
+        |$d->bindTo($d);
         |
-        |$cb = $ca->bindTo($b, $b);
-        |$cb2 = Closure::bind($ca, $b, $b);
-        |var_dump($cb());
-        |var_dump($cb2());
+        |echo "After binding, with same-class instance for the bound ones", "\n";
+        |$d = $staticUnscoped->bindTo(new A); $d(); echo "\n";
+        |$d = $nonstaticUnscoped->bindTo(new A); $d(); echo " (should be scoped to dummy class)\n";
+        |$d = $staticScoped->bindTo(new A); $d(); echo "\n";
+        |$d = $nonstaticScoped->bindTo(new A); $d(); echo "\n";
         |
-        |echo "Testing with scope as string", "\n";
+        |echo "After binding, with different instance for the bound ones", "\n";
+        |$d = $nonstaticUnscoped->bindTo(new B); $d(); echo " (should be scoped to dummy class)\n";
+        |$d = $nonstaticScoped->bindTo(new B); $d(); echo "\n";
         |
-        |$cb = $ca->bindTo($b, 'B');
-        |$cb2 = Closure::bind($ca, $b, 'B');
-        |var_dump($cb());
-        |var_dump($cb2());
-        |
-        |$cb = $ca->bindTo($b, NULL);
-        |var_dump($cb());
-        |
-        |?>""".stripMargin)
+        |echo "Done.\n";
+        |""".stripMargin)
   }
 }
