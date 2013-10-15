@@ -69,39 +69,49 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
+        |
         |class A {
-        |	private $x = 0;
+        |	private $x;
         |
-        |	function getClosure () {
-        |			return function () {
-        |				$this->x++;
-        |				self::printX();
-        |				self::print42();
-        |				static::print42();
-        |			};
+        |	public function __construct($v) {
+        |		$this->x = $v;
         |	}
         |
-        |	function printX () {
-        |		echo $this->x."\n";
-        |	}
-        |
-        |	function print42() {
-        |		echo "42\n";
+        |	public function getIncrementor() {
+        |		return function() { return ++$this->x; };
         |	}
         |}
-        |
         |class B extends A {
-        |	function print42() {
-        |		echo "forty two\n";
+        |	private $x;
+        |	public function __construct($v) {
+        |		parent::__construct($v);
+        |		$this->x = $v*2;
         |	}
         |}
         |
-        |$a = new A;
-        |$closure = $a->getClosure();
-        |$closure();
-        |$b = new B;
-        |$closure = $b->getClosure();
-        |$closure();
+        |$a = new A(0);
+        |$b = new B(10);
+        |
+        |$ca = $a->getIncrementor();
+        |var_dump($ca());
+        |
+        |echo "Testing with scope given as object", "\n";
+        |
+        |$cb = $ca->bindTo($b, $b);
+        |$cb2 = Closure::bind($ca, $b, $b);
+        |var_dump($cb());
+        |var_dump($cb2());
+        |
+        |echo "Testing with scope as string", "\n";
+        |
+        |$cb = $ca->bindTo($b, 'B');
+        |$cb2 = Closure::bind($ca, $b, 'B');
+        |var_dump($cb());
+        |var_dump($cb2());
+        |
+        |$cb = $ca->bindTo($b, NULL);
+        |var_dump($cb());
+        |
         |?>""".stripMargin)
   }
 }

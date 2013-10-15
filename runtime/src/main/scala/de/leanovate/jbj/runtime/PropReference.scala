@@ -50,6 +50,8 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
         ctx match {
           case MethodContext(_, pMethod, _) =>
             obj.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
+              if ( obj.hasPrivateProperty(name))
+                throw new FatalErrorJbjException("Cannot access private property %s::$%s".format(obj.pClass.name.toString, name))
               if (pMethod.name == "__get") {
                 ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
                 NullVal
