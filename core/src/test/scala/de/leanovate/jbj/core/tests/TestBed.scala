@@ -89,7 +89,7 @@ object TestBed {
         |	}
         |}
         |
-        |$a = new A(0);
+        |$a = new B(-5);
         |$b = new B(10);
         |
         |$ca = $a->getIncrementor();
