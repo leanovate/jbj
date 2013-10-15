@@ -479,7 +479,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       })
       CallStaticMethodRefExpr(cname, method, params)
   } | variableWithoutObjects ~ functionCallParameterList ^^ {
-    case (DynamicName(expr : RefExpr), dims) ~ params =>
+    case (DynamicName(expr: RefExpr), dims) ~ params =>
       val func = dims.foldLeft(expr) {
         (ref, dim) => DimRefExpr(ref, dim)
       }
@@ -492,9 +492,11 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   }
 
   lazy val className: PackratParser[Name] =
-    namespaceName ^^ {
-      case NamespaceName("self") => SelfName
-      case NamespaceName("parent") => ParentName
+    "static" ^^^ {
+      ClassStaticName
+    } | namespaceName ^^ {
+      case NamespaceName("self") => ClassSelfName
+      case NamespaceName("parent") => ClassParentName
       case name => StaticNamespaceName(name)
     } | "namespace" ~> "\\" ~> namespaceName ^^ {
       n => StaticNamespaceName(NamespaceName(relative = false, prefixed = true, n.path: _*))

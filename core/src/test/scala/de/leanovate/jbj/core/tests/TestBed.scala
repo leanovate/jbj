@@ -69,17 +69,39 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
+        |class A {
+        |	private $x = 0;
         |
-        |$x = function () use (&$x) {
-        |	$h = function () use ($x) {
-        |		var_dump($x);
-        |		return 1;
-        |	};
-        |	return $h();
-        |};
+        |	function getClosure () {
+        |			return function () {
+        |				$this->x++;
+        |				self::printX();
+        |				self::print42();
+        |				static::print42();
+        |			};
+        |	}
         |
-        |var_dump($x());
+        |	function printX () {
+        |		echo $this->x."\n";
+        |	}
         |
+        |	function print42() {
+        |		echo "42\n";
+        |	}
+        |}
+        |
+        |class B extends A {
+        |	function print42() {
+        |		echo "forty two\n";
+        |	}
+        |}
+        |
+        |$a = new A;
+        |$closure = $a->getClosure();
+        |$closure();
+        |$b = new B;
+        |$closure = $b->getClosure();
+        |$closure();
         |?>""".stripMargin)
   }
 }

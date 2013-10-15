@@ -10,7 +10,7 @@ package de.leanovate.jbj.runtime.types
 import de.leanovate.jbj.runtime.{NodePosition, NamespaceName}
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context._
-import de.leanovate.jbj.runtime.adapter.InstanceMethod
+import de.leanovate.jbj.runtime.adapter.{StaticMethod, InstanceMethod}
 import de.leanovate.jbj.runtime.context.FunctionContext
 import de.leanovate.jbj.runtime.context.MethodContext
 import scala.collection.mutable
@@ -18,8 +18,7 @@ import de.leanovate.jbj.runtime.exception.{CatchableFatalError, FatalErrorJbjExc
 import de.leanovate.jbj.runtime.value.ObjectPropertyKey.PublicKey
 
 sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef],
-                               position: NodePosition,
-                               invoke: FunctionLikeContext => PAny)
+                               position: NodePosition, invoke: FunctionLikeContext => PAny)
   extends StdObjectVal(PClosure, instanceNum, new ExtendedLinkedHashMap[ObjectPropertyKey.Key]) {
 
   private val activeContexts = mutable.Set.empty[Context]
@@ -58,6 +57,11 @@ sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, paramete
     result
   }
 
+  def bindTo(newInstance: ObjectVal)(implicit ctx: Context): ObjectVal = {
+    PClosure(returnByRef, parameterDecls, newInstance.pClass, newInstance: ObjectVal,
+      keyValueMap.get(PublicKey("static")).map(_.asInstanceOf[ArrayVal]), invoke)
+  }
+
   override def cleanup()(implicit ctx: Context) {
     if (activeContexts.contains(ctx))
       throw new FatalErrorJbjException("Cannot destroy active lambda function")
@@ -66,11 +70,11 @@ sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, paramete
 }
 
 class InstancePClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], position: NodePosition,
-                       instance: ObjectVal, invoke: FunctionLikeContext => PAny)
+                       pClass:PClass, instance: ObjectVal, invoke: FunctionLikeContext => PAny)
   extends PClosure(instanceNum, returnByRef, parameterDecls, position, invoke) {
 
   override def newFunctionContext(implicit callerCtx: Context) = {
-    val pMethod = new InstanceMethod(instance.pClass, "{closure}", parameterDecls, isFinal = true) {
+    val pMethod = new InstanceMethod(pClass, "{closure}", parameterDecls, isFinal = true) {
       def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = ???
     }
     new MethodContext(instance, pMethod, callerCtx) {
@@ -79,7 +83,7 @@ class InstancePClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: 
   }
 
   override def clone(implicit ctx: Context): PVal = {
-    PClosure(returnByRef, parameterDecls, instance, getProperty("static", None).map(_.asInstanceOf[ArrayVal]), invoke)
+    PClosure(returnByRef, parameterDecls, pClass, instance, getProperty("static", None).map(_.asInstanceOf[ArrayVal]), invoke)
   }
 }
 
@@ -145,16 +149,52 @@ object PClosure extends PClass {
       def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = {
         instance.call(parameters)
       }
+    },
+    new InstanceMethod(this, "bindTo") {
+      def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = {
+        if (parameters.length != 1) {
+          throw new FatalErrorJbjException("Closure::bindTo() expects exactly 1 argument")
+        }
+        val newInstance = parameters(0).byVal.concrete match {
+          case obj: ObjectVal => obj
+          case _ =>
+            throw new FatalErrorJbjException("Closure::bindTo() expects argument 1 to be an object")
+        }
+        instance match {
+          case closure: PClosure =>
+            closure.bindTo(newInstance)
+          case _ =>
+            throw new FatalErrorJbjException("Call Closure::bindTo() on non-closure")
+        }
+      }
+    },
+    new StaticMethod(this, "bind") {
+      def invokeStatic(parameters: List[PParam])(implicit callerCtx: Context) = {
+        if (parameters.length != 2) {
+          throw new FatalErrorJbjException("Closure::bind() expects exactly 2 arguments")
+        }
+        val closure = parameters(0).byVal.concrete match {
+          case c: PClosure => c
+          case _ =>
+            throw new FatalErrorJbjException("Closure::bind() expects argument 1 to be a closure")
+        }
+        val newInstance = parameters(1).byVal.concrete match {
+          case obj: ObjectVal => obj
+          case _ =>
+            throw new FatalErrorJbjException("Closure::bind() expects argument 2 to be an object")
+        }
+        closure.bindTo(newInstance)
+      }
     }
   ).map {
     method =>
       method.name.toLowerCase -> method
   }.toMap
 
-  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], instance: ObjectVal, lexicalValues: Option[ArrayVal],
+  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], pClass:PClass, instance: ObjectVal, lexicalValues: Option[ArrayVal],
             invoke: FunctionLikeContext => PAny)(implicit ctx: Context): ObjectVal = {
     val result = new InstancePClosure(ctx.global.instanceCounter.incrementAndGet(), returnByRef, parameterDecls,
-      ctx.currentPosition, instance, invoke)
+      ctx.currentPosition, pClass, instance, invoke)
     lexicalValues.foreach(result.definePublicProperty("static", _))
     result.definePublicProperty("this", instance)
     ctx.poolAutoRelease(result)

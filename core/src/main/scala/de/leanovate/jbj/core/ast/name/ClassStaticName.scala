@@ -9,32 +9,24 @@ package de.leanovate.jbj.core.ast.name
 
 import de.leanovate.jbj.core.ast.Name
 import de.leanovate.jbj.runtime.context._
-import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.MethodContext
 import de.leanovate.jbj.runtime.context.StaticMethodContext
 import de.leanovate.jbj.runtime.context.ClassContext
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
-object ParentName extends Name {
+object ClassStaticName extends Name {
   override def evalName(implicit ctx: Context) = evalNamespaceName.toString
 
   override def evalNamespaceName(implicit ctx: Context) = ctx match {
     case MethodContext(instance, pMethod, _) =>
-      pMethod.declaringClass.superClass.map(_.name).getOrElse {
-        throw new FatalErrorJbjException("Cannot access parent:: when current class scope has no parent")
-      }
+      instance.pClass.name
     case StaticMethodContext(pMethod, _, _) =>
-      pMethod.declaringClass.superClass.map(_.name).getOrElse {
-        throw new FatalErrorJbjException("Cannot access parent:: when current class scope has no parent")
-      }
+      pMethod.declaringClass.name
     case ClassContext(pClass, _, _) =>
-      pClass.superClass.map(_.name).getOrElse {
-        throw new FatalErrorJbjException("Cannot access parent:: when current class scope has no parent")
-      }
+      pClass.name
     case InstanceContext(_, pClass, _) =>
-      pClass.superClass.map(_.name).getOrElse {
-        throw new FatalErrorJbjException("Cannot access parent:: when current class scope has no parent")
-      }
+      pClass.name
     case _ =>
-      throw new FatalErrorJbjException("Cannot access parent:: when no class scope is active")
+      throw new FatalErrorJbjException("Cannot access self:: when no class scope is active")
   }
 }

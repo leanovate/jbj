@@ -41,8 +41,8 @@ case class LambdaDeclExpr(returnByRef: Boolean, parameterDecls: List[ParameterDe
         perform(funcCtx, returnByRef, stmts)
     }
     ctx match {
-      case MethodContext(instance, _, _) =>
-        PClosure(returnByRef, parameterDecls, instance, lexicalValues, invoke)
+      case MethodContext(instance, pMethod, _) =>
+        PClosure(returnByRef, parameterDecls, pMethod.declaringClass, instance, lexicalValues, invoke)
       case _ =>
         PClosure(returnByRef, parameterDecls, lexicalValues, invoke)
     }

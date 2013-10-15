@@ -14,11 +14,11 @@ import de.leanovate.jbj.runtime.context.MethodContext
 import de.leanovate.jbj.runtime.context.StaticMethodContext
 import de.leanovate.jbj.runtime.context.ClassContext
 
-object SelfName extends Name {
+object ClassSelfName extends Name {
   override def evalName(implicit ctx: Context) = evalNamespaceName.toString
 
   override def evalNamespaceName(implicit ctx: Context) = ctx match {
-    case MethodContext(instance, pMethod, _) =>
+    case MethodContext(_, pMethod, _) =>
       pMethod.declaringClass.name
     case StaticMethodContext(pMethod, _, _) =>
       pMethod.declaringClass.name
