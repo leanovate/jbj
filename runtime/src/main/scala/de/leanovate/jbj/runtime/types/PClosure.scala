@@ -17,13 +17,12 @@ import scala.collection.mutable
 import de.leanovate.jbj.runtime.exception.{CatchableFatalError, FatalErrorJbjException}
 import de.leanovate.jbj.runtime.value.ObjectPropertyKey.PublicKey
 
-sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef],
-                               position: NodePosition, invoke: FunctionLikeContext => PAny)
+class PClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef],
+               isStatic: Boolean, optScope: Option[PClass], optThis: Option[ObjectVal],
+               position: NodePosition, invoke: FunctionLikeContext => PAny)
   extends StdObjectVal(PClosure, instanceNum, new ExtendedLinkedHashMap[ObjectPropertyKey.Key]) {
 
   private val activeContexts = mutable.Set.empty[Context]
-
-  def newFunctionContext(implicit callerCtx: Context): FunctionLikeContext
 
   override def setProperty(name: String, className: Option[String], value: PAny)(implicit ctx: Context) =
     CatchableFatalError("Closure object cannot have properties")
@@ -57,7 +56,43 @@ sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, paramete
     result
   }
 
-  def bindTo(newThis: Option[ObjectVal], newScope: Option[PClass])(implicit ctx: Context): ObjectVal
+  def newFunctionContext(implicit callerCtx: Context) = {
+    optThis match {
+      case Some(instance) if !isStatic =>
+        val pMethod = new InstanceMethod(optScope.getOrElse(PStdClass), "{closure}", parameterDecls, isFinal = true) {
+          def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = ???
+        }
+        new MethodContext(instance, pMethod, callerCtx) {
+          override lazy val static = global.staticContext("Closure::lambda-" + instanceNum)
+        }
+      case _ =>
+        optScope match {
+          case Some(scopeClass) =>
+            val pMethod = new InstanceMethod(scopeClass, "{closure}", parameterDecls, isFinal = true) {
+              def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = ???
+            }
+            new StaticMethodContext(pMethod, callerCtx, allowThis = false) {
+              override lazy val static = global.staticContext("Closure::lambda-" + instanceNum)
+            }
+          case None =>
+            new FunctionContext(NamespaceName("{closure}"), callerCtx) {
+              override lazy val static = global.staticContext("Closure::lambda-" + instanceNum)
+            }
+        }
+    }
+  }
+
+  def bindTo(newThis: Option[ObjectVal], newScope: Option[PClass])(implicit ctx: Context): ObjectVal = {
+    if (isStatic && newThis.isDefined)
+      ctx.log.warn("Cannot bind an instance to a static closure")
+    PClosure(returnByRef, parameterDecls, isStatic || !newThis.isDefined,
+      newScope.map(Some.apply).getOrElse(optScope), newThis,
+      keyValueMap.get(PublicKey("static")).map(_.asInstanceOf[ArrayVal]), invoke)
+  }
+
+  override def clone(implicit ctx: Context): PVal = {
+    PClosure(returnByRef, parameterDecls, isStatic, optScope, optThis, keyValueMap.get(PublicKey("static")).map(_.asInstanceOf[ArrayVal]), invoke)
+  }
 
   override def cleanup()(implicit ctx: Context) {
     if (activeContexts.contains(ctx))
@@ -66,96 +101,6 @@ sealed abstract class PClosure(instanceNum: Long, returnByRef: Boolean, paramete
   }
 }
 
-class InstancePClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], position: NodePosition,
-                       instanceClass: PClass, instance: ObjectVal, invoke: FunctionLikeContext => PAny)
-  extends PClosure(instanceNum, returnByRef, parameterDecls, position, invoke) {
-
-  override def newFunctionContext(implicit callerCtx: Context) = {
-    val pMethod = new InstanceMethod(instanceClass, "{closure}", parameterDecls, isFinal = true) {
-      def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = ???
-    }
-    new MethodContext(instance, pMethod, callerCtx) {
-      override lazy val static = global.staticContext("Closure::lambda-" + instanceNum)
-    }
-  }
-
-  override def bindTo(newThis: Option[ObjectVal], newScope: Option[PClass])(implicit ctx: Context) = {
-    newThis match {
-      case Some(newInstance) =>
-        PClosure(returnByRef, parameterDecls, newScope.getOrElse(instanceClass), newInstance,
-          keyValueMap.get(PublicKey("static")).map(_.asInstanceOf[ArrayVal]), invoke)
-      case None =>
-        PClosure(returnByRef, parameterDecls, newScope.getOrElse(instanceClass),
-          keyValueMap.get(PublicKey("static")).map(_.asInstanceOf[ArrayVal]), invoke)
-    }
-  }
-
-  override def clone(implicit ctx: Context): PVal = {
-    PClosure(returnByRef, parameterDecls, pClass, instance, getProperty("static", None).map(_.asInstanceOf[ArrayVal]), invoke)
-  }
-}
-
-class StaticPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], position: NodePosition,
-                     scopeClass: PClass, invoke: FunctionLikeContext => PAny)
-  extends PClosure(instanceNum, returnByRef, parameterDecls, position, invoke) {
-
-  override def newFunctionContext(implicit callerCtx: Context) = {
-    val pMethod = new InstanceMethod(scopeClass, "{closure}", parameterDecls, isFinal = true) {
-      def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = ???
-    }
-    new StaticMethodContext(pMethod, callerCtx, allowThis = false) {
-      override lazy val static = global.staticContext("Closure::lambda-" + instanceNum)
-    }
-  }
-
-  override def bindTo(newThis: Option[ObjectVal], newScope: Option[PClass])(implicit ctx: Context) = {
-    newThis match {
-      case Some(newInstance) =>
-        ctx.log.warn("Cannot bind an instance to a static closure")
-        PClosure(returnByRef, parameterDecls, newScope.getOrElse(scopeClass),
-          keyValueMap.get(PublicKey("static")).map(_.asInstanceOf[ArrayVal]), invoke)
-      case None =>
-        PClosure(returnByRef, parameterDecls, newScope.getOrElse(scopeClass),
-          keyValueMap.get(PublicKey("static")).map(_.asInstanceOf[ArrayVal]), invoke)
-    }
-  }
-
-  override def clone(implicit ctx: Context): PVal = {
-    PClosure(returnByRef, parameterDecls, pClass, keyValueMap.get(PublicKey("static")).map(_.asInstanceOf[ArrayVal]), invoke)
-  }
-}
-
-class GlobalPClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PParamDef], position: NodePosition,
-                     invoke: FunctionLikeContext => PAny)
-  extends PClosure(instanceNum, returnByRef, parameterDecls, position, invoke) {
-
-  override def newFunctionContext(implicit callerCtx: Context) = {
-    new FunctionContext(NamespaceName("{closure}"), callerCtx) {
-      override lazy val static = global.staticContext("Closure::lambda-" + instanceNum)
-    }
-  }
-
-  override def bindTo(newThis: Option[ObjectVal], newScope: Option[PClass])(implicit ctx: Context) = {
-    newThis match {
-      case Some(newInstance) =>
-        PClosure(returnByRef, parameterDecls, newScope.getOrElse(newInstance.pClass), newInstance,
-          keyValueMap.get(PublicKey("static")).map(_.asInstanceOf[ArrayVal]), invoke)
-      case None =>
-        newScope match {
-          case Some(scopeClass) =>
-            PClosure(returnByRef, parameterDecls, scopeClass,
-              keyValueMap.get(PublicKey("static")).map(_.asInstanceOf[ArrayVal]), invoke)
-          case None =>
-            PClosure(returnByRef, parameterDecls,
-              keyValueMap.get(PublicKey("static")).map(_.asInstanceOf[ArrayVal]), invoke)
-        }
-    }
-  }
-
-  override def clone(implicit ctx: Context): PVal = {
-    PClosure(returnByRef, parameterDecls, keyValueMap.get(PublicKey("static")).map(_.asInstanceOf[ArrayVal]), invoke)
-  }
-}
 
 object PClosure extends PClass {
   override def isAbstract = false
@@ -282,30 +227,12 @@ object PClosure extends PClass {
       method.name.toLowerCase -> method
   }.toMap
 
-  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], pClass: PClass, instance: ObjectVal, lexicalValues: Option[ArrayVal],
-            invoke: FunctionLikeContext => PAny)(implicit ctx: Context): ObjectVal = {
-    val result = new InstancePClosure(ctx.global.instanceCounter.incrementAndGet(), returnByRef, parameterDecls,
-      ctx.currentPosition, pClass, instance, invoke)
+  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], isStatic: Boolean, optScope: Option[PClass], optThis: Option[ObjectVal],
+            lexicalValues: Option[ArrayVal], invoke: FunctionLikeContext => PAny)(implicit ctx: Context): ObjectVal = {
+    val result = new PClosure(ctx.global.instanceCounter.incrementAndGet(), returnByRef, parameterDecls,
+      isStatic, optScope, optThis, ctx.currentPosition, invoke)
     lexicalValues.foreach(result.definePublicProperty("static", _))
-    result.definePublicProperty("this", instance)
-    ctx.poolAutoRelease(result)
-    result
-  }
-
-  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], pClass: PClass, lexicalValues: Option[ArrayVal],
-            invoke: FunctionLikeContext => PAny)(implicit ctx: Context): ObjectVal = {
-    val result = new StaticPClosure(ctx.global.instanceCounter.incrementAndGet(), returnByRef, parameterDecls,
-      ctx.currentPosition, pClass, invoke)
-    lexicalValues.foreach(result.definePublicProperty("static", _))
-    ctx.poolAutoRelease(result)
-    result
-  }
-
-  def apply(returnByRef: Boolean, parameterDecls: List[PParamDef], lexicalValues: Option[ArrayVal],
-            invoke: FunctionLikeContext => PAny)(implicit ctx: Context): ObjectVal = {
-    val result = new GlobalPClosure(ctx.global.instanceCounter.incrementAndGet(), returnByRef, parameterDecls,
-      ctx.currentPosition, invoke)
-    lexicalValues.foreach(result.definePublicProperty("static", _))
+    optThis.map(result.definePublicProperty("this", _))
     ctx.poolAutoRelease(result)
     result
   }
