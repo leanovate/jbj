@@ -8,7 +8,7 @@
 package de.leanovate.jbj.core.ast.expr
 
 import de.leanovate.jbj.core.ast.{StaticInitializer, Stmt, Expr}
-import de.leanovate.jbj.runtime.context.{MethodContext, FunctionLikeContext, Context}
+import de.leanovate.jbj.runtime.context.{StaticMethodContext, MethodContext, FunctionLikeContext, Context}
 import de.leanovate.jbj.core.ast.decl.ParameterDecl
 import de.leanovate.jbj.runtime.types.PClosure
 import de.leanovate.jbj.core.ast.stmt.FunctionLike
@@ -43,6 +43,8 @@ case class LambdaDeclExpr(returnByRef: Boolean, parameterDecls: List[ParameterDe
     ctx match {
       case MethodContext(instance, pMethod, _) =>
         PClosure(returnByRef, parameterDecls, isStatic = false, Some(pMethod.declaringClass), Some(instance), lexicalValues, invoke)
+      case StaticMethodContext(pMethod, _, _) =>
+        PClosure(returnByRef, parameterDecls, isStatic = false, Some(pMethod.declaringClass), None, lexicalValues, invoke)
       case _ =>
         PClosure(returnByRef, parameterDecls, isStatic = false, None, None, lexicalValues, invoke)
     }
