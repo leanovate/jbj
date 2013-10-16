@@ -13,7 +13,7 @@ import de.leanovate.jbj.core.tests.TestJbjExecutor
 class Closure5Spec extends SpecificationWithJUnit with TestJbjExecutor {
   "Closure tests 040-049" should {
     "Closure 040: Rebinding closures, bad arguments" in {
-      // ../php-src/Zend/tests/closure_040.phpt
+      // Zend/tests/closure_040.phpt
       script(
         """<?php
           |
@@ -64,7 +64,7 @@ class Closure5Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "Closure 041: Rebinding: preservation of previous scope when not given as arg unless impossible" in {
-      // ../php-src/Zend/tests/closure_041.phpt
+      // Zend/tests/closure_041.phpt
       script(
         """<?php
           |
@@ -175,7 +175,7 @@ class Closure5Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "Closure 043: Scope/bounding combination invariants; static closures" in {
-      // ../php-src/Zend/tests/closure_043.phpt
+      // Zend/tests/closure_043.phpt
       script(
         """<?php
           |/* Whether it's scoped or not, a static closure cannot have
@@ -259,6 +259,189 @@ class Closure5Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |Warning: Cannot bind an instance to a static closure in /zend/Closure5Spec.inlinePhp on line 35
           |bool(true)
           |bool(false)
+          |
+          |Done.
+          |""".stripMargin
+      )
+    }
+
+    "Closure 044: Scope/bounding combination invariants; non static closures" in {
+      // Zend/tests/closure_044.phpt
+      script(
+        """<?php
+          |/* A non-static closure has a bound instance if it has a scope
+          | * and does't have an instance if it has no scope */
+          |
+          |$nonstaticUnscoped = function () { var_dump(isset(A::$priv)); var_dump(isset($this)); };
+          |
+          |class A {
+          |	private static $priv = 7;
+          |	function getClosure() {
+          |		return function() { var_dump(isset(A::$priv)); var_dump(isset($this)); };
+          |	}
+          |}
+          |
+          |$a = new A();
+          |$nonstaticScoped = $a->getClosure();
+          |
+          |echo "Before binding", "\n";
+          |$nonstaticUnscoped(); echo "\n";
+          |$nonstaticScoped(); echo "\n";
+          |
+          |echo "After binding, null scope, no instance", "\n";
+          |$d = $nonstaticUnscoped->bindTo(null, null); $d(); echo "\n";
+          |$d = $nonstaticScoped->bindTo(null, null); $d(); echo "\n";
+          |
+          |echo "After binding, null scope, with instance", "\n";
+          |$d = $nonstaticUnscoped->bindTo(new A, null); $d(); echo "\n";
+          |$d = $nonstaticScoped->bindTo(new A, null); $d(); echo "\n";
+          |
+          |echo "After binding, with scope, no instance", "\n";
+          |$d = $nonstaticUnscoped->bindTo(null, 'A'); $d(); echo "\n";
+          |$d = $nonstaticScoped->bindTo(null, 'A'); $d(); echo "\n";
+          |
+          |echo "After binding, with scope, with instance", "\n";
+          |$d = $nonstaticUnscoped->bindTo(new A, 'A'); $d(); echo "\n";
+          |$d = $nonstaticScoped->bindTo(new A, 'A'); $d(); echo "\n";
+          |
+          |echo "Done.\n";
+          |
+          |""".stripMargin
+      ).result must haveOutput(
+        """Before binding
+          |bool(false)
+          |bool(false)
+          |
+          |bool(true)
+          |bool(true)
+          |
+          |After binding, null scope, no instance
+          |bool(false)
+          |bool(false)
+          |
+          |bool(false)
+          |bool(false)
+          |
+          |After binding, null scope, with instance
+          |bool(false)
+          |bool(true)
+          |
+          |bool(false)
+          |bool(true)
+          |
+          |After binding, with scope, no instance
+          |bool(true)
+          |bool(false)
+          |
+          |bool(true)
+          |bool(false)
+          |
+          |After binding, with scope, with instance
+          |bool(true)
+          |bool(true)
+          |
+          |bool(true)
+          |bool(true)
+          |
+          |Done.
+          |""".stripMargin
+      )
+    }
+
+    "Closure 045: Closures created in static methods are static, even without the keyword" in {
+      // Zend/tests/closure_045.phpt
+      script(
+        """<?php
+          |
+          |class A {
+          |static function foo() {
+          |	return function () {};
+          |}
+          |}
+          |
+          |$a = A::foo();
+          |$a->bindTo(new A);
+          |
+          |echo "Done.\n";
+          |
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Warning: Cannot bind an instance to a static closure in /zend/Closure5Spec.inlinePhp on line 10
+          |Done.
+          |""".stripMargin
+      )
+    }
+
+    "Closure 046: Rebinding: preservation of previous scope when \"static\" given as scope arg (same as closure #041)" in {
+      // Zend/tests/closure_046.phpt
+      script(
+        """<?php
+          |
+          |/* It's impossible to preserve the previous scope when doing so would break
+          | * the invariants that, for non-static closures, having a scope is equivalent
+          | * to having a bound instance. */
+          |
+          |$nonstaticUnscoped = function () { var_dump(isset(A::$priv)); var_dump(isset($this)); };
+          |
+          |class A {
+          |	private static $priv = 7;
+          |	function getClosure() {
+          |		return function() { var_dump(isset(A::$priv)); var_dump(isset($this)); };
+          |	}
+          |}
+          |class B extends A {}
+          |
+          |$a = new A();
+          |$nonstaticScoped = $a->getClosure();
+          |
+          |echo "Before binding", "\n";
+          |$nonstaticUnscoped(); echo "\n";
+          |$nonstaticScoped(); echo "\n";
+          |
+          |echo "After binding, no instance", "\n";
+          |$d = $nonstaticUnscoped->bindTo(null, "static"); $d(); echo "\n";
+          |$d = $nonstaticScoped->bindTo(null, "static"); $d(); echo "\n";
+          |//$d should have been turned to static
+          |$d->bindTo($d);
+          |
+          |echo "After binding, with same-class instance for the bound one", "\n";
+          |$d = $nonstaticUnscoped->bindTo(new A, "static"); $d(); echo "\n";
+          |$d = $nonstaticScoped->bindTo(new A, "static"); $d(); echo "\n";
+          |
+          |echo "After binding, with different instance for the bound one", "\n";
+          |$d = $nonstaticScoped->bindTo(new B, "static"); $d(); echo "\n";
+          |
+          |echo "Done.\n";
+          |
+          |""".stripMargin
+      ).result must haveOutput(
+        """Before binding
+          |bool(false)
+          |bool(false)
+          |
+          |bool(true)
+          |bool(true)
+          |
+          |After binding, no instance
+          |bool(false)
+          |bool(false)
+          |
+          |bool(true)
+          |bool(false)
+          |
+          |
+          |Warning: Cannot bind an instance to a static closure in /zend/Closure5Spec.inlinePhp on line 28
+          |After binding, with same-class instance for the bound one
+          |bool(false)
+          |bool(true)
+          |
+          |bool(true)
+          |bool(true)
+          |
+          |After binding, with different instance for the bound one
+          |bool(true)
+          |bool(true)
           |
           |Done.
           |""".stripMargin
