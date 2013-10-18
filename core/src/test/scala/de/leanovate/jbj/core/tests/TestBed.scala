@@ -70,19 +70,16 @@ object TestBed {
     test(
       """<?php
         |
-        |class test {
-        |        function foo(Test $arg) {}
-        |}
+        |$o=new stdClass;
         |
-        |class test2 extends test {
-        |        function foo(Test $arg) {}
-        |}
+        |var_dump($o == "");
+        |var_dump($o != "");
+        |var_dump($o <  "");
+        |var_dump("" <  $o);
+        |var_dump("" >  $o);
+        |var_dump($o != null);
+        |var_dump(is_null($o));
         |
-        |class test3 extends test {
-        |        function foo($arg) {}
-        |}
-        |
-        |echo "Done\n";
         |?>
         |""".stripMargin)
   }

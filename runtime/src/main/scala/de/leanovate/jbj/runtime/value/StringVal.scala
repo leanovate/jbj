@@ -102,6 +102,7 @@ class StringVal(var chars: Array[Byte]) extends PConcreteVal with ArrayLike {
     case otherStr: StringVal if isStrongNumericPattern && otherStr.isStrongNumericPattern =>
       new String(chars).toDouble.compare(new String(chars).toDouble)
     case otherStr: StringVal => StringVal.compare(chars, otherStr.chars)
+    case otherObj:ObjectVal => -1
     case NumericVal(otherNum) =>
       this match {
         case NumericVal(thisNum) => thisNum.compare(otherNum)

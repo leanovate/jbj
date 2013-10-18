@@ -118,5 +118,36 @@ class Objects2Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "comparing objects with strings/NULL" in {
+      // Zend/tests/objects_015.phpt
+      script(
+        """<?php
+          |
+          |$o=new stdClass;
+          |
+          |var_dump($o == "");
+          |var_dump($o != "");
+          |var_dump($o <  "");
+          |var_dump("" <  $o);
+          |var_dump("" >  $o);
+          |var_dump($o != null);
+          |var_dump(is_null($o));
+          |
+          |?>
+          |===DONE===
+          |""".stripMargin
+      ).result must haveOutput(
+        """bool(false)
+          |bool(true)
+          |bool(false)
+          |bool(true)
+          |bool(false)
+          |bool(true)
+          |bool(false)
+          |===DONE===
+          |""".stripMargin
+      )
+    }
   }
 }
