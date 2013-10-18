@@ -13,5 +13,5 @@ import de.leanovate.jbj.runtime.context.Context
 trait PParamDefault {
   def eval(implicit ctx: Context): PVal
 
-  def signature: String
+  def display: String
 }

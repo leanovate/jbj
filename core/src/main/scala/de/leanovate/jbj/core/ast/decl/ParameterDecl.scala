@@ -20,9 +20,9 @@ case class ParameterDecl(typeHint: Option[TypeHint], name: String, byRef: Boolea
   override def default = defaultExpr.map {
     expr =>
       new PParamDefault {
-        def eval(implicit ctx: Context) = expr.eval
+        override def eval(implicit ctx: Context) = expr.eval
 
-        def signature = expr.phpStr
+        override def display = expr.phpStr
       }
   }
 

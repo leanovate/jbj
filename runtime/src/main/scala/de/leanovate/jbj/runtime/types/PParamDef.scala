@@ -26,5 +26,5 @@ trait PParamDef {
   }.getOrElse(byRef == other.byRef && default.isDefined == other.default.isDefined)
 
   def display: String =
-    typeHint.map(_.display + " $").getOrElse("$") + name
+    typeHint.map(_.display + " $").getOrElse("$") + name + default.map(" = " + _.display).getOrElse("")
 }
