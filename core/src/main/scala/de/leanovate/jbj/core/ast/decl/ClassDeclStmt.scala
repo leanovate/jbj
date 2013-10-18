@@ -208,9 +208,15 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, declaredName: NamespaceNam
         }
       }
       val interfaceConstant = mutable.Map.empty[String, String]
+      val implementedInterfaces = mutable.Set.empty[String]
       _interfaces = implements.reverse.flatMap {
         interfaceName =>
-          ctx.global.findInterfaceOrClass(interfaceName.absolutePrefix, autoload) match {
+          val effectiveName = interfaceName.absolute
+          if (implementedInterfaces.contains(effectiveName.toString.toLowerCase)) {
+            throw new FatalErrorJbjException("Class %s cannot implement previously implemented interface %s".format(name.toString, interfaceName.toString))
+          }
+          implementedInterfaces += effectiveName.toString.toLowerCase
+          ctx.global.findInterfaceOrClass(effectiveName, autoload) match {
             case Some(Left(interface)) =>
               val interfaces = interface :: interface.interfaces
               interfaces.foreach {
@@ -258,8 +264,6 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, declaredName: NamespaceNam
                   ctx.log.strict("Redefining already defined constructor for class %s".format(name.toString))
                 constructorPresent = true
               case methodName if methodName == name.lastPath =>
-                if (constructorPresent)
-                  ctx.log.strict("Redefining already defined constructor for class %s".format(name.toString))
                 constructorPresent = true
               case _ =>
             }
