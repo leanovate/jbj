@@ -6,7 +6,8 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.api.http.JbjException
 import de.leanovate.jbj.runtime.types.{PParam, PMethod, PParamDef, PInterface}
 
-case class PInterfaceMethod(pInterface: PInterface, name: String, parameters: Seq[PParamDef] = Seq.empty) extends PMethod {
+case class PInterfaceMethod(pInterface: PInterface, name: String, parameters: Seq[PParamDef] = Seq.empty,
+                            returnByRef: Boolean = false) extends PMethod {
   def isFinal = false
 
   def isProtected = false

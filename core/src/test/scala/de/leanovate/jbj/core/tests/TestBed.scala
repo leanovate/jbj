@@ -69,24 +69,21 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |namespace foo {
-        |use \foo;
-        |class bar {
-        |        function __construct() {echo __METHOD__,"\n";}
+        |
+        |class test {
+        |        function &foo() {}
         |}
-        |new foo;
-        |new bar;
+        |
+        |class test2 extends test {
+        |        function &foo() {}
         |}
-        |$a = 'oops';
-        |namespace {
-        |class foo {
-        |        function __construct() {echo __METHOD__,"\n";}
+        |
+        |class test3 extends test {
+        |        function foo() {}
         |}
-        |use foo\bar as foo1;
-        |new foo1;
-        |new foo;
-        |echo "===DONE===\n";
-        |}
+        |
+        |echo "Done\n";
+        |?>
         |""".stripMargin)
   }
 }

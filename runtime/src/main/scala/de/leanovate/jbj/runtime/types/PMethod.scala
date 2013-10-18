@@ -15,6 +15,8 @@ trait PMethod {
 
   def name: String
 
+  def returnByRef: Boolean
+
   def parameters: Seq[PParamDef]
 
   def isFinal: Boolean
@@ -34,12 +36,16 @@ trait PMethod {
   def invokeStatic(parameters: List[PParam])(implicit callerCtx: Context): PAny
 
   def isCompatibleWith(otherMethod: PMethod): Boolean = {
-    val otherParameters = otherMethod.parameters
-    parameters.zipWithIndex.forall {
-      case (parameter, idx) if idx < otherParameters.size =>
-        parameter.isCompatible(otherParameters(idx))
-      case (parameter, _) =>
-        parameter.default.isDefined
+    if (returnByRef != otherMethod.returnByRef)
+      false
+    else {
+      val otherParameters = otherMethod.parameters
+      parameters.zipWithIndex.forall {
+        case (parameter, idx) if idx < otherParameters.size =>
+          parameter.isCompatible(otherParameters(idx))
+        case (parameter, _) =>
+          parameter.default.isDefined
+      }
     }
   }
 }

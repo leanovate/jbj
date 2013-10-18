@@ -25,7 +25,7 @@ trait PParamDef {
         otherTypeHint =>
           thisTypeHint.isCompatible(otherTypeHint)
       }
-  }.getOrElse(true)
+  }.getOrElse(byRef == other.byRef)
 
   def display: String =
     typeHint.map(_.display + " $").getOrElse("$") + name

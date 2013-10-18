@@ -184,8 +184,9 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
         superClass.methods.get(name).foreach {
           otherMethod =>
             if (!isCompatibleWith(otherMethod) || !otherMethod.isCompatibleWith(this)) {
-              ctx.log.strict("Declaration of %s::%s() should be compatible with %s::%s(%s)".
-                format(pClass.name.toString, name, superClass.name.toString, name, otherMethod.parameters.map(_.display).mkString(", ")))
+              ctx.log.strict("Declaration of %s::%s() should be compatible with %s%s::%s(%s)".
+                format(pClass.name.toString, name, if (otherMethod.returnByRef) "& " else "",
+                superClass.name.toString, name, otherMethod.parameters.map(_.display).mkString(", ")))
             }
         }
     }

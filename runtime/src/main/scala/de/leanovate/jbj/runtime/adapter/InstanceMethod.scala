@@ -13,7 +13,8 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 abstract class InstanceMethod(val declaringClass: PClass, val name: String,
                               val parameters: Seq[PParamDef] = Seq.empty,
-                              val isFinal: Boolean = false) extends PMethod {
+                              val isFinal: Boolean = false,
+                              val returnByRef: Boolean = false) extends PMethod {
   def isAbstract = false
 
   def isStatic = false
