@@ -70,17 +70,29 @@ object TestBed {
     test(
       """<?php
         |
-        |error_reporting(E_ALL);
+        |interface iTest { }
         |
-        |$foo = array(new stdclass, new stdclass);
+        |class baz implements iTest {}
         |
-        |$foo[1]->a = &$foo[0]->a;
-        |$foo[0]->a = 2;
+        |class bar { }
         |
-        |$x = $foo[1]->a;
-        |$x = 'foo';
+        |class foo extends bar {
+        |    public function testFoo(self $obj) {
+        |        var_dump($obj);
+        |    }
+        |    public function testBar(parent $obj) {
+        |        var_dump($obj);
+        |    }
+        |    public function testBaz(iTest $obj) {
+        |        var_dump($obj);
+        |    }
+        |}
         |
-        |var_dump($foo, $x);
+        |$foo = new foo;
+        |$foo->testFoo(new foo);
+        |$foo->testBar(new bar);
+        |$foo->testBaz(new baz);
+        |$foo->testFoo(new stdClass); // Catchable fatal error
         |
         |?>
         |""".stripMargin)
