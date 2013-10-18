@@ -70,15 +70,17 @@ object TestBed {
     test(
       """<?php
         |
-        |$o=new stdClass;
+        |error_reporting(E_ALL);
         |
-        |var_dump($o == "");
-        |var_dump($o != "");
-        |var_dump($o <  "");
-        |var_dump("" <  $o);
-        |var_dump("" >  $o);
-        |var_dump($o != null);
-        |var_dump(is_null($o));
+        |$foo = array(new stdclass, new stdclass);
+        |
+        |$foo[1]->a = &$foo[0]->a;
+        |$foo[0]->a = 2;
+        |
+        |$x = $foo[1]->a;
+        |$x = 'foo';
+        |
+        |var_dump($foo, $x);
         |
         |?>
         |""".stripMargin)

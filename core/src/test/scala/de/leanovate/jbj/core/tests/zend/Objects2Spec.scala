@@ -149,5 +149,92 @@ class Objects2Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Testing visibility of object returned by function" in {
+      // Zend/tests/objects_017.phpt
+      script(
+        """<?php
+          |
+          |class foo {
+          |	private $test = 1;
+          |}
+          |
+          |function test() {
+          |	return new foo;
+          |}
+          |
+          |test()->test = 2;
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Cannot access private property foo::$test in /zend/Objects2Spec.inlinePhp on line 11
+          |""".stripMargin
+      )
+    }
+
+    "Using the same function name on interface with inheritance" in {
+      // Zend/tests/objects_018.phpt
+      script(
+        """<?php
+          |
+          |interface Itest {
+          |	function a();
+          |}
+          |
+          |interface Itest2 {
+          |	function a();
+          |}
+          |
+          |interface Itest3 extends Itest, Itest2 {
+          |}
+          |
+          |echo "done!\n";
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """done!
+          |""".stripMargin
+      )
+    }
+
+    "Testing references of dynamic properties" in {
+      // Zend/tests/objects_019.phpt
+      script(
+        """<?php
+          |
+          |error_reporting(E_ALL);
+          |
+          |$foo = array(new stdclass, new stdclass);
+          |
+          |$foo[1]->a = &$foo[0]->a;
+          |$foo[0]->a = 2;
+          |
+          |$x = $foo[1]->a;
+          |$x = 'foo';
+          |
+          |var_dump($foo, $x);
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """array(2) {
+          |  [0]=>
+          |  object(stdClass)#1 (1) {
+          |    ["a"]=>
+          |    &int(2)
+          |  }
+          |  [1]=>
+          |  object(stdClass)#2 (1) {
+          |    ["a"]=>
+          |    &int(2)
+          |  }
+          |}
+          |string(3) "foo"
+          |""".stripMargin
+      )
+    }
   }
 }

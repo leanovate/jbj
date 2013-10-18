@@ -177,6 +177,8 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
               case Some(_) =>
                 obj.setProperty(name, None, pAny)
               case None =>
+                if ( obj.hasPrivateProperty(name))
+                  throw new FatalErrorJbjException("Cannot access private property %s::$%s".format(obj.pClass.name.toString, name))
                 obj.pClass.findMethod("__set").map(_.invoke(obj, PAnyParam(StringVal(name)) :: PAnyParam(pAny.asVal) :: Nil)).getOrElse {
                   obj.setProperty(name, None, pAny)
                 }
