@@ -60,9 +60,15 @@ case class InterfaceDeclStmt(declaredName: NamespaceName, superInterfaces: List[
     if (ctx.global.findInterfaceOrClass(name, autoload = false).isDefined)
       throw new FatalErrorJbjException("Cannot redeclare class %s".format(name))
     else {
+      val implementedInterfaces = mutable.Set.empty[String]
       _interfaces = superInterfaces.map {
         interfaceName =>
-          ctx.global.findInterfaceOrClass(interfaceName, autoload) match {
+          val effectiveName = interfaceName.absolute
+          if (implementedInterfaces.contains(effectiveName.toString.toLowerCase)) {
+            throw new FatalErrorJbjException("Class %s cannot implement previously implemented interface %s".format(name.toString, interfaceName.toString))
+          }
+          implementedInterfaces += effectiveName.toString.toLowerCase
+          ctx.global.findInterfaceOrClass(effectiveName, autoload) match {
             case Some(Left(interface)) => interface
             case Some(Right(_)) =>
               if (ignoreErrors)

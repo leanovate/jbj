@@ -97,5 +97,26 @@ class Objects2Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "extending the same interface twice" in {
+      // Zend/tests/objects_014.phpt
+      script(
+        """<?php
+          |
+          |interface foo {
+          |}
+          |
+          |interface bar extends foo, foo {
+          |}
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Class bar cannot implement previously implemented interface foo in /zend/Objects2Spec.inlinePhp on line 6
+          |""".stripMargin
+      )
+    }
   }
 }
