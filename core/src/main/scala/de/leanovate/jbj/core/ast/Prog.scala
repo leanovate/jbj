@@ -11,7 +11,7 @@ import de.leanovate.jbj.runtime.{NoNodePosition, NodePosition, JbjScript, ExecRe
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.core.ast.decl.{NamespaceDeclStmt, SetNamespaceDeclStmt}
 import scala.annotation.tailrec
-import de.leanovate.jbj.core.ast.stmt.{DeclareDeclStmt, InlineStmt}
+import de.leanovate.jbj.core.ast.stmt.{HaltCompilerStmt, DeclareDeclStmt, InlineStmt}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike with JbjScript {
@@ -20,13 +20,20 @@ case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike 
   private lazy val deprecatedNodes = visit(new Prog.DeprectatedNodeVisitor).results
 
   override def exec(implicit ctx: Context): ExecResult = {
-    val hasNameSpace = stmts.exists {
+    val hasSetNamespace = stmts.exists {
       case _: SetNamespaceDeclStmt => true
       case _: NamespaceDeclStmt => true
       case _ => false
     }
-    if (hasNameSpace) {
-      checkStmtsBeforeNamespace(stmts.toList)
+    val hasNamespaceDecl = stmts.exists {
+      case _: NamespaceDeclStmt => true
+      case _ => false
+    }
+    if (hasSetNamespace) {
+      checkStmtsBeforeSetNamespace(stmts.toList)
+    }
+    if (hasNamespaceDecl) {
+      checkStmtsOutsideNamespace(stmts.toList)
     }
 
     ctx.global.resetCurrentNamepsace()
@@ -46,9 +53,24 @@ case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike 
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(stmts)
 
   @tailrec
-  private def checkStmtsBeforeNamespace(stmts: List[Stmt])(implicit ctx: Context) {
+  private def checkStmtsOutsideNamespace(stmts: List[Stmt])(implicit ctx: Context) {
     stmts match {
-      case (_: InlineStmt) :: tail => checkStmtsBeforeNamespace(tail)
+      case (_: InlineStmt) :: tail => checkStmtsOutsideNamespace(tail)
+      case (_: NamespaceDeclStmt) :: tail => checkStmtsOutsideNamespace(tail)
+      case (_: SetNamespaceDeclStmt) :: tail =>
+      case (_: DeclareDeclStmt) :: tail => checkStmtsOutsideNamespace(tail)
+      case (_: HaltCompilerStmt) :: tail => checkStmtsOutsideNamespace(tail)
+      case stmt :: tail =>
+        ctx.currentPosition = stmt.position
+        throw new FatalErrorJbjException("No code may exist outside of namespace {}")
+      case Nil =>
+    }
+  }
+
+  @tailrec
+  private def checkStmtsBeforeSetNamespace(stmts: List[Stmt])(implicit ctx: Context) {
+    stmts match {
+      case (_: InlineStmt) :: tail => checkStmtsBeforeSetNamespace(tail)
       case (_: NamespaceDeclStmt) :: tail =>
       case (_: SetNamespaceDeclStmt) :: tail =>
       case (_: DeclareDeclStmt) :: tail =>
