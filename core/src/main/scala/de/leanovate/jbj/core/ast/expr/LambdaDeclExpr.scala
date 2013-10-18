@@ -49,4 +49,6 @@ case class LambdaDeclExpr(returnByRef: Boolean, parameterDecls: List[ParameterDe
         PClosure(returnByRef, parameterDecls, isStatic = false, None, None, lexicalValues, invoke)
     }
   }
+
+  override def phpStr = "function() { ... }"
 }

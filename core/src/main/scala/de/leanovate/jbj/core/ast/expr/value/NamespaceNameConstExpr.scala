@@ -5,5 +5,7 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.value.StringVal
 
 case class NamespaceNameConstExpr() extends Expr {
-  def eval(implicit ctx: Context) = StringVal(ctx.global.currentNamespace.toString)
+  override def eval(implicit ctx: Context) = StringVal(ctx.global.currentNamespace.toString)
+
+  override def phpStr = "__NAMESPACE__"
 }

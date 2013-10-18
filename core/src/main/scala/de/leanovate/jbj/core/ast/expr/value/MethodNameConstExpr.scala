@@ -23,4 +23,5 @@ case class MethodNameConstExpr() extends Expr {
     case _ => StringVal("")
   }
 
+  override def phpStr = "__METHOD__"
 }

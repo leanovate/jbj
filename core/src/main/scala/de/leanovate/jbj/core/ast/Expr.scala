@@ -14,4 +14,6 @@ trait Expr extends Node {
   def isDefined(implicit ctx: Context) = !eval.isNull
 
   def eval(implicit ctx: Context): PVal
+
+  def phpStr: String
 }

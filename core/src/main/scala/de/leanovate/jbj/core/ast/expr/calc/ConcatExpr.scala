@@ -13,4 +13,6 @@ import de.leanovate.jbj.runtime.context.Context
 
 case class ConcatExpr(left: Expr, right: Expr) extends BinaryExpr {
   override def eval(implicit ctx: Context) = left.eval __ right.eval
+
+  override def phpStr = left.phpStr + "." + right.phpStr
 }

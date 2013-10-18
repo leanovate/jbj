@@ -15,4 +15,6 @@ case class VariableRefExpr(variableName: Name) extends RefExpr {
   override def eval(implicit ctx: Context) = evalRef.byVal
 
   override def evalRef(implicit ctx: Context) = $(variableName.evalName)
+
+  override def phpStr = "$" + variableName.phpStr
 }

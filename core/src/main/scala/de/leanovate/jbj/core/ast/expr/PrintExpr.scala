@@ -18,4 +18,6 @@ case class PrintExpr(expr: Expr) extends Expr {
   }
 
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(expr)
+
+  override def phpStr = "print(" + expr.phpStr + ")"
 }

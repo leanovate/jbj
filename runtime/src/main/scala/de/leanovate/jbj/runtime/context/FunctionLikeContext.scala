@@ -45,8 +45,8 @@ trait FunctionLikeContext extends Context {
           }
         } else {
           parameterDecl.default match {
-            case Some(defaultGen) =>
-              val pVal = defaultGen(this)
+            case Some(paramDefault) =>
+              val pVal = paramDefault.eval(this)
               checkAndDefine(parameterDecl, index, PVar(pVal))
               arguments += pVal
             case None =>

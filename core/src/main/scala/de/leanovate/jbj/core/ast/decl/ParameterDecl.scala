@@ -12,15 +12,18 @@ import de.leanovate.jbj.core.ast.{Node, Expr}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.ast.expr.value.ConstGetExpr
-import de.leanovate.jbj.runtime.types.{ClassTypeHint, TypeHint, PParamDef}
+import de.leanovate.jbj.runtime.types.{PParamDefault, ClassTypeHint, TypeHint, PParamDef}
 
 case class ParameterDecl(typeHint: Option[TypeHint], name: String, byRef: Boolean, defaultExpr: Option[Expr])
   extends Node with PParamDef {
 
   override def default = defaultExpr.map {
-    expr => {
-      ctx => expr.eval(ctx)
-    }
+    expr =>
+      new PParamDefault {
+        def eval(implicit ctx: Context) = expr.eval
+
+        def signature = expr.phpStr
+      }
   }
 
   def check(implicit ctx: Context) {

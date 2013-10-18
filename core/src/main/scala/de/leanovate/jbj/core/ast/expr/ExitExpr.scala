@@ -8,4 +8,6 @@ case class ExitExpr(expr: Expr) extends Expr {
   override def eval(implicit ctx: Context) = {
     throw new ExitJbjException(expr.eval.asVal.toStr.asString)
   }
+
+  override def phpStr = "exit " + expr.phpStr
 }

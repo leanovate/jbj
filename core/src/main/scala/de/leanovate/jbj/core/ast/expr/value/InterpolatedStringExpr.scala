@@ -23,4 +23,9 @@ case class InterpolatedStringExpr(interpolatedStr: List[Either[String, Expr]]) e
     val values = interpolations.map(_.eval.asVal.toStr.asString)
     StringVal(format.format(values: _*))
   }
+
+  override def phpStr = interpolatedStr.map {
+    case Left(str) => str.replace("\"", "\\\"")
+    case Right(expr) => expr.phpStr
+  }.mkString("\"", "", "\"")
 }

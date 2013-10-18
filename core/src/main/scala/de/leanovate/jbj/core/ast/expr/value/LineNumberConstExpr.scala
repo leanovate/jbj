@@ -13,4 +13,6 @@ import de.leanovate.jbj.runtime.context.Context
 
 case class LineNumberConstExpr() extends Expr {
   override def eval(implicit ctx: Context) = IntegerVal(ctx.currentPosition.line)
+
+  override def phpStr = "__LINE__"
 }

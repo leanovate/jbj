@@ -13,4 +13,6 @@ import de.leanovate.jbj.runtime.context.Context
 
 case class FileNameConstExpr() extends Expr {
   override def eval(implicit ctx: Context) = StringVal(ctx.currentPosition.fileName)
+
+  override def phpStr = "__FILE__"
 }

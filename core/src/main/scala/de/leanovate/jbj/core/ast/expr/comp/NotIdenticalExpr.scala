@@ -12,4 +12,6 @@ import de.leanovate.jbj.runtime.context.Context
 
 case class NotIdenticalExpr(left: Expr, right: Expr) extends Expr {
   override def eval(implicit ctx: Context) = left.eval !== right.eval
+
+  override def phpStr = left.phpStr + "!==" + right.phpStr
 }

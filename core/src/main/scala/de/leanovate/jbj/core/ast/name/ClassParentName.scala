@@ -37,4 +37,6 @@ object ClassParentName extends Name {
     case _ =>
       throw new FatalErrorJbjException("Cannot access parent:: when no class scope is active")
   }
+
+  override def phpStr = "parent"
 }

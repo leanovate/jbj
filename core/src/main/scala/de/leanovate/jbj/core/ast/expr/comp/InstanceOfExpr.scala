@@ -20,4 +20,6 @@ case class InstanceOfExpr(expr: Expr, className: Name) extends Expr {
       }.getOrElse(BooleanVal.FALSE)
     case _ => BooleanVal.FALSE
   }
+
+  override def phpStr = expr.phpStr + " instanceof " + className.phpStr
 }

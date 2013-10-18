@@ -13,4 +13,6 @@ import de.leanovate.jbj.runtime.context.Context
 
 case class BoolNotExpr(expr: Expr) extends Expr {
   override def eval(implicit ctx: Context) = BooleanVal(!expr.eval.asVal.toBool.asBoolean)
+
+  override def phpStr = "!" + expr.phpStr
 }

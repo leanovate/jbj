@@ -18,4 +18,6 @@ case class FunctionNameConstExpr() extends Expr {
     case FunctionContext(name, _) => StringVal(name.toString)
     case _ => StringVal("")
   }
+
+  override def phpStr = "__FUNCTION__"
 }

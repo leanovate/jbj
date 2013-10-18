@@ -29,4 +29,6 @@ object ClassStaticName extends Name {
     case _ =>
       throw new FatalErrorJbjException("Cannot access self:: when no class scope is active")
   }
+
+  override def phpStr = "static"
 }

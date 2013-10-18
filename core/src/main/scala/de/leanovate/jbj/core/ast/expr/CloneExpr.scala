@@ -11,5 +11,7 @@ import de.leanovate.jbj.core.ast.Expr
 import de.leanovate.jbj.runtime.context.Context
 
 case class CloneExpr(expr: Expr) extends Expr {
-  def eval(implicit ctx: Context) = expr.eval.concrete.clone
+  override def eval(implicit ctx: Context) = expr.eval.concrete.clone
+
+  override def phpStr = "clone " + expr.phpStr
 }

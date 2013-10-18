@@ -14,4 +14,6 @@ case class DynamicName(expr: Expr) extends Name {
   override def evalName(implicit ctx: Context) = expr.eval.asVal.toStr.asString
 
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(expr)
+
+  override def phpStr = expr.phpStr
 }

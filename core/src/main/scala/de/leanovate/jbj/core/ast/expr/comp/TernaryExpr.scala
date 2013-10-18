@@ -15,4 +15,6 @@ case class TernaryExpr(cond: Expr, trueExpr: Expr, falseExpr: Expr) extends Expr
     trueExpr.eval
   else
     falseExpr.eval
+
+  override def phpStr = cond.phpStr + "?" + trueExpr.phpStr + ":" + falseExpr.phpStr
 }

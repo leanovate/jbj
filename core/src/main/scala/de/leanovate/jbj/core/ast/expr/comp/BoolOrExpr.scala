@@ -19,4 +19,6 @@ case class BoolOrExpr(left: Expr, right: Expr) extends BinaryExpr {
     else
       right.eval.asVal.toBool
   }
+
+  override def phpStr = left.phpStr + "||" + right.phpStr
 }

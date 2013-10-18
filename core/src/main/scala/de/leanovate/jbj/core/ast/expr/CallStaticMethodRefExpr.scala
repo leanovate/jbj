@@ -14,7 +14,8 @@ import de.leanovate.jbj.runtime.context.{MethodContext, Context}
 
 case class CallStaticMethodRefExpr(className: Name, methodName: Name, parameters: List[Expr])
   extends CallRefExpr {
-  def call(implicit ctx: Context): PAny = {
+
+  override def call(implicit ctx: Context): PAny = {
     val name = className.evalNamespaceName
     ctx.global.findClass(name, autoload = false).map {
       pClass =>
@@ -28,4 +29,6 @@ case class CallStaticMethodRefExpr(className: Name, methodName: Name, parameters
       throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))
     }
   }
+
+  override def phpStr = className.phpStr + "::" + methodName.phpStr + parameters.map(_.phpStr).mkString("(", ", ", ")")
 }

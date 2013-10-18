@@ -14,4 +14,6 @@ trait Name extends Node {
   def evalName(implicit ctx: Context): String
 
   def evalNamespaceName(implicit ctx: Context): NamespaceName = NamespaceName(evalName)
+
+  def phpStr: String
 }

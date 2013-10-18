@@ -23,4 +23,6 @@ case class ConstGetExpr(constName: NamespaceName) extends Expr {
       StringVal(constName.toString)
     }
   }
+
+  override def phpStr = constName.toString
 }

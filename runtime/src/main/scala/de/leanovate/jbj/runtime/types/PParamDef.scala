@@ -7,13 +7,11 @@
 
 package de.leanovate.jbj.runtime.types
 
-import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.value.PVal
 
 trait PParamDef {
   def name: String
 
-  def default: Option[Context => PVal]
+  def default: Option[PParamDefault]
 
   def byRef: Boolean
 
@@ -25,7 +23,7 @@ trait PParamDef {
         otherTypeHint =>
           thisTypeHint.isCompatible(otherTypeHint)
       }
-  }.getOrElse(byRef == other.byRef)
+  }.getOrElse(byRef == other.byRef && default.isDefined == other.default.isDefined)
 
   def display: String =
     typeHint.map(_.display + " $").getOrElse("$") + name

@@ -45,6 +45,8 @@ trait PVal extends PAny {
 
   def concrete: PConcreteVal
 
+  def phpStr: String = ""
+
   def toXml: NodeSeq = NodeSeq.Empty
 
   def foreachByVal[R](f: (PVal, PAny) => Option[R])(implicit ctx: Context): Option[R] = {

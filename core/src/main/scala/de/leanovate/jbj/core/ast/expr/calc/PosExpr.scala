@@ -12,4 +12,6 @@ import de.leanovate.jbj.runtime.context.Context
 
 case class PosExpr(expr: Expr) extends Expr {
   override def eval(implicit ctx: Context) = +expr.eval
+
+  override def phpStr = "+" + expr.phpStr
 }

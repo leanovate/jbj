@@ -12,4 +12,6 @@ import de.leanovate.jbj.runtime.context.Context
 
 case class StaticName(name: String) extends Name {
   override def evalName(implicit ctx: Context) = name
+
+  override def phpStr = name
 }

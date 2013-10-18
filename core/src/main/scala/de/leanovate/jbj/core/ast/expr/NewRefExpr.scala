@@ -44,5 +44,7 @@ case class NewRefExpr(className: Name, parameters: List[Expr]) extends RefExpr {
     }
   }
 
+  override def phpStr = "new " + className.phpStr + parameters.map(_.phpStr).mkString("(", ", ", ")")
+
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(parameters)
 }

@@ -23,4 +23,6 @@ case class ClassConstantExpr(className: Name, constantName: String) extends Expr
       throw new FatalErrorJbjException("Class '%s' not found".format(cname.toString))
     }
   }
+
+  override def phpStr = className + "::" + constantName
 }

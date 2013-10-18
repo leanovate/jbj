@@ -13,4 +13,6 @@ import de.leanovate.jbj.runtime.Reference.--
 
 case class DecrAndGetExpr(reference: RefExpr) extends Expr {
   override def eval(implicit ctx: Context) = --(reference.evalRef)
+
+  override def phpStr = "--" + reference.phpStr
 }

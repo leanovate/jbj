@@ -12,4 +12,6 @@ import de.leanovate.jbj.runtime.context.Context
 
 case class DoubleCastExpr(expr: Expr) extends Expr {
   override def eval(implicit ctx: Context) = expr.eval.asVal.toDouble
+
+  override def phpStr = "(double)" + expr.phpStr
 }

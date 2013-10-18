@@ -33,4 +33,6 @@ case class IncludeExpr(file: Expr) extends Expr {
     ctx.global.namespaceAliases = currentAliases
     result
   }
+
+  override def phpStr = "include " + file.phpStr
 }

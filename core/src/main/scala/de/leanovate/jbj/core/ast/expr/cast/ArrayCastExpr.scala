@@ -10,6 +10,8 @@ package de.leanovate.jbj.core.ast.expr.cast
 import de.leanovate.jbj.core.ast.Expr
 import de.leanovate.jbj.runtime.context.Context
 
-case class ArrayCastExpr(expr:Expr) extends Expr {
-  def eval(implicit ctx: Context) = expr.eval.asVal.toArray
+case class ArrayCastExpr(expr: Expr) extends Expr {
+  override def eval(implicit ctx: Context) = expr.eval.asVal.toArray
+
+  override def phpStr = "(array)" + expr.phpStr
 }

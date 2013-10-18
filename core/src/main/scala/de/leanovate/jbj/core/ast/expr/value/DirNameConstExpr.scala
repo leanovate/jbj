@@ -21,4 +21,6 @@ case class DirNameConstExpr() extends Expr {
     else
       StringVal("")
   }
+
+  override def phpStr = "__DIR__"
 }

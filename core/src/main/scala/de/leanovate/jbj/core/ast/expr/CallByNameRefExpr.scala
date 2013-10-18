@@ -13,7 +13,9 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.value.PAny
 
 case class CallByNameRefExpr(functionName: NamespaceName, parameters: List[Expr]) extends CallRefExpr {
-  def call(implicit ctx: Context): PAny = {
+  override def call(implicit ctx: Context): PAny = {
     ctx.call(functionName.absolutePrefix, parameters.map(ExprParam.apply))
   }
+
+  override def phpStr = functionName.toString + parameters.map(_.phpStr).mkString("(", ", ", ")")
 }

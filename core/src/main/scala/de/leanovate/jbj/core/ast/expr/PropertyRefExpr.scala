@@ -14,4 +14,6 @@ case class PropertyRefExpr(reference: RefExpr, propertyName: Name) extends RefEx
   override def eval(implicit ctx: Context) = evalRef.byVal
 
   override def evalRef(implicit ctx: Context) = reference.evalRef.prop(propertyName.evalName)
+
+  override def phpStr = reference + "->$" + propertyName.phpStr
 }

@@ -15,4 +15,6 @@ case class StaticNamespaceName(namespaceName: NamespaceName) extends Name {
   override def evalName(implicit ctx: Context) = evalNamespaceName.toString
 
   override def evalNamespaceName(implicit ctx: Context) = namespaceName.absolutePrefix
+
+  override def phpStr = namespaceName.toString
 }

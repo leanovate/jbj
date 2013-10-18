@@ -19,4 +19,6 @@ case class DimRefExpr(reference: RefExpr, indexExpr: Option[Expr]) extends RefEx
     }
 
   override def eval(implicit ctx: Context) = evalRef.byVal
+
+  override def phpStr = reference.phpStr + indexExpr.map("[" + _.phpStr + "]").getOrElse("[]")
 }

@@ -12,5 +12,7 @@ import de.leanovate.jbj.runtime.value.StringVal
 import de.leanovate.jbj.runtime.context.Context
 
 case class ClassNameExpr(className: Name) extends Expr {
-  def eval(implicit ctx: Context) = StringVal(className.evalName.toString)
+  override def eval(implicit ctx: Context) = StringVal(className.evalName.toString)
+
+  override def phpStr = className.phpStr
 }

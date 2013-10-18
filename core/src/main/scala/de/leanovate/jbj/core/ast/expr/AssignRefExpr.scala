@@ -8,8 +8,8 @@
 package de.leanovate.jbj.core.ast.expr
 
 import de.leanovate.jbj.core.ast.{StaticInitializer, Expr, RefExpr}
-import de.leanovate.jbj.runtime.{VariableReference, Reference}
-import de.leanovate.jbj.runtime.value.{PVar, PAny}
+import de.leanovate.jbj.runtime.Reference
+import de.leanovate.jbj.runtime.value.PAny
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.{MethodContext, StaticContext, Context}
 import de.leanovate.jbj.core.ast.name.StaticName
@@ -47,4 +47,6 @@ case class AssignRefExpr(reference: RefExpr, expr: Expr) extends RefExpr with St
       throw new FatalErrorJbjException("Can't use function return value in write context")
     }
   }
+
+  override def phpStr = reference.phpStr + " = " + expr.phpStr
 }

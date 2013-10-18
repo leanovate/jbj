@@ -22,4 +22,6 @@ case class IndexGetExpr(expr: Expr, indexExpr: Option[Expr]) extends Expr {
       case _ => NullVal
     }
   }
+
+  override def phpStr = expr.phpStr + indexExpr.map("[" + _.phpStr + "]").getOrElse("[]")
 }

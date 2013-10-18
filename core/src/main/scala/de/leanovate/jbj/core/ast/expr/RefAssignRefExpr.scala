@@ -42,4 +42,6 @@ case class RefAssignRefExpr(reference: RefExpr, otherReferable: RefExpr) extends
       resultRef.unset()
     }
   }
+
+  override def phpStr = reference.phpStr + "=&" + otherReferable.phpStr
 }

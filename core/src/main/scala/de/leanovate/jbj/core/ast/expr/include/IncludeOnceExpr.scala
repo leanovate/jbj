@@ -12,7 +12,7 @@ import de.leanovate.jbj.runtime.value.BooleanVal
 import de.leanovate.jbj.runtime.context.Context
 
 case class IncludeOnceExpr(file: Expr) extends Expr {
-  def eval(implicit ctx: Context) = {
+  override def eval(implicit ctx: Context) = {
     val filename = file.eval.asVal.toStr.asString
     val currentNamespace = ctx.global.currentNamespace
     val currentAliases = ctx.global.namespaceAliases
@@ -32,4 +32,6 @@ case class IncludeOnceExpr(file: Expr) extends Expr {
     ctx.global.namespaceAliases = currentAliases
     result
   }
+
+  override def phpStr = "include_once " + file.phpStr
 }

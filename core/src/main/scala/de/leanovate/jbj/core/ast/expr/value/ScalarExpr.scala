@@ -13,4 +13,6 @@ import de.leanovate.jbj.runtime.context.Context
 
 case class ScalarExpr(value: PVal) extends Expr {
   override def eval(implicit ctx: Context) = value
+
+  override def phpStr = value.phpStr
 }

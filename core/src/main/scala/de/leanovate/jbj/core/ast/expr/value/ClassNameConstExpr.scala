@@ -22,4 +22,6 @@ case class ClassNameConstExpr() extends Expr {
     case StaticMethodContext(pMethod, _, _) => StringVal(pMethod.declaringClass.name.toString)
     case _ => StringVal("")
   }
+
+  override def phpStr = "__CLASS__"
 }

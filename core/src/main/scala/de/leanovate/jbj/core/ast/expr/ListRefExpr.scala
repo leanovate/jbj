@@ -53,5 +53,7 @@ case class ListRefExpr(references: List[Option[RefExpr]]) extends RefExpr {
     }
   }
 
+  override def phpStr = "list" + references.map(_.map(_.phpStr).getOrElse("")).mkString("(", ", ", ")")
+
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(references.flatten)
 }

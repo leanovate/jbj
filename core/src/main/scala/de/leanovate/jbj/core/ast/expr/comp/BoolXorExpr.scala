@@ -19,4 +19,6 @@ case class BoolXorExpr(left: Expr, right: Expr) extends BinaryExpr {
 
     BooleanVal(leftVal ^ rightVal)
   }
+
+  override def phpStr = left.phpStr + " xor " + right.phpStr
 }

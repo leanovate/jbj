@@ -49,4 +49,6 @@ case class StaticLambdaDeclExpr(returnByRef: Boolean, parameterDecls: List[Param
         PClosure(returnByRef, parameterDecls, isStatic = true, None, None, lexicalValues, invoke)
     }
   }
+
+  override def phpStr = "static function() { ... }"
 }

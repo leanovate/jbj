@@ -13,7 +13,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.Context
 
 case class RequireOnceExpr(file: Expr) extends Expr {
-  def eval(implicit ctx: Context) = {
+  override def eval(implicit ctx: Context) = {
     val filename = file.eval.asVal.toStr.asString
     val currentNamespace = ctx.global.currentNamespace
     val currentAliases = ctx.global.namespaceAliases
@@ -33,4 +33,6 @@ case class RequireOnceExpr(file: Expr) extends Expr {
     ctx.global.namespaceAliases = currentAliases
     result
   }
+
+  override def phpStr = "require_once " + file.phpStr
 }

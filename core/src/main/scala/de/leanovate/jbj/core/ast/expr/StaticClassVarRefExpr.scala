@@ -21,4 +21,6 @@ case class StaticClassVarRefExpr(className: Name, variableName: Name) extends Re
     }
     pClass.$(variableName.evalName)
   }
+
+  override def phpStr = className.phpStr + "::" + variableName.phpStr
 }

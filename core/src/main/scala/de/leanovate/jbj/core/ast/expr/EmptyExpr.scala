@@ -12,7 +12,7 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.value.BooleanVal
 
 case class EmptyExpr(expr: Expr) extends Expr {
-  def eval(implicit ctx: Context) = expr match {
+  override def eval(implicit ctx: Context) = expr match {
     case refExpr: RefExpr =>
       val ref = refExpr.evalRef
       if (!ref.isDefined)
@@ -22,4 +22,6 @@ case class EmptyExpr(expr: Expr) extends Expr {
     case _ =>
       !expr.eval
   }
+
+  override def phpStr = "empty(" + expr.phpStr + ")"
 }

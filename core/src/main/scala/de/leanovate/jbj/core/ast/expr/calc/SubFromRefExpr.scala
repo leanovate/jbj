@@ -13,4 +13,6 @@ import de.leanovate.jbj.core.ast.expr.BinaryRefExpr
 
 case class SubFromRefExpr(reference: RefExpr, expr: Expr) extends BinaryRefExpr {
   override def eval(implicit ctx: Context) = reference.evalRef -= expr.eval
+
+  override def phpStr = reference.phpStr + "-=" + expr.phpStr
 }

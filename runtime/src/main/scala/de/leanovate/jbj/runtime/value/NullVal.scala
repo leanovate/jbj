@@ -47,5 +47,7 @@ object NullVal extends PConcreteVal {
   override def call(params: List[PParam])(implicit ctx: Context) =
     throw new FatalErrorJbjException("Function name must be a string")
 
+  override def phpStr: String = "NULL"
+
   override def toXml = <null/>
 }

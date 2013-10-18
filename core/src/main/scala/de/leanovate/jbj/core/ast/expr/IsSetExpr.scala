@@ -15,4 +15,6 @@ case class IsSetExpr(parameters: List[Expr]) extends Expr {
   override def eval(implicit ctx: Context) = BooleanVal(parameters.forall(_.isDefined))
 
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(parameters)
+
+  override def phpStr = "isset" + parameters.map(_.phpStr).mkString("(", ", ", ")")
 }

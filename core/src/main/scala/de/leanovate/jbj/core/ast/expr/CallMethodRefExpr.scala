@@ -15,10 +15,13 @@ import de.leanovate.jbj.runtime.context.Context
 
 case class CallMethodRefExpr(instanceExpr: Expr, methodName: Name, parameters: List[Expr])
   extends CallRefExpr {
-  def call(implicit ctx: Context): PAny = instanceExpr.eval.asVal match {
+
+  override def call(implicit ctx: Context): PAny = instanceExpr.eval.asVal match {
     case instance: ObjectVal =>
       instance.pClass.invokeMethod(Some(instance), methodName.evalName, parameters.map(ExprParam.apply))
     case _ =>
       throw new FatalErrorJbjException("Call to a member function %s() on a non-object".format(methodName.evalName))
   }
+
+  override def phpStr = instanceExpr.phpStr + "->" + methodName.phpStr + parameters.map(_.phpStr).mkString("(", ", ", ")")
 }
