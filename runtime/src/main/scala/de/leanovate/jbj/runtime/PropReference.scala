@@ -50,7 +50,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
         ctx match {
           case MethodContext(_, pMethod, _) =>
             obj.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
-              if ( obj.hasPrivateProperty(name))
+              if (obj.hasPrivateProperty(name))
                 throw new FatalErrorJbjException("Cannot access private property %s::$%s".format(obj.pClass.name.toString, name))
               if (pMethod.name == "__get") {
                 ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
@@ -71,7 +71,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
             }
           case _ =>
             obj.getProperty(name, None).map(_.asVal).getOrElse {
-              if ( obj.hasPrivateProperty(name))
+              if (obj.hasPrivateProperty(name))
                 throw new FatalErrorJbjException("Cannot access private property %s::$%s".format(obj.pClass.name.toString, name))
               obj.pClass.findMethod("__get").map {
                 getMethod =>
@@ -140,7 +140,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
   }
 
   override def assign(pAny: PAny)(implicit ctx: Context) = {
-    optParent(withWarn = true) match {
+    optParent(withWarn = !pAny.isInstanceOf[PVar]) match {
       case Some(obj) =>
         checkShadowedStatic(obj.pClass, name)
         ctx match {
@@ -177,7 +177,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
               case Some(_) =>
                 obj.setProperty(name, None, pAny)
               case None =>
-                if ( obj.hasPrivateProperty(name))
+                if (obj.hasPrivateProperty(name))
                   throw new FatalErrorJbjException("Cannot access private property %s::$%s".format(obj.pClass.name.toString, name))
                 obj.pClass.findMethod("__set").map(_.invoke(obj, PAnyParam(StringVal(name)) :: PAnyParam(pAny.asVal) :: Nil)).getOrElse {
                   obj.setProperty(name, None, pAny)
