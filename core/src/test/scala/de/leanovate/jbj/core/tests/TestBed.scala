@@ -71,15 +71,15 @@ object TestBed {
       """<?php
         |
         |class test {
-        |        function foo($arg, &$arg2 = NULL) {}
+        |        function foo(Test $arg) {}
         |}
         |
         |class test2 extends test {
-        |        function foo($arg, &$arg2 = NULL) {}
+        |        function foo(Test $arg) {}
         |}
         |
         |class test3 extends test {
-        |        function foo($arg, &$arg2) {}
+        |        function foo($arg) {}
         |}
         |
         |echo "Done\n";

@@ -244,5 +244,61 @@ class Objects1Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "method overloading with different method signature" in {
+      // Zend/tests/objects_008.phpt
+      script(
+        """<?php
+          |
+          |class test {
+          |	function foo(Test $arg) {}
+          |}
+          |
+          |class test2 extends test {
+          |	function foo(Test $arg) {}
+          |}
+          |
+          |class test3 extends test {
+          |	function foo(Test3 $arg) {}
+          |}
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Strict Standards: Declaration of test3::foo() should be compatible with test::foo(Test $arg) in /zend/Objects1Spec.inlinePhp on line 12
+          |Done
+          |""".stripMargin
+      )
+    }
+
+    "method overloading with different method signature" in {
+      // Zend/tests/objects_009.phpt
+      script(
+        """<?php
+          |
+          |class test {
+          |	function foo(Test $arg) {}
+          |}
+          |
+          |class test2 extends test {
+          |	function foo(Test $arg) {}
+          |}
+          |
+          |class test3 extends test {
+          |	function foo($arg) {}
+          |}
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Strict Standards: Declaration of test3::foo() should be compatible with test::foo(Test $arg) in /zend/Objects1Spec.inlinePhp on line 12
+          |Done
+          |""".stripMargin
+      )
+    }
   }
 }
