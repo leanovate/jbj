@@ -139,6 +139,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, declaredName: NamespaceNam
     }
     result.toMap
   }
+
   override lazy val methods: Map[String, PMethod] = {
     val result = mutable.LinkedHashMap.empty[String, PMethod]
 
@@ -174,7 +175,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, declaredName: NamespaceNam
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(decls)
 
   private def initialize(autoload: Boolean, ignoreErrors: Boolean)(implicit ctx: Context) {
-    if ( ctx.global.namespaceAliases.contains(declaredName.toString))
+    if (ctx.global.namespaceAliases.contains(declaredName.toString))
       throw new FatalErrorJbjException("Cannot declare class %s because the name is already in use".format(declaredName.toString))
     _name = declaredName.absolutePrefix
     if (ctx.global.findInterfaceOrClass(name, autoload = false).isDefined)
@@ -247,10 +248,25 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, declaredName: NamespaceNam
       }
 
       if (!_methodsInitialized) {
+        var constructorPresent = false
         decls.foreach {
-          method =>
+          case method: ClassMethodDecl =>
             ctx.currentPosition = method.position
+            method.name.toLowerCase match {
+              case "__construct" =>
+                if (constructorPresent)
+                  ctx.log.strict("Redefining already defined constructor for class %s".format(name.toString))
+                constructorPresent = true
+              case methodName if methodName == name.lastPath =>
+                if (constructorPresent)
+                  ctx.log.strict("Redefining already defined constructor for class %s".format(name.toString))
+                constructorPresent = true
+              case _ =>
+            }
             method.initializeClass(this)
+          case decl =>
+            ctx.currentPosition = decl.position
+            decl.initializeClass(this)
         }
         ctx.currentPosition = position
         _methodsInitialized = true
