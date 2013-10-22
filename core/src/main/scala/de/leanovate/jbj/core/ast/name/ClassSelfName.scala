@@ -19,9 +19,9 @@ object ClassSelfName extends Name {
 
   override def evalNamespaceName(implicit ctx: Context) = ctx match {
     case MethodContext(_, pMethod, _) =>
-      pMethod.declaringClass.name
+      pMethod.implementingClass.name
     case StaticMethodContext(pMethod, _, _) =>
-      pMethod.declaringClass.name
+      pMethod.implementingClass.name
     case ClassContext(pClass, _, _) =>
       pClass.name
     case InstanceContext(_, pClass, _) =>

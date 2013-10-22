@@ -9,7 +9,7 @@ package de.leanovate.jbj.runtime.types
 
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.context.{FunctionLikeContext, Context}
-import de.leanovate.jbj.runtime.exception.CatchableFatalError
+import de.leanovate.jbj.runtime.exception.{FatalErrorJbjException, CatchableFatalError}
 import scala.Some
 import de.leanovate.jbj.runtime.NamespaceName
 
@@ -21,6 +21,8 @@ sealed trait TypeHint {
   def check(pVar: PVar, index: Int)(implicit ctx: Context)
 
   def isCompatible(other: TypeHint): Boolean
+
+  def initialize(pMethod: PMethod)(implicit ctx:Context) {}
 }
 
 object TypeHint {
@@ -72,10 +74,12 @@ object CallableTypeHint extends TypeHint {
 }
 
 case class ClassTypeHint(className: NamespaceName) extends TypeHint {
+  private var effectiveName = className
+
   def display: String = className.toString
 
   override def checkEmpty(index: Int)(implicit ctx: Context) {
-    ctx.global.findInterfaceOrClass(className.absolute, autoload = false) match {
+    ctx.global.findInterfaceOrClass(effectiveName.absolutePrefix, autoload = false) match {
       case Some(Left(pInterface)) =>
         ctx match {
           case methodCtx: FunctionLikeContext =>
@@ -87,14 +91,14 @@ case class ClassTypeHint(className: NamespaceName) extends TypeHint {
         ctx match {
           case methodCtx: FunctionLikeContext =>
             CatchableFatalError("Argument %d passed to %s must be an instance of %s, none given, called in %s on line %d and defined".
-              format(index + 1, methodCtx.functionSignature, className.toString,
+              format(index + 1, methodCtx.functionSignature, effectiveName.toString,
               methodCtx.callerContext.currentPosition.fileName, methodCtx.callerContext.currentPosition.line))
         }
     }
   }
 
   override def check(pVar: PVar, index: Int)(implicit ctx: Context) {
-    ctx.global.findInterfaceOrClass(className.absolutePrefix, autoload = false) match {
+    ctx.global.findInterfaceOrClass(effectiveName.absolutePrefix, autoload = false) match {
       case Some(Left(pInterface)) =>
         pVar.value match {
           case obj: ObjectVal if obj.instanceOf(pInterface) =>
@@ -129,7 +133,7 @@ case class ClassTypeHint(className: NamespaceName) extends TypeHint {
               case methodCtx: FunctionLikeContext =>
                 CatchableFatalError("Argument %d passed to %s must be an instance of %s, %s given, called in %s on line %d and defined".
                   format(index + 1, methodCtx.functionSignature,
-                  className.absolutePrefix.toString, pVal.typeName(simple = false),
+                  effectiveName.absolutePrefix.toString, pVal.typeName(simple = false),
                   methodCtx.callerContext.currentPosition.fileName, methodCtx.callerContext.currentPosition.line))
             }
         }
@@ -138,5 +142,17 @@ case class ClassTypeHint(className: NamespaceName) extends TypeHint {
 
   override def isCompatible(other: TypeHint): Boolean = {
     other == this
+  }
+
+  override def initialize(pMethod: PMethod)(implicit ctx:Context) {
+    effectiveName = className match {
+      case NamespaceName("self") =>
+        pMethod.declaringInterface.map(_.name).getOrElse(pMethod.implementingClass.name)
+      case NamespaceName("parent") =>
+        pMethod.implementingClass.superClass.map(_.name).getOrElse {
+          throw new FatalErrorJbjException("No parent class defined")
+        }
+      case any => any
+    }
   }
 }

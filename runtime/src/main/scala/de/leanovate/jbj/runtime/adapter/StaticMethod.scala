@@ -11,10 +11,12 @@ import de.leanovate.jbj.runtime.types.{PParam, PMethod, PParamDef, PClass}
 import de.leanovate.jbj.runtime.value.ObjectVal
 import de.leanovate.jbj.runtime.context.Context
 
-abstract class StaticMethod(val declaringClass: PClass, val name: String,
+abstract class StaticMethod(val implementingClass: PClass, val name: String,
                             val parameters: Seq[PParamDef] = Seq.empty,
                             val isFinal: Boolean = false,
                             val returnByRef: Boolean = false) extends PMethod {
+  def declaringInterface = None
+
   def isAbstract = false
 
   def isStatic = true

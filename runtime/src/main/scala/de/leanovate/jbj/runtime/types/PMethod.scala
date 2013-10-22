@@ -11,7 +11,9 @@ import de.leanovate.jbj.runtime.value.{PAny, ObjectVal}
 import de.leanovate.jbj.runtime.context.Context
 
 trait PMethod {
-  def declaringClass: PClass
+  def declaringInterface: Option[PInterface]
+
+  def implementingClass: PClass
 
   def name: String
 

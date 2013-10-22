@@ -8,6 +8,8 @@ import de.leanovate.jbj.runtime.types.{PParam, PMethod, PParamDef, PInterface}
 
 case class PInterfaceMethod(pInterface: PInterface, name: String, parameters: Seq[PParamDef] = Seq.empty,
                             returnByRef: Boolean = false) extends PMethod {
+  def declaringInterface = Some(pInterface)
+
   def isFinal = false
 
   def isProtected = false
@@ -18,7 +20,7 @@ case class PInterfaceMethod(pInterface: PInterface, name: String, parameters: Se
 
   def isPrivate = false
 
-  def declaringClass = {
+  def implementingClass = {
     throw new JbjException("No declaring class for interface methods")
   }
 

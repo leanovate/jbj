@@ -48,6 +48,7 @@ case class InterfaceDeclStmt(declaredName: NamespaceName, superInterfaces: List[
     _interfaces.foreach(result ++= _.methods)
     decls.foreach {
       case method: ClassMethodDecl =>
+        method.declaringInterface = Some(this)
         result -= method.name.toLowerCase
         result += method.name.toLowerCase -> method
       case _ =>

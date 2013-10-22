@@ -27,7 +27,7 @@ case class FunctionDeclStmt(declaredName: NamespaceName, returnByRef: Boolean, p
 
   override def exec(implicit ctx: Context) = {
     if (!_registered) {
-      parameterDecls.foreach(_.check)
+      parameterDecls.foreach(_.initialize(this))
       ctx.defineFunction(this)
     }
     SuccessExecResult
@@ -35,7 +35,7 @@ case class FunctionDeclStmt(declaredName: NamespaceName, returnByRef: Boolean, p
 
   override def register(implicit ctx: Context) {
     _name = declaredName.absolutePrefix
-    parameterDecls.foreach(_.check)
+    parameterDecls.foreach(_.initialize(this))
     ctx.defineFunction(this)
     _registered = true
   }

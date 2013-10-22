@@ -17,11 +17,11 @@ case class MethodContext(instance: ObjectVal, pMethod: PMethod, callerContext: C
   extends FunctionLikeContext {
   private val localVariables = mutable.Map.empty[String, PVar]
 
-  private val identifier = "Method_" + pMethod.declaringClass.name.toString + "::" + pMethod.name
+  private val identifier = "Method_" + pMethod.implementingClass.name.toString + "::" + pMethod.name
 
-  def name = pMethod.declaringClass.name.toString
+  def name = pMethod.implementingClass.name.toString
 
-  def functionSignature = pMethod.declaringClass.name.toString + "::" + pMethod.name + "()"
+  def functionSignature = pMethod.implementingClass.name.toString + "::" + pMethod.name + "()"
 
   lazy val global = callerContext.global
 

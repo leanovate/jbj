@@ -21,7 +21,7 @@ object ClassStaticName extends Name {
     case MethodContext(instance, pMethod, _) =>
       instance.pClass.name
     case StaticMethodContext(pMethod, _, _) =>
-      pMethod.declaringClass.name
+      pMethod.implementingClass.name
     case ClassContext(pClass, _, _) =>
       pClass.name
     case InstanceContext(_, pClass, _) =>

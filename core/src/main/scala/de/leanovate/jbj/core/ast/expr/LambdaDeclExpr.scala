@@ -42,9 +42,9 @@ case class LambdaDeclExpr(returnByRef: Boolean, parameterDecls: List[ParameterDe
     }
     ctx match {
       case MethodContext(instance, pMethod, _) =>
-        PClosure(returnByRef, parameterDecls, isStatic = false, Some(pMethod.declaringClass), Some(instance), lexicalValues, invoke)
+        PClosure(returnByRef, parameterDecls, isStatic = false, Some(pMethod.implementingClass), Some(instance), lexicalValues, invoke)
       case StaticMethodContext(pMethod, _, _) =>
-        PClosure(returnByRef, parameterDecls, isStatic = true, Some(pMethod.declaringClass), None, lexicalValues, invoke)
+        PClosure(returnByRef, parameterDecls, isStatic = true, Some(pMethod.implementingClass), None, lexicalValues, invoke)
       case _ =>
         PClosure(returnByRef, parameterDecls, isStatic = false, None, None, lexicalValues, invoke)
     }

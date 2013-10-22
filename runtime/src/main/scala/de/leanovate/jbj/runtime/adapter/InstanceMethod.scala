@@ -11,10 +11,12 @@ import de.leanovate.jbj.runtime.types.{PParamDef, PParam, PClass, PMethod}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
-abstract class InstanceMethod(val declaringClass: PClass, val name: String,
+abstract class InstanceMethod(val implementingClass: PClass, val name: String,
                               val parameters: Seq[PParamDef] = Seq.empty,
                               val isFinal: Boolean = false,
                               val returnByRef: Boolean = false) extends PMethod {
+  def declaringInterface = None
+
   def isAbstract = false
 
   def isStatic = false
@@ -24,6 +26,6 @@ abstract class InstanceMethod(val declaringClass: PClass, val name: String,
   def isProtected = false
 
   def invokeStatic(parameters: List[PParam])(implicit callerCtx: Context) = {
-    throw new FatalErrorJbjException("Non-static method %s::%s() cannot be called statically".format(declaringClass.name.toString, name))
+    throw new FatalErrorJbjException("Non-static method %s::%s() cannot be called statically".format(implementingClass.name.toString, name))
   }
 }

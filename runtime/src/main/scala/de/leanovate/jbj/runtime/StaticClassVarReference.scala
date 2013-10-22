@@ -19,21 +19,21 @@ class StaticClassVarReference(pClass: PClass, name: String)(implicit ctx: Contex
 
   override def isDefined = ctx match {
     case MethodContext(_, pMethod, _) =>
-      staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).exists(!_.asVal.isNull)
+      staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).exists(!_.asVal.isNull)
     case StaticMethodContext(pMethod, _, _) =>
-      staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).exists(!_.asVal.isNull)
+      staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).exists(!_.asVal.isNull)
     case _ =>
       staticClassObject.getProperty(name, None).exists(!_.asVal.isNull)
   }
 
   override def byVal = ctx match {
     case MethodContext(_, pMethod, _) =>
-      staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
-        notFound(pClass, name, Some(pMethod.declaringClass.name.toString))
+      staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).map(_.asVal).getOrElse {
+        notFound(pClass, name, Some(pMethod.implementingClass.name.toString))
       }
     case StaticMethodContext(pMethod, _, _) =>
-      staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
-        notFound(pClass, name, Some(pMethod.declaringClass.name.toString))
+      staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).map(_.asVal).getOrElse {
+        notFound(pClass, name, Some(pMethod.implementingClass.name.toString))
       }
     case _ =>
       staticClassObject.getProperty(name, None).map(_.asVal).getOrElse {
@@ -43,11 +43,11 @@ class StaticClassVarReference(pClass: PClass, name: String)(implicit ctx: Contex
 
   override def byVar = ctx match {
     case MethodContext(_, pMethod, _) =>
-      staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map {
+      staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).map {
         case pVar: PVar => pVar
         case value: PVal =>
           val result = PVar(value)
-          staticClassObject.setProperty(name, Some(pMethod.declaringClass.name.toString), result)
+          staticClassObject.setProperty(name, Some(pMethod.implementingClass.name.toString), result)
           result
       }.getOrElse {
         val result = PVar()
@@ -55,11 +55,11 @@ class StaticClassVarReference(pClass: PClass, name: String)(implicit ctx: Contex
         result
       }
     case StaticMethodContext(pMethod, _, _) =>
-      staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map {
+      staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).map {
         case pVar: PVar => pVar
         case value: PVal =>
           val result = PVar(value)
-          staticClassObject.setProperty(name, Some(pMethod.declaringClass.name.toString), result)
+          staticClassObject.setProperty(name, Some(pMethod.implementingClass.name.toString), result)
           result
       }.getOrElse {
         val result = PVar()
@@ -86,13 +86,13 @@ class StaticClassVarReference(pClass: PClass, name: String)(implicit ctx: Contex
       case pVar: PVar =>
         ctx match {
           case MethodContext(_, pMethod, _) =>
-            if (!staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).isDefined)
-              notFound(pClass, name, Some(pMethod.declaringClass.name.toString))
-            staticClassObject.setProperty(name, Some(pMethod.declaringClass.name.toString), pVar)
+            if (!staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).isDefined)
+              notFound(pClass, name, Some(pMethod.implementingClass.name.toString))
+            staticClassObject.setProperty(name, Some(pMethod.implementingClass.name.toString), pVar)
           case StaticMethodContext(pMethod, _,_) =>
-            if (!staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).isDefined)
-              notFound(pClass, name, Some(pMethod.declaringClass.name.toString))
-            staticClassObject.setProperty(name, Some(pMethod.declaringClass.name.toString), pVar)
+            if (!staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).isDefined)
+              notFound(pClass, name, Some(pMethod.implementingClass.name.toString))
+            staticClassObject.setProperty(name, Some(pMethod.implementingClass.name.toString), pVar)
           case _ =>
             if (!staticClassObject.getProperty(name, None).isDefined)
               notFound(pClass, name, None)
@@ -101,24 +101,24 @@ class StaticClassVarReference(pClass: PClass, name: String)(implicit ctx: Contex
       case pVal: PVal =>
         ctx match {
           case MethodContext(_, pMethod, _) =>
-            if (!staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).isDefined)
-              notFound(pClass, name, Some(pMethod.declaringClass.name.toString))
-            staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map {
+            if (!staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).isDefined)
+              notFound(pClass, name, Some(pMethod.implementingClass.name.toString))
+            staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).map {
               case pVar: PVar => pVar.value = pVal
               case _ =>
-                staticClassObject.setProperty(name, Some(pMethod.declaringClass.name.toString), pVal)
+                staticClassObject.setProperty(name, Some(pMethod.implementingClass.name.toString), pVal)
             }.getOrElse {
-              staticClassObject.setProperty(name, Some(pMethod.declaringClass.name.toString), pVal)
+              staticClassObject.setProperty(name, Some(pMethod.implementingClass.name.toString), pVal)
             }
           case StaticMethodContext(pMethod, _, _) =>
-            if (!staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).isDefined)
-              notFound(pClass, name, Some(pMethod.declaringClass.name.toString))
-            staticClassObject.getProperty(name, Some(pMethod.declaringClass.name.toString)).map {
+            if (!staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).isDefined)
+              notFound(pClass, name, Some(pMethod.implementingClass.name.toString))
+            staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).map {
               case pVar: PVar => pVar.value = pVal
               case _ =>
-                staticClassObject.setProperty(name, Some(pMethod.declaringClass.name.toString), pVal)
+                staticClassObject.setProperty(name, Some(pMethod.implementingClass.name.toString), pVal)
             }.getOrElse {
-              staticClassObject.setProperty(name, Some(pMethod.declaringClass.name.toString), pVal)
+              staticClassObject.setProperty(name, Some(pMethod.implementingClass.name.toString), pVal)
             }
           case _ =>
             if (!staticClassObject.getProperty(name, None).isDefined)
@@ -138,9 +138,9 @@ class StaticClassVarReference(pClass: PClass, name: String)(implicit ctx: Contex
   override def unset() {
     ctx match {
       case MethodContext(_, pMethod, _) =>
-        staticClassObject.unsetProperty(name, Some(pMethod.declaringClass.name.toString))
+        staticClassObject.unsetProperty(name, Some(pMethod.implementingClass.name.toString))
       case StaticMethodContext(pMethod, _, _) =>
-        staticClassObject.unsetProperty(name, Some(pMethod.declaringClass.name.toString))
+        staticClassObject.unsetProperty(name, Some(pMethod.implementingClass.name.toString))
       case _ =>
         if (!staticClassObject.getProperty(name, None).isDefined) {
           if (staticClassObject.getProperty(name, Some(pClass.name.toString)).isDefined)

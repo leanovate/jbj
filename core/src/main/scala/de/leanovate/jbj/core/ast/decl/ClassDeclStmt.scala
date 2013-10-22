@@ -146,7 +146,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, declaredName: NamespaceNam
     superClass.foreach(result ++= _.methods)
     decls.foreach {
       case method: ClassMethodDecl =>
-        method.declaringClass = this
+        method.implementingClass = this
         result -= method.name.toLowerCase
         result += method.name.toLowerCase -> method
       case _ =>
@@ -267,6 +267,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, declaredName: NamespaceNam
                 constructorPresent = true
               case _ =>
             }
+            method.implementingClass = this
             method.initializeClass(this)
           case decl =>
             ctx.currentPosition = decl.position

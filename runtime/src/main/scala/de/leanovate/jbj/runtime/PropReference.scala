@@ -26,9 +26,9 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
         case obj: ObjectVal =>
           if ((ctx match {
             case MethodContext(_, pMethod, _) =>
-              obj.getProperty(name, Some(pMethod.declaringClass.name.toString))
+              obj.getProperty(name, Some(pMethod.implementingClass.name.toString))
             case StaticMethodContext(pMethod, _, _) =>
-              obj.getProperty(name, Some(pMethod.declaringClass.name.toString))
+              obj.getProperty(name, Some(pMethod.implementingClass.name.toString))
             case _ =>
               obj.getProperty(name, None)
           }).isDefined) {
@@ -49,7 +49,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
         checkShadowedStatic(obj.pClass, name)
         ctx match {
           case MethodContext(_, pMethod, _) =>
-            obj.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
+            obj.getProperty(name, Some(pMethod.implementingClass.name.toString)).map(_.asVal).getOrElse {
               if (obj.hasPrivateProperty(name))
                 throw new FatalErrorJbjException("Cannot access private property %s::$%s".format(obj.pClass.name.toString, name))
               if (pMethod.name == "__get") {
@@ -63,7 +63,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
               }
             }
           case StaticMethodContext(pMethod, _, _) =>
-            obj.getProperty(name, Some(pMethod.declaringClass.name.toString)).map(_.asVal).getOrElse {
+            obj.getProperty(name, Some(pMethod.implementingClass.name.toString)).map(_.asVal).getOrElse {
               obj.pClass.findMethod("__get").map(_.invoke(obj, PAnyParam(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
                 ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
                 NullVal
@@ -97,19 +97,19 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
       case Some(obj) =>
         ctx match {
           case MethodContext(_, pMethod, _) =>
-            obj.getProperty(name, Some(pMethod.declaringClass.name.toString)).map {
+            obj.getProperty(name, Some(pMethod.implementingClass.name.toString)).map {
               case pVar: PVar => pVar
               case value: PVal =>
                 val result = PVar(value)
-                obj.setProperty(name, Some(pMethod.declaringClass.name.toString), result)
+                obj.setProperty(name, Some(pMethod.implementingClass.name.toString), result)
                 result
             }.getOrElse {
               val result = PVar()
-              obj.setProperty(name, Some(pMethod.declaringClass.name.toString), result)
+              obj.setProperty(name, Some(pMethod.implementingClass.name.toString), result)
               result
             }
           case StaticMethodContext(pMethod, _, _) =>
-            obj.getProperty(name, Some(pMethod.declaringClass.name.toString)).map {
+            obj.getProperty(name, Some(pMethod.implementingClass.name.toString)).map {
               case pVar: PVar => pVar
               case value: PVal =>
                 val result = PVar(value)
@@ -145,29 +145,29 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
         checkShadowedStatic(obj.pClass, name)
         ctx match {
           case MethodContext(inst, pMethod, _) =>
-            obj.getProperty(name, Some(pMethod.declaringClass.name.toString)) match {
+            obj.getProperty(name, Some(pMethod.implementingClass.name.toString)) match {
               case Some(pVar: PVar) if pAny.isInstanceOf[PVal] =>
                 pVar.value = pAny.asInstanceOf[PVal]
               case Some(_) =>
-                obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
+                obj.setProperty(name, Some(pMethod.implementingClass.name.toString), pAny)
               case None =>
                 if (inst.pClass == obj.pClass && pMethod.name == "__set") {
-                  obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
+                  obj.setProperty(name, Some(pMethod.implementingClass.name.toString), pAny)
                 } else {
                   obj.pClass.findMethod("__set").map(_.invoke(obj, PAnyParam(StringVal(name)) :: PAnyParam(pAny.asVal) :: Nil)).getOrElse {
-                    obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
+                    obj.setProperty(name, Some(pMethod.implementingClass.name.toString), pAny)
                   }
                 }
             }
           case StaticMethodContext(pMethod, _, _) =>
-            obj.getProperty(name, Some(pMethod.declaringClass.name.toString)) match {
+            obj.getProperty(name, Some(pMethod.implementingClass.name.toString)) match {
               case Some(pVar: PVar) if pAny.isInstanceOf[PVal] =>
                 pVar.value = pAny.asInstanceOf[PVal]
               case Some(_) =>
-                obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
+                obj.setProperty(name, Some(pMethod.implementingClass.name.toString), pAny)
               case None =>
                 obj.pClass.findMethod("__set").map(_.invoke(obj, PAnyParam(StringVal(name)) :: PAnyParam(pAny.asVal) :: Nil)).getOrElse {
-                  obj.setProperty(name, Some(pMethod.declaringClass.name.toString), pAny)
+                  obj.setProperty(name, Some(pMethod.implementingClass.name.toString), pAny)
                 }
             }
           case _ =>
@@ -196,9 +196,9 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
         checkShadowedStatic(obj.pClass, name)
         ctx match {
           case MethodContext(_, pMethod, _) =>
-            obj.unsetProperty(name, Some(pMethod.declaringClass.name.toString))
+            obj.unsetProperty(name, Some(pMethod.implementingClass.name.toString))
           case StaticMethodContext(pMethod, _, _) =>
-            obj.unsetProperty(name, Some(pMethod.declaringClass.name.toString))
+            obj.unsetProperty(name, Some(pMethod.implementingClass.name.toString))
           case _ =>
             obj.unsetProperty(name, None)
         }
@@ -231,7 +231,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
   private def checkShadowedStatic(pClass: PClass, name: String)(implicit ctx: Context) {
     ctx match {
       case MethodContext(_, pMethod, _) =>
-        if (ctx.global.staticClassObject(pMethod.declaringClass).getProperty(name, Some(pMethod.declaringClass.name.toString)).isDefined)
+        if (ctx.global.staticClassObject(pMethod.implementingClass).getProperty(name, Some(pMethod.implementingClass.name.toString)).isDefined)
           ctx.log.strict("Accessing static property %s::$%s as non static".format(pClass.name.toString, name))
       case _ =>
         val staticClassObject = ctx.global.staticClassObject(pClass)

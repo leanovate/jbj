@@ -216,10 +216,10 @@ trait ObjectVal extends PConcreteVal {
   def iteratorReset()(implicit ctx: Context): IteratorState = {
     iteratorStateHolder.clear()
     ctx match {
-      case MethodContext(_, method, _) if method.declaringClass.isAssignableFrom(pClass) =>
-        iteratorStateHolder.set(keyValueMap.iteratorState(PrivateKeyFilter(method.declaringClass.name.toString)))
-      case StaticMethodContext(method, _, _) if method.declaringClass.isAssignableFrom(pClass) || pClass.isAssignableFrom(method.declaringClass) =>
-        iteratorStateHolder.set(keyValueMap.iteratorState(PrivateKeyFilter(method.declaringClass.name.toString)))
+      case MethodContext(_, method, _) if method.implementingClass.isAssignableFrom(pClass) =>
+        iteratorStateHolder.set(keyValueMap.iteratorState(PrivateKeyFilter(method.implementingClass.name.toString)))
+      case StaticMethodContext(method, _, _) if method.implementingClass.isAssignableFrom(pClass) || pClass.isAssignableFrom(method.implementingClass) =>
+        iteratorStateHolder.set(keyValueMap.iteratorState(PrivateKeyFilter(method.implementingClass.name.toString)))
       case _ =>
     }
     iteratorStateHolder.get()
