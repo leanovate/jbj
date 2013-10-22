@@ -14,6 +14,8 @@ import de.leanovate.jbj.runtime.NamespaceName
 case class StaticNamespaceName(namespaceName: NamespaceName) extends Name {
   override def evalName(implicit ctx: Context) = evalNamespaceName.toString
 
+  override def evalNameStrict(implicit ctx: Context) = Some(evalNamespaceName.toString)
+
   override def evalNamespaceName(implicit ctx: Context) = namespaceName.absolutePrefix
 
   override def phpStr = namespaceName.toString

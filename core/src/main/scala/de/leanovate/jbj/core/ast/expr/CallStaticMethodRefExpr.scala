@@ -19,11 +19,16 @@ case class CallStaticMethodRefExpr(className: Name, methodName: Name, parameters
     val name = className.evalNamespaceName
     ctx.global.findClass(name, autoload = false).map {
       pClass =>
-        ctx match {
-          case MethodContext(instance, currentMethod, _) if pClass.isAssignableFrom(instance.pClass) =>
-            pClass.invokeMethod(Some(instance), methodName.evalName, parameters.map(ExprParam.apply))
-          case _ =>
-            pClass.invokeMethod(None, methodName.evalName, parameters.map(ExprParam.apply))
+        methodName.evalNameStrict match {
+          case Some(name) =>
+            ctx match {
+              case MethodContext(instance, currentMethod, _) if pClass.isAssignableFrom(instance.pClass) =>
+                pClass.invokeMethod(Some(instance), name, parameters.map(ExprParam.apply))
+              case _ =>
+                pClass.invokeMethod(None, name, parameters.map(ExprParam.apply))
+            }
+          case None =>
+            throw new FatalErrorJbjException("Method name must be a string")
         }
     }.getOrElse {
       throw new FatalErrorJbjException("Class '%s' not found".format(name.toString))

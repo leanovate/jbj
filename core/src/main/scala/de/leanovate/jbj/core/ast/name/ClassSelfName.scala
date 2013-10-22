@@ -17,6 +17,8 @@ import de.leanovate.jbj.runtime.context.ClassContext
 object ClassSelfName extends Name {
   override def evalName(implicit ctx: Context) = evalNamespaceName.toString
 
+  override def evalNameStrict(implicit ctx: Context) = Some(evalNamespaceName.toString)
+
   override def evalNamespaceName(implicit ctx: Context) = ctx match {
     case MethodContext(_, pMethod, _) =>
       pMethod.implementingClass.name

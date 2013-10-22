@@ -71,36 +71,33 @@ object TestBed {
       """<?php
         |
         |class foo {
-        |	static $bar = array();
-        |
-        |	public function __set($a, $b) {
-        |		self::$bar[] = $b;
+        |	public function __call($a, $b) {
+        |		print "non-static - ok\n";
         |	}
         |
-        |	public function __get($a) {
-        |		/* last */
-        |		return self::$bar[count(self::$bar)-1];
+        |	public static function __callstatic($a, $b) {
+        |		print "static - ok\n";
         |	}
         |}
         |
-        |function test() {
-        |	return new foo;
-        |}
+        |$a = new foo;
+        |$a->foooo();
+        |$a::foooo();
         |
-        |$a = test()->bar = 1;
-        |var_dump($a, count(foo::$bar), test()->whatever);
+        |$b = 'aaaaa1';
+        |$a->$b();
+        |$a::$b();
         |
-        |print "\n";
+        |$b = '  ';
+        |$a->$b();
+        |$a::$b();
         |
-        |$a = test()->bar = NULL;
-        |var_dump($a, count(foo::$bar), test()->whatever);
+        |$b = str_repeat('a', 10000);
+        |$a->$b();
+        |$a::$b();
         |
-        |print "\n";
-        |
-        |$a = test()->bar = test();
-        |var_dump($a, count(foo::$bar), test()->whatever);
-        |
-        |print "\n";
+        |$b = NULL;
+        |$a->$b();
         |
         |?>
         |""".stripMargin)

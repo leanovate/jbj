@@ -17,6 +17,8 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 object ClassStaticName extends Name {
   override def evalName(implicit ctx: Context) = evalNamespaceName.toString
 
+  override def evalNameStrict(implicit ctx: Context) = Some(evalNamespaceName.toString)
+
   override def evalNamespaceName(implicit ctx: Context) = ctx match {
     case MethodContext(instance, pMethod, _) =>
       instance.pClass.name

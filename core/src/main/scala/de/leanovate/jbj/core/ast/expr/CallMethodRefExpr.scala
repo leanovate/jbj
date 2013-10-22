@@ -18,7 +18,12 @@ case class CallMethodRefExpr(instanceExpr: Expr, methodName: Name, parameters: L
 
   override def call(implicit ctx: Context): PAny = instanceExpr.eval.asVal match {
     case instance: ObjectVal =>
-      instance.pClass.invokeMethod(Some(instance), methodName.evalName, parameters.map(ExprParam.apply))
+      methodName.evalNameStrict match {
+        case Some(name) =>
+          instance.pClass.invokeMethod(Some(instance), name, parameters.map(ExprParam.apply))
+        case None =>
+          throw new FatalErrorJbjException("Method name must be a string")
+      }
     case _ =>
       throw new FatalErrorJbjException("Call to a member function %s() on a non-object".format(methodName.evalName))
   }

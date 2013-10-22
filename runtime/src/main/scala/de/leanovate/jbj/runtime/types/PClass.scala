@@ -78,6 +78,23 @@ trait PClass {
             throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))
 
         }
+      case None if !optInstance.isDefined && (!callerCtx.isInstanceOf[StaticMethodContext] ||
+        callerCtx.asInstanceOf[StaticMethodContext].pMethod.name != "__callstatic" ||
+        callerCtx.asInstanceOf[StaticMethodContext].pMethod.implementingClass != this) =>
+        findMethod("__callstatic") match {
+          case Some(method) =>
+            val parameterArray = ArrayVal(parameters.map {
+              param =>
+                None -> param.byVal.copy
+            }: _*)
+            if (method.isStatic)
+              method.invokeStatic(PAnyParam(StringVal(methodName)) :: PAnyParam(parameterArray) :: Nil)
+            else
+              method.invoke(optInstance.get,
+                PAnyParam(StringVal(methodName)) :: PAnyParam(parameterArray) :: Nil)
+          case None =>
+            throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))
+        }
       case None =>
         throw new FatalErrorJbjException("Call to undefined method %s::%s()".format(name.toString, methodName))
     }

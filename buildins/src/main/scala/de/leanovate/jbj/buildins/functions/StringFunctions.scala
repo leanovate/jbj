@@ -39,6 +39,11 @@ object StringFunctions {
   def strlen(str: Array[Byte]): Int = str.length
 
   @GlobalFunction
+  def str_repeat(input: String, multiplier: Int): String = {
+    input * multiplier
+  }
+
+  @GlobalFunction
   def strstr(haystack: Array[Byte], needle: PVal, beforeNeedle: Option[Boolean]): PVal = {
     val needleBytes = needle match {
       case str: StringVal => str.chars
