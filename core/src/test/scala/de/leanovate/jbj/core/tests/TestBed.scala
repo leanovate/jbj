@@ -70,34 +70,24 @@ object TestBed {
     test(
       """<?php
         |
-        |class foo {
-        |	public function __call($a, $b) {
-        |		print "non-static - ok\n";
-        |	}
-        |
-        |	public static function __callstatic($a, $b) {
-        |		print "static - ok\n";
+        |class bar {
+        |	public function show() {
+        |		var_dump(new static);
         |	}
         |}
         |
-        |$a = new foo;
-        |$a->foooo();
-        |$a::foooo();
+        |class foo extends bar {
+        |	public function test() {
+        |		parent::show();
+        |	}
+        |}
         |
-        |$b = 'aaaaa1';
-        |$a->$b();
-        |$a::$b();
+        |$foo = new foo;
+        |$foo->test();
+        |$foo::test();
         |
-        |$b = '  ';
-        |$a->$b();
-        |$a::$b();
-        |
-        |$b = str_repeat('a', 10000);
-        |$a->$b();
-        |$a::$b();
-        |
-        |$b = NULL;
-        |$a->$b();
+        |call_user_func(array($foo, 'test'));
+        |call_user_func(array('foo', 'test'));
         |
         |?>
         |""".stripMargin)

@@ -258,5 +258,24 @@ class Objects3Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Using $this when out of context" in {
+      // Zend/tests/objects_026.phpt
+      script(
+        """<?php
+          |
+          |try {
+          |	$this->a = 1;
+          |} catch (Exception $e) {
+          |}
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Using $this when not in object context in /zend/Objects3Spec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
   }
 }

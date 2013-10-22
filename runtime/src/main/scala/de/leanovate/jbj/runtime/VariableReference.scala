@@ -8,7 +8,7 @@
 package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.runtime.value.{PVal, PVar, PAny, NullVal}
-import de.leanovate.jbj.runtime.context.{StaticMethodContext, Context}
+import de.leanovate.jbj.runtime.context.{GlobalContext, StaticMethodContext, Context}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class VariableReference(name: String)(implicit ctx: Context) extends Reference {
@@ -18,7 +18,7 @@ case class VariableReference(name: String)(implicit ctx: Context) extends Refere
 
   override def byVal = ctx.findVariable(name).map(_.asLazyVal).getOrElse {
     ctx match {
-      case StaticMethodContext(_, _, false) =>
+      case StaticMethodContext(_, _, false) if name == "this" =>
         throw new FatalErrorJbjException("Using $this when not in object context")
       case _ =>
         ctx.log.notice("Undefined variable: %s".format(name))
@@ -26,7 +26,16 @@ case class VariableReference(name: String)(implicit ctx: Context) extends Refere
     }
   }
 
-  override def byVar = ctx.findOrDefineVariable(name)
+  override def byVar = {
+    ctx match {
+      case StaticMethodContext(_, _, false) if name == "this" =>
+        throw new FatalErrorJbjException("Using $this when not in object context")
+      case _: GlobalContext if name == "this" =>
+        throw new FatalErrorJbjException("Using $this when not in object context")
+      case _ =>
+        ctx.findOrDefineVariable(name)
+    }
+  }
 
   override def assign(pAny: PAny)(implicit ctx: Context): PAny = {
     pAny match {

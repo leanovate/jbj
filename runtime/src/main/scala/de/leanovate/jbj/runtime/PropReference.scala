@@ -208,10 +208,10 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
 
   private def optParent(withWarn: Boolean) =
     if (!parentRef.isDefined) {
-      if (withWarn)
-        ctx.log.warn("Creating default object from empty value")
       val obj = PStdClass.newInstance(Nil)(ctx)
       parentRef.byVar.value = obj
+      if (withWarn)
+        ctx.log.warn("Creating default object from empty value")
       Some(obj)
     } else {
       parentRef.byVal.concrete match {
