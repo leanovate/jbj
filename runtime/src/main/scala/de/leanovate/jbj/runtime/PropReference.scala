@@ -229,16 +229,18 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
     }
 
   private def checkShadowedStatic(pClass: PClass, name: String)(implicit ctx: Context) {
-    ctx match {
-      case MethodContext(_, pMethod, _) =>
-        if (ctx.global.staticClassObject(pMethod.implementingClass).getProperty(name, Some(pMethod.implementingClass.name.toString)).isDefined)
-          ctx.log.strict("Accessing static property %s::$%s as non static".format(pClass.name.toString, name))
-      case _ =>
-        val staticClassObject = ctx.global.staticClassObject(pClass)
-        if (staticClassObject.getProperty(name, None).isDefined)
-          ctx.log.strict("Accessing static property %s::$%s as non static".format(pClass.name.toString, name))
-        else if (staticClassObject.getProperty(name, Some(pClass.name.toString)).isDefined)
-          throw new FatalErrorJbjException("Cannot access protected property %s::$%s".format(pClass.name.toString, name))
+    if (!pClass.findMethod("__get").isDefined) {
+      ctx match {
+        case MethodContext(_, pMethod, _) =>
+          if (ctx.global.staticClassObject(pMethod.implementingClass).getProperty(name, Some(pMethod.implementingClass.name.toString)).isDefined)
+            ctx.log.strict("Accessing static property %s::$%s as non static".format(pClass.name.toString, name))
+        case _ =>
+          val staticClassObject = ctx.global.staticClassObject(pClass)
+          if (staticClassObject.getProperty(name, None).isDefined)
+            ctx.log.strict("Accessing static property %s::$%s as non static".format(pClass.name.toString, name))
+          else if (staticClassObject.getProperty(name, Some(pClass.name.toString)).isDefined)
+            throw new FatalErrorJbjException("Cannot access protected property %s::$%s".format(pClass.name.toString, name))
+      }
     }
   }
 }
