@@ -129,5 +129,25 @@ class Objects3Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Creating instances dynamically" in {
+      // Zend/tests/objects_023.phpt
+      script(
+        """<?php
+          |
+          |$arr = array(new stdClass, 'stdClass');
+          |
+          |new $arr[0]();
+          |new $arr[1]();
+          |
+          |print "ok\n";
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """ok
+          |""".stripMargin
+      )
+    }
   }
 }

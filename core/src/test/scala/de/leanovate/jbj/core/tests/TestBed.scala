@@ -70,29 +70,37 @@ object TestBed {
     test(
       """<?php
         |
-        |interface iTest { }
+        |class foo {
+        |	static $bar = array();
         |
-        |class baz implements iTest {}
+        |	public function __set($a, $b) {
+        |		self::$bar[] = $b;
+        |	}
         |
-        |class bar { }
-        |
-        |class foo extends bar {
-        |    public function testFoo(self $obj) {
-        |        var_dump($obj);
-        |    }
-        |    public function testBar(parent $obj) {
-        |        var_dump($obj);
-        |    }
-        |    public function testBaz(iTest $obj) {
-        |        var_dump($obj);
-        |    }
+        |	public function __get($a) {
+        |		/* last */
+        |		return self::$bar[count(self::$bar)-1];
+        |	}
         |}
         |
-        |$foo = new foo;
-        |$foo->testFoo(new foo);
-        |$foo->testBar(new bar);
-        |$foo->testBaz(new baz);
-        |$foo->testFoo(new stdClass); // Catchable fatal error
+        |function test() {
+        |	return new foo;
+        |}
+        |
+        |$a = test()->bar = 1;
+        |var_dump($a, count(foo::$bar), test()->whatever);
+        |
+        |print "\n";
+        |
+        |$a = test()->bar = NULL;
+        |var_dump($a, count(foo::$bar), test()->whatever);
+        |
+        |print "\n";
+        |
+        |$a = test()->bar = test();
+        |var_dump($a, count(foo::$bar), test()->whatever);
+        |
+        |print "\n";
         |
         |?>
         |""".stripMargin)
