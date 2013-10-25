@@ -17,6 +17,8 @@ trait PArrayAccess extends DelegateObjectVal {
 
   def offsetGet(idx: PVal)(implicit ctx: Context): PAny
 
+  def offsetGetIsReturnByRef(implicit ctx: Context): Boolean
+
   def offsetSet(idx: PVal, value: PVal)(implicit ctx: Context): PAny
 
   def offsetUnset(idx: PVal)(implicit ctx: Context)
@@ -52,6 +54,8 @@ object PArrayAccess extends PInterface {
     def offsetGet(idx: PVal)(implicit ctx: Context) =
       pClass.invokeMethod(Some(this), "offsetGet", PAnyParam(idx) :: Nil)
 
+    def offsetGetIsReturnByRef(implicit ctx: Context) =
+      pClass.findMethod("offsetGet").exists(_.returnByRef)
 
     def offsetSet(idx: PVal, value: PVal)(implicit ctx: Context) = {
       pClass.invokeMethod(Some(this), "offsetSet", PAnyParam(idx) :: PAnyParam(value) :: Nil)

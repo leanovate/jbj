@@ -30,7 +30,7 @@ class ObjectDimReference(arrayAccess: PArrayAccess, optArrayKey: Option[PVal])(i
   }
 
   override def byVar = {
-    PVar()
+    arrayAccess.offsetGet(optArrayKey.get).asVar
   }
 
   override def assign(pAny: PAny)(implicit ctx: Context) = {
@@ -56,8 +56,12 @@ class ObjectDimReference(arrayAccess: PArrayAccess, optArrayKey: Option[PVal])(i
   }
 
   override def checkIndirect = {
-    ctx.log.notice("Indirect modification of overloaded element of %s has no effect".format(arrayAccess.pClass.name.toString))
-    false
+    if (arrayAccess.offsetGetIsReturnByRef)
+      true
+    else {
+      ctx.log.notice("Indirect modification of overloaded element of %s has no effect".format(arrayAccess.pClass.name.toString))
+      false
+    }
   }
 
   override def dim(optKey: Option[PVal] = None)(implicit ctx: Context) = byVal.concrete match {

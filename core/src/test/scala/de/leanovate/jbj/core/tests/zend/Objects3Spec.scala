@@ -451,5 +451,50 @@ class Objects3Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Covariant return-by-ref constraints" in {
+      // ../php-src/Zend/tests/objects_032.phpt
+      script(
+        """<?php
+          |
+          |class A implements ArrayAccess {
+          |    public $foo = array();
+          |
+          |    public function &offsetGet($n) {
+          |        return $this->foo[$n];
+          |    }
+          |
+          |    public function offsetSet($n, $v) {
+          |    }
+          |    public function offsetUnset($n) {
+          |    }
+          |    public function offsetExists($n) {
+          |    }
+          |}
+          |
+          |$a = new A;
+          |
+          |$a['foo']['bar'] = 2;
+          |
+          |var_dump($a);
+          |
+          |?>
+          |==DONE==
+          |""".stripMargin
+      ).result must haveOutput(
+        """object(A)#1 (1) {
+          |  ["foo"]=>
+          |  array(1) {
+          |    ["foo"]=>
+          |    array(1) {
+          |      ["bar"]=>
+          |      int(2)
+          |    }
+          |  }
+          |}
+          |==DONE==
+          |""".stripMargin
+      )
+    }
   }
 }
