@@ -70,24 +70,26 @@ object TestBed {
     test(
       """<?php
         |
-        |class bar {
-        |	public function show() {
-        |		var_dump(new static);
-        |	}
+        |class A implements ArrayAccess {
+        |    public $foo = array();
+        |
+        |    public function &offsetGet($n) {
+        |        return $this->foo[$n];
+        |    }
+        |
+        |    public function offsetSet($n, $v) {
+        |    }
+        |    public function offsetUnset($n) {
+        |    }
+        |    public function offsetExists($n) {
+        |    }
         |}
         |
-        |class foo extends bar {
-        |	public function test() {
-        |		parent::show();
-        |	}
-        |}
+        |$a = new A;
         |
-        |$foo = new foo;
-        |$foo->test();
-        |$foo::test();
+        |$a['foo']['bar'] = 2;
         |
-        |call_user_func(array($foo, 'test'));
-        |call_user_func(array('foo', 'test'));
+        |var_dump($a);
         |
         |?>
         |""".stripMargin)

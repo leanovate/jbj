@@ -324,5 +324,132 @@ class Objects3Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Testing 'static::' and 'parent::' in calls" in {
+      // Zend/tests/objects_028.phpt
+      script(
+        """<?php
+          |
+          |class bar {
+          |	public function __call($a, $b) {
+          |		print "hello\n";
+          |	}
+          |}
+          |
+          |class foo extends bar {
+          |	public function __construct() {
+          |		static::bar();
+          |		parent::bar();
+          |	}
+          |}
+          |
+          |
+          |new foo;
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """hello
+          |hello
+          |""".stripMargin
+      )
+    }
+
+    "Trying to access undeclared static property" in {
+      // Zend/tests/objects_029.phpt
+      script(
+        """<?php
+          |
+          |class bar {
+          |	public function __set($a, $b) {
+          |		print "hello\n";
+          |	}
+          |}
+          |
+          |class foo extends bar {
+          |	public function __construct() {
+          |		static::$f = 1;
+          |	}
+          |	public function __set($a, $b) {
+          |		print "foo\n";
+          |	}
+          |}
+          |
+          |
+          |new foo;
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Access to undeclared static property: foo::$f in /zend/Objects3Spec.inlinePhp on line 11
+          |""".stripMargin
+      )
+    }
+
+    "Trying to access undeclared parent property" in {
+      // Zend/tests/objects_030.phpt
+      script(
+        """<?php
+          |
+          |class bar {
+          |	public function __set($a, $b) {
+          |		print "hello\n";
+          |	}
+          |}
+          |
+          |class foo extends bar {
+          |	public function __construct() {
+          |		parent::$f = 1;
+          |	}
+          |	public function __set($a, $b) {
+          |		print "foo\n";
+          |	}
+          |}
+          |
+          |
+          |new foo;
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Access to undeclared static property: bar::$f in /zend/Objects3Spec.inlinePhp on line 11
+          |""".stripMargin
+      )
+    }
+
+    "Cloning stdClass" in {
+      // Zend/tests/objects_031.phpt
+      script(
+        """<?php
+          |
+          |$x[] = clone new stdclass;
+          |$x[] = clone new stdclass;
+          |$x[] = clone new stdclass;
+          |
+          |$x[0]->a = 1;
+          |
+          |var_dump($x);
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """array(3) {
+          |  [0]=>
+          |  object(stdClass)#2 (1) {
+          |    ["a"]=>
+          |    int(1)
+          |  }
+          |  [1]=>
+          |  object(stdClass)#4 (0) {
+          |  }
+          |  [2]=>
+          |  object(stdClass)#6 (0) {
+          |  }
+          |}
+          |""".stripMargin
+      )
+    }
   }
 }
