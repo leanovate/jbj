@@ -270,5 +270,36 @@ class Basic1Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "strncmp() tests" in {
+      // Zend/tests/004.phpt
+      script(
+        """<?php
+          |
+          |var_dump(strncmp("", ""));
+          |var_dump(strncmp("", "", 100));
+          |var_dump(strncmp("aef", "dfsgbdf", -1));
+          |var_dump(strncmp("fghjkl", "qwer", 0));
+          |var_dump(strncmp("qwerty", "qwerty123", 6));
+          |var_dump(strncmp("qwerty", "qwerty123", 7));
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Warning: strncmp() expects exactly 3 parameters, 2 given in /zend/Basic1Spec.inlinePhp on line 3
+          |NULL
+          |int(0)
+          |
+          |Warning: Length must be greater than or equal to 0 in /zend/Basic1Spec.inlinePhp on line 5
+          |bool(false)
+          |int(0)
+          |int(0)
+          |int(-1)
+          |Done
+          |""".stripMargin
+      )
+    }
   }
 }

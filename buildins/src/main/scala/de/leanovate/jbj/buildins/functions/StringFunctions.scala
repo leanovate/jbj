@@ -8,7 +8,7 @@
 package de.leanovate.jbj.buildins.functions
 
 import de.leanovate.jbj.runtime.value._
-import de.leanovate.jbj.runtime.annotations.GlobalFunction
+import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
 import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.runtime.context.Context
 import java.net.URLEncoder
@@ -37,6 +37,16 @@ object StringFunctions {
 
   @GlobalFunction
   def strlen(str: Array[Byte]): Int = str.length
+
+  @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN, warnResult = NullVal)
+  def strncmp(str1: String, str2: String, len: Int)(implicit ctx: Context): PVal = {
+    if (len < 0) {
+      ctx.log.warn("Length must be greater than or equal to 0")
+      BooleanVal.FALSE
+    } else {
+      IntegerVal(str1.take(len).compareTo(str2.take(len)))
+    }
+  }
 
   @GlobalFunction
   def str_repeat(input: String, multiplier: Int): String = {
