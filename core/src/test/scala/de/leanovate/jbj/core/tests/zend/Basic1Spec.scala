@@ -301,5 +301,75 @@ class Basic1Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "strcasecmp() tests" in {
+      // Zend/tests/005.phpt
+      script(
+        """<?php
+          |
+          |var_dump(strcasecmp(""));
+          |var_dump(strcasecmp("", ""));
+          |var_dump(strcasecmp("aef", "dfsgbdf"));
+          |var_dump(strcasecmp("qwe", "qwer"));
+          |var_dump(strcasecmp("qwerty", "QweRty"));
+          |var_dump(strcasecmp("qwErtY", "qwerty"));
+          |var_dump(strcasecmp("q123", "Q123"));
+          |var_dump(strcasecmp("01", "01"));
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Warning: strcasecmp() expects exactly 2 parameters, 1 given in /zend/Basic1Spec.inlinePhp on line 3
+          |NULL
+          |int(0)
+          |int(-3)
+          |int(-1)
+          |int(0)
+          |int(0)
+          |int(0)
+          |int(0)
+          |Done
+          |""".stripMargin
+      )
+    }
+
+    "strncasecmp() tests" in {
+      // Zend/tests/006.phpt
+      script(
+        """<?php
+          |
+          |var_dump(strncasecmp(""));
+          |var_dump(strncasecmp("", "", -1));
+          |var_dump(strncasecmp("aef", "dfsgbdf", 0));
+          |var_dump(strncasecmp("aef", "dfsgbdf", 10));
+          |var_dump(strncasecmp("qwe", "qwer", 3));
+          |var_dump(strncasecmp("qwerty", "QweRty", 6));
+          |var_dump(strncasecmp("qwErtY", "qwer", 7));
+          |var_dump(strncasecmp("q123", "Q123", 3));
+          |var_dump(strncasecmp("01", "01", 1000));
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Warning: strncasecmp() expects exactly 3 parameters, 1 given in /zend/Basic1Spec.inlinePhp on line 3
+          |NULL
+          |
+          |Warning: Length must be greater than or equal to 0 in /zend/Basic1Spec.inlinePhp on line 4
+          |bool(false)
+          |int(0)
+          |int(-3)
+          |int(0)
+          |int(0)
+          |int(2)
+          |int(0)
+          |int(0)
+          |Done
+          |""".stripMargin
+      )
+    }
   }
 }

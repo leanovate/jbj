@@ -25,6 +25,11 @@ object StringFunctions {
     result
   }
 
+  @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN, warnResult = NullVal)
+  def strcasecmp(str1: String, str2: String): Int = {
+    str1.toLowerCase.compareTo(str2.toLowerCase)
+  }
+
   @GlobalFunction
   def sprintf(format: String, args: PVal*)(implicit ctx: Context): String = {
     format.format(args.map {
@@ -45,6 +50,16 @@ object StringFunctions {
       BooleanVal.FALSE
     } else {
       IntegerVal(str1.take(len).compareTo(str2.take(len)))
+    }
+  }
+
+  @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN, warnResult = NullVal)
+  def strncasecmp(str1: String, str2: String, len: Int)(implicit ctx: Context): PVal = {
+    if (len < 0) {
+      ctx.log.warn("Length must be greater than or equal to 0")
+      BooleanVal.FALSE
+    } else {
+      IntegerVal(str1.take(len).toLowerCase.compareTo(str2.take(len).toLowerCase))
     }
   }
 
