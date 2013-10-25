@@ -50,7 +50,7 @@ object FunctionFunctions {
             if (pClass.isCallable(ctx, Some(obj), effectiveMethodName)) {
               pClass.invokeMethod(Some(obj), effectiveMethodName, parameters.toList)
             } else {
-              ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, class '%s' does not have a method '%s'".format(obj.pClass.name.toString, methodName))
+              ctx.log.warn(s"call_user_func() expects parameter 1 to be a valid callback, class '${obj.pClass.name.toString}' does not have a method '$methodName'")
               NullVal
             }
           case name =>
@@ -59,7 +59,7 @@ object FunctionFunctions {
                 pClass.findMethod(methodName).map {
                   method =>
                     if ( !method.isStatic )
-                      ctx.log.strict("call_user_func() expects parameter 1 to be a valid callback, non-static method %s::%s() should not be called statically".format(pClass.name.toString, methodName))
+                      ctx.log.strict(s"call_user_func() expects parameter 1 to be a valid callback, non-static method ${pClass.name.toString}::$methodName() should not be called statically")
                     method.invokeStatic(parameters.toList, strict = false)
                 }.getOrElse {
                   ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, class '%s' does not have a method '%s'".format(pClass.name.toString, methodName))
@@ -82,7 +82,7 @@ object FunctionFunctions {
                 method =>
                   method.invokeStatic(parameters.toList)
               }.getOrElse {
-                ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, class '%s' does not have a method '%s'".format(pClass.name.toString, classAndMethod(1)))
+                ctx.log.warn(s"call_user_func() expects parameter 1 to be a valid callback, class '${pClass.name.toString}' does not have a method '${classAndMethod(1)}'")
                 NullVal
               }
             case None =>
@@ -94,7 +94,7 @@ object FunctionFunctions {
             func =>
               func.call(parameters.toList)
           }.getOrElse {
-            ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, function '%s' not found or invalid function name".format(functionName))
+            ctx.log.warn(s"call_user_func() expects parameter 1 to be a valid callback, function '$functionName' not found or invalid function name")
             NullVal
           }
         }

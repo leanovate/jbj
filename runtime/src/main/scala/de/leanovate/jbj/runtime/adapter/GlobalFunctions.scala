@@ -154,15 +154,14 @@ object GlobalFunctions {
       member =>
         function_impl(member.asMethod).tree
     }.toList
-    //    c.echo(c.enclosingPosition, "Add global functions: " + exprs.mkString("\n"))
     c.Expr[Seq[PFunction]](Apply(Select(Ident(newTermName("Seq")), newTermName("apply")),
       exprs))
   }
 
   def plural(num: Int, str: String) = {
     if (num > 1)
-      "%d %ss".format(num, str)
+      s"$num ${str}s"
     else
-      "%d %s".format(num, str)
+      s"$num $str"
   }
 }

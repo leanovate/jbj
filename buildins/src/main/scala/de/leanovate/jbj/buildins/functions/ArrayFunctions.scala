@@ -39,7 +39,7 @@ object ArrayFunctions {
         }
         result
       case pVal =>
-        ctx.log.warn("array_flip() expects parameter 1 to be array, %s given".format(value.typeName(simple = true)))
+        ctx.log.warn(s"array_flip() expects parameter 1 to be array, ${value.typeName(simple = true)} given")
         NullVal
     }
   }
@@ -50,7 +50,7 @@ object ArrayFunctions {
       case array: ArrayVal =>
         BooleanVal(array.getAt(key).isDefined)
       case _ =>
-        ctx.log.warn("array_key_exists() expects parameter 2 to be array, %s given".format(value.typeName(simple = true)))
+        ctx.log.warn(s"array_key_exists() expects parameter 2 to be array, ${value.typeName(simple = true)} given")
         NullVal
     }
   }
@@ -90,7 +90,7 @@ object ArrayFunctions {
           array.iteratorReset()
           array.count
         case pVal =>
-          ctx.log.warn("array_push() expects parameter 1 to be array, %s given".format(pVal.typeName(simple = true)))
+          ctx.log.warn(s"array_push() expects parameter 1 to be array, ${pVal.typeName(simple = true)} given")
           NullVal
       }
     }
@@ -107,7 +107,7 @@ object ArrayFunctions {
             value.asVal
         }.getOrElse(NullVal)
       case pVal =>
-        ctx.log.warn("array_pop() expects parameter 1 to be array, %s given".format(pVal.typeName(simple = true)))
+        ctx.log.warn(s"array_pop() expects parameter 1 to be array, ${pVal.typeName(simple = true)} given")
         NullVal
     }
   }
@@ -125,7 +125,7 @@ object ArrayFunctions {
           case (key, value) => key
         }.getOrElse(NullVal)
       case pVal =>
-        ctx.log.warn("array_search() expects parameter 21 to be array, %s given".format(pVal.typeName(simple = true)))
+        ctx.log.warn(s"array_search() expects parameter 21 to be array, ${pVal.typeName(simple = true)} given")
         NullVal
     }
   }
@@ -149,7 +149,7 @@ object ArrayFunctions {
         ref.value = new ArrayVal(builder)
         keyValues.headOption.map(_._2.asVal).getOrElse(NullVal)
       case v =>
-        ctx.log.warn("array_shift() expects parameter 1 to be array, %s given".format(v.typeName(simple = true)))
+        ctx.log.warn(s"array_shift() expects parameter 1 to be array, ${v.typeName(simple = true)} given")
         NullVal
     }
   }
@@ -166,7 +166,7 @@ object ArrayFunctions {
           array.iteratorReset()
           array.count
         case pVal =>
-          ctx.log.warn("array_unshift() expects parameter 1 to be array, %s given".format(pVal.typeName(simple = true)))
+          ctx.log.warn(s"array_unshift() expects parameter 1 to be array, ${pVal.typeName(simple = true)} given")
           NullVal
       }
     }
@@ -223,7 +223,7 @@ object ArrayFunctions {
             }
         }
       case v =>
-        ctx.log.warn("array_walk() expects parameter 1 to be array, %s given".format(v.typeName(simple = true)))
+        ctx.log.warn(s"array_walk() expects parameter 1 to be array, ${v.typeName(simple = true)} given")
     }
   }
 

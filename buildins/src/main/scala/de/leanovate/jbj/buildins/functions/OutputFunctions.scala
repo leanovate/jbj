@@ -39,62 +39,64 @@ object OutputFunctions {
       value match {
         case ArrayVal(keyValues) =>
           val nextIdent = ident + "  "
-          ctx.out.println("%s%sarray(%d) {".format(ident, isRef, keyValues.size))
+          ctx.out.println(s"${
+            ident
+          }${isRef}array(${keyValues.size}) {")
           keyValues.foreach {
             case (IntegerVal(key), v) =>
-              ctx.out.println("%s[%d]=>".format(nextIdent, key))
+              ctx.out.println(s"$nextIdent[$key]=>")
               if (stack.exists(_.asVal.concrete == v.asVal.concrete))
-                ctx.out.println("%s*RECURSION*".format(nextIdent))
+                ctx.out.println(s"$nextIdent*RECURSION*")
               else
                 dump(v :: stack, nextIdent)
             case (StringVal(key), v) =>
-              ctx.out.println( """%s["%s"]=>""".format(nextIdent, key))
+              ctx.out.println( s"""$nextIdent["$key"]=>""")
               if (stack.exists(_.asVal.concrete == v.asVal.concrete))
-                ctx.out.println("%s*RECURSION*".format(nextIdent))
+                ctx.out.println(s"$nextIdent*RECURSION*")
               else
                 dump(v :: stack, nextIdent)
           }
-          ctx.out.println("%s}".format(ident))
+          ctx.out.println(s"$ident}")
         case BooleanVal(bool) =>
-          ctx.out.println("%s%sbool(%s)".format(ident, isRef, if (bool) "true" else "false"))
+          ctx.out.println(s"$ident${isRef}bool(${if (bool) "true" else "false"})")
         case d: DoubleVal =>
-          ctx.out.println( """%s%sfloat(%s)""".format(ident, isRef, d.toOutput))
+          ctx.out.println( s"""$ident${isRef}float(${d.toOutput})""")
         case IntegerVal(i) =>
-          ctx.out.println( """%s%sint(%d)""".format(ident, isRef, i))
+          ctx.out.println( s"""$ident${isRef}int($i)""")
         case NullVal =>
-          ctx.out.println("%sNULL".format(ident))
+          ctx.out.println(s"${ident}NULL")
         case ObjectVal(pClass, instanceNum, keyValues) =>
           val nextIdent = ident + "  "
-          ctx.out.println("%sobject(%s)#%d (%d) {".format(ident, pClass.name.toString, instanceNum, keyValues.size))
+          ctx.out.println(s"${ident}object(${pClass.name.toString})#$instanceNum (${keyValues.size}) {")
           keyValues.foreach {
             case (ObjectPropertyKey.IntKey(key), v) =>
-              ctx.out.println("%s[%d]=>".format(nextIdent, key))
+              ctx.out.println(s"$nextIdent[$key]=>")
               if (stack.exists(_.asVal.concrete == v.asVal.concrete))
-                ctx.out.println("%s*RECURSION*".format(nextIdent))
+                ctx.out.println(s"$nextIdent*RECURSION*")
               else
                 dump(v :: stack, nextIdent)
             case (ObjectPropertyKey.PublicKey(key), v) =>
-              ctx.out.println( """%s["%s"]=>""".format(nextIdent, key))
+              ctx.out.println( s"""$nextIdent["$key"]=>""")
               if (stack.exists(_.asVal.concrete == v.asVal.concrete))
-                ctx.out.println("%s*RECURSION*".format(nextIdent))
+                ctx.out.println(s"$nextIdent*RECURSION*")
               else
                 dump(v :: stack, nextIdent)
             case (ObjectPropertyKey.ProtectedKey(key), v) =>
-              ctx.out.println( """%s["%s":protected]=>""".format(nextIdent, key))
+              ctx.out.println( s"""$nextIdent["$key":protected]=>""")
               if (stack.exists(_.asVal.concrete == v.asVal.concrete))
-                ctx.out.println("%s*RECURSION*".format(nextIdent))
+                ctx.out.println(s"$nextIdent*RECURSION*")
               else
                 dump(v :: stack, nextIdent)
             case (ObjectPropertyKey.PrivateKey(key, className), v) =>
-              ctx.out.println( """%s["%s":"%s":private]=>""".format(nextIdent, key, className))
+              ctx.out.println( s"""$nextIdent["$key":"$className":private]=>""")
               if (stack.exists(_.asVal.concrete == v.asVal.concrete))
-                ctx.out.println("%s*RECURSION*".format(nextIdent))
+                ctx.out.println(s"$nextIdent*RECURSION*")
               else
                 dump(v :: stack, nextIdent)
           }
-          ctx.out.println("%s}".format(ident))
+          ctx.out.println(s"$ident}")
         case str: StringVal =>
-          ctx.out.println( """%s%sstring(%s) "%s"""".format(ident, isRef, str.chars.length, str.asString))
+          ctx.out.println( s"""$ident${isRef}string(${str.chars.length}) "${str.asString}"""" )
       }
     }
 
