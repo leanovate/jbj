@@ -70,27 +70,38 @@ object TestBed {
     test(
       """<?php
         |
-        |class A implements ArrayAccess {
-        |    public $foo = array();
-        |
-        |    public function &offsetGet($n) {
-        |        return $this->foo[$n];
-        |    }
-        |
-        |    public function offsetSet($n, $v) {
-        |    }
-        |    public function offsetUnset($n) {
-        |    }
-        |    public function offsetExists($n) {
-        |    }
+        |function test1() {
+        |	var_dump(func_get_args());
         |}
         |
-        |$a = new A;
+        |function test2($a) {
+        |	var_dump(func_get_args());
+        |}
         |
-        |$a['foo']['bar'] = 2;
+        |function test3($a, $b) {
+        |	var_dump(func_get_args());
+        |}
         |
-        |var_dump($a);
+        |test1();
+        |test1(10);
+        |test2(1);
+        |test2();
+        |test3(1,2);
         |
+        |call_user_func("test1");
+        |call_user_func("test3", 1);
+        |call_user_func("test3", 1, 2);
+        |
+        |class test {
+        |	static function test1($a) {
+        |		var_dump(func_get_args());
+        |	}
+        |}
+        |
+        |test::test1(1);
+        |var_dump(func_get_args());
+        |
+        |echo "Done\n";
         |?>
         |""".stripMargin)
   }
