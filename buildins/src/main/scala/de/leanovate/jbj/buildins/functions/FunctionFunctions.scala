@@ -58,7 +58,9 @@ object FunctionFunctions {
               pClass =>
                 pClass.findMethod(methodName).map {
                   method =>
-                    method.invokeStatic(parameters.toList)
+                    if ( !method.isStatic )
+                      ctx.log.strict("call_user_func() expects parameter 1 to be a valid callback, non-static method %s::%s() should not be called statically".format(pClass.name.toString, methodName))
+                    method.invokeStatic(parameters.toList, strict = false)
                 }.getOrElse {
                   ctx.log.warn("call_user_func() expects parameter 1 to be a valid callback, class '%s' does not have a method '%s'".format(pClass.name.toString, methodName))
                   NullVal

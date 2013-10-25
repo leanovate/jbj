@@ -19,7 +19,7 @@ case class MethodNameConstExpr() extends Expr {
     case ClassContext(pClass, _, _) => StringVal(pClass.name.toString)
     case FunctionContext(functionName, _) => StringVal(functionName.toString)
     case MethodContext(inst, pMethod, _) => StringVal(pMethod.implementingClass.name.toString + "::" + pMethod.name)
-    case StaticMethodContext(pMethod, _, _) => StringVal(pMethod.implementingClass.name.toString + "::" + pMethod.name)
+    case StaticMethodContext(pMethod, _, _, _) => StringVal(pMethod.implementingClass.name.toString + "::" + pMethod.name)
     case _ => StringVal("")
   }
 

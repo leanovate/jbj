@@ -27,7 +27,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
           if ((ctx match {
             case MethodContext(_, pMethod, _) =>
               obj.getProperty(name, Some(pMethod.implementingClass.name.toString))
-            case StaticMethodContext(pMethod, _, _) =>
+            case StaticMethodContext(pMethod, _, _, _) =>
               obj.getProperty(name, Some(pMethod.implementingClass.name.toString))
             case _ =>
               obj.getProperty(name, None)
@@ -62,7 +62,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
                 }
               }
             }
-          case StaticMethodContext(pMethod, _, _) =>
+          case StaticMethodContext(pMethod, _, _, _) =>
             obj.getProperty(name, Some(pMethod.implementingClass.name.toString)).map(_.asVal).getOrElse {
               obj.pClass.findMethod("__get").map(_.invoke(obj, PAnyParam(StringVal(name)) :: Nil)).map(_.asVal).getOrElse {
                 ctx.log.notice("Undefined property: %s::$%s".format(obj.pClass.name.toString, name))
@@ -108,7 +108,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
               obj.setProperty(name, Some(pMethod.implementingClass.name.toString), result)
               result
             }
-          case StaticMethodContext(pMethod, _, _) =>
+          case StaticMethodContext(pMethod, _, _, _) =>
             obj.getProperty(name, Some(pMethod.implementingClass.name.toString)).map {
               case pVar: PVar => pVar
               case value: PVal =>
@@ -159,7 +159,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
                   }
                 }
             }
-          case StaticMethodContext(pMethod, _, _) =>
+          case StaticMethodContext(pMethod, _, _, _) =>
             obj.getProperty(name, Some(pMethod.implementingClass.name.toString)) match {
               case Some(pVar: PVar) if pAny.isInstanceOf[PVal] =>
                 pVar.value = pAny.asInstanceOf[PVal]
@@ -197,7 +197,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
         ctx match {
           case MethodContext(_, pMethod, _) =>
             obj.unsetProperty(name, Some(pMethod.implementingClass.name.toString))
-          case StaticMethodContext(pMethod, _, _) =>
+          case StaticMethodContext(pMethod, _, _, _) =>
             obj.unsetProperty(name, Some(pMethod.implementingClass.name.toString))
           case _ =>
             obj.unsetProperty(name, None)

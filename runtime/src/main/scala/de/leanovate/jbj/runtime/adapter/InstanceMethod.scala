@@ -25,7 +25,7 @@ abstract class InstanceMethod(val implementingClass: PClass, val name: String,
 
   def isProtected = false
 
-  def invokeStatic(parameters: List[PParam])(implicit callerCtx: Context) = {
+  def invokeStatic(parameters: List[PParam], strict: Boolean = true)(implicit callerCtx: Context) = {
     throw new FatalErrorJbjException("Non-static method %s::%s() cannot be called statically".format(implementingClass.name.toString, name))
   }
 }

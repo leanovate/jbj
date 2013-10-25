@@ -24,7 +24,7 @@ object ClassParentName extends Name {
       pMethod.implementingClass.superClass.map(_.name).getOrElse {
         throw new FatalErrorJbjException("Cannot access parent:: when current class scope has no parent")
       }
-    case StaticMethodContext(pMethod, _, _) =>
+    case StaticMethodContext(pMethod, _, _, _) =>
       pMethod.implementingClass.superClass.map(_.name).getOrElse {
         throw new FatalErrorJbjException("Cannot access parent:: when current class scope has no parent")
       }

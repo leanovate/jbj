@@ -28,7 +28,7 @@ case class PInterfaceMethod(pInterface: PInterface, name: String, parameters: Se
     throw new FatalErrorJbjException("Cannot call abstract method %s::%s()".format(pInterface.name.toString, name))
   }
 
-  def invokeStatic(parameters: List[PParam])(implicit callerCtx: Context) = {
+  def invokeStatic(parameters: List[PParam], strict: Boolean = true)(implicit callerCtx: Context) = {
     throw new FatalErrorJbjException("Cannot call abstract method %s::%s()".format(pInterface.name.toString, name))
   }
 }

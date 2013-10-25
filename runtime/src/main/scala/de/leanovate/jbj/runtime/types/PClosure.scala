@@ -71,7 +71,7 @@ class PClosure(instanceNum: Long, returnByRef: Boolean, parameterDecls: List[PPa
             val pMethod = new InstanceMethod(scopeClass, "{closure}", parameterDecls, isFinal = true) {
               def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context) = ???
             }
-            new StaticMethodContext(pMethod, callerCtx, allowThis = false) {
+            new StaticMethodContext(pMethod, scopeClass, callerCtx, allowThis = false) {
               override lazy val static = global.staticContext("Closure::lambda-" + instanceNum)
             }
           case None =>
@@ -180,7 +180,7 @@ object PClosure extends PClass {
       }
     },
     new StaticMethod(this, "bind") {
-      def invokeStatic(parameters: List[PParam])(implicit callerCtx: Context) = {
+      def invokeStatic(parameters: List[PParam], strict: Boolean = true)(implicit callerCtx: Context) = {
         if (parameters.length < 2) {
           throw new FatalErrorJbjException("Closure::bind() expects at least 2 arguments")
         }

@@ -60,7 +60,7 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
         case MethodContext(_, pMethod, _) if implementingClass == pMethod.implementingClass =>
         case MethodContext(_, _, _) if name == "__construct" =>
           throw new FatalErrorJbjException("Cannot call private %s::%s()".format(implementingClass.name.toString, name))
-        case StaticMethodContext(pMethod, _, _) if implementingClass == pMethod.implementingClass =>
+        case StaticMethodContext(pMethod, _, _, _) if implementingClass == pMethod.implementingClass =>
         case _ =>
           if (name == "__construct")
             throw new FatalErrorJbjException("Call to private %s::%s() from invalid context".format(implementingClass.name.toString, name))
@@ -76,7 +76,7 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
           global.log.warn("Call to protected %s::%s() from context '%s' during shutdown ignored".format(implementingClass.name.toString, name, callerCtx.name))
           return NullVal
         case MethodContext(_, pMethod, _) if implementingClass.isAssignableFrom(pMethod.implementingClass) =>
-        case StaticMethodContext(pMethod, _, _) if implementingClass.isAssignableFrom(pMethod.implementingClass) =>
+        case StaticMethodContext(pMethod, _, _, _) if implementingClass.isAssignableFrom(pMethod.implementingClass) =>
         case _ =>
           if (name == "__construct")
             throw new FatalErrorJbjException("Call to protected %s::%s() from invalid context".format(implementingClass.name.toString, name))
@@ -99,13 +99,13 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
     perform(methodCtx, returnByRef, stmts.getOrElse(Nil))
   }
 
-  override def invokeStatic(parameters: List[PParam])(implicit callerCtx: Context) = {
+  override def invokeStatic(parameters: List[PParam], strict :Boolean = true)(implicit callerCtx: Context) = {
     if (isPrivate) {
       callerCtx match {
         case global: GlobalContext if global.inShutdown =>
           global.log.warn("Call to private %s::%s() from context '%s' during shutdown ignored".format(implementingClass.name.toString, name, callerCtx.name))
         case MethodContext(_, pMethod, _) if implementingClass == pMethod.implementingClass =>
-        case StaticMethodContext(pMethod, _, _) if implementingClass == pMethod.implementingClass =>
+        case StaticMethodContext(pMethod, _, _, _) if implementingClass == pMethod.implementingClass =>
         case _ =>
           throw new FatalErrorJbjException("Call to private method %s::%s() from context '%s'".format(implementingClass.name.toString, name, callerCtx.name))
       }
@@ -115,13 +115,18 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
         case global: GlobalContext if global.inShutdown =>
           global.log.warn("Call to protected %s::%s() from context '%s' during shutdown ignored".format(implementingClass.name.toString, name, callerCtx.name))
         case MethodContext(_, pMethod, _) if implementingClass.isAssignableFrom(pMethod.implementingClass) =>
-        case StaticMethodContext(pMethod, _, _) if implementingClass.isAssignableFrom(pMethod.implementingClass) =>
+        case StaticMethodContext(pMethod, _, _, _) if implementingClass.isAssignableFrom(pMethod.implementingClass) =>
         case _ =>
           throw new FatalErrorJbjException("Call to protected method %s::%s() from context '%s'".format(implementingClass.name.toString, name, callerCtx.name))
       }
     }
 
-    implicit val methodCtx = StaticMethodContext(this, callerCtx, allowThis = true)
+    val scopeClass = callerCtx match {
+      case MethodContext(instance, _, _) => instance.pClass
+      case StaticMethodContext(_, pClass, _, _) => pClass
+      case _ => implementingClass
+    }
+    implicit val methodCtx = StaticMethodContext(this, scopeClass, callerCtx, allowThis = true)
 
     methodCtx.currentPosition = position
 
@@ -132,7 +137,7 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
 
     methodCtx.setParameters(callerCtx, parameterDecls, parameters, detailedError = false)
 
-    if (!isStatic)
+    if (strict && !isStatic)
       callerCtx.log.strict("Non-static method %s::%s() should not be called statically".format(implementingClass.name.toString, name))
 
     perform(methodCtx, returnByRef, stmts.getOrElse(Nil))

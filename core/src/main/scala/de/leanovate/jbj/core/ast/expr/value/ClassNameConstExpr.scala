@@ -19,7 +19,7 @@ case class ClassNameConstExpr() extends Expr {
     case InstanceContext(_, pClass, _) => StringVal(pClass.name.toString)
     case ClassContext(pClass, _, _) => StringVal(pClass.name.toString)
     case MethodContext(_, pMethod, _) => StringVal(pMethod.implementingClass.name.toString)
-    case StaticMethodContext(pMethod, _, _) => StringVal(pMethod.implementingClass.name.toString)
+    case StaticMethodContext(pMethod, _, _, _) => StringVal(pMethod.implementingClass.name.toString)
     case _ => StringVal("")
   }
 

@@ -277,5 +277,52 @@ class Objects3Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Testing 'new static;' calling parent method" in {
+      // Zend/tests/objects_027.phpt
+      script(
+        """<?php
+          |
+          |class bar {
+          |	public function show() {
+          |		var_dump(new static);
+          |	}
+          |}
+          |
+          |class foo extends bar {
+          |	public function test() {
+          |		parent::show();
+          |	}
+          |}
+          |
+          |$foo = new foo;
+          |$foo->test();
+          |$foo::test();
+          |
+          |call_user_func(array($foo, 'test'));
+          |call_user_func(array('foo', 'test'));
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """object(foo)#2 (0) {
+          |}
+          |
+          |Strict Standards: Non-static method foo::test() should not be called statically in /zend/Objects3Spec.inlinePhp on line 17
+          |
+          |Strict Standards: Non-static method bar::show() should not be called statically in /zend/Objects3Spec.inlinePhp on line 11
+          |object(foo)#3 (0) {
+          |}
+          |object(foo)#4 (0) {
+          |}
+          |
+          |Strict Standards: call_user_func() expects parameter 1 to be a valid callback, non-static method foo::test() should not be called statically in /zend/Objects3Spec.inlinePhp on line 20
+          |
+          |Strict Standards: Non-static method bar::show() should not be called statically in /zend/Objects3Spec.inlinePhp on line 11
+          |object(foo)#5 (0) {
+          |}
+          |""".stripMargin
+      )
+    }
   }
 }

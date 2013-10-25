@@ -35,7 +35,7 @@ trait PMethod {
 
   def invoke(instance: ObjectVal, parameters: List[PParam])(implicit callerCtx: Context): PAny
 
-  def invokeStatic(parameters: List[PParam])(implicit callerCtx: Context): PAny
+  def invokeStatic(parameters: List[PParam], strict: Boolean = true)(implicit callerCtx: Context): PAny
 
   def isCompatibleWith(otherMethod: PMethod): Boolean = {
     if (returnByRef != otherMethod.returnByRef)
