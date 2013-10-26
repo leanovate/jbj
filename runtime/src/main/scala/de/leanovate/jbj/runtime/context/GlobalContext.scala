@@ -152,14 +152,28 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
     }
   }
 
-  def defineConstant(name: NamespaceName, value: PVal, caseInsensitive: Boolean) {
+  def defineConstant(name: NamespaceName, value: PVal, caseInsensitive: Boolean): Boolean = {
     if (name.toString.contains("::")) {
       log.warn("Class constants cannot be defined or redefined")
+      false
     } else {
-      if (caseInsensitive)
-        constants.put(CaseInsensitiveConstantKey(name.lowercase), value)
-      else
-        constants.put(CaseSensitiveConstantKey(name.path), value)
+      if (caseInsensitive) {
+        if (constants.contains(CaseInsensitiveConstantKey(name.lowercase))) {
+          log.notice(s"Constant ${name.toString} already defined")
+          false
+        } else {
+          constants.put(CaseInsensitiveConstantKey(name.lowercase), value)
+          true
+        }
+      } else {
+        if(constants.contains(CaseSensitiveConstantKey(name.path))) {
+          log.notice(s"Constant ${name.toString} already defined")
+          false
+        } else {
+          constants.put(CaseSensitiveConstantKey(name.path), value)
+          true
+        }
+      }
     }
   }
 

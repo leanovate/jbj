@@ -31,5 +31,7 @@ trait PInterface {
 trait PInterfaceAdapter[T] {
   self: PInterface =>
 
+  def name: NamespaceName
+
   def cast(obj: ObjectVal): T
 }

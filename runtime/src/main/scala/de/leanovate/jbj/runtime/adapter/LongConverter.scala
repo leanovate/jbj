@@ -12,11 +12,18 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 
 object LongConverter extends Converter[Long, IntegerVal] {
-  override def toScalaWithConversion(pAny: PAny)(implicit ctx: Context) = toScala(pAny.asVal.toInteger)
+  override def typeName = "integer"
 
-  override def toScalaWithConversion(param: PParam)(implicit ctx: Context) = toScala(param.byVal.toInteger)
+  override def missingValue(implicit ctx: Context) = 0L
 
-  override def toScala(value: IntegerVal)(implicit ctx: Context) = value.asLong
+  override def toScalaWithConversion(pAny: PAny)(implicit ctx: Context) = pAny.asVal.toInteger.asLong
+
+  override def toScalaWithConversion(param: PParam)(implicit ctx: Context) = param.byVal.toInteger.asLong
+
+  override def toScala(value: PAny)(implicit ctx: Context) = value.asVal.concrete match {
+    case IntegerVal(i) => Some(i)
+    case _ => None
+  }
 
   override def toJbj(value: Long)(implicit ctx: Context) = IntegerVal(value)
 }

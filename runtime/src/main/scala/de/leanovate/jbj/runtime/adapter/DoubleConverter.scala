@@ -12,11 +12,19 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 
 object DoubleConverter extends Converter[Double, DoubleVal] {
-  override def toScalaWithConversion(pAny: PAny)(implicit ctx: Context) = toScala(pAny.asVal.toDouble)
+  override def typeName = "double"
 
-  override def toScalaWithConversion(param:PParam)(implicit ctx: Context) = toScala(param.byVal.toDouble)
+  override def missingValue(implicit ctx: Context) = 0.0
 
-  override def toScala(value: DoubleVal)(implicit ctx: Context) = value.asDouble
+  override def toScalaWithConversion(pAny: PAny)(implicit ctx: Context) = pAny.asVal.toDouble.asDouble
+
+  override def toScalaWithConversion(param: PParam)(implicit ctx: Context) = param.byVal.toDouble.asDouble
+
+
+  override def toScala(value: PAny)(implicit ctx: Context) = value.asVal.concrete match {
+    case DoubleVal(d) => Some(d)
+    case _ => None
+  }
 
   override def toJbj(value: Double)(implicit ctx: Context) = DoubleVal(value)
 }

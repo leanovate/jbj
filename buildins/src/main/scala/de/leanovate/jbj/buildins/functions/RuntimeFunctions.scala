@@ -22,15 +22,9 @@ object RuntimeFunctions {
     NullVal
   }
 
-  @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN, warnResult = NullVal)
+  @GlobalFunction(parameterMode = ParameterMode.STRICT_WARN, warnResult = NullVal)
   def define(name: String, value: PVal, caseInsensitive: Option[Boolean])(implicit ctx: Context): Boolean = {
-    if (ctx.global.findConstant(NamespaceName(name)).isDefined) {
-      ctx.log.notice(s"Constant $name already defined")
-      false
-    } else {
-      ctx.global.defineConstant(NamespaceName(name), value, caseInsensitive.getOrElse(false))
-      true
-    }
+    ctx.global.defineConstant(NamespaceName(name), value, caseInsensitive.getOrElse(false))
   }
 
   @GlobalFunction

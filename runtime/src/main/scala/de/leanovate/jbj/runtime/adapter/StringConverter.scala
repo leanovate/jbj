@@ -12,18 +12,22 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 
 object StringConverter extends Converter[String, StringVal] {
+  override def typeName = "string"
+
+  override def missingValue(implicit ctx: Context) = ""
+
   override def toScalaWithConversion(pAny: PAny)(implicit ctx: Context) = {
     pAny.asVal.concrete match {
       case obj: ObjectVal =>
         val converted = obj.toStr
         if (obj.pClass.findMethod("__toString").isDefined)
-          toScala(converted)
+          converted.asString
         else {
           ctx.log.notice("Object of class %s to string conversion".format(obj.pClass.name.toString))
           "Object"
         }
       case pVal =>
-        toScala(pVal.toStr)
+        pVal.toStr.asString
     }
   }
 
@@ -32,17 +36,21 @@ object StringConverter extends Converter[String, StringVal] {
       case obj: ObjectVal =>
         val converted = obj.toStr
         if (obj.pClass.findMethod("__toString").isDefined)
-          toScala(converted)
+          converted.asString
         else {
           ctx.log.notice("Object of class %s to string conversion".format(obj.pClass.name.toString))
           "Object"
         }
       case pVal =>
-        toScala(pVal.toStr)
+        pVal.toStr.asString
     }
   }
 
-  override def toScala(value: StringVal)(implicit ctx: Context) = value.asString
+
+  def toScala(value: PAny)(implicit ctx: Context) = value.asVal.concrete match {
+    case StringVal(str) => Some(str)
+    case _ => None
+  }
 
   override def toJbj(value: String)(implicit ctx: Context) = StringVal(value)
 }

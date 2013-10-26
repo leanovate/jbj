@@ -14,8 +14,8 @@ import de.leanovate.jbj.runtime.types.PParam
 case class VarargParameterAdapter[T, S <: PAny](converter: Converter[T, S]) extends ParameterAdapter[Seq[T]] {
   override def requiredCount = 0
 
-  override def adapt(parameters: List[PParam])(implicit ctx: Context) =
-    Some(parameters.map {
+  override def adapt(parameters: List[PParam], strict: Boolean, missingErrorHandler: => Unit, conversionErrorHandler: (String, String) => Unit)(implicit ctx: Context) =
+    (parameters.map {
       parameter =>
         converter.toScalaWithConversion(parameter)
     }, Nil)

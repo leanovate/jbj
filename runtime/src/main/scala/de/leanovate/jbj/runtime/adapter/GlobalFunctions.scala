@@ -36,20 +36,22 @@ object GlobalFunctions {
         case (parameter, idx) =>
           val paramName = newTermName("param" + idx)
           val (adapter, stared) = mapParameter(parameter.typeSignature)
-          val adapterCall = Apply(Select(adapter.tree, newTermName("adapt")), List(remain))
-          remain = Select(Ident(paramName), newTermName("_2"))
-          val notEnoughHandler = parameterMode match {
+          val (notEnoughHandler, strict, conversionHandler) = parameterMode match {
             case ParameterMode.EXACTLY_WARN =>
-              notEnoughWarn(member.name.encoded, expected, warnResult).tree
+              (notEnoughWarn(member.name.encoded, expected, warnResult).tree, false, conversionIgnore.tree)
+            case ParameterMode.STRICT_WARN =>
+              (notEnoughWarn(member.name.encoded, expected, warnResult).tree, true, conversionWarn(member.name.encoded, idx, warnResult).tree)
             case ParameterMode.RELAX_ERROR =>
-              notEnoughThrowFatal(member.name.encoded, expected).tree
+              (notEnoughThrowFatal(member.name.encoded, expected).tree, false, conversionIgnore.tree)
           }
+          val adapterCall = Apply(Select(adapter.tree, newTermName("adapt")), List(remain, Literal(Constant(strict)), notEnoughHandler, conversionHandler))
+          remain = Select(Ident(paramName), newTermName("_2"))
           if (stared) {
             Typed(Select(Ident(paramName), newTermName("_1")), Ident(tpnme.WILDCARD_STAR)) ->
-              ValDef(Modifiers(), paramName, TypeTree(), Apply(Select(adapterCall, newTermName("getOrElse")), List(notEnoughHandler)))
+              ValDef(Modifiers(), paramName, TypeTree(), adapterCall)
           } else {
             Select(Ident(paramName), newTermName("_1")) ->
-              ValDef(Modifiers(), paramName, TypeTree(), Apply(Select(adapterCall, newTermName("getOrElse")), List(notEnoughHandler)))
+              ValDef(Modifiers(), paramName, TypeTree(), adapterCall)
           }
       }
       val tooManyHandler: List[Tree] = parameterMode match {
@@ -98,6 +100,7 @@ object GlobalFunctions {
       case TypeRef(_, sym, _) if sym == pVarClass => 1
       case t => 1
     }
+
     def mapParameter(_type: Type): (c.Expr[ParameterAdapter[_]], Boolean) = _type match {
       case TypeRef(_, sym, a) if sym == definitions.RepeatedParamClass => reify {
         VarargParameterAdapter(converterHelper.converterForType(a.head).splice)
@@ -147,6 +150,22 @@ object GlobalFunctions {
       }
     }
 
+    def conversionIgnore: c.Expr[Any] = {
+      reify {
+        (expectedTypeName: String, givenTypeName: String) =>
+      }
+    }
+
+    def conversionWarn(name: String, idx: Int, warnResult: c.universe.Tree): c.Expr[Any] = {
+      val msg = c.literal("%s() expects parameter %d to be %%s, %%s given".format(name, idx + 1))
+      val ctx = c.Expr[context.Context](Ident(newTermName("callerCtx")))
+      val ret = c.Expr[Unit](Return(warnResult))
+      reify {
+        (expectedTypeName: String, givenTypeName: String) =>
+          ctx.splice.log.warn(msg.splice.format(expectedTypeName, givenTypeName))
+          ret.splice
+      }
+    }
     val exprs = inst.actualType.members.filter {
       member =>
         member.isMethod && member.annotations.exists(_.tpe == typeOf[GlobalFunction])

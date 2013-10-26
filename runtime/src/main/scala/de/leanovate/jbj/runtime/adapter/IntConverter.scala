@@ -12,11 +12,18 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 
 object IntConverter extends Converter[Int, IntegerVal] {
-  override def toScalaWithConversion(pAny: PAny)(implicit ctx: Context) = toScala(pAny.asVal.toInteger)
+  override def typeName = "integer"
 
-  override def toScalaWithConversion(param: PParam)(implicit ctx: Context) = toScala(param.byVal.toInteger)
+  override def missingValue(implicit ctx: Context) = 0
 
-  override def toScala(value: IntegerVal)(implicit ctx: Context) = value.asInt
+  override def toScalaWithConversion(pAny: PAny)(implicit ctx: Context) = pAny.asVal.toInteger.asInt
+
+  override def toScalaWithConversion(param: PParam)(implicit ctx: Context) = param.byVal.toInteger.asInt
+
+  override def toScala(value: PAny)(implicit ctx: Context) = value.asVal.concrete match {
+    case IntegerVal(i) => Some(i.toInt)
+    case _ => None
+  }
 
   override def toJbj(value: Int)(implicit ctx: Context) = IntegerVal(value)
 }

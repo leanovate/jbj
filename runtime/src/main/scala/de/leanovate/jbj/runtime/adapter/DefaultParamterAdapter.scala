@@ -14,9 +14,27 @@ import de.leanovate.jbj.runtime.types.PParam
 case class DefaultParamterAdapter[T, S <: PAny](converter: Converter[T, S]) extends ParameterAdapter[T] {
   override def requiredCount = 1
 
-  override def adapt(parameters: List[PParam])(implicit ctx: Context) =
-    parameters match {
-      case head :: tail => Some(converter.toScalaWithConversion(head), tail)
-      case Nil => None
+  override def adapt(parameters: List[PParam], strict: Boolean, missingErrorHandler: => Unit, conversionErrorHandler: (String, String) => Unit)(implicit ctx: Context) = {
+    if (strict) {
+      parameters match {
+        case head :: tail =>
+          converter.toScala(head) match {
+            case Some(v) => (v, tail)
+            case None =>
+              conversionErrorHandler(converter.typeName, head.byVal.typeName(simple = false))
+              (converter.missingValue, tail)
+          }
+        case Nil =>
+          missingErrorHandler
+          (converter.missingValue, Nil)
+      }
+    } else {
+      parameters match {
+        case head :: tail => (converter.toScalaWithConversion(head), tail)
+        case Nil =>
+          missingErrorHandler
+          (converter.missingValue, Nil)
+      }
     }
+  }
 }

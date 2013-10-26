@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.runtime.adapter
 
-import de.leanovate.jbj.runtime.value.PVar
+import de.leanovate.jbj.runtime.value.{NullVal, PVar}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
@@ -15,7 +15,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 object RefParameterAdapter extends ParameterAdapter[PVar] {
   def requiredCount = 1
 
-  def adapt(parameters: List[PParam])(implicit ctx: Context) =
+  def adapt(parameters: List[PParam], strict: Boolean, missingErrorHandler: => Unit, conversionErrorHandler: (String, String) => Unit)(implicit ctx: Context) =
     parameters match {
       case head :: tail =>
         val pVar = head.byRef match {
@@ -26,7 +26,9 @@ object RefParameterAdapter extends ParameterAdapter[PVar] {
           case None =>
             throw new FatalErrorJbjException("Only variables can be passed by reference")
         }
-        Some(pVar, tail)
-      case Nil => None
+        (pVar, tail)
+      case Nil =>
+        missingErrorHandler
+        (PVar(), Nil)
     }
 }

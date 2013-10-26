@@ -9,5 +9,5 @@ package de.leanovate.jbj.runtime.annotations
 
 object ParameterMode extends Enumeration {
   type Type = Value
-  val RELAX_ERROR, EXACTLY_WARN = Value
+  val RELAX_ERROR, EXACTLY_WARN, STRICT_WARN = Value
 }

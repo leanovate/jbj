@@ -13,5 +13,5 @@ import de.leanovate.jbj.runtime.types.PParam
 trait ParameterAdapter[T] {
   def requiredCount: Int
 
-  def adapt(parameters: List[PParam])(implicit ctx: Context): Option[(T, List[PParam])]
+  def adapt(parameters: List[PParam], strict: Boolean, missingErrorHandler: => Unit, conversionErrorHandler: (String, String) => Unit)(implicit ctx: Context): (T, List[PParam])
 }

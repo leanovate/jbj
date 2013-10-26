@@ -12,11 +12,18 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 
 object BooleanConverter extends Converter[Boolean, BooleanVal] {
-  override def toScalaWithConversion(pAny: PAny)(implicit ctx: Context) = toScala(pAny.asVal.toBool)
+  override def typeName = "boolean"
 
-  override def toScalaWithConversion(param: PParam)(implicit ctx: Context) = toScala(param.byVal.toBool)
+  override def missingValue(implicit ctx: Context) = false
 
-  override def toScala(value: BooleanVal)(implicit ctx: Context) = value.asBoolean
+  override def toScalaWithConversion(pAny: PAny)(implicit ctx: Context) = pAny.asVal.toBool.asBoolean
+
+  override def toScalaWithConversion(param: PParam)(implicit ctx: Context) = param.byVal.toBool.asBoolean
+
+  override def toScala(value: PAny)(implicit ctx: Context) = value.asVal.concrete match {
+    case BooleanVal(bool) => Some(bool)
+    case _ => None
+  }
 
   override def toJbj(value: Boolean)(implicit ctx: Context) = BooleanVal(value)
 }
