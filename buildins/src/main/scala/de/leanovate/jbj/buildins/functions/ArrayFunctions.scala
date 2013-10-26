@@ -9,7 +9,7 @@ package de.leanovate.jbj.buildins.functions
 
 import de.leanovate.jbj.runtime.value._
 import scala.collection.mutable
-import de.leanovate.jbj.runtime.annotations.GlobalFunction
+import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.TypeHint
 import de.leanovate.jbj.runtime.CallbackHelper
@@ -227,7 +227,7 @@ object ArrayFunctions {
     }
   }
 
-  @GlobalFunction
+  @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN, warnResult = NullVal)
   def each(value: PVal)(implicit ctx: Context): PVal = value match {
     case array: ArrayVal => array.iteratorNext
     case obj: ObjectVal => obj.iteratorNext

@@ -70,15 +70,22 @@ object TestBed {
     test(
       """<?php
         |
-        |var_dump(strncasecmp(""));
-        |var_dump(strncasecmp("", "", -1));
-        |var_dump(strncasecmp("aef", "dfsgbdf", 0));
-        |var_dump(strncasecmp("aef", "dfsgbdf", 10));
-        |var_dump(strncasecmp("qwe", "qwer", 3));
-        |var_dump(strncasecmp("qwerty", "QweRty", 6));
-        |var_dump(strncasecmp("qwErtY", "qwer", 7));
-        |var_dump(strncasecmp("q123", "Q123", 3));
-        |var_dump(strncasecmp("01", "01", 1000));
+        |var_dump(define());
+        |var_dump(define("TRUE"));
+        |var_dump(define("TRUE", 1));
+        |var_dump(define("TRUE", 1, array(1)));
+        |
+        |var_dump(define(array(1,2,3,4,5), 1));
+        |var_dump(define(" ", 1));
+        |var_dump(define("[[[", 2));
+        |var_dump(define("test const", 3));
+        |var_dump(define("test const", 3));
+        |var_dump(define("test", array(1)));
+        |var_dump(define("test1", new stdclass));
+        |
+        |var_dump(constant(" "));
+        |var_dump(constant("[[["));
+        |var_dump(constant("test const"));
         |
         |echo "Done\n";
         |?>

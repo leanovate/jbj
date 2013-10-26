@@ -8,7 +8,7 @@
 package de.leanovate.jbj.buildins.functions
 
 import de.leanovate.jbj.runtime.value.{NullVal, PVal}
-import de.leanovate.jbj.runtime.annotations.GlobalFunction
+import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
 import de.leanovate.jbj.runtime.context.Context
 import java.util
 import scala.collection.JavaConversions._
@@ -16,6 +16,25 @@ import de.leanovate.jbj.runtime.{NamespaceName, CallbackHelper}
 import de.leanovate.jbj.api.http.JbjSettings
 
 object RuntimeFunctions {
+  @GlobalFunction
+  def constant(name: String)(implicit ctx: Context): PVal = ctx.global.findConstant(NamespaceName(name)).getOrElse {
+    ctx.log.warn("constant(): Couldn't find constant %s".format(name))
+    NullVal
+  }
+
+  @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN, warnResult = NullVal)
+  def define(name: String, value: PVal, caseInsensitive: Option[Boolean])(implicit ctx: Context): Boolean = {
+    if (ctx.global.findConstant(NamespaceName(name)).isDefined) {
+      ctx.log.notice(s"Constant $name already defined")
+      false
+    } else {
+      ctx.global.defineConstant(NamespaceName(name), value, caseInsensitive.getOrElse(false))
+      true
+    }
+  }
+
+  @GlobalFunction
+  def defined(name: String)(implicit ctx: Context): Boolean = ctx.global.findConstant(NamespaceName(name)).isDefined
 
   @GlobalFunction
   def error_reporting(value: Int)(implicit ctx: Context) {
@@ -53,20 +72,6 @@ object RuntimeFunctions {
       case None =>
         ctx.log.warn("Wrong parameter count for register_shutdown_function()")
     }
-  }
-
-  @GlobalFunction
-  def define(name: String, value: PVal, caseInsensitive: Option[Boolean])(implicit ctx: Context) {
-    ctx.global.defineConstant(NamespaceName(name), value, caseInsensitive.getOrElse(false))
-  }
-
-  @GlobalFunction
-  def defined(name: String)(implicit ctx: Context): Boolean = ctx.global.findConstant(NamespaceName(name)).isDefined
-
-  @GlobalFunction
-  def constant(name: String)(implicit ctx: Context): PVal = ctx.global.findConstant(NamespaceName(name)).getOrElse {
-    ctx.log.warn("constant(): Couldn't find constant %s".format(name))
-    NullVal
   }
 
   @GlobalFunction

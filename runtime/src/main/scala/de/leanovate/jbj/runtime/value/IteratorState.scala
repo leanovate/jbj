@@ -42,7 +42,7 @@ trait IteratorState {
   def isCompatible(map: mutable.LinkedHashMap[_, _]): Boolean
 
   private def keyValueArray(key: PVal, value: PAny)(implicit ctx: Context): PVal = {
-    ArrayVal(Some(IntegerVal(1)) -> value, Some(StringVal("value")) -> value,
+    ArrayVal(Some(IntegerVal(1)) -> value.asVal, Some(StringVal("value")) -> value.asVal,
       Some(IntegerVal(0)) -> key, Some(StringVal("key")) -> key)
   }
 }
