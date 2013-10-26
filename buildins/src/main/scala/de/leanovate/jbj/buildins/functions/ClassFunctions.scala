@@ -9,7 +9,7 @@ package de.leanovate.jbj.buildins.functions
 
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
-import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.context.{StaticMethodContext, MethodContext, Context}
 import de.leanovate.jbj.runtime.NamespaceName
 
 object ClassFunctions {
@@ -32,11 +32,19 @@ object ClassFunctions {
   }
 
   @GlobalFunction
-  def get_class(value: PVal)(implicit ctx: Context): PVal = value match {
-    case obj: ObjectVal => StringVal(obj.pClass.name.toString)
-    case _ =>
+  def get_class(value: Option[PVal])(implicit ctx: Context): PVal = value match {
+    case Some(obj: ObjectVal) => StringVal(obj.pClass.name.toString)
+    case Some(_) =>
       ctx.log.warn("get_class() expects parameter 1 to be object, string given")
       BooleanVal.FALSE
+    case None =>
+      ctx match {
+        case MethodContext(_, pMethod, _) => StringVal(pMethod.implementingClass.name.toString)
+        case StaticMethodContext(pMethod, _, _, _) => StringVal(pMethod.implementingClass.name.toString)
+        case _ =>
+          ctx.log.warn("get_class() called without object from outside a class")
+          BooleanVal.FALSE
+      }
   }
 
   @GlobalFunction

@@ -70,22 +70,29 @@ object TestBed {
     test(
       """<?php
         |
-        |var_dump(define());
-        |var_dump(define("TRUE"));
-        |var_dump(define("TRUE", 1));
-        |var_dump(define("TRUE", 1, array(1)));
+        |class foo {
+        |	function bar () {
+        |		var_dump(get_class());
+        |	}
+        |}
         |
-        |var_dump(define(array(1,2,3,4,5), 1));
-        |var_dump(define(" ", 1));
-        |var_dump(define("[[[", 2));
-        |var_dump(define("test const", 3));
-        |var_dump(define("test const", 3));
-        |var_dump(define("test", array(1)));
-        |var_dump(define("test1", new stdclass));
+        |class foo2 extends foo {
+        |}
         |
-        |var_dump(constant(" "));
-        |var_dump(constant("[[["));
-        |var_dump(constant("test const"));
+        |foo::bar();
+        |foo2::bar();
+        |
+        |$f1 = new foo;
+        |$f2 = new foo2;
+        |
+        |$f1->bar();
+        |$f2->bar();
+        |
+        |var_dump(get_class());
+        |var_dump(get_class("qwerty"));
+        |
+        |var_dump(get_class($f1));
+        |var_dump(get_class($f2));
         |
         |echo "Done\n";
         |?>

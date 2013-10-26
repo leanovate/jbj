@@ -499,5 +499,59 @@ class Basic1Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "get_class() tests" in {
+      // ../php-src/Zend/tests/009.phpt
+      script(
+        """<?php
+          |
+          |class foo {
+          |	function bar () {
+          |		var_dump(get_class());
+          |	}
+          |}
+          |
+          |class foo2 extends foo {
+          |}
+          |
+          |foo::bar();
+          |foo2::bar();
+          |
+          |$f1 = new foo;
+          |$f2 = new foo2;
+          |
+          |$f1->bar();
+          |$f2->bar();
+          |
+          |var_dump(get_class());
+          |var_dump(get_class("qwerty"));
+          |
+          |var_dump(get_class($f1));
+          |var_dump(get_class($f2));
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Strict Standards: Non-static method foo::bar() should not be called statically in /zend/Basic1Spec.inlinePhp on line 12
+          |string(3) "foo"
+          |
+          |Strict Standards: Non-static method foo::bar() should not be called statically in /zend/Basic1Spec.inlinePhp on line 13
+          |string(3) "foo"
+          |string(3) "foo"
+          |string(3) "foo"
+          |
+          |Warning: get_class() called without object from outside a class in /zend/Basic1Spec.inlinePhp on line 21
+          |bool(false)
+          |
+          |Warning: get_class() expects parameter 1 to be object, string given in /zend/Basic1Spec.inlinePhp on line 22
+          |bool(false)
+          |string(3) "foo"
+          |string(4) "foo2"
+          |Done
+          |""".stripMargin
+      )
+    }
   }
 }
