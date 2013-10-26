@@ -25,6 +25,8 @@ trait PVal extends PAny {
 
   def toArray(implicit ctx: Context): ArrayVal
 
+  def isScalar: Boolean
+
   def isNull: Boolean
 
   def copy: PVal

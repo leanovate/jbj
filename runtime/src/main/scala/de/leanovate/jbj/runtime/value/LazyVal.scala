@@ -14,31 +14,33 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 abstract class LazyVal extends PVal {
   def value: PConcreteVal
 
-  def toOutput(implicit ctx: Context) = value.toOutput
+  override def toOutput(implicit ctx: Context) = value.toOutput
 
-  def toStr(implicit ctx: Context) = value.toStr
+  override def toStr(implicit ctx: Context) = value.toStr
 
-  def toNum = value.toNum
+  override def toNum = value.toNum
 
-  def toInteger = value.toInteger
+  override def toInteger = value.toInteger
 
-  def toDouble = value.toDouble
+  override def toDouble = value.toDouble
 
-  def toBool = value.toBool
+  override def toBool = value.toBool
 
-  def toArray(implicit ctx: Context) = value.toArray
+  override def toArray(implicit ctx: Context) = value.toArray
 
-  def isNull = value.isNull
+  override def isScalar = value.isScalar
 
-  def copy = value.copy
+  override def isNull = value.isNull
 
-  def incr = value.incr
+  override def copy = value.copy
 
-  def decr = value.decr
+  override def incr = value.incr
 
-  def typeName(simple :Boolean = false) = value.typeName(simple)
+  override def decr = value.decr
 
-  def compare(other: PVal)(implicit ctx: Context) = value.compare(other)
+  override def typeName(simple: Boolean = false) = value.typeName(simple)
+
+  override def compare(other: PVal)(implicit ctx: Context) = value.compare(other)
 
   override def asVal = value
 

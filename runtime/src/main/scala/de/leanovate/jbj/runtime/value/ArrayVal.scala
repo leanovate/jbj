@@ -50,6 +50,8 @@ class ArrayVal(private var keyValueMap: ExtendedLinkedHashMap[Any]) extends PCon
 
   override def toArray(implicit ctx: Context) = this
 
+  override def isScalar = false
+
   override def isNull = false
 
   def isEmpty = keyValueMap.isEmpty

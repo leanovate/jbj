@@ -70,6 +70,8 @@ trait ObjectVal extends PConcreteVal {
     case (PublicKey(key), value) => key -> value
   })
 
+  override def isScalar: Boolean = false
+
   override def isNull = false
 
   override def copy = this

@@ -20,6 +20,8 @@ abstract class BooleanVal extends PConcreteVal {
 
   override def toArray(implicit ctx: Context) = ArrayVal(None -> this)
 
+  override def isScalar = true
+
   override def isNull = false
 
   override def copy = this

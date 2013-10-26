@@ -157,22 +157,27 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
       log.warn("Class constants cannot be defined or redefined")
       false
     } else {
-      if (caseInsensitive) {
-        if (constants.contains(CaseInsensitiveConstantKey(name.lowercase))) {
-          log.notice(s"Constant ${name.toString} already defined")
-          false
+      if (value.isScalar) {
+        if (caseInsensitive) {
+          if (constants.contains(CaseInsensitiveConstantKey(name.lowercase))) {
+            log.notice(s"Constant ${name.toString} already defined")
+            false
+          } else {
+            constants.put(CaseInsensitiveConstantKey(name.lowercase), value)
+            true
+          }
         } else {
-          constants.put(CaseInsensitiveConstantKey(name.lowercase), value)
-          true
+          if (constants.contains(CaseSensitiveConstantKey(name.path))) {
+            log.notice(s"Constant ${name.toString} already defined")
+            false
+          } else {
+            constants.put(CaseSensitiveConstantKey(name.path), value)
+            true
+          }
         }
       } else {
-        if(constants.contains(CaseSensitiveConstantKey(name.path))) {
-          log.notice(s"Constant ${name.toString} already defined")
-          false
-        } else {
-          constants.put(CaseSensitiveConstantKey(name.path), value)
-          true
-        }
+        log.warn("Constants may only evaluate to scalar values")
+        false
       }
     }
   }

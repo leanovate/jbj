@@ -29,8 +29,13 @@ object GlobalFunctions {
       val warnResult = args(1)
       val memberParams = member.paramss.headOption.getOrElse(Nil)
       var remain: Tree = Ident(newTermName("parameters"))
+      var hasOptional = false
       val expected = memberParams.foldLeft(0) {
-        case (count, parameter) => count + expectedParameterCount(parameter.typeSignature)
+        case (count, parameter) =>
+          val expect = expectedParameterCount(parameter.typeSignature)
+          if (expect == 0)
+            hasOptional = true
+          count + expect
       }
       val parameters = memberParams.zipWithIndex.map {
         case (parameter, idx) =>
@@ -38,9 +43,9 @@ object GlobalFunctions {
           val (adapter, stared) = mapParameter(parameter.typeSignature)
           val (notEnoughHandler, strict, conversionHandler) = parameterMode match {
             case ParameterMode.EXACTLY_WARN =>
-              (notEnoughWarn(member.name.encoded, expected, warnResult).tree, false, conversionIgnore.tree)
+              (notEnoughWarn(member.name.encoded, expected, hasOptional, warnResult).tree, false, conversionIgnore.tree)
             case ParameterMode.STRICT_WARN =>
-              (notEnoughWarn(member.name.encoded, expected, warnResult).tree, true, conversionWarn(member.name.encoded, idx, warnResult).tree)
+              (notEnoughWarn(member.name.encoded, expected, hasOptional, warnResult).tree, true, conversionWarn(member.name.encoded, idx, warnResult).tree)
             case ParameterMode.RELAX_ERROR =>
               (notEnoughThrowFatal(member.name.encoded, expected).tree, false, conversionIgnore.tree)
           }
@@ -56,7 +61,9 @@ object GlobalFunctions {
       }
       val tooManyHandler: List[Tree] = parameterMode match {
         case ParameterMode.EXACTLY_WARN =>
-          tooManyWarn(remain, member.name.encoded, expected, warnResult).tree :: Nil
+          tooManyWarn(remain, member.name.encoded, expected, hasOptional, warnResult).tree :: Nil
+        case ParameterMode.STRICT_WARN =>
+          tooManyWarn(remain, member.name.encoded, expected, hasOptional, warnResult).tree :: Nil
         case _ =>
           Nil
       }
@@ -116,8 +123,8 @@ object GlobalFunctions {
       } -> false
     }
 
-    def notEnoughWarn(name: String, expected: Int, warnResult: c.universe.Tree): c.Expr[Any] = {
-      val msg = c.literal("%s() expects exactly %s, %%d given".format(name, plural(expected, "parameter")))
+    def notEnoughWarn(name: String, expected: Int, hasOptional: Boolean, warnResult: c.universe.Tree): c.Expr[Any] = {
+      val msg = c.literal("%s() expects %s %s, %%d given".format(name, if (hasOptional) "at least" else "exactly", plural(expected, "parameter")))
       val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
       val ctx = c.Expr[context.Context](Ident(newTermName("callerCtx")))
       val ret = c.Expr[Unit](Return(warnResult))
@@ -127,8 +134,8 @@ object GlobalFunctions {
       }
     }
 
-    def tooManyWarn(remain: Tree, name: String, expected: Int, warnResult: c.universe.Tree): c.Expr[Any] = {
-      val msg = c.literal("%s() expects exactly %s, %%d given".format(name, plural(expected, "parameter")))
+    def tooManyWarn(remain: Tree, name: String, expected: Int, hasOptional: Boolean, warnResult: c.universe.Tree): c.Expr[Any] = {
+      val msg = c.literal("%s() expects %s %s, %%d given".format(name, if (hasOptional) "at least" else "exactly", plural(expected, "parameter")))
       val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
       val ctx = c.Expr[context.Context](Ident(newTermName("callerCtx")))
       val remainExpr = c.Expr[List[PParam]](remain)

@@ -26,6 +26,8 @@ object NullVal extends PConcreteVal {
 
   override def toArray(implicit ctx: Context) = ArrayVal()
 
+  override def isScalar = true
+
   override def isNull = true
 
   override def copy = this
