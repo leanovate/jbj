@@ -58,8 +58,8 @@ object ClassFunctions {
   }
 
   @GlobalFunction
-  def is_a(value:PVal, name:String)(implicit ctx:Context): Boolean = value match {
-    case obj:ObjectVal =>
+  def is_a(value: PVal, name: String)(implicit ctx: Context): Boolean = value match {
+    case obj: ObjectVal =>
       ctx.global.findInterfaceOrClass(NamespaceName(name), autoload = false).exists {
         case Left(pInterface) =>
           pInterface.isAssignableFrom(obj.pClass)
@@ -84,17 +84,31 @@ object ClassFunctions {
   }
 
   @GlobalFunction
-  def get_parent_class(value: PVal)(implicit ctx: Context): PVal = value match {
-    case obj: ObjectVal =>
+  def get_parent_class(value: Option[PVal])(implicit ctx: Context): PVal = value match {
+    case Some(obj: ObjectVal) =>
       obj.pClass.superClass.map {
         superClass => StringVal(superClass.name.toString)
       }.getOrElse(BooleanVal.FALSE)
-    case name =>
+    case Some(name) =>
       ctx.global.findClass(NamespaceName(name.toStr.asString), autoload = true).flatMap {
         pClass =>
           pClass.superClass.map {
             superClass => StringVal(superClass.name.toString)
           }
       }.getOrElse(BooleanVal.FALSE)
+    case None =>
+      ctx match {
+        case MethodContext(_, pMethod, _) =>
+          pMethod.implementingClass.superClass.map {
+            superClass => StringVal(superClass.name.toString)
+          }.getOrElse(BooleanVal.FALSE)
+        case StaticMethodContext(pMethod, _, _, _) =>
+          pMethod.implementingClass.superClass.map {
+            superClass => StringVal(superClass.name.toString)
+          }.getOrElse(BooleanVal.FALSE)
+        case _ =>
+          ctx.log.warn("get_parent_class() called without object from outside a class")
+          BooleanVal.FALSE
+      }
   }
 }

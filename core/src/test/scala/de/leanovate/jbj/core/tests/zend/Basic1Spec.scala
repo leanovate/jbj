@@ -501,7 +501,7 @@ class Basic1Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "get_class() tests" in {
-      // ../php-src/Zend/tests/009.phpt
+      // Zend/tests/009.phpt
       script(
         """<?php
           |

@@ -70,29 +70,41 @@ object TestBed {
     test(
       """<?php
         |
-        |class foo {
-        |	function bar () {
-        |		var_dump(get_class());
+        |interface i {
+        |	function test();
+        |}
+        |
+        |class foo implements i {
+        |	function test() {
+        |		var_dump(get_parent_class());
         |	}
         |}
         |
-        |class foo2 extends foo {
+        |class bar extends foo {
+        |	function test_bar() {
+        |		var_dump(get_parent_class());
+        |	}
         |}
         |
-        |foo::bar();
-        |foo2::bar();
+        |$bar = new bar;
+        |$foo = new foo;
         |
-        |$f1 = new foo;
-        |$f2 = new foo2;
+        |$foo->test();
+        |$bar->test();
+        |$bar->test_bar();
         |
-        |$f1->bar();
-        |$f2->bar();
+        |var_dump(get_parent_class($bar));
+        |var_dump(get_parent_class($foo));
+        |var_dump(get_parent_class("bar"));
+        |var_dump(get_parent_class("foo"));
+        |var_dump(get_parent_class("i"));
         |
-        |var_dump(get_class());
-        |var_dump(get_class("qwerty"));
-        |
-        |var_dump(get_class($f1));
-        |var_dump(get_class($f2));
+        |var_dump(get_parent_class(""));
+        |var_dump(get_parent_class("[[[["));
+        |var_dump(get_parent_class(" "));
+        |var_dump(get_parent_class(new stdclass));
+        |var_dump(get_parent_class(array()));
+        |var_dump(get_parent_class(1));
         |
         |echo "Done\n";
         |?>
