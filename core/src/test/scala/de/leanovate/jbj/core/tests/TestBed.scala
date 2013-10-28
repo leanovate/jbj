@@ -70,13 +70,17 @@ object TestBed {
     test(
       """<?php
         |
-        |var_dump(trigger_error());
-        |var_dump(trigger_error("error"));
-        |var_dump(trigger_error(array()));
-        |var_dump(trigger_error("error", -1));
-        |var_dump(trigger_error("error", 0));
-        |var_dump(trigger_error("error", E_USER_WARNING));
-        |var_dump(trigger_error("error", E_USER_DEPRECATED));
+        |var_dump(constant());
+        |var_dump(constant("", ""));
+        |var_dump(constant(""));
+        |
+        |var_dump(constant(array()));
+        |
+        |define("TEST_CONST", 1);
+        |var_dump(constant("TEST_CONST"));
+        |
+        |define("TEST_CONST2", "test");
+        |var_dump(constant("TEST_CONST2"));
         |
         |echo "Done\n";
         |?>

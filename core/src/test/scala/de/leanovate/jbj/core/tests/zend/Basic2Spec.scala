@@ -302,7 +302,7 @@ class Basic2Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "trigger_error() tests" in {
-      // ../php-src/Zend/tests/015.phpt
+      // Zend/tests/015.phpt
       script(
         """<?php
           |
@@ -339,6 +339,63 @@ class Basic2Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |
           |Deprecated: error in /zend/Basic2Spec.inlinePhp on line 9
           |bool(true)
+          |Done
+          |""".stripMargin
+      )
+    }
+
+    "isset() with object properties when operating on non-object" in {
+      // Zend/tests/016.phpt
+      script(
+        """<?php
+          |
+          |$foo = NULL;
+          |isset($foo->bar->bar);
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """Done
+          |""".stripMargin
+      )
+    }
+
+    "constant() tests" in {
+      // Zend/tests/018.phpt
+      script(
+        """<?php
+          |
+          |var_dump(constant());
+          |var_dump(constant("", ""));
+          |var_dump(constant(""));
+          |
+          |var_dump(constant(array()));
+          |
+          |define("TEST_CONST", 1);
+          |var_dump(constant("TEST_CONST"));
+          |
+          |define("TEST_CONST2", "test");
+          |var_dump(constant("TEST_CONST2"));
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Warning: constant() expects exactly 1 parameter, 0 given in /zend/Basic2Spec.inlinePhp on line 3
+          |NULL
+          |
+          |Warning: constant() expects exactly 1 parameter, 2 given in /zend/Basic2Spec.inlinePhp on line 4
+          |NULL
+          |
+          |Warning: constant(): Couldn't find constant  in /zend/Basic2Spec.inlinePhp on line 5
+          |NULL
+          |
+          |Warning: constant() expects parameter 1 to be string, array given in /zend/Basic2Spec.inlinePhp on line 7
+          |NULL
+          |int(1)
+          |string(4) "test"
           |Done
           |""".stripMargin
       )
