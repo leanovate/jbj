@@ -40,7 +40,12 @@ class StringVal(var chars: Array[Byte]) extends PConcreteVal with ArrayLike {
     case _ => IntegerVal(0)
   }
 
-  override def toBool: BooleanVal = BooleanVal(!chars.isEmpty)
+  override def toBool: BooleanVal = {
+    if (!chars.isEmpty)
+      BooleanVal(chars.exists(_ != '0'))
+    else
+      BooleanVal.FALSE
+  }
 
   override def toArray(implicit ctx: Context) = ArrayVal(None -> this)
 
