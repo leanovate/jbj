@@ -36,7 +36,7 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
   private val staticContexts = mutable.Map.empty[String, StaticContext]
   private val staticClassObjects = mutable.Map.empty[String, ObjectVal]
 
-  private val includedFiles = mutable.Set.empty[String]
+  val includedFiles = mutable.LinkedHashSet.empty[String]
 
   private val autoloading = mutable.Set.empty[String]
 

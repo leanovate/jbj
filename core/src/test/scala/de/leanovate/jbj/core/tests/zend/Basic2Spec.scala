@@ -212,7 +212,7 @@ class Basic2Spec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "interface_exists() tests" in {
-      // ../php-src/Zend/tests/013.phpt
+      // Zend/tests/013.phpt
       script(
         """<?php
           |
@@ -246,6 +246,56 @@ class Basic2Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |bool(true)
           |bool(false)
           |bool(false)
+          |Done
+          |""".stripMargin
+      )
+    }
+
+    "get_included_files() tests" in {
+      // Zend/tests/014.phpt
+      script(
+        """<?php
+          |
+          |var_dump(get_included_files());
+          |
+          |include(dirname(__FILE__)."/014.inc");
+          |var_dump(get_included_files());
+          |
+          |var_dump(get_included_files(1,1));
+          |
+          |include_once(dirname(__FILE__)."/014.inc");
+          |var_dump(get_included_files());
+          |
+          |var_dump(get_included_files(1));
+          |
+          |include(dirname(__FILE__)."/014.inc");
+          |var_dump(get_included_files());
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        // This result differs from the original since we run our tests differently (i.e. without additional include
+        """array(0) {
+          |}
+          |array(1) {
+          |  [0]=>
+          |  string(13) "/zend/014.inc"
+          |}
+          |
+          |Warning: get_included_files() expects exactly 0 parameter, 2 given in /zend/Basic2Spec.inlinePhp on line 8
+          |NULL
+          |array(1) {
+          |  [0]=>
+          |  string(13) "/zend/014.inc"
+          |}
+          |
+          |Warning: get_included_files() expects exactly 0 parameter, 1 given in /zend/Basic2Spec.inlinePhp on line 13
+          |NULL
+          |array(1) {
+          |  [0]=>
+          |  string(13) "/zend/014.inc"
+          |}
           |Done
           |""".stripMargin
       )

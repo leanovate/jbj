@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.buildins.functions
 
-import de.leanovate.jbj.runtime.value.{NullVal, PVal}
+import de.leanovate.jbj.runtime.value.{StringVal, ArrayVal, NullVal, PVal}
 import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
 import de.leanovate.jbj.runtime.context.Context
 import java.util
@@ -39,6 +39,14 @@ object RuntimeFunctions {
         set
     }
     ctx.settings.setErrorReporting(errorReporing)
+  }
+
+  @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN, warnResult = NullVal)
+  def get_included_files()(implicit ctx: Context): PVal = {
+    ArrayVal(ctx.global.includedFiles.map {
+      file =>
+        None -> StringVal(file)
+    }.toList: _*)
   }
 
   @GlobalFunction
