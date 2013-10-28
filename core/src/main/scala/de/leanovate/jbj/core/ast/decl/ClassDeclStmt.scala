@@ -166,8 +166,12 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, declaredName: NamespaceNam
     }
   }
 
-  private def findConstructor(pClass: PClass): Option[PMethod] =
-    pClass.findMethod(pClass.name.toString).map(Some.apply).getOrElse(pClass.findMethod("__construct"))
+  private def findConstructor(pClass: PClass): Option[PMethod] = {
+    pClass.findMethod(pClass.name.toString).map {
+      case method if method.implementingClass == pClass => Some(method)
+      case _ => None
+    }.getOrElse(pClass.findMethod("__construct"))
+  }
 
   private def findDestructor: Option[PMethod] = findMethod("__destruct")
 

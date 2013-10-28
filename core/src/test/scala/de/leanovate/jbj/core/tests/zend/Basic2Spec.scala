@@ -75,5 +75,100 @@ class Basic2Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "property_exists() tests" in {
+      // Zend/tests/011.phpt
+      script(
+        """<?php
+          |
+          |class foo {
+          |	public $pp1 = 1;
+          |	private $pp2 = 2;
+          |	protected $pp3 = 3;
+          |
+          |	function bar() {
+          |		var_dump(property_exists("foo","pp1"));
+          |		var_dump(property_exists("foo","pp2"));
+          |		var_dump(property_exists("foo","pp3"));
+          |	}
+          |}
+          |
+          |class bar extends foo {
+          |	function test() {
+          |		var_dump(property_exists("foo","pp1"));
+          |		var_dump(property_exists("foo","pp2"));
+          |		var_dump(property_exists("foo","pp3"));
+          |	}
+          |}
+          |
+          |var_dump(property_exists());
+          |var_dump(property_exists(""));
+          |var_dump(property_exists("foo","pp1"));
+          |var_dump(property_exists("foo","pp2"));
+          |var_dump(property_exists("foo","pp3"));
+          |var_dump(property_exists("foo","nonexistent"));
+          |var_dump(property_exists("fo","nonexistent"));
+          |var_dump(property_exists("foo",""));
+          |var_dump(property_exists("","test"));
+          |var_dump(property_exists("",""));
+          |
+          |$foo = new foo;
+          |
+          |var_dump(property_exists($foo,"pp1"));
+          |var_dump(property_exists($foo,"pp2"));
+          |var_dump(property_exists($foo,"pp3"));
+          |var_dump(property_exists($foo,"nonexistent"));
+          |var_dump(property_exists($foo,""));
+          |var_dump(property_exists(array(),"test"));
+          |var_dump(property_exists(1,"test"));
+          |var_dump(property_exists(true,"test"));
+          |
+          |$foo->bar();
+          |
+          |$bar = new bar;
+          |$bar->test();
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Warning: property_exists() expects exactly 2 parameters, 0 given in /zend/Basic2Spec.inlinePhp on line 23
+          |NULL
+          |
+          |Warning: property_exists() expects exactly 2 parameters, 1 given in /zend/Basic2Spec.inlinePhp on line 24
+          |NULL
+          |bool(true)
+          |bool(true)
+          |bool(true)
+          |bool(false)
+          |bool(false)
+          |bool(false)
+          |bool(false)
+          |bool(false)
+          |bool(true)
+          |bool(true)
+          |bool(true)
+          |bool(false)
+          |bool(false)
+          |
+          |Warning: First parameter must either be an object or the name of an existing class in /zend/Basic2Spec.inlinePhp on line 41
+          |NULL
+          |
+          |Warning: First parameter must either be an object or the name of an existing class in /zend/Basic2Spec.inlinePhp on line 42
+          |NULL
+          |
+          |Warning: First parameter must either be an object or the name of an existing class in /zend/Basic2Spec.inlinePhp on line 43
+          |NULL
+          |bool(true)
+          |bool(true)
+          |bool(true)
+          |bool(true)
+          |bool(true)
+          |bool(true)
+          |Done
+          |""".stripMargin
+      )
+    }
   }
 }

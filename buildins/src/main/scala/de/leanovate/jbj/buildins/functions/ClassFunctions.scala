@@ -8,7 +8,7 @@
 package de.leanovate.jbj.buildins.functions
 
 import de.leanovate.jbj.runtime.value._
-import de.leanovate.jbj.runtime.annotations.GlobalFunction
+import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
 import de.leanovate.jbj.runtime.context.{StaticMethodContext, MethodContext, Context}
 import de.leanovate.jbj.runtime.NamespaceName
 
@@ -110,5 +110,21 @@ object ClassFunctions {
           ctx.log.warn("get_parent_class() called without object from outside a class")
           BooleanVal.FALSE
       }
+  }
+
+  @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN, warnResult = NullVal)
+  def property_exists(value: PVal, name: String)(implicit ctx: Context): PVal = {
+    value.concrete match {
+      case obj: ObjectVal =>
+        BooleanVal(obj.pClass.properties.contains(name))
+      case StringVal(className) =>
+        ctx.global.findClass(NamespaceName(className), autoload = false).map {
+          pClass =>
+            BooleanVal(pClass.properties.contains(name))
+        }.getOrElse(BooleanVal.FALSE)
+      case _ =>
+        ctx.log.warn("First parameter must either be an object or the name of an existing class")
+        NullVal
+    }
   }
 }

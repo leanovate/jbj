@@ -70,41 +70,53 @@ object TestBed {
     test(
       """<?php
         |
-        |interface i {
-        |	function test();
-        |}
+        |class foo {
+        |	public $pp1 = 1;
+        |	private $pp2 = 2;
+        |	protected $pp3 = 3;
         |
-        |class foo implements i {
-        |	function test() {
-        |		var_dump(get_parent_class());
+        |	function bar() {
+        |		var_dump(property_exists("foo","pp1"));
+        |		var_dump(property_exists("foo","pp2"));
+        |		var_dump(property_exists("foo","pp3"));
         |	}
         |}
         |
         |class bar extends foo {
-        |	function test_bar() {
-        |		var_dump(get_parent_class());
+        |	function test() {
+        |		var_dump(property_exists("foo","pp1"));
+        |		var_dump(property_exists("foo","pp2"));
+        |		var_dump(property_exists("foo","pp3"));
         |	}
         |}
         |
-        |$bar = new bar;
+        |var_dump(property_exists());
+        |var_dump(property_exists(""));
+        |var_dump(property_exists("foo","pp1"));
+        |var_dump(property_exists("foo","pp2"));
+        |var_dump(property_exists("foo","pp3"));
+        |var_dump(property_exists("foo","nonexistent"));
+        |var_dump(property_exists("fo","nonexistent"));
+        |var_dump(property_exists("foo",""));
+        |var_dump(property_exists("","test"));
+        |var_dump(property_exists("",""));
+        |
         |$foo = new foo;
         |
-        |$foo->test();
+        |var_dump(property_exists($foo,"pp1"));
+        |var_dump(property_exists($foo,"pp2"));
+        |var_dump(property_exists($foo,"pp3"));
+        |var_dump(property_exists($foo,"nonexistent"));
+        |var_dump(property_exists($foo,""));
+        |var_dump(property_exists(array(),"test"));
+        |var_dump(property_exists(1,"test"));
+        |var_dump(property_exists(true,"test"));
+        |
+        |$foo->bar();
+        |echo ">>>>>>\n";
+        |$bar = new bar;
         |$bar->test();
-        |$bar->test_bar();
-        |
-        |var_dump(get_parent_class($bar));
-        |var_dump(get_parent_class($foo));
-        |var_dump(get_parent_class("bar"));
-        |var_dump(get_parent_class("foo"));
-        |var_dump(get_parent_class("i"));
-        |
-        |var_dump(get_parent_class(""));
-        |var_dump(get_parent_class("[[[["));
-        |var_dump(get_parent_class(" "));
-        |var_dump(get_parent_class(new stdclass));
-        |var_dump(get_parent_class(array()));
-        |var_dump(get_parent_class(1));
+        |echo ">>>>>>\n";
         |
         |echo "Done\n";
         |?>
