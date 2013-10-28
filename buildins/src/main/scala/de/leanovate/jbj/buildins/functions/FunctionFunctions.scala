@@ -58,7 +58,7 @@ object FunctionFunctions {
               pClass =>
                 pClass.findMethod(methodName).map {
                   method =>
-                    if ( !method.isStatic )
+                    if (!method.isStatic)
                       ctx.log.strict(s"call_user_func() expects parameter 1 to be a valid callback, non-static method ${pClass.name.toString}::$methodName() should not be called statically")
                     method.invokeStatic(parameters.toList, strict = false)
                 }.getOrElse {
@@ -100,25 +100,19 @@ object FunctionFunctions {
         }
     }
 
-  @GlobalFunction(ParameterMode.EXACTLY_WARN)
-  def func_get_arg(value: PVal)(implicit ctx: Context): PVal = {
-    value match {
-      case IntegerVal(argNum) =>
-        ctx match {
-          case funcCtx: FunctionLikeContext if argNum < 0 =>
-            ctx.log.warn("func_get_arg():  The argument number should be >= 0")
-            BooleanVal.FALSE
-          case funcCtx: FunctionLikeContext if argNum >= funcCtx.functionArguments.size =>
-            ctx.log.warn("func_get_arg():  Argument %d not passed to function".format(argNum))
-            BooleanVal.FALSE
-          case funcCtx: FunctionLikeContext =>
-            funcCtx.functionArguments(argNum.toInt).asVal
-          case _ =>
-            ctx.log.warn("func_get_arg():  Called from the global scope - no function context")
-            BooleanVal.FALSE
-        }
+  @GlobalFunction(ParameterMode.STRICT_WARN, warnResult = NullVal)
+  def func_get_arg(argNum: Int)(implicit ctx: Context): PVal = {
+    ctx match {
+      case funcCtx: FunctionLikeContext if argNum < 0 =>
+        ctx.log.warn("func_get_arg():  The argument number should be >= 0")
+        BooleanVal.FALSE
+      case funcCtx: FunctionLikeContext if argNum >= funcCtx.functionArguments.size =>
+        ctx.log.warn("func_get_arg():  Argument %d not passed to function".format(argNum))
+        BooleanVal.FALSE
+      case funcCtx: FunctionLikeContext =>
+        funcCtx.functionArguments(argNum.toInt).asVal
       case _ =>
-        ctx.log.warn("func_get_arg() expects parameter 1 to be long, %s given".format(value.typeName(simple = true)))
+        ctx.log.warn("func_get_arg():  Called from the global scope - no function context")
         BooleanVal.FALSE
     }
   }

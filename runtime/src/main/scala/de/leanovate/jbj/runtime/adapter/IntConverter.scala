@@ -12,7 +12,7 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 
 object IntConverter extends Converter[Int, IntegerVal] {
-  override def typeName = "integer"
+  override def typeName = "long"
 
   override def missingValue(implicit ctx: Context) = 0
 

@@ -70,17 +70,19 @@ object TestBed {
     test(
       """<?php
         |
-        |var_dump(constant());
-        |var_dump(constant("", ""));
-        |var_dump(constant(""));
+        |var_dump(func_get_arg(1,2,3));
+        |var_dump(func_get_arg(1));
+        |var_dump(func_get_arg());
         |
-        |var_dump(constant(array()));
+        |function bar() {
+        |	var_dump(func_get_arg(1));
+        |}
         |
-        |define("TEST_CONST", 1);
-        |var_dump(constant("TEST_CONST"));
+        |function foo() {
+        |	bar(func_get_arg(1));
+        |}
         |
-        |define("TEST_CONST2", "test");
-        |var_dump(constant("TEST_CONST2"));
+        |foo(1,2);
         |
         |echo "Done\n";
         |?>
