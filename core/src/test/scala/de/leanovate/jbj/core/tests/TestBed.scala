@@ -70,39 +70,16 @@ object TestBed {
     test(
       """<?php
         |
-        |$a = 'ucfirst';
-        |$b = 'a';
-        |print $$b('test');
-        |print "\n";
+        |$arr = array(new stdClass);
         |
+        |$arr[0]->a = clone $arr[0];
+        |var_dump($arr);
         |
-        |class bar {
-        |	public function a() {
-        |		return "bar!";
-        |	}
-        |}
+        |$arr[0]->b = new $arr[0];
+        |var_dump($arr);
         |
-        |class foo {
-        |	public function test() {
-        |		print "foo!\n";
-        |		return new bar;
-        |	}
-        |}
-        |
-        |function test() {
-        |	return new foo;
-        |}
-        |
-        |$a = 'test';
-        |$b = 'a';
-        |var_dump($$b()->$$b()->$b());
-        |
-        |
-        |$a = 'strtoupper';
-        |$b = 'a';
-        |$c = 'b';
-        |$d = 'c';
-        |var_dump($$$$d('foo'));
+        |$arr[0]->c = $arr[0]->a;
+        |var_dump($arr);
         |
         |?>
         |""".stripMargin)

@@ -172,5 +172,241 @@ class Basic3Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Testing operations with undefined variable" in {
+      // Zend/tests/024.phpt
+      script(
+        """<?php
+          |
+          |var_dump($a[1]);
+          |var_dump($a[$c]);
+          |var_dump($a + 1);
+          |var_dump($a + $b);
+          |var_dump($a++);
+          |var_dump(++$b);
+          |var_dump($a->$b);
+          |var_dump($a->$b);
+          |var_dump($a->$b->$c[1]);
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Notice: Undefined variable: a in /zend/Basic3Spec.inlinePhp on line 3
+          |NULL
+          |
+          |Notice: Undefined variable: c in /zend/Basic3Spec.inlinePhp on line 4
+          |
+          |Notice: Undefined variable: a in /zend/Basic3Spec.inlinePhp on line 4
+          |NULL
+          |
+          |Notice: Undefined variable: a in /zend/Basic3Spec.inlinePhp on line 5
+          |int(1)
+          |
+          |Notice: Undefined variable: a in /zend/Basic3Spec.inlinePhp on line 6
+          |
+          |Notice: Undefined variable: b in /zend/Basic3Spec.inlinePhp on line 6
+          |int(0)
+          |
+          |Notice: Undefined variable: a in /zend/Basic3Spec.inlinePhp on line 7
+          |NULL
+          |
+          |Notice: Undefined variable: b in /zend/Basic3Spec.inlinePhp on line 8
+          |int(1)
+          |
+          |Notice: Trying to get property of non-object in /zend/Basic3Spec.inlinePhp on line 9
+          |NULL
+          |
+          |Notice: Trying to get property of non-object in /zend/Basic3Spec.inlinePhp on line 10
+          |NULL
+          |
+          |Notice: Undefined variable: c in /zend/Basic3Spec.inlinePhp on line 11
+          |
+          |Notice: Trying to get property of non-object in /zend/Basic3Spec.inlinePhp on line 11
+          |
+          |Notice: Trying to get property of non-object in /zend/Basic3Spec.inlinePhp on line 11
+          |NULL
+          |""".stripMargin
+      )
+    }
+
+    "Testing dynamic calls" in {
+      // Zend/tests/025.phpt
+      script(
+        """<?php
+          |
+          |class foo {
+          |	static public function a() {
+          |		print "ok\n";
+          |	}
+          |}
+          |
+          |$a = 'a';
+          |$b = 'a';
+          |
+          |$class = 'foo';
+          |
+          |foo::a();
+          |foo::$a();
+          |foo::$$b();
+          |
+          |$class::a();
+          |$class::$a();
+          |$class::$$b();
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """ok
+          |ok
+          |ok
+          |ok
+          |ok
+          |ok
+          |""".stripMargin
+      )
+    }
+
+    "Trying assign value to property when an object is not returned in a function" in {
+      // Zend/tests/026.phpt
+      script(
+        """<?php
+          |
+          |class foo {
+          |	public function a() {
+          |	}
+          |}
+          |
+          |$test = new foo;
+          |
+          |$test->a()->a;
+          |print "ok\n";
+          |
+          |$test->a()->a = 1;
+          |print "ok\n";
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Notice: Trying to get property of non-object in /zend/Basic3Spec.inlinePhp on line 10
+          |ok
+          |
+          |Warning: Creating default object from empty value in /zend/Basic3Spec.inlinePhp on line 13
+          |ok
+          |""".stripMargin
+      )
+    }
+
+    "Testing dynamic calls using variable variables with curly syntax" in {
+      // Zend/tests/027.phpt
+      script(
+        """<?php
+          |
+          |$a = 'b';
+          |$b = 'c';
+          |$c = 'strtoupper';
+          |
+          |var_dump(${${$a}}('foo') == 'FOO');
+          |
+          |$a = 'b';
+          |$b = 'c';
+          |$c = 'strtoupper';
+          |$strtoupper = 'strtolower';
+          |
+          |var_dump(${${++$a}}('FOO') == 'foo');
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """bool(true)
+          |bool(true)
+          |""".stripMargin
+      )
+    }
+
+    "Testing function call through of array item" in {
+      // Zend/tests/028.phpt
+      script(
+        """<?php
+          |
+          |$arr = array('strtoupper', 'strtolower');
+          |
+          |$k = 0;
+          |
+          |var_dump($arr[0]('foo') == 'FOO');
+          |var_dump($arr[$k]('foo') == 'FOO');
+          |var_dump($arr[++$k]('FOO') == 'foo');
+          |var_dump($arr[++$k]('FOO') == 'foo');
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """bool(true)
+          |bool(true)
+          |bool(true)
+          |
+          |Notice: Undefined offset: 2 in /zend/Basic3Spec.inlinePhp on line 10
+          |
+          |Fatal error: Function name must be a string in /zend/Basic3Spec.inlinePhp on line 10
+          |""".stripMargin
+      )
+    }
+
+    "Testing assign to property of an object in an array" in {
+      // Zend/tests/029.phpt
+      script(
+        """<?php
+          |
+          |$arr = array(new stdClass);
+          |
+          |$arr[0]->a = clone $arr[0];
+          |var_dump($arr);
+          |
+          |$arr[0]->b = new $arr[0];
+          |var_dump($arr);
+          |
+          |$arr[0]->c = $arr[0]->a;
+          |var_dump($arr);
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """array(1) {
+          |  [0]=>
+          |  object(stdClass)#1 (1) {
+          |    ["a"]=>
+          |    object(stdClass)#2 (0) {
+          |    }
+          |  }
+          |}
+          |array(1) {
+          |  [0]=>
+          |  object(stdClass)#1 (2) {
+          |    ["a"]=>
+          |    object(stdClass)#2 (0) {
+          |    }
+          |    ["b"]=>
+          |    object(stdClass)#3 (0) {
+          |    }
+          |  }
+          |}
+          |array(1) {
+          |  [0]=>
+          |  object(stdClass)#1 (3) {
+          |    ["a"]=>
+          |    object(stdClass)#2 (0) {
+          |    }
+          |    ["b"]=>
+          |    object(stdClass)#3 (0) {
+          |    }
+          |    ["c"]=>
+          |    object(stdClass)#2 (0) {
+          |    }
+          |  }
+          |}
+          |""".stripMargin
+      )
+    }
   }
 }
