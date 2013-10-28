@@ -69,26 +69,41 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |var_dump(true ?: false);
-        |var_dump(false ?: true);
-        |var_dump(23 ?: 42);
-        |var_dump(0 ?: "bar");
         |
-        |$a = 23;
-        |$b = 0;
-        |$c = "";
-        |$d = 23.5;
+        |$a = 'ucfirst';
+        |$b = 'a';
+        |print $$b('test');
+        |print "\n";
         |
-        |var_dump($a ?: $b);
-        |var_dump($c ?: $d);
         |
-        |var_dump(1 ?: print(2));
+        |class bar {
+        |	public function a() {
+        |		return "bar!";
+        |	}
+        |}
         |
-        |$e = array();
+        |class foo {
+        |	public function test() {
+        |		print "foo!\n";
+        |		return new bar;
+        |	}
+        |}
         |
-        |$e['e'] = 'e';
-        |$e['e'] = $e['e'] ?: 'e';
-        |print_r($e);
+        |function test() {
+        |	return new foo;
+        |}
+        |
+        |$a = 'test';
+        |$b = 'a';
+        |var_dump($$b()->$$b()->$b());
+        |
+        |
+        |$a = 'strtoupper';
+        |$b = 'a';
+        |$c = 'b';
+        |$d = 'c';
+        |var_dump($$$$d('foo'));
+        |
         |?>
         |""".stripMargin)
   }

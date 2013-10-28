@@ -65,6 +65,20 @@ object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
           </parameters>
         </call>
       )
+    case callMethod: CallMethodRefExpr =>
+      NextSibling(
+        <call-method>
+          <instance>
+            {callMethod.instanceExpr.visit(this).results}
+          </instance>
+          <name>
+            {callMethod.methodName.visit(this).results}
+          </name>
+          <parameters>
+            {callMethod.parameters.flatMap(_.visit(this).results)}
+          </parameters>
+        </call-method>
+      )
     case classDecl: ClassDeclStmt =>
       NextSibling(
         <class line={classDecl.position.line.toString} file={classDecl.position.fileName}>

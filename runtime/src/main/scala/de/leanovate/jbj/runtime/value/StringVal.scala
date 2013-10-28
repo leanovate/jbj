@@ -241,7 +241,9 @@ class StringVal(var chars: Array[Byte]) extends PConcreteVal with ArrayLike {
     ctx.findFunction(NamespaceName(asString)).isDefined
 
   override def call(params: List[PParam])(implicit ctx: Context) =
-    ctx.findFunction(NamespaceName(asString)).map(_.call(params)).getOrElse(NullVal)
+    ctx.findFunction(NamespaceName(asString)).map(_.call(params)).getOrElse {
+      throw new FatalErrorJbjException(s"Call to undefined function ${asString}()")
+    }
 
   override def toXml =
     <string>

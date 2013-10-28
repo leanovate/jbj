@@ -93,5 +93,84 @@ class Basic3Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Implementating abstracting methods and optional parameters" in {
+      // Zend/tests/022.phpt
+      script(
+        """<?php
+          |
+          |abstract class Base
+          |{
+          |	abstract function someMethod($param);
+          |}
+          |
+          |class Ext extends Base
+          |{
+          |	function someMethod($param = "default")
+          |	{
+          |		echo $param, "\n";
+          |	}
+          |}
+          |
+          |$a = new Ext();
+          |$a->someMethod("foo");
+          |$a->someMethod();
+          |""".stripMargin
+      ).result must haveOutput(
+        """foo
+          |default
+          |""".stripMargin
+      )
+    }
+
+    "Testing variable variables as function name" in {
+      // Zend/tests/023.phpt
+      script(
+        """<?php
+          |
+          |$a = 'ucfirst';
+          |$b = 'a';
+          |print $$b('test');
+          |print "\n";
+          |
+          |
+          |class bar {
+          |	public function a() {
+          |		return "bar!";
+          |	}
+          |}
+          |
+          |class foo {
+          |	public function test() {
+          |		print "foo!\n";
+          |		return new bar;
+          |	}
+          |}
+          |
+          |function test() {
+          |	return new foo;
+          |}
+          |
+          |$a = 'test';
+          |$b = 'a';
+          |var_dump($$b()->$$b()->$b());
+          |
+          |
+          |$a = 'strtoupper';
+          |$b = 'a';
+          |$c = 'b';
+          |$d = 'c';
+          |var_dump($$$$d('foo'));
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """Test
+          |foo!
+          |string(4) "bar!"
+          |string(3) "FOO"
+          |""".stripMargin
+      )
+    }
   }
 }

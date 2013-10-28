@@ -118,6 +118,15 @@ object StringFunctions {
   }
 
   @GlobalFunction
+  def ucfirst(str: String): String = {
+    if (str.isEmpty)
+      ""
+    else {
+      str.take(1).toUpperCase + str.drop(1)
+    }
+  }
+
+  @GlobalFunction
   def urlencode(str: String): String = {
     URLEncoder.encode(str, "UTF-8")
   }

@@ -678,6 +678,14 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val dimOffset: PackratParser[Option[Expr]] = opt(expr)
 
   lazy val objectProperty: PackratParser[List[RefExpr => RefExpr]] = objectDimList | variableWithoutObjects ^^ {
+    case (DynamicName(expr:VariableRefExpr), dims) =>
+      val name = DynamicName(dims.foldLeft(expr.asInstanceOf[RefExpr]) {
+        (ref, dim) =>
+          DimRefExpr(ref, dim)
+      })
+      List({
+        ref: RefExpr => PropertyRefExpr(ref, name)
+      })
     case (n, dims) =>
       val name = DynamicName(dims.foldLeft(VariableRefExpr(n).asInstanceOf[RefExpr]) {
         (ref, dim) =>
