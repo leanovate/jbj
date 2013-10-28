@@ -12,6 +12,8 @@ import de.leanovate.jbj.runtime.value.PVal
 import de.leanovate.jbj.runtime.context.Context
 
 trait SwitchCase extends Node {
+  def isDefault: Boolean
+
   def stmts: List[Stmt]
 
   def matches(value: PVal)(implicit ctx: Context): Boolean

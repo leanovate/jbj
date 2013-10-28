@@ -70,16 +70,23 @@ object TestBed {
     test(
       """<?php
         |
-        |$arr = array(new stdClass);
-        |
-        |$arr[0]->a = clone $arr[0];
-        |var_dump($arr);
-        |
-        |$arr[0]->b = new $arr[0];
-        |var_dump($arr);
-        |
-        |$arr[0]->c = $arr[0]->a;
-        |var_dump($arr);
+        |switch (1) {
+        |	case 2:
+        |		print 'foo';
+        |		break;
+        |	case 3:
+        |		print 'bar';
+        |		break;
+        |	default:
+        |		print 1;
+        |		break;
+        |	default:
+        |		print 2;
+        |		break;
+        |	default:
+        |		print 3;
+        |		break;
+        |}
         |
         |?>
         |""".stripMargin)

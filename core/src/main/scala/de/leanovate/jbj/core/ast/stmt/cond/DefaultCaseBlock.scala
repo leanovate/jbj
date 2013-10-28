@@ -12,7 +12,9 @@ import de.leanovate.jbj.runtime.value.PVal
 import de.leanovate.jbj.runtime.context.Context
 
 case class DefaultCaseBlock(stmts: List[Stmt]) extends SwitchCase {
-  def matches(value: PVal)(implicit ctx: Context) = true
+  override def isDefault = true
+
+  override def matches(value: PVal)(implicit ctx: Context) = false
 
   override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(stmts)
 }
