@@ -70,18 +70,18 @@ object TestBed {
     test(
       """<?php
         |
-        |class foo {
+        |interface foo {
         |}
         |
-        |var_dump(class_exists());
-        |var_dump(class_exists("qwerty"));
-        |var_dump(class_exists(""));
-        |var_dump(class_exists(array()));
-        |var_dump(class_exists("test", false));
-        |var_dump(class_exists("foo", false));
-        |var_dump(class_exists("foo"));
-        |var_dump(class_exists("stdClass", false));
-        |var_dump(class_exists("stdClass"));
+        |var_dump(interface_exists());
+        |var_dump(interface_exists("qwerty"));
+        |var_dump(interface_exists(""));
+        |var_dump(interface_exists(array()));
+        |var_dump(interface_exists("test", false));
+        |var_dump(interface_exists("foo", false));
+        |var_dump(interface_exists("foo"));
+        |var_dump(interface_exists("stdClass", false));
+        |var_dump(interface_exists("stdClass"));
         |
         |echo "Done\n";
         |?>

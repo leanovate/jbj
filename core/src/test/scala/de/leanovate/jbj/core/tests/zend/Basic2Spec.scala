@@ -210,5 +210,45 @@ class Basic2Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "interface_exists() tests" in {
+      // ../php-src/Zend/tests/013.phpt
+      script(
+        """<?php
+          |
+          |interface foo {
+          |}
+          |
+          |var_dump(interface_exists());
+          |var_dump(interface_exists("qwerty"));
+          |var_dump(interface_exists(""));
+          |var_dump(interface_exists(array()));
+          |var_dump(interface_exists("test", false));
+          |var_dump(interface_exists("foo", false));
+          |var_dump(interface_exists("foo"));
+          |var_dump(interface_exists("stdClass", false));
+          |var_dump(interface_exists("stdClass"));
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Warning: interface_exists() expects at least 1 parameter, 0 given in /zend/Basic2Spec.inlinePhp on line 6
+          |NULL
+          |bool(false)
+          |bool(false)
+          |
+          |Warning: interface_exists() expects parameter 1 to be string, array given in /zend/Basic2Spec.inlinePhp on line 9
+          |NULL
+          |bool(false)
+          |bool(true)
+          |bool(true)
+          |bool(false)
+          |bool(false)
+          |Done
+          |""".stripMargin
+      )
+    }
   }
 }

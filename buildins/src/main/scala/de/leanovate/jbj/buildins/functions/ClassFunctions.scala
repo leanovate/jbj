@@ -18,7 +18,7 @@ object ClassFunctions {
     ctx.global.findClass(NamespaceName(name), autoload.getOrElse(true)).isDefined
   }
 
-  @GlobalFunction
+  @GlobalFunction(parameterMode = ParameterMode.STRICT_WARN, warnResult = NullVal)
   def interface_exists(name: String, autoload: Option[Boolean])(implicit ctx: Context): Boolean = {
     ctx.global.findInterface(NamespaceName(name), autoload.getOrElse(true)).isDefined
   }
