@@ -35,7 +35,6 @@ class ArrayDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implici
             ctx.log.warn("Illegal offset type")
             NullVal
           case Some(arrayKey) =>
-            println(">>>>>>>>>>>>>> Here " + arrayKey)
             val result = array.getAt(optArrayKey.get)
             if (!result.isDefined) {
               optArrayKey.get.concrete match {

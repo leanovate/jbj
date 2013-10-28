@@ -290,15 +290,14 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val methodBody: PackratParser[Option[List[Stmt]]] = ";" ^^^ None |
     "{" ~> innerStatementList <~ "}" ^^ Some.apply
 
-  lazy val variableModifiers: PackratParser[Set[MemberModifier.Type]] = nonEmptyMemberModifiers |
-    "var" ^^^ Set.empty[MemberModifier.Type]
+  lazy val variableModifiers: PackratParser[List[MemberModifier.Type]] = nonEmptyMemberModifiers | "var" ^^^ Nil
 
-  lazy val methodModifiers: PackratParser[Set[MemberModifier.Type]] = opt(nonEmptyMemberModifiers) ^^ {
-    optModifiers => optModifiers.getOrElse(Set.empty[MemberModifier.Type])
+  lazy val methodModifiers: PackratParser[List[MemberModifier.Type]] = opt(nonEmptyMemberModifiers) ^^ {
+    optModifiers => optModifiers.getOrElse(Nil)
   }
 
-  lazy val nonEmptyMemberModifiers: PackratParser[Set[MemberModifier.Type]] =
-    rep1(memberModifier) ^^ (_.toSet)
+  lazy val nonEmptyMemberModifiers: PackratParser[List[MemberModifier.Type]] =
+    rep1(memberModifier)
 
   lazy val memberModifier: PackratParser[MemberModifier.Type] =
     "public" ^^^ MemberModifier.PUBLIC | "protected" ^^^ MemberModifier.PROTECTED |
@@ -650,7 +649,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     }
   } | simpleIndirectReference ~ referenceVariable ^^ {
     case indirects ~ ((n, dims)) =>
-      val ref:RefExpr = VariableRefExpr(indirects.foldLeft(n) {
+      val ref: RefExpr = VariableRefExpr(indirects.foldLeft(n) {
         (v, indirect) =>
           indirect(v)
       })

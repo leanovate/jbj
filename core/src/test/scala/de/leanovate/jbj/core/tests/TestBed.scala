@@ -70,44 +70,13 @@ object TestBed {
     test(
       """<?php
         |
-        |function my_error_handler($errno, $errstr, $errfile, $errline) {
-        |	var_dump($errstr);
+        |class test {
+        |	static public public static final public final function foo() {
+        |	}
         |}
         |
-        |
-        |class test1
-        |{
-        |}
-        |
-        |class test2
-        |{
-        |    function __toString()
-        |    {
-        |    	echo __METHOD__ . "()\n";
-        |        return "Converted\n";
-        |    }
-        |}
-        |
-        |class test3
-        |{
-        |    function __toString()
-        |    {
-        |    	echo __METHOD__ . "()\n";
-        |        return 42;
-        |    }
-        |}
-        |
-        |echo "====test2====\n";
-        |$o = new test2;
-        |
-        |echo "====test7====\n";
-        |$ar = array();
-        |$ar[$o->__toString()] = "ERROR";
-        |echo $ar[$o];
-        |
-        |
+        |echo "Done\n";
         |?>
-        |====DONE====
         |""".stripMargin)
   }
 }

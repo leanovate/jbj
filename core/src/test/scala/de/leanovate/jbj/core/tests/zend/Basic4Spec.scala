@@ -154,5 +154,29 @@ class Basic4Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "Trying to access inexistent static property of Closure" in {
+      // ../php-src/Zend/tests/037.phpt
+      script(
+        """<?php
+          |
+          |namespace closure;
+          |
+          |class closure { static $x = 1;}
+          |
+          |$x = __NAMESPACE__;
+          |var_dump(closure::$x);
+          |
+          |var_dump($x::$x);
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """int(1)
+          |
+          |Fatal error: Access to undeclared static property: Closure::$x in /zend/Basic4Spec.inlinePhp on line 10
+          |""".stripMargin
+      )
+    }
   }
 }

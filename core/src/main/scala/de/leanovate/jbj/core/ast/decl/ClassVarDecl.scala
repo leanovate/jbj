@@ -14,7 +14,7 @@ import de.leanovate.jbj.core.ast.stmt.StaticAssignment
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.types.{PProperty, PClass}
 
-case class ClassVarDecl(modifiers: Set[MemberModifier.Type], assignments: List[StaticAssignment])
+case class ClassVarDecl(modifiers: List[MemberModifier.Type], assignments: List[StaticAssignment])
   extends ClassMemberDecl {
 
   lazy val isStatic = modifiers.contains(MemberModifier.STATIC)
@@ -51,6 +51,8 @@ case class ClassVarDecl(modifiers: Set[MemberModifier.Type], assignments: List[S
   }
 
   override def initializeClass(pClass: ClassDeclStmt)(implicit ctx: Context) {
+    if (modifiers.size != modifiers.toSet.size)
+      throw new FatalErrorJbjException("Multiple access type modifiers are not allowed")
     pClass.superClass.foreach {
       superClass =>
         assignments.foreach {

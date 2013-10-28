@@ -14,11 +14,11 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.core.ast.stmt.FunctionLike
 import de.leanovate.jbj.runtime.types._
 
-case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, returnByRef: Boolean, parameterDecls: List[ParameterDecl],
+case class ClassMethodDecl(modifiers: List[MemberModifier.Type], name: String, returnByRef: Boolean, parameterDecls: List[ParameterDecl],
                            stmts: Option[List[Stmt]]) extends ClassMemberDecl with PMethod with BlockLike with FunctionLike {
   private var _declaringInterface: Option[PInterface] = None
   private var _implementingClass: PClass = PStdClass
-  private var _activeModifiers: Set[MemberModifier.Type] = modifieres
+  private var _activeModifiers: Set[MemberModifier.Type] = modifiers.toSet
 
   private lazy val staticInitializers = StaticInitializer.collect(stmts.getOrElse(Nil): _*)
 
@@ -160,6 +160,8 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
   }
 
   override def initializeClass(pClass: ClassDeclStmt)(implicit ctx: Context) {
+    if (modifiers.size != modifiers.toSet.size)
+      throw new FatalErrorJbjException("Multiple access type modifiers are not allowed")
     if (isAbstract) {
       if (isFinal) {
         throw new FatalErrorJbjException("Cannot use the final modifier on an abstract class member")
@@ -207,10 +209,10 @@ case class ClassMethodDecl(modifieres: Set[MemberModifier.Type], name: String, r
       case "__call" =>
         if (parameterDecls.size != 2)
           throw new FatalErrorJbjException("Method %s::__call() must take exactly 2 arguments".format(pClass.name.toString))
-        if (modifieres.contains(MemberModifier.STATIC) || modifieres.contains(MemberModifier.PRIVATE) || modifieres.contains(MemberModifier.PROTECTED)) {
+        if (modifiers.contains(MemberModifier.STATIC) || modifiers.contains(MemberModifier.PRIVATE) || modifiers.contains(MemberModifier.PROTECTED)) {
           ctx.log.warn("The magic method __call() must have public visibility and cannot be static")
           // We just remove private and protected as this would affect execution. Actually a static __call is still supposed to work
-          _activeModifiers = modifieres - MemberModifier.PRIVATE - MemberModifier.PROTECTED
+          _activeModifiers = modifiers.toSet - MemberModifier.PRIVATE - MemberModifier.PROTECTED
         }
       case "__get" =>
         if (parameterDecls.size != 1)
