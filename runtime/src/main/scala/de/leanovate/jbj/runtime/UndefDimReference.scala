@@ -27,6 +27,9 @@ class UndefDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implici
 
   override def byVar = {
     optArrayKey match {
+      case Some(arrayKey) if arrayKey.concrete.isInstanceOf[ObjectVal] =>
+        ctx.log.warn("Illegal offset type")
+        PVar()
       case Some(arrayKey) =>
         createParent.getAt(arrayKey) match {
           case Some(valueRef: PVar) =>
@@ -45,6 +48,9 @@ class UndefDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implici
 
   override def assign(pAny: PAny)(implicit ctx: Context) = {
     optArrayKey match {
+      case Some(arrayKey) if arrayKey.concrete.isInstanceOf[ObjectVal] =>
+        ctx.log.warn("Illegal offset type")
+        NullVal
       case Some(arrayKey) =>
         createParent.getAt(arrayKey) match {
           case Some(pVar: PVar) if pAny.isInstanceOf[PVal] =>

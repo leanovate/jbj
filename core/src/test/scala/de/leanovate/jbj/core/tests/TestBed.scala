@@ -70,25 +70,44 @@ object TestBed {
     test(
       """<?php
         |
-        |switch (1) {
-        |	case 2:
-        |		print 'foo';
-        |		break;
-        |	case 3:
-        |		print 'bar';
-        |		break;
-        |	default:
-        |		print 1;
-        |		break;
-        |	default:
-        |		print 2;
-        |		break;
-        |	default:
-        |		print 3;
-        |		break;
+        |function my_error_handler($errno, $errstr, $errfile, $errline) {
+        |	var_dump($errstr);
         |}
         |
+        |
+        |class test1
+        |{
+        |}
+        |
+        |class test2
+        |{
+        |    function __toString()
+        |    {
+        |    	echo __METHOD__ . "()\n";
+        |        return "Converted\n";
+        |    }
+        |}
+        |
+        |class test3
+        |{
+        |    function __toString()
+        |    {
+        |    	echo __METHOD__ . "()\n";
+        |        return 42;
+        |    }
+        |}
+        |
+        |echo "====test2====\n";
+        |$o = new test2;
+        |
+        |echo "====test7====\n";
+        |$ar = array();
+        |$ar[$o->__toString()] = "ERROR";
+        |echo $ar[$o];
+        |
+        |
         |?>
+        |====DONE====
         |""".stripMargin)
   }
 }

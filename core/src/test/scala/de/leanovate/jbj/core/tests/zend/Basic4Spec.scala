@@ -112,5 +112,47 @@ class Basic4Spec extends SpecificationWithJUnit with TestJbjExecutor {
         """3""".stripMargin
       )
     }
+
+    "Using 'static' and 'global' in global scope" in {
+      // Zend/tests/035.phpt
+      script(
+        """<?php
+          |
+          |static $var, $var, $var = -1;
+          |var_dump($var);
+          |
+          |global $var, $var, $var;
+          |var_dump($var);
+          |
+          |var_dump($GLOBALS['var']);
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """int(-1)
+          |int(-1)
+          |int(-1)
+          |""".stripMargin
+      )
+    }
+
+    "Trying to use lambda in array offset" in {
+      // Zend/tests/036.phpt
+      script(
+        """<?php
+          |
+          |$test[function(){}] = 1;
+          |$a{function() { }} = 1;
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Warning: Illegal offset type in /zend/Basic4Spec.inlinePhp on line 3
+          |
+          |Warning: Illegal offset type in /zend/Basic4Spec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
   }
 }

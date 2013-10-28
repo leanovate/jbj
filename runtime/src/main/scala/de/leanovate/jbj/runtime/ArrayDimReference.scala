@@ -28,35 +28,47 @@ class ArrayDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implici
   }
 
   override def byVal = {
-    if (optArrayKey.isEmpty)
-      throw new FatalErrorJbjException("Cannot use [] for reading")
-    else
-      parentRef.byVal.concrete match {
-        case array: ArrayLike =>
-          val result = array.getAt(optArrayKey.get)
-          if (!result.isDefined) {
-            optArrayKey.get.concrete match {
-              case IntegerVal(idx) =>
-                ctx.log.notice("Undefined offset: %d".format(idx))
-              case DoubleVal(idx) =>
-                ctx.log.notice("Undefined offset: %d".format(idx.toLong))
-              case str: StringVal if str.isStrongNumericPattern =>
-                ctx.log.notice("Undefined offset: %d".format(str.toInteger.asLong))
-              case idx =>
-                ctx.log.notice("Undefined index: %s".format(idx.toStr.asString))
+    parentRef.byVal.concrete match {
+      case array: ArrayLike =>
+        optArrayKey match {
+          case Some(arrayKey) if arrayKey.concrete.isInstanceOf[ObjectVal] =>
+            ctx.log.warn("Illegal offset type")
+            NullVal
+          case Some(arrayKey) =>
+            println(">>>>>>>>>>>>>> Here " + arrayKey)
+            val result = array.getAt(optArrayKey.get)
+            if (!result.isDefined) {
+              optArrayKey.get.concrete match {
+                case IntegerVal(idx) =>
+                  ctx.log.notice("Undefined offset: %d".format(idx))
+                case DoubleVal(idx) =>
+                  ctx.log.notice("Undefined offset: %d".format(idx.toLong))
+                case str: StringVal if str.isStrongNumericPattern =>
+                  ctx.log.notice("Undefined offset: %d".format(str.toInteger.asLong))
+                case idx =>
+                  ctx.log.notice("Undefined index: %s".format(idx.toStr.asString))
+              }
             }
-          }
-          result.map(_.asVal).getOrElse(NullVal)
-        case _ => NullVal
-      }
+            result.map(_.asVal).getOrElse(NullVal)
+          case None =>
+            throw new FatalErrorJbjException("Cannot use [] for reading")
+        }
+      case _ => NullVal
+    }
   }
 
   override def byVar = {
     optParent.map {
       array =>
         optArrayKey match {
+          case Some(arrayKey) if arrayKey.concrete.isInstanceOf[ObjectVal] =>
+            ctx.log.warn("Illegal offset type")
+            PVar()
           case Some(arrayKey) =>
             array.getAt(arrayKey) match {
+              case Some(_: ObjectVal) =>
+                ctx.log.warn("Illegal offset type")
+                PVar()
               case Some(valueRef: PVar) =>
                 valueRef
               case someValue =>
@@ -79,6 +91,9 @@ class ArrayDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implici
     optParent.map {
       array =>
         optArrayKey match {
+          case Some(arrayKey) if arrayKey.concrete.isInstanceOf[ObjectVal] =>
+            ctx.log.warn("Illegal offset type")
+            NullVal
           case Some(arrayKey) =>
             array.getAt(arrayKey) match {
               case Some(pVar: PVar) if pAny.isInstanceOf[PVal] =>

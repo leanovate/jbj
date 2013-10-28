@@ -20,10 +20,6 @@ trait ArrayLike {
       case StringVal(idx) => getAt(idx)
       case BooleanVal.TRUE => getAt(1)
       case BooleanVal.FALSE => getAt(0)
-      case _: ObjectVal =>
-        val errorStr = "Illegal offset type"
-        ctx.out.println("string(%d) \"%s\"".format(errorStr.length, errorStr))
-        Some(NullVal)
       case v => getAt(v.toStr.asString)
     }
 
@@ -46,10 +42,6 @@ trait ArrayLike {
       case StringVal(idx) => setAt(idx, value)
       case BooleanVal.TRUE => setAt(1, value)
       case BooleanVal.FALSE => setAt(0, value)
-      case _: ObjectVal =>
-        val errorStr = "Illegal offset type"
-        ctx.out.println("string(%d) \"%s\"".format(errorStr.length, errorStr))
-        value
       case v => setAt(v.toStr.asString, value)
     }
   }
