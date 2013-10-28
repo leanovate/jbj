@@ -62,6 +62,10 @@ class Log(context: Context, out: OutputBuffer, err: Option[PrintStream]) {
     stdLog(JbjSettings.ErrorLevel.E_USER_ERROR, "Error", msg)
   }
 
+  def userDeprecated(msg: String) {
+    stdLog(JbjSettings.ErrorLevel.E_USER_DEPRECATED, "Deprecated", msg)
+  }
+
   def parseError(position: FileNodePosition, msg: String) {
     if (!silent && context.settings.getErrorReporting.contains(JbjSettings.ErrorLevel.E_PARSE)) {
       err.foreach(_.println("PHP Parse error: %s in %s on line %d".format(msg, position.fileName, position.line)))

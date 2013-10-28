@@ -300,5 +300,48 @@ class Basic2Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "trigger_error() tests" in {
+      // ../php-src/Zend/tests/015.phpt
+      script(
+        """<?php
+          |
+          |var_dump(trigger_error());
+          |var_dump(trigger_error("error"));
+          |var_dump(trigger_error(array()));
+          |var_dump(trigger_error("error", -1));
+          |var_dump(trigger_error("error", 0));
+          |var_dump(trigger_error("error", E_USER_WARNING));
+          |var_dump(trigger_error("error", E_USER_DEPRECATED));
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Warning: trigger_error() expects at least 1 parameter, 0 given in /zend/Basic2Spec.inlinePhp on line 3
+          |NULL
+          |
+          |Notice: error in /zend/Basic2Spec.inlinePhp on line 4
+          |bool(true)
+          |
+          |Warning: trigger_error() expects parameter 1 to be string, array given in /zend/Basic2Spec.inlinePhp on line 5
+          |NULL
+          |
+          |Warning: Invalid error type specified in /zend/Basic2Spec.inlinePhp on line 6
+          |bool(false)
+          |
+          |Warning: Invalid error type specified in /zend/Basic2Spec.inlinePhp on line 7
+          |bool(false)
+          |
+          |Warning: error in /zend/Basic2Spec.inlinePhp on line 8
+          |bool(true)
+          |
+          |Deprecated: error in /zend/Basic2Spec.inlinePhp on line 9
+          |bool(true)
+          |Done
+          |""".stripMargin
+      )
+    }
   }
 }

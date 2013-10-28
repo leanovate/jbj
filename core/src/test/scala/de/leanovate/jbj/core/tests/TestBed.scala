@@ -70,18 +70,13 @@ object TestBed {
     test(
       """<?php
         |
-        |interface foo {
-        |}
-        |
-        |var_dump(interface_exists());
-        |var_dump(interface_exists("qwerty"));
-        |var_dump(interface_exists(""));
-        |var_dump(interface_exists(array()));
-        |var_dump(interface_exists("test", false));
-        |var_dump(interface_exists("foo", false));
-        |var_dump(interface_exists("foo"));
-        |var_dump(interface_exists("stdClass", false));
-        |var_dump(interface_exists("stdClass"));
+        |var_dump(trigger_error());
+        |var_dump(trigger_error("error"));
+        |var_dump(trigger_error(array()));
+        |var_dump(trigger_error("error", -1));
+        |var_dump(trigger_error("error", 0));
+        |var_dump(trigger_error("error", E_USER_WARNING));
+        |var_dump(trigger_error("error", E_USER_DEPRECATED));
         |
         |echo "Done\n";
         |?>

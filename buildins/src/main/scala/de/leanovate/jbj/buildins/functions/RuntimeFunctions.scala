@@ -84,7 +84,7 @@ object RuntimeFunctions {
     }
   }
 
-  @GlobalFunction
+  @GlobalFunction(parameterMode = ParameterMode.STRICT_WARN, warnResult = NullVal)
   def trigger_error(error_msg: String, error_type: Option[Int])(implicit ctx: Context): Boolean = {
     val errorLevel = JbjSettings.ErrorLevel.errorLevelForValue(error_type.getOrElse(JbjSettings.ErrorLevel.E_USER_NOTICE.getValue))
 
@@ -98,7 +98,11 @@ object RuntimeFunctions {
       case Some(JbjSettings.ErrorLevel.E_USER_ERROR) =>
         ctx.log.userError(error_msg)
         true
+      case Some(JbjSettings.ErrorLevel.E_USER_DEPRECATED) =>
+        ctx.log.userDeprecated(error_msg)
+        true
       case _ =>
+        ctx.log.warn("Invalid error type specified")
         false
     }
   }
