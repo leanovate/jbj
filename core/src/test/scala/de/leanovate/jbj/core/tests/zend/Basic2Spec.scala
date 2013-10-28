@@ -170,5 +170,45 @@ class Basic2Spec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "class_exists() tests" in {
+      // Zend/tests/012.phpt
+      script(
+        """<?php
+          |
+          |class foo {
+          |}
+          |
+          |var_dump(class_exists());
+          |var_dump(class_exists("qwerty"));
+          |var_dump(class_exists(""));
+          |var_dump(class_exists(array()));
+          |var_dump(class_exists("test", false));
+          |var_dump(class_exists("foo", false));
+          |var_dump(class_exists("foo"));
+          |var_dump(class_exists("stdClass", false));
+          |var_dump(class_exists("stdClass"));
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Warning: class_exists() expects at least 1 parameter, 0 given in /zend/Basic2Spec.inlinePhp on line 6
+          |NULL
+          |bool(false)
+          |bool(false)
+          |
+          |Warning: class_exists() expects parameter 1 to be string, array given in /zend/Basic2Spec.inlinePhp on line 9
+          |NULL
+          |bool(false)
+          |bool(true)
+          |bool(true)
+          |bool(true)
+          |bool(true)
+          |Done
+          |""".stripMargin
+      )
+    }
   }
 }

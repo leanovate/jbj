@@ -13,7 +13,7 @@ import de.leanovate.jbj.runtime.context.{StaticMethodContext, MethodContext, Con
 import de.leanovate.jbj.runtime.NamespaceName
 
 object ClassFunctions {
-  @GlobalFunction
+  @GlobalFunction(parameterMode = ParameterMode.STRICT_WARN, warnResult = NullVal)
   def class_exists(name: String, autoload: Option[Boolean])(implicit ctx: Context): Boolean = {
     ctx.global.findClass(NamespaceName(name), autoload.getOrElse(true)).isDefined
   }
