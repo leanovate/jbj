@@ -69,22 +69,26 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
+        |var_dump(true ?: false);
+        |var_dump(false ?: true);
+        |var_dump(23 ?: 42);
+        |var_dump(0 ?: "bar");
         |
-        |var_dump(func_get_arg(1,2,3));
-        |var_dump(func_get_arg(1));
-        |var_dump(func_get_arg());
+        |$a = 23;
+        |$b = 0;
+        |$c = "";
+        |$d = 23.5;
         |
-        |function bar() {
-        |	var_dump(func_get_arg(1));
-        |}
+        |var_dump($a ?: $b);
+        |var_dump($c ?: $d);
         |
-        |function foo() {
-        |	bar(func_get_arg(1));
-        |}
+        |var_dump(1 ?: print(2));
         |
-        |foo(1,2);
+        |$e = array();
         |
-        |echo "Done\n";
+        |$e['e'] = 'e';
+        |$e['e'] = $e['e'] ?: 'e';
+        |print_r($e);
         |?>
         |""".stripMargin)
   }

@@ -325,7 +325,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   }
 
   lazy val expr: PackratParser[Expr] =
-    expr ~ "?" ~ expr ~ ":" ~ expr ^^ {
+    expr ~ "?" ~ opt(expr) ~ ":" ~ expr ^^ {
       case cond ~ _ ~ tExpr ~ _ ~ fExpr => TernaryExpr(cond, tExpr, fExpr)
     } | "list" ~> "(" ~> assignmentList ~ ")" ~ "=" ~ expr ^^ {
       case refs ~ _ ~ _ ~ e => AssignRefExpr(ListRefExpr(refs), e)
