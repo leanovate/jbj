@@ -89,5 +89,45 @@ class AccessModifiersSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "using multiple access modifiers (final methods)" in {
+      // Zend/tests/access_modifiers_005.phpt
+      script(
+        """<?php
+          |
+          |class test {
+          |	final final function foo() {
+          |	}
+          |}
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Multiple final modifiers are not allowed in /zend/AccessModifiersSpec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
+
+    "using multiple access modifiers (static methods)" in {
+      // Zend/tests/access_modifiers_006.phpt
+      script(
+        """<?php
+          |
+          |class test {
+          |	static static function foo() {
+          |	}
+          |}
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Multiple static modifiers are not allowed in /zend/AccessModifiersSpec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
   }
 }

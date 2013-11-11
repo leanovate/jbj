@@ -20,6 +20,10 @@ object MemberModifier extends Enumeration {
     modifiers.foreach {
       case ABSTRACT if modifierSet.contains(ABSTRACT) =>
         throw new FatalErrorJbjException("Multiple abstract modifiers are not allowed")
+      case FINAL if modifierSet.contains(FINAL) =>
+        throw new FatalErrorJbjException("Multiple final modifiers are not allowed")
+      case STATIC if modifierSet.contains(STATIC) =>
+        throw new FatalErrorJbjException("Multiple static modifiers are not allowed")
       case modifier if modifierSet.contains(modifier) =>
         throw new FatalErrorJbjException("Multiple access type modifiers are not allowed")
       case modifier =>
