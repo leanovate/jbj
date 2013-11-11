@@ -71,7 +71,7 @@ object TestBed {
       """<?php
         |
         |class test {
-        |	static public public static final public final function foo() {
+        |	abstract abstract function foo() {
         |	}
         |}
         |

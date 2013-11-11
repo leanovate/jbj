@@ -160,8 +160,7 @@ case class ClassMethodDecl(modifiers: List[MemberModifier.Type], name: String, r
   }
 
   override def initializeClass(pClass: ClassDeclStmt)(implicit ctx: Context) {
-    if (modifiers.size != modifiers.toSet.size)
-      throw new FatalErrorJbjException("Multiple access type modifiers are not allowed")
+    MemberModifier.checkMultiple(modifiers)
     if (isAbstract) {
       if (isFinal) {
         throw new FatalErrorJbjException("Cannot use the final modifier on an abstract class member")

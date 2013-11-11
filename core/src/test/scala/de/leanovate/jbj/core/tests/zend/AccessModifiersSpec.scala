@@ -24,7 +24,7 @@ class AccessModifiersSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |
           |echo "Done\n";
           |?>
-          |""".stripMargin
+          | """.stripMargin
       ).result must haveOutput(
         """
           |Fatal error: Multiple access type modifiers are not allowed in /zend/AccessModifiersSpec.inlinePhp on line 4
@@ -43,10 +43,49 @@ class AccessModifiersSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |
           |echo "Done\n";
           |?>
-          |""".stripMargin
+          | """.stripMargin
       ).result must haveOutput(
         """
           |Fatal error: Multiple access type modifiers are not allowed in /zend/AccessModifiersSpec.inlinePhp on line 4
+          |""".stripMargin
+      )
+    }
+
+    "using multiple access modifiers (classes)" in {
+      // Zend/tests/access_modifiers_003.phpt
+      script(
+        """<?php
+          |
+          |final final class test {
+          |	function foo() {}
+          |}
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Parse error: `keyword 'class'' expected but keyword 'final' found in /zend/AccessModifiersSpec.inlinePhp on line 3
+          |""".stripMargin
+      )
+    }
+
+    "using multiple access modifiers (abstract methods)" in {
+      // Zend/tests/access_modifiers_004.phpt
+      script(
+        """<?php
+          |
+          |class test {
+          |	abstract abstract function foo() {
+          |	}
+          |}
+          |
+          |echo "Done\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Fatal error: Multiple abstract modifiers are not allowed in /zend/AccessModifiersSpec.inlinePhp on line 4
           |""".stripMargin
       )
     }

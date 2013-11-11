@@ -51,8 +51,7 @@ case class ClassVarDecl(modifiers: List[MemberModifier.Type], assignments: List[
   }
 
   override def initializeClass(pClass: ClassDeclStmt)(implicit ctx: Context) {
-    if (modifiers.size != modifiers.toSet.size)
-      throw new FatalErrorJbjException("Multiple access type modifiers are not allowed")
+    MemberModifier.checkMultiple(modifiers)
     pClass.superClass.foreach {
       superClass =>
         assignments.foreach {
