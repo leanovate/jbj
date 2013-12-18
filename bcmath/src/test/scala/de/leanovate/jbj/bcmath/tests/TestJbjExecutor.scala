@@ -78,6 +78,12 @@ trait TestJbjExecutor {
       this
     }
 
+    def withBcScaleFactor(bcScaleFactor: Int) = {
+
+      context.settings.setBcScaleFactor(bcScaleFactor)
+      this
+    }
+
     def withGet(uriStr: String, cookies: Seq[CookieInfo] = Seq.empty) = {
 
       CgiEnvironment.httpRequest(TestRequestInfo.get(uriStr, cookies))

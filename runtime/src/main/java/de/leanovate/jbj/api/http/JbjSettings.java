@@ -85,6 +85,12 @@ public class JbjSettings implements Cloneable {
      */
     private boolean aspTags = false;
 
+    /**
+     * default scale parameter for all bc math functions.
+     * Corresponds to <tt>bcscale</tt>.
+     */
+    private int bcScaleFactor = 0;
+
     public Charset getCharset() {
         return charset;
     }
@@ -172,6 +178,14 @@ public class JbjSettings implements Cloneable {
 
     public void setAspTags(boolean aspTags) {
         this.aspTags = aspTags;
+    }
+
+    public int getBcScaleFactor() {
+        return bcScaleFactor;
+    }
+
+    public void setBcScaleFactor(int bcScaleFactor) {
+        this.bcScaleFactor = bcScaleFactor;
     }
 
     public JbjSettings clone() {
