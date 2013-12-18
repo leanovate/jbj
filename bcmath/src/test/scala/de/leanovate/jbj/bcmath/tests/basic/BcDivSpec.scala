@@ -39,12 +39,11 @@ class BcDivSpec extends SpecificationWithJUnit with TestJbjExecutor {
       )
     }
 
-    /*
     "bcdiv — Divide two arbitrary precision numbers" in {
       // php-src/ext/bcmath/tests/bcdiv_error2.phpt
       script(
         """<?php
-          |echo bcdiv('1', '2', 3, '4');
+          |echo bcdiv('1', '2', '3', '4');
           |?>
           |""".stripMargin
       ).result must haveOutput(
@@ -53,7 +52,6 @@ class BcDivSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
-    */
 
 
   }
