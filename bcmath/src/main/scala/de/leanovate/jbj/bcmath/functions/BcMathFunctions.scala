@@ -28,6 +28,12 @@ object BcMathFunctions {
   def bcmul(left: String, right: String, scale: Option[Int])(implicit context: Context): String =
     operation("bcmul", left, right, scale) { _ * _ }
 
+  @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN)
+  def bcpow(left: String, right: String, scale: Option[Int])(implicit context: Context): String = {
+    val s = scale.getOrElse(context.settings.getBcScaleFactor)
+    val result = BigDecimal(left).pow(right.toInt)
+    result.setScale(s, FLOOR).bigDecimal.stripTrailingZeros().toString()
+  }
 
   private[this] def operation(functionName: String, left: String, right: String, scale: Option[Int])(f: (BigDecimal, BigDecimal) => BigDecimal)(implicit c: Context) = {
     val s = scale.getOrElse(c.settings.getBcScaleFactor)
