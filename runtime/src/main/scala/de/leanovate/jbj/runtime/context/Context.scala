@@ -16,6 +16,7 @@ import de.leanovate.jbj.runtime.output.OutputBuffer
 import de.leanovate.jbj.runtime.types.{PParam, PFunction}
 import de.leanovate.jbj.api.http.{JbjProcessContext, JbjSettings}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import java.nio.file.FileSystem
 
 trait Context extends JbjProcessContext {
   private val _autoReleasePool = mutable.ListBuffer.empty[PAny]
@@ -32,6 +33,8 @@ trait Context extends JbjProcessContext {
   def out: OutputBuffer
 
   def err: Option[PrintStream]
+
+  def filesystem: FileSystem
 
   def currentPosition: NodePosition = _currentPosition
 

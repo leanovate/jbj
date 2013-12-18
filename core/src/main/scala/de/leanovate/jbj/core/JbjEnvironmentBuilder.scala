@@ -14,7 +14,7 @@ import de.leanovate.jbj.buildins.BuildinsExtension
 
 case class JbjEnvironmentBuilder() extends JbjEnvironment.Builder[JbjEnv] {
   def build() =
-    JbjEnv(scriptLocator, settings, BuildinsExtension +: extensions.toSeq, Option(errorStream).map {
+    JbjEnv(scriptLocator, settings, fileSystem, BuildinsExtension +: extensions.toSeq, Option(errorStream).map {
       err =>
         new PrintStream(err, false, "UTF-8")
     })

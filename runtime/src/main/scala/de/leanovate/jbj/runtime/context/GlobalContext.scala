@@ -19,8 +19,9 @@ import de.leanovate.jbj.runtime.types._
 import de.leanovate.jbj.runtime.output.OutputBuffer
 import de.leanovate.jbj.api.http.JbjSettings
 import de.leanovate.jbj.runtime.value.ObjectPropertyKey.Key
+import java.nio.file.FileSystem
 
-case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[PrintStream], settings: JbjSettings)
+case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[PrintStream], filesystem: FileSystem, settings: JbjSettings)
   extends Context {
   private var _inShutdown = false
 

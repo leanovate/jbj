@@ -25,6 +25,8 @@ case class InterfaceContext(pInterface: PInterface, callerCtx: Context, override
 
   val err = callerCtx.err
 
+  val filesystem = callerCtx.filesystem
+
   lazy val stack: Stack[NodePosition] = callerCtx.stack.push(callerCtx.currentPosition)
 
   override def findVariable(name: String) = None

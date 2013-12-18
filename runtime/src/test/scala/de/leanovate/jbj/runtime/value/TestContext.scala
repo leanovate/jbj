@@ -25,6 +25,8 @@ case class TestContext() extends Context {
 
   def err = ???
 
+  def filesystem = ???
+
   def stack = ???
 
   def findFunction(name: NamespaceName) = ???

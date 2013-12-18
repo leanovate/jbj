@@ -33,6 +33,8 @@ case class MethodContext(instance: ObjectVal, pMethod: PMethod, callerContext: C
 
   val err = callerContext.err
 
+  val filesystem = callerContext.filesystem
+
   lazy val stack: Stack[NodePosition] = callerContext.stack.push(callerContext.currentPosition)
 
   defineVariable("GLOBALS", PVar(global.GLOBALS))
