@@ -169,8 +169,9 @@
 
     <modules>
         <module>runtime</module>
-        <module>core</module>
-        <module>play-example</module>
         <module>buildins</module>
+        <module>core</module>
+        <module>bcmath</module>
+        <module>play-example</module>
     </modules>
 </project>
