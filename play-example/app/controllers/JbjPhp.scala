@@ -29,8 +29,8 @@ object JbjPhp extends Controller {
     if (!new File(resourceName).getCanonicalPath.startsWith(new File(path).getCanonicalPath)) {
       NotFound
     } else {
+      val responseAdapter = BufferedResponseAdapter()
       try {
-        val responseAdapter = BufferedResponseAdapter()
 
         jbj.run(resourceName, RequestInfoAdapter(request), responseAdapter)
 
@@ -39,8 +39,9 @@ object JbjPhp extends Controller {
         case e: NotFoundJbjException =>
           NotFound
         case e: Throwable =>
+          responseAdapter.setStatus(INTERNAL_SERVER_ERROR, "internal server error")
           Logger.error("Error", e)
-          InternalServerError
+          responseAdapter.toResult
       }
     }
   }
