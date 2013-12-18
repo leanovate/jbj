@@ -11,13 +11,16 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.*;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 
-public class RamPath implements Path {
+public class AbsoluteRamPath implements Path {
     private final RamFileSystem fileSystem;
-    private final String[] names;
+    private final List<String> names;
 
-    RamPath(RamFileSystem fileSystem, String... names) {
+    AbsoluteRamPath(final RamFileSystem fileSystem, final List<String> names) {
         this.fileSystem = fileSystem;
         this.names = names;
     }
@@ -34,7 +37,7 @@ public class RamPath implements Path {
 
     @Override
     public Path getRoot() {
-        return new RamPath(fileSystem);
+        return new AbsoluteRamPath(fileSystem, Collections.<String>emptyList());
     }
 
     @Override
@@ -44,12 +47,14 @@ public class RamPath implements Path {
 
     @Override
     public Path getParent() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (names.isEmpty())
+            return null;
+        return new AbsoluteRamPath(fileSystem, names.subList(0, names.size() - 1));
     }
 
     @Override
     public int getNameCount() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return names.size();
     }
 
     @Override
@@ -148,7 +153,35 @@ public class RamPath implements Path {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AbsoluteRamPath other = (AbsoluteRamPath) o;
+
+        return Objects.equals(fileSystem, other.fileSystem) && Objects.equals(names, other.names);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fileSystem, names);
+    }
+
+    @Override
     public int compareTo(Path other) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return toString().compareTo(other.toString());
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        if (names.isEmpty())
+            sb.append("/");
+        else
+            for (String name : names)
+                sb.append("/").append(name);
+
+        return sb.toString();
     }
 }
