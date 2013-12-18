@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>jbj-buildins</artifactId>
+    <name>jbj :: buildins</name>
 
     <dependencies>
         <dependency>

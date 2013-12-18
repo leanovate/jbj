@@ -13,6 +13,7 @@
 
     <artifactId>jbj-core</artifactId>
     <packaging>jar</packaging>
+    <name>jbj :: core</name>
 
     <dependencies>
         <dependency>

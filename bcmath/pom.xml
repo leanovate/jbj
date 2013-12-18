@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>jbj-bcmath</artifactId>
+    <name>jbj :: bcmath</name>
 
     <dependencies>
         <dependency>
