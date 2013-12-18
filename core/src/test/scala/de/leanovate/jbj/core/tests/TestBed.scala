@@ -55,6 +55,7 @@ object TestBed {
               | """.stripMargin.replace("\n", "\r\n"), Seq.empty))
 
         context.settings.setErrorReporting(JbjSettings.E_ALL)
+        context.settings.setSessionAuthStart(true)
         try {
           tree.exec(context)
         } finally {
@@ -69,13 +70,10 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |
-        |class test {
-        |	final final function foo() {
-        |	}
-        |}
-        |
-        |echo "Done\n";
+        |        print "good :)\n";
+        |        $filename = '/tmp' . '/sess_' . session_id();
+        |        var_dump(file_exists($filename));
+        |        @unlink($filename);
         |?>
         |""".stripMargin)
   }

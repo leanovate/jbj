@@ -91,6 +91,16 @@ public class JbjSettings implements Cloneable {
      */
     private int bcScaleFactor = 0;
 
+    /**
+     * Corresponds to: <tt>session.auto_start</tt>
+     */
+    private boolean sessionAuthStart = false;
+
+    /**
+     * Corresponds to: <tt>session.save_path</tt>
+     */
+    private String sessionSavePath = "/tmp";
+
     public Charset getCharset() {
         return charset;
     }
@@ -186,6 +196,22 @@ public class JbjSettings implements Cloneable {
 
     public void setBcScaleFactor(int bcScaleFactor) {
         this.bcScaleFactor = bcScaleFactor;
+    }
+
+    public boolean isSessionAuthStart() {
+        return sessionAuthStart;
+    }
+
+    public void setSessionAuthStart(boolean sessionAuthStart) {
+        this.sessionAuthStart = sessionAuthStart;
+    }
+
+    public String getSessionSavePath() {
+        return sessionSavePath;
+    }
+
+    public void setSessionSavePath(String sessionSavePath) {
+        this.sessionSavePath = sessionSavePath;
     }
 
     public JbjSettings clone() {

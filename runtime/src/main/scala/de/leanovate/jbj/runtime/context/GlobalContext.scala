@@ -23,6 +23,7 @@ import java.nio.file.FileSystem
 
 case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[PrintStream], filesystem: FileSystem, settings: JbjSettings)
   extends Context {
+  private var _initialiized = false
   private var _inShutdown = false
 
   var namespaceExclusive = false
@@ -51,6 +52,8 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
 
   var shutdownParameters: Seq[PVal] = Seq.empty
 
+  val session = new Session(this)
+
   def name = ""
 
   def global = this
@@ -68,6 +71,15 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
   GLOBALS.retain()
   GLOBALS.setAt("GLOBALS", GLOBALS)(this)
   GLOBALS.setAt("_SERVER", _SERVER)(this)
+
+  def initialize() {
+    if (!_initialiized) {
+      if (settings.isSessionAuthStart) {
+        session.start()
+      }
+      _initialiized = true
+    }
+  }
 
   def include(file: String)(implicit ctx: Context): Option[(JbjScript, Boolean)] = jbj.parse(file) match {
     case Some(Left(script)) =>

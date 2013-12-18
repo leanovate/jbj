@@ -14,6 +14,7 @@ package object functions {
       GlobalFunctions.functions(OutputBufferFunctions) ++
       GlobalFunctions.functions(OutputFunctions) ++
       GlobalFunctions.functions(RuntimeFunctions) ++
+      GlobalFunctions.functions(SessionFunctions) ++
       GlobalFunctions.functions(StringFunctions) ++
       GlobalFunctions.functions(ValueFunctions)
 }

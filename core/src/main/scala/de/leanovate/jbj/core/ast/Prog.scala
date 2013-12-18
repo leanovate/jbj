@@ -20,6 +20,8 @@ case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike 
   private lazy val deprecatedNodes = visit(new Prog.DeprectatedNodeVisitor).results
 
   override def exec(implicit ctx: Context): ExecResult = {
+    ctx.global.initialize()
+
     val hasSetNamespace = stmts.exists {
       case _: SetNamespaceDeclStmt => true
       case _: NamespaceDeclStmt => true

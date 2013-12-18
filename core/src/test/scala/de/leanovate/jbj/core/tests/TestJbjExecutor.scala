@@ -60,6 +60,11 @@ trait TestJbjExecutor {
       this
     }
 
+    def withSessionAutoStart(sessionAutoStart: Boolean) = {
+      context.settings.setSessionAuthStart(sessionAutoStart)
+      this
+    }
+
     def withShortOpenTag(shortOpenTag: Boolean) = {
       jbj.settings.setShortOpenTag(shortOpenTag)
       this
