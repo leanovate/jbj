@@ -24,9 +24,11 @@ import scala.Some
 import de.leanovate.jbj.runtime.exception.ExitJbjException
 import de.leanovate.jbj.runtime.context.GlobalContext
 import de.leanovate.jbj.runtime.output.OutputBuffer
+import java.nio.file.{FileSystems, FileSystem}
 
 case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
                   settings: JbjSettings = new JbjSettings,
+                  filesystem: FileSystem = FileSystems.getDefault,
                   extensions: Seq[JbjExtension] = Seq.empty,
                   errorStream: Option[PrintStream] = None) extends JbjEnvironment[Context] with JbjRuntimeEnv {
 
@@ -59,7 +61,7 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
 
   def newGlobalContext(out: OutputStream) = {
     val contextSettings = settings.clone()
-    implicit val ctx = GlobalContext(this, OutputBuffer(out, contextSettings), errorStream, contextSettings)
+    implicit val ctx = GlobalContext(this, OutputBuffer(out, contextSettings), errorStream, filesystem, contextSettings)
     ctx._SERVER.setAt("PHP_SELF", StringVal("-"))
 
     ctx

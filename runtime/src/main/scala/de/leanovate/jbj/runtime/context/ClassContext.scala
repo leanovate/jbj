@@ -25,6 +25,8 @@ case class ClassContext(pClass: PClass, callerCtx: Context, override val current
 
   val err = callerCtx.err
 
+  val filesystem = callerCtx.filesystem
+
   lazy val stack: Stack[NodePosition] = callerCtx.stack.push(callerCtx.currentPosition)
 
   override def findVariable(name: String) = None
