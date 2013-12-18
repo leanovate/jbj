@@ -37,7 +37,10 @@ object GlobalFunctions {
             hasOptional = true
           count + expect
       }
-      val parameters = memberParams.zipWithIndex.map {
+      // with Option[], varargs...
+      val expectedMax = memberParams.size
+
+      val parameters: List[(Tree, ValDef)] = memberParams.zipWithIndex.map {
         case (parameter, idx) =>
           val paramName = newTermName("param" + idx)
           val (adapter, stared) = mapParameter(parameter.typeSignature)
@@ -61,14 +64,14 @@ object GlobalFunctions {
       }
       val tooManyHandler: List[Tree] = parameterMode match {
         case ParameterMode.EXACTLY_WARN =>
-          tooManyWarn(remain, member.name.encoded, expected, hasOptional, warnResult).tree :: Nil
+          tooManyWarn(Ident(newTermName("parameters")), member.name.encoded, expectedMax, hasOptional, warnResult).tree :: Nil
         case ParameterMode.STRICT_WARN =>
-          tooManyWarn(remain, member.name.encoded, expected, hasOptional, warnResult).tree :: Nil
+          tooManyWarn(Ident(newTermName("parameters")), member.name.encoded, expectedMax, hasOptional, warnResult).tree :: Nil
         case _ =>
           Nil
       }
       val functionName = c.literal(member.name.encoded)
-      val impl = c.Expr(Block(parameters.map(_._2) ++ tooManyHandler, Apply(Select(Ident(inst.actualType.termSymbol), member.name), parameters.map(_._1))))
+      val impl = c.Expr(Block(tooManyHandler ++ parameters.map(_._2), Apply(Select(Ident(inst.actualType.termSymbol), member.name), parameters.map(_._1))))
       val resultConverter = converterHelper.converterForType(member.returnType)
       val paramDefs = c.Expr[Seq[PParamDef]](Apply(Select(Ident(newTermName("Seq")), newTermName("apply")),
         memberParams.map {
@@ -134,14 +137,15 @@ object GlobalFunctions {
       }
     }
 
-    def tooManyWarn(remain: Tree, name: String, expected: Int, hasOptional: Boolean, warnResult: c.universe.Tree): c.Expr[Any] = {
-      val msg = c.literal("%s() expects %s %s, %%d given".format(name, if (hasOptional) "at least" else "exactly", plural(expected, "parameter")))
+    def tooManyWarn(parameters: Tree, name: String, expected: Int, hasOptional: Boolean, warnResult: c.universe.Tree): c.Expr[Any] = {
+      val msg = c.literal("%s() expects %s %s, %%d given".format(name, if (hasOptional) "at most" else "exactly", plural(expected, "parameter")))
       val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
       val ctx = c.Expr[context.Context](Ident(newTermName("callerCtx")))
-      val remainExpr = c.Expr[List[PParam]](remain)
+      val remainExpr = c.Expr[List[PParam]](parameters)
       val ret = c.Expr[Unit](Return(warnResult))
+      val expectedExpr = c.literal(expected)
       reify {
-        if (!remainExpr.splice.isEmpty) {
+        if (remainExpr.splice.size > expectedExpr.splice) {
           ctx.splice.log.warn(msg.splice.format(given.splice))
           ret.splice
         }

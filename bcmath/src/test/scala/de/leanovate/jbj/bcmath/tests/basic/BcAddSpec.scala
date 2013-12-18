@@ -4,7 +4,7 @@ import org.specs2.mutable.SpecificationWithJUnit
 import de.leanovate.jbj.bcmath.tests.TestJbjExecutor
 
 class BcAddSpec extends SpecificationWithJUnit with TestJbjExecutor {
-  "Basic test 1" should {
+  "bcadd" should {
     "bcadd() function" in {
       // php-src/ext/bcmath/tests/bcadd.phpt
       script(
