@@ -36,7 +36,7 @@ public class RamFileSystemProvider extends FileSystemProvider {
 
     @Override
     public FileSystem newFileSystem(URI uri, Map<String, ?> env) throws IOException {
-        final String name = uri.getAuthority();
+        final String name = uri.getHost();
 
         if (fileSystems.containsKey(name))
             throw new FileSystemAlreadyExistsException("Ram filesystem already exists: " + uri);
@@ -48,25 +48,16 @@ public class RamFileSystemProvider extends FileSystemProvider {
 
     @Override
     public FileSystem getFileSystem(URI uri) {
-        final String name = uri.getAuthority();
-
-        RamFileSystem fileSystem = fileSystems.get(name);
-
-        if (fileSystem == null)
-            throw new FileSystemNotFoundException("Ram filesystem does not exists: " + uri);
+        RamFileSystem fileSystem = getRamFileSystem(uri);
         return fileSystem;
     }
 
+
     @Override
     public Path getPath(URI uri) {
-        final String name = uri.getAuthority();
+        RamFileSystem fileSystem = getRamFileSystem(uri);
 
-        RamFileSystem fileSystem = fileSystems.get(name);
-
-        if (fileSystem == null)
-            throw new FileSystemNotFoundException("Ram filesystem does not exists: " + uri);
-
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return fileSystem.getPath(uri.getPath());
     }
 
     @Override
@@ -141,5 +132,15 @@ public class RamFileSystemProvider extends FileSystemProvider {
 
     protected void removeFileSystem(RamFileSystem ramFileSystem) {
         fileSystems.remove(ramFileSystem.getName());
+    }
+
+    private RamFileSystem getRamFileSystem(URI uri) {
+        final String name = uri.getHost();
+
+        RamFileSystem fileSystem = fileSystems.get(name);
+
+        if (fileSystem == null)
+            throw new FileSystemNotFoundException("Ram filesystem does not exists: " + uri);
+        return fileSystem;
     }
 }

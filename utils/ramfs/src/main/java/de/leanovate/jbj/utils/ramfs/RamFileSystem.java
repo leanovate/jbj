@@ -11,17 +11,18 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.nio.file.spi.FileSystemProvider;
-import java.util.Collections;
-import java.util.Set;
+import java.util.*;
 
 public class RamFileSystem extends FileSystem {
     private final RamFileSystemProvider provider;
     private final String name;
+    private final RamFileStore fileStore;
     private boolean open = true;
 
     RamFileSystem(RamFileSystemProvider provider, String name) {
         this.provider = provider;
         this.name = name;
+        this.fileStore = new RamFileStore(this);
     }
 
     public String getName() {
@@ -56,12 +57,12 @@ public class RamFileSystem extends FileSystem {
 
     @Override
     public Iterable<Path> getRootDirectories() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return Arrays.asList((Path)new AbsoluteRamPath(this, Collections.<String>emptyList()));
     }
 
     @Override
     public Iterable<FileStore> getFileStores() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return Arrays.asList((FileStore)fileStore);
     }
 
     @Override
@@ -71,7 +72,17 @@ public class RamFileSystem extends FileSystem {
 
     @Override
     public Path getPath(String first, String... more) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        final List<String> names = new ArrayList<>();
+
+        for (String name : first.split("/"))
+            if (name.length() > 0)
+                names.add(name);
+        for (String element : more)
+            for (String name : element.split("/"))
+                if (name.length() > 0)
+                    names.add(name);
+
+        return new AbsoluteRamPath(this, names);
     }
 
     @Override
