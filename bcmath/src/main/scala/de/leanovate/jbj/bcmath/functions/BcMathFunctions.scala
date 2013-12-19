@@ -13,6 +13,10 @@ object BcMathFunctions {
     operation("bcadd", left, right, scale) { _ + _ }
 
   @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN)
+  def bcsub(left: String, right: String, scale: Option[Int])(implicit context: Context): String =
+    operation("bcsub", left, right, scale) { _ - _ }
+
+  @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN)
   def bccomp(left: String, right: String, scale: Option[Int])(implicit context: Context): Int = {
     val s = scale.getOrElse(context.settings.getBcScaleFactor)
     BigDecimal(left).setScale(s, FLOOR).compare(BigDecimal(right).setScale(s, FLOOR))
