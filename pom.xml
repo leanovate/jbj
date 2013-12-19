@@ -145,6 +145,13 @@
                 <version>2.1.1</version>
                 <scope>test</scope>
             </dependency>
+
+            <dependency>
+                <groupId>com.github.marschall</groupId>
+                <artifactId>memoryfilesystem</artifactId>
+                <version>0.3.0</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -181,6 +188,5 @@
         <module>core</module>
         <module>bcmath</module>
         <module>play-example</module>
-        <module>utils</module>
     </modules>
 </project>

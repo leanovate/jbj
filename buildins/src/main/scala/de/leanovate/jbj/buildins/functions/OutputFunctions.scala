@@ -63,6 +63,8 @@ object OutputFunctions {
           ctx.out.println( s"""$ident${isRef}float(${d.toOutput})""")
         case IntegerVal(i) =>
           ctx.out.println( s"""$ident${isRef}int($i)""")
+        case resource: ResourceVal[_] =>
+          ctx.out.println(s"resource(${resource.id}) of type (${resource.resourceType})")
         case NullVal =>
           ctx.out.println(s"${ident}NULL")
         case ObjectVal(pClass, instanceNum, keyValues) =>
