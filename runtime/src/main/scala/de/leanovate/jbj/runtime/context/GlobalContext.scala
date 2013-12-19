@@ -64,6 +64,7 @@ case class GlobalContext(jbj: JbjRuntimeEnv, out: OutputBuffer, err: Option[Prin
 
   val instanceCounter = new AtomicLong(0)
   val lambdaCounter = new AtomicLong(0)
+  val resourceCounter = new AtomicLong(0)
 
   val GLOBALS = ArrayVal()
   val _SERVER = ArrayVal()
