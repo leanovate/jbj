@@ -195,7 +195,9 @@ public class JbjSettings implements Cloneable {
     }
 
     public void setBcScaleFactor(int bcScaleFactor) {
-        this.bcScaleFactor = bcScaleFactor;
+        if (bcScaleFactor >= 0) {
+            this.bcScaleFactor = bcScaleFactor;
+        }
     }
 
     public boolean isSessionAuthStart() {

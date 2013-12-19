@@ -37,7 +37,6 @@ object BcMathFunctions {
 
   @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN)
   def bcpowmod(left: String, right: String, modulus: String, scale: Option[Int])(implicit context: Context): String = {
-    val s = scale.getOrElse(context.settings.getBcScaleFactor)
     val l = BigInt(left)
     val m = BigInt(modulus)
     var result = l.modPow(BigInt(right), m)
@@ -45,6 +44,14 @@ object BcMathFunctions {
       result = result - m
     }
     result.toString()
+  }
+
+  @GlobalFunction
+  def bcscale(scale: Int)(implicit context: Context): Boolean = {
+    if (scale >= 0) {
+      context.settings.setBcScaleFactor(scale)
+      true
+    } else false
   }
 
   private[this] def operation(functionName: String, left: String, right: String, scale: Option[Int])(f: (BigDecimal, BigDecimal) => BigDecimal)(implicit c: Context) = {
