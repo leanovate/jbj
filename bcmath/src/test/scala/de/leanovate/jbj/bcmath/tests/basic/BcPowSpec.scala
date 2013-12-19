@@ -35,7 +35,7 @@ class BcPowSpec extends SpecificationWithJUnit with TestJbjExecutor {
     }
 
     "bcpow() incorrect argument count" in {
-      // /home/simon/projects/php-src/ext/bcmath/tests/bcpow_error3.phpt
+      // php-src/ext/bcmath/tests/bcpow_error3.phpt
       script(
         """<?php
           |echo bcpow();
