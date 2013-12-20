@@ -9,7 +9,7 @@ package de.leanovate.jbj.core
 
 import de.leanovate.jbj.runtime._
 import java.io.{OutputStream, PrintStream}
-import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.context.{HttpResponseContext, Context, GlobalContext}
 import scala.collection.JavaConverters._
 import scala.collection.Map
 import de.leanovate.jbj.runtime.value.{StringVal, PVal}
@@ -20,9 +20,7 @@ import de.leanovate.jbj.core.parser.JbjParser
 import de.leanovate.jbj.api.http._
 import de.leanovate.jbj.runtime.types.{PClass, PInterface, PFunction}
 import de.leanovate.jbj.core.parser.ParseContext
-import scala.Some
 import de.leanovate.jbj.runtime.exception.ExitJbjException
-import de.leanovate.jbj.runtime.context.GlobalContext
 import de.leanovate.jbj.runtime.output.OutputBuffer
 import java.nio.file.{FileSystems, FileSystem}
 
@@ -59,9 +57,9 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
         c.name.lowercase -> c
     }.toMap
 
-  def newGlobalContext(out: OutputStream) = {
+  def newGlobalContext(out: OutputStream, httpResponseContext: Option[HttpResponseContext]) = {
     val contextSettings = settings.clone()
-    implicit val ctx = GlobalContext(this, OutputBuffer(out, contextSettings), errorStream, filesystem, contextSettings)
+    implicit val ctx: GlobalContext = GlobalContext(this, OutputBuffer(out, contextSettings), httpResponseContext, errorStream, filesystem, contextSettings)
     ctx._SERVER.setAt("PHP_SELF", StringVal("-"))
 
     ctx
@@ -87,26 +85,38 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
   }
 
   override def run(phpScript: String, output: OutputStream) {
-    implicit val ctx: Context = newGlobalContext(output)
+    implicit val ctx: Context = newGlobalContext(output, None)
 
     runImpl(phpScript)
   }
 
   override def run(phpScript: String, args: Array[String], output: OutputStream) {
-    implicit val ctx: Context = newGlobalContext(output)
+    implicit val ctx: Context = newGlobalContext(output, None)
 
     CliEnvironment.commandLine(phpScript, args)
     runImpl(phpScript)
   }
 
   override def run(phpScript: String, request: RequestInfo, response: Response) {
-    implicit val ctx: Context = newGlobalContext(response.getOutputStream)
+    val httpResponseContext = new HttpResponseContext {
+      override var httpStatus: Int = 200
+      override var httpStatusMessage: String = "OK"
+      override val httpResponseHeaders = collection.mutable.Map[String, Seq[String]]()
+    }
+    implicit val ctx: Context = newGlobalContext(response.getOutputStream, Some(httpResponseContext))
 
     CgiEnvironment.httpRequest(request)
     runImpl(phpScript)
+    for {
+      header <- httpResponseContext.httpResponseHeaders
+      headerValue <- header._2
+    } {
+      response.setHeader(header._1, headerValue)
+    }
+    response.setStatus(httpResponseContext.httpStatus, httpResponseContext.httpStatusMessage)
   }
 
-  def createProcessContext(out: OutputStream) = newGlobalContext(out)
+  def createProcessContext(out: OutputStream) = newGlobalContext(out, None)
 
   def exec(phpCommands: String, context: Context) {
     val parser = new JbjParser(ParseContext("%s(%d) : create_function()'d code".format(context.currentPosition.fileName, context.currentPosition.line), context.settings))

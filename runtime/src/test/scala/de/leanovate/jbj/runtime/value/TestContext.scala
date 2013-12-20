@@ -7,7 +7,7 @@
 
 package de.leanovate.jbj.runtime.value
 
-import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.context.{HttpResponseContext, Context}
 import de.leanovate.jbj.runtime.NamespaceName
 import de.leanovate.jbj.runtime.types.PFunction
 import de.leanovate.jbj.api.http.JbjSettings
@@ -22,6 +22,8 @@ case class TestContext() extends Context {
   def settings = new JbjSettings
 
   def out = ???
+
+  def httpResponseContext = ???
 
   def err = ???
 

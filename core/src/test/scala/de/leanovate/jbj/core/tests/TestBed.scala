@@ -15,6 +15,7 @@ import de.leanovate.jbj.core.JbjEnvironmentBuilder
 import de.leanovate.jbj.runtime.env.CgiEnvironment
 import de.leanovate.jbj.core.parser.ParseContext
 import de.leanovate.jbj.api.http.JbjSettings
+import de.leanovate.jbj.runtime.context.HttpResponseContext
 
 object TestBed {
   //Simplify testing
@@ -37,7 +38,7 @@ object TestBed {
         println("Tree")
         println(AstAsXmlNodeVisitor.dump(tree))
 
-        implicit val context = jbj.newGlobalContext(System.out)
+        implicit val context = jbj.newGlobalContext(System.out, None)
 
         CgiEnvironment.httpRequest(
           TestRequestInfo.post("/bla", "multipart/form-data; boundary=---------------------------20896060251896012921717172737",

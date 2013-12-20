@@ -11,6 +11,7 @@ package object functions {
       GlobalFunctions.functions(EnvironmentFunctions) ++
       GlobalFunctions.functions(FileFunctions) ++
       GlobalFunctions.functions(FunctionFunctions) ++
+      GlobalFunctions.functions(HeadFunctions) ++
       GlobalFunctions.functions(OutputBufferFunctions) ++
       GlobalFunctions.functions(OutputFunctions) ++
       GlobalFunctions.functions(RuntimeFunctions) ++

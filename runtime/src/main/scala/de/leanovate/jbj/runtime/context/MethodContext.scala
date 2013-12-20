@@ -31,6 +31,8 @@ case class MethodContext(instance: ObjectVal, pMethod: PMethod, callerContext: C
 
   val out = callerContext.out
 
+  val httpResponseContext = callerContext.httpResponseContext
+
   val err = callerContext.err
 
   val filesystem = callerContext.filesystem

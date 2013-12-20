@@ -30,6 +30,8 @@ case class StaticMethodContext(pMethod: PMethod, pClass: PClass, callerContext: 
 
   val out = callerContext.out
 
+  val httpResponseContext = callerContext.httpResponseContext
+
   val err = callerContext.err
 
   val filesystem = callerContext.filesystem

@@ -23,6 +23,8 @@ case class ClassContext(pClass: PClass, callerCtx: Context, override val current
 
   val out = callerCtx.out
 
+  val httpResponseContext = callerCtx.httpResponseContext
+
   val err = callerCtx.err
 
   val filesystem = callerCtx.filesystem

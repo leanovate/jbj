@@ -23,6 +23,8 @@ case class InterfaceContext(pInterface: PInterface, callerCtx: Context, override
 
   val out = callerCtx.out
 
+  val httpResponseContext = callerCtx.httpResponseContext
+
   val err = callerCtx.err
 
   val filesystem = callerCtx.filesystem

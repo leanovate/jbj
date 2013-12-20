@@ -15,6 +15,7 @@ import de.leanovate.jbj.core.{JbjEnvironmentBuilder, JbjEnv}
 import scala.Some
 import de.leanovate.jbj.runtime.exception.ParseJbjException
 import de.leanovate.jbj.api.http.{JbjSettings, JbjException, CookieInfo}
+import de.leanovate.jbj.runtime.context.HttpResponseContext
 
 trait TestJbjExecutor {
 
@@ -26,7 +27,12 @@ trait TestJbjExecutor {
     val pseudoFileName = TestJbjExecutor.this.getClass.getName.replace("de.leanovate.jbj.core.tests", "").replace('.', '/') + ".inlinePhp"
     val bOut = new ByteArrayOutputStream()
     val out = new PrintStream(bOut, false, "UTF-8")
-    implicit val context = jbj.newGlobalContext(out)
+    val httpResponseContext = new HttpResponseContext {
+      var httpStatus = 200
+      var httpStatusMessage = "OK"
+      val httpResponseHeaders = collection.mutable.Map[String, Seq[String]]()
+    }
+    implicit val context = jbj.newGlobalContext(out, Some(httpResponseContext))
 
     context.settings.setErrorReporting(JbjSettings.E_ALL)
 
@@ -118,11 +124,11 @@ trait TestJbjExecutor {
       err.flush()
       err.close()
 
-      ScriptResult(new String(bOut.toByteArray, "UTF-8"), new String(bErr.toByteArray, "UTF-8"), thrown)
+      ScriptResult(new String(bOut.toByteArray, "UTF-8"), new String(bErr.toByteArray, "UTF-8"), thrown, httpResponseContext)
     }
   }
 
-  case class ScriptResult(out: String, err: String, exception: Option[Throwable])
+  case class ScriptResult(out: String, err: String, exception: Option[Throwable], httpResponseContext: HttpResponseContext)
 
   def script(progStr: String): Script = {
     Script(progStr)
@@ -138,14 +144,14 @@ trait TestJbjExecutor {
 
   def haveThrown(expected: Class[_]) = new Matcher[ScriptResult] {
     def apply[S <: ScriptResult](t: Expectable[S]) = t.value match {
-      case ScriptResult(_, _, Some(thrown)) =>
+      case ScriptResult(_, _, Some(thrown), _) =>
         result(
           thrown.getClass == expected,
           thrown + " is not of " + expected,
           thrown + " is of " + expected,
           t
         )
-      case ScriptResult(_, _, None) =>
+      case ScriptResult(_, _, None, _) =>
         result(
           test = false,
           "no exception was thrown",

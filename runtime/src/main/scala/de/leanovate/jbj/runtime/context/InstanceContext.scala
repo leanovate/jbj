@@ -23,6 +23,8 @@ case class InstanceContext(instance: ObjectVal, pClass:PClass, callerCtx: Contex
 
   val out = callerCtx.out
 
+  val httpResponseContext = callerCtx.httpResponseContext
+
   val err = callerCtx.err
 
   val filesystem = callerCtx.filesystem

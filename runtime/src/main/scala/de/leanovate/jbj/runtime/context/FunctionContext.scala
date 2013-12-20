@@ -30,6 +30,8 @@ case class FunctionContext(functionName: NamespaceName, callerContext: Context) 
 
   val out = callerContext.out
 
+  val httpResponseContext = callerContext.httpResponseContext
+
   val err = callerContext.err
 
   val filesystem = callerContext.filesystem

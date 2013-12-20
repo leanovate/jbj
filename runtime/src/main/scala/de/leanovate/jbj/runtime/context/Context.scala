@@ -14,7 +14,7 @@ import de.leanovate.jbj.runtime._
 import scala.collection.mutable
 import de.leanovate.jbj.runtime.output.OutputBuffer
 import de.leanovate.jbj.runtime.types.{PParam, PFunction}
-import de.leanovate.jbj.api.http.{JbjProcessContext, JbjSettings}
+import de.leanovate.jbj.api.http.{Response, JbjProcessContext, JbjSettings}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import java.nio.file.FileSystem
 
@@ -31,6 +31,8 @@ trait Context extends JbjProcessContext {
   def settings: JbjSettings
 
   def out: OutputBuffer
+
+  def httpResponseContext: Option[HttpResponseContext]
 
   def err: Option[PrintStream]
 
