@@ -25,14 +25,15 @@ trait CommonScriptLexerPatterns extends CommonLexerPatterns {
     "declare", "enddeclare", "instanceof",
     "switch", "case", "default", "endswitch",
     "function", "array", "list", "callable",
-    "__dir__", "__file__", "__line__", "__function__", "__class__", "__method__", "__namespace__")
+    "and", "or", "xor",
+  "__dir__", "__file__", "__line__", "__function__", "__class__", "__method__", "__namespace__")
 
   /** The set of delimiters (ordering does not matter). */
   val delimiters = Set("@", "$", ",", ":", "::", "?", "!", "~", ";", "{", "}", "[", "]", "=>", "->",
     ".", "+", "-", "*", "/", "%", "(", ")", ".=", "+=", "-=", "*=", "/=", "%=", "--", "++",
     "<<", ">>", "^", "|", "&", "<<=", ">>=", "^=", "&=", "|=",
     "=", ">", ">=", "<", "<=", "==", "!=", "<>", "===", "!==",
-    "||", "&&", "^", "or", "and", "xor", "\\")
+    "||", "&&", "^", "\\")
 
   def exponent: Parser[List[Elem]] = exponentMarker ~ opt(sign) ~ rep1(digit) ^^ {
     case first ~ sign ~ exponent => first :: (sign.toList ++ exponent)

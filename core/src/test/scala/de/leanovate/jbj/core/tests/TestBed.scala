@@ -77,7 +77,8 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |echo __file__;
-        |?>""".stripMargin)
+        |
+        |var_dump(scandir("/tmp"));
+        |""".stripMargin)
   }
 }

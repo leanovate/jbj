@@ -11,6 +11,7 @@ import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.context.Context
 import java.util.Calendar
 import de.leanovate.jbj.runtime.adapter.GlobalFunctions
+import de.leanovate.jbj.runtime.value.{DoubleVal, StringVal, PVal}
 
 object DateFunctions {
   @GlobalFunction
@@ -36,5 +37,17 @@ object DateFunctions {
   @GlobalFunction
   def time(): Long = {
     System.currentTimeMillis / 1000L
+  }
+
+  @GlobalFunction
+  def microtime(getAsFloat: Option[Boolean])(implicit ctx: Context): PVal = {
+    val now = System.currentTimeMillis
+    if (getAsFloat.getOrElse(false)) {
+      DoubleVal(now / 1000.0)
+    } else {
+      val seconds = now / 1000L
+      val millis = now % 1000L
+      StringVal(s"${millis / 1000.0} $seconds")
+    }
   }
 }

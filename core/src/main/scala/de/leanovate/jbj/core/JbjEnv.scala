@@ -139,7 +139,7 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
       }
     } catch {
       case e: ExitJbjException =>
-        ctx.out.print(e.message)
+        e.message.foreach(ctx.out.print)
     } finally {
       ctx.cleanup()
     }

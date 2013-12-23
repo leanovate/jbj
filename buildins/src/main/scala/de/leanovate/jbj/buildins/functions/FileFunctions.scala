@@ -9,11 +9,14 @@ package de.leanovate.jbj.buildins.functions
 
 import de.leanovate.jbj.runtime.annotations.ParameterMode
 import de.leanovate.jbj.runtime.context.Context
-import java.nio.file.{NoSuchFileException, StandardOpenOption, Files}
+import java.nio.file._
 import de.leanovate.jbj.runtime.value._
-import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import java.nio.channels.SeekableByteChannel
 import java.nio.ByteBuffer
+import de.leanovate.jbj.runtime.annotations.GlobalFunction
+import de.leanovate.jbj.runtime.value.IntegerVal
+import java.nio.file.attribute.BasicFileAttributes
+import scala.collection.JavaConversions._
 
 object FileFunctions {
   @GlobalFunction
@@ -158,14 +161,28 @@ object FileFunctions {
   def is_writeable(fileName: String)(implicit ctx: Context) = is_writable(fileName)
 
   @GlobalFunction
+  def realpath(path: String)(implicit ctx: Context): String = {
+    ctx.filesystem.getPath(path).toRealPath().toString
+  }
+
+  @GlobalFunction(parameterMode = ParameterMode.STRICT_WARN, warnResult = NullVal)
+  def scandir(directory: String, sortingOrder: Option[Int], context: Option[PVal])(implicit ctx: Context): PVal = {
+    try {
+      val directoryPath = ctx.filesystem.getPath(directory)
+      val result = Files.newDirectoryStream(directoryPath).iterator().map(f => directoryPath.relativize(f).toString).toSeq
+      ArrayVal(result.map(None -> StringVal(_)): _ *)
+    } catch {
+      case e: NoSuchFileException =>
+        ctx.log.warn(s"scandir($directory): failed to open dir: No such file or directory")
+        BooleanVal.FALSE
+    }
+  }
+
+  @GlobalFunction
   def tempnam(dir: String, prefix: String)(implicit ctx: Context): String = {
     Files.createTempFile(ctx.filesystem.getPath(dir), prefix, "").toString
   }
 
-  @GlobalFunction
-  def realpath(path: String)(implicit ctx: Context): String = {
-    ctx.filesystem.getPath(path).toRealPath().toString
-  }
 
   @GlobalFunction
   def unlink(fileName: String)(implicit ctx: Context): Boolean = {

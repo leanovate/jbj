@@ -1,8 +1,8 @@
 package controllers
 
 import java.net.JarURLConnection
-import java.io.File
-import play.api.Play
+import java.io.{IOException, File}
+import play.api.{Logger, Play}
 import play.api.Play.current
 import scala.io.Source
 import de.leanovate.jbj.api.http.JbjScriptLocator
@@ -22,15 +22,21 @@ object PlayJbjScriptLocator extends JbjScriptLocator {
   def readScript(fileName: String) = {
     val resource = Play.resource(fileName)
 
-    resource.flatMap {
-      case url if new File(url.getFile).isDirectory =>
-        None
-      case url =>
-        lastModifiedFor(url).map {
-          lastModified =>
-            new JbjScriptLocator.Script(fileName, lastModified, Source.fromInputStream(url.openStream()).mkString)
-        }
-    }.orNull
+    try {
+      resource.flatMap {
+        case url if new File(url.getFile).isDirectory =>
+          None
+        case url =>
+          lastModifiedFor(url).map {
+            lastModified =>
+              new JbjScriptLocator.Script(fileName, lastModified, Source.fromInputStream(url.openStream()).mkString)
+          }
+      }.orNull
+    } catch {
+      case e: IOException =>
+        Logger.error(s"Failed to read $fileName", e)
+        throw new RuntimeException(e)
+    }
   }
 
   private def lastModifiedFor(resource: java.net.URL): Option[String] = resource.getProtocol match {

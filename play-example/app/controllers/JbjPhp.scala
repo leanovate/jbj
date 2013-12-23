@@ -44,7 +44,7 @@ object JbjPhp extends Controller {
           responseAdapter.toResult
         case e: Throwable =>
           responseAdapter.setStatus(INTERNAL_SERVER_ERROR, "internal server error")
-          Logger.error("Error", e)
+          Logger.error(s"Filed to read $resourceName", e)
           responseAdapter.toResult
       }
     }

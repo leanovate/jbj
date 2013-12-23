@@ -116,6 +116,8 @@ object RuntimeFunctions {
     name.toLowerCase match {
       case "error_reporting" =>
         ctx.settings.setErrorReporting(JbjSettings.ErrorLevel.errorLevelsForValue(value.toInteger.asInt))
+      case _ =>
+        ctx.log.notice(s"Unknown ini parameter $name")
     }
   }
 
