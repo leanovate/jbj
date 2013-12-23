@@ -10,7 +10,9 @@ package de.leanovate.jbj.runtime.context
 sealed trait ConstantKey
 
 case class CaseSensitiveConstantKey(name: Seq[String]) extends ConstantKey {
+  override def toString = name.mkString("\\")
 }
 
 case class CaseInsensitiveConstantKey(name: Seq[String]) extends ConstantKey {
+  override def toString = name.mkString("\\")
 }

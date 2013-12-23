@@ -4,7 +4,7 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
-class ResourceVal[T](var id: Long, var resourceType: String, var payload: T) extends PConcreteVal {
+abstract class ResourceVal[T](var id: Long, var resourceType: String, var payload: T) extends PConcreteVal {
 
   def toOutput(implicit ctx: Context) = s"resource id #$id"
 
@@ -40,11 +40,12 @@ class ResourceVal[T](var id: Long, var resourceType: String, var payload: T) ext
 
   def call(params: List[PParam])(implicit ctx: Context) =
     throw new FatalErrorJbjException("Function name must be a string")
+
+  def isOpen: Boolean
+
+  def close()
 }
 
 object ResourceVal {
-  def apply[T](resourceType: String, payload: T)(implicit ctx: Context): ResourceVal[T] =
-    new ResourceVal[T](ctx.global.resourceCounter.incrementAndGet(), resourceType, payload)
-
   def unapply[T](resource: ResourceVal[T]) = Some(resource.resourceType, resource.payload)
 }

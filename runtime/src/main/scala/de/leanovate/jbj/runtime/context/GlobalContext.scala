@@ -22,14 +22,14 @@ import de.leanovate.jbj.runtime.value.ObjectPropertyKey.Key
 import java.nio.file.FileSystem
 
 case class GlobalContext(
-    jbj: JbjRuntimeEnv,
-    out: OutputBuffer,
-    httpResponseContext: Option[HttpResponseContext],
-    err: Option[PrintStream],
-    filesystem: FileSystem,
-    settings: JbjSettings)
+                          jbj: JbjRuntimeEnv,
+                          out: OutputBuffer,
+                          httpResponseContext: Option[HttpResponseContext],
+                          err: Option[PrintStream],
+                          filesystem: FileSystem,
+                          settings: JbjSettings)
 
-    extends Context {
+  extends Context {
   private var _initialiized = false
   private var _inShutdown = false
 
@@ -118,6 +118,8 @@ case class GlobalContext(
 
   def declaredClasses: Seq[PClass] = jbj.predefinedClasses.values.toSeq ++ classes.values.toSeq
 
+  def declaredInterfaces: Seq[PInterface] = jbj.predefinedInterfaces.values.toSeq ++ interfaces.values.toSeq
+
   def findClass(name: NamespaceName, autoload: Boolean): Option[PClass] = {
     val result = classes.get(name.lowercase).map(Some.apply).getOrElse(jbj.predefinedClasses.get(name.lowercase)).map(classInitializer)
 
@@ -163,6 +165,12 @@ case class GlobalContext(
   def defineInterface(pInterface: PInterface) {
     interfaces.put(pInterface.name.lowercase, pInterface)
     namespaceAliases += pInterface.name.lastPath -> pInterface.name
+  }
+
+  def declaredConstants: Seq[(String, PVal)] = {
+    constants.toSeq.map {
+      case (key, value) => key.toString -> value
+    }
   }
 
   def findConstant(name: NamespaceName): Option[PVal] = {
@@ -218,6 +226,10 @@ case class GlobalContext(
   override def undefineVariable(name: String) {
     GLOBALS.unsetAt(name)(this)
   }
+
+  def definedInternalFunctions: Seq[PFunction] = jbj.predefinedFunctions.values.toSeq
+
+  def definedUserFunctions: Seq[PFunction] = functions.values.toSeq
 
   def findFunction(name: NamespaceName) =
     jbj.predefinedFunctions.get(name.lowercase).map(Some.apply).

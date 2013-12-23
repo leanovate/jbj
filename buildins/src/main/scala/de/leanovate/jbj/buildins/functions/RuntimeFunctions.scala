@@ -7,13 +7,15 @@
 
 package de.leanovate.jbj.buildins.functions
 
-import de.leanovate.jbj.runtime.value.{StringVal, ArrayVal, NullVal, PVal}
+import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
 import de.leanovate.jbj.runtime.context.Context
 import java.util
 import scala.collection.JavaConversions._
 import de.leanovate.jbj.runtime.{NamespaceName, CallbackHelper}
 import de.leanovate.jbj.api.http.JbjSettings
+import de.leanovate.jbj.runtime.annotations.GlobalFunction
+import scala.Some
 
 object RuntimeFunctions {
   @GlobalFunction(parameterMode = ParameterMode.STRICT_WARN, warnResult = NullVal)
@@ -47,6 +49,39 @@ object RuntimeFunctions {
       file =>
         None -> StringVal(file)
     }.toList: _*)
+  }
+
+  @GlobalFunction(parameterMode = ParameterMode.STRICT_WARN, warnResult = NullVal)
+  def get_loaded_extensions(zendExtensions: Option[Boolean])(implicit ctx: Context): PVal = {
+    ArrayVal(ctx.global.jbj.extensions.map(extension => None -> StringVal(extension.name)): _*)
+  }
+
+  @GlobalFunction(parameterMode = ParameterMode.STRICT_WARN, warnResult = NullVal)
+  def get_defined_constants(categorize: Option[Boolean])(implicit ctx: Context): PVal = {
+    ArrayVal(ctx.global.declaredConstants.map {
+      case (key, value) => Some(StringVal(key)) -> value
+    }: _*)
+  }
+
+  @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN, warnResult = NullVal)
+  def get_defined_functions()(implicit ctx: Context): PVal = {
+    ArrayVal(
+      Some(StringVal("internal")) -> ArrayVal(ctx.global.definedInternalFunctions.map(f => None -> StringVal(f.name.toString)): _*),
+      Some(StringVal("user")) -> ArrayVal(ctx.global.definedUserFunctions.map(f => None -> StringVal(f.name.toString)): _*)
+    )
+  }
+
+  @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN, warnResult = NullVal)
+  def get_declared_interfaces()(implicit ctx: Context): PVal = {
+    ArrayVal(ctx.global.declaredInterfaces.map(i => None -> StringVal(i.name.toString)): _*)
+  }
+
+  @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN, warnResult = NullVal)
+  def get_extension_funcs(moduleName: String)(implicit ctx: Context): PVal = {
+    ctx.global.jbj.extensions.find(_.name == moduleName) match {
+      case Some(extension) => ArrayVal(extension.functions.map(f => None -> StringVal(f.name.toString)): _*)
+      case None => BooleanVal.FALSE
+    }
   }
 
   @GlobalFunction

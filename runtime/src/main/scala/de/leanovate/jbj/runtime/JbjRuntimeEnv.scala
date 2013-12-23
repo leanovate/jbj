@@ -14,6 +14,8 @@ import de.leanovate.jbj.api.http.{JbjProcessContext, JbjEnvironment}
 import de.leanovate.jbj.runtime.context.Context
 
 trait JbjRuntimeEnv {
+  def extensions: Seq[JbjExtension]
+
   def preedfinedConstants: Map[String, PVal]
 
   def predefinedFunctions: Map[Seq[String], PFunction]

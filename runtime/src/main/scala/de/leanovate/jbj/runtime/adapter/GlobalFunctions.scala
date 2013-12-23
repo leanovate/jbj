@@ -189,7 +189,7 @@ object GlobalFunctions {
   }
 
   def plural(num: Int, str: String) = {
-    if (num > 1)
+    if (num == 0 || num > 1)
       s"$num ${str}s"
     else
       s"$num $str"

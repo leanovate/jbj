@@ -16,6 +16,9 @@ import scala.Some
 import de.leanovate.jbj.runtime.exception.ParseJbjException
 import de.leanovate.jbj.api.http.{JbjSettings, JbjException, CookieInfo}
 import de.leanovate.jbj.runtime.context.HttpResponseContext
+import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder
+import java.nio.file.Files
+import java.util.concurrent.atomic.AtomicInteger
 
 trait TestJbjExecutor {
 
@@ -23,8 +26,11 @@ trait TestJbjExecutor {
     val bErr = new ByteArrayOutputStream()
     val err = new PrintStream(bErr, false, "UTF-8")
 
-    val jbj = JbjEnvironmentBuilder().withScriptLocator(TestLocator).withErrStream(bErr).build()
+    val filesystem = TestJbjExecutor.createTestFilesystem()
+    val jbj = JbjEnvironmentBuilder().withScriptLocator(TestLocator).withErrStream(bErr).withFileSystem(filesystem).build()
     val pseudoFileName = TestJbjExecutor.this.getClass.getName.replace("de.leanovate.jbj.core.tests", "").replace('.', '/') + ".inlinePhp"
+    Files.createDirectories(filesystem.getPath(pseudoFileName).getParent)
+    Files.createFile(filesystem.getPath(pseudoFileName))
     val bOut = new ByteArrayOutputStream()
     val out = new PrintStream(bOut, false, "UTF-8")
     val httpResponseContext = new HttpResponseContext {
@@ -117,6 +123,7 @@ trait TestJbjExecutor {
           case e: Throwable =>
             thrown = Some(e)
         }
+        filesystem.close()
       }
 
       out.flush()
@@ -159,5 +166,15 @@ trait TestJbjExecutor {
           t
         )
     }
+  }
+}
+
+object TestJbjExecutor {
+  val counter = new AtomicInteger(0)
+
+  def createTestFilesystem() = {
+    val filesystem = MemoryFileSystemBuilder.newLinux().build("test_" + counter.incrementAndGet())
+    Files.createDirectory(filesystem.getPath("/tmp"))
+    filesystem
   }
 }

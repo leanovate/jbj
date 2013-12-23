@@ -9,7 +9,7 @@ package de.leanovate.jbj.buildins.functions
 
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 
-object EnvironmentFunctions {
+object ZendFunctions {
   @GlobalFunction
   def zend_version(): String = "2.5.0"
 }

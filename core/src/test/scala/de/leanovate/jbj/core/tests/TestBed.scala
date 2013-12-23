@@ -16,6 +16,8 @@ import de.leanovate.jbj.runtime.env.CgiEnvironment
 import de.leanovate.jbj.core.parser.ParseContext
 import de.leanovate.jbj.api.http.JbjSettings
 import de.leanovate.jbj.runtime.context.HttpResponseContext
+import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder
+import java.nio.file.Files
 
 object TestBed {
   //Simplify testing
@@ -30,7 +32,11 @@ object TestBed {
       count += 1
     }
 
-    val jbj = JbjEnvironmentBuilder().withScriptLocator(TestLocator).withErrStream(System.err).build()
+    val filesystem = MemoryFileSystemBuilder.newLinux().build("test")
+    Files.createDirectory(filesystem.getPath("/tmp"))
+    Files.createDirectory(filesystem.getPath("/classes"))
+    Files.createFile(filesystem.getPath("/classes", "bla.php"))
+    val jbj = JbjEnvironmentBuilder().withScriptLocator(TestLocator).withErrStream(System.err).withFileSystem(filesystem).build()
     val tokens2 = new TokenReader(exprstr, InitialLexerMode(shortOpenTag = true, aspTags = true).newLexer())
     val parser = new JbjParser(ParseContext("/classes/bla.php", jbj.settings))
     parser.phrase(parser.start)(tokens2) match {
@@ -71,11 +77,10 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |        print "good :)\n";
-        |        $filename = '/tmp' . '/sess_' . session_id();
-        |        var_dump(file_exists($filename));
-        |        @unlink($filename);
-        |?>
-        |""".stripMargin)
+        |$fp = fopen(__FILE__, "r");
+        |var_dump(get_resource_type($fp));
+        |fclose($fp);
+        |var_dump(get_resource_type($fp));
+        |?>""".stripMargin)
   }
 }

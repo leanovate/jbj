@@ -16,8 +16,8 @@ import scala.collection.JavaConverters._
 import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.buildins.types.{PSplSubject, PSplObserver}
 
-object BuildinsExtension extends JbjExtension {
-  val name = "Buildins"
+object StandardExtension extends JbjExtension {
+  val name = "standard"
 
   override def constants: Seq[(String, PVal)] = Seq(
     "TRUE" -> BooleanVal.TRUE,
@@ -50,7 +50,7 @@ object BuildinsExtension extends JbjExtension {
     "INI_ALL" -> IntegerVal(7)
   )
 
-  override def functions: Seq[PFunction] = de.leanovate.jbj.buildins.functions.buildinFunctions
+  override def functions: Seq[PFunction] = de.leanovate.jbj.buildins.functions.standardFunctions
 
   override def classes: Seq[PClass] = Seq(PClosure, PStdClass, PException, PArrayObject)
 
