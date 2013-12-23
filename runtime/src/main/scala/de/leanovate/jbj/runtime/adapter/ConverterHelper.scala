@@ -1,15 +1,19 @@
 package de.leanovate.jbj.runtime.adapter
 
 import scala.reflect.macros.Context
-import de.leanovate.jbj.runtime.value.{ObjectVal, PVal, PVar, PAny}
+import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.types.{PInterfaceAdapter, PInterface, PParam}
+import de.leanovate.jbj.runtime.adapter.PInterfaceConverter
+import java.nio.channels.SeekableByteChannel
 
 class ConverterHelper[C <: Context](val c: C) {
+
   import c.universe._
 
   val pVarClass = typeOf[PVar].typeSymbol
   val pValClass = typeOf[PVal].typeSymbol
   val pAnyClass = typeOf[PAny].typeSymbol
+  val seekableByteChannelClass = typeOf[SeekableByteChannel].typeSymbol
   val paramClass = typeOf[PParam].typeSymbol
 
   def converterForType(_type: Type): c.Expr[Converter[_, _ <: PAny]] = {
@@ -45,6 +49,10 @@ class ConverterHelper[C <: Context](val c: C) {
       case t if t.typeSymbol == pAnyClass =>
         reify {
           PAnyConverter
+        }
+      case t if t.typeSymbol == seekableByteChannelClass =>
+        reify {
+          SeekableByteChannelConverter
         }
       case t if t.typeSymbol == paramClass =>
         reify {
