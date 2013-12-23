@@ -101,6 +101,11 @@ object FunctionFunctions {
     }
 
   @GlobalFunction(ParameterMode.STRICT_WARN, warnResult = NullVal)
+  def function_exists(functionName: String)(implicit ctx: Context): Boolean = {
+    ctx.global.findFunction(NamespaceName(functionName)).isDefined
+  }
+
+  @GlobalFunction(ParameterMode.STRICT_WARN, warnResult = NullVal)
   def func_get_arg(argNum: Int)(implicit ctx: Context): PVal = {
     ctx match {
       case funcCtx: FunctionLikeContext if argNum < 0 =>

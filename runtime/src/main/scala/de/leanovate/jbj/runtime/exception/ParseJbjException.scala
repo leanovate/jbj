@@ -11,5 +11,5 @@ import de.leanovate.jbj.runtime.FileNodePosition
 import de.leanovate.jbj.api.http.JbjException
 
 class ParseJbjException(var msg: String, var pos: FileNodePosition) extends JbjException(msg) {
-
+  override def getPosition = pos.toString
 }

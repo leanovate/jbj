@@ -22,4 +22,8 @@ public class JbjException extends RuntimeException {
     public JbjException(Throwable cause) {
         super(cause);
     }
+
+    public String getPosition() {
+        return "<no position>";
+    }
 }

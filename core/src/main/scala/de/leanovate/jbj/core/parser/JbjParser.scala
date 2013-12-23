@@ -526,12 +526,12 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       s => ScalarExpr(DoubleVal(s))
     } | stringLit ^^ {
       s => ScalarExpr(StringVal(s.getBytes(parseCtx.settings.getCharset)))
-    } | "__FILE__" ^^^ FileNameConstExpr() |
-      "__DIR__" ^^^ DirNameConstExpr() |
-      "__LINE__" ^^^ LineNumberConstExpr() |
-      "__FUNCTION__" ^^^ FunctionNameConstExpr() |
-      "__METHOD__" ^^^ MethodNameConstExpr() |
-      "__NAMESPACE__" ^^^ NamespaceNameConstExpr() |
+    } | "__file__" ^^^ FileNameConstExpr() |
+      "__dir__" ^^^ DirNameConstExpr() |
+      "__line__" ^^^ LineNumberConstExpr() |
+      "__function__" ^^^ FunctionNameConstExpr() |
+      "__method__" ^^^ MethodNameConstExpr() |
+      "__namespace__" ^^^ NamespaceNameConstExpr() |
       hereDocStartLit ~> opt(encapsAndWhitespaceLit) <~ hereDocEndLit ^^ {
         s => ScalarExpr(StringVal(s.getOrElse("").getBytes(parseCtx.settings.getCharset)))
       }
@@ -551,7 +551,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       pairs => ArrayCreateExpr(pairs)
     } | "[" ~> staticArrayPairList <~ "]" ^^ {
       pairs => ArrayCreateExpr(pairs)
-    } | "__CLASS__" ^^^ ClassNameConstExpr()
+    } | "__class__" ^^^ ClassNameConstExpr()
 
   lazy val staticClassConstant: PackratParser[Expr] = className ~ "::" ~ identLit ^^ {
     case cname ~ _ ~ name => ClassConstantExpr(cname, name)
@@ -567,7 +567,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     interpolated => InterpolatedStringExpr(interpolated)
   } | hereDocStartLit ~> encapsList <~ hereDocEndLit ^^ {
     interpolated => InterpolatedStringExpr(interpolated)
-  } | "__CLASS__" ^^^ ClassNameConstExpr()
+  } | "__class__" ^^^ ClassNameConstExpr()
 
   lazy val staticArrayPairList: PackratParser[List[ArrayKeyValue]] = repsep(
     opt(staticScalar <~ "=>") ~ staticScalar ^^ {

@@ -4,8 +4,8 @@ import play.api.mvc.{AnyContent, Action, Controller, Request}
 import java.io.{PrintStream, ByteArrayOutputStream, File}
 import play.api.Logger
 import de.leanovate.jbj.core.JbjEnvironmentBuilder
-import de.leanovate.jbj.runtime.exception.NotFoundJbjException
-import de.leanovate.jbj.api.http.JbjSettings
+import de.leanovate.jbj.runtime.exception.{FatalErrorJbjException, NotFoundJbjException}
+import de.leanovate.jbj.api.http.{JbjException, JbjSettings}
 
 object JbjPhp extends Controller {
   private val jbjSettings = new JbjSettings
@@ -38,6 +38,10 @@ object JbjPhp extends Controller {
       } catch {
         case e: NotFoundJbjException =>
           NotFound
+        case e: JbjException =>
+          responseAdapter.setStatus(INTERNAL_SERVER_ERROR, "internal server error")
+          Logger.error(s"jbj error at ${e.getPosition}", e)
+          responseAdapter.toResult
         case e: Throwable =>
           responseAdapter.setStatus(INTERNAL_SERVER_ERROR, "internal server error")
           Logger.error("Error", e)

@@ -25,7 +25,7 @@ trait CommonScriptLexerPatterns extends CommonLexerPatterns {
     "declare", "enddeclare", "instanceof",
     "switch", "case", "default", "endswitch",
     "function", "array", "list", "callable",
-    "__DIR__", "__FILE__", "__LINE__", "__FUNCTION__", "__CLASS__", "__METHOD__", "__NAMESPACE__")
+    "__dir__", "__file__", "__line__", "__function__", "__class__", "__method__", "__namespace__")
 
   /** The set of delimiters (ordering does not matter). */
   val delimiters = Set("@", "$", ",", ":", "::", "?", "!", "~", ";", "{", "}", "[", "]", "=>", "->",
@@ -58,11 +58,7 @@ trait CommonScriptLexerPatterns extends CommonLexerPatterns {
   }
 
   def processIdent(name: String) =
-    if (name.startsWith("__")) {
-      if (reserved contains name) Keyword(name) else Identifier(name)
-    } else {
-      if (reserved contains name.toLowerCase) Keyword(name.toLowerCase) else Identifier(name)
-    }
+    if (reserved contains name.toLowerCase) Keyword(name.toLowerCase) else Identifier(name)
 
   def convertNum(chars: String, radix: Int): Token = {
     try {

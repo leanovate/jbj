@@ -11,6 +11,9 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.api.http.JbjException
 
 class CompileErrorException(message: String)(implicit ctx: Context) extends JbjException(message) {
+  val position = ctx.currentPosition
 
   ctx.log.compileError(message)
+
+  override def getPosition = position.toString
 }

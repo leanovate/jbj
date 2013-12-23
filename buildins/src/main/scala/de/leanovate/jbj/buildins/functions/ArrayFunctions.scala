@@ -125,7 +125,7 @@ object ArrayFunctions {
           case (key, value) => key
         }.getOrElse(NullVal)
       case pVal =>
-        ctx.log.warn(s"array_search() expects parameter 21 to be array, ${pVal.typeName(simple = true)} given")
+        ctx.log.warn(s"array_search() expects parameter 2 to be array, ${pVal.typeName(simple = true)} given")
         NullVal
     }
   }
@@ -255,6 +255,23 @@ object ArrayFunctions {
     case _ =>
       ctx.log.warn("Variable passed to current() is not an array or object")
       NullVal
+  }
+
+  @GlobalFunction
+  def in_array(needle: PVal, haystack: PVal, strict: Option[Boolean])(implicit ctx: Context): PVal = {
+    haystack.concrete match {
+      case array: ArrayVal =>
+        BooleanVal(array.keyValues.exists {
+          case (key, value) if strict.getOrElse(false) =>
+            (value === needle).toBool.asBoolean
+          case (key, value) =>
+            (value :== needle).toBool.asBoolean
+        })
+      case pVal =>
+        ctx.log.warn(s"in_array() expects parameter 2 to be array, ${pVal.typeName(simple = true)} given")
+        NullVal
+    }
+
   }
 
   @GlobalFunction

@@ -439,7 +439,7 @@ class ConstantsSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       ).result must haveOutput(
         """
-          |Parse error: `keyword '__CLASS__'' expected but keyword '"' found in /classes/ConstantsSpec.inlinePhp on line 4
+          |Parse error: `keyword '__class__'' expected but keyword '"' found in /classes/ConstantsSpec.inlinePhp on line 4
           |""".stripMargin
       )
     }

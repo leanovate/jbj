@@ -13,4 +13,13 @@ object SessionFunctions {
       ctx.global.session.id
     }
   }
+
+  @GlobalFunction
+  def session_save_path(path: Option[String])(implicit ctx: Context): String = {
+    path.foreach {
+      path =>
+        ctx.global.session.sessionSavePath = path
+    }
+    ctx.global.session.sessionSavePath
+  }
 }

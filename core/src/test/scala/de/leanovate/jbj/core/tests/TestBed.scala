@@ -77,25 +77,7 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |$filename = tempnam("/tmp", "test_");
-        |var_dump(file_exists($filename));
-        |var_dump(is_writable($filename));
-        |
-        |$f = fopen($filename, "w");
-        |for($i = 1; $i <= 10; $i++) {
-        |  var_dump(fwrite($f, "Line $i\n"));
-        |}
-        |var_dump(fclose($f));
-        |
-        |$f = fopen($filename, "a");
-        |for($i = 1; $i <= 10; $i++) {
-        |  var_dump(fwrite($f, "Append $i\n"));
-        |}
-        |var_dump(fclose($f));
-        |
-        |$f = fopen($filename, "r");
-        |var_dump(fread($f, 8192));
-        |var_dump(fclose($f));
+        |echo __file__;
         |?>""".stripMargin)
   }
 }

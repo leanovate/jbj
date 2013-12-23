@@ -2,8 +2,7 @@ package de.leanovate.jbj.runtime.adapter
 
 import scala.reflect.macros.Context
 import de.leanovate.jbj.runtime.value._
-import de.leanovate.jbj.runtime.types.{PInterfaceAdapter, PInterface, PParam}
-import de.leanovate.jbj.runtime.adapter.PInterfaceConverter
+import de.leanovate.jbj.runtime.types.{PInterfaceAdapter, PParam}
 import java.nio.channels.SeekableByteChannel
 
 class ConverterHelper[C <: Context](val c: C) {

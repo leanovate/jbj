@@ -10,5 +10,4 @@ package de.leanovate.jbj.runtime.exception
 import de.leanovate.jbj.api.http.JbjException
 
 class NotFoundJbjException(fileName: String) extends JbjException("Not found: %s".format(fileName)) {
-
 }

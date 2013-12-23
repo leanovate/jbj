@@ -7,12 +7,14 @@ import java.nio.file.{Path, Files}
 class Session(globalCtx: GlobalContext) {
   var id = Session.generateSessionId()
 
+  var sessionSavePath = globalCtx.settings.getSessionSavePath
+
   var sessionFile: Option[Path] = None
 
   def start() {
-    val sessionSavePath = globalCtx.filesystem.getPath(globalCtx.settings.getSessionSavePath, "sess_" + id)
+    val sessionFilePath = globalCtx.filesystem.getPath(sessionSavePath, "sess_" + id)
 
-    sessionFile = Some(  Files.createFile(sessionSavePath))
+    sessionFile = Some(Files.createFile(sessionFilePath))
   }
 }
 

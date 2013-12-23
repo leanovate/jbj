@@ -163,6 +163,11 @@ object FileFunctions {
   }
 
   @GlobalFunction
+  def realpath(path: String)(implicit ctx: Context): String = {
+    ctx.filesystem.getPath(path).toRealPath().toString
+  }
+
+  @GlobalFunction
   def unlink(fileName: String)(implicit ctx: Context): Boolean = {
     val path = ctx.filesystem.getPath(fileName)
     if (Files.exists(path)) {

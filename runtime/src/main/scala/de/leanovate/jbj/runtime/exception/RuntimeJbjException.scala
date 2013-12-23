@@ -14,6 +14,9 @@ import de.leanovate.jbj.runtime.types.{PAnyParam, PException}
 
 case class RuntimeJbjException(exception: ObjectVal)(implicit ctx: Context)
   extends JbjException(exception.getProperty("message", None).map(_.asVal.toStr.asString).getOrElse("")) {
+  val position = ctx.currentPosition
+
+  override def getPosition = position.toString
 }
 
 object RuntimeJbjException {
