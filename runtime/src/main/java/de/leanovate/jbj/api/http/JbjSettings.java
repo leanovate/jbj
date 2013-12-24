@@ -101,6 +101,31 @@ public class JbjSettings implements Cloneable {
      */
     private String sessionSavePath = "/tmp";
 
+    /**
+     * Corresponds to: <tt>session.cookie_lifetime</tt>
+     */
+    private int sessionCookieLifetime = 0;
+
+    /**
+     * Corresponds to: <tt>session.cookie_path</tt>
+     */
+    private String sessionCookiePath ="/";
+
+    /**
+     * Corresponds to: <tt>session.cookie_domain</tt>
+     */
+    private String sessionCookieDomain = null;
+
+    /**
+     * Corresponds to: <tt>session.cookie_secure</tt>
+     */
+    private boolean sessionCookieSecure = false;
+
+    /**
+     * Corresponds to: <tt>session.cookie_httponly</tt>
+     */
+    private boolean sessionCookieHttpOnly = false;
+
     public Charset getCharset() {
         return charset;
     }
@@ -132,7 +157,6 @@ public class JbjSettings implements Cloneable {
     public void setErrorReporting(EnumSet<ErrorLevel> errorReporting) {
         this.errorReporting = errorReporting;
     }
-
 
     public boolean isAlwaysPopulateRawPostData() {
         return alwaysPopulateRawPostData;
@@ -214,6 +238,46 @@ public class JbjSettings implements Cloneable {
 
     public void setSessionSavePath(String sessionSavePath) {
         this.sessionSavePath = sessionSavePath;
+    }
+
+    public int getSessionCookieLifetime() {
+        return sessionCookieLifetime;
+    }
+
+    public void setSessionCookieLifetime(int sessionCookieLifetime) {
+        this.sessionCookieLifetime = sessionCookieLifetime;
+    }
+
+    public String getSessionCookiePath() {
+        return sessionCookiePath;
+    }
+
+    public void setSessionCookiePath(String sessionCookiePath) {
+        this.sessionCookiePath = sessionCookiePath;
+    }
+
+    public String getSessionCookieDomain() {
+        return sessionCookieDomain;
+    }
+
+    public void setSessionCookieDomain(String sessionCookieDomain) {
+        this.sessionCookieDomain = sessionCookieDomain;
+    }
+
+    public boolean isSessionCookieSecure() {
+        return sessionCookieSecure;
+    }
+
+    public void setSessionCookieSecure(boolean sessionCookieSecure) {
+        this.sessionCookieSecure = sessionCookieSecure;
+    }
+
+    public boolean isSessionCookieHttpOnly() {
+        return sessionCookieHttpOnly;
+    }
+
+    public void setSessionCookieHttpOnly(boolean sessionCookieHttpOnly) {
+        this.sessionCookieHttpOnly = sessionCookieHttpOnly;
     }
 
     public JbjSettings clone() {

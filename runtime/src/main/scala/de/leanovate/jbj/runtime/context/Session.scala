@@ -6,15 +6,22 @@ import java.nio.file.{Path, Files}
 
 class Session(globalCtx: GlobalContext) {
   var id = Session.generateSessionId()
+  var started = false
 
   var sessionSavePath = globalCtx.settings.getSessionSavePath
 
   var sessionFile: Option[Path] = None
 
-  def start() {
-    val sessionFilePath = globalCtx.filesystem.getPath(sessionSavePath, "sess_" + id)
+  def start(): Boolean = {
+    if (!started) {
+      val sessionFilePath = globalCtx.filesystem.getPath(sessionSavePath, "sess_" + id)
 
-    sessionFile = Some(Files.createFile(sessionFilePath))
+      sessionFile = Some(Files.createFile(sessionFilePath))
+      started = true
+      true
+    } else {
+      false
+    }
   }
 }
 

@@ -22,4 +22,17 @@ object SessionFunctions {
     }
     ctx.global.session.sessionSavePath
   }
+
+  @GlobalFunction
+  def session_set_cookie_params(lifetime: Int, path: Option[String], domain: Option[String], secure: Option[Boolean],
+                                httponly: Option[Boolean])(implicit ctx: Context) {
+    ctx.settings.setSessionCookieLifetime(lifetime)
+    path.foreach(ctx.settings.setSessionCookiePath)
+    domain.foreach(ctx.settings.setSessionCookieDomain)
+    secure.foreach(ctx.settings.setSessionCookieSecure)
+    httponly.foreach(ctx.settings.setSessionCookieHttpOnly)
+  }
+
+  @GlobalFunction
+  def session_start()(implicit ctx:Context):Boolean = ctx.global.session.start()
 }
