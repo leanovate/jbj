@@ -1,0 +1,1617 @@
+msgid "language"
+msgstr "Turkce"
+
+msgid "locale"
+msgstr "Array"
+
+msgid "rss_locale"
+msgstr "tr_TR"
+
+msgid "html_charset"
+msgstr "ISO-8859-0"
+
+msgid "php_charset"
+msgstr "ISO-8859-9"
+
+msgid "menu_links"
+msgstr "MENU"
+
+msgid "menu_home"
+msgstr "ANA SAYFA"
+
+msgid "menu_contact"
+msgstr "ILETISIM"
+
+msgid "menu_stats"
+msgstr "ISTATISTIK"
+
+msgid "menu_calendar"
+msgstr "TAKVIM"
+
+msgid "menu_archive"
+msgstr "ARSIV"
+
+msgid "menu_viewarchives"
+msgstr "ARSIVI GOSTER"
+
+msgid "menu_menu"
+msgstr "YAZAR MENU"
+
+msgid "menu_add"
+msgstr "YAZI EKLE"
+
+msgid "menu_add_static"
+msgstr "SABIT SAYFA EKLE"
+
+msgid "menu_upload"
+msgstr "RESIM YUKLE"
+
+msgid "menu_setup"
+msgstr "GENEL AYARLAR"
+
+msgid "menu_categories"
+msgstr "KATEGORILER"
+
+msgid "menu_info"
+msgstr "META ETIKETI"
+
+msgid "manage_users"
+msgstr "UYE YONETIM"
+
+msgid "manage_php_config"
+msgstr "PHP OZELLIKLERI"
+
+msgid "menu_options"
+msgstr "TARIH & SAAT"
+
+msgid "menu_themes"
+msgstr "GORUNUMLER"
+
+msgid "menu_colors"
+msgstr "RENKLER"
+
+msgid "menu_change_login"
+msgstr "Giris Degistir"
+
+msgid "menu_logout"
+msgstr "CIKIS"
+
+msgid "menu_login"
+msgstr "GIRIS"
+
+msgid "menu_most_recent"
+msgstr "YENI YORUMLAR"
+
+msgid "menu_most_recent_entries"
+msgstr "YENI YAZILAR"
+
+msgid "menu_most_recent_trackback"
+msgstr "YENI TRACKBACKS"
+
+msgid "menu_add_block"
+msgstr "BLOKLAR"
+
+msgid "menu_emoticons"
+msgstr "ÝFADELER"
+
+msgid "menu_avatar"
+msgstr "AVATAR"
+
+msgid "menu_moderation"
+msgstr "KELIME/IP YASAKLA"
+
+msgid "menu_commentmoderation"
+msgstr "ONAY BEKLEYEN YORUMLAR"
+
+msgid "menu_random_entry"
+msgstr "RASTGELE"
+
+msgid "menu_plugins"
+msgstr "PLUGINS"
+
+msgid "notice_moderator1"
+msgstr "Yeni "
+
+msgid "notice_moderator2"
+msgstr " Yorum Onay Bekliyor."
+
+msgid "notice_loggedin"
+msgstr "Hosgeldin"
+
+msgid "counter_today"
+msgstr "Bugün:"
+
+msgid "counter_yesterday"
+msgstr "Dün:"
+
+msgid "counter_totalsidebar"
+msgstr "Toplam:"
+
+msgid "counter_title"
+msgstr "KONTUR"
+
+msgid "home"
+msgstr "Ana Sayfaya Dön"
+
+msgid "nav_next"
+msgstr "Sonraki"
+
+msgid "nav_back"
+msgstr "Önceki"
+
+msgid "nav_first"
+msgstr "Ýlk Baþ"
+
+msgid "nav_last"
+msgstr "En Son"
+
+msgid "search_title"
+msgstr "ARA: "
+
+msgid "search_go"
+msgstr "Ara"
+
+msgid "page_generated_in"
+msgstr "Sayfa %s Saniyede oluþturuldu"
+
+msgid "counter_total"
+msgstr "Site Görüntülenme: "
+
+msgid "read_more"
+msgstr "Devamý..."
+
+msgid "randomquote"
+msgstr "Rastgele Alýntý"
+
+msgid "sb_months"
+msgstr "Array"
+
+msgid "sb_default_title"
+msgstr "Baþlýk Yok"
+
+msgid "sb_default_author"
+msgstr "Sahibi Yok"
+
+msgid "sb_default_footer"
+msgstr "Son Ek Yok"
+
+msgid "sb_edit"
+msgstr "Düzenle"
+
+msgid "sb_delete"
+msgstr "Sil"
+
+msgid "sb_permalink"
+msgstr "permalink"
+
+msgid "sb_trackback"
+msgstr "trackbacks"
+
+msgid "sb_postedby"
+msgstr "Gönderen:"
+
+msgid "sb_admin"
+msgstr "Yönetici."
+
+msgid "sb_relatedlink"
+msgstr "ilgili link"
+
+msgid "sb_add_comment_btn"
+msgstr "Yorum Ekle"
+
+msgid "sb_read_entry_btn"
+msgstr "Yazýyý Oku"
+
+msgid "sb_comment_btn_number_first"
+msgstr "1"
+
+msgid "sb_comment_btn"
+msgstr "Yorum"
+
+msgid "sb_comment_view"
+msgstr "Gösterim"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr "1"
+
+msgid "sb_comments_plural_btn"
+msgstr "Yorum"
+
+msgid "sb_comments_plural_view"
+msgstr "Gösterim"
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_post"
+msgstr " Gösterim"
+
+msgid "sb_view_counter_plural_pre"
+msgstr ""
+
+msgid "sb_view_counter_plural_post"
+msgstr " Gösterim"
+
+msgid "sb_add_link_btn"
+msgstr "+ LINK EKLE"
+
+msgid "sb_rate_entry_btn"
+msgstr "Yazýya Oy Vermek Için Týklayýn"
+
+msgid "label_subject"
+msgstr "Konu"
+
+msgid "label_insert"
+msgstr "Özel Kod Ekle:"
+
+msgid "btn_bold"
+msgstr " b "
+
+msgid "btn_italic"
+msgstr " i "
+
+msgid "btn_image"
+msgstr "img"
+
+msgid "btn_url"
+msgstr "url"
+
+msgid "btn_readmore"
+msgstr "Devamý..."
+
+msgid "view_images"
+msgstr "Yüklenmiþ Resimleri Göster"
+
+msgid "label_entry"
+msgstr "Yazý:"
+
+msgid "btn_preview"
+msgstr "&nbsp;Önizleme&nbsp;"
+
+msgid "btn_post"
+msgstr "&nbsp;Onayla&nbsp;"
+
+msgid "chk_visiblemenu"
+msgstr "Menü'de Görünsün"
+
+msgid "file_name"
+msgstr "Sabit Sayfa Ýsmi: (Dosya'ya Ýsim Verirken Boþluk Verme)"
+
+msgid "insert_styles"
+msgstr "Bu Format Ýçin Yazý Girin:"
+
+msgid "insert_image"
+msgstr "Resim için Tam URL girin:"
+
+msgid "insert_url1"
+msgstr "Linkte Gözüntülenmesini istediðiniz Yazý (isteðe baðlý):"
+
+msgid "insert_url2"
+msgstr "Baðlantý için Tam URL girin:"
+
+msgid "insert_url3"
+msgstr "URL Yeni Sayfada Açýlsýn (isteðe baðlý):"
+
+msgid "add_form_error"
+msgstr "Lütfen Konu Yada Yazýyý Tamamlayýn."
+
+msgid "insert_image_optional"
+msgstr "Optional:"
+
+msgid "insert_image_width"
+msgstr "Geniþlik (isteðe baðlý):"
+
+msgid "insert_image_height"
+msgstr "Yükseklik (isteðe baðlý):"
+
+msgid "insert_image_popup"
+msgstr "Tam Boyut Yeni Pencerede Açýlsýn (isteðe baðlý):"
+
+msgid "insert_image_float"
+msgstr "Float (isteðe baðlý):"
+
+msgid "day"
+msgstr "Gün"
+
+msgid "month"
+msgstr "Ay"
+
+msgid "year"
+msgstr "Yýl"
+
+msgid "hour"
+msgstr "Saat"
+
+msgid "minute"
+msgstr "Dakika"
+
+msgid "second"
+msgstr "Saniye"
+
+msgid "add_title"
+msgstr "Yazý Ekle"
+
+msgid "add_instructions"
+msgstr "Blog'a hazýr mýsýnýz? Yazýnýzýn nasýl görüneceðini görmek için Önizleme'ye, kaydetmek için de Onayla butonunu kullanabilirsiniz."
+
+msgid "title_ad"
+msgstr "Confirm Trackback Pings"
+
+msgid "instructions_ad"
+msgstr "These are the Auto-Discovered URIs you're about to ping. If you do not want to ping a certain URI, uncheck it below. Then press the 'OK' button to ping the checked URIs or press 'Cancel' to not ping at all."
+
+msgid "label_tb_ping"
+msgstr "Trackback ping(s) to send (comma separated)"
+
+msgid "label_tb_autodiscovery"
+msgstr "autodiscovery"
+
+msgid "label_relatedlink"
+msgstr "Ýlgili Link"
+
+msgid "label_categories"
+msgstr "Kategori Listesi"
+
+msgid "add_instructions_update"
+msgstr "Girdinizi aþaðýdaki form yardýmýyla güncelleyebilirsiniz. Ýþiniz bittiðinde 'Önizleme' ya da 'Onayla' butonunu kullanabilirsiniz."
+
+msgid "ok_btn"
+msgstr "&nbsp;Tamam&nbsp;"
+
+msgid "cancel_btn"
+msgstr "&nbsp;Ýptal&nbsp;"
+
+msgid "add_error"
+msgstr "<h2>Hoyt...!</h2>Yazýnýz kaydedilemedi. Girdinizi kaydetmeye çalýþýrken bir sorun ile karþýlaþtým.<br /><br />Server Raporu:<br />"
+
+msgid "add_success"
+msgstr "<h2>Yazý Kaydedildi!</h2>Yazýnýn Kaydedilmesi baþarýlý."
+
+msgid "add_static_form_error"
+msgstr "Lütfen Konu, Yazý ve Dosya Adý bölümlerini doldurun."
+
+msgid "add_static_title"
+msgstr "Sabit Sayfa Ekle"
+
+msgid "add_static_instructions"
+msgstr "Sabit bir sayfa oluþturmak için aþaðýdaki formu doldurun. Normal girdilerden farklý olarak sabit sayfalar linkler gibi sað tarafta sürekli görünürler. Bunlar her zaman görünmesini isteyebileceðiniz 'Benimle ilgili', 'Benimle baðlantýya geçin', 'Proje bilgisi' benzeri sayfalar olabilirler. 'Önizleme'ye týklayarak girdinizin nasýl göründüðünü kontrol edebilir, 'Onaylar' butonu ile kaydedebilirsiniz."
+
+msgid "add_static_instructions_update"
+msgstr "Girdinizi deðiþtirmek için aþaðýdaki formu kullanabilirsiniz. Ýþiniz bittiðinde 'Önizleme' ya da 'Gönder' butonunu kullanabilirsiniz."
+
+msgid "add_static_error"
+msgstr "<h2>Hoyt...!</h2>Girdiniz kaydedilemedi. Girdinizi kaydetmeye çalýþýrken bir sorun ile karþýlaþtým.<br /><br />Server Raporu:<br />"
+
+msgid "comments_form_error"
+msgstr "Ýsim,Yorum ve Anti-Spam bölümlerini doldurun."
+
+msgid "name"
+msgstr "Ýsim:"
+
+msgid "email"
+msgstr "E-mail:"
+
+msgid "homepage"
+msgstr "Web:"
+
+msgid "comment"
+msgstr "Yorum:"
+
+msgid "IPAddress"
+msgstr "IP Address:"
+
+msgid "useragent"
+msgstr "User Agent:"
+
+msgid "wrote"
+msgstr "<i>On %s, %s wrote:</i><br /> <br /> %s"
+
+msgid "comment_capcha"
+msgstr "Anti-Spam: Enter "
+
+msgid "comments_title"
+msgstr "Yorumlar"
+
+msgid "comments_header"
+msgstr "Yorum Ekle"
+
+msgid "comments_instructions"
+msgstr "Yorum eklemek için formu doldurmanýz gerekli.  <b style='color: red;'>(LÜTFEN BAYRAKLARI VE RESÝMLERÝ KULLANMAYIN)</b> "
+
+msgid "comment_name"
+msgstr "Ýsim:"
+
+msgid "comment_email"
+msgstr "Email:"
+
+msgid "comment_url"
+msgstr "URL:"
+
+msgid "commentposted"
+msgstr "New comment posted at: "
+
+msgid "comment_remember"
+msgstr "Beni Hatýrla:"
+
+msgid "comment_text"
+msgstr "Yorum:"
+
+msgid "post_btn"
+msgstr "&nbsp;Yorumu Gönder&nbsp;"
+
+msgid "delete_btn"
+msgstr "Sil"
+
+msgid "ban_btn"
+msgstr "IP YASAKLA"
+
+msgid "expired_comment1"
+msgstr "Üzgünüm. Yeni Yorum Gönderemezsin. Günlük Yorum Limiti "
+
+msgid "expired_comment2"
+msgstr " tanedir."
+
+msgid "blacklisted"
+msgstr "ÜZGÜNÜM, IP Numarasý Banlý. Yorum gönderemezsin."
+
+msgid "bannedword"
+msgstr " <h2>ÜZGÜNÜM!</h2>Ýsim,Email,Url yada Yorumunuzda yönetici tarafýnda yasaklanmýþ kelime bulunduðu için <b>Yorumunuz Gönderilmedi.</b>"
+
+msgid "nocomments"
+msgstr "Comments are not available for this entry."
+
+msgid "email_moderator"
+msgstr "Comments are currently moderated. This comment needs approval before it will be seen by the public."
+
+msgid "user_notice_mod"
+msgstr "Yorumunuz Onaylanýncaya kadar görünmeyecektir."
+
+msgid "return_to_comments"
+msgstr "Yorumlara Geri Dön"
+
+msgid "comments_error_add"
+msgstr "<h2>Hoyt...!</h2>Yorumunuz kaydedilemedi. Yorumunuzu kaydetmeye çalýþýrken bir sorun ile karþýlaþtým.<br /><br />Server Raporu:<br />"
+
+msgid "comments_error_delete"
+msgstr "<h2>Hoyt...!</h2>Yorumunuz silinemedi. Yorumunuzu simeye çalýþýrken bir sorun ile karþýlaþtým.<br /><br />Server Raporu:<br />"
+
+msgid "error_ban"
+msgstr "<h2>Hoyt...!</h2>IP not added to banned ip listing.<br /><br />Server Raporu:<br />"
+
+msgid "success_add"
+msgstr "<h2>Yorum Eklendi</h2>Yorumunuz Baþarýyla Kaydedildi."
+
+msgid "comments_success_delete"
+msgstr "<h2>Comment Deleted!</h2>The comment has been deleted."
+
+msgid "success_ban1"
+msgstr "<h2>IP YASAKLANDI ! "
+
+msgid "success_ban2"
+msgstr "</h2>Bu IP Numarasýný listeden çýkarmak için Kelime/IP Yasakla bölümünü açabilirsiniz."
+
+msgid "error_noip"
+msgstr "No IP Provided for Blacklist Request."
+
+msgid "error_comments_disabled"
+msgstr "<h2>Error!</h2>Hey! Comments are disabled on this blog. Are you a spambot?"
+
+msgid "error_no_match"
+msgstr "<h2>Error!</h2>Your IP address doesn't match posted IP address. Are you a spambot?"
+
+msgid "error_fields_missing"
+msgstr "<h2>Error!</h2>Missing the following fields: "
+
+msgid "error_spambot"
+msgstr "<h2>Error!</h2>Capcha data is missing. Are you a spambot?"
+
+msgid "error_capcha"
+msgstr "<h2>Error!</h2>The capcha you entered is incorrect."
+
+msgid "error_bad_data"
+msgstr "<h2>Error!</h2>Post data is not valid. Are you a hacker?"
+
+msgid "error_entry_missing"
+msgstr "<h2>Error!</h2>You are trying to comment on an entry that doesn't exist"
+
+msgid "error_empty_text"
+msgstr "<h2>Error!</h2>You didn't enter any comments or your name."
+
+msgid "add_block_form_error"
+msgstr "Lütfen Ýlgili Bölümleri Tamamlayýn."
+
+msgid "add_block_title"
+msgstr "Blok Ekle / Yönet"
+
+msgid "add_block_instructions"
+msgstr "Use the form below to add custom 'Blocks' which will appear in the sidebar menu."
+
+msgid "up"
+msgstr "Yukarý"
+
+msgid "down"
+msgstr "Aþaðý"
+
+msgid "edit"
+msgstr "Düzenle"
+
+msgid "delete"
+msgstr "Sil"
+
+msgid "block_name"
+msgstr "Blok Ýsmi:"
+
+msgid "block_content"
+msgstr "Blok Ýçeriði:"
+
+msgid "add_block_instructions_edit"
+msgstr "You are currently editing a Block."
+
+msgid "add_block_instructions_modify"
+msgstr "Buradan Blok yaratabilir yada yönetebilirsiniz. Yukarý, Aþaðý linkleri ile yan menudeki pozisyonlarýný düzenleyebilir, dilerseniz silebilirsiniz. "
+
+msgid "add_block_submit_btn_edit"
+msgstr "Blok Düzenle"
+
+msgid "add_block_submit_btn_add"
+msgstr "Blok Ekle"
+
+msgid "static_pages"
+msgstr "Sabit Sayfalar:"
+
+msgid "add_link_title"
+msgstr "Link Ekle / Yönet"
+
+msgid "add_link_instructions"
+msgstr "Diðer sitelere linkler ekleyin. formu doldurduktan sonra 'Link Ekle' butonuna týklayarak linkinizi kaydedebilirsiniz. Linkliern sýrasýný deðiþtirmek için yukarý / aþaðý butonlarýný kullanabilirsiniz. Bir linki deðiþtirmek için 'Deðiþtir' butonunu kullanabilirsiniz. Bir linki silmek için ise 'Sil' butonunu kullanabilirsiniz"
+
+msgid "link_name"
+msgstr "Link Ýsmi:"
+
+msgid "link_url"
+msgstr "Link URL: (Optional. Ayraç oluþturmak için boþ býrakabilirsiniz.)"
+
+msgid "add_link_instructions_edit"
+msgstr "Þu anda bu linki deðiþtiriyorsunuz:"
+
+msgid "add_link_instructions_modify"
+msgstr "Bir linki Düzenlemek için þuraya týklayýn:"
+
+msgid "add_link_submit_btn_edit"
+msgstr "Link Düzenle"
+
+msgid "add_link_submit_btn_add"
+msgstr "Link Ekle"
+
+msgid "add_link_form_error"
+msgstr "Lütfen Ýlgili Bölümleri Tamamlayýn."
+
+msgid "categories_title"
+msgstr "Kategori Ekle / Yönet"
+
+msgid "categories_instructions"
+msgstr " Buradan Blog'daki Kategorileri düzenleyebilirsiniz. Örnekte gözüktüðü gibi yapmanýz gereken 'Kategori Adý (Sýra Numara)' þeklinde düzenlemek. Dilerseniz boþluk vererebilirsiniz.<br /><br /><b>Örnek:</b><br />Genel (1)<br />Haberler (3)<br />&nbsp;&nbsp;Ýlanlar (6)<br />&nbsp;&nbsp;Diðer (5)<br />&nbsp;&nbsp;&nbsp;Spor (7)<br />Teknoloji (2)<br />"
+
+msgid "categories_error"
+msgstr "HATA"
+
+msgid "current_categories"
+msgstr "Mevcut Kategoriler"
+
+msgid "no_categories_found"
+msgstr "Kategori Bulunamadý"
+
+msgid "category_list"
+msgstr "Kategori Listesi:"
+
+msgid "validate"
+msgstr "Onayla"
+
+msgid "submit_btn"
+msgstr "&nbsp;Gönder&nbsp;"
+
+msgid "colors_title"
+msgstr "Renkleri Deðiþtir"
+
+msgid "colors_instructions"
+msgstr "Blog'daki yazý ve Arkaplanlarý (BG) buradan deðiþrirebilirsiniz. Bunu yapmak için önce ilgili bölümü seçtikten sonra Color Mixer yardýmýyla kolaylýkla deðiþik yapabilirsiniz. Göndere basarak deðiþikliði onaylayabilir ,Renk Düzeni dosya adý yazdýktan sonra farklý bir isimle kaydedebilir dilerseniz hazýr Renk Düzenlerinide kullanabilirsiniz"
+
+msgid "bg_color"
+msgstr "BG Sayfa"
+
+msgid "main_bg_color"
+msgstr "BG Ana Sayfa"
+
+msgid "border_color"
+msgstr "Sayfa Kenarlýk"
+
+msgid "inner_border_color"
+msgstr "Ýç Ayýrýcý Kenarlýk"
+
+msgid "header_bg_color"
+msgstr "BG Baþlýk"
+
+msgid "header_txt_color"
+msgstr "Baþlýk Text"
+
+msgid "menu_bg_color"
+msgstr "BG Menu"
+
+msgid "footer_bg_color"
+msgstr "BG Alt Bölüm"
+
+msgid "txt_color"
+msgstr "Ana Yazý"
+
+msgid "headline_txt_color"
+msgstr "Headline Text"
+
+msgid "date_txt_color"
+msgstr "Tarih Yazý"
+
+msgid "footer_txt_color"
+msgstr "Footer Text"
+
+msgid "link_reg_color"
+msgstr "Link Normal"
+
+msgid "link_hi_color"
+msgstr "Link Üstunde"
+
+msgid "link_down_color"
+msgstr "Link Týklayýnca"
+
+msgid "entry_bg"
+msgstr "Yazý BG"
+
+msgid "entry_title_bg"
+msgstr "Yazý Baþlýk BG"
+
+msgid "entry_border"
+msgstr "Yazý Kenarlýk"
+
+msgid "entry_title_text"
+msgstr "Yazý Baþlýk Yazý"
+
+msgid "entry_text"
+msgstr "Yazý Yazý"
+
+msgid "static_bg"
+msgstr "Sabit Sayfa BG"
+
+msgid "static_title_bg"
+msgstr "Sabit Sayfa Baþlýðý BG"
+
+msgid "static_border"
+msgstr "Sabit Sayfa Kenarlýk"
+
+msgid "static_title_text"
+msgstr "Sabit Sayfa Baþlýk Yazý"
+
+msgid "static_text"
+msgstr "Sabit Sayfa Yazý"
+
+msgid "comment_bg"
+msgstr "Yorum BG"
+
+msgid "comment_title_bg"
+msgstr "Yorum Baþlýk BG"
+
+msgid "comment_border"
+msgstr "Yorum Kenarlýk"
+
+msgid "comment_title_text"
+msgstr "Yorum Baþlýk Yazý"
+
+msgid "menu_bg"
+msgstr "Menu BG"
+
+msgid "menu_title_bg"
+msgstr "Menu Baþlýk BG"
+
+msgid "menu_border"
+msgstr "Menu Kenarlýk"
+
+msgid "menu_title_text"
+msgstr "Menu Baþlýk Yazý"
+
+msgid "menu_text"
+msgstr "Menu Yazý"
+
+msgid "menu_link_reg_color"
+msgstr "Menu Link Normal"
+
+msgid "menu_link_hi_color"
+msgstr "Menu Link Üstünde"
+
+msgid "menu_link_down_color"
+msgstr "Menu Link Týklayýnca"
+
+msgid "color_preset"
+msgstr "Renk Düzenleri:"
+
+msgid "scheme_name"
+msgstr "Renk Düzeni ismi Yazýn:"
+
+msgid "scheme_file"
+msgstr "Renk Düzeni dosya adý: (no spaces or file extensions)"
+
+msgid "save_btn"
+msgstr "&nbsp;Kaydet&nbsp;"
+
+msgid "colors_form_error"
+msgstr "Please enter a name for your custom color scheme."
+
+msgid "theme_doesnt_allow_colors"
+msgstr "The currently selected theme does not allow for custom colors."
+
+msgid "colors_error"
+msgstr "<h2>Hoyt...!</h2>Bilgiler kaydedilemedi. Bilgilerinizi kaydetmeye çalýþýrken bir sorun ile karþýlaþtým.<br /><br />Server Raporu:<br />"
+
+msgid "colors_success"
+msgstr "<h2>Colors Saved!</h2>Information has been successfully saved."
+
+msgid "delete_title"
+msgstr "Yazý Sil"
+
+msgid "delete_instructions"
+msgstr "Aþaðýda Görünen Yazý Silinsin mi?. Silmek için Evet Ýptal etmek için Hayýr ý týklayýn"
+
+msgid "delete_error"
+msgstr "<h2>Hoyt...!</h2>Yazý silinemedi.<br /><br />Server Raporu:<br />"
+
+msgid "delete_success"
+msgstr "<h2>Yazý Silindi!</h2>Yazý Baþarý Ýle Silindi."
+
+msgid "delete_static_title"
+msgstr "Sabit Sayfa Silme"
+
+msgid "delete_static_instructions"
+msgstr "Aþaðýda Görünen Sabit Sayfa Silinsin mi?. Silmek için Evet Ýptal etmek için Hayýr ý týklayýn."
+
+msgid "delete_static_error"
+msgstr "<h2>Hoyt...!</h2>Sabit Sayfa silinemedi.<br /><br />Server Raporu:<br />"
+
+msgid "delete_static_success"
+msgstr "<h2>Sabit Sayfa Silindi!</h2>Sabit Sayfa Baþarý Ýle Silindi."
+
+msgid "image_list_title"
+msgstr "Resim Listesi"
+
+msgid "image_list_instructions"
+msgstr "Resimleri görüntülemek için linklere týklayýn.<br /><br />Girdinize bir resim eklemek için:<br />1) Linke Control ile birlikte týklayýn ve 'Copy Link to Clipboard'ý seçin.<br />2) Girdi ekleme sayfasýna geri dönün.<br />3) 'img' butonuna týklayýn ve kopyaladýðýnýz adresi buraya yapýþtýrýn."
+
+msgid "info_title"
+msgstr "Meta-Data Bilgisi"
+
+msgid "info_instructions"
+msgstr "Aþaðýdaki bilgi arama motorlarýnýn sayfalarýnýza daha kolay ulaþabilmesi için &quot;meta-data&quot; olarak kullanýlacak. Ayrýca ayný bilgi RSS beslemelerinde de kullanýlabilir."
+
+msgid "info_keywords"
+msgstr "Anahtar Kelimeler: (Anahtar kelimeleri birbirinden virgül ile ayýrabilirsiniz.)"
+
+msgid "info_description"
+msgstr "Açýklama: (Siteniz ile ilgili öze bir açýklama giriniz.)"
+
+msgid "info_copyright"
+msgstr "Haklar: (Kopyalama haklarý ile ilgili bilgileri giriniz, boþ býrakabilirsiniz.)"
+
+msgid "tracking_code"
+msgstr "External Tracking Code: (HTML code that needs to be run on the main page (in the header tags for safety) only for every user that comes to the page i.e. Google Analytics)"
+
+msgid "info_error"
+msgstr "<h2>Hoyt...!</h2>Information not saved. I ran into a problem while saving your information.<br /><br />Server Raporu:<br />"
+
+msgid "info_success"
+msgstr "<h2>Meta-Data Saved!</h2>Information has been successfully saved."
+
+msgid "info_form_error"
+msgstr "Please complete the Title and Author fields."
+
+msgid "rating_error"
+msgstr "<h2>Hoyt...!</h2>Information not saved. I ran into a problem while saving your information.<br /><br />Server Raporu:<br />"
+
+msgid "rating_success"
+msgstr "<h2>Vote Saved!</h2>Your rating has been successfully saved."
+
+msgid "upgrade"
+msgstr "<h2>Upgrade</h2>"
+
+msgid "upgrade_count"
+msgstr "%n comment files need to be upgraded:"
+
+msgid "upgrade_url"
+msgstr "Upgrade Comments"
+
+msgid "login_title"
+msgstr "GIRIS"
+
+msgid "login_instructions"
+msgstr "Kullanýcý Adý ve Þifrenizi Girip Giriþ Butonuna Basýn"
+
+msgid "username"
+msgstr "Kullanýcý Adý:"
+
+msgid "password"
+msgstr "Þifre"
+
+msgid "login_success"
+msgstr "<h2>Baþarýlý!</h2>Giriþ Yaptýn. Mutlu Bloglar!<p />"
+
+msgid "login_wrong_password"
+msgstr "<h2>Hoyt...!</h2>Giris Yapýlmadý. Lütfen Kullanýcý Adý ve Þifreniz Girerek Tekrar Deneyin.<p />"
+
+msgid "inactive_account"
+msgstr "<h2>Hoyt...!</h2>Giris Yapýlmadý. Üyeliðin Aktif Deðil Yönetici ile irtibata geçin.<p />"
+
+msgid "login_form_error"
+msgstr "Lütfen Kullanýcý Adý Ve Þifre Bölümlerini Doldurduðunuzdan Emin olun."
+
+msgid "logout_title"
+msgstr "CIKIS"
+
+msgid "logout_error"
+msgstr "<h2>Hoþçakal!</h2>You are now logged out. (You weren't logged in anyway!)<p />"
+
+msgid "error_no_cookie"
+msgstr "<h2>Hoþçakal!</h2>You are now logged out. (No cookie was found. You weren't logged in anyway!)<p />"
+
+msgid "logout_success"
+msgstr "<h2>Hoþçakal!</h2>Cýkýþ Tamamlandý.<p />(5 Saniye Ýçinde Ana Sayfaya Yönlendileceksin.)<p />"
+
+msgid "forms_title"
+msgstr ""
+
+msgid "forms_instructions"
+msgstr ""
+
+msgid "forms_error"
+msgstr "<h2>Hoyt...!</h2>Bilgiler kaydedilemedi. Bilgilerinizi kaydetmeye çalýþýrken bir sorun ile karþýlaþtým.<br /><br />Server Raporu:<br />"
+
+msgid "set_login_title"
+msgstr "Change Username &amp; Password"
+
+msgid "set_login_instructions"
+msgstr "Aþaðýdaki forma kullanmak istediðiniz kullanýcý adý ve parolasýný girin."
+
+msgid "set_login_success"
+msgstr "<h2>Baþarýlý!</h2>YYeni kullanýcý adýnýz ve parolanýz kaydedildi. Mutlu bloglar!<p />"
+
+msgid "set_login_wrong_password"
+msgstr "<h2>Hoyt...!</h2>Bilgiler kaydedilemedi. Bilgilerinizi kaydetmeye çalýþýrken bir sorun ile karþýlaþtým.<br /><br />Server Raporu:<br />"
+
+msgid "set_login_form_error"
+msgstr "Lütfen kullanýcý adý ve parola alanlarýný doldurun."
+
+msgid "explanation"
+msgstr "In recent versions, our password structure has changed.  There is no longer a way to update passwords           and/or logins from inside the blog code.  In order to change your password, delete /config/password.php and make sure install*.php           exists on the local server.  Once that is done, refresh this page (or logout).  You will be presented with the same script           to generate your password as you did when originally creating the blog site."
+
+msgid "install00_title"
+msgstr "Hoþgeldiniz"
+
+msgid "install00_instructions"
+msgstr "Simple PHP Blog'u seçtiðiniz için telekkürler!"
+
+msgid "blog_choose_language"
+msgstr "Disan Secin"
+
+msgid "install01_title"
+msgstr "Hoþgeldiniz"
+
+msgid "install01_instructions"
+msgstr "         Simple PHP Blog'u seçtiðiniz için teþekkürler!<br /><br />Simple PHP Blog, hafif bir blog sistemidir. PHP 4.1 ya da üstü, ve sunucunun blog'a ait bölümüne yazma hakký çalýþmasý için yeterlidir. Tüm bilgi düz metin dosyalarýnda saklanýr, dolayýsýyla veritabaný gerektirmez.<br /><br />         Baþlamak içib simple PHP Blog bilgilerinizin saklanmasý için kullanýlacak ('config', 'content', ve 'images') dizinlerini yaratmak zorunda.<br /><br />         <b>Kuruluma baþlamak için aþaðýdaki linke týklayýnýz:</b>"
+
+msgid "begin"
+msgstr "[ Kuruluma Baþla ]"
+
+msgid "install02_title"
+msgstr "Ayarlar"
+
+msgid "install02_instructions"
+msgstr "'config', 'content', ve 'images' dizinleri yaratýlýyor:"
+
+msgid "folder_exists"
+msgstr "TAMAM! Zaten dizinler mevcut. Herhangi bir deðiþiklik yapýlmadý..."
+
+msgid "folder_failed"
+msgstr "Hoyt! Dizin yaratýlamadý"
+
+msgid "folder_success"
+msgstr "Tamamdýr! Dizin yaratýldý..."
+
+msgid "help"
+msgstr " <h2>Hoyt!</h2> Dizin ya da dizinler yaratýlamýyor! Sebepler þunlar olabilir:<br> <i>1) <b>Ýzinler</b>, <b>Okuma / Yazma</b>ya izin vermiyor.</i><br> <i>2) Tüm dosya ve dizinlerin kullanýcý ID'leri uygun olmalý.</i><p />  Aþaðýdaki adýmlarý uygulayarak yeniden deneyin:<p /> 1) Dizinleri elle yaratýn: <b>config</b>, <b>content</b>, ve <b>images</b>.<p /> 2) Dizinlere <b>Yazma Hakký</b> verin. Eðer FTP istemcisi ile baðlý iseniz, Owner, User, ve World'ün dizinler üzerinde <b>okuma</b> ve <b>yazma</b> haklarý olmalýdýr. <i>(Bunlarý deðþtirmke için sistem yöneticisi ile baðlantýya geçmeniz de gerekebilir...)</i><p /> 3) Tüm dosya ve dizinlerin kullanýcýsýnýn ayný olduðuna emin olun. <i>(bunun için de sistem yöneticisi ile temasa geçmeniz gerekebilir...)</i>"
+
+msgid "try_again"
+msgstr "[ Yeniden Dene ]"
+
+msgid "install02_success"
+msgstr "<h2>Harika!</h2>Dizinler baþarýyla yaratýldý :)<p /><b>Devam etmek için týklayýn:</b>"
+
+msgid "continue"
+msgstr "[ Devam Et ]"
+
+msgid "supported"
+msgstr "<b>Your web server supports the following encryption schemes:</b>"
+
+msgid "standard"
+msgstr "Standard DES Encryption: "
+
+msgid "extended"
+msgstr "Extended DES Encryption: "
+
+msgid "MD5"
+msgstr "MD5 Encryption: "
+
+msgid "blowfish"
+msgstr "Blowfish Encryption: "
+
+msgid "enabled"
+msgstr "enabled"
+
+msgid "disabled"
+msgstr "disabled"
+
+msgid "using_standard"
+msgstr "<b>Using Standard DES Encryption...</b>"
+
+msgid "using_extended"
+msgstr "<b>Using Extended DES Encryption...</b>"
+
+msgid "using_MD5"
+msgstr "<b style='color: green;'>Using MD5 Encryption...</b>"
+
+msgid "using_blowfish"
+msgstr "<b style='color: green;'>Using Blowfish Encryption...</b>"
+
+msgid "using_unknown"
+msgstr "<b>Using Unknown Encryption...</b>"
+
+msgid "salt_length"
+msgstr " <i>(Salt Length = %string)</i><br />"
+
+msgid "install03_title"
+msgstr "Kullanýcý adý &amp; Parola"
+
+msgid "install03_instructions"
+msgstr "Bir kullanýcý adý ve parolasý yaratmak için aþaðýdaki formu kullanýn."
+
+msgid "install03_success"
+msgstr "<h2>Tebrikler!</h2>Log-in oldunuz. Ayarlar sayfasýna girmek ve blog'unuz ile ilgili ilk ayarlamalarý yapmak için aþaðýdaki linke týklayýn!<p />"
+
+msgid "btn_setup"
+msgstr "[ Ayarlar ]"
+
+msgid "install03_wrong_password"
+msgstr "<h2>Whoops!</h2>Bilgiler kaydedilemedi. Bilgilerinizi kaydetmeye çalýþýrken bir sorun ile karþýlaþtým.<br /><br />Server þöyle demiþ:<br />"
+
+msgid "install03_form_error"
+msgstr "Lütfen kullanýcý adý ve parola alanlarýný doldurun."
+
+msgid "install04_title"
+msgstr "Password dosyasý Oluþturma"
+
+msgid "install04_instructions"
+msgstr "Þimdi Küçük Bir 3 Kaðýt Yapacaðýz:<br />         <ol>         <li>Herhangi bit Text Editor açýn. <i>(Note Pad, Word Pad, Word, BBEdit, Pico, VI, etc...)</i></li>         <li>Yeni bir belge oluþturun.</li>         <li>Aþaðýdaki Kodu kopyalayýp açtýðýnýz belgeye yapýþtýrýn. </li>         <li>belgeyi <b>password.php</b> olarak kaydedin <i>(Be sure to save it in <b>text</b> or <b>plain text</b> format.)</i></li>         <li>Kullandýðýnýz FTP programýnýzý açýn.</li>         <li>Yeni oluþturduðunuz <b>password.php</b> dosyasýný <b>config</b> Klasörünün içine yükleyin.</li>         <li>Harddisk'inizde <b>password.php</b> dosyasýný silin</li>         </ol>         "
+
+msgid "information"
+msgstr "<i>Note: If you want to reset your username and password (probably because you forgot it), delete the <b>password.php</b> file in the <b>config</b> folder on your web site. The next time you visit your site, it will walk you through this installation process again...</i>"
+
+msgid "code"
+msgstr "<b>password.php</b> de kullanacaðýnýz Kod:"
+
+msgid "install05_title"
+msgstr "GIRIS"
+
+msgid "install05_instructions"
+msgstr "Kullanýcý Adý ve Þifrenizi Girip Giriþ Butonuna Basýn"
+
+msgid "install05_success"
+msgstr "<h2>Tebrikler!</h2>Þu anda Giriþ Yaptýn.<p />         Click below to visit the <b>Ayarlar</b> linkini týklayarak yeni Blog Sayfanýzý Kiþiselleþtirebilirsiniz.<p />         <i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install05_wrong_password"
+msgstr "<h2>Hoyt...!</h2>Giriþ Yapýlmadý. Lütfen Kullanýcý Adý Ve Þifrenizin doðru olduðundan emin olun ve tekrar deneyin.<p />"
+
+msgid "install05_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "btn_try_again"
+msgstr "[ Tekrar Dene ]"
+
+msgid "install06_title"
+msgstr "GIRIS"
+
+msgid "install06_instructions"
+msgstr "Kullanýcý Adý ve Þifrenizi Girip Giriþ Butonuna Basýn"
+
+msgid "install06_success"
+msgstr "<h2>Tebrikler!</h2>Þu anda Giriþ Yaptýn.<p />         Click below to visit the <b>Ayarlar</b> linkini týklayarak yeni Blog Sayfanýzý Kiþiselleþtirebilirsiniz.<p />         <i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install06_wrong_password"
+msgstr "<h2>Hoyt...!</h2>Giriþ Yapýlmadý. Lütfen Kullanýcý Adý Ve Þifrenizin doðru olduðundan emin olun ve tekrar deneyin.<p />"
+
+msgid "install06_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "setup_title"
+msgstr "Ayarlar"
+
+msgid "setup_instructions"
+msgstr "Aþaðýdaki form sayesinde blog'unuzun adýný ve kiþisel bilgilerinizi deðiþtirebilirsiniz:"
+
+msgid "blog_title"
+msgstr "Blog Adý:"
+
+msgid "blog_header"
+msgstr "Baþlýk Graphic URL: images/blogheader.jpg (Boþ býrakýrsanýz geçerli tema grafiði kullanýlýr)."
+
+msgid "blog_author"
+msgstr "Sahibi:"
+
+msgid "blog_email"
+msgstr "Email: (Ýrtibat bölümünün düzgün çalýþmasý için gecerli bir e-mail adresi girin)"
+
+msgid "blog_avatar"
+msgstr "Avatar URL: images/avatar.jpg (Boþ Býrakabilirsiniz)."
+
+msgid "blog_footer"
+msgstr "Son ek:"
+
+msgid "blog_enable_comments"
+msgstr "Kullanýcýlar Yorum Girebilir"
+
+msgid "blog_comments_popup"
+msgstr "Yorumlarý Pop-up pencerede aç"
+
+msgid "blog_enable_start_category"
+msgstr "Hangi Kategorideki Yazýlarýn Açýlýþ Sayfada görüntülenmesini istiyorsunuz: "
+
+msgid "blog_search_top"
+msgstr "Aramayý Yazýlarýn Üstünde Göster "
+
+msgid "blog_enable_static_block"
+msgstr "Yazýlarýn Üst Kýsmýsmýnda Blok Kullan: "
+
+msgid "static_block_border"
+msgstr "Kenarlýk Kullan"
+
+msgid "static_block_noborder"
+msgstr "Kenarlýk Kullanma"
+
+msgid "blog_enable_voting"
+msgstr "Yazýlarda Oylama Yapýlsýn"
+
+msgid "blog_enable_cache"
+msgstr "Enable Blog Entry Cache (may provide speed increase on some servers)"
+
+msgid "blog_enable_calendar"
+msgstr "Takvimi Göster"
+
+msgid "blog_enable_archives"
+msgstr "Arþiv Blok'unu Göster"
+
+msgid "blog_enable_counter"
+msgstr "Site Kontür'ü Yan Menude Göster"
+
+msgid "blog_counter_hours"
+msgstr "Number of hours to delay before hits are counted again (based on specific ip address):"
+
+msgid "blog_enable_login"
+msgstr "Giriþ Baðlantýsý Görünsün (Lütfen Önce  'login.php' Sýk Kullanýlanlara Ekleyin...)"
+
+msgid "blog_enable_title"
+msgstr "Enable Plain Text Title Block (Clear checkbox if the title is in the header graphic)"
+
+msgid "blog_enable_permalink"
+msgstr "Blog Yazýlarýnda Permalink Kullanýlsýn"
+
+msgid "blog_enable_capcha"
+msgstr "Anti-Spam Kullanýlsýn"
+
+msgid "blog_footer_counter"
+msgstr "Site Kontür'ü Alt Bölümde Göster"
+
+msgid "blog_enable_capcha_image"
+msgstr "Anti-Spam Resmi (Resim ve Yazý yada Sadece Anti-Spam Yazýsý)"
+
+msgid "blog_enable_stats"
+msgstr "Ýstatistik Sayfasý Görünsün "
+
+msgid "blog_enable_lastcomments"
+msgstr " En Yeni Yorumlar Listelensin"
+
+msgid "blog_enable_lastentries"
+msgstr "En Yeni Yazýlar Listelensin"
+
+msgid "blog_email_notification"
+msgstr "Yeni yorum girildiðinde e-posta gönder"
+
+msgid "blog_send_pings"
+msgstr "Weblog &quot;pings&quot; gönder"
+
+msgid "blog_ping_urls"
+msgstr "Pinglenecek servisin tam URL'ini girin (örneðin http://rpc.weblogs.com/RPC2 gibi).<br />Virgüller ile ayýrarak birden fazla servis girebilirsiniz."
+
+msgid "blog_trackback_about"
+msgstr "Trackback provides a method of notification between blogs. Let another         blog know that you are linking to them by sending them a trackback ping. See who is linking to         your blog by receiving trackback pings.<br />         You can either enter the URIs to ping manually, or try to do it automatically through         Auto-Discovery."
+
+msgid "blog_trackback_enabled"
+msgstr "Blog'da Trackback Kullan"
+
+msgid "blog_trackback_auto_discovery"
+msgstr "Auto-Discovery Kullan (when submitting a post containing URLs)"
+
+msgid "blog_max_entries"
+msgstr "Gösterilecek En Fazla Yazý sayýsý:"
+
+msgid "blog_comment_tags"
+msgstr "Yorumlarda 'tag' kullanýmý mümkün:"
+
+msgid "blog_gzip_about"
+msgstr "          PHP 4.0.4'ten beri, PHP disk alanýndan kazanmak için (.gz) sýkýþtýrýlmýþ dosyalarý okuyup yazabiliyor.          Ayrýca tarayýcýya gönderilen dosyalarý bant geniþliðini iyi kullanmak için transparan olarak sýkýþtýrabiliyor.            <br /> Öntanýmlý olarak Zlib desteði PHP içinde etkin olmuyor. Eðer kutucuklar seçilmemiþ ise PHP kurulumunuz Zlib desteklemiyor demektir."
+
+msgid "blog_enable_gzip_txt"
+msgstr "Veri dosyalarý için GZIP sýkýþtýrmasýný etkin kýl"
+
+msgid "blog_enable_gzip_output"
+msgstr "HTTP çýktýsý için GZIP sýkýþtýrmasýný etkin kýl"
+
+msgid "setup_error"
+msgstr "<h2>Hoyt...!</h2>Bilgiler kaydedilemedi. Bilgilerinizi kaydetmeye çalýþýrken bir sorun ile karþýlaþtým.<br /><br />Server Raporu:<br />"
+
+msgid "setup_success"
+msgstr "<h2>Preferences Saved!</h2>Information has been successfully saved."
+
+msgid "setup_form_error"
+msgstr "Lütfen Sahibi ve Blog adý alanlarýný doldurun."
+
+msgid "label_entry_order"
+msgstr "Yazý Gösterimi:"
+
+msgid "select_new_to_old"
+msgstr "En yeni en önce"
+
+msgid "select_old_to_new"
+msgstr "En eski en önce"
+
+msgid "label_comment_order"
+msgstr "Yorum Gösterimi:"
+
+msgid "cal_sunday"
+msgstr "Pazar"
+
+msgid "cal_monday"
+msgstr "Pazartesi"
+
+msgid "label_calendar_start"
+msgstr "Takvimde Haftanýn Baþlangýç Günü:"
+
+msgid "title_sidebar"
+msgstr "Yan Menu"
+
+msgid "title_comments"
+msgstr "Yorumlar"
+
+msgid "title_trackback"
+msgstr "Trackbacks"
+
+msgid "title_compression"
+msgstr "Sýkýþtýrma"
+
+msgid "title_entries"
+msgstr "Yazýlar"
+
+msgid "title_general"
+msgstr "Genel"
+
+msgid "title_language"
+msgstr "Lisan"
+
+msgid "blog_comment_days_expiry"
+msgstr "Comments Allowed For How Many Days? (0 means no expiry)"
+
+msgid "blog_comments_moderation"
+msgstr "Require comment entries to be approved by logged in user before public           (always visible to logged in user)"
+
+msgid "comment_moderation"
+msgstr "Moderation Options"
+
+msgid "comment_moderation_title"
+msgstr "Onay Bekleyen Yorumlar"
+
+msgid "comment_moderation_instructions"
+msgstr "Buradan Kullanýcýlarýn girdiði yorumlarý yönetebilirsiniz. Bloðunuzda yayýnlanmasýný istediðiniz yorumu Onaylayabilirsiniz. yapýlan yorumun uygunsuz olduðunu düþünürseniz yorumu silebilirsiniz."
+
+msgid "comment_moderation_header"
+msgstr "Moderation Listing"
+
+msgid "enteredby"
+msgstr "Yazan: "
+
+msgid "entrydate"
+msgstr "Yazý Tarihi: "
+
+msgid "blogentrytitle"
+msgstr "Blog Yazý Baþlýðý: "
+
+msgid "enteredcontent"
+msgstr "Yorum: "
+
+msgid "totalunmodded"
+msgstr " bir tane yorum onay bekliyor."
+
+msgid "mod_approve"
+msgstr "[Onayla] "
+
+msgid "mod_delete"
+msgstr "[Sil]"
+
+msgid "moderation_title"
+msgstr "Yasaklama Ayarlarý"
+
+msgid "moderation_instructions"
+msgstr "Yasaklama ayarlarýný aþaðýdan düzenleyebilirsiniz."
+
+msgid "moderation_error"
+msgstr "<h2>Hoyt...!</h2>Information not saved. I ran into a problem while saving your information.<br /><br />Server Raporu:<br />"
+
+msgid "moderation_success"
+msgstr "<h2>Preferences Saved!</h2>Information has been successfully saved."
+
+msgid "banned_address_list_title"
+msgstr "<h2>Yasaklý IP Numaralarý</h2>"
+
+msgid "banned_address_list"
+msgstr "Aþaðýdaki listeye yasaklamak istediðiniz IP numarasýný girebirsiniz. dilerseniz daha önce yasakladýðýnýz IP numarasýný silebilirsiniz."
+
+msgid "banned_word_list_title"
+msgstr "<h2>Yasaklý Kelimeler</h2>"
+
+msgid "banned_word_list"
+msgstr "Buradan yorumlarda kullanýlmasýný istemediðiniz kelimeleri düzenleyebilirsiniz (!'^+%&/())=)"
+
+msgid "options_title"
+msgstr "Tarih & Saat Ayarlarý"
+
+msgid "options_instructions"
+msgstr "Aþaðýdaki formu kullanarak blog girdilerinizdeki tarih ve saat bilgilerinin gösterim formatýný deðiþtirebilirsiniz. 12 ya da 24 saat görünümlerinden birisini seçebilirsiniz. <b>Önizleme</b> ile ayarlarýnýzýn nasýl göründüðünü görme þansýnýz da var."
+
+msgid "ldate_title"
+msgstr "Uzun Tarih Formatý:"
+
+msgid "weekday"
+msgstr "Günü Ýsmi"
+
+msgid "none"
+msgstr "Hiçbiri"
+
+msgid "sdate_title"
+msgstr "Kýsa Tarih Formatý:"
+
+msgid "s_month"
+msgstr "Ay"
+
+msgid "s_mon"
+msgstr "Gün Adý"
+
+msgid "s_day"
+msgstr "Gün"
+
+msgid "s_year"
+msgstr "Yýl"
+
+msgid "zero_day"
+msgstr "Gün önünde 0 eki"
+
+msgid "show_century"
+msgstr "YüzYýlý Göster"
+
+msgid "time_title"
+msgstr "Saat Formatý:"
+
+msgid "12hour"
+msgstr "12-Saat Sistemi"
+
+msgid "24hour"
+msgstr "24-Saat Sistemi"
+
+msgid "before_noon"
+msgstr "Öðleden Önce"
+
+msgid "after_noon"
+msgstr "Öðleden Sonra"
+
+msgid "date_title"
+msgstr "Tarih Gösterme Formatý:"
+
+msgid "long_date"
+msgstr "Uzun Tarih"
+
+msgid "short_date"
+msgstr "Kýsa Tarih"
+
+msgid "time"
+msgstr "Saat"
+
+msgid "menu_title"
+msgstr "Menü Tarihi Gösterim Formatý:"
+
+msgid "zero_month"
+msgstr "Ay önünde 0 eki"
+
+msgid "zero_hour"
+msgstr "Saat önünde 0 eki"
+
+msgid "separator"
+msgstr "Ayýrýcý:"
+
+msgid "preview"
+msgstr "Önizleme:"
+
+msgid "server_offset"
+msgstr "Sunucu Offset:"
+
+msgid "options_error"
+msgstr "<h2>Hoyt...!</h2>Bilgiler kaydedilemedi. Bilgilerinizi kaydetmeye çalýþýrken bir sorun ile karþýlaþtým.<br /><br />Server Raporu:<br />"
+
+msgid "options_success"
+msgstr "<h2>Options Saved!</h2>Information has been successfully saved."
+
+msgid "upload_img_title"
+msgstr "Resim Yükleme"
+
+msgid "upload_img_instructions"
+msgstr "Yüklemek istediðiniz dosyalarý seçtikten sonra yükle butonuna basýn ."
+
+msgid "select_file"
+msgstr "Resim Seçin:"
+
+msgid "upload_btn"
+msgstr "Yükle"
+
+msgid "upload_img_error"
+msgstr "<h2>Hoyt...!</h2>Resim yüklenemedi!<br /><br />Server Raporu:<br />"
+
+msgid "upload_img_success"
+msgstr "<h2>Resmim Yüklendi!</h2>Resmim baþarý ile Yüklendi."
+
+msgid "themes_title"
+msgstr "Görünümler"
+
+msgid "themes_instructions"
+msgstr "Aþaðýdan Dilediðiniz görünümü seçebilirisiniz."
+
+msgid "choose_theme"
+msgstr "Görünümler:"
+
+msgid "themes_error"
+msgstr "<h2>Hoyt...!</h2>Bilgiler kaydedilemedi. Bilgilerinizi kaydetmeye çalýþýrken bir sorun ile karþýlaþtým.<br /><br />Server Raporu:<br />"
+
+msgid "themes_success"
+msgstr "<h2>Görünüm Seçildi!</h2>Bilgileriniz baþarý ile kaydedildi."
+
+msgid "search_result_title"
+msgstr "Arama Sonuçlarý"
+
+msgid "search_result_instructions"
+msgstr " <b>%string</b> için Arama Sonuçlarý:"
+
+msgid "not_found"
+msgstr "Sonuç Bulunamadý"
+
+msgid "contact_capcha"
+msgstr "Anti-Spam: Enter "
+
+msgid "contact_title"
+msgstr "Ýletisim Formu"
+
+msgid "contact_instructions"
+msgstr "Formu doldurun:"
+
+msgid "contact_form_error"
+msgstr "Lütfen ilgili bölümleri doldurunuz."
+
+msgid "subject"
+msgstr "Konu:"
+
+msgid "contact_success"
+msgstr "<h2>Baþarýlý!</h2>Mesajýnýz Baþarý ile gönderildi.<p />"
+
+msgid "failure"
+msgstr "<h2>Error!</h2>Your message has not been sent. Most likely the Anti Spam was not entered properly.<p />"
+
+msgid "contactsent"
+msgstr "Contact sent through: "
+
+msgid "errorpage-nocookies_title"
+msgstr "HTTP HATA 403.8 - Sayfa/Görev Yetki Hatasý"
+
+msgid "errorline1"
+msgstr "The page or function you attempted to process requires the use of cookies."
+
+msgid "errorline2"
+msgstr "Restore cookie functionality within your browser or protection software and attempt your request again."
+
+msgid "clientid"
+msgstr "Client ID: "
+
+msgid "trackbacks_title"
+msgstr "Trackback"
+
+msgid "trackbacks_header"
+msgstr "Bu Yazý Ýçin Trackback URL'si:"
+
+msgid "trackbacks_error_add"
+msgstr "Error storing trackback data."
+
+msgid "trackbacks_error_delete"
+msgstr "<h2>Hoyt...!</h2>Trackback not deleted. I ran into a problem while deleting the trackback.<br /><br />Server Raporu:<br />"
+
+msgid "trackbacks_success_delete"
+msgstr "<h2>Trackback Deleted!</h2>The trackback link has been deleted."
+
+msgid "stats_title"
+msgstr "Ýstatistik"
+
+msgid "general"
+msgstr "Genel"
+
+msgid "entry_info"
+msgstr "<b>%s</b> yazý yazýldý <b>%s</b> karakter kaydedildi. - Boyut: <b>%s</b> Byte"
+
+msgid "comment_info"
+msgstr "<b>%s</b> yorum yapýldý <b>%s</b> karakter kaydedildi - Boyut: <b>%s</b> Byte"
+
+msgid "trackback_info"
+msgstr "<b>%s</b> Trackback Kullanýldý. - Boyut: <b>%s</b> Byte "
+
+msgid "static_info"
+msgstr "<b>%s</b> Sabit Sayfa yazýldý <b>%s</b> karakter kaydedildi. - Boyut: <b>%s</b> Byte"
+
+msgid "most_viewed_entries"
+msgstr "En Çok Okunan 10 Yazý"
+
+msgid "most_commented_entries"
+msgstr "En Çok Yorumlanan 10 Yazý"
+
+msgid "most_trackbacked_entries"
+msgstr "En Çok Trackback 10 Yazý "
+
+msgid "vote_info"
+msgstr "<b>%s</b> Oy Kullanýldý. - Boyut: <b>%s</b> Byte"
+
+msgid "most_voted_entries"
+msgstr "En Çok Oylanan 10 Yazý"
+
+msgid "most_rated_entries"
+msgstr "En Çok Oy Alan 10 Yazý"
+
+msgid "403.8"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "404"
+msgstr "HTTP Error 404 - Page/Function Does Not Exist"
+
+msgid "error_404"
+msgstr "The page or function you attempted to process does not exist."
+
+msgid "error_javascript"
+msgstr "The page or function you attempted requires javascript in order to properly function."
+
+msgid "error_emailnotsent"
+msgstr "The message you attempted to send has failed."
+
+msgid "error_emailnotsentcapcha"
+msgstr "The message you attempted to send has failed because the anti-spam entry was incorrect or missing."
+
+msgid "emoticons_title"
+msgstr "Yönetici Ýfadeleri"
+
+msgid "emoticons_instructions"
+msgstr "           Check the emoticons you want to use. Write in the box the Tags you want           to be replaced by the image. Multiple tags may be used, just separated them           by spaces.<br /><br />            For instance:<br />           :) :-) :SMILE: :HAPPY:<br /><br />            <i>(It is highly recommended that you make the Tags longer than 2 characters,           otherwise unexpected substitutions may occur.)</i>"
+
+msgid "upload_instructions"
+msgstr "Yeni Ýfade Yükle:"
+
+msgid "upload_success"
+msgstr "Baþarýlý! Resim Yükleme Baþarýlý!"
+
+msgid "upload_error"
+msgstr "Hata! Resim Yükleme Baþarýsýz."
+
+msgid "upload_invalid"
+msgstr "Error! Geçersiz Dosya. Resim png, jpg, yada gif olmalý."
+
+msgid "save_success"
+msgstr "Ýfade Ayarlarý baþarý ile kaydedildi!"
+
+msgid "save_error"
+msgstr "Hata! Emoticon Ayarlarý kaydedilmedi."
+
+msgid "save_button"
+msgstr "Ýfade Kaydet"
+
+msgid "manage_users_title"
+msgstr "Üyeleri Yönet / Düzenle"
+
+msgid "manage_users_instructions"
+msgstr "Bu bölüm yeni üye ekleyebilir ve silebilirsiniz. Düzenle linkini týklayýp düzenleyebilir,ilgili bölümleri iþaretleyip/kaldýrýp yetkileri ayarlayabilirsiniz."
+
+msgid "fulladminerror"
+msgstr "You must be a full administrator to do this!"
+
+msgid "header_user"
+msgstr "Üye: "
+
+msgid "header_property"
+msgstr "Özellik"
+
+msgid "header_value"
+msgstr "Karþýlýk"
+
+msgid "prop_username"
+msgstr "Üye Adý:"
+
+msgid "prop_fullname"
+msgstr "Görünen Ýsim:"
+
+msgid "prop_password"
+msgstr "Þifre:"
+
+msgid "prop_email"
+msgstr "Email:"
+
+msgid "prop_avatar"
+msgstr "Avatar URL:"
+
+msgid "prop_state"
+msgstr "Aktif?"
+
+msgid "prop_sec_Moderate"
+msgstr "Yorumlarý Yönetebilir "
+
+msgid "prop_sec_Delete"
+msgstr "Herhangi bir Yazý Silebilir"
+
+msgid "prop_sec_Edit"
+msgstr "Yazýlarý Düzenleyebilir"
+
+msgid "btn_SaveChanges"
+msgstr "Deðiþikleri Kaydet"
+
+msgid "btn_CreateUser"
+msgstr "Üye Yarat"
+
+msgid "btn_Cancel"
+msgstr "Ýptal"
+
+msgid "grid_header"
+msgstr "Üye Listesi"
+
+msgid "grid_login"
+msgstr "Giriþ"
+
+msgid "grid_email"
+msgstr "Email"
+
+msgid "grid_avatar"
+msgstr "Avatar"
+
+msgid "grid_state"
+msgstr "Aktif?"
+
+msgid "btn_modify"
+msgstr "Düzenle"
+
+msgid "btn_delete"
+msgstr "Sil"
+
+msgid "create_user"
+msgstr "Yeni Üye Yarat"
+
+msgid "archives_title"
+msgstr "Arþiv"
+
+msgid "showall"
+msgstr "Tümünü Göster"
+

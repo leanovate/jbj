@@ -1,0 +1,1557 @@
+msgid "language"
+msgstr "japanese"
+
+msgid "locale"
+msgstr "Array"
+
+msgid "rss_locale"
+msgstr "ja-JP"
+
+msgid "html_charset"
+msgstr "EUC-JP"
+
+msgid "php_charset"
+msgstr "EUC-JP"
+
+msgid "menu_links"
+msgstr "コンテンツ"
+
+msgid "menu_home"
+msgstr "ホーム"
+
+msgid "menu_contact"
+msgstr "メール"
+
+msgid "menu_stats"
+msgstr "統計データ"
+
+msgid "menu_calendar"
+msgstr "カレンダー"
+
+msgid "menu_random_entry"
+msgstr "ランダム エントリー"
+
+msgid "menu_archive"
+msgstr "アーカイブ"
+
+msgid "menu_viewarchives"
+msgstr "過去の記事を見る"
+
+msgid "menu_menu"
+msgstr "メニュー"
+
+msgid "menu_add"
+msgstr "新規エントリー"
+
+msgid "menu_add_static"
+msgstr "静的ページの作成"
+
+msgid "menu_upload"
+msgstr "画像のアップロード"
+
+msgid "menu_setup"
+msgstr "設定"
+
+msgid "menu_categories"
+msgstr "カテゴリー"
+
+msgid "menu_info"
+msgstr "インフォメーション"
+
+msgid "manage_users"
+msgstr "ユーザ管理"
+
+msgid "manage_php_config"
+msgstr "PHP の設定を見る"
+
+msgid "menu_options"
+msgstr "オプション設定"
+
+msgid "menu_themes"
+msgstr "テーマ"
+
+msgid "menu_colors"
+msgstr "配色"
+
+msgid "menu_change_login"
+msgstr "ログインキー変更"
+
+msgid "menu_logout"
+msgstr "ログアウト"
+
+msgid "menu_login"
+msgstr "ログイン"
+
+msgid "menu_most_recent"
+msgstr "最新のコメント"
+
+msgid "menu_most_recent_entries"
+msgstr "最新のエントリー"
+
+msgid "menu_most_recent_trackback"
+msgstr "最新のトラックバック"
+
+msgid "menu_add_block"
+msgstr "カスタムブロック"
+
+msgid "menu_emoticons"
+msgstr "表情アイコン"
+
+msgid "menu_avatar"
+msgstr "アバター"
+
+msgid "menu_moderation"
+msgstr "単語/IP によるモデレーション"
+
+msgid "menu_commentmoderation"
+msgstr "承認待ちのコメント"
+
+msgid "menu_plugins"
+msgstr "プラグイン"
+
+msgid "notice_moderator1"
+msgstr "あなたの"
+
+msgid "notice_moderator2"
+msgstr " 承認が必要なコメントがあります。"
+
+msgid "notice_loggedin"
+msgstr "ログイン中です。"
+
+msgid "counter_today"
+msgstr "今日:"
+
+msgid "counter_yesterday"
+msgstr "昨日:"
+
+msgid "counter_totalsidebar"
+msgstr "合計:"
+
+msgid "counter_title"
+msgstr "カウンタの合計"
+
+msgid "home"
+msgstr "ホームへ戻る"
+
+msgid "nav_next"
+msgstr "進む"
+
+msgid "nav_back"
+msgstr "戻る"
+
+msgid "nav_first"
+msgstr "最初へ"
+
+msgid "nav_last"
+msgstr "最後へ"
+
+msgid "search_title"
+msgstr "サイト内検索"
+
+msgid "search_go"
+msgstr "検索"
+
+msgid "page_generated_in"
+msgstr "ページ生成 %s 秒"
+
+msgid "counter_total"
+msgstr "Site Views: "
+
+msgid "read_more"
+msgstr "もっと読む..."
+
+msgid "randomquote"
+msgstr "ランダム 引用"
+
+msgid "sb_months"
+msgstr "Array"
+
+msgid "sb_default_title"
+msgstr "タイトルなし"
+
+msgid "sb_default_author"
+msgstr "投稿者名なし"
+
+msgid "sb_default_footer"
+msgstr "フッタなし"
+
+msgid "sb_edit"
+msgstr "編集"
+
+msgid "sb_delete"
+msgstr "削除"
+
+msgid "sb_permalink"
+msgstr "このエントリーのURL"
+
+msgid "sb_trackback"
+msgstr "トラックバック"
+
+msgid "sb_postedby"
+msgstr "投稿者"
+
+msgid "sb_admin"
+msgstr "管理者"
+
+msgid "sb_relatedlink"
+msgstr "関連するリンク"
+
+msgid "sb_add_comment_btn"
+msgstr "コメントを書く"
+
+msgid "sb_read_entry_btn"
+msgstr "エントリーを読む"
+
+msgid "sb_comment_btn_number_first"
+msgstr "1"
+
+msgid "sb_comment_btn"
+msgstr "コメント"
+
+msgid "sb_comment_view"
+msgstr "表示"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr "1"
+
+msgid "sb_comments_plural_btn"
+msgstr "コメント"
+
+msgid "sb_comments_plural_view"
+msgstr "表示"
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_post"
+msgstr " 回表示"
+
+msgid "sb_view_counter_plural_pre"
+msgstr ""
+
+msgid "sb_view_counter_plural_post"
+msgstr " 回表示"
+
+msgid "sb_add_link_btn"
+msgstr "リンクの設定・追加"
+
+msgid "sb_rate_entry_btn"
+msgstr "エントリーを採点"
+
+msgid "label_subject"
+msgstr "タイトル"
+
+msgid "label_insert"
+msgstr "タグの挿入"
+
+msgid "btn_bold"
+msgstr "ボールド"
+
+msgid "btn_italic"
+msgstr "イタリック"
+
+msgid "btn_image"
+msgstr "イメージ"
+
+msgid "btn_url"
+msgstr "リンク"
+
+msgid "btn_readmore"
+msgstr "read more"
+
+msgid "view_images"
+msgstr "アップロード画像の参照"
+
+msgid "label_entry"
+msgstr "内容"
+
+msgid "btn_preview"
+msgstr "&nbsp;プレビュー&nbsp;"
+
+msgid "btn_post"
+msgstr "&nbsp;投稿&nbsp;"
+
+msgid "chk_visiblemenu"
+msgstr "メニューの中に表示 "
+
+msgid "file_name"
+msgstr "このエントリーのファイル名 (スペースと拡張子は不可)"
+
+msgid "insert_styles"
+msgstr "テキストを入力してください。"
+
+msgid "insert_image"
+msgstr "画像のURLを入力"
+
+msgid "insert_url1"
+msgstr "リンクテキスト(オプション)"
+
+msgid "insert_url2"
+msgstr "リンク先URL"
+
+msgid "insert_url3"
+msgstr "新しいウィンドウで開く (オプション)"
+
+msgid "add_form_error"
+msgstr "タイトルと内容を記入して下さい。"
+
+msgid "insert_image_optional"
+msgstr "オプション:"
+
+msgid "insert_image_width"
+msgstr "横サイズ (オプション):"
+
+msgid "insert_image_height"
+msgstr "縦サイズ (オプション):"
+
+msgid "insert_image_popup"
+msgstr "ポップアップウィンドウ設定(オプション):"
+
+msgid "insert_image_float"
+msgstr "画像の回り込み位置(オプション):"
+
+msgid "day"
+msgstr "日"
+
+msgid "month"
+msgstr "月"
+
+msgid "year"
+msgstr "年"
+
+msgid "hour"
+msgstr "時"
+
+msgid "minute"
+msgstr "分"
+
+msgid "second"
+msgstr "秒"
+
+msgid "add_title"
+msgstr "新規エントリー"
+
+msgid "add_instructions"
+msgstr "新しいエントリーを作成します。<br />エントリーの確認は「プレビュー」ボタンをクリックしてください。<br />完成したエントリーの投稿は「投稿」ボタンをクリックして下さい。"
+
+msgid "title_ad"
+msgstr "トラックバックの確認"
+
+msgid "instructions_ad"
+msgstr "自動的に検出されたURLです。トラックバックを許可する場合は「OK」ボタンを押してください。"
+
+msgid "label_tb_ping"
+msgstr "トラックバック送信 (カンマで区切って複数指定可能)"
+
+msgid "label_tb_autodiscovery"
+msgstr "autodiscovery"
+
+msgid "label_relatedlink"
+msgstr "Related Link"
+
+msgid "label_categories"
+msgstr "Category List"
+
+msgid "add_instructions_update"
+msgstr "エントリーの投稿、確認を行う事が出来ます。"
+
+msgid "ok_btn"
+msgstr "&nbsp;OK&nbsp;"
+
+msgid "cancel_btn"
+msgstr "&nbsp;Cancel&nbsp;"
+
+msgid "add_error"
+msgstr "<h2>Whoops!</h2>エントリーの保存に失敗しました。<br /><br />サーバからの応答は:<br />"
+
+msgid "add_success"
+msgstr "<h2>エントリーを保存しました</h2>エントリーの保存に成功しました。"
+
+msgid "add_static_form_error"
+msgstr "タイトル、内容、ファイルネームを記入して下さい"
+
+msgid "add_static_title"
+msgstr "静的ページの作成"
+
+msgid "add_static_instructions"
+msgstr "ページ右側のコンテンツエリアにリンクされる静的ページを作成します。"
+
+msgid "add_static_instructions_update"
+msgstr "静的ページの投稿、プレビューが行えます。"
+
+msgid "add_static_error"
+msgstr "<h2>Whoops!</h2>Enエントリーが登録できません<br /><br />サーバからの応答は:<br />"
+
+msgid "comments_form_error"
+msgstr "Please complete the Name and Comment fields."
+
+msgid "name"
+msgstr "Name:"
+
+msgid "email"
+msgstr "Email:"
+
+msgid "homepage"
+msgstr "Homepage:"
+
+msgid "comment"
+msgstr "Comment:"
+
+msgid "IPAddress"
+msgstr "IP Address:"
+
+msgid "useragent"
+msgstr "User Agent:"
+
+msgid "wrote"
+msgstr "<i>On %s, %s wrote:</i><br /> <br /> %s"
+
+msgid "comment_capcha"
+msgstr "Anti-Spam: Enter "
+
+msgid "comments_title"
+msgstr "コメント"
+
+msgid "comments_header"
+msgstr "コメントを書く"
+
+msgid "comments_instructions"
+msgstr "必要事項とコメントを入力して下さい。"
+
+msgid "comment_name"
+msgstr "名前:"
+
+msgid "comment_email"
+msgstr "Email:"
+
+msgid "comment_url"
+msgstr "URL:"
+
+msgid "commentposted"
+msgstr "New comment posted at: "
+
+msgid "comment_remember"
+msgstr "情報を登録する:"
+
+msgid "comment_text"
+msgstr "コメント:"
+
+msgid "post_btn"
+msgstr "&nbsp;コメントを投稿&nbsp;"
+
+msgid "delete_btn"
+msgstr "削除"
+
+msgid "ban_btn"
+msgstr "このユーザ（IPアドレス）からのコメントを禁止"
+
+msgid "expired_comment1"
+msgstr "We are sorry. New comments are not allowed after "
+
+msgid "expired_comment2"
+msgstr " days."
+
+msgid "blacklisted"
+msgstr "Sorry, your IP address has been banned. Comments not allowed."
+
+msgid "bannedword"
+msgstr "Your comment, url, name or email contained word(s) that have been banned by the administrator. Your comment has NOT been posted."
+
+msgid "nocomments"
+msgstr "Comments are not available for this entry.          "
+
+msgid "email_moderator"
+msgstr "Comments are currently moderated. This comment needs approval before it will be seen by the public."
+
+msgid "user_notice_mod"
+msgstr "Moderation is turned on for this blog. Your comment will require the administrators approval before it will be visible."
+
+msgid "return_to_comments"
+msgstr "Return to Comments"
+
+msgid "comments_error_add"
+msgstr "<h2>Whoops!</h2>コメントが投稿できませんでした。<br /><br />サーバからの応答は:<br />"
+
+msgid "comments_error_delete"
+msgstr "<h2>Whoops!</h2>コメントが投稿できませんでした。<br /><br /> I ran into a problem while deleting your comment.<br /><br />サーバからの応答は:<br />"
+
+msgid "error_ban"
+msgstr "<h2>Whoops!</h2>IP not added to banned ip listing.<br /><br />Server Reported:<br />"
+
+msgid "success_add"
+msgstr "<h2>Comment Added!</h2>Your comment has been successfully saved."
+
+msgid "comments_success_delete"
+msgstr "<h2>Comment Deleted!</h2>The comment has been deleted."
+
+msgid "success_ban1"
+msgstr "<h2>IP Banned!"
+
+msgid "success_ban2"
+msgstr "</h2>To remove this ban in the future, use the Moderation option in the preferences menu."
+
+msgid "error_noip"
+msgstr "IP アドレスなしでブラックリスト要求をしました"
+
+msgid "error_comments_disabled"
+msgstr "<h2>Error!</h2>Hey! Comments are disabled on this blog. Are you a spambot?"
+
+msgid "error_no_match"
+msgstr "<h2>Error!</h2>Your IP address doesn't match posted IP address. Are you a spambot?"
+
+msgid "error_fields_missing"
+msgstr "<h2>Error!</h2>Missing the following fields: "
+
+msgid "error_spambot"
+msgstr "<h2>Error!</h2>Capcha data is missing. Are you a spambot?"
+
+msgid "error_capcha"
+msgstr "<h2>Error!</h2>The capcha you entered is incorrect."
+
+msgid "error_bad_data"
+msgstr "<h2>Error!</h2>Post data is not valid. Are you a hacker?"
+
+msgid "error_entry_missing"
+msgstr "<h2>Error!</h2>You are trying to comment on an entry that doesn't exist"
+
+msgid "error_empty_text"
+msgstr "<h2>Error!</h2>You didn't enter any comments or your name."
+
+msgid "add_block_form_error"
+msgstr "タイトルを記入して下さい。"
+
+msgid "add_block_title"
+msgstr "ブロックの編集と追加"
+
+msgid "add_block_instructions"
+msgstr "カスタムブロックの追加と編集を行います。<br />カスタムブロックとはページ右部のメニュー内に任意に増やせるブロックです。"
+
+msgid "up"
+msgstr "上る"
+
+msgid "down"
+msgstr "下がる"
+
+msgid "edit"
+msgstr "編集"
+
+msgid "delete"
+msgstr "削除"
+
+msgid "block_name"
+msgstr "ブロックタイトル"
+
+msgid "block_content"
+msgstr "ブロックの内容"
+
+msgid "add_block_instructions_edit"
+msgstr "ブロック編集中"
+
+msgid "add_block_instructions_modify"
+msgstr "クリックしてブロックを変更して下さい"
+
+msgid "add_block_submit_btn_edit"
+msgstr "編集"
+
+msgid "add_block_submit_btn_add"
+msgstr "追加"
+
+msgid "static_pages"
+msgstr "Static Pages:"
+
+msgid "add_link_title"
+msgstr "リンクの追加・編集"
+
+msgid "add_link_instructions"
+msgstr "他のサイトへのリンクを追加します。<br />追加はアドレスを記入し「リンクを加える」をクリックしてください。リンクの順序を変更するには「上へ」「下へ」をクリックしてください。リンクを修正するには編集をクリックしてください。リンクを削除は削除をクリックしてください。"
+
+msgid "link_name"
+msgstr "名前:"
+
+msgid "link_url"
+msgstr "リンク先URL: (空欄でセパレーターになります。)"
+
+msgid "add_link_instructions_edit"
+msgstr "リンクの編集中:"
+
+msgid "add_link_instructions_modify"
+msgstr "リンクを修正するには下にクリックしてください。:"
+
+msgid "add_link_submit_btn_edit"
+msgstr "リンクの編集"
+
+msgid "add_link_submit_btn_add"
+msgstr "リンクを加える"
+
+msgid "add_link_form_error"
+msgstr "名前を記入して下さい。"
+
+msgid "categories_title"
+msgstr "カテゴリーの追加と編集"
+
+msgid "categories_instructions"
+msgstr "以下のフォームを使用してカテゴリーの追加と編集を行います。<br /> それぞれのカテゴリ項目には'カテゴリ名(ID番号)'を付けて下さい。 <br />スペースがある場合はそのまま反映します。<br /><br /><b>例:</b><br />一般(1)<br />ニュース(3)<br />&nbsp;&nbsp;告知 (6)<br />&nbsp;&nbsp;イベント (5)<br />&nbsp;&nbsp;&nbsp;&nbsp;音楽 (7)<br />テクノロジー (2)<br />"
+
+msgid "categories_error"
+msgstr "エラー"
+
+msgid "current_categories"
+msgstr "カレントカテゴリー"
+
+msgid "no_categories_found"
+msgstr "カテゴリーがありません"
+
+msgid "category_list"
+msgstr "カテゴリーリスト"
+
+msgid "validate"
+msgstr "カテゴリーを有効にする"
+
+msgid "submit_btn"
+msgstr "&nbsp;決定&nbsp;"
+
+msgid "colors_title"
+msgstr "配色変更"
+
+msgid "colors_instructions"
+msgstr "ページの配色を変更します。<br />各項目を選択してカラーピッカーもしくは数値で色を指定してください。"
+
+msgid "bg_color"
+msgstr "BG Page"
+
+msgid "main_bg_color"
+msgstr "BG Main Page"
+
+msgid "border_color"
+msgstr "Page Border"
+
+msgid "inner_border_color"
+msgstr "Inner Border"
+
+msgid "header_bg_color"
+msgstr "BG Header"
+
+msgid "header_txt_color"
+msgstr "Header Text"
+
+msgid "menu_bg_color"
+msgstr "BG Menu"
+
+msgid "footer_bg_color"
+msgstr "BG Footer"
+
+msgid "txt_color"
+msgstr "Main Text"
+
+msgid "headline_txt_color"
+msgstr "Headline Text"
+
+msgid "date_txt_color"
+msgstr "Date Text"
+
+msgid "footer_txt_color"
+msgstr "Footer Text"
+
+msgid "link_reg_color"
+msgstr "Link Default"
+
+msgid "link_hi_color"
+msgstr "Link Hover"
+
+msgid "link_down_color"
+msgstr "Link Active"
+
+msgid "entry_bg"
+msgstr "Entry BG"
+
+msgid "entry_title_bg"
+msgstr "Entry Title BG"
+
+msgid "entry_border"
+msgstr "Entry Border"
+
+msgid "entry_title_text"
+msgstr "Entry Title Text"
+
+msgid "entry_text"
+msgstr "Entry Text"
+
+msgid "static_bg"
+msgstr "Static BG"
+
+msgid "static_title_bg"
+msgstr "Static Title BG"
+
+msgid "static_border"
+msgstr "Static Border"
+
+msgid "static_title_text"
+msgstr "Static Title Text"
+
+msgid "static_text"
+msgstr "Static Text"
+
+msgid "comment_bg"
+msgstr "コメントの背景"
+
+msgid "comment_title_bg"
+msgstr "コメントタイトルの背景"
+
+msgid "comment_border"
+msgstr "コメントの境界"
+
+msgid "comment_title_text"
+msgstr "コメントタイトルの文字"
+
+msgid "menu_bg"
+msgstr "Menu BG"
+
+msgid "menu_title_bg"
+msgstr "Menu Title BG"
+
+msgid "menu_border"
+msgstr "Menu Border"
+
+msgid "menu_title_text"
+msgstr "Menu Title Text"
+
+msgid "menu_text"
+msgstr "Menu Text"
+
+msgid "menu_link_reg_color"
+msgstr "Menu Link Default"
+
+msgid "menu_link_hi_color"
+msgstr "Menu Link Hover"
+
+msgid "menu_link_down_color"
+msgstr "Menu Link Active"
+
+msgid "color_preset"
+msgstr "Color Schemes:"
+
+msgid "scheme_name"
+msgstr "Enter a custom color scheme name:"
+
+msgid "scheme_file"
+msgstr "Enter scheme file name: (no spaces or file extensions)"
+
+msgid "save_btn"
+msgstr "&nbsp;Save&nbsp;"
+
+msgid "colors_form_error"
+msgstr "Please enter a name for your custom color scheme."
+
+msgid "theme_doesnt_allow_colors"
+msgstr "The currently selected theme does not allow for custom colors."
+
+msgid "colors_error"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your entry.<br /><br />サーバからの応答は:<br />"
+
+msgid "colors_success"
+msgstr "<h2>色を保存しました!</h2>情報の保存に成功しました"
+
+msgid "delete_title"
+msgstr "エントリーの削除"
+
+msgid "delete_instructions"
+msgstr "エントリーの削除を行います。<br />一度削除したエントリーは元に戻す事は出来ません。"
+
+msgid "delete_error"
+msgstr "<h2>Whoops!</h2>削除できませんでした。<br /><br />サーバからの応答は:<br />"
+
+msgid "delete_success"
+msgstr "<h2>エントリーを削除しました!</h2>エントリーは削除されました。"
+
+msgid "delete_static_title"
+msgstr "静的ページの削除"
+
+msgid "delete_static_instructions"
+msgstr "静的ページの削除を行います。一度削除したページを元に戻す事はできません。"
+
+msgid "delete_static_error"
+msgstr "<h2>Whoops!</h2>削除に失敗しました<br /><br />サーバからの応答は:<br />"
+
+msgid "delete_static_success"
+msgstr "<h2>静的ページを削除しました!</h2>静的ページは削除されました。"
+
+msgid "image_list_title"
+msgstr "Image List"
+
+msgid "image_list_instructions"
+msgstr "ファイル名をクリックで画像を参照します。<br /><br />エントリーに画像を加える方法:<br />1) リンクをコントロールクリックして、<br />「クリップボードへのコピー・リンク」を選んでください。.<br />2) 新規エントリーへ戻り、編集してください。<br />3) 「img」ボタンをクリックして、ウィンドウへURLを指定してください。"
+
+msgid "info_title"
+msgstr "メタ情報"
+
+msgid "info_instructions"
+msgstr "サーチエンジンやRSS配信に使用される情報を設定します。"
+
+msgid "info_keywords"
+msgstr "キーワード(カンマで複数指定可能。例: シンシンシンシンプル,PHP,ブログ)"
+
+msgid "info_description"
+msgstr "説明(サイトの紹介を記入して下さい。)"
+
+msgid "info_copyright"
+msgstr "著作権表示(著作権表示のテキストや著作権表示ページのアドレスなど)"
+
+msgid "tracking_code"
+msgstr "External Tracking Code: (HTML code that needs to be run on the main page (in the header tags for safety) only for every user that comes to the page i.e. Google Analytics)"
+
+msgid "info_error"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your information.<br /><br />サーバからの応答は:<br />"
+
+msgid "info_success"
+msgstr "<h2>メタ情報を保存しました!</h2>情報の保存に成功しました。"
+
+msgid "info_form_error"
+msgstr "タイトル、著者のフィールドを記入してください。"
+
+msgid "rating_error"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your information.<br /><br />サーバからの応答は:<br />"
+
+msgid "rating_success"
+msgstr "<h2>評価を保存しました!</h2>あなたが行った評価は保存されました。"
+
+msgid "upgrade"
+msgstr "<h2>Upgrade</h2>"
+
+msgid "upgrade_count"
+msgstr "%n comment files need to be upgraded:"
+
+msgid "upgrade_url"
+msgstr "Upgrade Comments"
+
+msgid "login_title"
+msgstr "ログイン"
+
+msgid "login_instructions"
+msgstr "ユーザ名とパスワードを記入して下さい。"
+
+msgid "username"
+msgstr "ユーザ名:"
+
+msgid "password"
+msgstr "パスワード"
+
+msgid "login_success"
+msgstr "<h2>Success!</h2>ログインしました。それではお楽しみ下さい!<p />"
+
+msgid "login_wrong_password"
+msgstr "<h2>Whoops!</h2>ログインできませんでした。正しいユーザ名とパスワードを再記入して下さい。<p />"
+
+msgid "inactive_account"
+msgstr "<h2>Whoops!</h2>ログインできませんでした。 あなたのアカウントは、なんらかの理由で、管理者によって無効化されています。<p />"
+
+msgid "login_form_error"
+msgstr "ユーザ名とパスワードを記入して下さい。"
+
+msgid "logout_title"
+msgstr "ログアウト"
+
+msgid "logout_error"
+msgstr "<h2>Goodbye!</h2>ログアウトしました。(どっちみちログインしてなかったけど！)<p />"
+
+msgid "error_no_cookie"
+msgstr "<h2>Goodbye!</h2>ログアウトしました。(クッキーが見つかりませんでした。ログインしてなかったんでしょう。)<p />"
+
+msgid "logout_success"
+msgstr "<h2>Goodbye!</h2>ログアウトしました。<p /> (5秒後にホームページへ移動します。)<p />"
+
+msgid "forms_title"
+msgstr ""
+
+msgid "forms_instructions"
+msgstr ""
+
+msgid "forms_error"
+msgstr "<h2>Whoops!</h2>保存に失敗しました。<br /><br />サーバからの応答は:<br />"
+
+msgid "set_login_title"
+msgstr "ユーザー名とパスワードの変更"
+
+msgid "set_login_instructions"
+msgstr "あなたのユーザー名またはパスワードを変更します。<br />新しいユーザー名およびパスワードを入力してください。"
+
+msgid "set_login_success"
+msgstr "<h2>Success!</h2>新しいユーザー名とパスワードが有効になりました。<p />"
+
+msgid "set_login_wrong_password"
+msgstr "<h2>Whoops!</h2>新しいユーザー名とパスワードの登録に失敗しました。<br /><br />サーバからの応答は:<br />"
+
+msgid "set_login_form_error"
+msgstr "ユーザー名とパスワードを記入して下さい。"
+
+msgid "explanation"
+msgstr "In recent versions, our password structure has changed.  There is no longer a way to update passwords 					and/or logins from inside the blog code.  In order to change your password, delete /config/password.php and make sure install*.php 					exists on the local server.  Once that is done, refresh this page (or logout).  You will be presented with the same script 					to generate your password as you did when originally creating the blog site."
+
+msgid "install00_title"
+msgstr "Welcome"
+
+msgid "install00_instructions"
+msgstr "Thank you for choosing Simple PHP Blog!"
+
+msgid "blog_choose_language"
+msgstr "Choose Language:"
+
+msgid "install01_title"
+msgstr "Simple PHP Blogへようこそ！"
+
+msgid "install01_instructions"
+msgstr "Thank you for choosing Simple PHP Blog!<br /><br />Simple PHP Blog はPHP 4.1以降で動作するブログシステムです。<br />ログファイルをテキストファイルにより管理するのでデータベースを必要としません。<br />データを格納する３つのフォルダ('config', 'content', and 'images')を自動作成します。<br /><b>下のメッセージをクリックして次に進んでください:</b>"
+
+msgid "begin"
+msgstr "[ セットアップを続ける ]"
+
+msgid "install02_title"
+msgstr "セットアップ"
+
+msgid "install02_instructions"
+msgstr "データ格納フォルダを作成します。"
+
+msgid "folder_exists"
+msgstr "フォルダは既に作成済みです。"
+
+msgid "folder_failed"
+msgstr "フォルダ作成に失敗しました"
+
+msgid "folder_success"
+msgstr "フォルダ作成完了しました"
+
+msgid "help"
+msgstr " 				<h2>Whoops!</h2> 				Could not create one or more folders! This is most likely due to:<br> 				<i>1) <b>Write Permissions</b> aren't set to allow <b>Read/Write</b> access.</i><br> 				<i>2) The <b>UID</b>'s (user ID's) of all files and folder must match.</i><p /> 				 				Follow the trouble-shooting instructions below and please try again:<p />				 				1) Manually create the following folders: <b>config</b>, <b>content</b>, and <b>images</b>.<p /> 				2) Enabled <b>Write Permissions</b> on the folders. In your FTP program, Owner, User, and World should have <b>Read</b> and <b>Write</b> access. <i>(You may need to contact your service provider to change these...)</i><p /> 				3) Make sure the UID's of all your files and folders are the same. <i>(You may need to contact your service provider to change these...)</i>"
+
+msgid "try_again"
+msgstr "[ Try Again ]"
+
+msgid "install02_success"
+msgstr "<h2>成功!</h2>フォルダ作成が完了しました。<p /><b>セットアップを続けるをクリックして下さい:</b>"
+
+msgid "continue"
+msgstr "[ セットアップを続ける ]"
+
+msgid "supported"
+msgstr "<b>Your web server supports the following encryption schemes:</b>"
+
+msgid "standard"
+msgstr "Standard DES Encryption: "
+
+msgid "extended"
+msgstr "Extended DES Encryption: "
+
+msgid "MD5"
+msgstr "MD5 Encryption: "
+
+msgid "blowfish"
+msgstr "Blowfish Encryption: "
+
+msgid "enabled"
+msgstr "enabled"
+
+msgid "disabled"
+msgstr "disabled"
+
+msgid "using_standard"
+msgstr "<b>Using Standard DES Encryption...</b>"
+
+msgid "using_extended"
+msgstr "<b>Using Extended DES Encryption...</b>"
+
+msgid "using_MD5"
+msgstr "<b style='color: green;'>Using MD5 Encryption...</b>"
+
+msgid "using_blowfish"
+msgstr "<b style='color: green;'>Using Blowfish Encryption...</b>"
+
+msgid "using_unknown"
+msgstr "<b>Using Unknown Encryption...</b>"
+
+msgid "salt_length"
+msgstr " <i>(Salt Length = %string)</i><br />"
+
+msgid "install03_title"
+msgstr "ユーザー名とパスワードの設定"
+
+msgid "install03_instructions"
+msgstr "ユーザー名とパスワードを記入して下さい。"
+
+msgid "install03_success"
+msgstr "<h2>Congratulations!</h2>インストールは完了しました。それではお楽しみください。<p />"
+
+msgid "btn_setup"
+msgstr "[ 設定に進む ]"
+
+msgid "install03_wrong_password"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your Username and/or Password.<br /><br />サーバからの応答は:<br />"
+
+msgid "install03_form_error"
+msgstr "ユーザー名とパスワードを記入してください。"
+
+msgid "install04_title"
+msgstr "Create Password File"
+
+msgid "install04_instructions"
+msgstr "Here's the tricky part:<br /> 				<ol> 				<li>Open a Text Editor application. <i>(Note Pad, Word Pad, Word, BBEdit, Pico, VI, etc...)</i></li> 				<li>Create a New Text Document.</li> 				<li>Copy and paste the code in the box below into your document.</li> 				<li>Save your file and name it <b>password.php</b> <i>(Be sure to save it in <b>text</b> or <b>plain text</b> format.)</i></li> 				<li>Open a FTP application.</li> 				<li>Upload your new <b>password.php</b> into the <b>config</b> folder on your web site.</li> 				<li>Delete the <b>password.php</b> from your hard drive.</li> 				</ol> 				"
+
+msgid "information"
+msgstr "<i>Note: If you want to reset your username and password (probably because you forgot it), delete the <b>password.php</b> file in the <b>config</b> folder on your web site. The next time you visit your site, it will walk you through this installation process again...</i>"
+
+msgid "code"
+msgstr "Code for <b>password.php</b> file:"
+
+msgid "install05_title"
+msgstr "Login"
+
+msgid "install05_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid "install05_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in.<p /> 				Click below to visit the <b>Setup</b> page, where you can personalize your new blog.<p /> 				<i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install05_wrong_password"
+msgstr "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your Username and Password correctly and try again.<p />"
+
+msgid "install05_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "btn_try_again"
+msgstr "[ Try Again ]"
+
+msgid "install06_title"
+msgstr "Login"
+
+msgid "install06_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid "install06_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in.<p /> 				Click below to visit the <b>Setup</b> page, where you can personalize your new blog.<p /> 				<i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install06_wrong_password"
+msgstr "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your Username and Password correctly and try again.<p />"
+
+msgid "install06_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "setup_title"
+msgstr "設定"
+
+msgid "setup_instructions"
+msgstr "blogの設定と管理者情報を設定します。"
+
+msgid "blog_title"
+msgstr "ブログタイトル"
+
+msgid "blog_header"
+msgstr "ヘッダ画像の URL: images/blogheader.jpg (テーマごとのデフォルト画像を使う場合は空のままにしてください。)"
+
+msgid "blog_author"
+msgstr "管理者名"
+
+msgid "blog_email"
+msgstr "Email:"
+
+msgid "blog_avatar"
+msgstr "アバター URL: (使わない場合は空のままにしてください。)"
+
+msgid "blog_footer"
+msgstr "フッタ:"
+
+msgid "blog_enable_comments"
+msgstr "コメント機能を使う"
+
+msgid "blog_comments_popup"
+msgstr "コメントをポップアップウインドウで表示"
+
+msgid "blog_enable_start_category"
+msgstr "Use specific category for first page of entries: "
+
+msgid "blog_search_top"
+msgstr "Show Search In Entries (instead of in sidebar)"
+
+msgid "blog_enable_static_block"
+msgstr "Show a defined block as the first entry of blog entries: "
+
+msgid "static_block_border"
+msgstr "Show Border"
+
+msgid "static_block_noborder"
+msgstr "No Border"
+
+msgid "blog_enable_voting"
+msgstr "エントリー評価機能を使う"
+
+msgid "blog_enable_cache"
+msgstr "Enable Blog Entry Cache (may provide speed increase on some servers)"
+
+msgid "blog_enable_calendar"
+msgstr "Enable Calendar / Archives Block"
+
+msgid "blog_enable_archives"
+msgstr "Enable Archives Block"
+
+msgid "blog_enable_counter"
+msgstr "Enable Counter in Sidebar"
+
+msgid "blog_counter_hours"
+msgstr "Number of hours to delay before hits are counted again (based on specific ip address):"
+
+msgid "blog_enable_login"
+msgstr "Enable Login Link (Please bookmark 'login.php' first...)"
+
+msgid "blog_enable_title"
+msgstr "Enable Plain Text Title Block (Clear checkbox if the title is in the header graphic)"
+
+msgid "blog_enable_permalink"
+msgstr "Enable Permalink on Blog Entries"
+
+msgid "blog_enable_capcha"
+msgstr "Enable Anti-Spam"
+
+msgid "blog_footer_counter"
+msgstr "Enable Counter in Footer"
+
+msgid "blog_enable_capcha_image"
+msgstr "Anti-Spam Images (GD library only) / Anti-Spam Text Field"
+
+msgid "blog_enable_stats"
+msgstr "Enable Stats Option in Menu"
+
+msgid "blog_enable_lastcomments"
+msgstr "Enable Most Recent Comments Listing"
+
+msgid "blog_enable_lastentries"
+msgstr "Enable Most Recent Entries Listing"
+
+msgid "blog_email_notification"
+msgstr "新しいコメントがある場合メールで知らせる"
+
+msgid "blog_send_pings"
+msgstr "サーバーにPingを送信する"
+
+msgid "blog_ping_urls"
+msgstr "正確なURLを記入して下さい。 (例：http://rpc.weblogs.com/RPC2)<br />(カンマで区切る事により複数のサーバーを指定することが出来ます。)"
+
+msgid "blog_trackback_about"
+msgstr "トラックバック送受信機能の設定を行います。<br /> 手動でトラックバックを追加するか自動検出機能を使用するか選択できます。"
+
+msgid "blog_trackback_enabled"
+msgstr "トラックバック機能を使用する"
+
+msgid "blog_trackback_auto_discovery"
+msgstr "トラックバックの自動送受信機能を使用する。"
+
+msgid "blog_max_entries"
+msgstr "１ページ内の最大表示エントリ数"
+
+msgid "blog_comment_tags"
+msgstr "コメント内で使用可能なタグ"
+
+msgid "blog_gzip_about"
+msgstr "SPHP 4.0.4以降から使用可能なgzip(.gz)圧縮機能の設定を行います。<br />ファイルを圧縮する事によりディスクスペースの節約とサーバーへの負荷を抑える事ができます。<br />初期設定ではオフになっておりますので必要に応じて有効にして下さい。"
+
+msgid "blog_enable_gzip_txt"
+msgstr "ログファイルをgzipで圧縮する"
+
+msgid "blog_enable_gzip_output"
+msgstr "HTTP出力用のgzip圧縮を使用します"
+
+msgid "setup_error"
+msgstr "<h2>Whoops!</h2>設定の保存に失敗しました<br /><br />サーバからの応答は:<br />"
+
+msgid "setup_success"
+msgstr "<h2>設定を保存しました!</h2>情報の保存に成功しました。"
+
+msgid "setup_form_error"
+msgstr "Please complete the Title and Author fields."
+
+msgid "label_entry_order"
+msgstr "エントリーの表示"
+
+msgid "select_new_to_old"
+msgstr "新しい順に表示"
+
+msgid "select_old_to_new"
+msgstr "古い順に表示"
+
+msgid "label_comment_order"
+msgstr "コメントの表示"
+
+msgid "cal_sunday"
+msgstr "日曜日"
+
+msgid "cal_monday"
+msgstr "月曜日"
+
+msgid "label_calendar_start"
+msgstr "カレンダーの週が始まる曜日"
+
+msgid "title_sidebar"
+msgstr "サイドバー"
+
+msgid "title_comments"
+msgstr "コメント"
+
+msgid "title_trackback"
+msgstr "トラックバック"
+
+msgid "title_compression"
+msgstr "圧縮"
+
+msgid "title_entries"
+msgstr "エントリー"
+
+msgid "title_general"
+msgstr "一般"
+
+msgid "title_language"
+msgstr "言語"
+
+msgid "blog_comment_days_expiry"
+msgstr "エントリーが投稿されてから何日の間コメントできるようにしますか? (0 は期限なし)"
+
+msgid "blog_comments_moderation"
+msgstr "Require comment entries to be approved by logged in user before public           (always visible to logged in user)"
+
+msgid "comment_moderation"
+msgstr "コメント承認オプション"
+
+msgid "options_title"
+msgstr "オプション設定"
+
+msgid "options_instructions"
+msgstr "コメントとエントリーの日付表示と時間表示をカスタマイズするための設定です。<br />日付は短い日付か長い日付、時刻表示は12時間制あるいは24時間制の時刻表示を選択することができます。<br />プレビューで確認する事ができます。"
+
+msgid "ldate_title"
+msgstr "長い日付形式"
+
+msgid "weekday"
+msgstr "曜日"
+
+msgid "none"
+msgstr "無し"
+
+msgid "sdate_title"
+msgstr "短い日付:"
+
+msgid "s_month"
+msgstr "月"
+
+msgid "s_mon"
+msgstr "MMM"
+
+msgid "s_day"
+msgstr "日"
+
+msgid "s_year"
+msgstr "年"
+
+msgid "zero_day"
+msgstr "ゼロを付ける（例：01）"
+
+msgid "show_century"
+msgstr "西暦（略式）を表示"
+
+msgid "time_title"
+msgstr "時刻表示"
+
+msgid "12hour"
+msgstr "12時間制"
+
+msgid "24hour"
+msgstr "24時間制"
+
+msgid "before_noon"
+msgstr "午前"
+
+msgid "after_noon"
+msgstr "午後"
+
+msgid "date_title"
+msgstr "日付の表示形式:"
+
+msgid "long_date"
+msgstr "長い日付"
+
+msgid "short_date"
+msgstr "短い日付"
+
+msgid "time"
+msgstr "時刻"
+
+msgid "menu_title"
+msgstr "メニューの日付表示形式:"
+
+msgid "zero_month"
+msgstr "ゼロを付ける（例：01）"
+
+msgid "zero_hour"
+msgstr "時刻にゼロを付ける（例：01）"
+
+msgid "separator"
+msgstr "セパレーター"
+
+msgid "preview"
+msgstr "プレビュー"
+
+msgid "server_offset"
+msgstr "サーバーオフセット"
+
+msgid "options_error"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your information.<br /><br />サーバからの応答は:<br />"
+
+msgid "options_success"
+msgstr "<h2>オプションを保存しました!</h2>情報の保存に成功しました。"
+
+msgid "upload_img_title"
+msgstr "画像のアップロード"
+
+msgid "upload_img_instructions"
+msgstr "画像ファイルのアップロードを行います。"
+
+msgid "select_file"
+msgstr "ファイルの選択"
+
+msgid "upload_btn"
+msgstr "アップロード"
+
+msgid "upload_img_error"
+msgstr "<h2>Whoops!</h2>画像をアップロードできませんでした。 Here's some more information:<br /><br />サーバからの応答は:<br />"
+
+msgid "upload_img_success"
+msgstr "<h2>画像をアップロードしました!</h2>画像のアップロードに成功しました。"
+
+msgid "themes_title"
+msgstr "外観の変更"
+
+msgid "themes_instructions"
+msgstr "プルダウンメニューから使用するテーマを選択してください。"
+
+msgid "choose_theme"
+msgstr "themes"
+
+msgid "themes_error"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your information.<br /><br />サーバからの応答は:<br />"
+
+msgid "themes_success"
+msgstr "<h2>テーマを選択しました!</h2>情報の保存に成功しました。"
+
+msgid "search_result_title"
+msgstr "探索結果"
+
+msgid "search_result_instructions"
+msgstr "検索キーワード：<b>%string</b>:"
+
+msgid "not_found"
+msgstr "見つかりませんでした。<br />違うキーワードで再検索して下さい。"
+
+msgid "contact_title"
+msgstr "コンタクト"
+
+msgid "contact_instructions"
+msgstr "管理人へのメッセージ・連絡はこちらへお願いします。"
+
+msgid "contact_form_error"
+msgstr "タイトルとメッセージを記入して下さい。"
+
+msgid "subject"
+msgstr "タイトルを記入して下さい。"
+
+msgid "contact_success"
+msgstr "<h2>Success!</h2>Your message has been sent.<p />"
+
+msgid "failure"
+msgstr "<h2>Error!</h2>Your message has not been sent. Most likely the Anti Spam was not entered properly.<p />"
+
+msgid "contact_capcha"
+msgstr "Anti-Spam: Enter "
+
+msgid "contactsent"
+msgstr "Contact sent through: "
+
+msgid "errorpage-nocookies_title"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "errorline1"
+msgstr "The page or function you attempted to process requires the use of cookies."
+
+msgid "errorline2"
+msgstr "Restore cookie functionality within your browser or protection software and attempt your request again."
+
+msgid "clientid"
+msgstr "Client ID: "
+
+msgid "trackbacks_title"
+msgstr "トラックバック"
+
+msgid "trackbacks_header"
+msgstr "このエントリーのトラックバックURL"
+
+msgid "trackbacks_error_add"
+msgstr "Error storing trackback data."
+
+msgid "stats_title"
+msgstr "統計"
+
+msgid "general"
+msgstr "全体"
+
+msgid "entry_info"
+msgstr "<b>%s</b> エントリー使用容量 <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "comment_info"
+msgstr "<b>%s</b> コメント使用量 <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "trackback_info"
+msgstr "<b>%s</b> 保存トラックバック <b>%s</b> bytes"
+
+msgid "static_info"
+msgstr "<b>%s</b> 静的ページ <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "most_viewed_entries"
+msgstr "10 エントリー参照数"
+
+msgid "most_commented_entries"
+msgstr "10 エントリー評価"
+
+msgid "most_trackbacked_entries"
+msgstr "10 トラックバック数"
+
+msgid "vote_info"
+msgstr "<b>%s</b> votes stored in <b>%s</b> bytes"
+
+msgid "most_voted_entries"
+msgstr "10 Most voted entries"
+
+msgid "most_rated_entries"
+msgstr "10 Most rated entries"
+
+msgid "403.8"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "404"
+msgstr "HTTP Error 404 - Page/Function Does Not Exist"
+
+msgid "error_404"
+msgstr "The page or function you attempted to process does not exist."
+
+msgid "error_javascript"
+msgstr "The page or function you attempted requires javascript in order to properly function."
+
+msgid "error_emailnotsent"
+msgstr "The message you attempted to send has failed."
+
+msgid "error_emailnotsentcapcha"
+msgstr "The message you attempted to send has failed because the anti-spam entry was incorrect or missing."
+
+msgid "emoticons_title"
+msgstr "Admin Emoticons"
+
+msgid "emoticons_instructions"
+msgstr " 					Check the emoticons you want to use. Write in the box the Tags you want  					to be replaced by the image. Multiple tags may be used, just separated them  					by spaces.<br /><br /> 		 					For instance:<br /> 					:) :-) :SMILE: :HAPPY:<br /><br /> 					 					<i>(It is highly recommended that you make the Tags longer than 2 characters,  					otherwise unexpected substitutions may occur.)</i>"
+
+msgid "upload_instructions"
+msgstr "Upload New Emoticon:"
+
+msgid "upload_success"
+msgstr "Success! Image uploaded successfully!"
+
+msgid "upload_error"
+msgstr "Error! Image was not uploaded."
+
+msgid "upload_invalid"
+msgstr "Error! Invalid image file. Image must be a png, jpg, or gif."
+
+msgid "save_success"
+msgstr "Emoticon preferences saved successfully!"
+
+msgid "save_error"
+msgstr "Error! Emoticon preferences not saved."
+
+msgid "save_button"
+msgstr "表情アイコンを保存"
+
+msgid "manage_users_title"
+msgstr "ユーザの管理と変更"
+
+msgid "manage_users_instructions"
+msgstr "Add, Modify, or Delete users that are not administrators but have the ability to create blog entries and/or moderate the comments."
+
+msgid "fulladminerror"
+msgstr "You must be a full administrator to do this!"
+
+msgid "header_user"
+msgstr "ユーザ: "
+
+msgid "header_property"
+msgstr "項目"
+
+msgid "header_value"
+msgstr "値"
+
+msgid "prop_username"
+msgstr "ユーザ名:"
+
+msgid "prop_fullname"
+msgstr "表示する名前:"
+
+msgid "prop_password"
+msgstr "パスワード:"
+
+msgid "prop_email"
+msgstr "Email:"
+
+msgid "prop_avatar"
+msgstr "アバター URL:"
+
+msgid "prop_state"
+msgstr "Active?"
+
+msgid "prop_sec_Moderate"
+msgstr "Moderate Comments?"
+
+msgid "prop_sec_Delete"
+msgstr "Blog のエントリーを削除可能?"
+
+msgid "prop_sec_Edit"
+msgstr "すべてのエントリーを編集可能?"
+
+msgid "btn_SaveChanges"
+msgstr "変更を保存"
+
+msgid "btn_CreateUser"
+msgstr "ユーザ作成"
+
+msgid "btn_Cancel"
+msgstr "キャンセル"
+
+msgid "grid_header"
+msgstr "ユーザ一覧"
+
+msgid "grid_login"
+msgstr "ログイン名"
+
+msgid "grid_email"
+msgstr "Email"
+
+msgid "grid_avatar"
+msgstr "アバター"
+
+msgid "grid_state"
+msgstr "Active?"
+
+msgid "btn_modify"
+msgstr "変更"
+
+msgid "btn_delete"
+msgstr "削除"
+
+msgid "create_user"
+msgstr "ユーザ作成"
+
+msgid "archives_title"
+msgstr "アーカイブ"
+
+msgid "showall"
+msgstr "すべて表示"
+

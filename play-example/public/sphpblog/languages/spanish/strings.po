@@ -1,0 +1,1614 @@
+msgid "language"
+msgstr "spanish"
+
+msgid "locale"
+msgstr "Array"
+
+msgid "rss_locale"
+msgstr "es-ES"
+
+msgid "html_charset"
+msgstr "ISO-8859-1"
+
+msgid "php_charset"
+msgstr "ISO-8859-1"
+
+msgid "menu_links"
+msgstr "Enlaces"
+
+msgid "menu_home"
+msgstr "Principal"
+
+msgid "menu_contact"
+msgstr "Contactanos"
+
+msgid "menu_stats"
+msgstr "Estadísticas"
+
+msgid "menu_calendar"
+msgstr "Calendario"
+
+msgid "menu_archive"
+msgstr "Archivo"
+
+msgid "menu_viewarchives"
+msgstr "Ver Archivos"
+
+msgid "menu_menu"
+msgstr "Menú"
+
+msgid "menu_add"
+msgstr "Agregar Entrada"
+
+msgid "menu_add_static"
+msgstr "Agregar Página Estática"
+
+msgid "menu_upload"
+msgstr "Subir Imagen"
+
+msgid "menu_setup"
+msgstr "Configuración"
+
+msgid "menu_categories"
+msgstr "Categorías"
+
+msgid "menu_info"
+msgstr "Información"
+
+msgid "manage_users"
+msgstr "Administración Usuarios"
+
+msgid "manage_php_config"
+msgstr "Ver Configuración PHP"
+
+msgid "menu_options"
+msgstr "Opciones"
+
+msgid "menu_themes"
+msgstr "Temas"
+
+msgid "menu_colors"
+msgstr "Colores"
+
+msgid "menu_change_login"
+msgstr "Cambiar usuario/contraseña"
+
+msgid "menu_logout"
+msgstr "Salir"
+
+msgid "menu_login"
+msgstr "Entrar"
+
+msgid "menu_most_recent"
+msgstr "Últimos Comentarios"
+
+msgid "menu_most_recent_entries"
+msgstr "Últimos Artículos"
+
+msgid "menu_most_recent_trackback"
+msgstr "Últimos Trackbacks"
+
+msgid "menu_add_block"
+msgstr "Bloques"
+
+msgid "menu_emoticons"
+msgstr "Emoticones"
+
+msgid "menu_avatar"
+msgstr "Avatar"
+
+msgid "menu_moderation"
+msgstr "Moderación Palabras/IP"
+
+msgid "menu_commentmoderation"
+msgstr "Comentarios sin moderar"
+
+msgid "menu_random_entry"
+msgstr "Entrada Aleatoria"
+
+msgid "menu_plugins"
+msgstr "Plugins"
+
+msgid "notice_moderator1"
+msgstr "Tienes "
+
+msgid "notice_moderator2"
+msgstr " comentario(s) sin moderar."
+
+msgid "notice_loggedin"
+msgstr "Actualmente estás logueado."
+
+msgid "counter_today"
+msgstr "Hoy:"
+
+msgid "counter_yesterday"
+msgstr "Ayer:"
+
+msgid "counter_totalsidebar"
+msgstr "Total:"
+
+msgid "counter_title"
+msgstr "Contador Total"
+
+msgid "home"
+msgstr "Página Principal"
+
+msgid "nav_next"
+msgstr "Siguiente"
+
+msgid "nav_back"
+msgstr "Anterior"
+
+msgid "nav_first"
+msgstr "Primero"
+
+msgid "nav_last"
+msgstr "Último"
+
+msgid "search_title"
+msgstr "Búsqueda"
+
+msgid "search_go"
+msgstr "Enviar"
+
+msgid "page_generated_in"
+msgstr "Página generada en %s segundos"
+
+msgid "counter_total"
+msgstr "Site Views: "
+
+msgid "read_more"
+msgstr "Leer más..."
+
+msgid "randomquote"
+msgstr "Quote Aleatoria"
+
+msgid "sb_months"
+msgstr "Array"
+
+msgid "sb_default_title"
+msgstr "Sin título"
+
+msgid "sb_default_author"
+msgstr "Sin autor"
+
+msgid "sb_default_footer"
+msgstr "Pie de Página"
+
+msgid "sb_edit"
+msgstr "editar"
+
+msgid "sb_delete"
+msgstr "borrar"
+
+msgid "sb_permalink"
+msgstr "enlace permanente"
+
+msgid "sb_trackback"
+msgstr "trackbacks"
+
+msgid "sb_postedby"
+msgstr "Posteado por"
+
+msgid "sb_admin"
+msgstr "Administrador"
+
+msgid "sb_relatedlink"
+msgstr "enlace relacionado"
+
+msgid "sb_add_comment_btn"
+msgstr "añadir comentario"
+
+msgid "sb_read_entry_btn"
+msgstr "ver entrada"
+
+msgid "sb_comment_btn_number_first"
+msgstr "1"
+
+msgid "sb_comment_btn"
+msgstr "comentario"
+
+msgid "sb_comment_view"
+msgstr "visualizaciones"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr "1"
+
+msgid "sb_comments_plural_btn"
+msgstr "comentarios"
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_post"
+msgstr " visualización"
+
+msgid "sb_view_counter_plural_pre"
+msgstr ""
+
+msgid "sb_view_counter_plural_post"
+msgstr " visualizaciones"
+
+msgid "sb_add_link_btn"
+msgstr "Añadir Enlaces"
+
+msgid "sb_rate_entry_btn"
+msgstr "Haga clic para valorar la entrada"
+
+msgid "label_subject"
+msgstr "Título:"
+
+msgid "label_insert"
+msgstr "Extras (Negrita / Cursiva / URL / Imagen):"
+
+msgid "btn_bold"
+msgstr " N "
+
+msgid "btn_italic"
+msgstr " I "
+
+msgid "btn_image"
+msgstr "IMG"
+
+msgid "btn_url"
+msgstr "URL"
+
+msgid "btn_readmore"
+msgstr "leer más"
+
+msgid "view_images"
+msgstr "Ver imágenes cargadas"
+
+msgid "label_entry"
+msgstr "Texto:"
+
+msgid "btn_preview"
+msgstr "&nbsp;Previsualizar&nbsp;"
+
+msgid "btn_post"
+msgstr "&nbsp;Publicar&nbsp;"
+
+msgid "chk_visiblemenu"
+msgstr "Visible (Se muestra en el menú)"
+
+msgid "file_name"
+msgstr "Nombre de fichero estático: (sin espacios ni extensiones de fichero)"
+
+msgid "insert_styles"
+msgstr "Introduzca el texto"
+
+msgid "insert_image"
+msgstr "Introduzca la dirección URL para la imagen"
+
+msgid "insert_url1"
+msgstr "Introduzca el texto a ser mostrado con el enlace (opcional)"
+
+msgid "insert_url2"
+msgstr "Introduzca la dirección web completa para el enlace"
+
+msgid "insert_url3"
+msgstr "Abrir URL en una nueva ventana (Opcional):"
+
+msgid "add_form_error"
+msgstr "Por favor rellene los campos Título y Texto."
+
+msgid "insert_image_optional"
+msgstr "Opcional:"
+
+msgid "insert_image_width"
+msgstr "Ancho (Opcional):"
+
+msgid "insert_image_height"
+msgstr "Alto (Opcional):"
+
+msgid "insert_image_popup"
+msgstr "Ver en una ventana emergente al hacer clic (Opcional):"
+
+msgid "insert_image_float"
+msgstr "Flotar (Opcional):"
+
+msgid "day"
+msgstr "Día"
+
+msgid "month"
+msgstr "Mes"
+
+msgid "year"
+msgstr "Año"
+
+msgid "hour"
+msgstr "Hora"
+
+msgid "minute"
+msgstr "Minutos"
+
+msgid "second"
+msgstr "Segundos"
+
+msgid "add_title"
+msgstr "Añadir Entrada"
+
+msgid "add_instructions"
+msgstr "Para colocar una entrada llene los campos que se encuentran debajo, puede previsualizar la entrada antes de publicarla."
+
+msgid "title_ad"
+msgstr "Confirmar Pings de Trackback"
+
+msgid "instructions_ad"
+msgstr "Éstos son los Auto-Discovered URIs sobre los que hará ping. Si no quiere hacer ping a un cierto URI, deschequee. Entonces pulse 'OK' para hacer ping sobre las URIs chequeadas o pulse 'Cancel' para no realizar ningun ping."
+
+msgid "label_tb_ping"
+msgstr "Trackback ping(s) a enviar (separados por comas)"
+
+msgid "label_tb_autodiscovery"
+msgstr "autodiscovery"
+
+msgid "label_relatedlink"
+msgstr "Enlace Relacionado"
+
+msgid "label_categories"
+msgstr "Lista de Categorías"
+
+msgid "add_instructions_update"
+msgstr "Puede cambiar su entrada utilizando el formulario que se encuentra debajo."
+
+msgid "ok_btn"
+msgstr "&nbsp;OK&nbsp;"
+
+msgid "cancel_btn"
+msgstr "&nbsp;Cancelar&nbsp;"
+
+msgid "add_error"
+msgstr "<h2>¡Ups!</h2>La entrada no pudo ser guardada. Se encontró un problema mientras se almacenaba la entrada.<br /><br />Respuesta del servidor:<br />"
+
+msgid "add_success"
+msgstr "<h2>¡Entrada guardada! </h2>La entrada ha sido guardada satisfactoriamente."
+
+msgid "add_static_form_error"
+msgstr "Por favor rellene los campos Título, Texto y Nombre."
+
+msgid "add_static_title"
+msgstr "Añadir Página Estática"
+
+msgid "add_static_instructions"
+msgstr "Rellena el formulario que se encuentra debajo para crear una página estática. A diferencia de una entrada ordinaria a la bitácora, las entradas estáticas aparecen como enlaces en el menú de la derecha. Podrían usarse para páginas que desees que esten disponibles siempre, tales como: Sobre mí, Contáctenos, Agenda, etc. Presione 'Previsualizar' para mirar como lucirá la página, o presione 'Publicar' para guardar la página"
+
+msgid "add_static_instructions_update"
+msgstr "Puedes cambiar la entrada usando el formulario que se encuentra debajo. Presiona 'Previsualizar' o 'Publicar' cuando estes listo."
+
+msgid "add_static_error"
+msgstr "<h2>¡Ups!</h2>La entrada no pudo ser guardada. Se encontró un problema mientras se almacenaba la entrada.<br /><br />Respuesta del servidor:<br />"
+
+msgid "comments_form_error"
+msgstr "Por favor, completa los campos de Nombre, Comentario y Anti-Spam."
+
+msgid "name"
+msgstr "Nombre:"
+
+msgid "email"
+msgstr "Email:"
+
+msgid "homepage"
+msgstr "P&aacute;gina:"
+
+msgid "comment"
+msgstr "Comentario:"
+
+msgid "comments_title"
+msgstr "Comentarios"
+
+msgid "comments_header"
+msgstr "Agregar comentario"
+
+msgid "comments_instructions"
+msgstr "Rellene los campos de abajo para dejar su comentario."
+
+msgid "comment_name"
+msgstr "Nombre:"
+
+msgid "comment_email"
+msgstr "Email:"
+
+msgid "commentposted"
+msgstr "Nuevo comentario publicado en: "
+
+msgid "IPAddress"
+msgstr "Direcci&oacute;n IP:"
+
+msgid "useragent"
+msgstr "Agente Usuario:"
+
+msgid "comment_url"
+msgstr "Web:"
+
+msgid "comment_capcha"
+msgstr "Anti-Spam: Introduzca "
+
+msgid "comment_remember"
+msgstr "Recordar mi información personal:"
+
+msgid "comment_text"
+msgstr "Comentario:"
+
+msgid "post_btn"
+msgstr "&nbsp;Publicar comentario&nbsp;"
+
+msgid "delete_btn"
+msgstr "Borrar"
+
+msgid "ban_btn"
+msgstr "ban ip"
+
+msgid "expired_comment1"
+msgstr "Lo sentimos. No se permiten nuevos comentarios después de "
+
+msgid "expired_comment2"
+msgstr " días."
+
+msgid "blacklisted"
+msgstr "Lo sentimos, su dirección IP ha sido baneada. No se permiten comentarios."
+
+msgid "wrote"
+msgstr "<i>El %s, %s escribi&oacute;:</i><br /> <br /> %s"
+
+msgid "bannedword"
+msgstr "Tu comentario, url, nombre o e-mail contienen palabra(s) que han sido prohibidas por el administrador. Tu comentario NO se ha publicado."
+
+msgid "nocomments"
+msgstr "Los comentarios no están disponibles para esta entrada."
+
+msgid "email_moderator"
+msgstr "Los comentarios están actualmente moderados. Este comentario necesita ser aprovado antes de ser visto por el público."
+
+msgid "user_notice_mod"
+msgstr "En este blog está activada la moderación. Tu comentario requiere que los administradores lo aprueben antes de hacerse visible."
+
+msgid "return_to_comments"
+msgstr "Volver a Comentarios"
+
+msgid "comments_error_add"
+msgstr "<h2>Whoops!</h2>Comentario no grabado. Ocurrió un problema mientras se guardaba su comentario.<br /><br />Respuesta del servidor:<br />"
+
+msgid "comments_error_delete"
+msgstr "<h2>Whoops!</h2>Comentario no borrado. Ocurrió un problema mientras se borraba su comentario.<br /><br />Respuesta del servidor:<br />"
+
+msgid "error_ban"
+msgstr "<h2>Whoops!</h2>La IP no se añadió a la lista de ip prohibidas.<br /><br />Respuesta del servidor:<br />"
+
+msgid "success_add"
+msgstr "<h2>¡Comentario añadido!</h2>Tu comentario se ha almacenado correctamente."
+
+msgid "comments_success_delete"
+msgstr "<h2>¡Comentario Eliminado!</h2> El Comentario ha sido borrado."
+
+msgid "success_ban1"
+msgstr "<h2>IP Prohibida!"
+
+msgid "success_ban2"
+msgstr "</h2>Para eliminar esta prohibición en el futuro, utiliza la opción de Moderación en el menú de Preferencias."
+
+msgid "error_noip"
+msgstr "No se ha proporcionado ninguna IP para la solicitud de Blacklist."
+
+msgid "error_comments_disabled"
+msgstr "<h2>¡Error!</h2>Hey! Los comentarios están deshabilitados en este blog. ¿Eres un spambot?"
+
+msgid "error_no_match"
+msgstr "<h2>¡Error!</h2>Tu dirección IP no coincide con ninguna dirección IP publicada. ¿Eres un spambot?"
+
+msgid "error_fields_missing"
+msgstr "<h2>¡Error!</h2>Faltan los siguientes campos: "
+
+msgid "error_spambot"
+msgstr "<h2>¡Error!</h2>Faltan datos del verificador anti-spam. ¿Eres un spambot?"
+
+msgid "error_capcha"
+msgstr "<h2>¡Error!</h2>El verificador anti-spam introducido es incorrecto."
+
+msgid "error_bad_data"
+msgstr "<h2>¡Error!</h2>Los datos publicados no son válidos. ¿Eres un hacker?"
+
+msgid "error_entry_missing"
+msgstr "<h2>¡Error!</h2>Estás intentado comentar uan entrada que no existe"
+
+msgid "error_empty_text"
+msgstr "<h2>¡Error!</h2>No has introducido ningún comentario o tu nombre."
+
+msgid "add_block_form_error"
+msgstr "Por favor rellene el campo Nombre."
+
+msgid "add_block_title"
+msgstr "Agregar / Administrar Bloques"
+
+msgid "add_block_instructions"
+msgstr "Agregar Bloque Personalizado para mostrar en el Menú Lateral"
+
+msgid "up"
+msgstr "Arriba"
+
+msgid "down"
+msgstr "Abajo"
+
+msgid "edit"
+msgstr "Editar"
+
+msgid "delete"
+msgstr "Borrar"
+
+msgid "block_name"
+msgstr "Nombre del Bloque:"
+
+msgid "block_content"
+msgstr "Contenido del Bloque:"
+
+msgid "add_block_instructions_edit"
+msgstr "Estás editando un Bloque:"
+
+msgid "add_block_instructions_modify"
+msgstr "Haga clic debajo en <b>Editar</b> para modificar el Bloque:"
+
+msgid "add_block_submit_btn_edit"
+msgstr "Editar Bloque"
+
+msgid "add_block_submit_btn_add"
+msgstr "Agregar Bloque"
+
+msgid "static_pages"
+msgstr "Páginas Estáticas:"
+
+msgid "add_link_title"
+msgstr "Agregar / Administrar Enlaces"
+
+msgid "add_link_instructions"
+msgstr "Agregar enlaces a otros sitios web. Presione los botones Arriba y Abajo para cambiar el orden de los enlaces."
+
+msgid "link_name"
+msgstr "Nombre del Enlace:"
+
+msgid "link_url"
+msgstr "URL (Dirección Web):"
+
+msgid "add_link_instructions_edit"
+msgstr "Estás editando un enlace:"
+
+msgid "add_link_instructions_modify"
+msgstr "Haga clic debajo en <b>Editar</b> para modificar el enlace:"
+
+msgid "add_link_submit_btn_edit"
+msgstr "Editar enlace"
+
+msgid "add_link_submit_btn_add"
+msgstr "Agregar enlace"
+
+msgid "add_link_form_error"
+msgstr "Por favor rellene los campos Nombre y URL."
+
+msgid "categories_title"
+msgstr "Agregar / Administrar Categorías"
+
+msgid "categories_instructions"
+msgstr "Rellena el formulario que se encuentra debajo para crear una categoría. Cada categoría debe estar en este formato 'nombre de la categoria (número id)'. Divide los elementos con espacios para crear categorías.<br /><br /><b>Ejemplo:</b><br />General (1)<br />Noticias (3)<br />&nbsp;&nbsp;Anuncios (6)<br />&nbsp;&nbsp;Eventos (5)<br />&nbsp;&nbsp;&nbsp;&nbsp;Misc (7)<br />Tecnologia (2)<br />"
+
+msgid "categories_error"
+msgstr "Error"
+
+msgid "current_categories"
+msgstr "Categorias Actuales"
+
+msgid "no_categories_found"
+msgstr "No se encontraron Categorias"
+
+msgid "category_list"
+msgstr "Lista de Categorias:"
+
+msgid "validate"
+msgstr "Validar"
+
+msgid "submit_btn"
+msgstr "&nbsp;Aceptar&nbsp;"
+
+msgid "colors_title"
+msgstr "Cambiar colores"
+
+msgid "colors_instructions"
+msgstr "Puede cambiar los colores del texto y del fondo de la entrada."
+
+msgid "bg_color"
+msgstr "Fondo de página"
+
+msgid "main_bg_color"
+msgstr "Fondo de la página principal"
+
+msgid "border_color"
+msgstr "Borde de página"
+
+msgid "inner_border_color"
+msgstr "Borde Interior"
+
+msgid "header_bg_color"
+msgstr "Fondo del encabezado"
+
+msgid "header_txt_color"
+msgstr "Texto del encabezado"
+
+msgid "menu_bg_color"
+msgstr "Fondo del menú"
+
+msgid "footer_bg_color"
+msgstr "Fondo del pie de página"
+
+msgid "txt_color"
+msgstr "Texto principal"
+
+msgid "headline_txt_color"
+msgstr "Texto del encabezado"
+
+msgid "date_txt_color"
+msgstr "Texto de la fecha"
+
+msgid "footer_txt_color"
+msgstr "Texto del pie de página"
+
+msgid "link_reg_color"
+msgstr "Enlace normal"
+
+msgid "link_hi_color"
+msgstr "Enlace resaltado"
+
+msgid "link_down_color"
+msgstr "Enlace visitado"
+
+msgid "entry_bg"
+msgstr "Fondo de la entrada"
+
+msgid "entry_title_bg"
+msgstr "Fondo del título de la entrada"
+
+msgid "entry_border"
+msgstr "Borde de la entrada"
+
+msgid "entry_title_text"
+msgstr "Texto del título de la entrada"
+
+msgid "entry_text"
+msgstr "Texto de la entrada"
+
+msgid "static_bg"
+msgstr "Fondo Pág. Estática"
+
+msgid "static_title_bg"
+msgstr "Fondo Título Pág. Estática"
+
+msgid "static_border"
+msgstr "Borde Pág. Estática"
+
+msgid "static_title_text"
+msgstr "Texto Título Pág. Estática"
+
+msgid "static_text"
+msgstr "Texto Pág. Estática"
+
+msgid "comment_bg"
+msgstr "Fondo Comentarios"
+
+msgid "comment_title_bg"
+msgstr "Fondo Título Comentarios"
+
+msgid "comment_border"
+msgstr "Borde Comentario"
+
+msgid "comment_title_text"
+msgstr "Texto Título Comentario"
+
+msgid "menu_bg"
+msgstr "Fondo del menú"
+
+msgid "menu_title_bg"
+msgstr "Fondo del título del menú"
+
+msgid "menu_border"
+msgstr "Borde del menú"
+
+msgid "menu_title_text"
+msgstr "Texto del título del menú"
+
+msgid "menu_text"
+msgstr "Texto del menú"
+
+msgid "menu_link_reg_color"
+msgstr "Enlace normal en el menú"
+
+msgid "menu_link_hi_color"
+msgstr "Enlace resaltado en el menú"
+
+msgid "menu_link_down_color"
+msgstr "Enlace visitado en el menú"
+
+msgid "color_preset"
+msgstr "Esquemas de Color:"
+
+msgid "scheme_name"
+msgstr "Introduzca un nombre para el Esquema de Color Personalizado:"
+
+msgid "scheme_file"
+msgstr "Introduzca el nombre del fichero del Esquema: (sin espacio ni extensiones)"
+
+msgid "colors_form_error"
+msgstr "Por favor, introduzca un nombre para su Esquema de Color Personalizado."
+
+msgid "save_btn"
+msgstr "&nbsp;Guardar&nbsp;"
+
+msgid "theme_doesnt_allow_colors"
+msgstr "El tema seleccionado no permite un Esquema de Color Personalizado."
+
+msgid "colors_error"
+msgstr "<h2>¡Ups!</h2>La información no pudo ser guardada. Se encontró un problema mientras se almacenaba su información.<br /><br />Respuesta del servidor:<br />"
+
+msgid "colors_success"
+msgstr "<h2>¡Colores Guardados!</h2>La información se ha guardado correctamente."
+
+msgid "delete_title"
+msgstr "Borrar entrada"
+
+msgid "delete_instructions"
+msgstr "Está a punto de borrar una entrada, asegúrese de querer borrarla porque no hay forma de deshacer el cambio..."
+
+msgid "delete_error"
+msgstr "<h2>¡Ups!</h2>No se pudo borrar la entrada.<br /><br />Respuesta del servidor:<br />"
+
+msgid "delete_success"
+msgstr "<h2>¡Entada eliminada!</h2>La entrada ha sido eliminada."
+
+msgid "delete_static_title"
+msgstr "Borrar Página Estática"
+
+msgid "delete_static_instructions"
+msgstr "Está a punto de borrar una página estática, asegúrese de querer borrarla porque no hay forma de deshacer el cambio..."
+
+msgid "delete_static_error"
+msgstr "<h2>¡Ups!</h2>No se pudo borrar la entrada.<br /><br />Respuesta del servidor:<br />"
+
+msgid "delete_static_success"
+msgstr "<h2>¡Página Estática Eliminada!</h2>La página estática fue eliminada."
+
+msgid "image_list_title"
+msgstr "Lista de imágenes"
+
+msgid "image_list_instructions"
+msgstr "Haga clic en los enlaces que estan debajo para ver la imagen.<br><br>Para agregar una imagen a su entrada:<br>1) Haga clic derecho en un enlace y seleccione 'Copiar en el portapapeles'.<br>2) Regrese a la página de agregar o editar entrada.<br>3) Haga clic en el botón Imagen y pegue el enlace en la ventana."
+
+msgid "info_title"
+msgstr "Información de Meta-datos"
+
+msgid "info_instructions"
+msgstr "Esta información se usa para los &quot;meta-datos&quot;, que ayudan a los buscadores a indexar su web. También se usan para generar los feeds RSS."
+
+msgid "info_keywords"
+msgstr "Palabras clave: (Lista de palabras clave separadas por comas.)"
+
+msgid "info_description"
+msgstr "Descripción: (Un resumen o texto libre sobre tu sitio.)"
+
+msgid "info_copyright"
+msgstr "Derechos: (Información de copyright o un enlace a la página que la contiene.)"
+
+msgid "tracking_code"
+msgstr "Codigo de Tracking Externo: (código HTML que necesita ejecutarse en la página principal (en los tags de la cabecera para más seguridad) solo por cada usuario que accede a la página. Por ejemplo Google Analytics)"
+
+msgid "info_error"
+msgstr "<h2>¡Ups!</h2>La información no pudo ser guardada. Se encontró un problema mientras se almacenaba su información.<br /><br />Respuesta del servidor:<br />"
+
+msgid "info_success"
+msgstr "<h2>¡Información Guardada!</h2>La información fue guardada satisfactopriamente."
+
+msgid "info_form_error"
+msgstr "Por favor rellene los campos Título y Autor."
+
+msgid "rating_error"
+msgstr "<h2>¡Ups!</h2>La información no pudo ser guardada. Se encontró un problema mientras se almacenaba su información.<br /><br />Respuesta del servidor:<br />"
+
+msgid "rating_success"
+msgstr "<h2>¡Votación guardada!</h2>Tu puntuación ha sido almacenada satisfactoriamente."
+
+msgid "upgrade"
+msgstr "<h2>Actualización</h2>"
+
+msgid "upgrade_count"
+msgstr "%n ficheros de comentarios necesitan ser actualizados:"
+
+msgid "upgrade_url"
+msgstr "Actualizar Comentarios"
+
+msgid "login_title"
+msgstr "Ingreso"
+
+msgid "login_instructions"
+msgstr "Introduzca su nombre de usuario y contraseña"
+
+msgid "username"
+msgstr "Usuario:"
+
+msgid "password"
+msgstr "Contraseña"
+
+msgid "login_success"
+msgstr "<h2>¡Bienvenido!</h2>¡Se ha conectado con éxito!<p />"
+
+msgid "login_wrong_password"
+msgstr "<h2>¡Ups!</h2>No puede ingresar. Verifique su nombre de usuario y contraseña e inténtelo de nuevo.<p />"
+
+msgid "inactive_account"
+msgstr "<h2>¡Ups!</h2>No has podido ingresar. Tu cuenta ha sido deshabilitada por el adminisrador por alguna razón.<p />"
+
+msgid "login_form_error"
+msgstr "Por favor rellene los campos Usuario y Contraseña."
+
+msgid "logout_title"
+msgstr "Salir"
+
+msgid "logout_instructions"
+msgstr "<h2>¡Ups!</h2>Error intentando salir. No se pudo borrar la cookie. ¿Por que sigue conectado?<p />"
+
+msgid "logout_error"
+msgstr "<h2>¡Adiós!</h2>Ya no estás dentro. (Aunque tampoco habías entrado!)<p />"
+
+msgid "error_no_cookie"
+msgstr "<h2>¡Adiós!</h2>Ya no estás dentro. (Aunque tampoco habías entrado!)<p />"
+
+msgid "logout_success"
+msgstr "<h2>¡Adiós!</h2>Ya no estás dentro.<p />(Redireccionando a Inicio en 5 segundos.)<p />"
+
+msgid "forms_title"
+msgstr ""
+
+msgid "forms_instructions"
+msgstr ""
+
+msgid "forms_error"
+msgstr "<h2>¡Ups!</h2>La información no pudo ser guardada. Se encontró un problema mientras se almacenaba su información.<br /><br />Respuesta del servidor:<br />"
+
+msgid "set_login_title"
+msgstr "Cambiar Usuario y Contraseña"
+
+msgid "set_login_instructions"
+msgstr "Use el formulario inferior para cambiar su nombre de usuario y contraseña. Inserta el nombre de usuario y la contraseña que quieras usar."
+
+msgid "set_login_success"
+msgstr "<h2>¡Listo!</h2>Su nuevo nombre de usuario y/o contraseña esta activo desde ahora.<p />"
+
+msgid "set_login_wrong_password"
+msgstr "<h2>¡Ups!</h2>Información no guardada. Hubo un error mientras se guardaba su nombre de usuario y contraseña .<br /><br />Respuesta del servidor:<br />"
+
+msgid "set_login_form_error"
+msgstr "Por favor complete los campos Usuario y Contraseña."
+
+msgid "explanation"
+msgstr "En las versiones recientes, la estructura de la contraseña ha cambiado. Ya no hay manera de actualizar contraseñas 				    y/o logins desde el código del blog. Para cambiar su contraseña, elimine el archivo /config/password.php y asegúrese de que existen los ficheros 					install*.php en el servidor local. Una vez hecho esto, refresque la página (o desconéctese). Se le presentará el mismo formulario para crear la 					contraseña que vió cuando creó por primera vez el blog."
+
+msgid "install00_title"
+msgstr "Bienvenido"
+
+msgid "install00_instructions"
+msgstr "¡Gracias por elegir Simple PHP Blog!"
+
+msgid "blog_choose_language"
+msgstr "Selección de Idioma:"
+
+msgid "install01_title"
+msgstr "Bienvenido"
+
+msgid "install01_instructions"
+msgstr "¡Gracias por elegir Simple PHP Blog!<br /><br />Simple PHP Blog es un sistema de blogging de peso ligero. Requiere PHP is 4.1 o superior y permisos de escritura en el servidor. Toda la información es guardada en archivos de texto plano por lo que no requiere una base de datos para funcionar.<br /><br /> 				Para comenzar, Simple PHP Blog necesita crear tres carpetas ('config', 'content', e 'images') en la cuales guardará su información.<br /><br /> 				<b>Haga clic debajo para comenzar la instalación:</b>"
+
+msgid "begin"
+msgstr "[ Comenzar Instalación ]"
+
+msgid "install02_title"
+msgstr "Instalación"
+
+msgid "install02_instructions"
+msgstr "Intentando crear las carpetas 'config', 'content', e 'images':"
+
+msgid "folder_exists"
+msgstr "¡Listo! Las carpetas ya existían. No se hicieron cambios..."
+
+msgid "folder_failed"
+msgstr "¡Ups! No se pudieron crear las carpetas..."
+
+msgid "folder_success"
+msgstr "¡Listo! Carpetas creadas..."
+
+msgid "help"
+msgstr " 				<h2>¡Ups!</h2>¡No se pudieron crear una o más de las carpetas! Esto sucede usualmente debido a:<br> 				<i>1) <b>Permisos de escritura</b> no estan configurados para permitir acceso de  <b>Escritura/Lectura</b>.</i><br> 				<i>2) Las <b>UID</b>'s (user ID's) de todos los archivos y carpetas deben corresponder.</i><p /> 				Siga las instrucciones siguientes para resolver el problema y luego intente de nuevo:<p />				 				1) Cree manualmente las siguientes carpetas: <b>config</b>, <b>content</b>, e <b>images</b>.<p /> 				2) Habilite <b>Permisos de escritura</b> a las carpetas. En su cliente FTP; Owner, User, y World deben tener acceso de <b>Read</b> y <b>Write</b>. <i>(Podría necesitar contactar a su proveedor de servicios para cambiar esto...)</i><p /> 				3) Asegúrese de que las UID's de todos sus archivos y carpetas son los mismos. <i>(Podría necesitar contactar a su proveedor de servicios para cambiar esto...)</i>"
+
+msgid "try_again"
+msgstr "[ Reintentar ]"
+
+msgid "install02_success"
+msgstr "<h2>¡Listo!</h2>¡Carpetas creadas exitosamente!<p /><b>Haga clic debajo para continuar:</b>"
+
+msgid "continue"
+msgstr "[ Continuar ]"
+
+msgid "supported"
+msgstr "<b>Su servidor web soporta los siguientes esquemas de cifrado:</b>"
+
+msgid "standard"
+msgstr "Standard DES Encryption: "
+
+msgid "extended"
+msgstr "Extended DES Encryption: "
+
+msgid "MD5"
+msgstr "MD5 Encryption: "
+
+msgid "blowfish"
+msgstr "Blowfish Encryption: "
+
+msgid "enabled"
+msgstr "habilitado"
+
+msgid "disabled"
+msgstr "deshabilitado"
+
+msgid "using_standard"
+msgstr "<b>Usando Standard DES Encryption...</b>"
+
+msgid "using_extended"
+msgstr "<b>Usando Extended DES Encryption...</b>"
+
+msgid "using_MD5"
+msgstr "<b style='color: green;'>Usando MD5 Encryption...</b>"
+
+msgid "using_blowfish"
+msgstr "<b style='color: green;'>Using Blowfish Encryption...</b>"
+
+msgid "using_unknown"
+msgstr "<b>Usando Unknown Encryption...</b>"
+
+msgid "salt_length"
+msgstr " <i>(Salt Length = %string)</i><br />"
+
+msgid "install03_title"
+msgstr "Crear Usuario y Contraseña"
+
+msgid "install03_instructions"
+msgstr "Use el formulario inferior para crear un Usuario y una Contraseña."
+
+msgid "install03_success"
+msgstr "<h2>¡Felicitaciones!</h2>Esta ahora conectado. Haga clic debajo para visitar la página de configuración y cambiar las opciones de su bitácora.<p />"
+
+msgid "btn_setup"
+msgstr "[ Configuración ]"
+
+msgid "install03_wrong_password"
+msgstr "<h2>¡Ups!</h2>Información no guardada. Hubo un error mientras se guardaba su nombre de usuario y contraseña .<br /><br />Respuesta del servidor:<br />"
+
+msgid "install03_form_error"
+msgstr "Por favor, rellene los campos Usuario y Contraseña"
+
+msgid "install04_title"
+msgstr "Crear el archivo para la contraseña"
+
+msgid "install04_instructions"
+msgstr "He aquí el truco:<br /> 				<ol> 				<li>Abra un editor de texto. <i>(Note Pad, Word Pad, Word, BBEdit, Pico, VI, etc...)</i></li> 				<li>Cree un nuevo documento de texto.</li> 				<li>Copie y pegue el código del cuadro inferior en su documento.</li> 				<li>Guarde su archivo y llámelo <b>password.php</b> <i>(Asegúrese de guardarlo en formato de <b>texto</b> o <b>texto plano</b>.)</i></li> 				<li>Abra una aplicación FTP.</li> 				<li>Suba el archivo <b>password.php</b> dentro de la carpeta <b>config</b> de su sitio web.</li> 				<li>Borre el archivo <b>password.php</b> de su disco duro.</li> 				</ol> 				"
+
+msgid "information"
+msgstr "<i>Nota: Si desea borar su nombre de usuario y contraseña (probablemente porque la olvidó), elimine el archivo <b>password.php</b> en la carpeta <b>config</b> de su sitio web. La próxima vez que visite su sitio, lo llevará a tavés de este proceso de instalación nuevamente...</i>"
+
+msgid "code"
+msgstr "Código para el archivo <b>password.php</b>:"
+
+msgid "install05_title"
+msgstr "Ingreso"
+
+msgid "install05_instructions"
+msgstr "Ingrese su nombre de usuario y contraseña"
+
+msgid "install05_success"
+msgstr "<h2>¡Felicitaciones!</h2>Usted se ha conectado.<p /> 				Haga click abajo para visitar la página de <b>Configuración</b> , desde donde podrá personalizar su nuevo blog.<p /> 				<i>Nota: Ahora que ha completado el proceso de instalación, se le recomienda borrar los archivos <b>installXX.php</b> desde su sitio web. (i.e. install00.php hasta install06.php)</i><p />"
+
+msgid "install05_wrong_password"
+msgstr "<h2>Ups!</h2>No está conectado. Verifique que ha escrito bien su Nombre de Usuario y Contraseña e intente nuevamente.<p />"
+
+msgid "install05_form_error"
+msgstr "Complete los campos de Nombre de Usuario y Contraseña."
+
+msgid "btn_try_again"
+msgstr "[ Intente de nuevo ]"
+
+msgid "install06_title"
+msgstr "Ingreso"
+
+msgid "install06_instructions"
+msgstr "Ingrese su nombre de usuario y contraseña"
+
+msgid "install06_success"
+msgstr "<h2>¡Felicitaciones!</h2>Usted se ha conectado.<p /> 				Haga click abajo para visitar la página de <b>Configuración</b> , desde donde podrá personalizar su nuevo blog.<p /> 				<i>Nota: Ahora que ha completado el proceso de instalación, se le recomienda borrar los archivos <b>installXX.php</b> desde su sitio web. (i.e. install00.php hasta install06.php)</i><p />"
+
+msgid "install06_wrong_password"
+msgstr "<h2>Ups!</h2>No está conectado. Verifique que ha escrito bien su Nombre de Usuario y Contraseña e intente nuevamente.<p />"
+
+msgid "install06_form_error"
+msgstr "Complete los campos de Nombre de Usuario y Contraseña."
+
+msgid "setup_title"
+msgstr "Configuración"
+
+msgid "setup_instructions"
+msgstr "Puede cambiar el nombre de su bitácora y su información personal debajo."
+
+msgid "blog_title"
+msgstr "Nombre de la Bitácora:"
+
+msgid "blog_header"
+msgstr "URL del Gráfico de la Cabecera: images/blogheader.jpg (Dejar en blanco para utilizar el gráfico por defecto del tema)."
+
+msgid "blog_author"
+msgstr "Autor:"
+
+msgid "blog_email"
+msgstr "Correo Electrónico: (separar las direcciones de correo electrónico por una , coma - en blanco deshabilita la opción de Contactanos"
+
+msgid "blog_avatar"
+msgstr "URL del avatar: (Déjalo en blanco para ninguno)."
+
+msgid "blog_footer"
+msgstr "Pie de página:"
+
+msgid "blog_enable_comments"
+msgstr "Permitir Comentarios de Usuarios"
+
+msgid "blog_comments_popup"
+msgstr "Abrir comentarios en Ventanas Emergentes"
+
+msgid "blog_enable_cache"
+msgstr "Permitir Caché de Entradas (en algunos servidores mejora el rendimiento)"
+
+msgid "blog_enable_calendar"
+msgstr "Activar calendario / Bloque de archivo"
+
+msgid "blog_enable_archives"
+msgstr "Activar Bloque de archivo"
+
+msgid "blog_enable_counter"
+msgstr "Activar Contador en el menú"
+
+msgid "blog_counter_hours"
+msgstr "Número de horas entes de contar de nuevo las visitas (basado en una dirección IP específica):"
+
+msgid "blog_enable_login"
+msgstr "Enable Login Link (Please bookmark 'login.php' first...)"
+
+msgid "blog_enable_title"
+msgstr "Permitir Bloque de Título de Texto (Desmarca el checkbox si el título de la cabecera es una imágen)"
+
+msgid "blog_enable_permalink"
+msgstr "Permitir Enlaces Permanentes en las Entradas"
+
+msgid "blog_enable_capcha"
+msgstr "Activar Anti-Spam"
+
+msgid "blog_footer_counter"
+msgstr "Activar Contador en Pié de Página"
+
+msgid "blog_enable_capcha_image"
+msgstr "Imágenes Anti-Spam (librería GD solamente) / Campo de texto Anti-Spam"
+
+msgid "blog_enable_stats"
+msgstr "Permitir la Opción de Estadísticas en el Listado"
+
+msgid "blog_enable_lastcomments"
+msgstr "Permitir la Opción de Comentarios Recientes en el Listado"
+
+msgid "blog_enable_lastentries"
+msgstr "Permitir la Opción de Entradas Recientes en el Listado"
+
+msgid "blog_enable_voting"
+msgstr "Permitir a los Usuarios Votar Artículos"
+
+msgid "blog_email_notification"
+msgstr "Enviar email cuando se publique un comentario"
+
+msgid "blog_send_pings"
+msgstr "Enviar &quot;pings&quot;"
+
+msgid "blog_ping_urls"
+msgstr "URL completa (ej: http://rpc.weblogs.com/RPC2) del servicio de &quot;ping&quot;.<br />(Puedes introducir más de una separándolas por comas.)"
+
+msgid "blog_trackback_about"
+msgstr "Trackback provee de un método de notificación entre blogs. Permita que otro 					blog sepa que usted lo está enlazando enviando un trackback ping. Vea quién está enlazando su blog  					recibiendo trackback pings.<br /> 				   Usted puede tanto ingresar las URLs manualmente para hacer ping, o hacerlo automáticamente a través de Auto-Discovery."
+
+msgid "blog_trackback_enabled"
+msgstr "Activar trackback en mi blog"
+
+msgid "blog_trackback_auto_discovery"
+msgstr "Activar Auto-Discovery al crear posts que contengan URLs"
+
+msgid "blog_max_entries"
+msgstr "Máximas Entradas a Mostrar:"
+
+msgid "blog_comment_tags"
+msgstr "Etiquetas permitidas en los Comentarios:"
+
+msgid "blog_gzip_about"
+msgstr " 					A partir de la versión 4.0.4, PHP puede leer y escribir archivos comprimidos gzip (.gz), lo cual ahorra espacio en disco. Por otra parte, es posible comprimir las páginas que se envían a un navegador que soporte gzip, ahorrando así ancho de banda.<br /> 					<br />El soporte de Zlib no viene activado por defecto en el PHP. Si las casillas de verificación están desactivadas significa que su PHP no soporta la extensión Zlib."
+
+msgid "blog_enable_gzip_txt"
+msgstr "Activar compresión GZIP para archivos datos"
+
+msgid "blog_enable_gzip_output"
+msgstr "Activar compresión GZIP para la salida HTTP"
+
+msgid "setup_error"
+msgstr "<h2>¡Ups!</h2>La información no pudo ser guardada. Se encontró un problema mientras se almacenaba su información.<br /><br />Respuesta del servidor:<br />"
+
+msgid "setup_success"
+msgstr "<h2>¡Preferencias Guardadas!</h2>La información ha sido almacenada satisfactoriamente."
+
+msgid "setup_form_error"
+msgstr "Por favor complete los campos Título y Autor."
+
+msgid "label_entry_order"
+msgstr "Orden de Artículos:"
+
+msgid "select_new_to_old"
+msgstr "Primero los Nuevos"
+
+msgid "select_old_to_new"
+msgstr "Primero los Antiguos"
+
+msgid "label_comment_order"
+msgstr "Orden de Comentarios:"
+
+msgid "cal_sunday"
+msgstr "Domingo"
+
+msgid "cal_monday"
+msgstr "Lunes"
+
+msgid "label_calendar_start"
+msgstr "D&iacute;a de la semana de inicio"
+
+msgid "title_sidebar"
+msgstr "Barra Lateral"
+
+msgid "title_comments"
+msgstr "Comentarios"
+
+msgid "title_trackback"
+msgstr "Trackbacks"
+
+msgid "title_compression"
+msgstr "Compresión"
+
+msgid "title_entries"
+msgstr "Entradas"
+
+msgid "title_general"
+msgstr "General"
+
+msgid "title_language"
+msgstr "Idioma"
+
+msgid "blog_comment_days_expiry"
+msgstr "Por cuantos días permitir comentarios? (0 significa sin límite de días)"
+
+msgid "blog_comments_moderation"
+msgstr "Requiere que las entradas comentadas seas aprovadas por usuario logueado antes de ser pública           (siempre visible para los usuarios que estén dentro)"
+
+msgid "comment_moderation"
+msgstr "Opciones de Moderación"
+
+msgid "comment_moderation_title"
+msgstr "Comentarios sin moderar"
+
+msgid "comment_moderation_instructions"
+msgstr "Esta es uan lista de todos los comentarios que no están disponibles para los usuarios que no están logueados dentro del blog porque no han sido aprovados por el moderador."
+
+msgid "comment_moderation_header"
+msgstr "Listado de Moderación"
+
+msgid "enteredby"
+msgstr "Introducida por: "
+
+msgid "entrydate"
+msgstr "Fecha de la entrada: "
+
+msgid "blogentrytitle"
+msgstr "Título de la entrada del blog: "
+
+msgid "enteredcontent"
+msgstr "Contenido: "
+
+msgid "totalunmodded"
+msgstr " Elemento(s) total(es) esperando por actualización de moderación."
+
+msgid "mod_approve"
+msgstr "[Aprobar] "
+
+msgid "mod_delete"
+msgstr "[Borrar]"
+
+msgid "moderation_title"
+msgstr "Trackbacks"
+
+msgid "moderation_instructions"
+msgstr "Puedes modificar las listas de auto moderación aquí."
+
+msgid "moderation_error"
+msgstr "<h2>¡Ups!</h2>La información no se guardó. Hubo un problema mientras de almacenaba la información.<br /><br />Respuesta del Servidor:<br />"
+
+msgid "moderation_success"
+msgstr "<h2>Preferencias Almacenadas!</h2>La información se guardó satisfactoriamente."
+
+msgid "banned_address_list_title"
+msgstr "<h2>Direcciones IP Prohibidas</h2>"
+
+msgid "banned_address_list"
+msgstr "Seguidamente hay una lista de direcciones ip numéricas que tienen prohibido introducir comentarios. Cada ip está en una línea separada y deben ser números (no nombres de DNS). Cuando se está logueado, las IPs pueden ser prohibidas directamente desde la visualización de comentarios."
+
+msgid "banned_word_list_title"
+msgstr "<h2>Palabras prohibidas</h2>"
+
+msgid "banned_word_list"
+msgstr "Seguidamente hay una lista de palabras que no están permitidas ni en la url ni en el texto. Cada palabra o grupo de palabras debe estar en una línea separada. Los cBelow is a list of words that are not allowed to be in the url or the text. Each word or group of words is on a separate line. Los comentarios se intentarán comparar exactamente con cada línea para así conseguir prohibir eficientemente los comentarios no deseados."
+
+msgid "moderation_header"
+msgstr "Trackback URL para esta entrada:"
+
+msgid "moderation_error_add"
+msgstr "Se produjo un error guardando los datos del trackback."
+
+msgid "moderation_error_delete"
+msgstr "<h2>Ups!</h2>No se eliminó el trackback. Hubo un problema mientras se estaba borrando el trackback.<br /><br />Respuesta del servidor:<br />"
+
+msgid "moderation_success_delete"
+msgstr "<h2>¡Trackback Eliminado!</h2>El link de trackback ha sido borrado."
+
+msgid "options_title"
+msgstr "Opciones"
+
+msgid "options_instructions"
+msgstr "Use el formulario de debajo para personalizar el formato en que se presentará la fecha y hora en la bitácora y en los comentarios. Puedes seleccionar el formato de 12 o de 24 horas. Formato corto o largo. Las areas de <b>Previsualización</b> le muestran automáticamente como se verá su formato."
+
+msgid "ldate_title"
+msgstr "Formato de Fecha Larga:"
+
+msgid "weekday"
+msgstr "Día de la Semana"
+
+msgid "none"
+msgstr "Ninguno"
+
+msgid "sdate_title"
+msgstr "Formato de Fecha Corta:"
+
+msgid "s_month"
+msgstr "Mes"
+
+msgid "s_mon"
+msgstr "MMM"
+
+msgid "s_day"
+msgstr "Día"
+
+msgid "s_year"
+msgstr "Año"
+
+msgid "zero_day"
+msgstr "Cero inicial para el Día"
+
+msgid "show_century"
+msgstr "Mostrar siglo"
+
+msgid "time_title"
+msgstr "Formato de Hora:"
+
+msgid "12hour"
+msgstr "Reloj de 12 horas"
+
+msgid "24hour"
+msgstr "Reloj de 24 horas"
+
+msgid "before_noon"
+msgstr "Mañana"
+
+msgid "after_noon"
+msgstr "Tarde"
+
+msgid "date_title"
+msgstr "Formato de Visualización de Fecha:"
+
+msgid "long_date"
+msgstr "Fecha Larga"
+
+msgid "short_date"
+msgstr "Fecha Corta"
+
+msgid "time"
+msgstr "Hora"
+
+msgid "menu_title"
+msgstr "Formato de Visualización en el Menú Fecha:"
+
+msgid "zero_month"
+msgstr "Cero inicial para el Mes"
+
+msgid "zero_hour"
+msgstr "Cero inicial para la Hora"
+
+msgid "separator"
+msgstr "Separador:"
+
+msgid "preview"
+msgstr "Previsualización:"
+
+msgid "server_offset"
+msgstr "Offset del Servidor:"
+
+msgid "options_error"
+msgstr "<h2>¡Ups!</h2>La información no pudo ser guardada. Se encontró un problema mientras se almacenaba su información.<br /><br />Respuesta del servidor:<br />"
+
+msgid "options_success"
+msgstr "<h2>¡Opciones  Guardadas!</h2>La información se ha almacenado satisfactoriamente."
+
+msgid "upload_img_title"
+msgstr "Subir imagen"
+
+msgid "upload_img_instructions"
+msgstr "Haga clic debajo para subir una imagen."
+
+msgid "select_file"
+msgstr "Seleccionar archivo:"
+
+msgid "upload_btn"
+msgstr "Subir"
+
+msgid "upload_img_error"
+msgstr "<h2>¡Ups!</h2>Fue imposible subir la imagen. Aquí hay mas información:<br /><br />Respuesta del servidor:<br />"
+
+msgid "upload_img_success"
+msgstr "<h2>¡Imagen Almacenada!</h2>La imagen se ha guardado satisfactoriamente."
+
+msgid "themes_title"
+msgstr "Temas"
+
+msgid "themes_instructions"
+msgstr "Use la lista de opciones para seleccionar un tema distinto."
+
+msgid "choose_theme"
+msgstr "Temas:"
+
+msgid "themes_error"
+msgstr "<h2>¡Ups!</h2>La información no pudo ser guardada. Se encontró un problema mientras se almacenaba su información.<br /><br />Respuesta del servidor:<br />"
+
+msgid "themes_success"
+msgstr "<h2>¡Tema  Seleccionado!</h2>La información se ha guardado satisfactoriamente."
+
+msgid "search_result_title"
+msgstr "Resultados de la búsqueda"
+
+msgid "search_result_instructions"
+msgstr "Resultados de la búsqueda para la cadena <b>'%string'</b>:"
+
+msgid "not_found"
+msgstr "No se encontraron resultados"
+
+msgid "contact_title"
+msgstr "Contactanos"
+
+msgid "contact_instructions"
+msgstr "Rellena el formulario:"
+
+msgid "contact_form_error"
+msgstr "Por favor, completa los campos Asunto, Comentario y Anti-Spam."
+
+msgid "subject"
+msgstr "Asunto:"
+
+msgid "contact_success"
+msgstr "<h2>¡Listo!</h2>Su mensaje ha sido enviado.<p />"
+
+msgid "failure"
+msgstr "<h2>¡Ups!</h2>Su mensaje no se ha enviado. Contra el Spam no fue incorporado muy probablemente correctamente.<p />"
+
+msgid "contact_capcha"
+msgstr "Anti-Spam: Introduzca "
+
+msgid "contactsent"
+msgstr "Contacto enviado desde: "
+
+msgid "errorpage-nocookies_title"
+msgstr "HTTP Error 403.8 - Acceso denegado a Página/Función"
+
+msgid "errorline1"
+msgstr "La página o función que intenta acceder requiere el uso de cookies."
+
+msgid "errorline2"
+msgstr "Habilite las cookies en su navegador o software de protección e intente nuevamente."
+
+msgid "clientid"
+msgstr "ID Cliente: "
+
+msgid "trackbacks_title"
+msgstr "Trackbacks"
+
+msgid "trackbacks_header"
+msgstr "Trackback URL para esta entrada:"
+
+msgid "trackbacks_error_add"
+msgstr "Se produjo un error guardando los datos del trackback."
+
+msgid "trackbacks_error_delete"
+msgstr "<h2>Ups!</h2>No se eliminó el trackback. Hubo un problema mientras se estaba borrando el trackback.<br /><br />Respuesta del servidor:<br />"
+
+msgid "trackbacks_success_delete"
+msgstr "<h2>¡Trackback Eliminado!</h2>El link de trackback ha sido borrado."
+
+msgid "stats_title"
+msgstr "Estadísticas"
+
+msgid "general"
+msgstr "General"
+
+msgid "entry_info"
+msgstr "<b>%s</b> artículos usando <b>%s</b> palabras ocupando <b>%s</b> bytes"
+
+msgid "comment_info"
+msgstr "<b>%s</b> comentarios usando <b>%s</b> palabras ocupando <b>%s</b> bytes"
+
+msgid "trackback_info"
+msgstr "<b>%s</b> trackbacks ocupando <b>%s</b> bytes"
+
+msgid "static_info"
+msgstr "<b>%s</b> páginas estáticas usando <b>%s</b> palabras ocupando <b>%s</b> bytes"
+
+msgid "most_viewed_entries"
+msgstr "10 Artículos más vistos"
+
+msgid "most_commented_entries"
+msgstr "10 Artículos más comentados"
+
+msgid "most_trackbacked_entries"
+msgstr "10 Artículos con más trackbacks"
+
+msgid "vote_info"
+msgstr "<b>%s</b> votos ocupando <b>%s</b> bytes"
+
+msgid "most_voted_entries"
+msgstr "10 Artículos más votados"
+
+msgid "most_rated_entries"
+msgstr "10 Artículos mejor valorados"
+
+msgid "403.8"
+msgstr "HTTP Error 403.8 - Acceso denegado a Página/Función"
+
+msgid "404"
+msgstr "HTTP Error 404 - Página/Función inexistente"
+
+msgid "error_404"
+msgstr "La página o función que intenta acceder no existe."
+
+msgid "error_javascript"
+msgstr "La página o función que intenta acceder requere javascript para funcionar correctamente."
+
+msgid "error_emailnotsent"
+msgstr "El mensaje que intentó enviar ha fallado."
+
+msgid "error_emailnotsentcapcha"
+msgstr "El mensaje que intentó enviar ha fallado pues la entrada anti-spam está incorrecta o no ha sido ingresada."
+
+msgid "emoticons_title"
+msgstr "Administrar Emoticones"
+
+msgid "emoticons_instructions"
+msgstr " 					Marque los emoticones que desea usar. Escriba en el cuadro los Tags que desea sean remplazados por la imagen. 					Puede usar múltiples Tags, separándolos por espacios.<br /><br /> 					Por ejemplo:<br /> 					:) :-) :SMILE: :HAPPY:<br /><br /> 					<i>(Se recomienda fuertemente que los Tags sean de más de 2 caracteres, de otro modo sustituciones inesperadas pueden ocurrir.)</i>"
+
+msgid "upload_instructions"
+msgstr "Subir Nuevo Emoticon:"
+
+msgid "upload_success"
+msgstr "¡Felicitaciones! Imagen subida exitosamente!"
+
+msgid "upload_error"
+msgstr "¡Error! La Imagen no ha sido subida."
+
+msgid "upload_invalid"
+msgstr "¡Error! Archivo de Imagen no válido. La Imagen debe tener extensión png, jpg, o gif."
+
+msgid "save_success"
+msgstr "¡Preferencias para emoticones guardada exitosamente!"
+
+msgid "save_error"
+msgstr "¡Error! Las Preferencias para Emoticones no han sido guardadas."
+
+msgid "save_button"
+msgstr "Guardar Emoticones"
+
+msgid "manage_users_title"
+msgstr "Administrar o Editar Usuarios"
+
+msgid "manage_users_instructions"
+msgstr "Añadir, Modificar o Eliminar usuarios que no son administradores  pero tienen la habilidad de crear entradas y/o moderar comentarios."
+
+msgid "fulladminerror"
+msgstr "Debes ser un administrador completo para hacer esto!"
+
+msgid "header_user"
+msgstr "Usuario: "
+
+msgid "header_property"
+msgstr "Propiedad"
+
+msgid "header_value"
+msgstr "Valor"
+
+msgid "prop_username"
+msgstr "Nombre de usuario:"
+
+msgid "prop_fullname"
+msgstr "Nombre que se mostrará:"
+
+msgid "prop_password"
+msgstr "Contraseña:"
+
+msgid "prop_email"
+msgstr "Correo electrónico:"
+
+msgid "prop_avatar"
+msgstr "URL del avatar:"
+
+msgid "prop_state"
+msgstr "¿Activo?"
+
+msgid "prop_sec_Moderate"
+msgstr "¿Moderar Comentarios?"
+
+msgid "prop_sec_Delete"
+msgstr "¿Borrar entradas del blog?"
+
+msgid "prop_sec_Edit"
+msgstr "¿Editar cualquier entrada?"
+
+msgid "btn_SaveChanges"
+msgstr "Guardar Cambios"
+
+msgid "btn_CreateUser"
+msgstr "Crear Usuario"
+
+msgid "btn_Cancel"
+msgstr "Cancelar"
+
+msgid "grid_header"
+msgstr "Listar Usuarios"
+
+msgid "grid_login"
+msgstr "Login"
+
+msgid "grid_email"
+msgstr "Correo Electrónico"
+
+msgid "grid_avatar"
+msgstr "Avatar"
+
+msgid "grid_state"
+msgstr "¿Activo?"
+
+msgid "btn_modify"
+msgstr "Modificar"
+
+msgid "btn_delete"
+msgstr "Eliminar"
+
+msgid "create_user"
+msgstr "Crear Nuevo Usuario"
+
+msgid "archives_title"
+msgstr "Archivos"
+
+msgid "showall"
+msgstr "Mostrar todos"
+

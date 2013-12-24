@@ -26,7 +26,7 @@
         <encoding>UTF-8</encoding>
         <java.version>1.7</java.version>
 
-        <play2.version>2.1.2</play2.version>
+        <play2.version>2.2.1</play2.version>
         <play2-scala.version>2.10</play2-scala.version>
     </properties>
 
@@ -113,13 +113,13 @@
             </dependency>
 
             <dependency>
-                <groupId>play</groupId>
+                <groupId>com.typesafe.play</groupId>
                 <artifactId>play_${play2-scala.version}</artifactId>
                 <version>${play2.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>play</groupId>
+                <groupId>com.typesafe.play</groupId>
                 <artifactId>play-test_${play2-scala.version}</artifactId>
                 <version>${play2.version}</version>
                 <scope>test</scope>

@@ -1,0 +1,1452 @@
+msgid "language"
+msgstr "chinese"
+
+msgid "locale"
+msgstr "Array"
+
+msgid "rss_locale"
+msgstr "zh-TW"
+
+msgid "html_charset"
+msgstr "UTF-8"
+
+msgid "php_charset"
+msgstr "UTF-8"
+
+msgid "menu_links"
+msgstr "連結"
+
+msgid "menu_home"
+msgstr "首頁"
+
+msgid "menu_archive"
+msgstr "舊文章"
+
+msgid "menu_viewarchives"
+msgstr "View Archives"
+
+msgid "menu_contact"
+msgstr "聯絡網主Contact Me"
+
+msgid "menu_stats"
+msgstr "Stats"
+
+msgid "menu_calendar"
+msgstr "Calendar"
+
+msgid "menu_menu"
+msgstr "選單"
+
+msgid "menu_add"
+msgstr "寫新文章"
+
+msgid "menu_add_static"
+msgstr "寫靜態文章"
+
+msgid "menu_upload"
+msgstr "上傳圖片"
+
+msgid "menu_setup"
+msgstr "設定"
+
+msgid "menu_categories"
+msgstr "文章分類"
+
+msgid "menu_info"
+msgstr "頁面資訊"
+
+msgid "manage_users"
+msgstr "管理使用者"
+
+msgid "manage_php_config"
+msgstr "查閱 PHP 設定"
+
+msgid "menu_options"
+msgstr "時間選項"
+
+msgid "menu_themes"
+msgstr "佈景主題"
+
+msgid "menu_colors"
+msgstr "配色"
+
+msgid "menu_change_login"
+msgstr "更改帳號"
+
+msgid "menu_logout"
+msgstr "登出"
+
+msgid "menu_login"
+msgstr "管理登入"
+
+msgid "menu_most_recent"
+msgstr "最新的回應"
+
+msgid "menu_most_recent_entries"
+msgstr "最新文章"
+
+msgid "menu_most_recent_trackback"
+msgstr "最新 Trackbacks"
+
+msgid "menu_add_block"
+msgstr "自定區塊"
+
+msgid "menu_emoticons"
+msgstr "Emoticons"
+
+msgid "menu_avatar"
+msgstr "Avatar"
+
+msgid "menu_moderation"
+msgstr "用詞/IP 管制"
+
+msgid "menu_commentmoderation"
+msgstr "未審批回應"
+
+msgid "menu_random_entry"
+msgstr "隨機文章"
+
+msgid "menu_plugins"
+msgstr "Plugins"
+
+msgid "notice_moderator1"
+msgstr "你有"
+
+msgid "notice_moderator2"
+msgstr " 個回應需要批准。"
+
+msgid "notice_loggedin"
+msgstr "你已經登入"
+
+msgid "counter_today"
+msgstr "Today:"
+
+msgid "counter_yesterday"
+msgstr "Yesterday:"
+
+msgid "counter_totalsidebar"
+msgstr "Total:"
+
+msgid "counter_title"
+msgstr "Counter Totals"
+
+msgid "home"
+msgstr "返回首頁"
+
+msgid "nav_next"
+msgstr "下一頁"
+
+msgid "nav_back"
+msgstr "前一頁"
+
+msgid "search_title"
+msgstr "搜尋："
+
+msgid "search_go"
+msgstr "開始"
+
+msgid "page_generated_in"
+msgstr "本頁花費了 %s 秒產生"
+
+msgid "counter_total"
+msgstr "Site Views: "
+
+msgid "read_more"
+msgstr "More..."
+
+msgid "nav_first"
+msgstr "第一頁"
+
+msgid "nav_last"
+msgstr "最後"
+
+msgid "randomquote"
+msgstr "隨機引用"
+
+msgid "sb_months"
+msgstr "Array"
+
+msgid "sb_default_title"
+msgstr "沒有標題"
+
+msgid "sb_default_author"
+msgstr "沒有作者"
+
+msgid "sb_default_footer"
+msgstr "沒有頁尾"
+
+msgid "sb_edit"
+msgstr "編輯"
+
+msgid "sb_delete"
+msgstr "刪除"
+
+msgid "sb_permalink"
+msgstr "permalink"
+
+msgid "sb_trackback"
+msgstr "引用"
+
+msgid "sb_relatedlink"
+msgstr "related link"
+
+msgid "sb_add_comment_btn"
+msgstr "發表回應"
+
+msgid "sb_comment_btn_number_first"
+msgstr "1"
+
+msgid "sb_comment_btn"
+msgstr "回應"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr "1"
+
+msgid "sb_comments_plural_btn"
+msgstr "回應"
+
+msgid "sb_postedby"
+msgstr "Posted by"
+
+msgid "sb_admin"
+msgstr "Administrator"
+
+msgid "sb_read_entry_btn"
+msgstr "閱讀文章"
+
+msgid "sb_comment_view"
+msgstr "閱讀"
+
+msgid "sb_comments_plural_view"
+msgstr "閱讀"
+
+msgid "print_article"
+msgstr "列印文章"
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_post"
+msgstr "預覽"
+
+msgid "sb_view_counter_plural_pre"
+msgstr ""
+
+msgid "sb_view_counter_plural_post"
+msgstr "預覽"
+
+msgid "sb_add_link_btn"
+msgstr "新增/管理連結"
+
+msgid "sb_rate_entry_btn"
+msgstr "對文章評分"
+
+msgid "label_subject"
+msgstr "標題："
+
+msgid "label_insert"
+msgstr "插入項目："
+
+msgid "btn_bold"
+msgstr "粗體"
+
+msgid "btn_italic"
+msgstr "斜體"
+
+msgid "btn_image"
+msgstr "圖片"
+
+msgid "btn_url"
+msgstr "網址"
+
+msgid "btn_readmore"
+msgstr "read more"
+
+msgid "view_images"
+msgstr "遊覽已上傳的圖片"
+
+msgid "label_entry"
+msgstr "內容："
+
+msgid "btn_preview"
+msgstr "&nbsp;預覽&nbsp;"
+
+msgid "btn_post"
+msgstr "&nbsp;發表&nbsp;"
+
+msgid "file_name"
+msgstr "建立這篇文章的檔名: (請用英文或數字，不要有空格跟副檔名)"
+
+msgid "insert_styles"
+msgstr "輸入被格式化的文字："
+
+msgid "insert_image"
+msgstr "輸入圖片的網址："
+
+msgid "insert_url1"
+msgstr "輸入連結的相關說明 (非必要)："
+
+msgid "insert_url2"
+msgstr "輸入連結的完整網址："
+
+msgid "insert_url3"
+msgstr "用新視窗遊覽連結 (非必要)："
+
+msgid "add_form_error"
+msgstr "標題以及文章內容不能留白"
+
+msgid "insert_image_optional"
+msgstr "選擇性使用："
+
+msgid "insert_image_width"
+msgstr "寬度 (非必要)："
+
+msgid "insert_image_height"
+msgstr "高度 (非必要)："
+
+msgid "insert_image_popup"
+msgstr "點選後開新視窗觀看全圖 (非必要)："
+
+msgid "insert_image_float"
+msgstr "浮動 (非必要)："
+
+msgid "day"
+msgstr "Day"
+
+msgid "month"
+msgstr "Month"
+
+msgid "year"
+msgstr "Year"
+
+msgid "hour"
+msgstr "Hour"
+
+msgid "minute"
+msgstr "Minute"
+
+msgid "second"
+msgstr "Second"
+
+msgid "add_title"
+msgstr "寫新文章"
+
+msgid "add_instructions"
+msgstr "準備好要寫 Blog 了嗎？填寫下面以後可按 '預覽' 來預覽文章，或按 '發表' 來發表文章。"
+
+msgid "title_ad"
+msgstr "發送Trackback引用通告"
+
+msgid "instructions_ad"
+msgstr "以下是你要自動發送引用通告的網址.如果有網址是你不想通告的,請取消選取. 然後按下'OK' 發送通告, 或者按下'Cancel'取消全部通告."
+
+msgid "label_tb_ping"
+msgstr "填入 TrackBack 引用通告網址 (多個網址請使用逗點隔開)"
+
+msgid "label_tb_autodiscovery"
+msgstr "自動對文章內提到的網址發送引用通告(或者你可以在這裡手動填寫)"
+
+msgid "add_instructions_update"
+msgstr "在下面你可以更新你的文章，當完成後請按 '預覽' 或是 '發表'。"
+
+msgid "ok_btn"
+msgstr "&nbsp;OK&nbsp;"
+
+msgid "cancel_btn"
+msgstr "&nbsp;Cancel&nbsp;"
+
+msgid "label_relatedlink"
+msgstr "Related Link"
+
+msgid "label_categories"
+msgstr "Category List"
+
+msgid "add_error"
+msgstr "<h2>喔喔！</h2>因為發生了某些問題，所以不能儲存這篇文章。<br /><br />伺服器報告：<br />"
+
+msgid "add_static_form_error"
+msgstr "主題、內容、及檔名不可留白"
+
+msgid "add_static_title"
+msgstr "寫靜態文章"
+
+msgid "add_static_instructions"
+msgstr "填寫下面來新增靜態文章。跟平常文章不同的是，靜態文章在頁面右上角有連結。通常都包含一些常用的資訊，像是自我介紹，聯絡方法，日程表之類的網頁。完成後可按 '預覽' 來預覽文章，或按 '發表' 來發表文章。"
+
+msgid "add_static_instructions_update"
+msgstr "在下面你可以更新你的文章，當完成後請按 '預覽' 或是 '發表'。"
+
+msgid "add_static_error"
+msgstr "<h2>喔喔！</h2>因為發生了某些問題，所以不能儲存這篇文章。<br /><br />伺服器報告：<br />"
+
+msgid "comments_form_error"
+msgstr "名字以及回應欄不能留白。"
+
+msgid "name"
+msgstr "Name:"
+
+msgid "email"
+msgstr "Email:"
+
+msgid "homepage"
+msgstr "Homepage:"
+
+msgid "comment"
+msgstr "Comment:"
+
+msgid "IPAddress"
+msgstr "IP Address:"
+
+msgid "useragent"
+msgstr "User Agent:"
+
+msgid "wrote"
+msgstr "<i>On %s, %s wrote:</i><br /> <br /> %s"
+
+msgid "commentposted"
+msgstr "New comment posted at: "
+
+msgid "comment_capcha"
+msgstr "防止垃圾留言驗證碼 "
+
+msgid "comments_title"
+msgstr "回應"
+
+msgid "comments_header"
+msgstr "發表回應"
+
+msgid "comments_instructions"
+msgstr "填寫下面來發表回應。"
+
+msgid "comment_name"
+msgstr "你的名字："
+
+msgid "comment_email"
+msgstr "Email:"
+
+msgid "comment_url"
+msgstr "URL:"
+
+msgid "comment_remember"
+msgstr "記住我:"
+
+msgid "comment_text"
+msgstr "回應："
+
+msgid "post_btn"
+msgstr "&nbsp;發表回應&nbsp;"
+
+msgid "delete_btn"
+msgstr "刪除"
+
+msgid "expired_comment1"
+msgstr "We are sorry. New comments are not allowed after "
+
+msgid "expired_comment2"
+msgstr " days."
+
+msgid "ban_btn"
+msgstr "ban ip"
+
+msgid "blacklisted"
+msgstr "抱歉，你的IP已經被封鎖，所以不能回應。"
+
+msgid "bannedword"
+msgstr "Your comment, url, name or email contained word(s) that have been banned by the administrator. Your comment has NOT been posted."
+
+msgid "nocomments"
+msgstr "此文章不能回應。"
+
+msgid "email_moderator"
+msgstr "Comments are currently moderated. This comment needs approval before it will be seen by the public."
+
+msgid "user_notice_mod"
+msgstr "Moderation is turned on for this blog. Your comment will require the administrators approval before it will be visible."
+
+msgid "return_to_comments"
+msgstr "返回回應"
+
+msgid "comments_error_add"
+msgstr "<h2>喔喔！</h2>因為發生了某些問題，所以不能儲存這篇回應。<br /><br />伺服器報告：<br />"
+
+msgid "comments_error_delete"
+msgstr "<h2>喔喔！</h2>因為發生了某些問題，所以不能刪除這篇回應。<br /><br />伺服器報告：<br />"
+
+msgid "add_block_form_error"
+msgstr "區塊名稱請勿空白."
+
+msgid "add_block_title"
+msgstr "新增/管理區塊"
+
+msgid "add_block_instructions"
+msgstr "新增自定區塊"
+
+msgid "up"
+msgstr "向上移位"
+
+msgid "down"
+msgstr "向下移位"
+
+msgid "edit"
+msgstr "編輯"
+
+msgid "delete"
+msgstr "刪除"
+
+msgid "block_name"
+msgstr "Block Name:"
+
+msgid "block_content"
+msgstr "Block content:"
+
+msgid "add_block_instructions_edit"
+msgstr "你正在編輯區塊"
+
+msgid "add_block_instructions_modify"
+msgstr "管理區塊:"
+
+msgid "add_block_submit_btn_edit"
+msgstr "更改區塊"
+
+msgid "add_block_submit_btn_add"
+msgstr "新增區塊"
+
+msgid "static_pages"
+msgstr "靜態頁面:"
+
+msgid "add_link_title"
+msgstr "新增/管理連結"
+
+msgid "add_link_instructions"
+msgstr "新增自訂的網站連結。填寫下面以後按 '新增' 來新增連結。按 '向上移位' '向下移位' 來改變連結的順序。按 '編輯' 來改變連結的資訊。按 '刪除' 來刪除連結。"
+
+msgid "link_name"
+msgstr "連結名稱："
+
+msgid "link_url"
+msgstr "連結網址： (非必要，可留空來製作空格)"
+
+msgid "add_link_instructions_edit"
+msgstr "你正在編輯連結："
+
+msgid "add_link_instructions_modify"
+msgstr "按下面的按鈕來更改連結："
+
+msgid "add_link_submit_btn_edit"
+msgstr "更改連結"
+
+msgid "add_link_submit_btn_add"
+msgstr "新增連結"
+
+msgid "add_link_form_error"
+msgstr "連結名稱欄請勿空白。"
+
+msgid "categories_title"
+msgstr "新增 / 管理 文章類別"
+
+msgid "categories_instructions"
+msgstr "在下面的欄位裡新增或修改你的文章類別設定. 文章類別的設定法為：<b>類別名稱 (id 編號)</b>. 在前面加上空格則會成為上一排類別的子類別.<br /><br /><b>範例:</b><br />General (1)<br />News (3)<br />&nbsp;&nbsp;Announcements (6)<br />&nbsp;&nbsp;Events (5)<br />&nbsp;&nbsp;&nbsp;&nbsp;Misc (7)<br />Technology (2)<br />"
+
+msgid "categories_error"
+msgstr "錯誤！"
+
+msgid "current_categories"
+msgstr "現有的類別"
+
+msgid "no_categories_found"
+msgstr "沒有建立類別"
+
+msgid "category_list"
+msgstr "文章類別列表:"
+
+msgid "validate"
+msgstr "儲存"
+
+msgid "submit_btn"
+msgstr "&nbsp;確定&nbsp;"
+
+msgid "colors_title"
+msgstr "改變配色"
+
+msgid "colors_instructions"
+msgstr "你可以改變你的 Blog 的文字以及背景的顏色。先選擇下列的項目，然後從色盤中選擇想要的顏色。色值會自動改變。"
+
+msgid "bg_color"
+msgstr "底層背景"
+
+msgid "main_bg_color"
+msgstr "主框背景"
+
+msgid "border_color"
+msgstr "邊框"
+
+msgid "inner_border_color"
+msgstr "內邊框"
+
+msgid "header_bg_color"
+msgstr "頁首背景"
+
+msgid "header_txt_color"
+msgstr "頁首文字"
+
+msgid "menu_bg_color"
+msgstr "選單背景"
+
+msgid "footer_bg_color"
+msgstr "頁尾背景"
+
+msgid "txt_color"
+msgstr "主要文字"
+
+msgid "headline_txt_color"
+msgstr "標題文字"
+
+msgid "date_txt_color"
+msgstr "日期文字"
+
+msgid "footer_txt_color"
+msgstr "頁尾文字"
+
+msgid "link_reg_color"
+msgstr "連結"
+
+msgid "link_hi_color"
+msgstr "游標連結"
+
+msgid "link_down_color"
+msgstr "使用中連結"
+
+msgid "entry_bg"
+msgstr "文章背景"
+
+msgid "entry_title_bg"
+msgstr "文章標題背景"
+
+msgid "entry_border"
+msgstr "文章邊框"
+
+msgid "entry_title_text"
+msgstr "文章標題文字"
+
+msgid "entry_text"
+msgstr "文章文字"
+
+msgid "menu_bg"
+msgstr "選單背景"
+
+msgid "menu_title_bg"
+msgstr "選單標題背景"
+
+msgid "menu_border"
+msgstr "選單邊框"
+
+msgid "menu_title_text"
+msgstr "選單標題文字"
+
+msgid "menu_text"
+msgstr "選單文字"
+
+msgid "menu_link_reg_color"
+msgstr "選單連結"
+
+msgid "menu_link_hi_color"
+msgstr "選單游標連結"
+
+msgid "menu_link_down_color"
+msgstr "選單使用中連結"
+
+msgid "static_bg"
+msgstr "Static 背景"
+
+msgid "static_title_bg"
+msgstr "Static 標題背景"
+
+msgid "static_border"
+msgstr "Static 邊框"
+
+msgid "static_title_text"
+msgstr "Static 標題文字"
+
+msgid "static_text"
+msgstr "Static 文字"
+
+msgid "comment_bg"
+msgstr "回應背景"
+
+msgid "comment_title_bg"
+msgstr "回應標題背景"
+
+msgid "comment_border"
+msgstr "回應邊框"
+
+msgid "comment_title_text"
+msgstr "回應標題文字"
+
+msgid "color_preset"
+msgstr "配色主題:"
+
+msgid "scheme_name"
+msgstr "請填入你的配色主題名稱(英文):"
+
+msgid "scheme_file"
+msgstr "請填入你的配色主題檔名: (英文,不要有空格或副檔名)"
+
+msgid "colors_form_error"
+msgstr "配色名稱或檔名不可以留白."
+
+msgid "save_btn"
+msgstr "&nbsp;儲存配色&nbsp;"
+
+msgid "theme_doesnt_allow_colors"
+msgstr "The currently selected theme does not allow for custom colors."
+
+msgid "colors_error"
+msgstr "<h2>喔喔！</h2>因為發生了某些問題，所以不能儲存剛才的資訊。<br /><br />伺服器報告：<br />"
+
+msgid "delete_title"
+msgstr "刪除回應"
+
+msgid "delete_instructions"
+msgstr "這是你準備刪除的文章，請再次確認，因為刪除後就不能挽回了。"
+
+msgid "delete_error"
+msgstr "<h2>喔喔！</h2>因為發生了某些問題，所以不能刪除這篇文章。<br /><br />伺服器報告：<br />"
+
+msgid "delete_success"
+msgstr "<h2>刪除文章！</h2>文章已經刪除。"
+
+msgid "delete_static_title"
+msgstr "刪除靜態文章"
+
+msgid "delete_static_instructions"
+msgstr "這是你準備刪除的靜態文章，請再次確認，因為刪除後就不能挽回了"
+
+msgid "delete_static_error"
+msgstr "<h2>喔喔！</h2>無法刪除這篇文章。<br /><br />伺服器報告：<br />"
+
+msgid "delete_static_success"
+msgstr "<h2>刪除靜熊文章！</h2>靜態文章已經刪除。"
+
+msgid "image_list_title"
+msgstr "圖片列表"
+
+msgid "image_list_instructions"
+msgstr "觀賞圖片請按下面的連結<br /><br />如果想要放置圖片在文章裡<br />1) 在圖片連結上按右鍵並且選擇 '複製連結網址' <br />2) 回到寫新文章或是編輯文章的地方 <br />3) 點選 '圖片' 並把網址貼上。"
+
+msgid "info_title"
+msgstr "Meta-Data 資訊"
+
+msgid "info_instructions"
+msgstr "下面的資訊是 &quot;meta-data&quot; ，它能讓搜尋引擎正確的搜尋並確認你的網站。Meta-Data 也能夠被用在 RSS feeds 上"
+
+msgid "info_keywords"
+msgstr "關鍵詞： (每個詞請用逗號分開)"
+
+msgid "info_description"
+msgstr "描述： (簡單的描述你的網站)"
+
+msgid "info_copyright"
+msgstr "著作權： (著作權聲明，或者是到達著作資訊的連結)"
+
+msgid "info_error"
+msgstr "<h2>喔喔！</h2>因為發生了某些問題，所以不能儲存剛才的資訊。<br /><br />伺服器報告：<br />"
+
+msgid "info_form_error"
+msgstr "標題以及作者欄不能留白。"
+
+msgid "rating_error"
+msgstr "<h2>喔喔! </h2>因為發生了某些問題，所以不能儲存剛才的評分。<br /><br />伺服器報告：<br />"
+
+msgid "upgrade"
+msgstr "<h2>更新</h2>"
+
+msgid "upgrade_count"
+msgstr "%n 個留言檔案需要更新:"
+
+msgid "upgrade_url"
+msgstr "更新留言"
+
+msgid "login_title"
+msgstr "登入"
+
+msgid "login_instructions"
+msgstr "請在下面輸入你的使用者名稱以及密碼。"
+
+msgid "username"
+msgstr "使用者名稱"
+
+msgid "password"
+msgstr "密碼"
+
+msgid "login_success"
+msgstr "<h2>成功！</h2>你已經登入了。愉快地 Blogging 吧！<p />"
+
+msgid "login_wrong_password"
+msgstr "<h2>喔喔！</h2>你不能登入。請確認你有使用正確的使用者名稱以及密碼，並且再試一次。<p />"
+
+msgid "inactive_account"
+msgstr "<h2>喔喔！</h2>你不能登入。你的戶口因為某些原因被管理員停用了。<p />"
+
+msgid "login_form_error"
+msgstr "使用者名稱以及密碼欄不能留白。"
+
+msgid "logout_title"
+msgstr "登出"
+
+msgid "logout_instructions"
+msgstr "<h2>喔喔！</h2>登出失敗。無法刪除 Cookies，為何你還在登入狀態呢？<p />"
+
+msgid "logout_error"
+msgstr "<h2>再見！</h2>你已經登出。(你根本沒有登入過)<p />"
+
+msgid "error_no_cookie"
+msgstr "<h2>再見！</h2>你已經登出。(找不到cookie。你根本沒有登入過)<p />"
+
+msgid "logout_success"
+msgstr "<h2>再見！</h2>你已經登出。<p />(5 秒後將自動轉向首頁)<p />"
+
+msgid "forms_title"
+msgstr ""
+
+msgid "forms_instructions"
+msgstr ""
+
+msgid "forms_error"
+msgstr "<h2>喔喔！</h2>剛才的資訊沒有儲存。在儲存的時候遇到一些問題。<br /><br />伺服器報告：<br />"
+
+msgid "set_login_title"
+msgstr "變更使用者名稱或是密碼"
+
+msgid "set_login_instructions"
+msgstr "在下面變更使用者名稱或者密碼，請輸入想要的名稱以及密碼。"
+
+msgid "set_login_success"
+msgstr "<h2>成功！</h2>你的使用者名稱/密碼已經儲存。祝你 Blogging 快樂！<p />"
+
+msgid "set_login_wrong_password"
+msgstr "<h2>喔喔！</h2>剛才的資訊沒有儲存。在儲存使用者名稱以及密碼的時候遇到一些問題。<br /><br />伺服器報告：<br />"
+
+msgid "set_login_form_error"
+msgstr "使用者名稱以及密碼欄不能留白。"
+
+msgid "explanation"
+msgstr "在本版本中改變了更改密碼的方式.現在開始你無法直接改變blog密碼  					或是在沒有密碼檔時可讓人任意進行設定.  如果你要改變密碼, 刪除 /config/password.php 然後重新上傳安裝程序 (install01.php到install06.php)  					到你網站裡的sphpblog資料夾.  這些步驟做完後進入網站(或登出).  就會進入安裝程序  					再一次將你的新密碼設定到你的blog裡即可."
+
+msgid "install00_title"
+msgstr "歡迎光臨"
+
+msgid "install00_instructions"
+msgstr "感謝你選擇 Simple PHP Blog"
+
+msgid "blog_choose_language"
+msgstr "請選擇語言："
+
+msgid "install01_title"
+msgstr "歡迎光臨"
+
+msgid "install01_instructions"
+msgstr "  				感謝你選擇 Simple PHP Blog！<br /><br />Simple PHP Blog　是一個輕巧的 Blog 系統。它需要 PHP 4.1 或更新的系統，還有寫入的許可。所有的資訊都儲存在文字檔內，所以不需要使用資料庫也能執行。<br /><br />  				開始之前，Simple PHP Blog 需要建立三個新的資料夾 ('config', 'content', 以及 'images') 來儲存其他資訊。<br /><br />  				<b>按下面來開始安裝。</b>"
+
+msgid "begin"
+msgstr "[ 開始安裝 ]"
+
+msgid "install02_title"
+msgstr "安裝"
+
+msgid "install02_instructions"
+msgstr "正在建立 'config', 'content', 以及 'images' 這三個資料夾："
+
+msgid "folder_exists"
+msgstr "因為這三個資料夾已經存在，所以不作任何改變。"
+
+msgid "folder_failed"
+msgstr "喔喔！不能建立資料夾。"
+
+msgid "folder_success"
+msgstr "成功！資料夾已經建立。"
+
+msgid "help"
+msgstr "  				<h2>喔喔！</h2>  				無法建立資料夾，以下是可能的原因：<br>  				<i>1) <b>寫入許可</b>，沒有許可可以 <b>寫入/讀出</b>。</i><br>  				<i>2) 每個資料夾的 <b>UID</b>(擁有者代號 user ID) 不同。</i><p />  				請嘗試下列的方法，然後再重新安裝一次。<p />  				1) 重新手動建立這些資料夾 <b>config</b>， <b>content</b>，以及 <b>images</b>。<p />  				2) 改變這些資料夾的 <b>寫入許可 (Write Permission)</b>。在你的 FTP 軟體上，讓這三個資料夾的 Owner, User, and World should 都有 <b>Read</b>(讀取) 還有 <b>Write</b>(寫入) 的許可。<i>(你可能需要伺服器服務人員的幫忙。)</i><p />  				3) 確定全部的資料夾都有相同的擁有者代號。<i>(可能伺服器服務人員才能改變這些。)</i>"
+
+msgid "try_again"
+msgstr "[ 再試一次 ]"
+
+msgid "install02_success"
+msgstr "<h2>成功！</h2>資料夾成功的建立了。<p /><b>請按下面繼續：</b>"
+
+msgid "continue"
+msgstr "[ 繼續 ]"
+
+msgid "supported"
+msgstr "<b>檢驗你的網頁伺服器是否有支援以下的加密技術:</b>"
+
+msgid "standard"
+msgstr "DES (Data Encryption Standard) 資料加密標準 : "
+
+msgid "extended"
+msgstr "Extended DES (Data Encryption Standard) 延伸資料加密標準: "
+
+msgid "MD5"
+msgstr "MD5 (Message-Digest algorithm 5) 雜湊演算法: "
+
+msgid "blowfish"
+msgstr "Blowfish 加密法: "
+
+msgid "enabled"
+msgstr "支援"
+
+msgid "disabled"
+msgstr "不支援"
+
+msgid "using_standard"
+msgstr "<b>使用 DES (Data Encryption Standard) 資料加密標準...</b>"
+
+msgid "using_extended"
+msgstr "<b>使用 Extended DES (Data Encryption Standard) 延伸資料加密標準...</b>"
+
+msgid "using_MD5"
+msgstr "<b style='color: green;'>使用 MD5 (Message-Digest algorithm 5) 雜湊演算法...</b>"
+
+msgid "using_blowfish"
+msgstr "<b style='color: green;'>使用 Blowfish 加密法...</b>"
+
+msgid "using_unknown"
+msgstr "<b>使用 Unknown Encryption...</b>"
+
+msgid "salt_length"
+msgstr " <i>(Salt Length = %string)</i><br />"
+
+msgid "install03_title"
+msgstr "建立使用者名稱以及密碼"
+
+msgid "install03_instructions"
+msgstr "在下面建立使用者名稱以及密碼。"
+
+msgid "install03_success"
+msgstr "<h2>恭喜！</h2>你現在已經登入了。按下面開始設定你的 Blog 相關資訊。祝你 Blogging 快樂！<p />"
+
+msgid "btn_setup"
+msgstr "[ 設定 ]"
+
+msgid "install03_wrong_password"
+msgstr "<h2>喔喔！</h2>無法儲存資訊。在儲存你的使用者名稱以及密碼的時候發生了一些問題。<br />  				也許是 UID 的問題，請嘗試下列的方法，然後再重新安裝一次。<p />  				1) 刪除 <b>config</b>， <b>content</b>，以及 <b>images</b>的資料夾<p />  				2) 在你的 FTP 軟體上，更改 Blog 目錄的 Owner, User, and World should 都有 <b>Read</b>(讀取) 還有 <b>Write</b>(寫入) 的許可。(也許你必須把 Simple PHP Blog 移動到一個子資料夾才能更改該資料夾的許可)<p />  				3) 重新再安裝一次。  				<br /><br />伺服器報告：<br />"
+
+msgid "install03_form_error"
+msgstr "使用者名稱以及密碼欄不能留白。"
+
+msgid "install04_title"
+msgstr "製作你的密碼檔"
+
+msgid "install04_instructions"
+msgstr "請進行以下步驟:<br />  				<ol>  				<li>打開你電腦上的文字編輯器 <i>(像記事本, 小作家, Word, BBEdit, Pico, VIM之類的,你要用Dreamweaver,Front page,Nvu等也可以)</i></li>  				<li>新增空白檔案</li>  				<li>將下面文字方格裡的代碼複製貼上到你的文字編輯器裡(Dreamweaver,Front page,Nvu之類的請在程式碼模式貼上)</li>  				<li>將檔案「另存新檔」成<b>password.php</b> <i>(不是password.txt或password.php.txt喔！另外請確定檔案是<b>text</b> or <b>plain text</b> 格式.)</i></li>  				<li>開啟你的FTP上傳程式 .</li>  				<li>將你的<b>password.php</b> 檔上傳到你網站sphpblog資料夾裏的 <b>config</b> 資料夾中.</li>  				<li>刪除在你電腦上的 <b>password.php</b> 檔.</li>  				</ol>  				"
+
+msgid "information"
+msgstr "<i>注意:如果你忘記了密碼想要重設它時, 請刪除網站 <b>config</b>資料夾裏的<b>password.php</b> 檔.然後進入你網站,會重新開始進行安裝程序‧‧‧</i>"
+
+msgid "code"
+msgstr "<b>password.php</b>檔代碼:"
+
+msgid "install05_title"
+msgstr "登入"
+
+msgid "install05_instructions"
+msgstr "請在下面輸入你的使用者名稱以及密碼"
+
+msgid "install05_success"
+msgstr "<h2>恭喜!</h2>你已經登入了.<p />  				現在你可以進入<b>設定</b>頁面, 開始對你的blog進行設定.<p />  				<i>注意:你已經安裝完畢了, 我們建議你刪除在網站資料夾中的所有安裝檔<b>installXX.php</b>等. (從install00.php到 install06.php)</i><p />"
+
+msgid "install05_wrong_password"
+msgstr "<h2>喔喔！</h2>你不能登入。請確認你有使用正確的使用者名稱以及密碼，並且再試一次。<p />"
+
+msgid "install05_form_error"
+msgstr "使用者名稱以及密碼欄不能留白."
+
+msgid "btn_try_again"
+msgstr "[ 重試 ]"
+
+msgid "install06_title"
+msgstr "登入"
+
+msgid "install06_instructions"
+msgstr "請在下面輸入你的使用者名稱以及密碼"
+
+msgid "install06_success"
+msgstr "<h2>恭喜!</h2>你已經登入了.<p />  				現在你可以進入<b>設定</b>頁面, 開始對你的blog進行設定.<p />  				<i>注意:你已經安裝完畢了, 我們建議你刪除在網站資料夾中的所有安裝檔<b>installXX.php</b>等. (從install00.php到 install06.php)</i><p />"
+
+msgid "install06_wrong_password"
+msgstr "<h2>喔喔！</h2>你不能登入。請確認你有使用正確的使用者名稱以及密碼，並且再試一次。<p />"
+
+msgid "install06_form_error"
+msgstr "使用者名稱以及密碼欄不能留白."
+
+msgid "setup_title"
+msgstr "設定"
+
+msgid "setup_instructions"
+msgstr "在這裡你能改變 Blog 的名稱，以及你自己的資料，"
+
+msgid "blog_title"
+msgstr "Blog 站名："
+
+msgid "blog_header"
+msgstr "Header Graphic URL: images/blogheader.jpg (Leave blank for default theme graphic)."
+
+msgid "blog_author"
+msgstr "作者："
+
+msgid "blog_email"
+msgstr "Email："
+
+msgid "blog_avatar"
+msgstr "Avatar URL: (Leave blank for none)."
+
+msgid "blog_footer"
+msgstr "頁尾："
+
+msgid "blog_enable_comments"
+msgstr "准許回應"
+
+msgid "blog_comments_popup"
+msgstr "在新視窗開啟回應"
+
+msgid "blog_enable_start_category"
+msgstr "使用指定類別作為首頁："
+
+msgid "blog_search_top"
+msgstr "在文章中顯示搜尋(Search)，而非在sidebar"
+
+msgid "blog_enable_static_block"
+msgstr "顯示指定的區塊作為首頁： "
+
+msgid "static_block_border"
+msgstr "顯示邊框"
+
+msgid "static_block_noborder"
+msgstr "沒有邊框"
+
+msgid "blog_enable_voting"
+msgstr "准許觀眾對文章評分"
+
+msgid "blog_enable_cache"
+msgstr "開啟文章內容快取 (需要較強大的伺服器)"
+
+msgid "blog_enable_calendar"
+msgstr "顯示日曆/舊文章區塊"
+
+msgid "blog_enable_archives"
+msgstr "Enable Archives Block"
+
+msgid "blog_enable_counter"
+msgstr "Enable Counter in Sidebar"
+
+msgid "blog_counter_hours"
+msgstr "Number of hours to delay before hits are counted again (based on specific ip address):"
+
+msgid "blog_enable_login"
+msgstr "Enable Login Link (Please bookmark 'login.php' first...)"
+
+msgid "blog_enable_title"
+msgstr "顯示網站標題 (不選只會出現標題圖片)"
+
+msgid "blog_enable_permalink"
+msgstr "顯示文章獨立網址連接"
+
+msgid "blog_enable_print"
+msgstr "啟用文章中的列印文章功能"
+
+msgid "blog_enable_capcha"
+msgstr "Enable Anti-Spam"
+
+msgid "blog_footer_counter"
+msgstr "Enable Counter in Footer"
+
+msgid "blog_enable_capcha_image"
+msgstr "Anti-Spam Images (GD library only) / Anti-Spam Text Field"
+
+msgid "blog_enable_stats"
+msgstr "Enable Stats Option in Menu"
+
+msgid "blog_enable_lastcomments"
+msgstr "Enable Most Recent Comments Listing"
+
+msgid "blog_enable_lastentries"
+msgstr "Enable Most Recent Entries Listing"
+
+msgid "blog_email_notification"
+msgstr "有新的回應時用 Email 通知你"
+
+msgid "blog_send_pings"
+msgstr "送出網誌的 &quot;pings&quot;"
+
+msgid "blog_ping_urls"
+msgstr "輸入你的 &quot;ping&quot; 服務的完整網址。(像是 http://rpc.weblogs.com/RPC2)<br />(如果有多個網址，可用逗號分開。)"
+
+msgid "blog_trackback_about"
+msgstr "<b>引用(Trackback)</b>是一種在各blog之間提供通知方法的功能. 發送Trackback可以讓另一個  					blog知道你在討論他寫的文章. 你也可以經由Trackback訊息   					知道誰連接到你的blog引用文章.<br />  				   你可以在寫新文章時在 '填入 TrackBack 引用通告網址'的欄位中填入你要引用的網址,或者你可以使用  				   自動對文章內提到的網址發送引用通告功能."
+
+msgid "blog_trackback_enabled"
+msgstr "在我的blog裡使用引用(trackback)功能"
+
+msgid "blog_trackback_auto_discovery"
+msgstr "使用自動對文章內提到的網址發送引用通告的功能"
+
+msgid "blog_max_entries"
+msgstr "最多顯示多少篇文章："
+
+msgid "blog_comment_tags"
+msgstr "回應時能使用的語法標籤"
+
+msgid "blog_gzip_about"
+msgstr "  					PHP 從 4.0.4 開始就可以讀寫 gzip (.gz)的壓縮檔案以便節省網路空間，  					也可以傳回被壓縮的檔案給支援的遊覽器以節省頻寬。<br /><br />  					PHP 並沒有預設使用 Zlib，如果下列的選項無法勾取的話，  					那麼你伺服器的 PHP 還不能支援 Zlib 的功能。"
+
+msgid "blog_enable_gzip_txt"
+msgstr "准許對資料庫檔案進行 GZIP 壓縮。"
+
+msgid "blog_enable_gzip_output"
+msgstr "准許對傳送出的網頁進行 GZIP 壓縮。"
+
+msgid "setup_error"
+msgstr "<h2>喔喔！</h2>無法儲存剛剛的資訊。當儲存資料的時候遇到了某些問題。<br /><br />伺服器報告：<br />"
+
+msgid "setup_success"
+msgstr "<h2>設定已儲存！</h2>資料已成功儲存。"
+
+msgid "setup_form_error"
+msgstr "Blog 站名以及作者欄不能留白。"
+
+msgid "label_entry_order"
+msgstr "文章的排列法："
+
+msgid "select_new_to_old"
+msgstr "新的文章在前面"
+
+msgid "select_old_to_new"
+msgstr "舊的文章在前面"
+
+msgid "label_comment_order"
+msgstr "回應的順序："
+
+msgid "cal_sunday"
+msgstr "周日"
+
+msgid "cal_monday"
+msgstr "週一"
+
+msgid "label_calendar_start"
+msgstr "日曆的每週第一天"
+
+msgid "title_sidebar"
+msgstr "Sidebar"
+
+msgid "title_comments"
+msgstr "Comments"
+
+msgid "title_trackback"
+msgstr "Trackbacks"
+
+msgid "title_compression"
+msgstr "Compression"
+
+msgid "title_entries"
+msgstr "Entries"
+
+msgid "title_general"
+msgstr "General"
+
+msgid "title_language"
+msgstr "Language"
+
+msgid "blog_comment_days_expiry"
+msgstr "Comments Allowed For How Many Days? (0 means no expiry)"
+
+msgid "blog_comments_moderation"
+msgstr "Require comment entries to be approved by logged in user before public            (always visible to logged in user)"
+
+msgid "comment_moderation"
+msgstr "Moderation Options"
+
+msgid "moderation_title"
+msgstr "Moderation Preferences"
+
+msgid "moderation_instructions"
+msgstr "You can modify the auto moderation lists here."
+
+msgid "moderation_error"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your information.<br /><br />Server Reported:<br />"
+
+msgid "moderation_success"
+msgstr "<h2>Preferences Saved!</h2>Information has been successfully saved."
+
+msgid "banned_address_list_title"
+msgstr "<h2>Banned IP Addresses</h2>"
+
+msgid "banned_address_list"
+msgstr "Below is a list of numerical ip addresses that have been banned from entering comments. Each ip is on a separate line and must be numbers (not DNS names). When logged in, IP's can be banned directly from the comments view."
+
+msgid "banned_word_list_title"
+msgstr "<h2>Banned Words</h2>"
+
+msgid "banned_word_list"
+msgstr "Below is a list of words that are not allowed to be in the url or the text. Each word or group of words is on a separate line. The comments will attempt to match each line exactly in order to enact the ban."
+
+msgid "options_title"
+msgstr "時間選項"
+
+msgid "options_instructions"
+msgstr "這裡能自訂日期以及時間的顯示方法。你能選擇 12/24 時制，日期顯示的長短，以及被自動更新化的地方<b>預覽</b>你的設定。"
+
+msgid "ldate_title"
+msgstr "日期顯示(長)："
+
+msgid "weekday"
+msgstr "星期"
+
+msgid "none"
+msgstr "皆無"
+
+msgid "sdate_title"
+msgstr "日期顯示(短)："
+
+msgid "s_month"
+msgstr "月"
+
+msgid "s_mon"
+msgstr "MMM"
+
+msgid "s_day"
+msgstr "日"
+
+msgid "s_year"
+msgstr "年"
+
+msgid "zero_day"
+msgstr "添加 0 補齊日的數位"
+
+msgid "show_century"
+msgstr "顯示世紀"
+
+msgid "time_title"
+msgstr "時間格式："
+
+msgid "12hour"
+msgstr "12-時制"
+
+msgid "24hour"
+msgstr "24-時制"
+
+msgid "before_noon"
+msgstr "上午"
+
+msgid "after_noon"
+msgstr "下午"
+
+msgid "date_title"
+msgstr "日期顯示格式："
+
+msgid "long_date"
+msgstr "日期顯示(長)"
+
+msgid "short_date"
+msgstr "日期顯示(短)"
+
+msgid "time"
+msgstr "時間"
+
+msgid "menu_title"
+msgstr "選單日期顯示格式"
+
+msgid "zero_month"
+msgstr "添加 0 補齊月的數位"
+
+msgid "zero_hour"
+msgstr "添加 0 補齊年的數位"
+
+msgid "separator"
+msgstr "隔號："
+
+msgid "preview"
+msgstr "預覽："
+
+msgid "server_offset"
+msgstr "伺服器時差："
+
+msgid "options_error"
+msgstr "<h2>喔喔！</h2>無法儲存剛剛的資訊。當儲存資料的時候遇到了某些問題。<br /><br />伺服器報告：<br />"
+
+msgid "options_success"
+msgstr "<h2>設定已儲存！</h2>資料已成功儲存。"
+
+msgid "upload_img_title"
+msgstr "上傳圖片："
+
+msgid "upload_img_instructions"
+msgstr "按下面的按鈕選擇要上傳的檔案。"
+
+msgid "select_file"
+msgstr "選擇檔案："
+
+msgid "upload_btn"
+msgstr "上傳"
+
+msgid "upload_img_error"
+msgstr "<h2>喔喔！</h2>無法上傳圖片。以下是一些資訊：<br /><br />伺服器報告：<br />"
+
+msgid "upload_img_success"
+msgstr "<h2>圖檔已上傳！</h2>圖檔已成功儲存。"
+
+msgid "themes_title"
+msgstr "佈景主題"
+
+msgid "themes_instructions"
+msgstr "在下拉式選單中選擇佈景主題。"
+
+msgid "choose_theme"
+msgstr "佈景主題："
+
+msgid "themes_error"
+msgstr "<h2>喔喔！</h2>無法儲存剛剛的資訊。當儲存資料的時候遇到了某些問題。<br /><br />伺服器報告：<br />"
+
+msgid "themes_success"
+msgstr "<h2>主題已儲存！</h2>資料已成功儲存。"
+
+msgid "search_result_title"
+msgstr "搜尋結果："
+
+msgid "search_result_instructions"
+msgstr "搜尋 <b>%string</b> 的結果："
+
+msgid "not_found"
+msgstr "沒有相關資訊。"
+
+msgid "contact_title"
+msgstr "聯絡網主 Contact Me"
+
+msgid "contact_instructions"
+msgstr "請填入以下資訊,以下訊息將會郵寄給網主:"
+
+msgid "contact_form_error"
+msgstr "內容請不要留白."
+
+msgid "subject"
+msgstr "主題:"
+
+msgid "contact_success"
+msgstr "<h2>發送成功!</h2>你的訊息已經寄出摟.<p />"
+
+msgid "failure"
+msgstr "<h2>錯誤!</h2>你的訊息沒有被送出. 請檢查你是否有填入防止垃圾信驗證碼.<p />"
+
+msgid "contact_capcha"
+msgstr "防止垃圾信驗證碼: "
+
+msgid "contactsent"
+msgstr "信件傳送過程: "
+
+msgid "errorpage-nocookies_title"
+msgstr "HTTP Error 403.8 -  本站此頁面拒絕存取"
+
+msgid "errorline1"
+msgstr "你嘗試瀏覽的這頁需要使用cookie."
+
+msgid "errorline2"
+msgstr "在你的瀏覽器設定裡開啟cookie功能後再試一次."
+
+msgid "clientid"
+msgstr "使用端 ID: "
+
+msgid "trackbacks_title"
+msgstr "引用(Trackbacks)"
+
+msgid "trackbacks_header"
+msgstr "本文章的引用網址:"
+
+msgid "trackbacks_error_add"
+msgstr "Trackback資料儲存時發生錯誤"
+
+msgid "stats_title"
+msgstr "<h2>統計資料</h2>"
+
+msgid "general"
+msgstr "<h3>基本統計</h3>"
+
+msgid "entry_info"
+msgstr "<b>%s</b>篇文章,使用了 <b>%s</b>個字,一共佔了<b>%s</b> bytes大小"
+
+msgid "comment_info"
+msgstr "<b>%s</b>篇迴響,使用了<b>%s</b> 個字,一共佔了 <b>%s</b> bytes大小"
+
+msgid "trackback_info"
+msgstr "<b>%s</b> 個引用通告，共佔了 <b>%s</b> bytes大小"
+
+msgid "static_info"
+msgstr "<b>%s</b> 篇靜態文章,使用了 <b>%s</b> 個字,共佔了<b>%s</b> bytes大小"
+
+msgid "most_viewed_entries"
+msgstr "<h3>最多人觀看文章前10名</h3>"
+
+msgid "most_commented_entries"
+msgstr "<h3>最多人迴響文章前10名</h3>"
+
+msgid "most_trackbacked_entries"
+msgstr "<h3>最多引用通告前10名</h3>"
+
+msgid "vote_info"
+msgstr "<b>%s</b>個投票,一共佔了 <b>%s</b> bytes大小"
+
+msgid "most_voted_entries"
+msgstr "<h3>最多人投票前10名</h3>"
+
+msgid "most_rated_entries"
+msgstr "<h3>評分最高前10名</h3>"
+
+msgid "403.8"
+msgstr "HTTP Error 403.8 - 本站此頁面拒絕存取"
+
+msgid "404"
+msgstr "HTTP Error 404 - 本站此內仍不存在"
+
+msgid "error_404"
+msgstr "你要看的這頁面不存在."
+
+msgid "error_javascript"
+msgstr "你所瀏覽的這頁使用了javascript，我們建議你開啟瀏覽器的支援javascript功能."
+
+msgid "error_emailnotsent"
+msgstr "你嘗試寄出的訊息沒有寄出成功."
+
+msgid "error_emailnotsentcapcha"
+msgstr "你嘗試寄出的訊息沒有寄出成功,可能是你忘了填上或填錯防止垃圾信件驗證碼."
+
+msgid "emoticons_title"
+msgstr "Admin Emoticons"
+
+msgid "emoticons_instructions"
+msgstr "  					Check the emoticons you want to use. Write in the box the Tags you want   					to be replaced by the image. Multiple tags may be used, just separated them   					by spaces.<br /><br />  		  					For instance:<br />  					:) :-) :SMILE: :HAPPY:<br /><br />  					  					<i>(It is highly recommended that you make the Tags longer than 2 characters,   					otherwise unexpected substitutions may occur.)</i>"
+
+msgid "upload_instructions"
+msgstr "Upload New Emoticon:"
+
+msgid "upload_success"
+msgstr "Success! Image uploaded successfully!"
+
+msgid "upload_error"
+msgstr "Error! Image was not uploaded."
+
+msgid "upload_invalid"
+msgstr "Error! Invalid image file. Image must be a png, jpg, or gif."
+
+msgid "save_success"
+msgstr "Emoticon preferences saved successfully!"
+
+msgid "save_error"
+msgstr "Error! Emoticon preferences not saved."
+
+msgid "save_button"
+msgstr "Save Emoticons"
+
+msgid "archives_title"
+msgstr "Archives"
+
+msgid "showall"
+msgstr "顯示全部"
+

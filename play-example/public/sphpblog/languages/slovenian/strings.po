@@ -1,0 +1,1266 @@
+msgid "locale"
+msgstr "Array"
+
+msgid "language"
+msgstr "slovenian"
+
+msgid "rss_locale"
+msgstr "si_SI"
+
+msgid "html_charset"
+msgstr "ISO-8859-2"
+
+msgid "php_charset"
+msgstr "ISO-8859-2"
+
+msgid "menu_links"
+msgstr "Povezave"
+
+msgid "menu_home"
+msgstr "Domov"
+
+msgid "menu_contact"
+msgstr "Kontakt"
+
+msgid "menu_stats"
+msgstr "Statistika"
+
+msgid "menu_calendar"
+msgstr "Calendar"
+
+msgid "menu_viewarchives"
+msgstr "View Archives"
+
+msgid "menu_archive"
+msgstr "Zgodovina"
+
+msgid "menu_menu"
+msgstr "Menu"
+
+msgid "menu_add"
+msgstr "Dodaj vnos"
+
+msgid "menu_add_static"
+msgstr "Dodaj dodatno stran"
+
+msgid "menu_upload"
+msgstr "Uploadaj sliko"
+
+msgid "menu_setup"
+msgstr "Nastavitve"
+
+msgid "menu_categories"
+msgstr "Kategorije"
+
+msgid "menu_info"
+msgstr "Meta tagi"
+
+msgid "menu_options"
+msgstr "Datum in &#269;as"
+
+msgid "menu_themes"
+msgstr "Teme"
+
+msgid "menu_colors"
+msgstr "Barve"
+
+msgid "menu_change_login"
+msgstr "Spremeni geslo"
+
+msgid "menu_logout"
+msgstr "Odjavi se"
+
+msgid "menu_login"
+msgstr "Prijavi se"
+
+msgid "menu_most_recent"
+msgstr "Zadnji komentarji"
+
+msgid "menu_most_recent_entries"
+msgstr "Zadnji vnosi"
+
+msgid "menu_most_recent_trackback"
+msgstr "Zadnji trackbacki"
+
+msgid "menu_add_block"
+msgstr "Bloki"
+
+msgid "menu_emoticons"
+msgstr "Sme&#353;ki"
+
+msgid "menu_avatar"
+msgstr "Avatar"
+
+msgid "counter_today"
+msgstr "Today:"
+
+msgid "counter_yesterday"
+msgstr "Yesterday:"
+
+msgid "counter_totalsidebar"
+msgstr "Total:"
+
+msgid "counter_title"
+msgstr "Counter Totals"
+
+msgid "home"
+msgstr "Vrni se na prvo stran"
+
+msgid "nav_next"
+msgstr "Naprej"
+
+msgid "nav_back"
+msgstr "Nazaj"
+
+msgid "search_title"
+msgstr "I&#353;&#269;i:"
+
+msgid "search_go"
+msgstr "Pojdi"
+
+msgid "page_generated_in"
+msgstr "Stran je bila ustvarjena v %s sekundah"
+
+msgid "counter_total"
+msgstr "Site Views: "
+
+msgid "read_more"
+msgstr "Read More..."
+
+msgid "sb_months"
+msgstr "Array"
+
+msgid "sb_default_title"
+msgstr "Ni naslova"
+
+msgid "sb_default_author"
+msgstr "Ni avtorja"
+
+msgid "sb_default_footer"
+msgstr "Ni noge"
+
+msgid "sb_edit"
+msgstr "uredi"
+
+msgid "sb_delete"
+msgstr "bri&#353;i"
+
+msgid "sb_permalink"
+msgstr "povezava"
+
+msgid "sb_trackback"
+msgstr "trackback"
+
+msgid "sb_relatedlink"
+msgstr "povezana povezava"
+
+msgid "sb_add_comment_btn"
+msgstr "dodaj komentar"
+
+msgid "sb_comment_btn_number_first"
+msgstr "1"
+
+msgid "sb_comment_btn"
+msgstr "komentar"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr "1"
+
+msgid "sb_comments_plural_btn"
+msgstr "komentarji"
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_post"
+msgstr " pogled"
+
+msgid "sb_view_counter_plural_pre"
+msgstr ""
+
+msgid "sb_view_counter_plural_post"
+msgstr " pogledi"
+
+msgid "sb_add_link_btn"
+msgstr "+ povezava"
+
+msgid "sb_rate_entry_btn"
+msgstr "Klikni za oceno vnosa"
+
+msgid "label_subject"
+msgstr "Naslov:"
+
+msgid "label_insert"
+msgstr "Urejanje besedila:"
+
+msgid "btn_bold"
+msgstr " b "
+
+msgid "btn_italic"
+msgstr " i "
+
+msgid "btn_image"
+msgstr "img"
+
+msgid "btn_url"
+msgstr "url"
+
+msgid "btn_readmore"
+msgstr "read more"
+
+msgid "view_images"
+msgstr "Pogled uploadanih slik"
+
+msgid "label_entry"
+msgstr "Vsebina:"
+
+msgid "btn_preview"
+msgstr "&nbsp;Predoglej&nbsp;"
+
+msgid "btn_post"
+msgstr "&nbsp;Objavi&nbsp;"
+
+msgid "file_name"
+msgstr "Ime datoteke strani: (brez presledkov in kon&#269;nic)"
+
+msgid "insert_styles"
+msgstr "Vnsei besedilo, ki ga &#382;eli&#353; oblikovati:"
+
+msgid "insert_image"
+msgstr "Vnesi povezavo do slike:"
+
+msgid "insert_url1"
+msgstr "Vnesi besedilo, ki bo prikazano kot spletna povezava (Ni obvezno):"
+
+msgid "insert_url2"
+msgstr "Vnesi naslov spletne povezave:"
+
+msgid "insert_url3"
+msgstr "Odpiranje povezave v novem oknu (Ni obvezno):"
+
+msgid "add_form_error"
+msgstr "Prosim vnesi Naslov in Vsebino."
+
+msgid "insert_image_optional"
+msgstr "Ni obvezno:"
+
+msgid "insert_image_width"
+msgstr "&#138;irina (Ni obvezno):"
+
+msgid "insert_image_height"
+msgstr "Vi&#353;ina (Ni obvezno):"
+
+msgid "insert_image_popup"
+msgstr "Ob kliku prikaz v celotni velikosti in v pop-up oknu (Ni obvezno):"
+
+msgid "insert_image_float"
+msgstr "Lebde&#269;e (Ni obvezno):"
+
+msgid "day"
+msgstr "Day"
+
+msgid "month"
+msgstr "Month"
+
+msgid "year"
+msgstr "Year"
+
+msgid "hour"
+msgstr "Hour"
+
+msgid "minute"
+msgstr "Minute"
+
+msgid "second"
+msgstr "Second"
+
+msgid "add_title"
+msgstr "Dodaj vnos"
+
+msgid "add_instructions"
+msgstr "Si pripravljen na <b>blogiranje</b>? Izpolni spodnji obrazec in klikni 'Predoglej' za ogled tvojega vnosa ali pa klikni 'Objavi' in tvoj vnos bo objavlen."
+
+msgid "title_ad"
+msgstr "Potrdi pinge"
+
+msgid "instructions_ad"
+msgstr "To so Automatsko-odkriti naslovi, ki jih namerava&#353; pingati. &#268;e ne &#382;eli&#353; pingati dolo&#269;enega naslova, ga spodaj odkljukaj. Nato pritisni 'V redu' in izvr&#353;ilo se bo pinganje obkljukanih naslovov, &#269;e pa ne &#382;eli&#353; pingati nobenega naslova pa pritisni 'Prekli&#269;i'."
+
+msgid "label_tb_ping"
+msgstr "Seznam trackback pinga(ov) za poslati (lo&#269;eni z vejico)"
+
+msgid "label_tb_autodiscovery"
+msgstr "avtomatsko odgrivaje"
+
+msgid "label_relatedlink"
+msgstr "Povezana povezava"
+
+msgid "label_categories"
+msgstr "Category List"
+
+msgid "add_instructions_update"
+msgstr "Svoj vnos lahko spremeni&#353; z uporabo spodnega obrazca. Klikni 'Predoglej' ali 'Objavi' ko kon&#269;a&#353;."
+
+msgid "ok_btn"
+msgstr "&nbsp;V redu&nbsp;"
+
+msgid "cancel_btn"
+msgstr "&nbsp;Prekli&#269;i&nbsp;"
+
+msgid "add_error"
+msgstr "<h2>Opsss!</h2>Vnos ni bil shranjen. Naletel sem na te&#382;ave med shranjevanjem tvojega vnosa.<br /><br />Stre&#382;nik je javil:<br />"
+
+msgid "add_static_form_error"
+msgstr "Prosim izpolni vsa vnosna polja!"
+
+msgid "add_static_title"
+msgstr "Dodaj stran"
+
+msgid "add_static_instructions"
+msgstr "Izpolni spodnji obrazec za izdelavo 'dodatne' strani. Za razliko od vnosa v blog se dodate strani pojavijo kot povezava v desnim meniju. Dodatne strani so namenjene za informacije kot npr.: O meni, Kontakt, Urnik,... Klikni 'Predoglej' za predogled svojega vnosa ali pa klikni 'Objavi' in tvoj vnos bo objavljen."
+
+msgid "add_static_instructions_update"
+msgstr "Svoj vnos lahko spremeni&#353; z uporabo spodnega obrazca. Klikni 'Predoglej' ali 'Objavi' ko kon&#269;a&#353;."
+
+msgid "add_static_error"
+msgstr "<h2>Opsss!</h2>Vnos ni bil shranjen. Naletel sem na te&#382;ave med shranjevanjem tvojega vnosa.<br /><br />Stre&#382;nik je javil:<br />"
+
+msgid "comments_form_error"
+msgstr "Prosim izpolni polja: Tvoje ime, Komentar in Anti-Spam."
+
+msgid "name"
+msgstr "Ime:"
+
+msgid "email"
+msgstr "E-mail:"
+
+msgid "homepage"
+msgstr "Doma&#269;a stran:"
+
+msgid "comment"
+msgstr "Komentar:"
+
+msgid "IPAddress"
+msgstr "IP Naslov:"
+
+msgid "useragent"
+msgstr "Uporabnikov brskalnik:"
+
+msgid "wrote"
+msgstr "<i>%s, je %s napisal:</i><br /> <br /> %s"
+
+msgid "comment_capcha"
+msgstr "Anti-Spam: Vnesi "
+
+msgid "comments_title"
+msgstr "Komentarji"
+
+msgid "comments_header"
+msgstr "Dodaj komentar"
+
+msgid "comments_instructions"
+msgstr "Izpolni spodnji obrazec in dodaj svoj komentar."
+
+msgid "comment_name"
+msgstr "Tvoje ime:"
+
+msgid "comment_email"
+msgstr "E-mail:"
+
+msgid "comment_url"
+msgstr "URL:"
+
+msgid "commentposted"
+msgstr "Nov komentar objavljen: "
+
+msgid "comment_remember"
+msgstr "Zapomni si me:"
+
+msgid "comment_text"
+msgstr "Komentar:"
+
+msgid "post_btn"
+msgstr "&nbsp;Objavi komentar&nbsp;"
+
+msgid "delete_btn"
+msgstr "izbri&#353;i"
+
+msgid "expired_comment1"
+msgstr "We are sorry. New comments are not allowed after "
+
+msgid "expired_comment2"
+msgstr " days."
+
+msgid "blacklisted"
+msgstr "Sorry, your IP address has been banned. Comments not allowed."
+
+msgid "comments_error_add"
+msgstr "<h2>Opsss!</h2>Komentar ni bil shranjen. Naletel sem na te&#382;ave med shranjevanjem tvojega komentarja.<br /><br />Stre&#382;nik je javil:<br />"
+
+msgid "comments_error_delete"
+msgstr "<h2>Opsss!</h2>Komentar ni bil izbrisan. Naletel sem na te&#382;ave med brisanjem tvojega komentarja.<br /><br />Stre&#382;nik je javil:<br />"
+
+msgid "add_block_form_error"
+msgstr "Prosim napi&#353;i ime bloka."
+
+msgid "add_block_title"
+msgstr "Dodajanje / Urejaje blokov"
+
+msgid "add_block_instructions"
+msgstr "Dodaj poljubne bloke"
+
+msgid "up"
+msgstr "gor"
+
+msgid "down"
+msgstr "dol"
+
+msgid "edit"
+msgstr "uredi"
+
+msgid "delete"
+msgstr "bri&#353;i"
+
+msgid "block_name"
+msgstr "Ime bloka:"
+
+msgid "block_content"
+msgstr "Vsebina bloka:"
+
+msgid "add_block_instructions_edit"
+msgstr "Trenutno ureja&#353; blok:"
+
+msgid "add_block_instructions_modify"
+msgstr "Klikni spodaj za urejanje bloka:"
+
+msgid "add_block_submit_btn_edit"
+msgstr "Uredi blok"
+
+msgid "add_block_submit_btn_add"
+msgstr "Dodaj blok"
+
+msgid "static_pages"
+msgstr "Dodatne strani:"
+
+msgid "add_link_title"
+msgstr "Dodajanje / Urejajanje povezav"
+
+msgid "add_link_instructions"
+msgstr "Tukaj lahko dodaja&#353; svoje povezave na druge strani. Izpolni spodnji obrazec in klikni 'Dodaj povezavo'. Klikni gumba <b>gor</b> ali <b>dol</b> za spremembo vrstnega reda povezav. Klikni gumb uredi za urejanje povezave. Klikni gumb izbri&#353;i za izbris povezave."
+
+msgid "link_name"
+msgstr "Ime povezave:"
+
+msgid "link_url"
+msgstr "URL povezave: (Ni obvezno. Pusti prazno, da ustvari&#353; pre&#269;no &#269;rto)."
+
+msgid "add_link_instructions_edit"
+msgstr "Trenutno ureja&#353; povezavo:"
+
+msgid "add_link_instructions_modify"
+msgstr "Klikni spodaj za urejanje povezave:"
+
+msgid "add_link_submit_btn_edit"
+msgstr "Uredi povezavo"
+
+msgid "add_link_submit_btn_add"
+msgstr "Dodaj povezavo"
+
+msgid "add_link_form_error"
+msgstr "Prosim napi&#353;e Ime povezave."
+
+msgid "categories_title"
+msgstr "Dodajanje / Urejajanje kategorij"
+
+msgid "categories_instructions"
+msgstr "Tukaj lahko dodaja&#353; in ureja&#353; svoje kategorije. Vsaka kategorija mora biti napisana kot 'ime kategorije (zap. &#353;t.)'. Za ustvarjanje podkategorij uporabi presledke.<br /><br /><b>Primer:</b><br />Splo&#353;no (1)<br />Novice (3)<br />&nbsp;&nbsp;Obvestila (6)<br />&nbsp;&nbsp;Dogodki (5)<br />&nbsp;&nbsp;&nbsp;&nbsp;Razno (7)<br />Tehnologija (2)<br />"
+
+msgid "categories_error"
+msgstr "Napaka"
+
+msgid "current_categories"
+msgstr "Trenutne kategorije"
+
+msgid "no_categories_found"
+msgstr "Ni kategorij"
+
+msgid "category_list"
+msgstr "Seznam kategorij:"
+
+msgid "validate"
+msgstr "Validiraj"
+
+msgid "submit_btn"
+msgstr "&nbsp;Potrdi&nbsp;"
+
+msgid "colors_title"
+msgstr "Spremeni barve"
+
+msgid "colors_instructions"
+msgstr "Tukaj lahko spreminja&#353; barve, ki so uporabljene v tvojem blogu (ozadje, besedilo,...). Najprej izberi spodnje polje, nato uporabi barvno paleto in izberi poljubno barvo. Vrednost se spreminja avtomatsko."
+
+msgid "bg_color"
+msgstr "Ozadje strani"
+
+msgid "main_bg_color"
+msgstr "Ozadje vsebinskega dela"
+
+msgid "border_color"
+msgstr "Rob strani"
+
+msgid "inner_border_color"
+msgstr "Notranji rob"
+
+msgid "header_bg_color"
+msgstr "Ozadje glave"
+
+msgid "header_txt_color"
+msgstr "Besedilo glave"
+
+msgid "menu_bg_color"
+msgstr "Ozadje menuja"
+
+msgid "footer_bg_color"
+msgstr "Ozadje noge"
+
+msgid "txt_color"
+msgstr "Vsebinsko besedilo"
+
+msgid "headline_txt_color"
+msgstr "Besedilo naslova"
+
+msgid "date_txt_color"
+msgstr "Besedilo datuma"
+
+msgid "footer_txt_color"
+msgstr "Besedilo noge"
+
+msgid "link_reg_color"
+msgstr "Povezava"
+
+msgid "link_hi_color"
+msgstr "Povezava - lebde&#269;e"
+
+msgid "link_down_color"
+msgstr "Povezava - aktivno"
+
+msgid "entry_bg"
+msgstr "Ozadje vnosa"
+
+msgid "entry_title_bg"
+msgstr "Ozadje naslova vnosa"
+
+msgid "entry_border"
+msgstr "Rob vnosa"
+
+msgid "entry_title_text"
+msgstr "Besedilo naslova vnosa"
+
+msgid "entry_text"
+msgstr "Besedilo vnosa"
+
+msgid "menu_bg"
+msgstr "Ozadje menuja"
+
+msgid "menu_title_bg"
+msgstr "Ozadje menijskega naslova"
+
+msgid "menu_border"
+msgstr "Rob menuja"
+
+msgid "menu_title_text"
+msgstr "Besedilo menijskega naslova"
+
+msgid "menu_text"
+msgstr "Besedilo menuja"
+
+msgid "menu_link_reg_color"
+msgstr "Menijska povezava"
+
+msgid "menu_link_hi_color"
+msgstr "Menijska povezava - lebde&#269;e"
+
+msgid "menu_link_down_color"
+msgstr "Menijska povezava - aktivno"
+
+msgid "color_preset"
+msgstr "Barvne sheme:"
+
+msgid "scheme_name"
+msgstr "Vnesi ime svoje barvne sheme:"
+
+msgid "scheme_file"
+msgstr "Ime datoteke barvne sheme: (brez presledkov in kon&#269;nic)"
+
+msgid "save_btn"
+msgstr "&nbsp;Shrani&nbsp;"
+
+msgid "colors_form_error"
+msgstr "Prosim vnesi ime svoje barvne sheme."
+
+msgid "theme_doesnt_allow_colors"
+msgstr "Trenutno izbrana tema ne dopu&#353;&#269;a nastavljanja barv."
+
+msgid "colors_error"
+msgstr "<h2>Opsss!</h2>Vnos ni bil shranjen. Naletel sem na te&#382;ave med shranjevanjem tvojega vnosa.<br /><br />Stre&#382;nik je javil:<br />"
+
+msgid "delete_title"
+msgstr "Izbris vnosa"
+
+msgid "delete_instructions"
+msgstr "To je vnos, ki ga &#382;eli&#353; izbrisati. Si res prepri&#269;an, da se ga &#382;eli&#353; trajno izbrisati?"
+
+msgid "delete_error"
+msgstr "<h2>Opsss!</h2>Nisem moral izbrisati vnosa.<br /><br />Stre&#382;nik je javil:<br />"
+
+msgid "delete_static_title"
+msgstr "Izbris dodatne strani"
+
+msgid "delete_static_instructions"
+msgstr "To je dodatna stran, ki jo &#382;eli&#353; izbrisati. Si res prepri&#269;an, da jo &#382;eli&#353; trajno izbrisati?"
+
+msgid "delete_static_error"
+msgstr "<h2>Opsss!</h2>Nisem moral izbrisati vnosa.<br /><br />Stre&#382;nik je javil:<br />"
+
+msgid "image_list_title"
+msgstr "Seznam slik"
+
+msgid "image_list_instructions"
+msgstr "Klikni na spodnje povezave za ogled slik.<br /><br />Za dodajanje slike:To add an image to your entry:<br />1) Pritisni tipko Ctrl + klikni in izberi 'Kopiraj povezavo v odlo&#382;i&#353;&#269;e'.<br />2) Vrni se na Dodajanje oz. Urejanje vnosa.<br />3) Klikni gumb 'img' in prekopiraj povezavo v okence."
+
+msgid "info_title"
+msgstr "Informacije Meta tagov"
+
+msgid "info_instructions"
+msgstr "Spodnji podatki so uporabljeni za informacije v &quot;meta tagih&quot;, kar pomaga iskalnikom, da pravilno najdejo in indenficirajo tvojo stran. Te informacije uporablajo tudi RSS feedi."
+
+msgid "info_keywords"
+msgstr "Klju&#269;ne besede: (Seznam klju&#269;nih besed lo&#269;enih z vejico)."
+
+msgid "info_description"
+msgstr "Opis: (Prosti opis tvoje strani.)"
+
+msgid "info_copyright"
+msgstr "Pravice: (Izjava o avtorskih pravicah, glede te strani)."
+
+msgid "info_error"
+msgstr "<h2>Opsss!</h2>Nisem moral shraniti informacij. Naletel sem na te&#382;ave med shranjevanjem tvojih informacij.<br /><br />Stre&#382;nik je javil:<br />"
+
+msgid "info_form_error"
+msgstr "Prosim izpolni polja: Naslov in Avtor."
+
+msgid "rating_error"
+msgstr "<h2>Opsss!</h2>Nisem moral shraniti informacij. Naletel sem na te&#382;ave med shranjevanjem tvojih informacij.<br /><br />Stre&#382;nik je javil:<br />"
+
+msgid "upgrade"
+msgstr "<h2>Nadgradnja</h2>"
+
+msgid "upgrade_count"
+msgstr "%n komentarjev mora biti nadgrajenih:"
+
+msgid "upgrade_url"
+msgstr "Nadgradi komentarje"
+
+msgid "login_title"
+msgstr "Prijava"
+
+msgid "login_instructions"
+msgstr "Prosim vnesi svoje Uporabi&#353;ko ime in Geslo"
+
+msgid "username"
+msgstr "Uporabni&#353;ko ime:"
+
+msgid "password"
+msgstr "Geslo"
+
+msgid "login_success"
+msgstr "<h2>Uspeh!</h2>Sedaj si prijavljen. Veselo blogiranje!<p />"
+
+msgid "login_wrong_password"
+msgstr "<h2>Opsss!</h2>Nisi bil prijavljen, prosim preveri, &#269;e si pravilno vpisal svoje Uporabni&#353;ko ime in Geslo in poskusi znova.<p />"
+
+msgid "login_form_error"
+msgstr "Prosim izpolni polja: Uporabni&#353;ko ime in Geslo."
+
+msgid "logout_title"
+msgstr "Odjava"
+
+msgid "logout_instructions"
+msgstr "<h2>Opsss!</h2>Odjava je spodletela. Nisem moral izbrisati pi&#353;kotka. Zakaj si &#353;e prijavljen?<p />"
+
+msgid "forms_title"
+msgstr ""
+
+msgid "forms_instructions"
+msgstr ""
+
+msgid "forms_error"
+msgstr "<h2>Opsss!</h2>Nisem moral shraniti informacij. Naletel sem na te&#382;ave med shranjevanjem tvojega vnosa.<br /><br />Stre&#382;nik je javil:<br />"
+
+msgid "set_login_title"
+msgstr "Spremeni Uporabni&#353;ko ime in Geslo"
+
+msgid "set_login_instructions"
+msgstr "Uporabi spodnji obrazec za sprembo svojega Uporabni&#353;kega imena in/ali Gesla. Vnesi Uporabni&#353;ko ime in geslo, ki ga &#382;eli&#353; uporablati."
+
+msgid "set_login_success"
+msgstr "<h2>Uspeh!</h2>Tvoje Uporabni&#353;ko ime in/ali Geslo je aktivno. Veselo blogiranje!<p />"
+
+msgid "set_login_wrong_password"
+msgstr "<h2>Opsss!</h2>Nisem moral shraniti informacij. Naletel sem na te&#382;ave med shranjevanjem tvojega Uporabni&#353;kega imena in/ali Gesla.<br /><br />Stre&#382;nik je javil:<br />"
+
+msgid "set_login_form_error"
+msgstr "Prosim izpolni polja: Uporabni&#353;ko ime in Geslo."
+
+msgid "explanation"
+msgstr "V zadnjih verzjah se je struktura gesla spremenila. Sedaj ne mora&#353; ve&#269; spreminjati gesel in/ali  					uporabni&#353;kih imen znotraj bloga. &#268;e &#382;eli&#353; spremeniti svoje geslo izbri&#353;i datoteko /config/password.php in se prepri&#269;aj da  					datoteka install*.php obstaja na stre&#382;niku. Ko to opravi&#353;, refreshaj (F5) to stran (ali se odjavi). Pri&#269;akoval te bo enak  					obrazec, za generiranje tvojega gesla, kot na za&#269;etku, ko si name&#353;&#269;al ta blog."
+
+msgid "install00_title"
+msgstr "Dobrodo&#353;el"
+
+msgid "install00_instructions"
+msgstr "Hvala ker si izbral Simple PHP Blog!"
+
+msgid "blog_choose_language"
+msgstr "Izberi jezik:"
+
+msgid "install01_title"
+msgstr "Welcome"
+
+msgid "install01_instructions"
+msgstr "  				Hvala ker si izbral Simple PHP Blog!<br /><br />Simple PHP Blog je preprost blog. Zahteva PHP 4.1 ali novej&#353;i in pravice za pisanje na stre&#382;niku. Vse informacije so shranjene v (besedilnih) datotekah, zato ne rabi&#353; podatkovne baze.<br /><br />  				Za za&#269;etek mora Simple PHP Blog ustvariti 3 mape (<b>config</b>, <b>content</b>, and <b>images</b>) v katere bo shranjeval tvoje informacije. Potem bo&#353; ustvaril svoje geslo in potem lahko za&#269;ne&#353; z blogiranjem.<br /><br />  				<b>Klikni spodaj za za&#269;etek namestitve:</b>"
+
+msgid "begin"
+msgstr "[ Za&#269;ni namestitev ]"
+
+msgid "install02_title"
+msgstr "Namestitev"
+
+msgid "install02_instructions"
+msgstr "Posku&#353;am ustvariti mape <b>config</b>, <b>content</b>, and <b>images</b>:"
+
+msgid "folder_exists"
+msgstr "V redu! Mapa &#382;e obstajaja. Ni&#269; nisem spreminjal..."
+
+msgid "folder_failed"
+msgstr "Opsss! Nisem moral ustvariti map..."
+
+msgid "folder_success"
+msgstr "Uspeh! Mapa je bila uspe&#353;no ustvarjena..."
+
+msgid "help"
+msgstr "  				<h2>Opsss!</h2>  				Nisem moral ustvariti ene ali ve&#269; map!<br /><br />To je najverjetneje zaradi:<br />  				<ol>  				<li><b>Pravice pisanja</b> niso nastavljene na <b>Read/Write</b> dostop.</li>  				<li><b>UID-i</b> (uporabnikovi ID-i) vseh datotek in map se morajo ujemati.</li>  				</ol>  				Za odpravljanje te&#382;av sledi spodnjim navodilom in klikni <b>Poskusi znova</b>:<br />  				<ol>  				<li>Ro&#269;no ustvari mape: <b>config</b>, <b>content</b>, and <b>images</b>.</li>  				<li>Omogo&#269;i <b>pravice pisanja</b> za te mape: V tvojem FTP programu morajo Owner, User in Others imeti <b>Read</b> in <b>Write</b> pravice. <i>(Mogo&#269;e bo&#353; moral kontaktirati ponudnika dostopa, da spremeni le te...)</i></li>  				<li>Prepri&#269;aj se da so UID-i vseh datotek in map enaki. <i>(Mogo&#269;e bo&#353; moral kontaktirati ponudnika dostopa, da spremeni le te...)</i></li>  				</ol>"
+
+msgid "try_again"
+msgstr "[ Poskusi znova ]"
+
+msgid "install02_success"
+msgstr "<h2>Uspeh!</h2>Mape so bile uspe&#353;no ustvarjene!<p /><b>Klikni spodaj za nadaljevanje:</b>"
+
+msgid "continue"
+msgstr "[ Nadaljuj ]"
+
+msgid "supported"
+msgstr "<b>Tvoj stre&#382;nik podpira naslednje na&#269;ie kodiranja:</b>"
+
+msgid "standard"
+msgstr "Standardno DES kodiranje: "
+
+msgid "extended"
+msgstr "Raz&#353;irjeno DES kodiranje: "
+
+msgid "MD5"
+msgstr "MD5 kodiranje: "
+
+msgid "blowfish"
+msgstr "Blowfish kodiranje: "
+
+msgid "enabled"
+msgstr "omogo&#269;eno"
+
+msgid "disabled"
+msgstr "onemogo&#269;eno"
+
+msgid "using_standard"
+msgstr "<b>Uporabljam standardno DES kodiranje...</b>"
+
+msgid "using_extended"
+msgstr "<b>Uporabljam raz&#353;irjeno DES kodiranje...</b>"
+
+msgid "using_MD5"
+msgstr "<b style='color: green;'>Uporabljam MD5 kodiranje...</b>"
+
+msgid "using_blowfish"
+msgstr "<b style='color: green;'>Uporabljam Blowfish kodiranje...</b>"
+
+msgid "using_unknown"
+msgstr "<b>Uporabljam neznano kodiranje...</b>"
+
+msgid "salt_length"
+msgstr " <i>(Dol&#382;ina <b>salt</b>-a = %string)</i><br />"
+
+msgid "install03_title"
+msgstr "Ustvari Uporabni&#353;ko ime in Geslo"
+
+msgid "install03_instructions"
+msgstr "Uporabi spodnji obrazec, da ustvari&#353; Uporabni&#353;ko ime in Geslo."
+
+msgid "install03_success"
+msgstr "<h2>&#268;estitam!</h2>Sedaj si prijavljen. Klikni spodaj da nadaljuje&#353; na stran z nastavitvami, kjer bo&#353; lahko poimenoval svoj blog. Veselo blogiranje!<p />"
+
+msgid "btn_setup"
+msgstr "[ Nastavitve ]"
+
+msgid "install03_wrong_password"
+msgstr "<h2>Opsss!</h2>Nisem moral shraniti informacij. Naletel sem na te&#382;ave med shranjevanjem tvojega Uporabni&#353;kega imena in/ali Gesla.<br /><br />Stre&#382;nik je javil:<br />"
+
+msgid "install03_form_error"
+msgstr "Prosim izpolni polja: Uporabni&#353;ko ime in Geslo."
+
+msgid "install04_title"
+msgstr "Ustvarjanje datoteke z geslom"
+
+msgid "install04_instructions"
+msgstr "Pozorno sledi navodilom:<br />  				<ol>  				<li>Odpri program za urejanje besedila. <i>(Note Pad, Notepad++, Word Pad, Word, ipd...)</i></li>  				<li>Ustvari nov dokument.</li>  				<li>Kopiraj in prilepi kodo iz spodnjega okvir&#269;ka v tvoj dokument.</li>  				<li>Shrani ta dokument in ga poimenuj <b>password.php</b> <i>(besedilo mora biti obvezno <b>&#269;isti tekst</b>.)</i></li>  				<li>Odpri svoj FTP program.</li>  				<li>Uploadaj datoteko <b>password.php</b> v mapo <b>config</b> na tvojem stre&#382;niku.</li>  				<li>Izbri&#353;i datoteko <b>password.php</b> iz svojega diska.</li>  				</ol>  				"
+
+msgid "information"
+msgstr "<i>Opozorilo: &#268;e &#382;eli&#353; ponastaviti svoje uporabni&#353;ko ime in geslo (verjetno ker si ga pozabil), izbri&#353;i datoteko <b>password.php</b> v mapi <b>config</b> na tvojem stre&#382;niku. Naslednji&#269;, ko bo&#353; obiskal svojo stran, te bo vodilo &#269;ez namestitveni postopek &#353;e enkrat...</i>"
+
+msgid "code"
+msgstr "Koda za <b>password.php</b> file:"
+
+msgid "install05_title"
+msgstr "Prijava"
+
+msgid "install05_instructions"
+msgstr "Prosim vnesi svoje Uporabni&#353;ko ime in Geslo"
+
+msgid "install05_success"
+msgstr "<h2>&#268;estitam!</h2>Sedaj si prijavljen.<p />  				Klikni spodaj da nadaljuje&#353; na stran z <b>nastavitvami</b>, kjer si bo&#353; lahko prilagodil svoj blog.<p />  				<i>Opozorilo: Sedaj ko si kon&#269;al postopek namestitve priporo&#269;am, da izbri&#353;e&#353; datoteke <b>installXX.php</b> iz tvojega stre&#382;nika. (od install00.php do install06.php)</i><p />"
+
+msgid "install05_wrong_password"
+msgstr "<h2>Opsss!</h2>Nisi bil prijavljen, prosim preveri, &#269;e si pravilno vpisal svoje Uporabni&#353;ko ime in Geslo in poskusi znova.<p />"
+
+msgid "install05_form_error"
+msgstr "Prosim izpolni polja: Uporabni&#353;ko ime in Geslo."
+
+msgid "btn_try_again"
+msgstr "[ Poskusi znova ]"
+
+msgid "install06_title"
+msgstr "Prijava"
+
+msgid "install06_instructions"
+msgstr "Prosim vnesi svoje Uporabni&#353;ko ime in Geslo"
+
+msgid "install06_success"
+msgstr "<h2>&#268;estitam!</h2>Sedaj si prijavljen.<p />  				Klikni spodaj da nadaljuje&#353; na stran z <b>nastavitvami</b>, kjer si bo&#353; lahko prilagodil svoj blog.<p />  				<i>Opozorilo: Sedaj ko si kon&#269;al postopek namestitve priporo&#269;am, da izbri&#353;e&#353; datoteke <b>installXX.php</b> iz tvojega stre&#382;nika. (od install00.php do install06.php)</i><p />"
+
+msgid "install06_wrong_password"
+msgstr "<h2>Opsss!</h2>Nisi bil prijavljen, prosim preveri, &#269;e si pravilno vpisal svoje Uporabni&#353;ko ime in Geslo in poskusi znova.<p />"
+
+msgid "install06_form_error"
+msgstr "Prosim izpolni polja: Uporabni&#353;ko ime in Geslo."
+
+msgid "setup_title"
+msgstr "Nastavitve"
+
+msgid "setup_instructions"
+msgstr "Tukaj lahko spreminja&#353; ime svojega bloga in svoje osebne informacije."
+
+msgid "blog_title"
+msgstr "Ime bloga:"
+
+msgid "blog_author"
+msgstr "Avtor:"
+
+msgid "blog_email"
+msgstr "E-mail:"
+
+msgid "blog_avatar"
+msgstr "Povezava do avatarja: (Pusti prazno, &#269;e ga no&#269;e&#353;)."
+
+msgid "blog_footer"
+msgstr "Noga:"
+
+msgid "blog_enable_comments"
+msgstr "Omogo&#269;i komentarje"
+
+msgid "blog_comments_popup"
+msgstr "Odpri komentarje v pop-up oknu"
+
+msgid "blog_enable_voting"
+msgstr "Omogo&#269;i ocenjevanje vnosov"
+
+msgid "blog_enable_cache"
+msgstr "Omogo&#269;i predpomnenje vnosov v blog (na nekaterih stre&#382;nikih se lahko hitrost pove&#269;a)"
+
+msgid "blog_enable_calendar"
+msgstr "Omogo&#269;i kolendar / Blok - zgodovina"
+
+msgid "blog_enable_archives"
+msgstr "Enable Archives Block"
+
+msgid "blog_enable_counter"
+msgstr "Enable Counter in Sidebar"
+
+msgid "blog_counter_hours"
+msgstr "Number of hours to delay before hits are counted again (based on specific ip address):"
+
+msgid "blog_enable_login"
+msgstr "Enable Login Link (Please bookmark 'login.php' first...)"
+
+msgid "blog_enable_title"
+msgstr "Omogo&#269;i besedilni naslovni blok (Odklukaj, &#269;e je v glavi slika)"
+
+msgid "blog_enable_permalink"
+msgstr "Omogo&#269;i stalne povezave pri vnosih"
+
+msgid "blog_enable_capcha"
+msgstr "Enable Anti-Spam"
+
+msgid "blog_footer_counter"
+msgstr "Enable Counter in Footer"
+
+msgid "blog_enable_capcha_image"
+msgstr "Anti-Spam Images (GD library only) / Anti-Spam Text Field"
+
+msgid "blog_enable_stats"
+msgstr "Enable Stats Option in Menu"
+
+msgid "blog_enable_lastcomments"
+msgstr "Omogo&#269;i seznam zadnjih komentarjev"
+
+msgid "blog_enable_lastentries"
+msgstr "Omogo&#269;i seznam zadnjih vnosov"
+
+msgid "blog_email_notification"
+msgstr "Po&#353;lji obvestilo po E-mailu, ob novih komentarjih"
+
+msgid "blog_send_pings"
+msgstr "Po&#353;lji &quot;pinge&quot;"
+
+msgid "blog_ping_urls"
+msgstr "Vnesi polni naslov (npr. http://rpc.weblogs.com/RPC2) servisa za &quot;pinganje&quot;.<br />(Lahko vnese&#353; ve&#269; naslovov, ki morajo biti lo&#269;eni z vejico)."
+
+msgid "blog_trackback_about"
+msgstr "Trackback je metoda obve&#353;&#269;anja med blogi. naj drugi blogi vedo  					da ima&#353; povezavo na njih z po&#353;iljanjem trackback pinga. Z sprejemanjem trackback pingov lahko vidi&#353;  					kdo ima na svojem blogu povezavo do tvojega.<br />  				   Lahko vnese&#353; naslove za avtomatsko pinganje, ali pa poskusi&#353; avtomatsko preko Avtodetekcije."
+
+msgid "blog_trackback_enabled"
+msgstr "Omogo&#269;i trackback v mojem blogu"
+
+msgid "blog_trackback_auto_discovery"
+msgstr "Omogo&#269;i Avtodetekcijo ob objavi ki vsebuje povezave"
+
+msgid "blog_max_entries"
+msgstr "Najve&#269;je &#353;tevilo vnosov za prikaz:"
+
+msgid "blog_comment_tags"
+msgstr "Tagi, ki so dovoljeni v komentarjih:"
+
+msgid "blog_gzip_about"
+msgstr "  					Od PHP 4.0.4, PHP ima zmo&#382;nost da bere in pi&#353;e gzip (.gz) stisnjene datoteke, kar prihrani  					nekaj prostora na disku. Lahko tudi transparentno stisne strani, ki so poslane brskalniku,  					ki podpira gzip kompresijo, kar pripomore k hitrej&#353;em nalaganju strani.<br />  					<br />  					Zlib podpora ni privzeto omogo&#269;ena v PHP-ju. &#268;e so polja za obkljukati onemogo&#269;ena, potem tvoja  					namestitev PHP ja ne omogo&#269;a Zlib dodatka."
+
+msgid "blog_enable_gzip_txt"
+msgstr "Omogo&#269;i GZIP kompresijo za datoteke na stre&#382;niku"
+
+msgid "blog_enable_gzip_output"
+msgstr "Omogo&#269;i GZIP kompresijo za HTML izhod"
+
+msgid "setup_error"
+msgstr "<h2>Opsss!</h2>Nisem moral shraniti informacij. Naletel sem na te&#382;ave med shranjevanjem tvojih informacij.<br /><br />Stre&#382;nik je javil:<br />"
+
+msgid "setup_form_error"
+msgstr "Prosim izpolni polja: Naslov in Avtor."
+
+msgid "label_entry_order"
+msgstr "Zaporedje vnosov:"
+
+msgid "select_new_to_old"
+msgstr "Najprej novej&#353;i"
+
+msgid "select_old_to_new"
+msgstr "Najprej starej&#353;i"
+
+msgid "label_comment_order"
+msgstr "Zaporedje komentarjev:"
+
+msgid "cal_sunday"
+msgstr "Nedelja"
+
+msgid "cal_monday"
+msgstr "Ponedeljek"
+
+msgid "label_calendar_start"
+msgstr "Prvi dan v tednu"
+
+msgid "title_sidebar"
+msgstr "Menijska vrstica"
+
+msgid "title_comments"
+msgstr "Komentarji"
+
+msgid "title_trackback"
+msgstr "Trackbacki"
+
+msgid "title_compression"
+msgstr "Kompresija"
+
+msgid "title_entries"
+msgstr "Vnosi"
+
+msgid "title_general"
+msgstr "Splo&#353;no"
+
+msgid "title_language"
+msgstr "Jezik"
+
+msgid "blog_comment_days_expiry"
+msgstr "Comments Allowed For How Many Days? (0 means no expiry)"
+
+msgid "options_title"
+msgstr "Mo&#382;nosti"
+
+msgid "options_instructions"
+msgstr "Uporabi spodnji obrazec za nastavitev prikaza datuma in ure v komentarjih. Lahko izbere&#353; 12 ali 24 urni format. Kratki ali dolgi format datuma. Polje <b>Predogled</b> se avtomatsko osve&#382;i, tako takoj vidi&#353; kako bo zgledal datum in &#269;as."
+
+msgid "ldate_title"
+msgstr "Dolgi format datuma:"
+
+msgid "weekday"
+msgstr "Ime dneva"
+
+msgid "none"
+msgstr "Ni&#269;"
+
+msgid "sdate_title"
+msgstr "Kratki format datuma:"
+
+msgid "s_month"
+msgstr "Mesec"
+
+msgid "s_mon"
+msgstr "MMM"
+
+msgid "s_day"
+msgstr "Dan"
+
+msgid "s_year"
+msgstr "Leto"
+
+msgid "zero_day"
+msgstr "Vodilna ni&#269;la pred dnevom"
+
+msgid "show_century"
+msgstr "Poka&#382;i stoletje"
+
+msgid "time_title"
+msgstr "Format &#269;asa:"
+
+msgid "12hour"
+msgstr "12-urni format"
+
+msgid "24hour"
+msgstr "24-urni format"
+
+msgid "before_noon"
+msgstr "Pred popoldnevom"
+
+msgid "after_noon"
+msgstr "Po popoldnevu"
+
+msgid "date_title"
+msgstr "Format datuma:"
+
+msgid "long_date"
+msgstr "Dolgi datum"
+
+msgid "short_date"
+msgstr "Kratek datum"
+
+msgid "time"
+msgstr "&#268;as"
+
+msgid "menu_title"
+msgstr "Format datuma v menuju:"
+
+msgid "zero_month"
+msgstr "Vodilna ni&#269;la pred mescem"
+
+msgid "zero_hour"
+msgstr "Vodilna ni&#269;la pred uro"
+
+msgid "separator"
+msgstr "Lo&#269;ilnik:"
+
+msgid "preview"
+msgstr "Predogled:"
+
+msgid "server_offset"
+msgstr "&#268;asovni zamik stre&#382;nika:"
+
+msgid "options_error"
+msgstr "<h2>Opsss!</h2>Nisem moral shraniti informacij. Naletel sem na te&#382;ave med shranjevanjem tvojih informacij.<br /><br />Stre&#382;nik je javil:<br />"
+
+msgid "upload_img_title"
+msgstr "Uploadaj sliko"
+
+msgid "upload_img_instructions"
+msgstr "Klikni na spodnji gumb in izberi datoteko, ki jo &#382;eli&#353; uploadati."
+
+msgid "select_file"
+msgstr "Izberi datoteko:"
+
+msgid "upload_btn"
+msgstr "Uploadaj"
+
+msgid "upload_img_error"
+msgstr "<h2>Opsss!</h2>Nisem moral uploadati sliko. Tukaj je nekaj dodatnih informacij:<br /><br />Stre&#382;nik je javil:<br />"
+
+msgid "themes_title"
+msgstr "Teme"
+
+msgid "themes_instructions"
+msgstr "Uporabi spustni meni za izbiro druga&#269;ne teme."
+
+msgid "choose_theme"
+msgstr "Teme:"
+
+msgid "themes_error"
+msgstr "<h2>Opsss!</h2>Nisem moral shraniti informacij. Naletel sem na te&#382;ave med shranjevanjem tvojih informacij.<br /><br />Stre&#382;nik je javil:<br />"
+
+msgid "search_result_title"
+msgstr "Zadetki iskanja"
+
+msgid "search_result_instructions"
+msgstr "Zadetki iskanja za <b>%string</b>:"
+
+msgid "not_found"
+msgstr "Ni zadetkov"
+
+msgid "contact_capcha"
+msgstr "Anti-Spam: Vnesi "
+
+msgid "contact_title"
+msgstr "Kontakt"
+
+msgid "contact_instructions"
+msgstr "Izpolni obrazec:"
+
+msgid "contact_form_error"
+msgstr "Prosim izpolni polja: Zadeva in Komentar."
+
+msgid "subject"
+msgstr "Zadeva:"
+
+msgid "contact_success"
+msgstr "<h2>Uspeh!</h2>Tvoje sporo&#269;ilo je bilo poslano.<p />"
+
+msgid "failure"
+msgstr "<h2>Napaka!</h2>Tvoje sporo&#269;ilo ni bilo poslano. Najveretneje nisi izpolnil pravilno polja Anti-Spam.<p />"
+
+msgid "contactsent"
+msgstr "Kontakt poslan preko: "
+
+msgid "errorpage-nocookies_title"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "errorline1"
+msgstr "The page or function you attempted to process requires the use of cookies."
+
+msgid "errorline2"
+msgstr "Restore cookie functionality within your browser or protection software and attempt your request again."
+
+msgid "clientid"
+msgstr "Client ID: "
+
+msgid "trackbacks_title"
+msgstr "Trackbacks"
+
+msgid "trackbacks_header"
+msgstr "Trackback povezava za ta vnos:"
+
+msgid "trackbacks_error_add"
+msgstr "Napaka pri shranjevanju trackback podatkov."
+
+msgid "stats_title"
+msgstr "Statistika"
+
+msgid "general"
+msgstr "Splo&#353;no"
+
+msgid "entry_info"
+msgstr "<b>%s</b> vnosov z uporabo <b>%s</b> besed shranjenih v <b>%s</b> bajtih"
+
+msgid "comment_info"
+msgstr "<b>%s</b> komentarjev z uporabo <b>%s</b> besed shranjenih v <b>%s</b> bajtih"
+
+msgid "trackback_info"
+msgstr "<b>%s</b> trackbackov shranjenih v <b>%s</b> bajtih"
+
+msgid "static_info"
+msgstr "<b>%s</b> dodatnih strani z uporabo <b>%s</b> besed shranjenih v <b>%s</b> bajtih"
+
+msgid "most_viewed_entries"
+msgstr "10 Najve&#269;krat ogledanih vnosov"
+
+msgid "most_commented_entries"
+msgstr "10 Najbolj komentiranih vnosov"
+
+msgid "most_trackbacked_entries"
+msgstr "10 Najve&#269;krat trackbackanih vnosov"
+
+msgid "vote_info"
+msgstr "<b>%s</b> glasov shranjenih v <b>%s</b> bajtih"
+
+msgid "most_voted_entries"
+msgstr "10 Najve&#269;krat glasovanih vnosov"
+
+msgid "most_rated_entries"
+msgstr "10 Vnosov z najvi&#353;jo oceno"
+
+msgid "403.8"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "404"
+msgstr "HTTP Error 404 - Page/Function Does Not Exist"
+
+msgid "error_404"
+msgstr "The page or function you attempted to process does not exist."
+
+msgid "error_javascript"
+msgstr "The page or function you attempted requires javascript in order to properly function."
+
+msgid "error_emailnotsent"
+msgstr "The message you attempted to send has failed."
+
+msgid "error_emailnotsentcapcha"
+msgstr "The message you attempted to send has failed because the anti-spam entry was incorrect or missing."
+
+msgid "emoticons_title"
+msgstr "Sme&#353;ki"
+
+msgid "emoticons_instructions"
+msgstr "  					Obkljukaj sma&#353;ke, ki jih &#382;eli&#353; uporabiti. V polja napi&#353;i tage za sme&#353;ke,  					ki bodo nato zamenjane z sliko sme&#353;ka. Uporabi&#353; lahko ve&#269; tagov, lo&#269;enih s presledkom.  					<br /><br />    					Primer:<br />  					:) :-) :SMILE: :HAPPY:<br /><br />    					<i>(Priporo&#269;eno je, da uporabi&#353; tage dalj&#353;e od dveh znakov, saj se lahko druga&#269;e zgodi da,  					napi&#353;e&#353; kak&#353;en tag v besedilu...)</i>"
+
+msgid "upload_instructions"
+msgstr "Uploadaj novega sme&#353;ka:"
+
+msgid "upload_success"
+msgstr "Uspeh! Sme&#353;ek je bil uspe&#353;no uploadan!"
+
+msgid "upload_error"
+msgstr "Napaka! Sme&#353;ek ni bil uploadan!"
+
+msgid "upload_invalid"
+msgstr "Napaka! Napaèen format datoteke. Sme&#353;ek mora biti v formatu png, jpg, ali gif."
+
+msgid "save_success"
+msgstr "Nastavitve sme&#353;kov so bile uspe&#353;no shranjene!"
+
+msgid "save_error"
+msgstr "Napaka! Nastavitve sme&#353;kov niso shranjene."
+
+msgid "save_button"
+msgstr "Shrani sme&#353;ke"
+

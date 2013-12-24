@@ -1,0 +1,1449 @@
+msgid "add_title"
+msgstr ""
+
+msgid "add_error"
+msgstr ""
+
+msgid "add_success"
+msgstr ""
+
+msgid "home"
+msgstr ""
+
+msgid "add_instructions"
+msgstr ""
+
+msgid "add_block_title"
+msgstr ""
+
+msgid "up"
+msgstr ""
+
+msgid "down"
+msgstr ""
+
+msgid "edit"
+msgstr ""
+
+msgid "delete"
+msgstr ""
+
+msgid "add_block_instructions_edit"
+msgstr ""
+
+msgid "add_block_instructions_modify"
+msgstr ""
+
+msgid "block_name"
+msgstr ""
+
+msgid "block_content"
+msgstr ""
+
+msgid "add_block_submit_btn_edit"
+msgstr ""
+
+msgid "add_link_title"
+msgstr ""
+
+msgid "add_link_instructions"
+msgstr ""
+
+msgid "add_link_instructions_edit"
+msgstr ""
+
+msgid "static_pages"
+msgstr ""
+
+msgid "link_name"
+msgstr ""
+
+msgid "link_url"
+msgstr ""
+
+msgid "add_link_submit_btn_edit"
+msgstr ""
+
+msgid "add_static_title"
+msgstr ""
+
+msgid "add_static_error"
+msgstr ""
+
+msgid "add_static_instructions"
+msgstr ""
+
+msgid "archives_title"
+msgstr ""
+
+msgid "showall"
+msgstr ""
+
+msgid "categories_title"
+msgstr ""
+
+msgid "categories_instructions"
+msgstr ""
+
+msgid "current_categories"
+msgstr ""
+
+msgid "no_categories_found"
+msgstr ""
+
+msgid "category_list"
+msgstr ""
+
+msgid "validate"
+msgstr ""
+
+msgid "submit_btn"
+msgstr ""
+
+msgid "colors_title"
+msgstr ""
+
+msgid "colors_error"
+msgstr ""
+
+msgid "colors_success"
+msgstr ""
+
+msgid "colors_instructions"
+msgstr ""
+
+msgid "color_preset"
+msgstr ""
+
+msgid "scheme_name"
+msgstr ""
+
+msgid "scheme_file"
+msgstr ""
+
+msgid "save_btn"
+msgstr ""
+
+msgid "theme_doesnt_allow_colors"
+msgstr ""
+
+msgid "comments_title"
+msgstr ""
+
+msgid "error_comments_disabled"
+msgstr ""
+
+msgid "error_fields_missing"
+msgstr ""
+
+msgid "error_spambot"
+msgstr ""
+
+msgid "error_capcha"
+msgstr ""
+
+msgid "bannedword"
+msgstr ""
+
+msgid "error_entry_missing"
+msgstr ""
+
+msgid "error_empty_text"
+msgstr ""
+
+msgid "expired_comment1"
+msgstr ""
+
+msgid "comments_error_add"
+msgstr ""
+
+msgid "success_add"
+msgstr ""
+
+msgid "user_notice_mod"
+msgstr ""
+
+msgid "return_to_comments"
+msgstr ""
+
+msgid "Error! Comment cannot be approved. Unknown error."
+msgstr ""
+
+msgid "error_ban"
+msgstr ""
+
+msgid "success_ban1"
+msgstr ""
+
+msgid "error_noip"
+msgstr ""
+
+msgid "comments_error_delete"
+msgstr ""
+
+msgid "comments_success_delete"
+msgstr ""
+
+msgid "comments_header"
+msgstr ""
+
+msgid "comments_instructions"
+msgstr ""
+
+msgid "comment_name"
+msgstr ""
+
+msgid "comment_email"
+msgstr ""
+
+msgid "comment_url"
+msgstr ""
+
+msgid "comment_remember"
+msgstr ""
+
+msgid "label_insert"
+msgstr ""
+
+msgid "btn_bold"
+msgstr ""
+
+msgid "btn_italic"
+msgstr ""
+
+msgid "btn_url"
+msgstr ""
+
+msgid "btn_image"
+msgstr ""
+
+msgid "view_images"
+msgstr ""
+
+msgid "comment_text"
+msgstr ""
+
+msgid "comment_capcha"
+msgstr ""
+
+msgid "post_btn"
+msgstr ""
+
+msgid "blacklisted"
+msgstr ""
+
+msgid "nocomments"
+msgstr ""
+
+msgid "comment_moderation_title"
+msgstr ""
+
+msgid "comment_moderation_instructions"
+msgstr ""
+
+msgid "contact_title"
+msgstr ""
+
+msgid "contact_instructions"
+msgstr ""
+
+msgid "name"
+msgstr ""
+
+msgid "email"
+msgstr ""
+
+msgid "subject"
+msgstr ""
+
+msgid "comment"
+msgstr ""
+
+msgid "contact_capcha"
+msgstr ""
+
+msgid "contactsent"
+msgstr ""
+
+msgid "IPAddress"
+msgstr ""
+
+msgid "useragent"
+msgstr ""
+
+msgid "wrote"
+msgstr ""
+
+msgid "error_emailnotsentcapcha"
+msgstr ""
+
+msgid "contact_success"
+msgstr ""
+
+msgid "error_emailnotsent"
+msgstr ""
+
+msgid "delete_title"
+msgstr ""
+
+msgid "delete_error"
+msgstr ""
+
+msgid "delete_success"
+msgstr ""
+
+msgid "delete_instructions"
+msgstr ""
+
+msgid "ok_btn"
+msgstr ""
+
+msgid "cancel_btn"
+msgstr ""
+
+msgid "delete_static_title"
+msgstr ""
+
+msgid "delete_static_error"
+msgstr ""
+
+msgid "delete_static_success"
+msgstr ""
+
+msgid "delete_static_instructions"
+msgstr ""
+
+msgid "emoticons_title"
+msgstr ""
+
+msgid "save_button"
+msgstr ""
+
+msgid "emoticons_instructions"
+msgstr ""
+
+msgid "upload_instructions"
+msgstr ""
+
+msgid "upload_success"
+msgstr ""
+
+msgid "upload_error"
+msgstr ""
+
+msgid "upload_invalid"
+msgstr ""
+
+msgid "save_success"
+msgstr ""
+
+msgid "save_error"
+msgstr ""
+
+msgid "errorpage_title"
+msgstr ""
+
+msgid "errorline1"
+msgstr ""
+
+msgid "errorline2"
+msgstr ""
+
+msgid "clientid"
+msgstr ""
+
+msgid "moderation_title"
+msgstr ""
+
+msgid "image_list_title"
+msgstr ""
+
+msgid "image_list_instructions"
+msgstr ""
+
+msgid "info_title"
+msgstr ""
+
+msgid "php_charset"
+msgstr ""
+
+msgid "info_error"
+msgstr ""
+
+msgid "info_success"
+msgstr ""
+
+msgid "info_instructions"
+msgstr ""
+
+msgid "info_keywords"
+msgstr ""
+
+msgid "info_description"
+msgstr ""
+
+msgid "info_copyright"
+msgstr ""
+
+msgid "tracking_code"
+msgstr ""
+
+msgid "install00_title"
+msgstr ""
+
+msgid "install00_instructions"
+msgstr ""
+
+msgid "blog_choose_language"
+msgstr ""
+
+msgid "install01_title"
+msgstr ""
+
+msgid "install01_instructions"
+msgstr ""
+
+msgid "begin"
+msgstr ""
+
+msgid "We think your blog is at %s."
+msgstr ""
+
+msgid "If not, set BASEURL correctly in scripts/config.php"
+msgstr ""
+
+msgid "install02_title"
+msgstr ""
+
+msgid "folder_failed"
+msgstr ""
+
+msgid "folder_success"
+msgstr ""
+
+msgid "folder_exists"
+msgstr ""
+
+msgid "install02_instructions"
+msgstr ""
+
+msgid "help"
+msgstr ""
+
+msgid "try_again"
+msgstr ""
+
+msgid "install02_success"
+msgstr ""
+
+msgid "continue"
+msgstr ""
+
+msgid "install03_title"
+msgstr ""
+
+msgid "install03_instructions"
+msgstr ""
+
+msgid "supported"
+msgstr ""
+
+msgid "standard"
+msgstr ""
+
+msgid "extended"
+msgstr ""
+
+msgid "MD5"
+msgstr ""
+
+msgid "blowfish"
+msgstr ""
+
+msgid "using_standard"
+msgstr ""
+
+msgid "using_extended"
+msgstr ""
+
+msgid "using_MD5"
+msgstr ""
+
+msgid "using_blowfish"
+msgstr ""
+
+msgid "using_unknown"
+msgstr ""
+
+msgid "salt_length"
+msgstr ""
+
+msgid "username"
+msgstr ""
+
+msgid "password"
+msgstr ""
+
+msgid "install04_title"
+msgstr ""
+
+msgid "install04_instructions"
+msgstr ""
+
+msgid "code"
+msgstr ""
+
+msgid "information"
+msgstr ""
+
+msgid "install05_title"
+msgstr ""
+
+msgid "install05_instructions"
+msgstr ""
+
+msgid "install06_title"
+msgstr ""
+
+msgid "install06_success"
+msgstr ""
+
+msgid "btn_setup"
+msgstr ""
+
+msgid "btn_try_again"
+msgstr ""
+
+msgid "login_title"
+msgstr ""
+
+msgid "WARNING: Password will be sent unencrypted!"
+msgstr ""
+
+msgid "login_instructions"
+msgstr ""
+
+msgid "Do not worry!  Your draft has been saved, login to restore your last draft."
+msgstr ""
+
+msgid "login_success"
+msgstr ""
+
+msgid "login_wrong_password"
+msgstr ""
+
+msgid "inactive_account"
+msgstr ""
+
+msgid "Restore your last draft."
+msgstr ""
+
+msgid "upgrade"
+msgstr ""
+
+msgid "upgrade_count"
+msgstr ""
+
+msgid "upgrade_url"
+msgstr ""
+
+msgid "logout_title"
+msgstr ""
+
+msgid "logout_error"
+msgstr ""
+
+msgid "logout_success"
+msgstr ""
+
+msgid "error_no_cookie"
+msgstr ""
+
+msgid "manage_users_title"
+msgstr ""
+
+msgid "fulladminerror"
+msgstr ""
+
+msgid "header_user"
+msgstr ""
+
+msgid "header_property"
+msgstr ""
+
+msgid "prop_username"
+msgstr ""
+
+msgid "prop_fullname"
+msgstr ""
+
+msgid "prop_password"
+msgstr ""
+
+msgid "prop_email"
+msgstr ""
+
+msgid "prop_avatar"
+msgstr ""
+
+msgid "prop_state"
+msgstr ""
+
+msgid "prop_sec_Moderate"
+msgstr ""
+
+msgid "prop_sec_Delete"
+msgstr ""
+
+msgid "prop_sec_Edit"
+msgstr ""
+
+msgid "btn_SaveChanges"
+msgstr ""
+
+msgid "btn_CreateUser"
+msgstr ""
+
+msgid "btn_Cancel"
+msgstr ""
+
+msgid "create_user"
+msgstr ""
+
+msgid "grid_header"
+msgstr ""
+
+msgid "grid_login"
+msgstr ""
+
+msgid "btn_modify"
+msgstr ""
+
+msgid "moderation_instructions"
+msgstr ""
+
+msgid "banned_address_list_title"
+msgstr ""
+
+msgid "banned_address_list"
+msgstr ""
+
+msgid "banned_word_list_title"
+msgstr ""
+
+msgid "banned_word_list"
+msgstr ""
+
+msgid "options_title"
+msgstr ""
+
+msgid "options_instructions"
+msgstr ""
+
+msgid "ldate_title"
+msgstr ""
+
+msgid "weekday"
+msgstr ""
+
+msgid "month"
+msgstr ""
+
+msgid "day"
+msgstr ""
+
+msgid "year"
+msgstr ""
+
+msgid "none"
+msgstr ""
+
+msgid "zero_day"
+msgstr ""
+
+msgid "preview"
+msgstr ""
+
+msgid "sdate_title"
+msgstr ""
+
+msgid "s_month"
+msgstr ""
+
+msgid "s_day"
+msgstr ""
+
+msgid "s_year"
+msgstr ""
+
+msgid "separator"
+msgstr ""
+
+msgid "zero_month"
+msgstr ""
+
+msgid "show_century"
+msgstr ""
+
+msgid "time_title"
+msgstr ""
+
+msgid "24hour"
+msgstr ""
+
+msgid "12hour"
+msgstr ""
+
+msgid "zero_hour"
+msgstr ""
+
+msgid "before_noon"
+msgstr ""
+
+msgid "after_noon"
+msgstr ""
+
+msgid "date_title"
+msgstr ""
+
+msgid "long_date"
+msgstr ""
+
+msgid "short_date"
+msgstr ""
+
+msgid "time"
+msgstr ""
+
+msgid "menu_title"
+msgstr ""
+
+msgid "server_offset"
+msgstr ""
+
+msgid "options_error"
+msgstr ""
+
+msgid "options_success"
+msgstr ""
+
+msgid "View PHP Info Full Screen"
+msgstr ""
+
+msgid "Sidebar Plugins"
+msgstr ""
+
+msgid "rating_title"
+msgstr ""
+
+msgid "rating_error"
+msgstr ""
+
+msgid "rating_success"
+msgstr ""
+
+msgid "search_result_title"
+msgstr ""
+
+msgid "not_found"
+msgstr ""
+
+msgid "set_login_title"
+msgstr ""
+
+msgid "explanation"
+msgstr ""
+
+msgid "set_login_success"
+msgstr ""
+
+msgid "set_login_wrong_password"
+msgstr ""
+
+msgid "setup_title"
+msgstr ""
+
+msgid "setup_instructions"
+msgstr ""
+
+msgid "title_language"
+msgstr ""
+
+msgid "title_general"
+msgstr ""
+
+msgid "blog_enable_title"
+msgstr ""
+
+msgid "blog_header"
+msgstr ""
+
+msgid "blog_title"
+msgstr ""
+
+msgid "blog_author"
+msgstr ""
+
+msgid "blog_email"
+msgstr ""
+
+msgid "blog_avatar"
+msgstr ""
+
+msgid "blog_footer"
+msgstr ""
+
+msgid "Enable Emoticons"
+msgstr ""
+
+msgid "Enable Advanced Editor"
+msgstr ""
+
+msgid "title_entries"
+msgstr ""
+
+msgid "blog_enable_voting"
+msgstr ""
+
+msgid "blog_enable_permalink"
+msgstr ""
+
+msgid "blog_enable_print"
+msgstr ""
+
+msgid "blog_enable_capcha"
+msgstr ""
+
+msgid "blog_enable_capcha_image"
+msgstr ""
+
+msgid "blog_enable_cache"
+msgstr ""
+
+msgid "blog_send_pings"
+msgstr ""
+
+msgid "blog_ping_urls"
+msgstr ""
+
+msgid "blog_max_entries"
+msgstr ""
+
+msgid "rss_max_entries"
+msgstr ""
+
+msgid "Allowed number of years to go back.  WARNING: You may get unexpected behavior when using years before 2000."
+msgstr ""
+
+msgid "select_new_to_old"
+msgstr ""
+
+msgid "select_old_to_new"
+msgstr ""
+
+msgid "label_entry_order"
+msgstr ""
+
+msgid "label_comment_order"
+msgstr ""
+
+msgid "blog_enable_start_category"
+msgstr ""
+
+msgid "Use static page for first page:"
+msgstr ""
+
+msgid "title_sidebar"
+msgstr ""
+
+msgid "blog_enable_login"
+msgstr ""
+
+msgid "blog_enable_stats"
+msgstr ""
+
+msgid "blog_enable_lastcomments"
+msgstr ""
+
+msgid "blog_enable_lastentries"
+msgstr ""
+
+msgid "blog_enable_archives"
+msgstr ""
+
+msgid "blog_footer_counter"
+msgstr ""
+
+msgid "blog_enable_counter"
+msgstr ""
+
+msgid "blog_counter_hours"
+msgstr ""
+
+msgid "blog_enable_calendar"
+msgstr ""
+
+msgid "label_calendar_start"
+msgstr ""
+
+msgid "cal_sunday"
+msgstr ""
+
+msgid "cal_monday"
+msgstr ""
+
+msgid "blog_search_top"
+msgstr ""
+
+msgid "blog_enable_static_block"
+msgstr ""
+
+msgid "static_block_border"
+msgstr ""
+
+msgid "static_block_noborder"
+msgstr ""
+
+msgid "title_comments"
+msgstr ""
+
+msgid "blog_enable_comments"
+msgstr ""
+
+msgid "blog_email_notification"
+msgstr ""
+
+msgid "blog_comment_days_expiry"
+msgstr ""
+
+msgid "blog_comment_tags"
+msgstr ""
+
+msgid "comment_moderation"
+msgstr ""
+
+msgid "blog_comments_moderation"
+msgstr ""
+
+msgid "title_compression"
+msgstr ""
+
+msgid "blog_gzip_about"
+msgstr ""
+
+msgid "blog_enable_gzip_txt"
+msgstr ""
+
+msgid "blog_enable_gzip_output"
+msgstr ""
+
+msgid "setup_error"
+msgstr ""
+
+msgid "setup_success"
+msgstr ""
+
+msgid "stats_title"
+msgstr ""
+
+msgid "entry_info"
+msgstr ""
+
+msgid "comment_info"
+msgstr ""
+
+msgid "trackback_info"
+msgstr ""
+
+msgid "static_info"
+msgstr ""
+
+msgid "vote_info"
+msgstr ""
+
+msgid "most_rated_entries"
+msgstr ""
+
+msgid "most_voted_entries"
+msgstr ""
+
+msgid "most_viewed_entries"
+msgstr ""
+
+msgid "most_commented_entries"
+msgstr ""
+
+msgid "themes_title"
+msgstr ""
+
+msgid "upload_img_error"
+msgstr ""
+
+msgid "upload_img_success"
+msgstr ""
+
+msgid "themes_instructions"
+msgstr ""
+
+msgid "choose_theme"
+msgstr ""
+
+msgid "trackbacks_title"
+msgstr ""
+
+msgid "trackbacks_error_delete"
+msgstr ""
+
+msgid "trackbacks_success_delete"
+msgstr ""
+
+msgid "Upgrade"
+msgstr ""
+
+msgid "upload_img_title"
+msgstr ""
+
+msgid "howmany"
+msgstr ""
+
+msgid "upload_img_instructions"
+msgstr ""
+
+msgid "select_file"
+msgstr ""
+
+msgid "upload_btn"
+msgstr ""
+
+msgid "There is no error, the file uploaded with success."
+msgstr ""
+
+msgid "Value: 1; The uploaded file exceeds the upload_max_filesize directive in php.ini."
+msgstr ""
+
+msgid "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form."
+msgstr ""
+
+msgid "The uploaded file was only partially uploaded."
+msgstr ""
+
+msgid "No file was uploaded."
+msgstr ""
+
+msgid "Missing a temporary folder. Introduced in PHP 4.3.10 and PHP 5.0.3."
+msgstr ""
+
+msgid "Failed to write file to disk. Introduced in PHP 5.1.0."
+msgstr ""
+
+msgid "File upload stopped by extension. Introduced in PHP 5.2.0."
+msgstr ""
+
+msgid "The reason of error is unknown."
+msgstr ""
+
+msgid "Add User"
+msgstr ""
+
+msgid "delete_btn"
+msgstr ""
+
+msgid "ban_btn"
+msgstr ""
+
+msgid "enteredby"
+msgstr ""
+
+msgid "entrydate"
+msgstr ""
+
+msgid "blogentrytitle"
+msgstr ""
+
+msgid "enteredcontent"
+msgstr ""
+
+msgid "mod_approve"
+msgstr ""
+
+msgid "mod_delete"
+msgstr ""
+
+msgid "totalunmodded"
+msgstr ""
+
+msgid "commentposted"
+msgstr ""
+
+msgid "homepage"
+msgstr ""
+
+msgid "email_moderator"
+msgstr ""
+
+msgid "counter_totalsidebar"
+msgstr ""
+
+msgid "sb_relatedlink"
+msgstr ""
+
+msgid "sb_edit"
+msgstr ""
+
+msgid "sb_delete"
+msgstr ""
+
+msgid "sb_permalink"
+msgstr ""
+
+msgid "sb_rate_entry_btn"
+msgstr ""
+
+msgid "sb_comment_btn"
+msgstr ""
+
+msgid "sb_comments_plural_btn"
+msgstr ""
+
+msgid "sb_add_comment_btn"
+msgstr ""
+
+msgid "sb_comment_view"
+msgstr ""
+
+msgid "sb_comments_plural_view"
+msgstr ""
+
+msgid "sb_read_entry_btn"
+msgstr ""
+
+msgid "sb_comment_btn_number_first"
+msgstr ""
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr ""
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_plural_pre"
+msgstr ""
+
+msgid "sb_postedby"
+msgstr ""
+
+msgid "nav_first"
+msgstr ""
+
+msgid "nav_back"
+msgstr ""
+
+msgid "nav_next"
+msgstr ""
+
+msgid "nav_last"
+msgstr ""
+
+msgid "sb_admin"
+msgstr ""
+
+msgid "rss_locale"
+msgstr ""
+
+msgid "read_more"
+msgstr ""
+
+msgid "html_charset"
+msgstr ""
+
+msgid "locale"
+msgstr ""
+
+msgid "sb_add_link_btn"
+msgstr ""
+
+msgid "label_subject"
+msgstr ""
+
+msgid "chk_visiblemenu"
+msgstr ""
+
+msgid "label_entry"
+msgstr ""
+
+msgid "label_relatedlink"
+msgstr ""
+
+msgid "btn_preview"
+msgstr ""
+
+msgid "btn_post"
+msgstr ""
+
+msgid "file_name"
+msgstr ""
+
+msgid "hour"
+msgstr ""
+
+msgid "minute"
+msgstr ""
+
+msgid "second"
+msgstr ""
+
+msgid "label_categories"
+msgstr ""
+
+msgid "insert_styles"
+msgstr ""
+
+msgid "insert_url2"
+msgstr ""
+
+msgid "insert_url1"
+msgstr ""
+
+msgid "insert_image"
+msgstr ""
+
+msgid "insert_image_width"
+msgstr ""
+
+msgid "insert_image_height"
+msgstr ""
+
+msgid "insert_image_popup"
+msgstr ""
+
+msgid "insert_image_float"
+msgstr ""
+
+msgid "form_error"
+msgstr ""
+
+msgid "page_generated_in"
+msgstr ""
+
+msgid "counter_total"
+msgstr ""
+
+msgid "bg_color"
+msgstr ""
+
+msgid "header_bg_color"
+msgstr ""
+
+msgid "footer_bg_color"
+msgstr ""
+
+msgid "main_bg_color"
+msgstr ""
+
+msgid "menu_bg_color"
+msgstr ""
+
+msgid "border_color"
+msgstr ""
+
+msgid "inner_border_color"
+msgstr ""
+
+msgid "header_txt_color"
+msgstr ""
+
+msgid "footer_txt_color"
+msgstr ""
+
+msgid "txt_color"
+msgstr ""
+
+msgid "headline_txt_color"
+msgstr ""
+
+msgid "date_txt_color"
+msgstr ""
+
+msgid "entry_bg"
+msgstr ""
+
+msgid "entry_title_bg"
+msgstr ""
+
+msgid "entry_border"
+msgstr ""
+
+msgid "entry_title_text"
+msgstr ""
+
+msgid "entry_text"
+msgstr ""
+
+msgid "menu_bg"
+msgstr ""
+
+msgid "menu_title_bg"
+msgstr ""
+
+msgid "menu_border"
+msgstr ""
+
+msgid "menu_title_text"
+msgstr ""
+
+msgid "menu_text"
+msgstr ""
+
+msgid "link_reg_color"
+msgstr ""
+
+msgid "link_hi_color"
+msgstr ""
+
+msgid "link_down_color"
+msgstr ""
+
+msgid "menu_link_reg_color"
+msgstr ""
+
+msgid "menu_link_hi_color"
+msgstr ""
+
+msgid "menu_link_down_color"
+msgstr ""
+
+msgid "static_bg"
+msgstr ""
+
+msgid "static_title_bg"
+msgstr ""
+
+msgid "static_border"
+msgstr ""
+
+msgid "static_title_text"
+msgstr ""
+
+msgid "static_text"
+msgstr ""
+
+msgid "comment_bg"
+msgstr ""
+
+msgid "comment_title_bg"
+msgstr ""
+
+msgid "comment_border"
+msgstr ""
+
+msgid "comment_title_text"
+msgstr ""
+
+msgid "menu_archive"
+msgstr ""
+
+msgid "menu_viewarchives"
+msgstr ""
+
+msgid "menu_menu"
+msgstr ""
+
+msgid "menu_add"
+msgstr ""
+
+msgid "menu_add_static"
+msgstr ""
+
+msgid "menu_upload"
+msgstr ""
+
+msgid "menu_avatar"
+msgstr ""
+
+msgid "Bookmark Sharing"
+msgstr ""
+
+msgid "menu_calendar"
+msgstr ""
+
+msgid "menu_categories"
+msgstr ""
+
+msgid "counter_title"
+msgstr ""
+
+msgid "menu_links"
+msgstr ""
+
+msgid "notice_loggedin"
+msgstr ""
+
+msgid "notice_moderator1"
+msgstr ""
+
+msgid "menu_home"
+msgstr ""
+
+msgid "menu_contact"
+msgstr ""
+
+msgid "menu_stats"
+msgstr ""
+
+msgid "menu_logout"
+msgstr ""
+
+msgid "menu_login"
+msgstr ""
+
+msgid "menu_setup"
+msgstr ""
+
+msgid "menu_add_block"
+msgstr ""
+
+msgid "menu_plugins"
+msgstr ""
+
+msgid "menu_emoticons"
+msgstr ""
+
+msgid "menu_themes"
+msgstr ""
+
+msgid "menu_colors"
+msgstr ""
+
+msgid "menu_options"
+msgstr ""
+
+msgid "menu_info"
+msgstr ""
+
+msgid "manage_users"
+msgstr ""
+
+msgid "manage_php_config"
+msgstr ""
+
+msgid "zip_backup"
+msgstr ""
+
+msgid "image_backup"
+msgstr ""
+
+msgid "menu_moderation"
+msgstr ""
+
+msgid "menu_random_entry"
+msgstr ""
+
+msgid "menu_most_recent"
+msgstr ""
+
+msgid "menu_most_recent_entries"
+msgstr ""
+
+msgid "search_title"
+msgstr ""
+

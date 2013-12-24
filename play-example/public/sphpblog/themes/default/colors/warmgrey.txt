@@ -1,0 +1,1 @@
+name|Warm Grey - Classic|bg_color|D9D9D2|border_color|58584E|main_bg_color|F2F2EB|menu_bg_color|E6E6D8|inner_border_color|9A9A8C|link_reg_color|59594F|link_hi_color|FF6600|link_down_color|6329F7|header_bg_color|8C8C7E|header_txt_color|FFFFFF|footer_bg_color|8C8C7E|footer_txt_color|FFFFFF|txt_color|737367|headline_txt_color|737367|date_txt_color|A6A695

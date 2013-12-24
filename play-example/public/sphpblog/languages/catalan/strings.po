@@ -1,0 +1,1608 @@
+msgid "language"
+msgstr "catala"
+
+msgid "locale"
+msgstr "Array"
+
+msgid "rss_locale"
+msgstr "ca-ES"
+
+msgid "html_charset"
+msgstr "ISO-8859-1"
+
+msgid "php_charset"
+msgstr "ISO-8859-1"
+
+msgid "menu_links"
+msgstr "Enlla&ccedil;"
+
+msgid "menu_home"
+msgstr "Principal"
+
+msgid "menu_contact"
+msgstr "Contacta'ns"
+
+msgid "menu_stats"
+msgstr "Estad&iacute;stiques"
+
+msgid "menu_calendar"
+msgstr "Calendari"
+
+msgid "menu_archive"
+msgstr "Arxiu"
+
+msgid "menu_viewarchives"
+msgstr "Veure arxius"
+
+msgid "menu_menu"
+msgstr "Men&uacute;"
+
+msgid "menu_add"
+msgstr "Afegir Entrada"
+
+msgid "menu_add_static"
+msgstr "Afegir P&agrave;gina Est&agrave;tica"
+
+msgid "menu_upload"
+msgstr "Pujar Imatge"
+
+msgid "menu_setup"
+msgstr "Configuraci&oacute;"
+
+msgid "menu_categories"
+msgstr "Categories"
+
+msgid "menu_info"
+msgstr "Informaci&oacute;"
+
+msgid "manage_users"
+msgstr "Administració d'usuaris"
+
+msgid "manage_php_config"
+msgstr "Veure Configuració PHP"
+
+msgid "menu_options"
+msgstr "Data i Hora"
+
+msgid "menu_themes"
+msgstr "Estils"
+
+msgid "menu_colors"
+msgstr "Colors"
+
+msgid "menu_change_login"
+msgstr "Canviar usuari/contrasenya"
+
+msgid "menu_logout"
+msgstr "Sortir"
+
+msgid "menu_login"
+msgstr "Entrar"
+
+msgid "menu_most_recent"
+msgstr "Darrers Comentaris"
+
+msgid "menu_most_recent_entries"
+msgstr "&Uacute;ltims Articles"
+
+msgid "menu_most_recent_trackback"
+msgstr "Darrers Trackbacks"
+
+msgid "menu_add_block"
+msgstr "Seccions"
+
+msgid "menu_emoticons"
+msgstr "Emoticons"
+
+msgid "menu_avatar"
+msgstr "Avatar"
+
+msgid "menu_moderation"
+msgstr "Moderació per IP / paraules"
+
+msgid "menu_commentmoderation"
+msgstr "Comentaris sense moderar"
+
+msgid "menu_random_entry"
+msgstr "Entrada aleatoria"
+
+msgid "menu_plugins"
+msgstr "Plugins"
+
+msgid "notice_moderator1"
+msgstr "Tens "
+
+msgid "notice_moderator2"
+msgstr " comentari(s) que requereix(en) la teva aprovació."
+
+msgid "notice_loggedin"
+msgstr "Actualment estás loguejat."
+
+msgid "sb_postedby"
+msgstr "Publicat per"
+
+msgid "sb_admin"
+msgstr "Administrador"
+
+msgid "sb_read_entry_btn"
+msgstr "visualitzar entrada"
+
+msgid "sb_comment_view"
+msgstr "visualitzar"
+
+msgid "sb_comments_plural_view"
+msgstr "visualitzacions"
+
+msgid "counter_today"
+msgstr "Avui:"
+
+msgid "counter_yesterday"
+msgstr "Ahir:"
+
+msgid "counter_totalsidebar"
+msgstr "Total:"
+
+msgid "counter_title"
+msgstr "Comptadors Totals"
+
+msgid "home"
+msgstr "P&agrave;gina Principal"
+
+msgid "nav_next"
+msgstr "Seg&uuml;ent"
+
+msgid "nav_back"
+msgstr "Anterior"
+
+msgid "nav_first"
+msgstr "Primer"
+
+msgid "nav_last"
+msgstr "Últim"
+
+msgid "search_title"
+msgstr "Recerca"
+
+msgid "search_go"
+msgstr "Enviar"
+
+msgid "page_generated_in"
+msgstr "P&agrave;gina generada en %s segons"
+
+msgid "counter_total"
+msgstr "Visites a la web: "
+
+msgid "read_more"
+msgstr "Llegir m&eacute;s..."
+
+msgid "randomquote"
+msgstr "Quote aleatori"
+
+msgid "sb_months"
+msgstr "Array"
+
+msgid "sb_default_title"
+msgstr "Sense t&iacute;tol"
+
+msgid "sb_default_author"
+msgstr "Sense autor"
+
+msgid "sb_default_footer"
+msgstr "Peu de P&agrave;gina"
+
+msgid "sb_edit"
+msgstr "editar"
+
+msgid "sb_delete"
+msgstr "esborrar"
+
+msgid "sb_permalink"
+msgstr "enlla&ccedil; permanent"
+
+msgid "sb_trackback"
+msgstr "trackbacks"
+
+msgid "sb_relatedlink"
+msgstr "enlla&ccedil; relacionat"
+
+msgid "sb_add_comment_btn"
+msgstr "afegir comentari"
+
+msgid "sb_comment_btn_number_first"
+msgstr "1"
+
+msgid "sb_comment_btn"
+msgstr "comentari"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr "1"
+
+msgid "sb_comments_plural_btn"
+msgstr "comentaris"
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_post"
+msgstr " visualitzaci&oacute;"
+
+msgid "sb_view_counter_plural_pre"
+msgstr ""
+
+msgid "sb_view_counter_plural_post"
+msgstr " visualitzacions"
+
+msgid "sb_add_link_btn"
+msgstr "Afegir Enlla&ccedil;"
+
+msgid "sb_rate_entry_btn"
+msgstr "Feu clic per valorar l'entrada"
+
+msgid "chk_visiblemenu"
+msgstr "Visible (Mostrar al menú)"
+
+msgid "label_subject"
+msgstr "T&iacute;tol:"
+
+msgid "label_insert"
+msgstr "Extres (Negreta / Cursiva / URL / Imatge):"
+
+msgid "btn_bold"
+msgstr " N "
+
+msgid "btn_italic"
+msgstr " I "
+
+msgid "btn_image"
+msgstr "IMG"
+
+msgid "btn_url"
+msgstr "URL"
+
+msgid "btn_readmore"
+msgstr "llegir m&eacute;s"
+
+msgid "view_images"
+msgstr "Vore imatges carregades"
+
+msgid "label_entry"
+msgstr "Entrada:"
+
+msgid "btn_preview"
+msgstr "&nbsp;Previsualitzar&nbsp;"
+
+msgid "btn_post"
+msgstr "&nbsp;Publicar&nbsp;"
+
+msgid "file_name"
+msgstr "Nom de fitxer est&agrave;tic: (sense espais ni extensions de fitxer)"
+
+msgid "insert_styles"
+msgstr "Introduir el text"
+
+msgid "insert_image"
+msgstr "Introduir la direcci&oacute; URL per a la imatge"
+
+msgid "insert_url1"
+msgstr "Introduir el text a ser mostrat amb l'enlla&ccedil; (opcional)"
+
+msgid "insert_url2"
+msgstr "Introduir la direcci&oacute; web completa per l'enlla&ccedil;"
+
+msgid "insert_url3"
+msgstr "Obrir URL en una nova finestra (Opcional):"
+
+msgid "add_form_error"
+msgstr "Si us plau ompli els camps T&iacute;tol i Text."
+
+msgid "insert_image_optional"
+msgstr "Opcional:"
+
+msgid "insert_image_width"
+msgstr "Ample (Opcional):"
+
+msgid "insert_image_height"
+msgstr "Al&ccedil;ada (Opcional):"
+
+msgid "insert_image_popup"
+msgstr "Veure en una finestra emergent al fer clic (Opcional):"
+
+msgid "insert_image_float"
+msgstr "Float (Opcional):"
+
+msgid "day"
+msgstr "Dia"
+
+msgid "month"
+msgstr "Mes"
+
+msgid "year"
+msgstr "Any"
+
+msgid "hour"
+msgstr "Hora"
+
+msgid "minute"
+msgstr "Minut"
+
+msgid "second"
+msgstr "Segon"
+
+msgid "add_title"
+msgstr "Afegir Entrada"
+
+msgid "add_instructions"
+msgstr "Per col&middot;locar una entrada omplir els camps que es troben a continuaci&oacute;, pot previsualitzar l'entrada abans de pupblicar-la fent click a 'Previsualitzar' o publicar-la directament fent click a 'Publicar'."
+
+msgid "title_ad"
+msgstr "Confirmar Pings de Trackback"
+
+msgid "instructions_ad"
+msgstr "Aquests s&oacute;n els Auto-Discovered URIs sobre els quals far&agrave; ping. Si no vol fer ping a un cert URI, desmarqui'l. Aleshores premi 'OK' per fer ping sobre els URIs marcats o premi 'Cancel' per no realitzar cap ping."
+
+msgid "label_tb_ping"
+msgstr "Trackback ping(s) a enviar (separats per comes)"
+
+msgid "label_tb_autodiscovery"
+msgstr "autodiscovery"
+
+msgid "label_relatedlink"
+msgstr "Enlla&ccedil; Relacionat"
+
+msgid "label_categories"
+msgstr "Llista de categories"
+
+msgid "add_instructions_update"
+msgstr "Pot canviar la seva entrada utilitzant el formulari que es troba a sota. Faci click a 'Previsualitzar' o a 'Publicar' un cop hagi acabat"
+
+msgid "ok_btn"
+msgstr "&nbsp;OK&nbsp;"
+
+msgid "cancel_btn"
+msgstr "&nbsp;Cancel&middot;lar&nbsp;"
+
+msgid "add_error"
+msgstr "<h2>¡Ups!</h2>L'entrada no ha pogut ser desada. S'ha trobat un problema mentre es guardava.<br /><br />Resposta del servidor:<br />"
+
+msgid "add_success"
+msgstr "<h2>Entrada Guardada!</h2>La seva entrada s'ha desat satisfactòriament."
+
+msgid "add_static_form_error"
+msgstr "Si us plau ompli els camps T&iacute;tol, Text i Nom."
+
+msgid "add_static_title"
+msgstr "Afegir P&agrave;gina Est&agrave;tica"
+
+msgid "add_static_instructions"
+msgstr "Ompli el formulari que es troba sota per crear una p&agrave;gina est&agrave;tica. A difer&egrave;ncia de les entrades ordinaries a la bit&agrave;cora, les entrades est&agrave;tiques apareixen com a enlla&ccedil;os al men&uacute; de la dreta. Podran emprar-se per p&agrave;gines que es vulgui que estiguin sempre disponibles, com ara: Sobre mi, Contactar, Agenda, etc. Premi 'Previsualitzar' per mirar com quedar&agrave; la p&agrave;gina o premi 'Publicar' per desar-la"
+
+msgid "add_static_instructions_update"
+msgstr "Pot canviar l'entrada utilitzant el formulari que es troba a sota. Premi 'Previsualitzar' o 'Publicar' quan estigui preparat."
+
+msgid "add_static_error"
+msgstr "<h2>¡Ups!</h2>L'entrada no pot ser desada. S'ha trobat un problema mentre es guardava.<br /><br />Resposta del servidor:<br />"
+
+msgid "comments_form_error"
+msgstr "Si us plau, completi els camps de Nom, Comentari i Anti-Spam."
+
+msgid "name"
+msgstr "Nom:"
+
+msgid "email"
+msgstr "Correu electr&ograve;nic:"
+
+msgid "homepage"
+msgstr "P&agrave;gina:"
+
+msgid "comment"
+msgstr "Comentari:"
+
+msgid "comments_title"
+msgstr "Comentaris"
+
+msgid "comments_header"
+msgstr "Afegir comentari"
+
+msgid "comments_instructions"
+msgstr "ompli els camps de sota per deixar el seu comentari."
+
+msgid "comment_name"
+msgstr "Nom:"
+
+msgid "comment_email"
+msgstr "Correu electr&ograve;nic:"
+
+msgid "commentposted"
+msgstr "Nou comentari publicat en: "
+
+msgid "IPAddress"
+msgstr "Direcci&oacute; IP:"
+
+msgid "useragent"
+msgstr "User Agent:"
+
+msgid "wrote"
+msgstr "<i>El %s, %s va escriure:</i><br /> <br /> %s"
+
+msgid "comment_url"
+msgstr "Web:"
+
+msgid "comment_capcha"
+msgstr "Anti-Spam: Introdu&iuml;sca "
+
+msgid "comment_remember"
+msgstr "Recordar la meva informaci&oacute; personal:"
+
+msgid "comment_text"
+msgstr "Comentari:"
+
+msgid "post_btn"
+msgstr "&nbsp;Publicar comentari&nbsp;"
+
+msgid "delete_btn"
+msgstr "Esborrar"
+
+msgid "ban_btn"
+msgstr "ban ip"
+
+msgid "expired_comment1"
+msgstr "Ho lamentem. No s&oacute;n permesos els comentaris després de"
+
+msgid "expired_comment2"
+msgstr " dies."
+
+msgid "email_moderator"
+msgstr "Els comentaris estàn actualment moderats. El seu comentari requereix ser aprovat abans de poder ser vist pel públic."
+
+msgid "user_notice_mod"
+msgstr "La moderació està activada a aquest blog. El seu comentari requereix l'aprovació dels administradors abans de ser visible."
+
+msgid "return_to_comments"
+msgstr "Tornar als comentaris"
+
+msgid "blacklisted"
+msgstr "Perdoni, la seva adre&ccedil;a IP ha estat banejada. Els seus comentaris no seran permessos."
+
+msgid "bannedword"
+msgstr "El seu comentari, url, nom o correu electrònic contenen paraules que han estat prohibides per l'administrador. El seu comentari NO ha estat publicat."
+
+msgid "nocomments"
+msgstr "No estàn disponibles els comentaris per a aquesta entrada."
+
+msgid "comments_error_add"
+msgstr "<h2>Ups!</h2>Comentari no desat. S'ha produït un problema mentre es desava el seu comentari.<br /><br />Resposta del servidor:<br />"
+
+msgid "comments_error_delete"
+msgstr "<h2>Ups!</h2>Comentari no esborrat. S'ha produ&iuml;t un problema mentre s'esborrava el seu comentari.<br /><br />Resposta del servidor:<br />"
+
+msgid "error_ban"
+msgstr "<h2>Ups!</h2>La IP no s'ha inclòs a la llista d'ips prohibides.<br /><br />Resposta del Servidor:<br />"
+
+msgid "success_add"
+msgstr "<h2>Comentari Afegit!</h2>El seu comentari s'ha desat satisfactòriament."
+
+msgid "comments_success_delete"
+msgstr "<h2>Comentari Esborrat!</h2>El comentari ha estat eliminat."
+
+msgid "success_ban1"
+msgstr "<h2>IP Prohibida!"
+
+msgid "success_ban2"
+msgstr "</h2>Per esborrar aquesta prohibició en el futur, utilitzi la opció 'Moderació' en el menú de configuració."
+
+msgid "error_noip"
+msgstr "No s'ha proporcionat cap IP per la sol·licitud de llista negra."
+
+msgid "error_comments_disabled"
+msgstr "<h2>Error!</h2>Hey! Els comentaris no estan permessos en aquest blog. Què ets un spambot?"
+
+msgid "error_no_match"
+msgstr "<h2>Error!</h2>La teva IP no concorda amb la IP publicada. Què ets un spambot?"
+
+msgid "error_fields_missing"
+msgstr "<h2>Error!</h2>Falten els següents camps: "
+
+msgid "error_spambot"
+msgstr "<h2>Error!</h2>Falten les dades de l'antispam. Ets un spambot?"
+
+msgid "error_capcha"
+msgstr "<h2>Error!</h2>L'antispam que has introduït és incorrecte."
+
+msgid "error_bad_data"
+msgstr "<h2>Error!</h2>Les dades que has publicat no són vàlides. Ets un hacker?"
+
+msgid "error_entry_missing"
+msgstr "<h2>Error!</h2>Estàs provant de comentar una entrada que no existeix,"
+
+msgid "error_empty_text"
+msgstr "<h2>Error!</h2>No has introduït cap comentari o el teu nom."
+
+msgid "add_block_form_error"
+msgstr "Si us plau ompli el camp Nom."
+
+msgid "add_block_title"
+msgstr "Afegir / Organitzar Seccions"
+
+msgid "add_block_instructions"
+msgstr "Afegir Secci&oacute; Personalitzada per mostrar-la al Men&uacute; Lateral"
+
+msgid "up"
+msgstr "Cap a Dalt"
+
+msgid "down"
+msgstr "Cap a Baix"
+
+msgid "edit"
+msgstr "Editar"
+
+msgid "delete"
+msgstr "Esborrar"
+
+msgid "block_name"
+msgstr "Nom de la secci&oacute; :"
+
+msgid "block_content"
+msgstr "Contingut de la Secci&oacute;:"
+
+msgid "add_block_instructions_edit"
+msgstr "Est&agrave; editant una Secci&oacute; :"
+
+msgid "add_block_instructions_modify"
+msgstr "Faci clic en <b>Editar</b> per modificar la secci&oacute;:"
+
+msgid "add_block_submit_btn_edit"
+msgstr "Editar Secci&oacute;"
+
+msgid "add_block_submit_btn_add"
+msgstr "Afegir Secci&oacute;"
+
+msgid "static_pages"
+msgstr "P&agrave;gines Est&agrave;tiques:"
+
+msgid "add_link_title"
+msgstr "Afegir / Organitzar Enlla&ccedil;os"
+
+msgid "add_link_instructions"
+msgstr "Afegir enlla&ccedil;os a altres webs. Premi els botons Cap a Dalt i Cap a Baix per canviar l'ordre dels enlla&ccedil;os."
+
+msgid "link_name"
+msgstr "Nom de l'Enlla&ccedil;:"
+
+msgid "link_url"
+msgstr "URL [Direcci&oacute; Web] (deixi'l en blanc per crear un separador):"
+
+msgid "add_link_instructions_edit"
+msgstr "Est&agrave; editant un enlla&ccedil;:"
+
+msgid "add_link_instructions_modify"
+msgstr "Faci click en <b>Editar</b> per modificar l'enlla&ccedil;:"
+
+msgid "add_link_submit_btn_edit"
+msgstr "Editar enlla&ccedil;"
+
+msgid "add_link_submit_btn_add"
+msgstr "Afegir enlla&ccedil;"
+
+msgid "add_link_form_error"
+msgstr "Si us plau ompli els camps Nom i URL."
+
+msgid "categories_title"
+msgstr "Afegir / Organitzar Categories"
+
+msgid "categories_instructions"
+msgstr "Ompli el formulari que es troba sota per crear una categoria. Cada nom de categoria podr&agrave; tindre aquest format 'nom categoria (número id)'.  Per crear jerarquies es crearàn arbres amb espais.<br /><br /><b>Exemple:</b><br />General (1)<br />Noticies (3)<br />&nbsp;&nbsp;Anuncis (6)<br />&nbsp;&nbsp;Events (5)<br />&nbsp;&nbsp;&nbsp;&nbsp;Misc (7)<br />Tecnologia (2)<br />"
+
+msgid "categories_error"
+msgstr "Error"
+
+msgid "current_categories"
+msgstr "Categories Actuals"
+
+msgid "no_categories_found"
+msgstr "No s'han trobat Categories"
+
+msgid "category_list"
+msgstr "Llistat de Categories:"
+
+msgid "validate"
+msgstr "Validar"
+
+msgid "submit_btn"
+msgstr "&nbsp;Acceptar&nbsp;"
+
+msgid "colors_title"
+msgstr "Canviar colors"
+
+msgid "colors_instructions"
+msgstr "Pot canviar els colors del text i del fons de l'entrada. Primer seleccioni el camp a sota llavors utilitzi el sel·leccionador de color per agafar el nou color. El valor canvia automàticament"
+
+msgid "bg_color"
+msgstr "Fons de la p&agrave;gina"
+
+msgid "main_bg_color"
+msgstr "Fons de la p&agrave;gina principal"
+
+msgid "border_color"
+msgstr "Borde de la p&agrave;gina"
+
+msgid "inner_border_color"
+msgstr "Borde Interior"
+
+msgid "header_bg_color"
+msgstr "Fons de l'encap&ccedil;alament"
+
+msgid "header_txt_color"
+msgstr "Text de l'encap&ccedil;alament"
+
+msgid "menu_bg_color"
+msgstr "Fons del men&uacute;"
+
+msgid "footer_bg_color"
+msgstr "Fons del peu de p&agrave;gina"
+
+msgid "txt_color"
+msgstr "Text principal"
+
+msgid "headline_txt_color"
+msgstr "Text de l'encap&ccedil;alament"
+
+msgid "date_txt_color"
+msgstr "Text de la data"
+
+msgid "footer_txt_color"
+msgstr "Text del peu de p&agrave;gina"
+
+msgid "link_reg_color"
+msgstr "Enlla&ccedil; normal"
+
+msgid "link_hi_color"
+msgstr "Enlla&ccedil; resaltat"
+
+msgid "link_down_color"
+msgstr "Enlla&ccedil; visitat"
+
+msgid "entry_bg"
+msgstr "Fons de l'entrada"
+
+msgid "entry_title_bg"
+msgstr "Fons del t&iacute;tol de l'entrada"
+
+msgid "entry_border"
+msgstr "Borde de l'entrada"
+
+msgid "entry_title_text"
+msgstr "Text del t&iacute;tol de l'entrada"
+
+msgid "entry_text"
+msgstr "Text de l'entrada"
+
+msgid "menu_bg"
+msgstr "Fons del men&uacute;"
+
+msgid "menu_title_bg"
+msgstr "Fons del t&iacute;tol del men&uacute;"
+
+msgid "menu_border"
+msgstr "Borde del men&uacute;"
+
+msgid "menu_title_text"
+msgstr "Text del t&iacute;tol del men&uacute;"
+
+msgid "menu_text"
+msgstr "Text del men&uacute;"
+
+msgid "menu_link_reg_color"
+msgstr "Enlla&ccedil; normal en el men&uacute;"
+
+msgid "menu_link_hi_color"
+msgstr "Enlla&ccedil; resaltat en el men&uacute;"
+
+msgid "menu_link_down_color"
+msgstr "Enlla&ccedil; visitat en el men&uacute;"
+
+msgid "static_bg"
+msgstr "Fons Pàg. Estàtica"
+
+msgid "static_title_bg"
+msgstr "Fons Títol Pàg. Estàtica"
+
+msgid "static_border"
+msgstr "Borde Pàg. Estàtica"
+
+msgid "static_title_text"
+msgstr "Text títol Pàg. Estàtica"
+
+msgid "static_text"
+msgstr "Text Pàg. Estàtica"
+
+msgid "comment_bg"
+msgstr "Fons Comentari"
+
+msgid "comment_title_bg"
+msgstr "Fons Títol Comentari"
+
+msgid "comment_border"
+msgstr "Borde Comentari"
+
+msgid "comment_title_text"
+msgstr "Text Títol Comentari"
+
+msgid "color_preset"
+msgstr "Esquemes de Color:"
+
+msgid "scheme_name"
+msgstr "Introdueixi un nom per l'Esquema de Color Personalitzat:"
+
+msgid "scheme_file"
+msgstr "Introdueixi el nom del fitxer de l'Esquema: (sense espais ni extensions)"
+
+msgid "colors_form_error"
+msgstr "Si us plau, introdueixi un nom per al seu Esquema de Color Personalitzat."
+
+msgid "save_btn"
+msgstr "&nbsp;Desar&nbsp;"
+
+msgid "theme_doesnt_allow_colors"
+msgstr "El tema actualment sel·leccionat no permet la modificaci&oacute; dels colors."
+
+msgid "colors_error"
+msgstr "<h2>¡Ups!</h2>La informaci&oacute; no ha pogut ser desada. S'ha trobat un problema mentre es guardava.<br /><br />Resposta del servidor:<br />"
+
+msgid "colors_success"
+msgstr "<h2>Colors Guardats!</h2>La informació s'ha guardat correctament."
+
+msgid "delete_title"
+msgstr "Esborrar entrada"
+
+msgid "delete_instructions"
+msgstr "Est&agrave; a punt d'esborrar una entrada, asseguri's de voler esborrar-la realment perqu&egrave; no es pot desfer aquesta acci&oacute;..."
+
+msgid "delete_error"
+msgstr "<h2>¡Ups!</h2>No s'ha pogut esborrar l'entrada.<br /><br />Resposta del servidor:<br />"
+
+msgid "delete_success"
+msgstr "<h2>Entrada Esborrada!</h2>La entrada ha estat esborrada."
+
+msgid "delete_static_title"
+msgstr "Esborrar P&agrave;gina Est&agrave;tica"
+
+msgid "delete_static_instructions"
+msgstr "Est&agrave; a punt d'esborrar una p&agrave;gina est&agrave;tica, asseguri's de voler esborrar-la realment perqu&egrave; no es pot desfer aquesta acci&oacute;..."
+
+msgid "delete_static_error"
+msgstr "<h2>¡Ups!</h2>No s'ha pogut esborrar l'entrada.<br /><br />Resposta del servidor:<br />"
+
+msgid "delete_static_success"
+msgstr "<h2>Pàgina Estàtica Esborrada!</h2>La pàg. estàtica ha estat eliminada."
+
+msgid "image_list_title"
+msgstr "Llistat d'imatges"
+
+msgid "image_list_instructions"
+msgstr "Faci click en els enlla&ccedil;os que estan sota per vore la imatge.<br><br>Per afegir una imatge a la seva entrada:<br>1) Faci clic dret en un enlla&ccedil; i esculli 'Copiar al portapapers'.<br>2) Torni a la p&agrave;gina d'afegir o editar entrada.<br>3) Faci click al bot&oacute; Imatge i pegui l'enlla&ccedil; a la finestra."
+
+msgid "info_title"
+msgstr "Informaci&oacute; de Meta-dades"
+
+msgid "info_instructions"
+msgstr "Aquesta informaci&oacute; s'empra per a les &quot;meta-dades&quot;, que ajuden als cercadors a indexar el seu web. Tamb&eacute; s'utilitza per generar els feeds RSS."
+
+msgid "info_keywords"
+msgstr "Paraules clau: (Llistat de paraules clau separades per comes.)"
+
+msgid "info_description"
+msgstr "Descripci&iacute;: (Un resum o text lliure sobre el seu lloc.)"
+
+msgid "info_copyright"
+msgstr "Drets: (Informaci&oacute; de copyright o un enlla&ccedil; a la p&agrave;ágina que el cont&eacute;.)"
+
+msgid "tracking_code"
+msgstr "Codi Tracking Extern: (codi HTML que necessita ser executat a la pàgina principal (a les etiquetes de la capçalera per seguretat) només per cada usuari que va a la pàgina. Per exemple Google Analytics)"
+
+msgid "info_error"
+msgstr "<h2>¡Ups!</h2>La informaci&oacute; no ha pogut ser desada. S'ha trobat un problema mentre es guardava la seva informaci&oacute;.<br /><br />Resposta del servidor:<br />"
+
+msgid "info_success"
+msgstr "<h2>Meta-Data Guardada!</h2>La informació s'ha guardat correctament."
+
+msgid "info_form_error"
+msgstr "Si us plau ompli els camps T&iacute;tol i Autor."
+
+msgid "rating_error"
+msgstr "<h2>¡Ups!</h2>La informaci&oacute; no ha pogut ser desada. S'ha trobat un problema mentre es guardava la seva inforamci&oacute;.<br /><br />Resposta del servidor:<br />"
+
+msgid "rating_success"
+msgstr "<h2>Votació Guardada!</h2>La seva puntuació s'ha guardat correctament."
+
+msgid "upgrade"
+msgstr "<h2>Actualizaci&oacute;</h2>"
+
+msgid "upgrade_count"
+msgstr "%n comentaris necessiten ser actualizats:"
+
+msgid "upgrade_url"
+msgstr "Actualitzar Comentaris"
+
+msgid "login_title"
+msgstr "Accedir"
+
+msgid "login_instructions"
+msgstr "Introdueixi el seu nom de usuari i contrasenya"
+
+msgid "username"
+msgstr "Usuari:"
+
+msgid "password"
+msgstr "Contrasenya"
+
+msgid "login_success"
+msgstr "<h2>¡Benvingut!</h2>S'ha connectat. Tingui un bon blogging!<p />"
+
+msgid "login_wrong_password"
+msgstr "<h2>¡Ups!</h2>No pot accedir. Verifiqui el seu nom d'usuari i contrasenya i intenti-ho novament.<p />"
+
+msgid "inactive_account"
+msgstr "<h2>Ups!</h2>No ha pogut accedir. El seu compte ha estat deshabilitat per l'administrador per alguna raó.<p />"
+
+msgid "login_form_error"
+msgstr "Si us plau ompli els camps Usuari i contrasenya."
+
+msgid "logout_title"
+msgstr "Sortir"
+
+msgid "logout_error"
+msgstr "<h2>Adéu!</h2>Ha sortit. (tampoc havies entrat...)<p />"
+
+msgid "error_no_cookie"
+msgstr "<h2>Adéu!</h2>Ha sortit. (No s'han trobat cookies. No havies entrat tampoc...)<p />"
+
+msgid "logout_success"
+msgstr "<h2>Adéu!</h2>Has sortit correctament.<p />"
+
+msgid "forms_title"
+msgstr ""
+
+msgid "forms_instructions"
+msgstr ""
+
+msgid "forms_error"
+msgstr "<h2>¡Ups!</h2>La informacii&oacute; no ha pogut ser desada. S'ha trobat un problema mentre es guardava la seva informaci&oacute;.<br /><br />Resposta del servidor:<br />"
+
+msgid "set_login_title"
+msgstr "Canviar Usuari i Contrasenya"
+
+msgid "set_login_instructions"
+msgstr "Empre el formulari inferior per canviar el seu nom d'usuari i contrasenya. Inserta el nom d'usuari i la contrasenya que vulga utilitzar."
+
+msgid "set_login_success"
+msgstr "<h2>Llest!</h2>El seu nom d'usuari i/o contrasenya est&agrave; actiu des d'ara.<p />"
+
+msgid "set_login_wrong_password"
+msgstr "<h2>¡Ups!</h2>Informaci&oacute; no desada. Hi ha hagut un error mentre es desava el seu nom d'usuari i contrasenya.<br /><br />Resposta del servidor:<br />"
+
+msgid "set_login_form_error"
+msgstr "Si us plau completi els camps Usuari i contrasenya."
+
+msgid "explanation"
+msgstr "En versions recents, l'estructura de les contrasenyes ha canviat. No hi ha mode per actualitzar les claus de pas           i/o accessos al codi del blog. Per tal de canviar la clau, cal esborrar el fitxer /config/password.php i assegurar-se de que install*.php           existeixi al servidor local. Un cop fet aix&ograve;, cal recarregar la p&agrave;gina (o sortir del sistema). Us ser&agrave; presentat amb el mateix script           per generar la vostra contrasenya del mateix mode que quan vau crear el blog."
+
+msgid "install00_title"
+msgstr "Benvingut"
+
+msgid "install00_instructions"
+msgstr "Gr&agrave;cies per triar Simple PHP Blog!"
+
+msgid "blog_choose_language"
+msgstr "Seleccionar Idioma:"
+
+msgid "install01_title"
+msgstr "Benvingut"
+
+msgid "install01_instructions"
+msgstr "Gr&agrave;cies per triar Simple PHP Blog!<br /><br />Simple PHP Blog &eacute;s un sistema de blogging lleuger. Requereix PHP versi&oacute; 4.1 o superior i permissos d'escriptura al servidor. Tota la informaci&oacute; es desada a arxius de text pla per tant no cal cap base de dades per funcionar.<br /><br />         Per comen&ccedil;ar, Simple PHP Blog necessita crear tres directoris ('config', 'content' i 'images') en els quals desar&agrave; la seva informaci&oacute;.<br /><br />         <b>Faci click abaix per comen&ccedil;ar la instal&middot;laci&oacute;:</b>"
+
+msgid "begin"
+msgstr "[ Comen&ccedil;ar la Instal&middot;laci&oacute; ]"
+
+msgid "install02_title"
+msgstr "Instal&middot;laci&oacute;"
+
+msgid "install02_instructions"
+msgstr "Intentant crear els directoris 'config', 'content' i 'images':"
+
+msgid "folder_exists"
+msgstr "Preparat! Els directoris ja existien. No s'ha fet cap canvi..."
+
+msgid "folder_failed"
+msgstr "¡Ups! No s'han pogut crear els directoris..."
+
+msgid "folder_success"
+msgstr "¡Llest! Directoris creats..."
+
+msgid "help"
+msgstr "         <h2>¡Ups!</h2>No s'ha pogut crear un o m&eacute;s directoris! Això sol deure's a:<br>         <i>1) <b>Permissos d'escriptura</b> no estan configurats per permetre l'acc&eacute;s d'<b>Escriptura/Lectura</b>.</i><br>         <i>2) Els <b>UID</b>'s (user ID's) de tots els arxius i directoris han de correspondre.</i><p />         Segueixi les instruccions seg&uuml;ents per resoldre el problema i despr&eacute;s intenti-ho novament:<p />         1) Crei manualment els seg&uuml;ents directoris: <b>config</b>, <b>content</b>, i <b>images</b>.<p />         2) Dongui <b>Permisos d'escriptura</b> als directoris. Al seu client FTP; Owner, User i World han de tenir accès de <b>Read</b> i <b>Write</b>. <i>(És possible que calgui posar-se en contacte amb l'administrador del servidor per canviar aquests permissos...)</i><p />         3) Asseguri's de que els UID's de tots els seus arxius i directoris s&oacute;n els mateixos. <i>(Es possible que calgui posar-se en contacte amb l'administrador del servidor per canviar aquests permissos...)</i>"
+
+msgid "try_again"
+msgstr "[ Reintentar ]"
+
+msgid "install02_success"
+msgstr "<h2>Llest!</h2>Els Directoris han estat creats amb &eacute;xit!<p /><b>Premi continuar:</b>"
+
+msgid "continue"
+msgstr "[ Continuar ]"
+
+msgid "supported"
+msgstr "<b>El seu servidor web soporta els seg&uuml;ents esquemes d'encriptaci&oacute;:</b>"
+
+msgid "standard"
+msgstr "Encriptaci&oacute; Est&agrave;ndard DES: "
+
+msgid "extended"
+msgstr "Encriptaci&oacute; Extesa DES: "
+
+msgid "MD5"
+msgstr "Encriptaci&oacute; MD5: "
+
+msgid "blowfish"
+msgstr "Encriptaci&oacute; Blowfish: "
+
+msgid "enabled"
+msgstr "Activada"
+
+msgid "disabled"
+msgstr "Desactivada"
+
+msgid "using_standard"
+msgstr "<b>Emprant la Encriptaci&oacute; Est&agrave;ndard DES...</b>"
+
+msgid "using_extended"
+msgstr "<b>Emprant la Encriptaci&oacute; Extesa DES...</b>"
+
+msgid "using_MD5"
+msgstr "<b style='color: green;'> Emprant la Encriptaci&oacute; MD5...</b>"
+
+msgid "using_blowfish"
+msgstr "<b style='color: green;'> Emprant la Encriptaci&oacute; Blowfish...</b>"
+
+msgid "using_unknown"
+msgstr "<b> Emprant la Encriptaci&oacute; Desconeguda...</b>"
+
+msgid "salt_length"
+msgstr " <i>(Salt Length = %string)</i><br />"
+
+msgid "install03_title"
+msgstr "Crear Usuari i contrasenya"
+
+msgid "install03_instructions"
+msgstr "Utilitzi el formulari de sota per crear un Usuari i una contrasenya."
+
+msgid "install03_success"
+msgstr "<h2>Enhorabona!</h2>Ara mateix est&agrave; connectat. Premi a sota per visitar la p&agrave;gina de configuraci&oacute; i canviar les opcions de la seua bit&agrave;cora.<p />"
+
+msgid "btn_setup"
+msgstr "[ Configuraci&oacute; ]"
+
+msgid "install03_wrong_password"
+msgstr "<h2>¡Ups!</h2>Informaci&oacute; no desada. Hi ha hagut un error mentre es desava el seu nom d'usuari i contrasenya.<br /><br />Resposta del servidor:<br />"
+
+msgid "install03_form_error"
+msgstr "Si us plau, ompli els camps Usuari i Contrasenya."
+
+msgid "install04_title"
+msgstr "Creï l'arxiu per la contrasenya"
+
+msgid "install04_instructions"
+msgstr "Aquí comença la part complexa:<br />         <ol>         <li>Obri un Editor de Text. <i>(Note Pad, Word Pad, Word, BBEdit, Pico, VI, etc...)</i></li>         <li>Creï un Nou Document de Text.</li>         <li>Copiï i pegui el codi que apareix en la seg&uuml;ent caixa en el seu document.</li>         <li>Desi el seu arxiu i anomeni'l <b>password.php</b> <i>(Asseguris que el desa en format de <b>text</b> o <b>text pla</b>.)</i></li>         <li>Obri un client FTP.</li>         <li>Enviï el seu <b>password.php</b> al directori <b>config</b> del seu lloc web.</li>         <li>Esborri l'arxiu <b>password.php</b> del seu disc dur.</li>         </ol>         "
+
+msgid "information"
+msgstr "<i>Nota: Si vol recuperar el seu usuari i la seva contrasenya (probablement perqu&egrave; l'ha oblidada), esborri l'arxiu <b>password.php</b> del directori <b>config</b> al seu lloc web. El seg&uuml;ent cop que visiti la seva p&agrave;gina, el procès d'instal&middot;laci&oacute; comen&ccedil;ar&agrave; de nou...</i>"
+
+msgid "code"
+msgstr "Codi per l'arxiu <b>password.php</b>:"
+
+msgid "install05_title"
+msgstr "Entrar"
+
+msgid "install05_instructions"
+msgstr "Si us plau, escrigui a sota el nom d'usuari i la contrasenya"
+
+msgid "install05_success"
+msgstr "<h2>Felicitats!</h2>Est&aacute; connectat.<p />         Premi a sota per visitar la p&agrave;gina de <b>Configuraci&oacute;</b>, on pot personalitzar la seva nova bitàcora.<p />         <i>Nota: Ara que ja ha completat el procès d'instal&middot;laci&oacute;, es recomanable que esborri els arxius <b>installXX.php</b> del seu lloc web. (&eacute;s a dir, des de l'install00.php fins a l'install06.php)</i><p />"
+
+msgid "install05_wrong_password"
+msgstr "<h2>Ei!</h2>No s'ha connectat. Si us plau revisi que hagi escrit correctament el seu Usuari i Contrasenya i provi-ho de nou.<p />"
+
+msgid "install05_form_error"
+msgstr "Completi els camps de l'Usuari i de la Contrasenya."
+
+msgid "btn_try_again"
+msgstr "[ Provi-ho novament ]"
+
+msgid "install06_title"
+msgstr "Entrar"
+
+msgid "install06_instructions"
+msgstr "Si us plau, escrigui a sota el nom d'usuari i la contrasenya"
+
+msgid "install06_success"
+msgstr "<h2>Felicitats!</h2>Est&aacute; connectat.<p />         Premi a sota per visitar la p&agrave;gina de <b>Configuraci&oacute;</b>, on pot personalitzar la seva nova bitàcora.<p />         <i>Nota: Ara que ja ha completat el procès d'instal&middot;laci&oacute;, es recomanable que esborri els arxius <b>installXX.php</b> del seu lloc web. (&eacute;s a dir, des de l'install00.php fins a l'install06.php)</i><p />"
+
+msgid "install06_wrong_password"
+msgstr "<h2>Ei!</h2>No s'ha connectat. Si us plau revisi que hagi escrit correctament el seu Usuari i Contrasenya i provi-ho de nou.<p />"
+
+msgid "install06_form_error"
+msgstr "Completi els camps de l'Usuari i de la Contrasenya."
+
+msgid "setup_title"
+msgstr "Configuraci&oacute;"
+
+msgid "setup_instructions"
+msgstr "Pot canviar el nom de la seva bit&agrave;cora i la seva informaci&oacute; personal a continuaci&oacute;."
+
+msgid "blog_title"
+msgstr "Nom de la Bit&agrave;cora;"
+
+msgid "blog_header"
+msgstr "URL del gràfic de la capçalera: images/blogheader.jpg (Deixar en blanc perquè hi hagi el gràfic predefinit del tema)."
+
+msgid "blog_author"
+msgstr "Autor/a:"
+
+msgid "blog_email"
+msgstr "Correu Electr&ograve;nic: (deuen estar separats per una , coma - si es deixa en blanc es deshabilita la opció de Contacte"
+
+msgid "blog_avatar"
+msgstr "URL de l'avatar: (Deixi-ho en blanc per cap)."
+
+msgid "blog_footer"
+msgstr "Peu de p&agrave;gina:"
+
+msgid "blog_enable_comments"
+msgstr "Permetre Comentaris dels Usuaris"
+
+msgid "blog_comments_popup"
+msgstr "Obrir comentaris en Finestres Emergents"
+
+msgid "blog_enable_cache"
+msgstr "Activar el desament a la Mem&ograve;ria cau de les Entrades (alguns servidors milloren el rendiment aix&iacute;)"
+
+msgid "blog_enable_calendar"
+msgstr "Activar calendari"
+
+msgid "blog_enable_archives"
+msgstr "Activar arxius de blog"
+
+msgid "blog_enable_counter"
+msgstr "Activar Comptador en la Barra Lateral"
+
+msgid "blog_counter_hours"
+msgstr "Número d'hores que han de passar abans que es torni a comptar una visita d'una mateixa IP:"
+
+msgid "blog_enable_login"
+msgstr "Permetre enllaç d'accès"
+
+msgid "blog_enable_title"
+msgstr "Permetre Text Pla al Títol del bloc (netejar la checkbox si el títol està al gràfic de capçalera)"
+
+msgid "blog_enable_permalink"
+msgstr "Permetre enllaços permanents a les entrades del blog"
+
+msgid "blog_enable_capcha"
+msgstr "Permetre Anti-Spam"
+
+msgid "blog_footer_counter"
+msgstr "Permetre comptador a peu de pàgina"
+
+msgid "blog_enable_capcha_image"
+msgstr "Imatges Anti-Spam Images (només biblioteca GD) / Camp de text Anti-Spam"
+
+msgid "blog_enable_stats"
+msgstr "Permetre opció d'estadístiques al Menú"
+
+msgid "blog_enable_lastcomments"
+msgstr "Permetre la llista de comentaris recents"
+
+msgid "blog_enable_lastentries"
+msgstr "Permetre llista d'entrades més recents"
+
+msgid "blog_enable_voting"
+msgstr "Permetre als Usuaris Votar Articles"
+
+msgid "blog_email_notification"
+msgstr "Enviar e-mail quan es publiqui un comentari"
+
+msgid "blog_send_pings"
+msgstr "Enviar &quot;pings&quot;"
+
+msgid "blog_ping_urls"
+msgstr "URL completa (exemple: http://rpc.weblogs.com/RPC2) del servei de &quot;ping&quot;.<br />(Pot introdu&iuml;r m&eacute;s d'una separant-les per comes.)"
+
+msgid "blog_trackback_about"
+msgstr "Els trackback proporcionen un m&egrave;tode de notificaci&oacute; entre blogs. Permet que els blogs amb els que connecta ho s&agrave;piguen enviant-los una senyal amb el trackback. Del mateix mode pot saber qui enlla&ccedil;a amb el seu blog rebent senyals amb el trackback.<br />         Pot triar entre accedir al URIs per fer els avisos manualment, o tractar de fer-los autom&agrave;ticament mitjan&ccedil;ant el Auto-Discovery."
+
+msgid "blog_trackback_enabled"
+msgstr "Activar els trackback en el meu bloc"
+
+msgid "blog_trackback_auto_discovery"
+msgstr "Activar el Auto-Discovery quan es penja un missatge que continga alguna URL"
+
+msgid "blog_max_entries"
+msgstr "M&agrave;ximes Entrades a Mostrar:"
+
+msgid "blog_comment_tags"
+msgstr "Etiquetes permeses en els Comentaris:"
+
+msgid "blog_gzip_about"
+msgstr "           A partir de la versi&oacute; 4.0.4, PHP pot llegir i escriure arxius comprimits amb gzip (.gz), aix&ograve; estalvia espai en disc. Per un altre costat, &eacute;s possible comprimir les p&agrave;gines que s'envien a un navegador amb suport gzip, estalviant aix&iacute; ample de banda.<br />           <br />El suport de Zlib no ve activat per defecte en el PHP. Si les caselles de verificaci&oacute; estan desactivades significa que el seu PHP no suporta l'extensi&oacute; Zlib."
+
+msgid "blog_enable_gzip_txt"
+msgstr "Activar compressi&oacute; GZIP per a les base de dades."
+
+msgid "blog_enable_gzip_output"
+msgstr "Activar compressi&oacute; GZIP per a la sortida HTTP"
+
+msgid "setup_error"
+msgstr "<h2>¡Ups!</h2>La informaci&oacute; no pot ser desada. S'ha trobat un problema mentre s'enmagatzemava la seva informaci&oacute;.<br /><br />Resposta del servidor:<br />"
+
+msgid "setup_success"
+msgstr "<h2>Opcions guardades!</h2>La informació ha estat guardada satisfactòriament."
+
+msgid "setup_form_error"
+msgstr "Si us plau, completi els camps T&iacute;tol i Autor."
+
+msgid "label_entry_order"
+msgstr "Ordre dels Articles:"
+
+msgid "select_new_to_old"
+msgstr "Primer els Nous"
+
+msgid "select_old_to_new"
+msgstr "Primer els Antics"
+
+msgid "label_comment_order"
+msgstr "Ordre dels Comentaris:"
+
+msgid "cal_sunday"
+msgstr "Diumenge"
+
+msgid "cal_monday"
+msgstr "Dilluns"
+
+msgid "label_calendar_start"
+msgstr "Dia d'inici de la setmana"
+
+msgid "title_sidebar"
+msgstr "Barra lateral"
+
+msgid "title_comments"
+msgstr "Comentaris"
+
+msgid "title_trackback"
+msgstr "Trackbacks"
+
+msgid "title_compression"
+msgstr "Compressi&oacute;"
+
+msgid "title_entries"
+msgstr "Entrades"
+
+msgid "title_general"
+msgstr "General"
+
+msgid "title_language"
+msgstr "Llengua"
+
+msgid "blog_comment_days_expiry"
+msgstr "Quants dies vol que es guardin els comentaris? (0 significa que no es borren mai)"
+
+msgid "blog_comments_moderation"
+msgstr "Requereix que les entrades siguin aprovades per algun usuari loguejat abans de ser mostrades al públic (sempre visible per usuaris loguejats"
+
+msgid "comment_moderation"
+msgstr "Opcions de Moderació"
+
+msgid "comment_moderation_title"
+msgstr "Comentaris no moderats"
+
+msgid "comment_moderation_instructions"
+msgstr "Aquesta és una llista de tots els comentaris que no estàn disponibles als usuaris que no estàn loguejats al blog perquè no han estat aprovats per un moderador."
+
+msgid "comment_moderation_header"
+msgstr "Llistat de moderació"
+
+msgid "enteredby"
+msgstr "Publicat per: "
+
+msgid "entrydate"
+msgstr "Data de publicació: "
+
+msgid "blogentrytitle"
+msgstr "Títol de l'entrada del blog: "
+
+msgid "enteredcontent"
+msgstr "Contingut: "
+
+msgid "totalunmodded"
+msgstr " entrades totals que esperen per l'actualització del moderador."
+
+msgid "mod_approve"
+msgstr "[Aprovar] "
+
+msgid "mod_delete"
+msgstr "[Esborrar]"
+
+msgid "moderation_title"
+msgstr "Opcions de Moderació"
+
+msgid "moderation_instructions"
+msgstr "Pots modificar les llistes d'automoderació aquí."
+
+msgid "moderation_error"
+msgstr "<h2>Ups!</h2>La informació no s'ha desat. Hi ha hagut un problema mentre es guardava la informació.<br /><br />La resposta del servidor ha estat:<br />"
+
+msgid "moderation_success"
+msgstr "<h2>Preferencies Desades!</h2>La informació s'ha guardat correctament."
+
+msgid "banned_address_list_title"
+msgstr "<h2>Direccions IP prohibides</h2>"
+
+msgid "banned_address_list"
+msgstr "A sota hi ha una llista de ip a les que no se'ls permet publicar comentaris. Cada ip ha d'estar a una línia separada i han de ser números (no noms DNS). Quan s'està loguejat les IP poden prohibirse directament des de la visualització de comentaris."
+
+msgid "banned_word_list_title"
+msgstr "<h2>Paraules Prohibides</h2>"
+
+msgid "banned_word_list"
+msgstr "A sota hi ha una llista de paraules que no estan permeses a la URL o al text. Cada paraula o grup de paraules han d'estar a línies separades. Els comentaris es compararan amb cada línia per fer més efectiva la prohibició."
+
+msgid "options_title"
+msgstr "Opcions"
+
+msgid "options_instructions"
+msgstr "Utilitzi el formulari seg&uuml;ent per personalitzar el format en que es presentar&agrave; la data i l'hora en la bit&agrave;cora i en els comentaris. Pot triar el format de  12 o de 24 hores. Format llarg o curt. <br />Les &agrave;rees de <b>Previsualitzaci&oacute;</b> li mostren autom&agrave;ticament com es veur&agrave; el seu format."
+
+msgid "ldate_title"
+msgstr "Format de Data Llarga:"
+
+msgid "weekday"
+msgstr "Dia de la Setmana"
+
+msgid "none"
+msgstr "Cap"
+
+msgid "sdate_title"
+msgstr "Format de Data Curta:"
+
+msgid "s_month"
+msgstr "Mes"
+
+msgid "s_mon"
+msgstr "MMM"
+
+msgid "s_day"
+msgstr "Dia"
+
+msgid "s_year"
+msgstr "Any"
+
+msgid "zero_day"
+msgstr "Zero inicial pel Dia"
+
+msgid "show_century"
+msgstr "Mostrar segle"
+
+msgid "time_title"
+msgstr "Format d'Hora:"
+
+msgid "12hour"
+msgstr "Rellotge de 12 hores"
+
+msgid "24hour"
+msgstr "Rellotge de 24 hores"
+
+msgid "before_noon"
+msgstr "Abans del Migdia"
+
+msgid "after_noon"
+msgstr "Despr&eacute;s del Migdia"
+
+msgid "date_title"
+msgstr "Format de Visualitzaci&oacute; de Data:"
+
+msgid "long_date"
+msgstr "Data Llarga"
+
+msgid "short_date"
+msgstr "Data Curta"
+
+msgid "time"
+msgstr "Hora"
+
+msgid "menu_title"
+msgstr "Format de Visualitzaci&oacute; en el Men&uacute; de la Data:"
+
+msgid "zero_month"
+msgstr "Zero inicial pel Mes"
+
+msgid "zero_hour"
+msgstr "Zero inicial per l'Hora"
+
+msgid "separator"
+msgstr "Separador"
+
+msgid "preview"
+msgstr "Previsualitzaci&oacute;:"
+
+msgid "server_offset"
+msgstr "Difer&egrave;ncia horaria amb el Servidor:"
+
+msgid "options_success"
+msgstr "<h2>Opcions Desades!</h2>La informació s'ha guardat satisfactòriament."
+
+msgid "options_error"
+msgstr "<h2>¡Ups!</h2>La informaci&oacute; no ha pogut ser enmagatzemada. S'ha trobat un problema mentre es desava la seva informaci&oacute;.<br /><br />Resposta del servidor:<br />"
+
+msgid "upload_img_title"
+msgstr "Pujar imatge"
+
+msgid "upload_img_instructions"
+msgstr "Faci click a sota per pujar una imatge."
+
+msgid "select_file"
+msgstr "Triar arxiu:"
+
+msgid "upload_btn"
+msgstr "Pujar"
+
+msgid "upload_img_error"
+msgstr "<h2>¡Ups!</h2>Ha estat impossible pujar la imatge. Aqu&iacute; hi ha m&eacute;s informaci&oacute;:<br /><br />Resposta del servidor:<br />"
+
+msgid "upload_img_success"
+msgstr "<h2>Imatge Pujada!</h2>La imatge s'ha emmagatzemat satisfactòriament."
+
+msgid "themes_title"
+msgstr "Estils"
+
+msgid "themes_instructions"
+msgstr "Utilitzi la llista d'opcions per triar un estil diferent."
+
+msgid "choose_theme"
+msgstr "Estils:"
+
+msgid "themes_error"
+msgstr "<h2>¡Ups!</h2>La informaci&oacute; no ha pogut ser desada. S'ha trobat un problema mentre s'enmagatzemava la seva informaci&oacute;.<br /><br />Resposta del servidor:<br />"
+
+msgid "themes_success"
+msgstr "<h2>Estil sel·leccionat</h2>La informació s'ha emmagatzemat satisfactòriament."
+
+msgid "search_result_title"
+msgstr "Contacte"
+
+msgid "search_result_instructions"
+msgstr "ompli el formulari:"
+
+msgid "not_found"
+msgstr "No s'ha trobat cap resultat"
+
+msgid "search_result_form_error"
+msgstr "ompli els camps Assumpte, Comentari i Anti-Spam."
+
+msgid "subject"
+msgstr "Assumpte:"
+
+msgid "search_result_success"
+msgstr "<h2>Èxit!</h2>El seu missatge ha estat enviat.<p />"
+
+msgid "failure"
+msgstr "<h2>¡Ups!</h2>El seu missatge no ha estat enviat. Probablement el camp Anti-Spam no s'ha omplert correctament.<p />"
+
+msgid "contact_capcha"
+msgstr "Anti-Spam: Introdueixi "
+
+msgid "contactsent"
+msgstr "Contacte enviat des de: "
+
+msgid "contact_title"
+msgstr "Contacte"
+
+msgid "contact_instructions"
+msgstr "ompli el formulari:"
+
+msgid "contact_form_error"
+msgstr "ompli els camps Assumpte, Comentari i Anti-Spam."
+
+msgid "contact_success"
+msgstr "<h2>Èxit!</h2>El seu missatge ha estat enviat.<p />"
+
+msgid "errorpage-nocookies_title"
+msgstr "Error 403.8 HTTP  - Acc&eacute;s Denegat a la P&agrave;gina/Funci&oacute;"
+
+msgid "errorline1"
+msgstr "La p&agrave;gina o funci&oacute; que intenta necessita l'&uacute;s de cookies."
+
+msgid "errorline2"
+msgstr "Activi l'&uacute;s de les cookies en el seu navegador o permeti que el seu tallafocs les accepti per una petici&oacute; futura."
+
+msgid "clientid"
+msgstr "ID Client: "
+
+msgid "trackbacks_title"
+msgstr "Trackbacks"
+
+msgid "trackbacks_header"
+msgstr "El Trackback URL per aquesta entrada:"
+
+msgid "trackbacks_error_add"
+msgstr "S'ha produit un error desant les dades del trackback."
+
+msgid "trackbacks_error_delete"
+msgstr "<h2>Ups!</h2>El trackback no s'ha esborrat. Hi ha hagut un problema mentres s'eliminava el trackback.<br /><br />La resposta del servidor es:<br />"
+
+msgid "trackbacks_success_delete"
+msgstr "<h2>Trackback Esborrat!</h2>L'enllaç de trackback ha estat esborrat."
+
+msgid "stats_title"
+msgstr "Estad&iacute;stiques"
+
+msgid "general"
+msgstr "General"
+
+msgid "entry_info"
+msgstr "<b>%s</b> articles emprant <b>%s</b> paraules ocupant <b>%s</b> bytes"
+
+msgid "comment_info"
+msgstr "<b>%s</b> comentaris emprant <b>%s</b> paraules ocupant <b>%s</b> bytes"
+
+msgid "trackback_info"
+msgstr "<b>%s</b> trackbacks ocupant <b>%s</b> bytes"
+
+msgid "static_info"
+msgstr "<b>%s</b> p&agrave;gines est&agrave;tiques emprant <b>%s</b> paraules que ocupen <b>%s</b> bytes"
+
+msgid "most_viewed_entries"
+msgstr "10 Articles m&eacute;s visitats"
+
+msgid "most_commented_entries"
+msgstr "10 Articles m&eacute;s comentats"
+
+msgid "most_trackbacked_entries"
+msgstr "10 Articles amb m&eacute;s trackbacks"
+
+msgid "vote_info"
+msgstr "<b>%s</b> vots ocupant <b>%s</b> bytes"
+
+msgid "most_voted_entries"
+msgstr "10 Articles m&eacute;s votats"
+
+msgid "most_rated_entries"
+msgstr "10 Articles millor valorats"
+
+msgid "403.8"
+msgstr "Error HTTP 403.8 - L'accès a la p&agrave;gina/Funci&oacute; ha estat denegat"
+
+msgid "404"
+msgstr "Error HTTP 404 - L'accès a la P&agrave;gina/Funci&oacute; no existeix"
+
+msgid "error_404"
+msgstr "La p&agrave;gina o funci&oacute; a la que intenta accedir no existeix."
+
+msgid "error_javascript"
+msgstr "La p&agrave;gina o funci&oacute; a la que intenta accedir necessita javascript per funcionar correctament."
+
+msgid "error_emailnotsent"
+msgstr "El missatge que intentava enviar ha fallat."
+
+msgid "error_emailnotsentcapcha"
+msgstr "El missatge que tractava d'enviar ha fallat perqu&egrave; el camp anti-spam s'ha omplert incorrectament o s'ha deixat buit."
+
+msgid "emoticons_title"
+msgstr "Administraci&oacute; de les Emoticones"
+
+msgid "emoticons_instructions"
+msgstr "           Triï les emoticones que vol emprar. Escrigui en la caixa les etiquetes (tags) que vol que siguen remplaçades           per la imatge. Poden ser emprades varies etiquetes, sols ha de procurar que estiguin separades per espais.<br /><br />           Per exemple:<br />           :) :-) :SOMRIURE: :FELICITAT:<br /><br />           <i>(Es molt recomanable que crei les etiquetes majors de 2 caràcters,           ja que d'una altra manera, poden succeir substitucions indesitjades.)</i>"
+
+msgid "upload_instructions"
+msgstr "Pujar una Nova Emoticona:"
+
+msgid "upload_success"
+msgstr "Acabat! La imatge ha pujat exitosament!"
+
+msgid "upload_error"
+msgstr "Error! La imatge no ha estat pujada."
+
+msgid "upload_invalid"
+msgstr "Error! Tipus d'arxiu d'imatge inv&agrave;lid. La imatge ha de tindre una extensi&oacute; de png, jpg o gif."
+
+msgid "save_success"
+msgstr "Les prefer&egrave;ncies de les Emoticoones s'han desat amb &eacute;xit!"
+
+msgid "save_error"
+msgstr "Error! Les prefer&egrave;ncies de les Emoticones no han estat desades."
+
+msgid "save_button"
+msgstr "Desa les Emoticones"
+
+msgid "manage_users_title"
+msgstr "Administrar usuaris existents"
+
+msgid "manage_users_instructions"
+msgstr "Afegir, modificar o esborrar usuaris que no són administradors però que tenen la habilitat de crear entrades del blog i/o moderar els comentaris."
+
+msgid "fulladminerror"
+msgstr "Has de ser administrador complerts per fer això!"
+
+msgid "header_user"
+msgstr "Usuari: "
+
+msgid "header_property"
+msgstr "Propietat"
+
+msgid "header_value"
+msgstr "Valor"
+
+msgid "prop_username"
+msgstr "Nos d'usuari:"
+
+msgid "prop_fullname"
+msgstr "Nom a mostrar:"
+
+msgid "prop_password"
+msgstr "Contrasenya:"
+
+msgid "prop_email"
+msgstr "E-mail:"
+
+msgid "prop_avatar"
+msgstr "URL de l'avatar:"
+
+msgid "prop_state"
+msgstr "Actiu?"
+
+msgid "prop_sec_Moderate"
+msgstr "Moderar Comentaris?"
+
+msgid "prop_sec_Delete"
+msgstr "Esborrar entrades del blog?"
+
+msgid "prop_sec_Edit"
+msgstr "Editar qualsevol entrada?"
+
+msgid "btn_SaveChanges"
+msgstr "Guardar canvis"
+
+msgid "btn_CreateUser"
+msgstr "Crear usuari"
+
+msgid "btn_Cancel"
+msgstr "Cancelar"
+
+msgid "grid_header"
+msgstr "Llistar usuaris"
+
+msgid "grid_login"
+msgstr "Entrar"
+
+msgid "grid_email"
+msgstr "E-mail"
+
+msgid "grid_avatar"
+msgstr "Avatar"
+
+msgid "grid_state"
+msgstr "Actiu?"
+
+msgid "btn_modify"
+msgstr "Modificar"
+
+msgid "btn_delete"
+msgstr "Esborrar"
+
+msgid "create_user"
+msgstr "Crear nou usuari"
+
+msgid "archives_title"
+msgstr "Arxius"
+
+msgid "showall"
+msgstr "Mostrar tots"
+

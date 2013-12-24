@@ -1,0 +1,66 @@
+Simple PHP Blog:
+----------------
+
+Author
+------
+Created by: Alexander Palmo (apalmo <at> bigevilbrain <dot> com)
+Date: 08/02/2004Maintained by: Neil M. (neil <at> nabber <dot> org)Version: 0.6.0 and newerDate: 08/15/2010
+
+Contributors
+------------
+RSS, RDF, Atom, ping, GZip, email, search and some bug fixes and enhacements by Javier Gutierrez (guti <at> ya <dot> com)
+Date: 12/05/2004
+
+TXT Powered logo by Juano (powerjuano <at> hotmail <dot> com)
+Date: 10/07/2004
+
+Trackbacks by Arjan Hakkesteegt (sphpblog <at> hakwerk <dot> com)
+Date: 28/11/2004
+
+Block management enhacement, and theme/color preview by Fco Jesús Gil (ridgarou <at> gmail <dot> com)
+Date: 10/02/2005
+
+Graphic capcha contributed by Oscar Cubo Medina (ocubo <at> fi <dot>upm <dot> es)
+Date: 18/02/2005
+
+Auto parse URL contributed by diegocaro (diegocaro <at> gmail <dot> com)
+Date: 21/02/2005
+
+Entries listing contributed by Jan Normann Nielsen (spam@Edubbekarl.dk)
+Date: 16/07/2005
+
+IP Tracking code contributed by Deathwish - http://deathwish.altervista.org/
+Date: 03/05/2006
+
+Emoticon code contributed by NoWhereMan - http://nowherenet.altervista.org/
+Date: 03/05/2006
+
+Translations
+------------
+Chinese Language File
+(c) 2004 Jfly, jflycn <at> hotmail <dot> com
+Danish Language File
+(c) 2004 Thomas Petersen, thomasp <at> nsd <dot> dk
+Dutch & Nederlands Language Files
+(c) 2004 S. Klippert, klippy@users.sourceforge.net
+French Language File
+(c) 2004 Thibaud ChonŽ, thibaud <dot> chone <at> insa-lyon <dot> fr
+German Language File
+(c) 2004 Josef Angstenberger, jtxa <at> users <dot> sourceforge <dot> net
+Italian Language File
+(c) 2004 Porro Luciano (alias drudo), drudo3 <at> jumpy <dot> it, http://drudo.altervista.org/blog/
+Japanese Language File
+(c) 2004-2005 Sanshiro Akiyama
+Malay Language File
+(c) 2004 Mohammad Fahmi Adam, farisi <at> hotmail <dot> com
+Portuguese Language File
+(c) 2004 Nuno Cardoso, nuno.cardoso@tugamail.com
+Russian Language File
+(c) 2004 Artyom Pervukhin, trem <at> pm <dot> convex <dot> ru
+Spanish Language File
+(c) 2004 Javier Gutiérrez Chamorro (Guti), guti <at> ya <dot> com, and Fco Jesús Gil ridgarou <at> gmail <dot> com
+Turkish Language File
+(c) 2004 A. Murat Eren, meren <at> uludag <dot> org <dot> tr
+Traditional Chinese UTF-8 Language File
+(c) 2004 Markmcm, mcha226 <at> hotmail <dot> com
+(c) 2004 Judge Hu, judgehou <at> gmail <dot> com

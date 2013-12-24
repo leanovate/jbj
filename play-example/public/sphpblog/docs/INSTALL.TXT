@@ -1,0 +1,47 @@
+Simple PHP Blog:
+----------------
+
+Installation
+------------
+1) Download and unzip the .zip file.
+2) FTP files to your web server.
+3) Visit the index.php page.
+4) Follow on screen instructions.
+
+Trouble Shooting
+----------------
+Simple PHP Blog stores all of your information in three
+separate folders. These folders are dynamically created:
+
+config/
+content/
+images/
+
+The installation process will attempt to create these
+folders. However, if write permissions are disabled,
+you will have to manually create these folders and set
+the write permissions yourself.
+
+After creating the folders, visit the index.php page
+again. It will walk you through the rest of the process.
+
+More Trouble Shooting
+---------------------
+If you are still having trouble saving your username and
+password, it is most likely due to a SAFE MODE issue.
+
+By default, PHP is set to run in SAFE MODE.
+
+PHP does a UID (User ID) compare check when opening files.
+If the "sb_functions.php" file has a different UID then the
+"config" directory, then it will not be able to write any
+files to it...
+
+The solution is to change the UIDs of all the files and
+directories so that they are all the same. This will enable
+the PHP files to create files and directories.
+
+This can be accompilshed with the CHOWN command, if you
+has access to the server. Otherwise, you will need to
+contact your service provider, and tell them to change
+the UID of the directory.

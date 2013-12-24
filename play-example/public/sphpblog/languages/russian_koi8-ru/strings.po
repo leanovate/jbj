@@ -1,0 +1,1266 @@
+msgid "language"
+msgstr "russian"
+
+msgid "locale"
+msgstr "Array"
+
+msgid "rss_locale"
+msgstr "ru-RU"
+
+msgid "html_charset"
+msgstr "koi8-ru"
+
+msgid "php_charset"
+msgstr "koi8-ru"
+
+msgid "menu_links"
+msgstr "Ссылки"
+
+msgid "menu_home"
+msgstr "На главную"
+
+msgid "menu_contact"
+msgstr "Contact Me"
+
+msgid "menu_stats"
+msgstr "Stats"
+
+msgid "menu_calendar"
+msgstr "Calendar"
+
+msgid "menu_archive"
+msgstr "Archives"
+
+msgid "menu_viewarchives"
+msgstr "View Archives"
+
+msgid "menu_menu"
+msgstr "Меню"
+
+msgid "menu_most_recent"
+msgstr "Последний комментарий"
+
+msgid "menu_add"
+msgstr "Добавить новость"
+
+msgid "menu_add_static"
+msgstr "Добавить страницу"
+
+msgid "menu_upload"
+msgstr "Добавить картинку"
+
+msgid "menu_setup"
+msgstr "Настройки"
+
+msgid "menu_categories"
+msgstr "Categories"
+
+msgid "menu_info"
+msgstr "Information"
+
+msgid "menu_options"
+msgstr "Параметры"
+
+msgid "menu_themes"
+msgstr "Themes"
+
+msgid "menu_colors"
+msgstr "Цвета"
+
+msgid "menu_change_login"
+msgstr "Изменить пользователя"
+
+msgid "menu_logout"
+msgstr "Выход"
+
+msgid "menu_login"
+msgstr "Зайти"
+
+msgid "menu_most_recent_entries"
+msgstr "Most Recent Entries"
+
+msgid "menu_most_recent_trackback"
+msgstr "Most Recent Trackbacks"
+
+msgid "menu_add_block"
+msgstr "Blocks"
+
+msgid "menu_emoticons"
+msgstr "Emoticons"
+
+msgid "menu_avatar"
+msgstr "Avatar"
+
+msgid "counter_today"
+msgstr "Today:"
+
+msgid "counter_yesterday"
+msgstr "Yesterday:"
+
+msgid "counter_totalsidebar"
+msgstr "Total:"
+
+msgid "counter_title"
+msgstr "Counter Totals"
+
+msgid "home"
+msgstr "Вернуться на главную"
+
+msgid "nav_next"
+msgstr "Next"
+
+msgid "nav_back"
+msgstr "Back"
+
+msgid "search_title"
+msgstr "Search:"
+
+msgid "search_go"
+msgstr "Go"
+
+msgid "page_generated_in"
+msgstr "Page Generated in %s seconds"
+
+msgid "counter_total"
+msgstr "Site Views: "
+
+msgid "read_more"
+msgstr "Read More..."
+
+msgid "sb_months"
+msgstr "Array"
+
+msgid "sb_default_title"
+msgstr "Нет названия"
+
+msgid "sb_default_author"
+msgstr "Нет автора"
+
+msgid "sb_default_footer"
+msgstr "Нет подвала"
+
+msgid "sb_edit"
+msgstr "изменить"
+
+msgid "sb_delete"
+msgstr "удалить"
+
+msgid "sb_permalink"
+msgstr "permalink"
+
+msgid "sb_trackback"
+msgstr "trackbacks"
+
+msgid "sb_relatedlink"
+msgstr "related link"
+
+msgid "sb_add_comment_btn"
+msgstr "добавить комментарий"
+
+msgid "sb_comment_btn_number_first"
+msgstr ""
+
+msgid "sb_comment_btn"
+msgstr "комментарий"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr ""
+
+msgid "sb_comments_plural_btn"
+msgstr "комментариев:"
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_post"
+msgstr " просмотр"
+
+msgid "sb_view_counter_plural_pre"
+msgstr "просмотров: "
+
+msgid "sb_view_counter_plural_post"
+msgstr ""
+
+msgid "sb_add_link_btn"
+msgstr "добавить ссылку"
+
+msgid "sb_rate_entry_btn"
+msgstr "Click to Rate Entry"
+
+msgid "label_subject"
+msgstr "Тема:"
+
+msgid "label_insert"
+msgstr "Специальные возможности:"
+
+msgid "btn_bold"
+msgstr " b "
+
+msgid "btn_italic"
+msgstr " i "
+
+msgid "btn_image"
+msgstr "img"
+
+msgid "btn_url"
+msgstr "url"
+
+msgid "btn_readmore"
+msgstr "read more"
+
+msgid "view_images"
+msgstr "Просмотреть закачанные картинки"
+
+msgid "label_entry"
+msgstr "Текст заметки:"
+
+msgid "btn_preview"
+msgstr "&nbsp;Просмотреть&nbsp;"
+
+msgid "btn_post"
+msgstr "&nbsp;Опубликовать&nbsp;"
+
+msgid "file_name"
+msgstr "Static File Name: (no spaces or file extensions)"
+
+msgid "insert_styles"
+msgstr "Введите форматируемый текст"
+
+msgid "insert_image"
+msgstr "Введите полный URL картинки"
+
+msgid "insert_url1"
+msgstr "Введите текст, отображаемый в виде ссылки (необязательно)"
+
+msgid "insert_url2"
+msgstr "Введите полный URL ссылки"
+
+msgid "insert_url3"
+msgstr "Open URL in new window (Optional):"
+
+msgid "add_form_error"
+msgstr "Пожалуйста, заполните поля темы и содержания."
+
+msgid "insert_image_optional"
+msgstr "Optional:"
+
+msgid "insert_image_width"
+msgstr "Width (Optional):"
+
+msgid "insert_image_height"
+msgstr "Height (Optional):"
+
+msgid "insert_image_popup"
+msgstr "View full-size in pop-up when clicked (Optional):"
+
+msgid "insert_image_float"
+msgstr "Float (Optional):"
+
+msgid "day"
+msgstr "Day"
+
+msgid "month"
+msgstr "Month"
+
+msgid "year"
+msgstr "Year"
+
+msgid "hour"
+msgstr "Hour"
+
+msgid "minute"
+msgstr "Minute"
+
+msgid "second"
+msgstr "Second"
+
+msgid "add_title"
+msgstr "Добавление заметки"
+
+msgid "add_instructions"
+msgstr "Заполните форму, по завершении нажмите <strong>'Просмотреть'</strong> для предварительного просмотра заметки или <strong>'Опубликовать'</strong> для публикации заметки на сайте."
+
+msgid "title_ad"
+msgstr "Confirm Trackback Pings"
+
+msgid "instructions_ad"
+msgstr "These are the Auto-Discovered URIs you're about to ping. If you do not want to ping a certain URI, uncheck it below. Then press the 'OK' button to ping the checked URIs or press 'Cancel' to not ping at all."
+
+msgid "label_tb_ping"
+msgstr "Trackback ping(s) to send (comma separated)"
+
+msgid "label_tb_autodiscovery"
+msgstr "autodiscovery"
+
+msgid "label_relatedlink"
+msgstr "Related Link"
+
+msgid "label_categories"
+msgstr "Category List"
+
+msgid "add_instructions_update"
+msgstr "Вы можете изменить вашу заметку, воспользовавшись следующей формой. Когда закончите, используйте кнопки <strong>'Просмотреть'</strong> и '<strong>Опубликовать'</strong>."
+
+msgid "ok_btn"
+msgstr "&nbsp;OK&nbsp;"
+
+msgid "cancel_btn"
+msgstr "&nbsp;Cancel&nbsp;"
+
+msgid "add_error"
+msgstr "<h2>Упс!</h2>Заметка не сохранена! При попытке сохранения возникла ошибка.<br /><br />Ответ сервера:<br />"
+
+msgid "add_static_form_error"
+msgstr "Please complete the Subject, Entry, and File Name fields."
+
+msgid "add_static_title"
+msgstr "Добавить статическую страницу"
+
+msgid "add_static_instructions"
+msgstr "Заполните следующую форму для создания статической страницы. В отличие от обычных постов, статические страницы отображаются в меню справа. На них удобно размещать информацию, которая должна быть всегда доступна: контакты, ответы на часто задаваемые вопросы, расписание работы и т.д. Используйте кнопку 'Просмотреть' для предварительного просмотра страницы, или 'Опубликовать' для сохранения страницы."
+
+msgid "add_static_instructions_update"
+msgstr "Вы можете изменить страницу, используя следующую форму. Когда закончите редактирование, используйте кнопки 'Просмотр' и 'Опубликовать'."
+
+msgid "add_static_error"
+msgstr "<h2>Упс!</h2>Страница не сохранена.<br /><br />Ответ сервера:<br />"
+
+msgid "comments_form_error"
+msgstr "Пожалуйста, заполните поля имени и текста комментария."
+
+msgid "name"
+msgstr "Name:"
+
+msgid "email"
+msgstr "Email:"
+
+msgid "homepage"
+msgstr "Homepage:"
+
+msgid "comment"
+msgstr "Comment:"
+
+msgid "IPAddress"
+msgstr "IP Address:"
+
+msgid "useragent"
+msgstr "User Agent:"
+
+msgid "wrote"
+msgstr "<i>On %s, %s wrote:</i><br /> <br /> %s"
+
+msgid "commentposted"
+msgstr "New comment posted at: "
+
+msgid "comment_capcha"
+msgstr "Anti-Spam: Enter "
+
+msgid "comments_title"
+msgstr "Комментарии"
+
+msgid "comments_header"
+msgstr "Добавление комментария"
+
+msgid "comments_instructions"
+msgstr "Заполните форму для добавления вашего комментария."
+
+msgid "comment_name"
+msgstr "Ваше имя:"
+
+msgid "comment_email"
+msgstr "Email:"
+
+msgid "comment_url"
+msgstr "URL:"
+
+msgid "comment_remember"
+msgstr "Remember me:"
+
+msgid "comment_text"
+msgstr "Текст комментария:"
+
+msgid "post_btn"
+msgstr "&nbsp;Добавить&nbsp;"
+
+msgid "delete_btn"
+msgstr "удалить"
+
+msgid "expired_comment1"
+msgstr "We are sorry. New comments are not allowed after "
+
+msgid "expired_comment2"
+msgstr " days."
+
+msgid "blacklisted"
+msgstr "Sorry, your IP address has been banned. Comments not allowed."
+
+msgid "comments_error_add"
+msgstr "<h2>Упс!</h2>Комментарий не сохранен. При попытке сохранения произошла неполадка.<br /><br />Ответ сервера:<br />"
+
+msgid "comments_error_delete"
+msgstr "<h2>Упс!</h2>Комментарий не был удален. При попытке удаления произошла ошибка.<br /><br />Ответ сервера:<br />"
+
+msgid "add_block_form_error"
+msgstr "Please complete the Name field."
+
+msgid "add_block_title"
+msgstr "Add / Manage Links"
+
+msgid "add_block_instructions"
+msgstr "Add custom Blocks"
+
+msgid "up"
+msgstr "up"
+
+msgid "down"
+msgstr "down"
+
+msgid "edit"
+msgstr "edit"
+
+msgid "delete"
+msgstr "delete"
+
+msgid "block_name"
+msgstr "Block Name:"
+
+msgid "block_content"
+msgstr "Block content:"
+
+msgid "add_block_instructions_edit"
+msgstr "You are currently editing block:"
+
+msgid "add_block_instructions_modify"
+msgstr "Click below to modify a block:"
+
+msgid "add_block_submit_btn_edit"
+msgstr "Edit Block"
+
+msgid "add_block_submit_btn_add"
+msgstr "Add Block"
+
+msgid "static_pages"
+msgstr "Static Pages:"
+
+msgid "add_link_title"
+msgstr "Добавление / изменение ссылок"
+
+msgid "add_link_instructions"
+msgstr "Здесь вы можете добавить ссылки на другие сайты. Заполните форму и нажмите кнопку <strong>'Добавить'</strong>. Нажимайте 'Вверх' или 'Вниз' для изменения порядка размещения ссылок. Используйте 'Изменить' для редактирования ссылки; 'удалить' - для удаления."
+
+msgid "link_name"
+msgstr "Название:"
+
+msgid "link_url"
+msgstr "URL:"
+
+msgid "add_link_instructions_edit"
+msgstr "Вы редактируете следующую ссылку:"
+
+msgid "add_link_instructions_modify"
+msgstr "Измените нужную ссылку:"
+
+msgid "add_link_submit_btn_edit"
+msgstr "Изменить ссылку"
+
+msgid "add_link_submit_btn_add"
+msgstr "Добавить ссылку"
+
+msgid "add_link_form_error"
+msgstr "Пожалуйста, заполните поля названия и адреса."
+
+msgid "categories_title"
+msgstr "Add / Manage Categories"
+
+msgid "categories_instructions"
+msgstr "Use the form below to add and edit your categories. Each category item should be in this format 'category name (id number)'. Indent items with spaces to create heirarchies.<br /><br /><b>Example:</b><br />General (1)<br />News (3)<br />&nbsp;&nbsp;Announcements (6)<br />&nbsp;&nbsp;Events (5)<br />&nbsp;&nbsp;&nbsp;&nbsp;Misc (7)<br />Technology (2)<br />"
+
+msgid "categories_error"
+msgstr "Error"
+
+msgid "current_categories"
+msgstr "Current Categories"
+
+msgid "no_categories_found"
+msgstr "No Categories Found"
+
+msgid "category_list"
+msgstr "Category List:"
+
+msgid "validate"
+msgstr "Validate"
+
+msgid "submit_btn"
+msgstr "&nbsp;Submit&nbsp;"
+
+msgid "colors_title"
+msgstr "Настройки цветовой гаммы"
+
+msgid "colors_instructions"
+msgstr "Вы можете менять цвета, используемые на вашей страничке. Используйте палитру для выбора подходящего цвета, затем впишите шестнадцатеричное значение цвета в поля внизу."
+
+msgid "bg_color"
+msgstr "Фон страницы"
+
+msgid "main_bg_color"
+msgstr "Фон основной области"
+
+msgid "border_color"
+msgstr "Рамка"
+
+msgid "inner_border_color"
+msgstr "Внутренняя рамка"
+
+msgid "header_bg_color"
+msgstr "Фон шапки"
+
+msgid "header_txt_color"
+msgstr "Текст шапки"
+
+msgid "menu_bg_color"
+msgstr "Фон меню"
+
+msgid "footer_bg_color"
+msgstr "Фон подвала"
+
+msgid "txt_color"
+msgstr "Основной текст"
+
+msgid "headline_txt_color"
+msgstr "Заголовок"
+
+msgid "date_txt_color"
+msgstr "Текст даты"
+
+msgid "footer_txt_color"
+msgstr "Текст подвала"
+
+msgid "link_reg_color"
+msgstr "Обычная ссылка"
+
+msgid "link_hi_color"
+msgstr "Ссылка активная"
+
+msgid "link_down_color"
+msgstr "Ссылка нажатая"
+
+msgid "entry_bg"
+msgstr "Entry BG"
+
+msgid "entry_title_bg"
+msgstr "Entry Title BG"
+
+msgid "entry_border"
+msgstr "Entry Border"
+
+msgid "entry_title_text"
+msgstr "Entry Title Text"
+
+msgid "entry_text"
+msgstr "Entry Text"
+
+msgid "menu_bg"
+msgstr "Menu BG"
+
+msgid "menu_title_bg"
+msgstr "Menu Title BG"
+
+msgid "menu_border"
+msgstr "Menu Border"
+
+msgid "menu_title_text"
+msgstr "Menu Title Text"
+
+msgid "menu_text"
+msgstr "Menu Text"
+
+msgid "menu_link_reg_color"
+msgstr "Menu Link Default"
+
+msgid "menu_link_hi_color"
+msgstr "Menu Link Hover"
+
+msgid "menu_link_down_color"
+msgstr "Menu Link Active"
+
+msgid "color_preset"
+msgstr "Color Schemes:"
+
+msgid "scheme_name"
+msgstr "Enter a custom color scheme name:"
+
+msgid "scheme_file"
+msgstr "Enter scheme file name: (no spaces or file extensions)"
+
+msgid "save_btn"
+msgstr "&nbsp;Save&nbsp;"
+
+msgid "colors_form_error"
+msgstr "Please enter a name for your custom color scheme."
+
+msgid "theme_doesnt_allow_colors"
+msgstr "The currently selected theme does not allow for custom colors."
+
+msgid "colors_error"
+msgstr "<h2>Упс!</h2>Информация не сохранена! Во время попытки сохранения произошла ошибка.<br /><br />Ответ сервера:<br />"
+
+msgid "delete_title"
+msgstr "Удаление заметки"
+
+msgid "delete_instructions"
+msgstr "Вы собираетесь удалить эту заметку. Еще раз удостоверьтесь что вы хотите удалить именно эту, так как возможности восстановить удаленное не предусмотрено..."
+
+msgid "delete_error"
+msgstr "<h2>Упм!</h2>Не вышло удалить заметку.<br /><br />Ответ сервера:<br />"
+
+msgid "delete_static_title"
+msgstr "Удалить статическую страницу"
+
+msgid "delete_static_instructions"
+msgstr "Вы собираетесь удалить эту страницу. Убедитесь еще раз, что хотите удалить именно ее, возможности отмены не предусмотрено."
+
+msgid "delete_static_error"
+msgstr "<h2>Упс!</h2>Страница не была удалена.<br /><br />Ответ сервера:<br />"
+
+msgid "image_list_title"
+msgstr "Каталог картинок"
+
+msgid "image_list_instructions"
+msgstr "Нажимайте на соответствующие ссылки для просмотра картинок.<br /><br />Для вставления картинки в текст заметки:<br />1) Нажмите правой кнопкой мыши на ссылке и выберите пункт меню <em>Копировать ссылку</em>.<br />2) Вернитесь в окно добавления / изменения заметки.<br />3) Нажмите кнопку <strong>'img'</strong> и вставьте в появившееся окошко ссылку из буфера обмена."
+
+msgid "info_title"
+msgstr "Meta-Data Information"
+
+msgid "info_instructions"
+msgstr "The information below is used for &quot;meta-data&quot;, which helps search engines correctly find and identify your site. Information may also be used in RSS feeds."
+
+msgid "info_keywords"
+msgstr "Keywords: (List of keywords separated by commas.)"
+
+msgid "info_description"
+msgstr "Description: (An abstract or a free-text description of your site.)"
+
+msgid "info_copyright"
+msgstr "Rights: (Copyright statement, or link to document containing information.)"
+
+msgid "info_error"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your information.<br /><br />Server Reported:<br />"
+
+msgid "info_form_error"
+msgstr "Please complete the Title and Author fields."
+
+msgid "rating_error"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your information.<br /><br />Server Reported:<br />"
+
+msgid "upgrade"
+msgstr "<h2>Upgrade</h2>"
+
+msgid "upgrade_count"
+msgstr "%n comment files need to be upgraded:"
+
+msgid "upgrade_url"
+msgstr "Upgrade Comments"
+
+msgid "login_title"
+msgstr "Вход"
+
+msgid "login_instructions"
+msgstr "Введите имя пользователя и пароль"
+
+msgid "username"
+msgstr "Имя пользователя:"
+
+msgid "password"
+msgstr "Пароль:"
+
+msgid "login_success"
+msgstr "<h2>Поздравляем!</h2>Вы успешно зарегистрировались в системе. Удачного новостеписания! :)<br />"
+
+msgid "login_wrong_password"
+msgstr "<h2>Упс!</h2>Вам не удалось зарегистрироваться. Проверьте правильность ввода имени пользователя и пароля.<br />"
+
+msgid "login_form_error"
+msgstr "Пожалуйста, заполните поля имени пользователя и пароля."
+
+msgid "logout_title"
+msgstr "Выход"
+
+msgid "logout_instructions"
+msgstr "<h2>Упс!</h2>Выход не удался: не смогли удалиться cookie. Странно, и почему вы все еще зарегистрированы?..<br />"
+
+msgid "forms_title"
+msgstr ""
+
+msgid "forms_instructions"
+msgstr ""
+
+msgid "forms_error"
+msgstr "<h2>Упс!</h2>Информация не сохранена. При попытке сохранения произошла ошибка.<br /><br />Ответ сервера:<br />"
+
+msgid "set_login_title"
+msgstr "Change Username &amp; Password"
+
+msgid "set_login_instructions"
+msgstr "Use the form below to change your Username and/or Password. Enter the Username and Password that you want to use."
+
+msgid "explanation"
+msgstr "In recent versions, our password structure has changed.  There is no longer a way to update passwords  					and/or logins from inside the blog code.  In order to change your password, delete /config/password.php and make sure install*.php  					exists on the local server.  Once that is done, refresh this page (or logout).  You will be presented with the same script  					to generate your password as you did when originally creating the blog site."
+
+msgid "set_login_success"
+msgstr "<h2>Success!</h2>Your Username and/or Password is active. Happy blogging!<p />"
+
+msgid "set_login_wrong_password"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your Username and/or Password.<br /><br />Server Reported:<br />"
+
+msgid "set_login_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "install00_title"
+msgstr "Welcome"
+
+msgid "install00_instructions"
+msgstr "  				Thank you for choosing Simple PHP Blog!"
+
+msgid "blog_choose_language"
+msgstr "Choose Language:"
+
+msgid "install01_title"
+msgstr "Welcome"
+
+msgid "install01_instructions"
+msgstr "  				Thank you for choosing Simple PHP Blog!<br /><br />Simple PHP Blog is a light-weight blogging system. It requires PHP 4.1 or greater, and write-permissions on the server. All information is stored in flat-files, so no database is required.<br /><br />  				In order to begin, Simple PHP Blog needs to create three folders ('config', 'content', and 'images') in which to store your information.<br /><br />  				<b>Click below to begin setup:</b>"
+
+msgid "begin"
+msgstr "[ Begin Setup ]"
+
+msgid "install02_title"
+msgstr "Setup"
+
+msgid "install02_instructions"
+msgstr "Trying to create 'config', 'content', and 'images' folders:"
+
+msgid "folder_exists"
+msgstr "Okay! Folder already exists. No changes made..."
+
+msgid "folder_failed"
+msgstr "Whoops! Could not create folder..."
+
+msgid "folder_success"
+msgstr "Success! Folder created..."
+
+msgid "help"
+msgstr "  				<h2>Whoops!</h2>  				Could not create one or more folders! This is most likely due to:<br>  				<i>1) <b>Write Permissions</b> aren't set to allow <b>Read/Write</b> access.</i><br>  				<i>2) The <b>UID</b>'s (user ID's) of all files and folder must match.</i><p />  				  				Follow the trouble-shooting instructions below and please try again:<p />				  				1) Manually create the following folders: <b>config</b>, <b>content</b>, and <b>images</b>.<p />  				2) Enabled <b>Write Permissions</b> on the folders. In your FTP program, Owner, User, and World should have <b>Read</b> and <b>Write</b> access. <i>(You may need to contact your service provider to change these...)</i><p />  				3) Make sure the UID's of all your files and folders are the same. <i>(You may need to contact your service provider to change these...)</i>"
+
+msgid "try_again"
+msgstr "[ Try Again ]"
+
+msgid "install02_success"
+msgstr "<h2>Success!</h2>Folders created successfully!<p /><b>Click below to continue:</b>"
+
+msgid "continue"
+msgstr "[ Continue ]"
+
+msgid "supported"
+msgstr "<b>Your web server supports the following encryption schemes:</b>"
+
+msgid "standard"
+msgstr "Standard DES Encryption: "
+
+msgid "extended"
+msgstr "Extended DES Encryption: "
+
+msgid "MD5"
+msgstr "MD5 Encryption: "
+
+msgid "blowfish"
+msgstr "Blowfish Encryption: "
+
+msgid "enabled"
+msgstr "enabled"
+
+msgid "disabled"
+msgstr "disabled"
+
+msgid "using_standard"
+msgstr "<b>Using Standard DES Encryption...</b>"
+
+msgid "using_extended"
+msgstr "<b>Using Extended DES Encryption...</b>"
+
+msgid "using_MD5"
+msgstr "<b style='color: green;'>Using MD5 Encryption...</b>"
+
+msgid "using_blowfish"
+msgstr "<b style='color: green;'>Using Blowfish Encryption...</b>"
+
+msgid "using_unknown"
+msgstr "<b>Using Unknown Encryption...</b>"
+
+msgid "salt_length"
+msgstr " <i>(Salt Length = %string)</i><br />"
+
+msgid "install03_title"
+msgstr "Create Username &amp; Password"
+
+msgid "install03_instructions"
+msgstr "Use the form below to Create a Username and Password."
+
+msgid "install03_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in. Click below to visit the Setup page, where you can name your blog. Happy blogging!<p />"
+
+msgid "btn_setup"
+msgstr "[ Setup ]"
+
+msgid "install03_wrong_password"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your Username and/or Password.<br /><br />Server Reported:<br />"
+
+msgid "install03_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "install04_title"
+msgstr "Create Password File"
+
+msgid "install04_instructions"
+msgstr "Here's the tricky part:<br />  				<ol>  				<li>Open a Text Editor application. <i>(Note Pad, Word Pad, Word, BBEdit, Pico, VI, etc...)</i></li>  				<li>Create a New Text Document.</li>  				<li>Copy and paste the code in the box below into your document.</li>  				<li>Save your file and name it <b>password.php</b> <i>(Be sure to save it in <b>text</b> or <b>plain text</b> format.)</i></li>  				<li>Open a FTP application.</li>  				<li>Upload your new <b>password.php</b> into the <b>config</b> folder on your web site.</li>  				<li>Delete the <b>password.php</b> from your hard drive.</li>  				</ol>  				"
+
+msgid "information"
+msgstr "<i>Note: If you want to reset your username and password (probably because you forgot it), delete the <b>password.php</b> file in the <b>config</b> folder on your web site. The next time you visit your site, it will walk you through this installation process again...</i>"
+
+msgid "code"
+msgstr "Code for <b>password.php</b> file:"
+
+msgid "install05_title"
+msgstr "Login"
+
+msgid "install05_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid "install05_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in.<p />  				Click below to visit the <b>Setup</b> page, where you can personalize your new blog.<p />  				<i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install05_wrong_password"
+msgstr "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your Username and Password correctly and try again.<p />"
+
+msgid "install05_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "btn_try_again"
+msgstr "[ Try Again ]"
+
+msgid "install06_title"
+msgstr "Login"
+
+msgid "install06_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid "install06_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in.<p />  				Click below to visit the <b>Setup</b> page, where you can personalize your new blog.<p />  				<i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install06_wrong_password"
+msgstr "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your Username and Password correctly and try again.<p />"
+
+msgid "install06_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "setup_title"
+msgstr "Настройки"
+
+msgid "setup_instructions"
+msgstr "Здесь вы можетел изменить название своего блога/странички и некоторую персональную информацию."
+
+msgid "blog_title"
+msgstr "Название странички:"
+
+msgid "blog_author"
+msgstr "Автор:"
+
+msgid "blog_email"
+msgstr "Email:"
+
+msgid "blog_avatar"
+msgstr "Avatar URL: (Leave blank for none)."
+
+msgid "blog_footer"
+msgstr "Подвал:"
+
+msgid "blog_enable_comments"
+msgstr "Enable User Comments"
+
+msgid "blog_comments_popup"
+msgstr "Open Comments in Popup Window"
+
+msgid "blog_enable_cache"
+msgstr "Enable Blog Entry Cache (may provide speed increase on some servers)"
+
+msgid "blog_enable_voting"
+msgstr "Enable Users to Rate Entries"
+
+msgid "blog_email_notification"
+msgstr "Send email notification when comments are posted"
+
+msgid "blog_send_pings"
+msgstr "Send weblog &quot;pings&quot;"
+
+msgid "blog_ping_urls"
+msgstr "Enter full URL (i.e. http://rpc.weblogs.com/RPC2) of service to &quot;ping&quot;.<br />(You can enter more than one address separated by commas.)"
+
+msgid "blog_trackback_about"
+msgstr "Trackback provides a method of notification between blogs. Let another  					blog know that you are linking to them by sending them a trackback ping. See who is linking to   					your blog by receiving trackback pings.<br />  				   You can either enter the URIs to ping manually, or try to do it automatically through   				   Auto-Discovery."
+
+msgid "blog_trackback_enabled"
+msgstr "Enable trackback in my blog"
+
+msgid "blog_trackback_auto_discovery"
+msgstr "Enable Auto-Discovery when submitting a post containing URLs"
+
+msgid "blog_max_entries"
+msgstr "Maximum Entries to Display:"
+
+msgid "blog_comment_tags"
+msgstr "Tags to Allow in Comments:"
+
+msgid "blog_gzip_about"
+msgstr "  					Since PHP 4.0.4, PHP has had the ability to read and write gzip (.gz) compressed files,   					thus saving disk-space. It can also transparently compress pages that are sent to browsers   					which support gzip compression, thus saving bandwidth.<br />  					<br />  					Zlib support in PHP is not enabled by default. If the checkboxes are disabled, then your   					installation of PHP does not support the Zlib extension."
+
+msgid "blog_enable_gzip_txt"
+msgstr "Enable GZIP Compression for Database Files"
+
+msgid "blog_enable_gzip_output"
+msgstr "Enable GZIP Compression for HTTP Output"
+
+msgid "setup_error"
+msgstr "<h2>Упс!</h2>Информация не может быть сохранена. При попытке сохранения произошла ошибка.<br /><br />Ответ сервера:<br />"
+
+msgid "setup_form_error"
+msgstr "Пожалуйста, укажите название и автора."
+
+msgid "label_entry_order"
+msgstr "Порядок отображения постов:"
+
+msgid "select_new_to_old"
+msgstr "Новые первыми"
+
+msgid "select_old_to_new"
+msgstr "Новые последними"
+
+msgid "label_comment_order"
+msgstr "Порядок отображения комментариев:"
+
+msgid "cal_sunday"
+msgstr "Sunday"
+
+msgid "cal_monday"
+msgstr "Monday"
+
+msgid "label_calendar_start"
+msgstr "Calendar Week Start Day"
+
+msgid "blog_enable_calendar"
+msgstr "Enable Calendar / Archives Block"
+
+msgid "blog_enable_archives"
+msgstr "Enable Archives Block"
+
+msgid "blog_enable_counter"
+msgstr "Enable Counter in Sidebar"
+
+msgid "blog_counter_hours"
+msgstr "Number of hours to delay before hits are counted again (based on specific ip address):"
+
+msgid "blog_enable_login"
+msgstr "Enable Login Link (Please bookmark 'login.php' first...)"
+
+msgid "blog_enable_title"
+msgstr "Enable Plain Text Title Block (Clear checkbox if the title is in the header graphic)"
+
+msgid "blog_enable_permalink"
+msgstr "Enable Permalink on Blog Entries"
+
+msgid "blog_enable_capcha"
+msgstr "Enable Anti-Spam"
+
+msgid "blog_footer_counter"
+msgstr "Enable Counter in Footer"
+
+msgid "blog_enable_capcha_image"
+msgstr "Anti-Spam Images (GD library only) / Anti-Spam Text Field"
+
+msgid "blog_enable_stats"
+msgstr "Enable Stats Option in Menu"
+
+msgid "blog_enable_lastcomments"
+msgstr "Enable Most Recent Comments Listing"
+
+msgid "blog_enable_lastentries"
+msgstr "Enable Most Recent Entries Listing"
+
+msgid "title_sidebar"
+msgstr "Sidebar"
+
+msgid "title_comments"
+msgstr "Comments"
+
+msgid "title_trackback"
+msgstr "Trackbacks"
+
+msgid "title_compression"
+msgstr "Compression"
+
+msgid "title_entries"
+msgstr "Entries"
+
+msgid "title_general"
+msgstr "General"
+
+msgid "title_language"
+msgstr "Language"
+
+msgid "blog_comment_days_expiry"
+msgstr "Comments Allowed For How Many Days? (0 means no expiry)"
+
+msgid "options_title"
+msgstr "Параметры"
+
+msgid "options_instructions"
+msgstr "Настройте параметры отображения даты и времени. Поля <strong>Предварительный просмотр</strong> автоматически обновляются при изменении какого-либо параметра."
+
+msgid "ldate_title"
+msgstr "Длинный формат даты:"
+
+msgid "weekday"
+msgstr "День недели"
+
+msgid "none"
+msgstr "пусто"
+
+msgid "sdate_title"
+msgstr "Короткий формат даты:"
+
+msgid "s_month"
+msgstr "Месяц"
+
+msgid "s_mon"
+msgstr "MMM"
+
+msgid "s_day"
+msgstr "День"
+
+msgid "s_year"
+msgstr "Год"
+
+msgid "zero_day"
+msgstr "01 вместо 1 для дня"
+
+msgid "show_century"
+msgstr "Show century"
+
+msgid "time_title"
+msgstr "Формат времени:"
+
+msgid "12hour"
+msgstr "12-часовой формат"
+
+msgid "24hour"
+msgstr "24-часовой формат"
+
+msgid "before_noon"
+msgstr "До полудня"
+
+msgid "after_noon"
+msgstr "После полудня"
+
+msgid "date_title"
+msgstr "Формат отображения:"
+
+msgid "long_date"
+msgstr "Long Date"
+
+msgid "short_date"
+msgstr "Short Date"
+
+msgid "time"
+msgstr "Время"
+
+msgid "menu_title"
+msgstr "Menu Date Display Format:"
+
+msgid "zero_month"
+msgstr "01 вместо 1 для для месяца"
+
+msgid "zero_hour"
+msgstr "01 вместо 1 для часа"
+
+msgid "separator"
+msgstr "Разделитель:"
+
+msgid "preview"
+msgstr "Предварительный просмотр:"
+
+msgid "server_offset"
+msgstr "Server Offset:"
+
+msgid "options_error"
+msgstr "<h2>Упс!</h2>При сохранении параметров возникла ошибка. Параметры не сохранены.<br /><br />Ответ сервера:<br />"
+
+msgid "upload_img_title"
+msgstr "Закачка картинки"
+
+msgid "upload_img_instructions"
+msgstr "Нажмите кнопку 'Обзор' чтобы выбрать картинку на локальном диске."
+
+msgid "select_file"
+msgstr "Выберите файл:"
+
+msgid "upload_btn"
+msgstr "Добавить"
+
+msgid "upload_img_error"
+msgstr "<h2>Упс!</h2>При попытке закачивания картинки произошла ошибка. Служебная информация:<br /><br />Ответ сервера:<br />"
+
+msgid "themes_title"
+msgstr "Themes"
+
+msgid "themes_instructions"
+msgstr "Use the drop-down menu to select a different theme."
+
+msgid "choose_theme"
+msgstr "Themes:"
+
+msgid "themes_error"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your information.<br /><br />Server Reported:<br />"
+
+msgid "search_result_title"
+msgstr "Search Results"
+
+msgid "search_result_instructions"
+msgstr "Search results for <b>%string</b>:"
+
+msgid "not_found"
+msgstr "No results found"
+
+msgid "contact_title"
+msgstr "Contact Me"
+
+msgid "contact_instructions"
+msgstr "Fill in the form:"
+
+msgid "contact_form_error"
+msgstr "Please complete the Subject and Comment fields."
+
+msgid "subject"
+msgstr "Subject:"
+
+msgid "contact_success"
+msgstr "<h2>Success!</h2>Your message has been sent.<p />"
+
+msgid "failure"
+msgstr "<h2>Error!</h2>Your message has not been sent. Most likely the Anti Spam was not entered properly.<p />"
+
+msgid "contact_capcha"
+msgstr "Anti-Spam: Enter "
+
+msgid "contactsent"
+msgstr "Contact sent through: "
+
+msgid "errorpage-nocookies_title"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "errorline1"
+msgstr "The page or function you attempted to process requires the use of cookies."
+
+msgid "errorline2"
+msgstr "Restore cookie functionality within your browser or protection software and attempt your request again."
+
+msgid "clientid"
+msgstr "Client ID: "
+
+msgid "trackbacks_title"
+msgstr "Trackbacks"
+
+msgid "trackbacks_header"
+msgstr "Trackback URL for this entry:"
+
+msgid "trackbacks_error_add"
+msgstr "Error storing trackback data."
+
+msgid "stats_title"
+msgstr "Statistics"
+
+msgid "general"
+msgstr "General"
+
+msgid "entry_info"
+msgstr "<b>%s</b> entries using <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "comment_info"
+msgstr "<b>%s</b> comments using <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "trackback_info"
+msgstr "<b>%s</b> trackbacks stored in <b>%s</b> bytes"
+
+msgid "static_info"
+msgstr "<b>%s</b> static pages using <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "most_viewed_entries"
+msgstr "10 Most viewed entries"
+
+msgid "most_commented_entries"
+msgstr "10 Most commented entries"
+
+msgid "most_trackbacked_entries"
+msgstr "10 Most trackbacked entries"
+
+msgid "vote_info"
+msgstr "<b>%s</b> votes stored in <b>%s</b> bytes"
+
+msgid "most_voted_entries"
+msgstr "10 Most voted entries"
+
+msgid "most_rated_entries"
+msgstr "10 Most rated entries"
+
+msgid "403.8"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "404"
+msgstr "HTTP Error 404 - Page/Function Does Not Exist"
+
+msgid "error_404"
+msgstr "The page or function you attempted to process does not exist."
+
+msgid "error_javascript"
+msgstr "The page or function you attempted requires javascript in order to properly function."
+
+msgid "error_emailnotsent"
+msgstr "The message you attempted to send has failed."
+
+msgid "error_emailnotsentcapcha"
+msgstr "The message you attempted to send has failed because the anti-spam entry was incorrect or missing."
+
+msgid "emoticons_title"
+msgstr "Admin Emoticons"
+
+msgid "emoticons_instructions"
+msgstr "  					Check the emoticons you want to use. Write in the box the Tags you want   					to be replaced by the image. Multiple tags may be used, just separated them   					by spaces.<br /><br />  		  					For instance:<br />  					:) :-) :SMILE: :HAPPY:<br /><br />  					  					<i>(It is highly recommended that you make the Tags longer than 2 characters,   					otherwise unexpected substitutions may occur.)</i>"
+
+msgid "upload_instructions"
+msgstr "Upload New Emoticon:"
+
+msgid "upload_success"
+msgstr "Success! Image uploaded successfully!"
+
+msgid "upload_error"
+msgstr "Error! Image was not uploaded."
+
+msgid "upload_invalid"
+msgstr "Error! Invalid image file. Image must be a png, jpg, or gif."
+
+msgid "save_success"
+msgstr "Emoticon preferences saved successfully!"
+
+msgid "save_error"
+msgstr "Error! Emoticon preferences not saved."
+
+msgid "save_button"
+msgstr "Save Emoticons"
+

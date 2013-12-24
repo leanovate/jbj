@@ -1,0 +1,1266 @@
+msgid "language"
+msgstr "Nederlands"
+
+msgid "locale"
+msgstr "Array"
+
+msgid "rss_locale"
+msgstr "nl-NL"
+
+msgid "html_charset"
+msgstr "ISO-8859-1"
+
+msgid "php_charset"
+msgstr "ISO-8859-1"
+
+msgid "menu_links"
+msgstr "Links"
+
+msgid "menu_home"
+msgstr "Home"
+
+msgid "menu_contact"
+msgstr "Contact Me"
+
+msgid "menu_stats"
+msgstr "Stats"
+
+msgid "menu_calendar"
+msgstr "Calendar"
+
+msgid "menu_archive"
+msgstr "Archief"
+
+msgid "menu_viewarchives"
+msgstr "View Archives"
+
+msgid "menu_menu"
+msgstr "Menu"
+
+msgid "menu_add"
+msgstr "Bericht toevoegen"
+
+msgid "menu_add_static"
+msgstr "Vaste pagina toevoegen"
+
+msgid "menu_upload"
+msgstr "Afbeelding uploaden"
+
+msgid "menu_setup"
+msgstr "Instellingen"
+
+msgid "menu_categories"
+msgstr "Categories"
+
+msgid "menu_info"
+msgstr "Informatie"
+
+msgid "menu_options"
+msgstr "Opties"
+
+msgid "menu_themes"
+msgstr "Stijlen"
+
+msgid "menu_colors"
+msgstr "Kleuren"
+
+msgid "menu_change_login"
+msgstr "Login wijzigen"
+
+msgid "menu_logout"
+msgstr "Uitloggen"
+
+msgid "menu_login"
+msgstr "Inloggen"
+
+msgid "menu_most_recent"
+msgstr "Nieuwste reacties"
+
+msgid "menu_most_recent_entries"
+msgstr "Most Recent Entries"
+
+msgid "menu_most_recent_trackback"
+msgstr "Most Recent Trackbacks"
+
+msgid "menu_add_block"
+msgstr "Blocks"
+
+msgid "menu_emoticons"
+msgstr "Emoticons"
+
+msgid "menu_avatar"
+msgstr "Avatar"
+
+msgid "counter_today"
+msgstr "Today:"
+
+msgid "counter_yesterday"
+msgstr "Yesterday:"
+
+msgid "counter_totalsidebar"
+msgstr "Total:"
+
+msgid "counter_title"
+msgstr "Counter Totals"
+
+msgid "home"
+msgstr "Terug naar startpagina"
+
+msgid "nav_next"
+msgstr "Volgende"
+
+msgid "nav_back"
+msgstr "Vorige"
+
+msgid "search_title"
+msgstr "Zoeken:"
+
+msgid "search_go"
+msgstr "Zoek"
+
+msgid "page_generated_in"
+msgstr "Pagina gegenereerd in %s seconden"
+
+msgid "counter_total"
+msgstr "Site Views: "
+
+msgid "read_more"
+msgstr "Read More..."
+
+msgid "sb_months"
+msgstr "Array"
+
+msgid "sb_default_title"
+msgstr "Geen titel"
+
+msgid "sb_default_author"
+msgstr "Geen auteur"
+
+msgid "sb_default_footer"
+msgstr "Geen ondertitel"
+
+msgid "sb_edit"
+msgstr "bewerk"
+
+msgid "sb_delete"
+msgstr "verwijder"
+
+msgid "sb_permalink"
+msgstr "permalink"
+
+msgid "sb_trackback"
+msgstr "trackbacks"
+
+msgid "sb_relatedlink"
+msgstr "related link"
+
+msgid "sb_add_comment_btn"
+msgstr "reactie toevoegen"
+
+msgid "sb_comment_btn_number_first"
+msgstr "1"
+
+msgid "sb_comment_btn"
+msgstr "reactie"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr "1"
+
+msgid "sb_comments_plural_btn"
+msgstr "reacties"
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_post"
+msgstr " keer bekeken"
+
+msgid "sb_view_counter_plural_pre"
+msgstr ""
+
+msgid "sb_view_counter_plural_post"
+msgstr " keer bekeken"
+
+msgid "sb_add_link_btn"
+msgstr "+ link"
+
+msgid "sb_rate_entry_btn"
+msgstr "Click to Rate Entry"
+
+msgid "label_subject"
+msgstr "Onderwerp:"
+
+msgid "label_insert"
+msgstr "Code invoegen:"
+
+msgid "btn_bold"
+msgstr " b "
+
+msgid "btn_italic"
+msgstr " i "
+
+msgid "btn_image"
+msgstr "img"
+
+msgid "btn_url"
+msgstr "url"
+
+msgid "btn_readmore"
+msgstr "read more"
+
+msgid "view_images"
+msgstr "Bekijk afbeeldingen"
+
+msgid "label_entry"
+msgstr "Bericht:"
+
+msgid "btn_preview"
+msgstr "&nbsp;Bekijk&nbsp;"
+
+msgid "btn_post"
+msgstr "&nbsp;Verstuur&nbsp;"
+
+msgid "file_name"
+msgstr "Static File Name: (no spaces or file extensions)"
+
+msgid "insert_styles"
+msgstr "Vul de tekst in die opgemaakt moet worden"
+
+msgid "insert_image"
+msgstr "Vul de URL van de afbeelding in"
+
+msgid "insert_url1"
+msgstr "Vul de tekst in die bij de link komt te staan (optioneel)"
+
+msgid "insert_url2"
+msgstr "Vul de volledige URL van de lnik in"
+
+msgid "insert_url3"
+msgstr "Open URL in nieuw venster (optioneel):"
+
+msgid "add_form_error"
+msgstr "Vul onderwerp en bericht in."
+
+msgid "insert_image_optional"
+msgstr "Optioneel:"
+
+msgid "insert_image_width"
+msgstr "Breedte (Optioneel):"
+
+msgid "insert_image_height"
+msgstr "Hoogte (Optioneel):"
+
+msgid "insert_image_popup"
+msgstr "Volledige afbeelding in pop-up venster laten zien (Optioneel):"
+
+msgid "insert_image_float"
+msgstr "Zwevend (Optioneel):"
+
+msgid "day"
+msgstr "Day"
+
+msgid "month"
+msgstr "Month"
+
+msgid "year"
+msgstr "Year"
+
+msgid "hour"
+msgstr "Hour"
+
+msgid "minute"
+msgstr "Minute"
+
+msgid "second"
+msgstr "Second"
+
+msgid "add_title"
+msgstr "Voeg bericht toe"
+
+msgid "add_instructions"
+msgstr "Vul het formulier in klik op 'Bekijk' om te zien hoe het bericht geplaatst zal worden, of klik op 'Verstuur' om het bericht te plaatsen."
+
+msgid "title_ad"
+msgstr "Confirm Trackback Pings"
+
+msgid "instructions_ad"
+msgstr "These are the Auto-Discovered URIs you're about to ping. If you do not want to ping a certain URI, uncheck it below. Then press the 'OK' button to ping the checked URIs or press 'Cancel' to not ping at all."
+
+msgid "label_tb_ping"
+msgstr "Trackback ping(s) to send (comma separated)"
+
+msgid "label_tb_autodiscovery"
+msgstr "autodiscovery"
+
+msgid "label_relatedlink"
+msgstr "Related Link"
+
+msgid "label_categories"
+msgstr "Category List"
+
+msgid "add_instructions_update"
+msgstr "Het bericht kan hieronder gewijzigd worden. Klik op 'Bekijk' of 'Verstuur' als het bericht klaar is."
+
+msgid "ok_btn"
+msgstr "&nbsp;OK&nbsp;"
+
+msgid "cancel_btn"
+msgstr "&nbsp;Cancel&nbsp;"
+
+msgid "add_error"
+msgstr "<h2>Oeps!</h2>Bericht niet opgeslagen. Er is een probleem opgetreden bij het opslaan.<br /><br />Melding:<br />"
+
+msgid "add_static_form_error"
+msgstr "Please complete the Subject, Entry, and File Name fields."
+
+msgid "add_static_title"
+msgstr "Voeg vaste pagina toe"
+
+msgid "add_static_instructions"
+msgstr "Vul het formulier in om een vaste pagina te maken. Een vaste pagina verschijnt, in tegenstelling tot gewone berichten, als een link in het menu aan de rechterkant. Ze kunnen gebruikt worden voor pagina's die altijd toegankelijk moeten zijn, zoals: Info, Contact, Agenda, etc. Klik op 'Bekijk' om te zien hoe de pagina uit zal zien, of klik op 'Verstuur' om de pagina op te slaan."
+
+msgid "add_static_instructions_update"
+msgstr "De vaste pagina kan hieronder gewijzigd worden. Klik op 'Bekijk' of 'Verstuur' als de pagina klaar is."
+
+msgid "add_static_error"
+msgstr "<h2>Oeps!</h2>Pagina niet opgeslagen. Er is een probleem opgetreden bij het opslaan.<br /><br />Melding:<br />"
+
+msgid "comments_form_error"
+msgstr "Vul een Naam en een Bericht in."
+
+msgid "name"
+msgstr "Name:"
+
+msgid "email"
+msgstr "Email:"
+
+msgid "homepage"
+msgstr "Homepage:"
+
+msgid "comment"
+msgstr "Comment:"
+
+msgid "IPAddress"
+msgstr "IP Address:"
+
+msgid "useragent"
+msgstr "User Agent:"
+
+msgid "wrote"
+msgstr "<i>On %s, %s wrote:</i><br /> <br /> %s"
+
+msgid "commentposted"
+msgstr "New comment posted at: "
+
+msgid "comment_capcha"
+msgstr "Anti-Spam: Enter "
+
+msgid "comments_title"
+msgstr "Reacties"
+
+msgid "comments_header"
+msgstr "Plaats reactie"
+
+msgid "comments_instructions"
+msgstr "Vul het formulier in om een reactie te plaatsen."
+
+msgid "comment_name"
+msgstr "Naam:"
+
+msgid "comment_email"
+msgstr "Email:"
+
+msgid "comment_url"
+msgstr "URL:"
+
+msgid "comment_remember"
+msgstr "Remember me:"
+
+msgid "comment_text"
+msgstr "Bericht:"
+
+msgid "post_btn"
+msgstr "&nbsp;Reactie Versturen&nbsp;"
+
+msgid "delete_btn"
+msgstr "verwijder"
+
+msgid "expired_comment1"
+msgstr "We are sorry. New comments are not allowed after "
+
+msgid "expired_comment2"
+msgstr " days."
+
+msgid "blacklisted"
+msgstr "Sorry, your IP address has been banned. Comments not allowed."
+
+msgid "comments_error_add"
+msgstr "<h2>Oeps!</h2>Reactie niet geplaatst. De reactie kan helaas niet worden opgeslagen.<br /><br />Melding:<br />"
+
+msgid "comments_error_delete"
+msgstr "<h2>Oeps!</h2>Reactie niet verwijderd. De reactie kan helaas niet worden verwijderd.<br /><br />Melding:<br />"
+
+msgid "add_block_form_error"
+msgstr "Please complete the Name field."
+
+msgid "add_block_title"
+msgstr "Add / Manage Links"
+
+msgid "add_block_instructions"
+msgstr "Add custom Blocks"
+
+msgid "up"
+msgstr "up"
+
+msgid "down"
+msgstr "down"
+
+msgid "edit"
+msgstr "edit"
+
+msgid "delete"
+msgstr "delete"
+
+msgid "block_name"
+msgstr "Block Name:"
+
+msgid "block_content"
+msgstr "Block content:"
+
+msgid "add_block_instructions_edit"
+msgstr "You are currently editing block:"
+
+msgid "add_block_instructions_modify"
+msgstr "Click below to modify a block:"
+
+msgid "add_block_submit_btn_edit"
+msgstr "Edit Block"
+
+msgid "add_block_submit_btn_add"
+msgstr "Add Block"
+
+msgid "static_pages"
+msgstr "Static Pages:"
+
+msgid "add_link_title"
+msgstr "Links toevoegen / beheren"
+
+msgid "add_link_instructions"
+msgstr "Voeg links naar andere websites toe. Vul het formulier in en klik op 'Link toevoegen' om een link toe te voegen. Klik op de omhoog/omlaag knoppen om de volgorde van de links te veranderen. Klik op de wijzigen knop om een link aan te passen. Klik op verwijderen om een link te verwijderen"
+
+msgid "link_name"
+msgstr "Link naam:"
+
+msgid "link_url"
+msgstr "Link URL: (Optioneel. Leeglaten om een scheidingsteken te maken.)"
+
+msgid "add_link_instructions_edit"
+msgstr "Je bewerkt deze link:"
+
+msgid "add_link_instructions_modify"
+msgstr "Klik hieronder om een link te wijzigen:"
+
+msgid "add_link_submit_btn_edit"
+msgstr "Wijzig Link"
+
+msgid "add_link_submit_btn_add"
+msgstr "Link toevoegen"
+
+msgid "add_link_form_error"
+msgstr "Vul een naam in."
+
+msgid "categories_title"
+msgstr "Add / Manage Categories"
+
+msgid "categories_instructions"
+msgstr "Use the form below to add and edit your categories. Each category item should be in this format 'category name (id number)'. Indent items with spaces to create heirarchies.<br /><br /><b>Example:</b><br />General (1)<br />News (3)<br />&nbsp;&nbsp;Announcements (6)<br />&nbsp;&nbsp;Events (5)<br />&nbsp;&nbsp;&nbsp;&nbsp;Misc (7)<br />Technology (2)<br />"
+
+msgid "categories_error"
+msgstr "Error"
+
+msgid "current_categories"
+msgstr "Current Categories"
+
+msgid "no_categories_found"
+msgstr "No Categories Found"
+
+msgid "category_list"
+msgstr "Category List:"
+
+msgid "validate"
+msgstr "Validate"
+
+msgid "submit_btn"
+msgstr "&nbsp;Submit&nbsp;"
+
+msgid "colors_title"
+msgstr "Kleuren wijzigen"
+
+msgid "colors_instructions"
+msgstr "Je kan de tekst- en achtergrondkleuren van je blog wijzigen. Gebruik de kleurkiezer om je kleur te wijzigen, of typ de HEX waarde in het veld."
+
+msgid "bg_color"
+msgstr "Pagina kleur"
+
+msgid "main_bg_color"
+msgstr "Hoofdpagina kleur"
+
+msgid "border_color"
+msgstr "Pagina rand"
+
+msgid "inner_border_color"
+msgstr "Binnenste rand"
+
+msgid "header_bg_color"
+msgstr "Titel achtergrond"
+
+msgid "header_txt_color"
+msgstr "Titel tekst"
+
+msgid "menu_bg_color"
+msgstr "Menu achtergrond"
+
+msgid "footer_bg_color"
+msgstr "Ondertitel kleur"
+
+msgid "txt_color"
+msgstr "Gewone tekst"
+
+msgid "headline_txt_color"
+msgstr "Titel tekst"
+
+msgid "date_txt_color"
+msgstr "Datum tekst"
+
+msgid "footer_txt_color"
+msgstr "Ondertitel tekst"
+
+msgid "link_reg_color"
+msgstr "Gewone link"
+
+msgid "link_hi_color"
+msgstr "Actieve link"
+
+msgid "link_down_color"
+msgstr "Bezochte link"
+
+msgid "entry_bg"
+msgstr "Bericht achtergrond"
+
+msgid "entry_title_bg"
+msgstr "Bericht titel achtergrond"
+
+msgid "entry_border"
+msgstr "Bericht rand"
+
+msgid "entry_title_text"
+msgstr "Bericht titel tekst"
+
+msgid "entry_text"
+msgstr "Bericht tekst"
+
+msgid "menu_bg"
+msgstr "Menu achtergrond"
+
+msgid "menu_title_bg"
+msgstr "Menu titel achtergrond"
+
+msgid "menu_border"
+msgstr "Menu rand"
+
+msgid "menu_title_text"
+msgstr "Menu titel tekst"
+
+msgid "menu_text"
+msgstr "Menu tekst"
+
+msgid "menu_link_reg_color"
+msgstr "Menu link Normaal"
+
+msgid "menu_link_hi_color"
+msgstr "Menu link Zweven"
+
+msgid "menu_link_down_color"
+msgstr "Menu link Actief"
+
+msgid "color_preset"
+msgstr "Color Schemes:"
+
+msgid "scheme_name"
+msgstr "Enter a custom color scheme name:"
+
+msgid "scheme_file"
+msgstr "Enter scheme file name: (no spaces or file extensions)"
+
+msgid "save_btn"
+msgstr "&nbsp;Save&nbsp;"
+
+msgid "colors_form_error"
+msgstr "Please enter a name for your custom color scheme."
+
+msgid "theme_doesnt_allow_colors"
+msgstr "The currently selected theme does not allow for custom colors."
+
+msgid "colors_error"
+msgstr "<h2>Oeps!</h2>Instellingen niet opgeslagen. Er is een probleem opgetreden bij het opslaan.<br /><br />Melding:<br />"
+
+msgid "delete_title"
+msgstr "Verwijder bericht"
+
+msgid "delete_instructions"
+msgstr "Het onderstaande bericht wordt verwijderd. Dit bericht echt verwijderen? Dit kan niet ongedaan worden gemaakt..."
+
+msgid "delete_error"
+msgstr "<h2>Oeps!</h2>Kan bericht niet verwijderen.<br /><br />Melding:<br />"
+
+msgid "delete_static_title"
+msgstr "Verwijder vaste pagina"
+
+msgid "delete_static_instructions"
+msgstr "De onderstaande vaste pagina wordt verwijderd. Deze pagina echt verwijderen? Dit kan niet ongedaan worden gemaakt..."
+
+msgid "delete_static_error"
+msgstr "<h2>Oeps!</h2>Kan pagina niet verwijderen.<br /><br />Melding:<br />"
+
+msgid "image_list_title"
+msgstr "Afbeeldingen lijst"
+
+msgid "image_list_instructions"
+msgstr "Klik op de links hieronder om afbeeldingen te bekijken.<br /><br />Om een afbeelding aan een bericht toe te voegen:<br />1) Control-klik op een link en kies 'Kopieer link naar klembord'.<br />2) Ga terug naar de 'Bericht toevoegen / verwijderen' pagina.<br />3) Klik op de 'img' knop en kopieer de URL in het venster."
+
+msgid "info_title"
+msgstr "Meta-Data Informatie"
+
+msgid "info_instructions"
+msgstr "Deze informatie wordt gebruikt voor &quot;meta-data&quot;, deze informatie wordt gebruikt om je site te indexeren bij zoekmachines. Het gebruik van RSS is toegestaan."
+
+msgid "info_keywords"
+msgstr "Steekwoorden: (Lijst van steekwoorden (keywords), komma gescheiden.)"
+
+msgid "info_description"
+msgstr "Omschrijving: (Een korte beschrijving van je site.)"
+
+msgid "info_copyright"
+msgstr "Rechten: (Copyright informatie, of een link naar deze informatie.)"
+
+msgid "info_error"
+msgstr "<h2>Oeps!</h2>Informatie niet opgeslagen. Er is een probleem opgetreden bij het opslaan.<br /><br />Melding:<br />"
+
+msgid "info_form_error"
+msgstr "Titel en auteur velden invullen.."
+
+msgid "rating_error"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your information.<br /><br />Server Reported:<br />"
+
+msgid "upgrade"
+msgstr "<h2>Upgrade</h2>"
+
+msgid "upgrade_count"
+msgstr "%n comment files need to be upgraded:"
+
+msgid "upgrade_url"
+msgstr "Upgrade Comments"
+
+msgid "login_title"
+msgstr "Inloggen"
+
+msgid "login_instructions"
+msgstr "Vul gebruikersnaam en wachtwoord in:"
+
+msgid "username"
+msgstr "Gebruikersnaam:"
+
+msgid "password"
+msgstr "Wachtwoord"
+
+msgid "login_success"
+msgstr "<h2>Gelukt!</h2>Je bent nu ingelogd<p />"
+
+msgid "login_wrong_password"
+msgstr "<h2>Oeps!</h2>Inloggen mislukt. Controleer gebruikersnaam en wachtwoord en probeer opnieuw.<p />"
+
+msgid "login_form_error"
+msgstr "Vul gebruikersnaam en wachtwoord in."
+
+msgid "logout_title"
+msgstr "Uitloggen"
+
+msgid "logout_instructions"
+msgstr "<h2>Oeps!</h2>Uitloggen mislukt. Kan cookie niet verwijderen.<p />"
+
+msgid "forms_title"
+msgstr ""
+
+msgid "forms_instructions"
+msgstr ""
+
+msgid "forms_error"
+msgstr "<h2>Oeps!</h2>Instellingen niet opgeslagen. Er is een probleem opgetreden bij het opslaan.<br /><br />Melding:<br />"
+
+msgid "set_login_title"
+msgstr "Verander gebruikersnaam &amp; wachtwoord"
+
+msgid "set_login_instructions"
+msgstr "Gebruik dit formulier om je gebruikersnaam en/of wachtwoord te wijzigen. Vul nieuwe gebruikersnaam en wachtwoord in."
+
+msgid "set_login_success"
+msgstr "<h2>Gelukt!</h2>Je gebruikersnaam en/of wachtwoord zijn gewijzigd.<p />"
+
+msgid "set_login_wrong_password"
+msgstr "<h2>Oeps!</h2>Informatie niet opgeslagen. Er is een probleem opgetreden bij het opslaan van gebruikersnaam en/of wachtwoord.<br /><br />Melding:<br />"
+
+msgid "set_login_form_error"
+msgstr "Vul gebruikersnaam en wachtwoord in."
+
+msgid "explanation"
+msgstr "In recent versions, our password structure has changed.  There is no longer a way to update passwords  					and/or logins from inside the blog code.  In order to change your password, delete /config/password.php and make sure install*.php  					exists on the local server.  Once that is done, refresh this page (or logout).  You will be presented with the same script  					to generate your password as you did when originally creating the blog site."
+
+msgid "install00_title"
+msgstr "Welkom"
+
+msgid "install00_instructions"
+msgstr "  				Thank you for choosing Simple PHP Blog!"
+
+msgid "blog_choose_language"
+msgstr "Kies een taal:"
+
+msgid "install01_title"
+msgstr "Welkom"
+
+msgid "install01_instructions"
+msgstr "  				Bedankt voor je keuze voor Simple PHP Blog!<br /><br />Simple PHP Blog is een simpele blogging applicatie. Om te beginnen heb je PHP 4.1 of nieuwer nodig en schrijf-rechten op de server. Alle informatie wordt opgeslagen in tekstbestanden, dus er is geen database nodig.<br /><br />  				Simple PHP Blog moet wel de mappen ('config', 'content', en 'images') maken om de informatie in op te slaan.<br /><br />  				<b>Klik hier onder om te beginnen met de installatie:</b>"
+
+msgid "begin"
+msgstr "[ Begin Installatie ]"
+
+msgid "install02_title"
+msgstr "Installatie"
+
+msgid "install02_instructions"
+msgstr "Aan het proberen de 'config', 'content', en 'images' mappen te maken:"
+
+msgid "folder_exists"
+msgstr "Mooi! Mappen bestaan al. Geen veranderingen gemaakt..."
+
+msgid "folder_failed"
+msgstr "Oeps! Map kon niet worden aangemaakt..."
+
+msgid "folder_success"
+msgstr "Gelukt! Map aangemaakt..."
+
+msgid "help"
+msgstr "  				<h2>Oeps!</h2>  				Kan één of meerdere mappen niet aanmaken! Dit ligt waarschijnlijk aan:<br>  				<i>1) <b>Schrijf rechten</b> staan niet op <b>Lees/Schrijf</b> toegang.</i><br>  				<i>2) De <b>UID</b>'s (User ID's) van mappen en bestanden moeten overeen komen.</i><p />  				  				Volg de onderstaande instructies en probeer opnieuw:<p />				  				1) Maak handmatig de mappen: <b>config</b>, <b>content</b>, en <b>images</b>.<p />  				2) Zet <b>Schrijf rechten (Write Permissions)</b> op de mappen. In je FTP programma moeten Eigenaar (Owner), Gebruiker (User), en Wereld (World)<b>Lees (Read)</b> en <b>Schrijf (Write)</b> rechten hebben. <i>(Misschien moet je contact opnemen met de beheerder van de server om dit te kunnen instellen...)</i><p />  				3) Zorg dat de UID's overeen komen. <i>(Misschien moet je contact opnemen met de beheerder van de server om dit te kunnen instellen...)</i>"
+
+msgid "try_again"
+msgstr "[ Probeer opnieuw ]"
+
+msgid "install02_success"
+msgstr "<h2>Gelukt!</h2>Mappen succesvol aangemaakt!<p /><b>Klik hier onder om verder te gaan:</b>"
+
+msgid "continue"
+msgstr "[ Verder ]"
+
+msgid "supported"
+msgstr "<b>Your web server supports the following encryption schemes:</b>"
+
+msgid "standard"
+msgstr "Standard DES Encryption: "
+
+msgid "extended"
+msgstr "Extended DES Encryption: "
+
+msgid "MD5"
+msgstr "MD5 Encryption: "
+
+msgid "blowfish"
+msgstr "Blowfish Encryption: "
+
+msgid "enabled"
+msgstr "enabled"
+
+msgid "disabled"
+msgstr "disabled"
+
+msgid "using_standard"
+msgstr "<b>Using Standard DES Encryption...</b>"
+
+msgid "using_extended"
+msgstr "<b>Using Extended DES Encryption...</b>"
+
+msgid "using_MD5"
+msgstr "<b style='color: green;'>Using MD5 Encryption...</b>"
+
+msgid "using_blowfish"
+msgstr "<b style='color: green;'>Using Blowfish Encryption...</b>"
+
+msgid "using_unknown"
+msgstr "<b>Using Unknown Encryption...</b>"
+
+msgid "salt_length"
+msgstr " <i>(Salt Length = %string)</i><br />"
+
+msgid "install03_title"
+msgstr "Create Username &amp; Password"
+
+msgid "install03_instructions"
+msgstr "Use the form below to Create a Username and Password."
+
+msgid "install03_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in. Click below to visit the Setup page, where you can name your blog. Happy blogging!<p />"
+
+msgid "btn_setup"
+msgstr "[ Setup ]"
+
+msgid "install03_wrong_password"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your Username and/or Password.<br /><br />Server Reported:<br />"
+
+msgid "install03_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "install04_title"
+msgstr "Create Password File"
+
+msgid "install04_instructions"
+msgstr "Here's the tricky part:<br />  				<ol>  				<li>Open a Text Editor application. <i>(Note Pad, Word Pad, Word, BBEdit, Pico, VI, etc...)</i></li>  				<li>Create a New Text Document.</li>  				<li>Copy and paste the code in the box below into your document.</li>  				<li>Save your file and name it <b>password.php</b> <i>(Be sure to save it in <b>text</b> or <b>plain text</b> format.)</i></li>  				<li>Open a FTP application.</li>  				<li>Upload your new <b>password.php</b> into the <b>config</b> folder on your web site.</li>  				<li>Delete the <b>password.php</b> from your hard drive.</li>  				</ol>  				"
+
+msgid "information"
+msgstr "<i>Note: If you want to reset your username and password (probably because you forgot it), delete the <b>password.php</b> file in the <b>config</b> folder on your web site. The next time you visit your site, it will walk you through this installation process again...</i>"
+
+msgid "code"
+msgstr "Code for <b>password.php</b> file:"
+
+msgid "install05_title"
+msgstr "Login"
+
+msgid "install05_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid "install05_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in.<p />  				Click below to visit the <b>Setup</b> page, where you can personalize your new blog.<p />  				<i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install05_wrong_password"
+msgstr "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your Username and Password correctly and try again.<p />"
+
+msgid "install05_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "btn_try_again"
+msgstr "[ Try Again ]"
+
+msgid "install06_title"
+msgstr "Login"
+
+msgid "install06_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid "install06_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in.<p />  				Click below to visit the <b>Setup</b> page, where you can personalize your new blog.<p />  				<i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install06_wrong_password"
+msgstr "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your Username and Password correctly and try again.<p />"
+
+msgid "install06_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "setup_title"
+msgstr "Instellingen"
+
+msgid "setup_instructions"
+msgstr "Je kan de naam van je blog en andere informatie hier wijzigen."
+
+msgid "blog_title"
+msgstr "Blog naam:"
+
+msgid "blog_author"
+msgstr "Auteur:"
+
+msgid "blog_email"
+msgstr "Email:"
+
+msgid "blog_avatar"
+msgstr "Avatar URL: (Leave blank for none)."
+
+msgid "blog_footer"
+msgstr "Ondertitel:"
+
+msgid "blog_enable_comments"
+msgstr "Commentaar van gebruikers toestaan"
+
+msgid "blog_comments_popup"
+msgstr "Commentaar in pop-up venster weergeven"
+
+msgid "blog_enable_cache"
+msgstr "Enable Blog Entry Cache (may provide speed increase on some servers)"
+
+msgid "blog_enable_voting"
+msgstr "Enable Users to Rate Entries"
+
+msgid "blog_email_notification"
+msgstr "Stuur e-mail notificatie als commentaar toegevoegd is"
+
+msgid "blog_send_pings"
+msgstr "Stuur weblog &quot;pings&quot;"
+
+msgid "blog_ping_urls"
+msgstr "Geef volledige URL op (bijv. http://rpc.weblogs.com/RPC2) van de te &quot;pingen&quot; service.<br />(Je kan meerdere URL's opgeven, gescheiden door komma's.)"
+
+msgid "blog_trackback_about"
+msgstr "Trackback provides a method of notification between blogs. Let another  					blog know that you are linking to them by sending them a trackback ping. See who is linking to   					your blog by receiving trackback pings.<br />  				   You can either enter the URIs to ping manually, or try to do it automatically through   				   Auto-Discovery."
+
+msgid "blog_trackback_enabled"
+msgstr "Enable trackback in my blog"
+
+msgid "blog_trackback_auto_discovery"
+msgstr "Enable Auto-Discovery when submitting a post containing URLs"
+
+msgid "blog_max_entries"
+msgstr "Maximaal aantaal weer te geven berichten:"
+
+msgid "blog_comment_tags"
+msgstr "Tags toegestaan in berichten:"
+
+msgid "blog_gzip_about"
+msgstr "  					Sinds PHP 4.0.4, heeft PHP  de mogelijkheid om gzip (.gz) compressie bestanden te lezen en bewerken,   					dit zal schijfruimte besparen. Het kan ook pagina's die naar browsers gestuurd worden comprimeren, als ze dit ondersteunen,  					dit zal bandbreedte besparen.<br />  					<br />  					Zlib ondersteuning wordt in PHP niet standaard ondersteund. Als de keuzevakjes niet aan staan heeft je   					PHP versie geen ondersteuning voor Zlib extensies.."
+
+msgid "blog_enable_gzip_txt"
+msgstr "Zet GZIP Compressie voor Database bestanden aan"
+
+msgid "blog_enable_gzip_output"
+msgstr "Zet GZIP Compressie voor HTTP Output aan"
+
+msgid "setup_error"
+msgstr "<h2>Oeps!</h2>Instellingen niet opgeslagen. Er is een probleem opgetreden bij het opslaan.<br /><br />Melding:<br />"
+
+msgid "setup_form_error"
+msgstr "Vul titel en auteur in:"
+
+msgid "label_entry_order"
+msgstr "Bericht volgorde:"
+
+msgid "select_new_to_old"
+msgstr "Nieuwste berichten bovenaan"
+
+msgid "select_old_to_new"
+msgstr "Oudste berichten bovenaan"
+
+msgid "label_comment_order"
+msgstr "Reactie volgorde:"
+
+msgid "cal_sunday"
+msgstr "Sunday"
+
+msgid "cal_monday"
+msgstr "Monday"
+
+msgid "label_calendar_start"
+msgstr "Calendar Week Start Day"
+
+msgid "blog_enable_calendar"
+msgstr "Enable Calendar / Archives Block"
+
+msgid "blog_enable_archives"
+msgstr "Enable Archives Block"
+
+msgid "blog_enable_counter"
+msgstr "Enable Counter in Sidebar"
+
+msgid "blog_counter_hours"
+msgstr "Number of hours to delay before hits are counted again (based on specific ip address):"
+
+msgid "blog_enable_login"
+msgstr "Enable Login Link (Please bookmark 'login.php' first...)"
+
+msgid "blog_enable_title"
+msgstr "Enable Plain Text Title Block (Clear checkbox if the title is in the header graphic)"
+
+msgid "blog_enable_permalink"
+msgstr "Enable Permalink on Blog Entries"
+
+msgid "blog_enable_capcha"
+msgstr "Enable Anti-Spam"
+
+msgid "blog_footer_counter"
+msgstr "Enable Counter in Footer"
+
+msgid "blog_enable_capcha_image"
+msgstr "Anti-Spam Images (GD library only) / Anti-Spam Text Field"
+
+msgid "blog_enable_stats"
+msgstr "Enable Stats Option in Menu"
+
+msgid "blog_enable_lastcomments"
+msgstr "Enable Most Recent Comments Listing"
+
+msgid "blog_enable_lastentries"
+msgstr "Enable Most Recent Entries Listing"
+
+msgid "title_sidebar"
+msgstr "Sidebar"
+
+msgid "title_comments"
+msgstr "Comments"
+
+msgid "title_trackback"
+msgstr "Trackbacks"
+
+msgid "title_compression"
+msgstr "Compression"
+
+msgid "title_entries"
+msgstr "Entries"
+
+msgid "title_general"
+msgstr "General"
+
+msgid "title_language"
+msgstr "Language"
+
+msgid "blog_comment_days_expiry"
+msgstr "Comments Allowed For How Many Days? (0 means no expiry)"
+
+msgid "options_title"
+msgstr "Opties"
+
+msgid "options_instructions"
+msgstr "Gebruik dit formulier om datum en tijd instellingen voor berichten te wijzigen. Je kan 12 of 24 urige tijdsaanduidingen gebruiken en kort of lang datum formaat. De <b>Voorbeeld</b> velden worden automatisch gewijzigd om de instellingen te bekijken."
+
+msgid "ldate_title"
+msgstr "Lange datum instelling:"
+
+msgid "weekday"
+msgstr "Weekdag"
+
+msgid "none"
+msgstr "Niks"
+
+msgid "sdate_title"
+msgstr "Korte Datum instelling:"
+
+msgid "s_month"
+msgstr "Maand"
+
+msgid "s_mon"
+msgstr "MMM"
+
+msgid "s_day"
+msgstr "Dag"
+
+msgid "s_year"
+msgstr "Jaar"
+
+msgid "zero_day"
+msgstr "Voorloop 0 voor de dag"
+
+msgid "show_century"
+msgstr "Show century"
+
+msgid "time_title"
+msgstr "Tijd instelling:"
+
+msgid "12hour"
+msgstr "12-urige klok"
+
+msgid "24hour"
+msgstr "24-urige klok"
+
+msgid "before_noon"
+msgstr "Voor de middag"
+
+msgid "after_noon"
+msgstr "Na de middag"
+
+msgid "date_title"
+msgstr "Datum aanduiding:"
+
+msgid "long_date"
+msgstr "Long Date"
+
+msgid "short_date"
+msgstr "Short Date"
+
+msgid "time"
+msgstr "Tijd"
+
+msgid "menu_title"
+msgstr "Menu Date Display Format:"
+
+msgid "zero_month"
+msgstr "Voorloop 0 voor de maand"
+
+msgid "zero_hour"
+msgstr "Voorloop 0 voor het uur"
+
+msgid "separator"
+msgstr "Scheidingsteken:"
+
+msgid "preview"
+msgstr "Voorbeeld:"
+
+msgid "server_offset"
+msgstr "Tijdsverschil server (in uren):"
+
+msgid "options_error"
+msgstr "<h2>Oeps!</h2>Instellingen niet opgeslagen. Er is een probleem opgetreden bij het opslaan.<br /><br />Melding:<br />"
+
+msgid "upload_img_title"
+msgstr "Afbeelding uploaden"
+
+msgid "upload_img_instructions"
+msgstr "Klik op de knop de afbeelding te selecteren."
+
+msgid "select_file"
+msgstr "Selecteer afbeelding:"
+
+msgid "upload_btn"
+msgstr "Uploaden"
+
+msgid "upload_img_error"
+msgstr "<h2>Oeps!</h2>Kan afbeelding niet uploaden. Extra informatie:<br /><br />Melding:<br />"
+
+msgid "themes_title"
+msgstr "Stijlen"
+
+msgid "themes_instructions"
+msgstr "Gebruik het keuzemenu om een andere stijl te kiezen."
+
+msgid "choose_theme"
+msgstr "Stijlen:"
+
+msgid "themes_error"
+msgstr "<h2>Oeps!</h2>Instellingen niet opgeslagen. Er is een probleem opgetreden bij het opslaan.<br /><br />Melding:<br />"
+
+msgid "search_result_title"
+msgstr "Zoek Resultaten"
+
+msgid "search_result_instructions"
+msgstr "Zoek resultaten voor <b>%string</b>:"
+
+msgid "not_found"
+msgstr "Geen resulaten gevonden"
+
+msgid "contact_title"
+msgstr "Contact Me"
+
+msgid "contact_instructions"
+msgstr "Vul de vorm in:"
+
+msgid "contact_form_error"
+msgstr "Gelieve te voltooien de gebieden van het Onderwerp en van de Commentaar."
+
+msgid "subject"
+msgstr "Onderwerp:"
+
+msgid "contact_success"
+msgstr "<h2>Succes!</h2>Uw bericht is verzonden.<p />"
+
+msgid "failure"
+msgstr "<h2>Fout!</h2>Uw bericht is niet verzonden. Waarschijnlijkst was Antispam niet behoorlijk ingegaan.<p />"
+
+msgid "contact_capcha"
+msgstr "Anti-Spam: Ga binnen "
+
+msgid "contactsent"
+msgstr "Contact sent through: "
+
+msgid "errorpage-nocookies_title"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "errorline1"
+msgstr "The page or function you attempted to process requires the use of cookies."
+
+msgid "errorline2"
+msgstr "Restore cookie functionality within your browser or protection software and attempt your request again."
+
+msgid "clientid"
+msgstr "Client ID: "
+
+msgid "trackbacks_title"
+msgstr "Trackbacks"
+
+msgid "trackbacks_header"
+msgstr "Trackback URL for this entry:"
+
+msgid "trackbacks_error_add"
+msgstr "Error storing trackback data."
+
+msgid "stats_title"
+msgstr "Statistics"
+
+msgid "general"
+msgstr "General"
+
+msgid "entry_info"
+msgstr "<b>%s</b> entries using <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "comment_info"
+msgstr "<b>%s</b> comments using <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "trackback_info"
+msgstr "<b>%s</b> trackbacks stored in <b>%s</b> bytes"
+
+msgid "static_info"
+msgstr "<b>%s</b> static pages using <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "most_viewed_entries"
+msgstr "10 Most viewed entries"
+
+msgid "most_commented_entries"
+msgstr "10 Most commented entries"
+
+msgid "most_trackbacked_entries"
+msgstr "10 Most trackbacked entries"
+
+msgid "vote_info"
+msgstr "<b>%s</b> votes stored in <b>%s</b> bytes"
+
+msgid "most_voted_entries"
+msgstr "10 Most voted entries"
+
+msgid "most_rated_entries"
+msgstr "10 Most rated entries"
+
+msgid "403.8"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "404"
+msgstr "HTTP Error 404 - Page/Function Does Not Exist"
+
+msgid "error_404"
+msgstr "The page or function you attempted to process does not exist."
+
+msgid "error_javascript"
+msgstr "The page or function you attempted requires javascript in order to properly function."
+
+msgid "error_emailnotsent"
+msgstr "The message you attempted to send has failed."
+
+msgid "error_emailnotsentcapcha"
+msgstr "The message you attempted to send has failed because the anti-spam entry was incorrect or missing."
+
+msgid "emoticons_title"
+msgstr "Admin Emoticons"
+
+msgid "emoticons_instructions"
+msgstr "  					Check the emoticons you want to use. Write in the box the Tags you want   					to be replaced by the image. Multiple tags may be used, just separated them   					by spaces.<br /><br />  		  					For instance:<br />  					:) :-) :SMILE: :HAPPY:<br /><br />  					  					<i>(It is highly recommended that you make the Tags longer than 2 characters,   					otherwise unexpected substitutions may occur.)</i>"
+
+msgid "upload_instructions"
+msgstr "Upload New Emoticon:"
+
+msgid "upload_success"
+msgstr "Success! Image uploaded successfully!"
+
+msgid "upload_error"
+msgstr "Error! Image was not uploaded."
+
+msgid "upload_invalid"
+msgstr "Error! Invalid image file. Image must be a png, jpg, or gif."
+
+msgid "save_success"
+msgstr "Emoticon preferences saved successfully!"
+
+msgid "save_error"
+msgstr "Error! Emoticon preferences not saved."
+
+msgid "save_button"
+msgstr "Save Emoticons"
+

@@ -1,0 +1,611 @@
+Simple PHP Blog:
+
+----------------
+
+Version History
+
+---------------
+
+0.8.1
+
+===============
+
+- fix for proper add.php rendering
+- other minor bug fixes
+
+0.8.0
+
+===============
+
+- fix for proper permalink URL creation
+- title alignment fix
+- mobile device improvements
+- updated to Atom 1.0
+- removed popup themes
+- removed print links in favor of print CSS
+- removed trackback code
+- removed gzip storage capability
+- fixes for handling windows paths
+- added support for downloading a backup zip file
+- language system rewrite to be gettext compatible
+- better support for non-javascript browsers
+- fix for adding page metadata
+- various bugfixes
+
+0.7.0
+
+===============
+
+- added bookmarks plugin
+- added poweredby/badges plugin
+- added creative commons license box
+- various bug fixes
+- added Slovak and Brazillian Portuguese languages
+- XHTML Basic and CSS validation for mobile devices
+- added text based permalinks for search engine optimization
+- added option to require SSL login
+- fixed capcha strings
+- reduced javascript dependencies
+- changed default hyperlink target action to non-new window
+- added markitup for javascript post editor
+- theme code simplifications
+- retains post when logged out during composition
+
+0.6.0
+
+===============
+
+- Various bug and security fixes.
+- Shows user information about relevent php.ini settings.
+- added opensearch capability
+- added more language files
+
+0.5.0
+
+===============
+
+- Added Moderator Approve/Delete functionality (experimental)
+  - Optional functionality defined in Preferences - off by default.
+  - When turned on, all new comment entries are marked as On Hold / Unmodded. These are only visible
+    to logged in users.
+  - Added Unmodded Comments option to sidebar. This will show how many unmodded comments are pending.
+  - Added Unmodded Comments screen. This is where the user can review the unmodded comments and
+    take action on them.
+  - Slightly re-arranged the menu to accomodate the new option.
+  - Notice on bottom of notification email if item need moderation intervention
+  - Notice above Post Comment button to let user know that, if the option is on, the comment will not
+    show right away.
+  - Logged in user's comments automatically approved.
+  - Added logged in and Comment Notifications at the top of the links menu.
+
+- Added User (non-Admin) accounts.
+
+- Added new GLight theme - compliant with 0.5.0+
+
+- Added option to show search at top instead of in the sidebar (more "Google"-like) 
+  Warning: Requires updates to custom themes to use.
+  
+- Added option for static entry at the top of each blog page before the first entry of that page.
+  Uses the blocks to figure out which items to show.
+  Allows normal border or no border (for ads and/or graphics)
+  
+- Fixed Read More link not working when comments turned off.
+
+- Fixed number of views not showing unless there were comments entered. Also changed the wording - if comments turned off,
+  link only shows as View Entry - not Add Comment...
+  
+- Added visibility to the static pages - if not visible, won't show in the menu for regular users - logged in users
+  will see the name with a * in front (so it can still be edited). Note: Existing static pages will need to be 
+  edited before this feature is useable.
+  
+- Added header graphic configuration to preferences - if blank, uses default theme graphic.
+
+- Fixed sb_date issue (0.4.9 line 69) with regional dates as reported on the forums.
+  
+0.4.8.1
+
+===============
+
+- Fixed: Hardcoded strings in archives.php
+
+- Fixed: Removed accept-charset from some forms
+
+- Fixed: Validation errors in 'Simple' theme
+
+- Added: Show subject line in page title if "permalink"
+
+- Added: 'Success' messages to all CGI pages
+
+- Fixed: Now you can delete all categories without validation error
+
+
+
+0.4.8
+
+===============
+
+- Added: Comments no not require logged in user to enter information (including capcha) in order to make comment - auto fills in name based on configuration...
+
+- Added: Added option to turn off Anti Spam on Comments and Contact Us...Turned on by default.
+
+- Added: Added Comment Expiry. If 0 then no expiry. If difference between Current Date and 
+
+		Blog Entry Date is greater then the Preference, no entry is allowed - a polite message is displayed instead.
+
+- Bug fix: Last entry wasn't appearing in Archives.
+
+- Bug fix: Entries under 75 or 300 characters werent' appearing.
+
+- Added: "showall" GET flag which can be passed to the Archives page.
+
+- Added: Ability to turn on/off Archive Block and Calendar independently
+
+- Added: Ability to toggle visibility of the login link.
+
+- Added: Folding sections in Preferences making it easier to find things on the page.
+
+- Added: Folding sections on Sidebar (available at theme level)
+
+- Bug Fix: "more" and "html" tags showing up in archives, rss and various other places
+
+- Bug Fix: "+" image not showing up in Modern theme.
+
+- Bug Fix: Changed all "stripslashes" calls to "sb_stripslashes" to take into account the server "Magic Quote" settings. (Hopefully this doesn't break stuff.)
+
+- Bug Fix: Move the "css" from inside the "read_menus_tree" to the "styles.css" file for XHTML validation.
+
+- Bug Fix: Fixed problems with emoticons and characters like ' / " < >
+
+- Bug Fix: Fixed the "I'm a subject" quotes bug in blog entries.
+
+- Bug Fix: When logged in, the number of view no longer gets incremented. However, this does not stop multiple views from showing when a comment is posted and the page reloads after the comment is posted.
+
+- Added: Static Page and Add Entry editors now derive from the same code making it easier to maintain.
+
+- Added: Hit Counter (Shows Today's, Yesterday's and Total hits). 
+
+- Added: Site counter (total only) to the footer.
+
+- Added: Site Counter (total, today and yesterday) to the sidebar.
+
+- Added: Configuration to toggle site counter in the footer.
+
+- Added: Configuration to toggle sidebar counter
+
+- Added: Configuration for number of minutes before a specific IP can register a new hit to the counter.
+
+- Added: Page title (browser caption) now shows the blog entry title when you click on comments or more.
+
+- Updated: XHTML 1.0 Transitional Compliancy (W3C) for all internal themes and code.
+
+
+
+
+0.4.7.1
+
+===============
+
+- Fixed add_cgi.php. Edit post bug.
+
+
+
+
+0.4.7
+
+===============
+
+- Added option to disable Stats option
+
+- Modified Text on options to reflect ability to remove "Contact Us" by
+blanking the email addy
+
+- *Added more date options for theme display:
+
+		date_numeric_day: show only numeric day
+
+		date_numeric_month: show only numeric month
+
+		date_numeric_year: show only 2 digit year
+
+		date_alpha_month: show short version of month name
+
+		date_numeric_time: show time
+
+		date_suffix_day: show numeric date with suffix (like 15th, 3rd, etc)
+
+- *Added option whether to show Recent Comments Listing
+
+- *Added option whether to show Recent Entries Listing
+
+- Re-arranged Setup screen to make more sense and easier to navigate.
+
+- Added [more] tag to blog entries:
+
+		on front page, splits the text at that
+point and inserts a comment url link.
+
+		Only does the split if comments are
+turned on (otherwise shows the same as the comments page looks like).
+
+- Fixed display so future entries only show if you are logged in.
+
+- Entry date and time can be modified.
+
+- Added emoticon usage.
+
+- Fixed image align bug
+
+
+
+
+0.4.4 - 
+
+===============
+
+- Preliminary PHP code support by using [php]
+
+- Sitemap enabled.
+
+- Graphic capchas if GD is available.
+
+- 404 page for static entries.
+
+- Autoparse URL in entries and comments.
+
+- Support for c parameter in feeds specifying the category(ies) to syndicate.
+
+- Added alt, align and valing attributes for the [img] tag.
+
+- Enhaced block configuration.
+
+- Security enhacements.
+
+- XHTML compatibility fixes.
+
+- Minor bug fixing.
+
+- Some speed optimizations.
+
+- Stability improvements.
+
+
+
+0.4.3 - 02/08/05
+
+===============
+
+- Guti added capcha to comments
+
+- Fixed another 2005 date bug
+
+
+
+0.4.2 - 01/05/05
+
+===============
+
+- More updates to themes
+
+
+
+0.4.1 - 01/27/05
+
+===============
+
+- Some updates to themes
+
+
+
+0.4.0 - 01/23/05
+
+===============
+
+- Major release
+
+
+
+0.3.8 - 01/18/05
+
+===============
+
+1) Fixed "next" and "back" buttons when browsing by category
+
+2) Added "upgrade" check to login_cgi page.
+
+3) Added strings for stats, upgrade, login, and links pages.
+
+4) Tweaked the navigation menus.
+
+5) Tweaked the contact email (line breaks, and reply-to email...)
+
+6) Added static page drop-down to links page.
+
+7) Added categories display to preview and comment pages.
+
+8) Added some more color schemes.
+
+
+
+0.3.7m,n,o,p,q,r - 10/01/2004 --> 01/01/2005
+
+===============
+
+Tons and tons of improvements and bug fixes. :)
+
+
+
+0.3.7l - 09/20/2004
+
+===============
+
+1) PHP 5 optimizations, but still working with 4.1.
+
+2) Added in all themes hints in the PHP's and SPHPBlog's logos showing the installed version.
+
+3) Improved documentation.
+
+4) Now current date in calendar is clickable.
+
+
+
+0.3.7k - 09/17/2004
+
+===============
+
+1) Replaced the archive view, with calendar one.
+
+2) RSS feed accepts the max entries to publish if defined.
+
+3) Email, URL and remember me in comments.
+
+4) Fixed a bug in the most recent comments when deleting a comment.
+
+5) Added the TXT Powered logo to all themes.
+
+6) Updated english and spanish translations with new strings.
+
+
+
+0.3.7j - 09/14/2004
+
+===============
+
+1) Search also finds contents in static pages. Great speed improvements.
+
+2) Fixed a bug in the search results.
+
+3) Minor improvements and speed hacks.
+
+4) Improved documentation.
+
+5) favicon support.
+
+6) RSS channel image.
+
+
+
+0.3.7i - 08/10/2004
+
+===============
+
+Various...
+
+
+
+0.3.7h - 08/02/2004
+
+===============
+
+Various...
+
+
+
+0.3.7g - 08/28/2004
+
+===============
+
+1) Added support for current song and current mood.
+
+
+
+0.3.7f - 07/23/2004
+
+===============
+
+Various...
+
+
+
+0.3.7e - 07/21/2004
+
+===============
+
+Various...
+
+
+
+0.3.7c - 07/12/2004
+
+===============
+
+Various...
+
+
+
+0.3.7b - 07/06/2004
+
+===============
+
+
+
+Bugs:
+
+1) Fixed a bug with RSS encoding and charsets. Should handle
+
+multiple language HTML encoding properly now.
+
+2) Fixed comment display on main page for past months.
+
+
+
+
+
+0.3.7 - 06/21/2004
+
+===============
+
+Additions:
+
+1) RSS
+
+2) Compression
+
+3) Search
+
+
+
+0.3.6 - 06/12/2004
+
+===============
+
+Additions:
+
+1) Lots of new formatting options
+
+2) Re-wrote read-entries() function
+
+3) Re-wrote all the parsing in blog_to_html() function
+
+
+
+0.3.5 - 06/04/2004
+
+===============
+
+Additions:
+
+1) Themes are done
+
+2) Changed the Setup/Install Process
+
+Every single file has changes...
+
+
+
+0.3.4 - 05/14/2004
+
+===============
+
+Additions:
+
+1) New menu date formatting.
+
+2) Themes are partially implemented...
+
+Bugs:
+
+1) Fixed a bug that caused multiple static entries in menu, when editing an existing entry.
+
+
+
+0.3.3 - 05/14/2004
+
+===============
+
+Additions:
+
+1) Date and time formatting.
+
+
+
+0.3.2 - 05/07/2004
+
+===============
+
+Additions:
+
+1) Most Recent Comments area.
+
+
+
+0.3.1 - 04/28/2004
+
+===============
+
+Additions:
+
+1) Static Pages.
+
+2) More control over Custom Links.
+
+
+
+0.3.0 - 04/28/2004
+
+===============
+
+Additions:
+
+1) Added "Entry Order" and "Comment Order" to setup page.
+
+2) Moved all colors to the "$user_colors" array. (Colors were stored in a bunch of globals.)
+
+
+
+0.2d - 04/26/2004
+
+===============
+
+Additions:
+
+1) Folders 'Config', 'Content', and 'Images' are now dynamically created.
+
+They will no longer be included in the .zip files.
+
+Bug Fixes:
+
+1) Fixed image size issue. If you posted more than one image in a blog
+
+entry. All of the images will be sized to the dimensions of the first
+
+image.
+
+2) Fixed a bug with the mkdir commands. When PHP is running in safe
+
+mode, you should set the 'umask' before creating a directory. Also,
+
+mkdir will fail if you have a trailing '/'.
+
+
+
+0.2a - 0.2c - 04/25/2004
+
+===============
+
+Added multi-lingual support. (Danish and Russian translations are
+
+currently included.)
+
+Many bug fixes.
+
+
+
+0.2 - 04/20/2004
+
+===============
+
+Bug Fixes:
+
+1) Pop-Up Window Bug.
+
+Scrollbars weren't showing up in the Comment window on IE.
+
+
+
+0.1 - 04/09/2004
+
+===============
+
+First Release:
+
+Release the code on Source Forge under the GNU Public License

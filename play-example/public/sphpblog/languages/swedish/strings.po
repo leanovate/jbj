@@ -1,0 +1,1257 @@
+msgid "language"
+msgstr "swedish"
+
+msgid "locale"
+msgstr "Array"
+
+msgid "rss_locale"
+msgstr "sv-SE"
+
+msgid "html_charset"
+msgstr "ISO-8859-15"
+
+msgid "php_charset"
+msgstr "ISO-8859-15"
+
+msgid "menu_links"
+msgstr "Länkar"
+
+msgid "menu_home"
+msgstr "Hem"
+
+msgid "menu_contact"
+msgstr "Contact Me"
+
+msgid "menu_stats"
+msgstr "Stats"
+
+msgid "menu_calendar"
+msgstr "Calendar"
+
+msgid "menu_archive"
+msgstr "Arkiv"
+
+msgid "menu_viewarchives"
+msgstr "View Archives"
+
+msgid "menu_menu"
+msgstr "Meny"
+
+msgid "menu_add"
+msgstr "Lägg till blog"
+
+msgid "menu_add_static"
+msgstr "Lägg till statisk post"
+
+msgid "menu_upload"
+msgstr "Ladda upp bilder"
+
+msgid "menu_setup"
+msgstr "Setup"
+
+msgid "menu_categories"
+msgstr "Categories"
+
+msgid "menu_info"
+msgstr "Information"
+
+msgid "menu_options"
+msgstr "Inställningar"
+
+msgid "menu_themes"
+msgstr "Teman"
+
+msgid "menu_colors"
+msgstr "Färger"
+
+msgid "menu_change_login"
+msgstr "Ändra inloggning"
+
+msgid "menu_logout"
+msgstr "Logga ut"
+
+msgid "menu_login"
+msgstr "Logga in"
+
+msgid "menu_most_recent"
+msgstr "Senaste kommentarer"
+
+msgid "menu_most_recent_entries"
+msgstr "Most Recent Entries"
+
+msgid "menu_most_recent_trackback"
+msgstr "Most Recent Trackbacks"
+
+msgid "menu_add_block"
+msgstr "Blocks"
+
+msgid "menu_emoticons"
+msgstr "Emoticons"
+
+msgid "menu_avatar"
+msgstr "Avatar"
+
+msgid "counter_today"
+msgstr "Today:"
+
+msgid "counter_yesterday"
+msgstr "Yesterday:"
+
+msgid "counter_totalsidebar"
+msgstr "Total:"
+
+msgid "counter_title"
+msgstr "Counter Totals"
+
+msgid "home"
+msgstr "Hem"
+
+msgid "nav_next"
+msgstr "Nästa"
+
+msgid "nav_back"
+msgstr "Tillbaks"
+
+msgid "search_title"
+msgstr "Sök:"
+
+msgid "search_go"
+msgstr "Starta"
+
+msgid "page_generated_in"
+msgstr "Sidan genererades på %s sekunder."
+
+msgid "counter_total"
+msgstr "Site Views: "
+
+msgid "read_more"
+msgstr "More..."
+
+msgid "sb_months"
+msgstr "Array"
+
+msgid "sb_default_title"
+msgstr "Ingen titel"
+
+msgid "sb_default_author"
+msgstr "Ingen ägare"
+
+msgid "sb_default_footer"
+msgstr "Ingen sidfot"
+
+msgid "sb_edit"
+msgstr "Ändra"
+
+msgid "sb_delete"
+msgstr "Radera"
+
+msgid "sb_permalink"
+msgstr "permalink"
+
+msgid "sb_trackback"
+msgstr "trackbacks"
+
+msgid "sb_relatedlink"
+msgstr "related link"
+
+msgid "sb_add_comment_btn"
+msgstr "Lägg till kommentar"
+
+msgid "sb_comment_btn_number_first"
+msgstr ""
+
+msgid "sb_comment_btn"
+msgstr "kommentar"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr ""
+
+msgid "sb_comments_plural_btn"
+msgstr "kommentarer"
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_post"
+msgstr " visning"
+
+msgid "sb_view_counter_plural_pre"
+msgstr ""
+
+msgid "sb_view_counter_plural_post"
+msgstr " visningar"
+
+msgid "sb_add_link_btn"
+msgstr "+ länk"
+
+msgid "sb_rate_entry_btn"
+msgstr "Click to Rate Entry"
+
+msgid "label_subject"
+msgstr "Ämne:"
+
+msgid "label_insert"
+msgstr "Lägg till special:"
+
+msgid "btn_bold"
+msgstr " b "
+
+msgid "btn_italic"
+msgstr " i "
+
+msgid "btn_image"
+msgstr "img"
+
+msgid "btn_url"
+msgstr "url"
+
+msgid "btn_readmore"
+msgstr "read more"
+
+msgid "view_images"
+msgstr "Visa uppladdade bilder"
+
+msgid "label_entry"
+msgstr "Text:"
+
+msgid "btn_preview"
+msgstr "&nbsp;Förhandsgranska&nbsp;"
+
+msgid "btn_post"
+msgstr "&nbsp;Spara&nbsp;"
+
+msgid "file_name"
+msgstr "Static File Name: (no spaces or file extensions)"
+
+msgid "insert_styles"
+msgstr "Skriv text att formatteras"
+
+msgid "insert_image"
+msgstr "Skriv in URL till bilden"
+
+msgid "insert_url1"
+msgstr "Skriv in text till länken"
+
+msgid "insert_url2"
+msgstr "Skriv in fullständig URL till länken"
+
+msgid "insert_url3"
+msgstr "Öppna URL i nytt fönster (Ej nödvändigt):"
+
+msgid "add_form_error"
+msgstr "Vänligen fyll i både ämne och text fälten."
+
+msgid "insert_image_optional"
+msgstr "Alternativ:"
+
+msgid "insert_image_width"
+msgstr "Bredd (Ej nödvändigt):"
+
+msgid "insert_image_height"
+msgstr "Höjd (Ej nödvändigt):"
+
+msgid "insert_image_popup"
+msgstr "Titta på fullstor bild i ett pop-up fönster (Ej nödvändigt):"
+
+msgid "insert_image_float"
+msgstr "Flytande beskrivning (Ej nödvändig):"
+
+msgid "day"
+msgstr "Day"
+
+msgid "month"
+msgstr "Month"
+
+msgid "year"
+msgstr "Year"
+
+msgid "hour"
+msgstr "Hour"
+
+msgid "minute"
+msgstr "Minute"
+
+msgid "second"
+msgstr "Second"
+
+msgid "add_title"
+msgstr "Lägg till"
+
+msgid "add_instructions"
+msgstr "Är du redo att lägga till en Blog post? Fyll i formuläret nedan! Klicka på 'Förhandsgranska' för att se hur din Blog-post kommer se ut, eller klicka på 'Spara' för att göra just det."
+
+msgid "title_ad"
+msgstr "Confirm Trackback Pings"
+
+msgid "instructions_ad"
+msgstr "These are the Auto-Discovered URIs you're about to ping. If you do not want to ping a certain URI, uncheck it below. Then press the 'OK' button to ping the checked URIs or press 'Cancel' to not ping at all."
+
+msgid "label_tb_ping"
+msgstr "Trackback ping(s) to send (comma separated)"
+
+msgid "label_tb_autodiscovery"
+msgstr "autodiscovery"
+
+msgid "label_relatedlink"
+msgstr "Related Link"
+
+msgid "label_categories"
+msgstr "Category List"
+
+msgid "add_instructions_update"
+msgstr "Du kan ändra din Blog-post i formuläret nedan. Klicka 'Förhandsgranska' eller 'Spara' när du är färdig."
+
+msgid "ok_btn"
+msgstr "&nbsp;OK&nbsp;"
+
+msgid "cancel_btn"
+msgstr "&nbsp;Cancel&nbsp;"
+
+msgid "add_error"
+msgstr "<h2>Oops!</h2>Blog-posten sparades inte. Det uppstod ett problem att spara.<br /><br />Serveren rapporterade:<br />"
+
+msgid "add_static_form_error"
+msgstr "Please complete the Subject, Entry, and File Name fields."
+
+msgid "add_static_title"
+msgstr "Lägg till statisk post"
+
+msgid "add_static_instructions"
+msgstr "Fyll i formuläret nedan för att lägga till en statisk post. Till skillnad från en normal Blog-post visas en statisk post som en länk i menyn. Statiska poster är till för sidor som alltid skall vara tillgängliga, så som: Om mig, Kontakta oss, Schema, etc. Klicka 'Förhandsgranska' för att se hur din statiska post kommer se ut, eller klicka på  'Spara' för att göra just det."
+
+msgid "add_static_instructions_update"
+msgstr "Du kan ändra din statiska post i formuläret nedan. Klicka 'Förhandsgranska' på nytt, eller 'Spara' när du är klar."
+
+msgid "add_static_error"
+msgstr "<h2>Oops!</h2>Postningen sparades inte!<br /><br />ServernRapporterade:<br />"
+
+msgid "comments_form_error"
+msgstr "Var vänlig och fyll i Ditt namn för att lämna en kommentar."
+
+msgid "name"
+msgstr "Name:"
+
+msgid "email"
+msgstr "Email:"
+
+msgid "homepage"
+msgstr "Homepage:"
+
+msgid "comment"
+msgstr "Comment:"
+
+msgid "IPAddress"
+msgstr "IP Address:"
+
+msgid "useragent"
+msgstr "User Agent:"
+
+msgid "wrote"
+msgstr "<i>On %s, %s wrote:</i><br /> <br /> %s"
+
+msgid "commentposted"
+msgstr "New comment posted at: "
+
+msgid "comment_capcha"
+msgstr "Anti-Spam: Enter "
+
+msgid "comments_title"
+msgstr "Kommentarer"
+
+msgid "comments_header"
+msgstr "Lägg till kommentar"
+
+msgid "comments_instructions"
+msgstr "Fyll i formuläret nedan för att lägga till din kommentar."
+
+msgid "comment_name"
+msgstr "Ditt namn:"
+
+msgid "comment_email"
+msgstr "Email:"
+
+msgid "comment_url"
+msgstr "URL:"
+
+msgid "comment_remember"
+msgstr "Remember me:"
+
+msgid "comment_text"
+msgstr "Kommentar:"
+
+msgid "post_btn"
+msgstr "&nbsp;Spara kommentaren&nbsp;"
+
+msgid "delete_btn"
+msgstr "Radera"
+
+msgid "expired_comment1"
+msgstr "We are sorry. New comments are not allowed after "
+
+msgid "expired_comment2"
+msgstr " days."
+
+msgid "blacklisted"
+msgstr "Sorry, your IP address has been banned. Comments not allowed."
+
+msgid "comments_error_add"
+msgstr "<h2>Oops!</h2>Kommentaren sparades inte! Det uppstod ett problem....<br /><br />Servern rapporterade:<br />"
+
+msgid "comments_error_delete"
+msgstr "<h2>Oops!</h2>Kommentaren sparades inte! Det uppstod ett problem....<br /><br />Servern rapporterade:<br />"
+
+msgid "add_block_form_error"
+msgstr "Please complete the Name field."
+
+msgid "add_block_title"
+msgstr "Add / Manage Links"
+
+msgid "add_block_instructions"
+msgstr "Add custom Blocks"
+
+msgid "up"
+msgstr "up"
+
+msgid "down"
+msgstr "down"
+
+msgid "edit"
+msgstr "edit"
+
+msgid "delete"
+msgstr "delete"
+
+msgid "block_name"
+msgstr "Block Name:"
+
+msgid "block_content"
+msgstr "Block content:"
+
+msgid "add_block_instructions_edit"
+msgstr "You are currently editing block:"
+
+msgid "add_block_instructions_modify"
+msgstr "Click below to modify a block:"
+
+msgid "add_block_submit_btn_edit"
+msgstr "Edit Block"
+
+msgid "add_block_submit_btn_add"
+msgstr "Add Block"
+
+msgid "static_pages"
+msgstr "Static Pages:"
+
+msgid "add_link_title"
+msgstr "Lägg till / Ändra Länkar"
+
+msgid "add_link_instructions"
+msgstr "Ändra länkar till  andra sajter. Fyll i  formuläret nedan och klicka 'Lägg till länk' för att uppdatera. Klicka upp eller ned för att ändra ordningsföljd. Klicka 'Ändra' för att korrigera en länk. Klicka 'Ta bort' för att radera en länk"
+
+msgid "link_name"
+msgstr "Länk namn:"
+
+msgid "link_url"
+msgstr "URL:"
+
+msgid "add_link_instructions_edit"
+msgstr "Du kan ändra länken här:"
+
+msgid "add_link_instructions_modify"
+msgstr "Klicka nedan för att modifera en länk:"
+
+msgid "add_link_submit_btn_edit"
+msgstr "Ändra länken"
+
+msgid "add_link_submit_btn_add"
+msgstr "Lägg till länk"
+
+msgid "add_link_form_error"
+msgstr "Vänlligen fyl i både namn och URL."
+
+msgid "categories_title"
+msgstr "Add / Manage Categories"
+
+msgid "categories_instructions"
+msgstr "Use the form below to add and edit your categories. Each category item should be in this format 'category name (id number)'. Indent items with spaces to create heirarchies.<br /><br /><b>Example:</b><br />General (1)<br />News (3)<br />&nbsp;&nbsp;Announcements (6)<br />&nbsp;&nbsp;Events (5)<br />&nbsp;&nbsp;&nbsp;&nbsp;Misc (7)<br />Technology (2)<br />"
+
+msgid "categories_error"
+msgstr "Error"
+
+msgid "current_categories"
+msgstr "Current Categories"
+
+msgid "no_categories_found"
+msgstr "No Categories Found"
+
+msgid "category_list"
+msgstr "Category List:"
+
+msgid "validate"
+msgstr "Validate"
+
+msgid "submit_btn"
+msgstr "&nbsp;Submit&nbsp;"
+
+msgid "colors_title"
+msgstr "Titel"
+
+msgid "colors_instructions"
+msgstr "Du kan ändra färgerna på din Blog. Använd färgväljaren, eller skriv in HEX värden i fälten nedan."
+
+msgid "bg_color"
+msgstr "Sidobakgrund"
+
+msgid "main_bg_color"
+msgstr "Huvudsidans backgrund"
+
+msgid "border_color"
+msgstr "Sidans kant"
+
+msgid "inner_border_color"
+msgstr "Indvändig kant"
+
+msgid "header_bg_color"
+msgstr "Sidhuvudets bakgrund"
+
+msgid "header_txt_color"
+msgstr "Sidhuvudets Text"
+
+msgid "menu_bg_color"
+msgstr "Menyfätets bakgrund"
+
+msgid "footer_bg_color"
+msgstr "Sidfotens bakgrund"
+
+msgid "txt_color"
+msgstr "Text"
+
+msgid "headline_txt_color"
+msgstr "Rubrik text"
+
+msgid "date_txt_color"
+msgstr "Datumtext"
+
+msgid "footer_txt_color"
+msgstr "Sidfotens Text"
+
+msgid "link_reg_color"
+msgstr "Allmän länk"
+
+msgid "link_hi_color"
+msgstr "Markerad länk"
+
+msgid "link_down_color"
+msgstr "Besökt länk"
+
+msgid "entry_bg"
+msgstr "Textfältets bakgrund"
+
+msgid "entry_title_bg"
+msgstr "Textfältets titels bakgrund"
+
+msgid "entry_border"
+msgstr "Textfältets kant"
+
+msgid "entry_title_text"
+msgstr "Titeltext"
+
+msgid "entry_text"
+msgstr "Textfält"
+
+msgid "menu_bg"
+msgstr "Menybakgrund"
+
+msgid "menu_title_bg"
+msgstr "Menytitel BG"
+
+msgid "menu_border"
+msgstr "Menykant"
+
+msgid "menu_title_text"
+msgstr "Menytitelns text"
+
+msgid "menu_text"
+msgstr "Menytext"
+
+msgid "menu_link_reg_color"
+msgstr "Menylänk standard"
+
+msgid "menu_link_hi_color"
+msgstr "Menylänk hover"
+
+msgid "menu_link_down_color"
+msgstr "Aktiv menylänk"
+
+msgid "color_preset"
+msgstr "Color Schemes:"
+
+msgid "scheme_name"
+msgstr "Enter a custom color scheme name:"
+
+msgid "scheme_file"
+msgstr "Enter scheme file name: (no spaces or file extensions)"
+
+msgid "save_btn"
+msgstr "&nbsp;Save&nbsp;"
+
+msgid "colors_form_error"
+msgstr "Please enter a name for your custom color scheme."
+
+msgid "theme_doesnt_allow_colors"
+msgstr "The currently selected theme does not allow for custom colors."
+
+msgid "colors_error"
+msgstr "<h2>Oops!</h2>Informationen sparades inte!. Det uppstod ett problem....<br /><br />Servern rapporterade:<br/>"
+
+msgid "delete_title"
+msgstr "Radera Blog-post"
+
+msgid "delete_instructions"
+msgstr "Det här är den Blog-post du valt att radera, är du helt säker att det är det du vill göra?"
+
+msgid "delete_error"
+msgstr "<h2>Oops!</h2>Blog-posten kunde inte raderas.<br /><br />Servern rapporterade:<br />"
+
+msgid "delete_static_title"
+msgstr "Radera statisk post"
+
+msgid "delete_static_instructions"
+msgstr "Det här är den statiska post du valt att radera, är du helt säker att det är det du vill göra?"
+
+msgid "delete_static_error"
+msgstr "<h2>Oops!</h2>Den statiska posten kunde inte raderas!<br /><br />Servern rapporterade:<br />"
+
+msgid "image_list_title"
+msgstr "Bildarkiv"
+
+msgid "image_list_instructions"
+msgstr "Klicka på en av länkarna nedan för att se motsvarande bild.<br /><br />För att lägga till en bild till din Blog-post:<br />1) Högerklicka en länk och välj 'Kopiera'.<br />2) Gå tillbaks till din Blog-post i editorn.<br />3) Klicka sedan på 'img' knappen och klistra in den kopierade länken."
+
+msgid "info_title"
+msgstr "Meta-Data Information"
+
+msgid "info_instructions"
+msgstr "Informationen nedan används av sökmotorer på webben för att korrerkt hitta och identifiera innehållet på din sajt. Informationen kan också användas av RSS nyhetstjänster."
+
+msgid "info_keywords"
+msgstr "Nyckelord: (En lista av kommaseparerade ord.)"
+
+msgid "info_description"
+msgstr "Beskrivning: (Antingen en sammanfattning av innehållet på din sajt, eller fritext beskrivning.)"
+
+msgid "info_copyright"
+msgstr "Rättigheter: (Copyright information, eller en länk till ett dokument som inneehåller motsvarand information.)"
+
+msgid "info_error"
+msgstr "<h2>Oops!</h2>Informationen sparades inte!. Servern stötte på ett problem under det att den försökte spara din information.<br /><br />Servern rapporterade:<br />"
+
+msgid "info_form_error"
+msgstr "Vänligen fyll i titel- och författarfälten."
+
+msgid "rating_error"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your information.<br /><br />Server Reported:<br />"
+
+msgid "upgrade"
+msgstr "<h2>Upgrade</h2>"
+
+msgid "upgrade_count"
+msgstr "%n comment files need to be upgraded:"
+
+msgid "upgrade_url"
+msgstr "Upgrade Comments"
+
+msgid "login_title"
+msgstr "Logga in"
+
+msgid "login_instructions"
+msgstr "Skriv in användarnamn och lösenord:"
+
+msgid "username"
+msgstr "Användarnamn:"
+
+msgid "password"
+msgstr "Lösenord"
+
+msgid "login_success"
+msgstr "<h2>Inloggad!</h2>Du är nu inloggad!<p />"
+
+msgid "login_wrong_password"
+msgstr "<h2>Oops!</h2>Du blev inte inloggad! Användarnamn eller lösenord var felaktigt, prova igen.<p />"
+
+msgid "login_form_error"
+msgstr "Skriv in användarnamn och lösenord:"
+
+msgid "logout_title"
+msgstr "Logga ut"
+
+msgid "logout_instructions"
+msgstr "<h2>Oops!</h2>Ett fel inträffade vid avloggningstillfället: Cookien kunde inte raderas!<p />"
+
+msgid "forms_title"
+msgstr ""
+
+msgid "forms_instructions"
+msgstr ""
+
+msgid "forms_error"
+msgstr "<h2>Oops!</h2>Informationen sparades inte! Det upstod ett problem....<br /><br />Servern rapporterade:<br />"
+
+msgid "set_login_title"
+msgstr "Ändra användarnamn &amp; Lösenord"
+
+msgid "set_login_instructions"
+msgstr "Använda formuläret nedan för att ändra ditt användarnamn och lösenord."
+
+msgid "set_login_success"
+msgstr "<h2>Sparat!</h2>Ditt användarnamn och lösenord är nu sparat!<p />"
+
+msgid "set_login_wrong_password"
+msgstr "<h2>Oops!</h2>Informationen sparades inte! Servern stötte på ett problem att spara ditt användarnamn och lösenord.<br /><br />Servern rapporterade:<br />"
+
+msgid "set_login_form_error"
+msgstr "Vänligen fyll i användarnamn och lösenordsfälten."
+
+msgid "explanation"
+msgstr "In recent versions, our password structure has changed.  There is no longer a way to update passwords  					and/or logins from inside the blog code.  In order to change your password, delete /config/password.php and make sure install*.php  					exists on the local server.  Once that is done, refresh this page (or logout).  You will be presented with the same script  					to generate your password as you did when originally creating the blog site."
+
+msgid "install00_title"
+msgstr "Welcome!"
+
+msgid "install00_instructions"
+msgstr "Thank you for choosing Simple PHP Blog!"
+
+msgid "blog_choose_language"
+msgstr "Choose Language:"
+
+msgid "install01_title"
+msgstr "Välkommen"
+
+msgid "install01_instructions"
+msgstr "  				Tack för att du valt Simple PHP Blog!<br /><br />Simple PHP Blog är ett enkelt bloggsystem. Det kräver PHP 4.1 eller bättre, och skrivrättigheter till serverkatalogerna den körs ifrån. All information sparas i enkla filer, så inga databaser krävs överhuvudtaget.<br /><br /> För att kunna börja använda Simple PHP Blog, krävs tre kataloger  ('config', 'content' och 'images') som underkataloger till din SPHPBlog katalog. Dessa används för att lagra all din information.<br /><br /> <b>Klicka nedan för att starta installationsrutinen:</b>"
+
+msgid "begin"
+msgstr "[ Begin Setup ]"
+
+msgid "install02_title"
+msgstr "Installation"
+
+msgid "install02_instructions"
+msgstr "Försöker skapa 'config', 'content', och 'images' kataloger:"
+
+msgid "folder_exists"
+msgstr "Okej! katalogen finns redan! Inga ändringar gjorda..."
+
+msgid "folder_failed"
+msgstr "Oops! Kunde inte skapa katalogen..."
+
+msgid "folder_success"
+msgstr "Katalogen skapades..."
+
+msgid "help"
+msgstr "<h2>Oops!</h2> Kunde inte skapa en eller flera kataloger, det beror sannorlikt på:<br>  				<i>1) <b>Skriv rättigheter</b> saknas!<b>Läs/Skriv rättigheter krävs i SPHPBlog katalogen.</b></i><br>  				<i>2) <b>UID</b>'s (user ID's) för alla filer och foldrar maste stämma överrens.</i><p />  				  				Gå igenom trouble-shooting instruktionen nedan och försök igen:<p />				  				1) Skapa, manuellt, följande kataloger: <b>config</b>, <b>content</b>, och <b>images</b>.<p />  				2) Sätt <b>Skriv rättigheter</b> på dessa kataloger. I ditt FTP-programm, Owner, User, och World skall ha <b>Read</b> och <b>Write</b> access. <i>(Du kan behöva kontakta ditt webb-hotell för att ändra dessa inställningar...)</i><p />  				3) Se till att UID's för filer och kataloger är exakt desamma överallt. <i>(Du kan behöva kontakta ditt webb-hotell för att ändra dessa inställningar...)</i>"
+
+msgid "try_again"
+msgstr "[ Försök igen ]"
+
+msgid "install02_success"
+msgstr "<h2>Katalogerna skapade!</h2><p /><b>Klicka nedan för att fortsätta:</b>"
+
+msgid "continue"
+msgstr "[ Fortsätt ]"
+
+msgid "supported"
+msgstr "<b>Your web server supports the following encryption schemes:</b>"
+
+msgid "standard"
+msgstr "Standard DES Encryption: "
+
+msgid "extended"
+msgstr "Extended DES Encryption: "
+
+msgid "MD5"
+msgstr "MD5 Encryption: "
+
+msgid "blowfish"
+msgstr "Blowfish Encryption: "
+
+msgid "enabled"
+msgstr "enabled"
+
+msgid "disabled"
+msgstr "disabled"
+
+msgid "using_standard"
+msgstr "<b>Using Standard DES Encryption...</b>"
+
+msgid "using_extended"
+msgstr "<b>Using Extended DES Encryption...</b>"
+
+msgid "using_MD5"
+msgstr "<b style='color: green;'>Using MD5 Encryption...</b>"
+
+msgid "using_blowfish"
+msgstr "<b style='color: green;'>Using Blowfish Encryption...</b>"
+
+msgid "using_unknown"
+msgstr "<b>Using Unknown Encryption...</b>"
+
+msgid "salt_length"
+msgstr " <i>(Salt Length = %string)</i><br />"
+
+msgid "install03_title"
+msgstr "Skapa användarnamn och lösenord"
+
+msgid "install03_instructions"
+msgstr "Använd formuläret nedan för att ange det användarnamn och lösenord du vill använda för att administrera din sajt."
+
+msgid "install03_success"
+msgstr "<h2>Gratulerar!</h2>Du är nu inloggad. Klicka på länken nedan för att gå till Setup sidan där du kan namnge din Blog-sajt. <br /><h2>Lycka till!</h2><p />"
+
+msgid "btn_setup"
+msgstr "[ Setup ]"
+
+msgid "install03_wrong_password"
+msgstr "<h2>Oops!</h2>Informationen sparades inte. Servern lagrade inte ditt användarnamn/lösenord.<br /><br />Servern rapporterade:<br />"
+
+msgid "install03_form_error"
+msgstr "Vänligen fyll i både fältet för användarnamn och för lösenord."
+
+msgid "install04_title"
+msgstr "Create Password File"
+
+msgid "install04_instructions"
+msgstr "Here's the tricky part:<br />  				<ol>  				<li>Open a Text Editor application. <i>(Note Pad, Word Pad, Word, BBEdit, Pico, VI, etc...)</i></li>  				<li>Create a New Text Document.</li>  				<li>Copy and paste the code in the box below into your document.</li>  				<li>Save your file and name it <b>password.php</b> <i>(Be sure to save it in <b>text</b> or <b>plain text</b> format.)</i></li>  				<li>Open a FTP application.</li>  				<li>Upload your new <b>password.php</b> into the <b>config</b> folder on your web site.</li>  				<li>Delete the <b>password.php</b> from your hard drive.</li>  				</ol>  				"
+
+msgid "information"
+msgstr "<i>Note: If you want to reset your username and password (probably because you forgot it), delete the <b>password.php</b> file in the <b>config</b> folder on your web site. The next time you visit your site, it will walk you through this installation process again...</i>"
+
+msgid "code"
+msgstr "Code for <b>password.php</b> file:"
+
+msgid "install05_title"
+msgstr "Login"
+
+msgid "install05_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid "install05_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in.<p />  				Click below to visit the <b>Setup</b> page, where you can personalize your new blog.<p />  				<i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install05_wrong_password"
+msgstr "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your Username and Password correctly and try again.<p />"
+
+msgid "install05_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "btn_try_again"
+msgstr "[ Try Again ]"
+
+msgid "install06_title"
+msgstr "Login"
+
+msgid "install06_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid "install06_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in.<p />  				Click below to visit the <b>Setup</b> page, where you can personalize your new blog.<p />  				<i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install06_wrong_password"
+msgstr "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your Username and Password correctly and try again.<p />"
+
+msgid "install06_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "setup_title"
+msgstr "Setup"
+
+msgid "setup_instructions"
+msgstr "Du kan ändra namnet på din Blog-sajt samt din personliga information i formuläret nedan."
+
+msgid "blog_title"
+msgstr "Titel:"
+
+msgid "blog_author"
+msgstr "Författare:"
+
+msgid "blog_email"
+msgstr "E-post:"
+
+msgid "blog_avatar"
+msgstr "Avatar URL: (Leave blank for none)."
+
+msgid "blog_footer"
+msgstr "Sidfot:"
+
+msgid "blog_enable_comments"
+msgstr "Tillåt kommentarer"
+
+msgid "blog_comments_popup"
+msgstr "öppna kommentarer i ett pop-up fönster"
+
+msgid "blog_enable_voting"
+msgstr "Enable Users to Rate Entries"
+
+msgid "blog_email_notification"
+msgstr "Skicka e-post när kommentarer givits"
+
+msgid "blog_enable_cache"
+msgstr "Enable Blog Entry Cache (may provide speed increase on some servers)"
+
+msgid "blog_send_pings"
+msgstr "Skicka weblog-&quot;pings&quot;"
+
+msgid "blog_ping_urls"
+msgstr "Skriv in fullständing URL (i.e. http://rpc.weblogs.com/RPC2) till &quot;ping&quot-tjänsten;.<br />(Du kan skriva in fler än en adress! Separera dessa med kommatecken.)"
+
+msgid "blog_trackback_about"
+msgstr "Trackback provides a method of notification between blogs. Let another  					blog know that you are linking to them by sending them a trackback ping. See who is linking to   					your blog by receiving trackback pings.<br />  				   You can either enter the URIs to ping manually, or try to do it automatically through   				   Auto-Discovery."
+
+msgid "blog_trackback_enabled"
+msgstr "Enable trackback in my blog"
+
+msgid "blog_trackback_auto_discovery"
+msgstr "Enable Auto-Discovery when submitting a post containing URLs"
+
+msgid "blog_max_entries"
+msgstr "Maximalt antal poster att visa:"
+
+msgid "blog_comment_tags"
+msgstr "Tillåtna taggar i kommentarer:"
+
+msgid "blog_gzip_about"
+msgstr "  					Sedan PHP 4.0.4, har PHP haft möjlighet att läsa och skriva gzip (.gz) komprimerade filer,   					för att spara diskutrymme. PHP kan också, transparent, komprimera webbsidor   					som skickas till webbläsare som stödjer GZip komprimering och på så sätt spara bandbredd.<br />  					<br />  					Zlib support i PHP är inte inkompilerat som standard. Om checkboxarna är gråmarkerade har  					din installation av PHP inget ZLib stöd och kan sålunda inte komprimera."
+
+msgid "blog_enable_gzip_txt"
+msgstr "Aktivera GZIP komprimering för databasfiler"
+
+msgid "blog_enable_gzip_output"
+msgstr "Aktivera GZIP kopmrimering för HTTP data"
+
+msgid "setup_error"
+msgstr "<h2>Oops!</h2>Informationen sparades inte.<br /><br />Servern rapporterade:<br />"
+
+msgid "setup_form_error"
+msgstr "Vänligen fyll i både titel och författare"
+
+msgid "label_entry_order"
+msgstr "Sorteringsordning:"
+
+msgid "select_new_to_old"
+msgstr "Visa nyast först"
+
+msgid "select_old_to_new"
+msgstr "Visa äldst först"
+
+msgid "label_comment_order"
+msgstr "Kommentarernas sorteringsordning:"
+
+msgid "cal_sunday"
+msgstr "Sunday"
+
+msgid "cal_monday"
+msgstr "Monday"
+
+msgid "label_calendar_start"
+msgstr "Calendar Week Start Day"
+
+msgid "title_sidebar"
+msgstr "Sidebar"
+
+msgid "title_comments"
+msgstr "Comments"
+
+msgid "title_trackback"
+msgstr "Trackbacks"
+
+msgid "title_compression"
+msgstr "Compression"
+
+msgid "title_entries"
+msgstr "Entries"
+
+msgid "title_general"
+msgstr "General"
+
+msgid "title_language"
+msgstr "Language"
+
+msgid "blog_comment_days_expiry"
+msgstr "Comments Allowed For How Many Days? (0 means no expiry)"
+
+msgid "blog_enable_calendar"
+msgstr "Enable Calendar / Archives Block"
+
+msgid "blog_enable_archives"
+msgstr "Enable Archives Block"
+
+msgid "blog_enable_counter"
+msgstr "Enable Counter in Sidebar"
+
+msgid "blog_counter_hours"
+msgstr "Number of hours to delay before hits are counted again (based on specific ip address):"
+
+msgid "blog_enable_login"
+msgstr "Enable Login Link (Please bookmark 'login.php' first...)"
+
+msgid "blog_enable_title"
+msgstr "Enable Plain Text Title Block (Clear checkbox if the title is in the header graphic)"
+
+msgid "blog_enable_permalink"
+msgstr "Enable Permalink on Blog Entries"
+
+msgid "blog_enable_capcha"
+msgstr "Enable Anti-Spam"
+
+msgid "blog_footer_counter"
+msgstr "Enable Counter in Footer"
+
+msgid "blog_enable_capcha_image"
+msgstr "Anti-Spam Images (GD library only) / Anti-Spam Text Field"
+
+msgid "blog_enable_stats"
+msgstr "Enable Stats Option in Menu"
+
+msgid "blog_enable_lastcomments"
+msgstr "Enable Most Recent Comments Listing"
+
+msgid "blog_enable_lastentries"
+msgstr "Enable Most Recent Entries Listing"
+
+msgid "options_title"
+msgstr "Inställningar"
+
+msgid "options_instructions"
+msgstr "Använd formuläret nedan för att ställa in hur datum och tid visas. Du kan välja mellan 12 eller 24 timmars klocka. Kort eller långt datumformat. <b>Förhandsgranskning</b>-delen på sidan uppdateras automatiskt så du kan se hur formattering kommer se ut på din sajt."
+
+msgid "ldate_title"
+msgstr "Långt datumformat:"
+
+msgid "weekday"
+msgstr "Veckodag"
+
+msgid "none"
+msgstr "Inget"
+
+msgid "sdate_title"
+msgstr "Kort datumformat:"
+
+msgid "s_month"
+msgstr "Månad"
+
+msgid "s_mon"
+msgstr "MMM"
+
+msgid "s_day"
+msgstr "Dag"
+
+msgid "s_year"
+msgstr "År"
+
+msgid "zero_day"
+msgstr "Inledande nolla för dagar"
+
+msgid "show_century"
+msgstr "Visa århundrade"
+
+msgid "time_title"
+msgstr "Tidsformat:"
+
+msgid "12hour"
+msgstr "12-timmarsklocka"
+
+msgid "24hour"
+msgstr "24-timmarsklocka"
+
+msgid "before_noon"
+msgstr "Förmiddag"
+
+msgid "after_noon"
+msgstr "Eftermiddag"
+
+msgid "date_title"
+msgstr "Datumformat:"
+
+msgid "long_date"
+msgstr "Långt datumformat"
+
+msgid "short_date"
+msgstr "Kort datumformat"
+
+msgid "time"
+msgstr "Tid"
+
+msgid "menu_title"
+msgstr "Menyns datumformat:"
+
+msgid "zero_month"
+msgstr "Inledande nolla för månader"
+
+msgid "zero_hour"
+msgstr "Inledande nolla för timmar"
+
+msgid "separator"
+msgstr "Separatör:"
+
+msgid "preview"
+msgstr "Förhandsgranska:"
+
+msgid "server_offset"
+msgstr "Tidsoffset:"
+
+msgid "options_error"
+msgstr "<h2>Oops!</h2>Informationen sparades inte. <br /><br />Servern rapporterade:<br />"
+
+msgid "upload_img_title"
+msgstr "Ladda upp bilder"
+
+msgid "upload_img_instructions"
+msgstr "Klicka på knappen nedan för att välja vilken bild som skall laddas upp."
+
+msgid "select_file"
+msgstr "Välj fil:"
+
+msgid "upload_btn"
+msgstr "Ladda upp"
+
+msgid "upload_img_error"
+msgstr "<h2>Oops!</h2>Kunde inte spara bilden.<br /><br />Servern rapporterade:<br />"
+
+msgid "themes_title"
+msgstr "Teman"
+
+msgid "themes_instructions"
+msgstr "Använd drop-down menyn för att välja tema."
+
+msgid "choose_theme"
+msgstr "Teman:"
+
+msgid "themes_error"
+msgstr "<h2>Oops!</h2>Informationen sparades inte. <br /><br />Servern rapporterade:<br />"
+
+msgid "search_result_title"
+msgstr "Sökresultat"
+
+msgid "search_result_instructions"
+msgstr "Sökresultat för <b>%string</b>:"
+
+msgid "not_found"
+msgstr "Inget resultat."
+
+msgid "contact_title"
+msgstr "Contact Me"
+
+msgid "contact_instructions"
+msgstr "Fill in the form:"
+
+msgid "contact_form_error"
+msgstr "Please complete the Subject and Comment fields."
+
+msgid "subject"
+msgstr "Subject:"
+
+msgid "contact_success"
+msgstr "<h2>Success!</h2>Your message has been sent.<p />"
+
+msgid "failure"
+msgstr "<h2>Error!</h2>Your message has not been sent. Most likely the Anti Spam was not entered properly.<p />"
+
+msgid "contact_capcha"
+msgstr "Anti-Spam: Enter "
+
+msgid "contactsent"
+msgstr "Contact sent through: "
+
+msgid "errorpage-nocookies_title"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "errorline1"
+msgstr "The page or function you attempted to process requires the use of cookies."
+
+msgid "errorline2"
+msgstr "Restore cookie functionality within your browser or protection software and attempt your request again."
+
+msgid "clientid"
+msgstr "Client ID: "
+
+msgid "stats_title"
+msgstr "Statistics"
+
+msgid "general"
+msgstr "General"
+
+msgid "entry_info"
+msgstr "<b>%s</b> entries using <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "comment_info"
+msgstr "<b>%s</b> comments using <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "trackback_info"
+msgstr "<b>%s</b> trackbacks stored in <b>%s</b> bytes"
+
+msgid "static_info"
+msgstr "<b>%s</b> static pages using <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "most_viewed_entries"
+msgstr "10 Most viewed entries"
+
+msgid "most_commented_entries"
+msgstr "10 Most commented entries"
+
+msgid "most_trackbacked_entries"
+msgstr "10 Most trackbacked entries"
+
+msgid "vote_info"
+msgstr "<b>%s</b> votes stored in <b>%s</b> bytes"
+
+msgid "most_voted_entries"
+msgstr "10 Most voted entries"
+
+msgid "most_rated_entries"
+msgstr "10 Most rated entries"
+
+msgid "403.8"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "404"
+msgstr "HTTP Error 404 - Page/Function Does Not Exist"
+
+msgid "error_404"
+msgstr "The page or function you attempted to process does not exist."
+
+msgid "error_javascript"
+msgstr "The page or function you attempted requires javascript in order to properly function."
+
+msgid "error_emailnotsent"
+msgstr "The message you attempted to send has failed."
+
+msgid "error_emailnotsentcapcha"
+msgstr "The message you attempted to send has failed because the anti-spam entry was incorrect or missing."
+
+msgid "emoticons_title"
+msgstr "Admin Emoticons"
+
+msgid "emoticons_instructions"
+msgstr "  					Check the emoticons you want to use. Write in the box the Tags you want   					to be replaced by the image. Multiple tags may be used, just separated them   					by spaces.<br /><br />  		  					For instance:<br />  					:) :-) :SMILE: :HAPPY:<br /><br />  					  					<i>(It is highly recommended that you make the Tags longer than 2 characters,   					otherwise unexpected substitutions may occur.)</i>"
+
+msgid "upload_instructions"
+msgstr "Upload New Emoticon:"
+
+msgid "upload_success"
+msgstr "Success! Image uploaded successfully!"
+
+msgid "upload_error"
+msgstr "Error! Image was not uploaded."
+
+msgid "upload_invalid"
+msgstr "Error! Invalid image file. Image must be a png, jpg, or gif."
+
+msgid "save_success"
+msgstr "Emoticon preferences saved successfully!"
+
+msgid "save_error"
+msgstr "Error! Emoticon preferences not saved."
+
+msgid "save_button"
+msgstr "Save Emoticons"
+

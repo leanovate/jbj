@@ -1,0 +1,62 @@
+Simple PHP Blog:
+----------------
+
+To do list
+----------
+
+BUGS
+- fix urls in plugins
+
+Improvements
+- pull title when using index?entry format
+- remove pagecontent functions
+- move post processing pages into initial page
+- add caching headers for non-logged in users
+- switch capcha to recapcha? we need to figure out the keying
+- move install pages to separate directory
+- move admin/user pages to separate directory
+- integrate gallery
+- integrate guest book?
+- separate color schemes from themes
+
+New config settings:
+- Show comments by default ID: 2981075 
+- Require login for rating ID: 1785378
+- capcha for rating ID: 1593563
+
+
+Assigned	Feature 	Description
+--------	-----------	-----------
+Jesse		Mood and song	[0%] Move the display of mood and song after the entry text, and before the links (rate and comment) of the entry
+
+			Go back			[0%] When data is submited the user should be redirected to the appropiate page, not always index.php. Example: When rating an entry the user is always redirected to index.php
+
+			Update views	[0%] Comment views should be updated even if there are no comments posted
+
+Alex		Image/File 		[0%] Enhance the Image Upload feature. Add ability to delete files, move files, create directories, unzip files...
+			Update
+
+Alex		Anit-Leech /	[0%] Add some protection against people stealing bandwidth by hijacking images. 
+			Anti-hotlink
+
+Alex		Guest Book		[0%] Optional Guest Book.
+
+Guti		404 static		[90%] Add a default static page to show if the requested static page is not found.
+
+			Mandatory		[0%] Include an asterisk in all the input fields that are required
+			fields
+
+			Missing			[20%] Search for all the missing translatable strings and add the the the languages files
+			translations	
+
+			Cleanup			[5%] Take care of the total memory used by a script. Try to recycle big temporal array, and to unset them as soon as they are not needed
+
+Alex		XML 		[0%] Switch to XML data format.
+
+			Document	[0%] Document the theme creation, and blog's customization
+
+			Pingbacks	[50%] Consider also supporting pingbacks
+
+			Edit dates	[0%] Ability to edit publish dates in comments
+
+			Polls		[0%] Implement a new entry type, so we can create customizable polls, and the users can vote

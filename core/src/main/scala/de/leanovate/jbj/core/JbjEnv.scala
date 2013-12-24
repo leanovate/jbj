@@ -71,7 +71,7 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
     case Some(_) if !Option(locator.getETag(fileName)).isDefined =>
       cache.remove(fileName)
       None
-    case None => Option(locator.readScript(fileName)).map {
+    case _ => Option(locator.readScript(fileName)).map {
       script =>
         val parser = new JbjParser(ParseContext(script.getFilename, settings))
         val result = try {

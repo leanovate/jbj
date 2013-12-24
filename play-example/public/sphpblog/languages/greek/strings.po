@@ -1,0 +1,1266 @@
+msgid "language"
+msgstr "greek"
+
+msgid "locale"
+msgstr "Array"
+
+msgid "rss_locale"
+msgstr "el-GR"
+
+msgid "html_charset"
+msgstr "ISO-8859-7"
+
+msgid "php_charset"
+msgstr "ISO-8859-7"
+
+msgid "menu_links"
+msgstr "Σύνδεσμοι"
+
+msgid "menu_home"
+msgstr "Αρχική Σελίδα"
+
+msgid "menu_contact"
+msgstr "Επικοινωνία"
+
+msgid "menu_stats"
+msgstr "Στατιστικά"
+
+msgid "menu_calendar"
+msgstr "Calendar"
+
+msgid "menu_viewarchives"
+msgstr "View Archives"
+
+msgid "menu_archive"
+msgstr "Αρχείο"
+
+msgid "menu_menu"
+msgstr "Μενού"
+
+msgid "menu_add"
+msgstr "Εισαγωγή Εγγραφής"
+
+msgid "menu_add_static"
+msgstr "Εισαγωγή Στατικής Σελίδας"
+
+msgid "menu_upload"
+msgstr "Αποστολή Εικόνας"
+
+msgid "menu_setup"
+msgstr "Εγκατάσταση"
+
+msgid "menu_categories"
+msgstr "Κατηγορίες"
+
+msgid "menu_info"
+msgstr "Πληροφορίες"
+
+msgid "menu_options"
+msgstr "Επιλογές"
+
+msgid "menu_themes"
+msgstr "Θέματα"
+
+msgid "menu_colors"
+msgstr "Χρώματα"
+
+msgid "menu_change_login"
+msgstr "Αλλαγή Login"
+
+msgid "menu_logout"
+msgstr "Έξοδος"
+
+msgid "menu_login"
+msgstr "Σύνδεση"
+
+msgid "menu_most_recent"
+msgstr "Πρόσφατα Σχόλια"
+
+msgid "menu_most_recent_entries"
+msgstr "Πρόσφατες Εγγραφές"
+
+msgid "menu_most_recent_trackback"
+msgstr "Πρόσφατα Trackbacks"
+
+msgid "menu_add_block"
+msgstr "Blocks"
+
+msgid "menu_emoticons"
+msgstr "Emoticons"
+
+msgid "menu_avatar"
+msgstr "Avatar"
+
+msgid "counter_today"
+msgstr "Today:"
+
+msgid "counter_yesterday"
+msgstr "Yesterday:"
+
+msgid "counter_totalsidebar"
+msgstr "Total:"
+
+msgid "counter_title"
+msgstr "Counter Totals"
+
+msgid "home"
+msgstr "Επιστροφή στην Αρχική Σελίδα"
+
+msgid "nav_next"
+msgstr "Επόμενο"
+
+msgid "nav_back"
+msgstr "Πίσω"
+
+msgid "search_title"
+msgstr "Αναζήτηση:"
+
+msgid "search_go"
+msgstr "Πάμε!"
+
+msgid "page_generated_in"
+msgstr "Η σελίδα δημιουργήθηκε σε %s δευτερολέπτα"
+
+msgid "counter_total"
+msgstr "Site Views: "
+
+msgid "read_more"
+msgstr "Read More..."
+
+msgid "sb_months"
+msgstr "Array"
+
+msgid "sb_default_title"
+msgstr "Χωρίς Τίτλο"
+
+msgid "sb_default_author"
+msgstr "Χωρίς Συγγραφέα"
+
+msgid "sb_default_footer"
+msgstr "Χωρίς Υποσέλιδο"
+
+msgid "sb_edit"
+msgstr "επεξεργασία"
+
+msgid "sb_delete"
+msgstr "διαγραφή"
+
+msgid "sb_permalink"
+msgstr "permalink"
+
+msgid "sb_trackback"
+msgstr "trackbacks"
+
+msgid "sb_relatedlink"
+msgstr "σχετικός σύνδεσμος"
+
+msgid "sb_add_comment_btn"
+msgstr "εισαγωγή σχολίου"
+
+msgid "sb_comment_btn_number_first"
+msgstr "1"
+
+msgid "sb_comment_btn"
+msgstr "σχόλιο"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr "1"
+
+msgid "sb_comments_plural_btn"
+msgstr "σχόλια"
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_post"
+msgstr " εμφάνιση"
+
+msgid "sb_view_counter_plural_pre"
+msgstr ""
+
+msgid "sb_view_counter_plural_post"
+msgstr " εμφανίσεις"
+
+msgid "sb_add_link_btn"
+msgstr "Προσθέστε σύνδεσμο"
+
+msgid "sb_rate_entry_btn"
+msgstr "Βαθμολόγηση Εγγραφής"
+
+msgid "label_subject"
+msgstr "Θέμα:"
+
+msgid "label_insert"
+msgstr "Εισαγωγή Ειδικού:"
+
+msgid "btn_bold"
+msgstr " b "
+
+msgid "btn_italic"
+msgstr " i "
+
+msgid "btn_image"
+msgstr "img"
+
+msgid "btn_url"
+msgstr "url"
+
+msgid "btn_readmore"
+msgstr "read more"
+
+msgid "view_images"
+msgstr "Επισκόπηση Απεσταλμένων Εικόνων"
+
+msgid "label_entry"
+msgstr "Εγγραφή:"
+
+msgid "btn_preview"
+msgstr "&nbsp;Προεπισκόπηση&nbsp;"
+
+msgid "btn_post"
+msgstr "&nbsp;Δημοσίευση&nbsp;"
+
+msgid "file_name"
+msgstr "Όνομα αρχείου: (χωρίς διαστήματα ή καταλήξεις αρχείων)"
+
+msgid "insert_styles"
+msgstr "Εισάγετε το κείμενο προς επεξεργασία:"
+
+msgid "insert_image"
+msgstr "Εισάγετε το URL για την εικόνα:"
+
+msgid "insert_url1"
+msgstr "Εισάγετε το κείμενο για το σύνδεσμο (Προαιρετικό):"
+
+msgid "insert_url2"
+msgstr "Εισάγετε το πλήρες URL για το σύνδεσμο:"
+
+msgid "insert_url3"
+msgstr "Φόρτωση URL σε νέο παράθυρο (Προαιρετικό):"
+
+msgid "add_form_error"
+msgstr "Παρακαλώ συμπληρώστε τα πεδία Επικεφαλίδα και Εγγραφή."
+
+msgid "insert_image_optional"
+msgstr "Προαιρετικό:"
+
+msgid "insert_image_width"
+msgstr "Μήκος (Προαιρετικό):"
+
+msgid "insert_image_height"
+msgstr "Ύψος (Προαιρετικό):"
+
+msgid "insert_image_popup"
+msgstr "Επισκόπηση σε πλήρες μέγεθος pop-up (Προαιρετικό):"
+
+msgid "insert_image_float"
+msgstr "Μη σταθερό (Προαιρετικό):"
+
+msgid "day"
+msgstr "Day"
+
+msgid "month"
+msgstr "Month"
+
+msgid "year"
+msgstr "Year"
+
+msgid "hour"
+msgstr "Hour"
+
+msgid "minute"
+msgstr "Minute"
+
+msgid "second"
+msgstr "Second"
+
+msgid "add_title"
+msgstr "Εισαγωγή Εγγραφής"
+
+msgid "add_instructions"
+msgstr "Έτοιμοι για blogging? Συμπληρώστε την παρακάτω φόρμα και κάντε κλικ στην 'Προεπισκόπηση' για να δείτε πως φαίνεται, ή κάντε κλικ στην 'Αποστολή' για να αποθηκεύσετε την Εγγραφή σας."
+
+msgid "title_ad"
+msgstr "Επιβεβαιώστε τα Trackback Pings"
+
+msgid "instructions_ad"
+msgstr "Αυτά είναι τα Auto-Discovered URIs στα οποία θα γίνει ping. Εάν ΔΕΝ επιθυμείτε να γίνει ping σε κάποιο URI, απο-επιλέξτε το. Έπειτα πατήστε 'OK' για να γίνει ping στα επιλεγμένα URIs ή 'Cancel' για να μην γίνει καθόλου ping."
+
+msgid "label_tb_ping"
+msgstr "Trackback στα οποία θα γίνει ping (χωρισμένα με κόμμα)"
+
+msgid "label_tb_autodiscovery"
+msgstr "Αυτόματη Εύρεση"
+
+msgid "label_relatedlink"
+msgstr "Σχετικός σύνδεσμος"
+
+msgid "label_categories"
+msgstr "Category List"
+
+msgid "add_instructions_update"
+msgstr "Μπορείτε να αλλάξετε την εγγραφή σας χρησιμοποιώντας την παρακάτω φόρμα. Όταν τελειώσετε, κάντε κλικ στην 'Προεπισκόπηση' ή στην 'Δημοσίευση'."
+
+msgid "ok_btn"
+msgstr "&nbsp;OK&nbsp;"
+
+msgid "cancel_btn"
+msgstr "&nbsp;Άκυρο&nbsp;"
+
+msgid "add_error"
+msgstr "<h2>Σφάλμα !</h2>Η Εγγραφή δεν καταχωρήθηκε. Υπήρξε ένα πρόβλημα κατά την καταχώρηση .<br /><br />Μήνυμα Server:<br />"
+
+msgid "add_static_form_error"
+msgstr "Παρακαλώ συμπληρώστε τα πεδία Θέμα, Εγγραφή και Όνομα Αρχείου."
+
+msgid "add_static_title"
+msgstr "Εισαγωγή Στατικής Σελίδας"
+
+msgid "add_static_instructions"
+msgstr "Συμπληρώστε την παρακάτω φόρμα για να δημιουργήσετε μια Στατική Σελίδα. Σε αντίθεση με μια κανονική Εγγραφή του Blog, οι Στατικές Σελίδες εμφανίζονται σαν σύνδεσμοι στο δεξί menu και αφορούν σελίδες που θα θέλετε να είναι πάντα διαθέσιμες, όπως: Πληροφορίες, Επικοινωνία, κτλ. Κάντε κλικ στην 'Προεπισκόπηση' για να δείτε πως θα φαίνεται η εγγραφή σας ή 'Δημοσίευση' για να αποθηκευτεί η εγγραφή σας."
+
+msgid "add_static_instructions_update"
+msgstr "Μπορείτε να αλλάξετε την εισαγωγή χρησιμοποιώντας την παρακάτω φόρμα. Κάντε κλικ στο 'Προεπισκόπηση' ή στο 'Αποστολή' όταν έχετε τελειώσει."
+
+msgid "add_static_error"
+msgstr "<h2>Σφάλμα !</h2>Η εισαγωγή δεν αποθηκεύτηκε. Εμφανίστηκε το εξής πρόβλημα κατά την αποθήκευση:<br /><br />Μήνυμα λάθους του Server:<br />"
+
+msgid "comments_form_error"
+msgstr "Παρακαλώ συμπληρώστε τα πεδία Όνομα και Σχόλιο."
+
+msgid "name"
+msgstr "Όνομα:"
+
+msgid "email"
+msgstr "Email:"
+
+msgid "homepage"
+msgstr "Website:"
+
+msgid "comment"
+msgstr "Σχόλιο:"
+
+msgid "IPAddress"
+msgstr "Διεύθυνση ΙP:"
+
+msgid "useragent"
+msgstr "User Agent:"
+
+msgid "wrote"
+msgstr "<i>Τη %s, %s έγραψε:</i><br /> <br /> %s"
+
+msgid "commentposted"
+msgstr "Το Νέο Σχόλιο δημοσιεύθηκε στις: "
+
+msgid "comment_capcha"
+msgstr "Anti-Spam: Εισάγετε "
+
+msgid "comments_title"
+msgstr "Σχόλια"
+
+msgid "comments_header"
+msgstr "Προσθήκη Σχολίου"
+
+msgid "comments_instructions"
+msgstr "Συμπληρώστε την παρακάτω φόρμα για την προσθήκη των δικών σας σχολίων."
+
+msgid "comment_name"
+msgstr "Το όνομά σας:"
+
+msgid "comment_email"
+msgstr "Email:"
+
+msgid "comment_url"
+msgstr "URL:"
+
+msgid "comment_remember"
+msgstr "Να με θυμάται:"
+
+msgid "comment_text"
+msgstr "Σχόλιο:"
+
+msgid "post_btn"
+msgstr "&nbsp;Δημοσίευση Σχολίου&nbsp;"
+
+msgid "delete_btn"
+msgstr "Διαγραφή"
+
+msgid "expired_comment1"
+msgstr "We are sorry. New comments are not allowed after "
+
+msgid "expired_comment2"
+msgstr " days."
+
+msgid "blacklisted"
+msgstr "Sorry, your IP address has been banned. Comments not allowed."
+
+msgid "comments_error_add"
+msgstr "<h2>Σφάλμα !</h2>Το Σχόλιο δεν αποθηκεύθηκε. Εμφανίστηκε το εξής πρόβλημα:<br /><br />Μήνυμα Server:<br />"
+
+msgid "comments_error_delete"
+msgstr "<h2>Σφάλμα !</h2>Το Σχόλιο δεν διαγράφηκε. Εμφανίστηκε το εξής πρόβλημα:<br /><br />Μήνυμα Server:<br />"
+
+msgid "add_block_form_error"
+msgstr "Παρακαλώ συμπληρώστε το πεδίο Όνομα."
+
+msgid "add_block_title"
+msgstr "Προσθήκη / Διαχείριση Συνδέσμων"
+
+msgid "add_block_instructions"
+msgstr "Προσθήκη custom Blocks"
+
+msgid "up"
+msgstr "επάνω"
+
+msgid "down"
+msgstr "κάτω"
+
+msgid "edit"
+msgstr "επεξεργασία"
+
+msgid "delete"
+msgstr "διαγραφή"
+
+msgid "block_name"
+msgstr "Όνομα Βlock:"
+
+msgid "block_content"
+msgstr "Περιεχόμενο Block:"
+
+msgid "add_block_instructions_edit"
+msgstr "Τώρα επεξεργάζεστε το block:"
+
+msgid "add_block_instructions_modify"
+msgstr "Κάντε κλικ για να μεταβάλλετε ένα block:"
+
+msgid "add_block_submit_btn_edit"
+msgstr "Επεξεργασία Block"
+
+msgid "add_block_submit_btn_add"
+msgstr "Προσθήκη Block"
+
+msgid "static_pages"
+msgstr "Στατικές Σελίδες:"
+
+msgid "add_link_title"
+msgstr "Προσθήκη / Διαχείριση Συνδέσμων"
+
+msgid "add_link_instructions"
+msgstr "Προσθήκη προσαρμοσμένων συνδέσμων σε άλλα sites. Συμπλήρωσε την παρακάτω φόρμα και κάνε κλικ στο 'Προσθήκη Συνδέσμου' για να προσθέσεις ένα σύνδεσμο. Κάνωντς κλικ στο πάνω ή κάτω βελάκι  μπορείς να αλλάξεις την σειρά των συνδέσμων. Για την επεξεργασία ενός συνδέσμου, κλικ στο αντίστοιχο πλήκτρο. Για την διαγραφή ενός συνδέσμου, κλικ στο αντίστοιχο πλήκτρο."
+
+msgid "link_name"
+msgstr "Όνομα Συνδέσμου:"
+
+msgid "link_url"
+msgstr "Σύνδεσμος URL: (Προαιρετικό. Άφηστε το κενό για την εισαγωγή διαχωριστικού.)"
+
+msgid "add_link_instructions_edit"
+msgstr "Επεξεργάζεστε το σύνδεσμο:"
+
+msgid "add_link_instructions_modify"
+msgstr "Για την αλλαγή συνδέσμου κάντε κλικ:"
+
+msgid "add_link_submit_btn_edit"
+msgstr "Επεξεργασία Συνδέσμου"
+
+msgid "add_link_submit_btn_add"
+msgstr "Προσθήκη Συνδέσμου"
+
+msgid "add_link_form_error"
+msgstr "Παρακαλώ συμπληρώστε το πεδίο Όνομα."
+
+msgid "categories_title"
+msgstr "Προσθήκη / Διαχείριση Κατηγοριών"
+
+msgid "categories_instructions"
+msgstr "Χρησιμοποιείστε την παρακατω φόρμα για να προσθέσετε και να επεξεργαστείτε τις κατηγορίες σας. Κάθε αντικείμενο κατηγορίας πρέπει να ακολουθεί τον τύπο 'category name (id number)'.Χρησιμοποιήστε διαστήματα για να δημιουργήσετε ιεραρχία μεταξύ των αντικειμένων.<br /><br /><b>Παράδειγμα:</b><br />Γενικά (1)<br />Νέα (3)<br />&nbsp;&nbsp;Ανακοινώσεις (6)<br />&nbsp;&nbsp;Γεγονότα (5)<br />&nbsp;&nbsp;&nbsp;&nbsp;Διάφορα (7)<br />Τεχνολογία (2)<br />"
+
+msgid "categories_error"
+msgstr "Σφάλμα"
+
+msgid "current_categories"
+msgstr "Τρέχουσες Κατηγορίες"
+
+msgid "no_categories_found"
+msgstr "Δεν βρέθηκαν Κατηγορίες"
+
+msgid "category_list"
+msgstr "Λίστα Κατηγοριών:"
+
+msgid "validate"
+msgstr "Validate"
+
+msgid "submit_btn"
+msgstr "&nbsp;Υποβολή&nbsp;"
+
+msgid "colors_title"
+msgstr "Αλλαγή χρωμάτων"
+
+msgid "colors_instructions"
+msgstr "Μπορείτε να αλλάξετε τα χρώματα του κειμένου και του φόντου του blog. Πρώτα επιλέξτε το επόμενο πεδίο, έπειτα χρησιμοποιήστε τον επεξεργαστή χρωμάτων για την μίξη χρώματος. Η Τιμή αλλάζει αυτόματα."
+
+msgid "bg_color"
+msgstr "BG σελίδα"
+
+msgid "main_bg_color"
+msgstr "BG Αρχική Σελίδα"
+
+msgid "border_color"
+msgstr "Περιθώριο Σελίδας"
+
+msgid "inner_border_color"
+msgstr "Εσωτερικό Περιθώριο"
+
+msgid "header_bg_color"
+msgstr "BG Επικεφαλίδα"
+
+msgid "header_txt_color"
+msgstr "Κείμενο Επικεφαλίδας"
+
+msgid "menu_bg_color"
+msgstr "BG Μενού"
+
+msgid "footer_bg_color"
+msgstr "BG Υποσέλιδου"
+
+msgid "txt_color"
+msgstr "Κυρίως Κείμενο"
+
+msgid "headline_txt_color"
+msgstr "Κείμενο Επικεφαλίδας"
+
+msgid "date_txt_color"
+msgstr "Κείμενο Ημερομηνίας"
+
+msgid "footer_txt_color"
+msgstr "Κείμενο Υποσέλιδου"
+
+msgid "link_reg_color"
+msgstr "Προκαθορισμένο Χρώμα Συνδέσμου"
+
+msgid "link_hi_color"
+msgstr "Hover Σύνδεσμος"
+
+msgid "link_down_color"
+msgstr "Ενεργός Σύνδεσμος"
+
+msgid "entry_bg"
+msgstr "Αρχικό BG"
+
+msgid "entry_title_bg"
+msgstr "Αρχικός Τίτλος BG"
+
+msgid "entry_border"
+msgstr "Αρχικό Περιθώριο"
+
+msgid "entry_title_text"
+msgstr "Αρχικό Κείμενο Τίτλου"
+
+msgid "entry_text"
+msgstr "Αρχικό Κείμενο"
+
+msgid "menu_bg"
+msgstr "Μενού BG"
+
+msgid "menu_title_bg"
+msgstr "Τίτλος Μενού BG"
+
+msgid "menu_border"
+msgstr "Περιθώριο Μενού"
+
+msgid "menu_title_text"
+msgstr "Κείμενο Τίτλου Μενού"
+
+msgid "menu_text"
+msgstr "Κείμενο Μενού"
+
+msgid "menu_link_reg_color"
+msgstr "Προεπιλεγμένος Σύνδεσμος Μενού"
+
+msgid "menu_link_hi_color"
+msgstr "Σύνδεσμος Μενού Hover"
+
+msgid "menu_link_down_color"
+msgstr "Σύνδεσμος Μενού Active"
+
+msgid "color_preset"
+msgstr "Σετ Χρωμάτων:"
+
+msgid "scheme_name"
+msgstr "Εισάγετε ένα όνομα για το custom σετ χρωμάτων:"
+
+msgid "scheme_file"
+msgstr "Εισάγετε όνομα αρχείου σετ: (χωρίς διαστήματα ή καταλήξεις αρχείων)"
+
+msgid "save_btn"
+msgstr "&nbsp;Αποθήκευση&nbsp;"
+
+msgid "colors_form_error"
+msgstr "Παρακαλώ εισάγετε ένα όνομα για το custom σετ χρωμάτων."
+
+msgid "theme_doesnt_allow_colors"
+msgstr "Το επιλεγμένο Θέμα δεν επιτρέπει custom χρώματα."
+
+msgid "colors_error"
+msgstr "<h2>Σφάλμα !</h2>Η πληροφορία δεν καταχωρήθηκε. Εμφανίστηκε το εξής πρόβλημα:<br /><br />Μήνυμα Server:<br />"
+
+msgid "delete_title"
+msgstr "Διαγραφή Εισαγωγής"
+
+msgid "delete_instructions"
+msgstr "Αυτή είναι η Εγγραφή που πρόκειται να διαγράψετε. Βεβαιωθείτε πως θέλετε να την διαγράψετε, διότι δεν είναι δυνατή η αναίρεση αυτής της πράξης..."
+
+msgid "delete_error"
+msgstr "<h2>Σφάλμα !</h2>Η Εγγραφή δεν διαγράφηκε.<br /><br />Μήνυμα Server:<br />"
+
+msgid "delete_static_title"
+msgstr "Διαγραφή Στατικής Σελίδας"
+
+msgid "delete_static_instructions"
+msgstr "Αυτή είναι η Στατική Σελίδα που πρόκειται να διαγράψετε. Βεβαιωθείτε πως θέλετε να την διαγράψετε διότι δεν είναι δυνατή η αναίρεση αυτής της πράξης..."
+
+msgid "delete_static_error"
+msgstr "<h2>Σφάλμα !</h2>Η Εγγραφή δεν διαγράφηκε.<br /><br />Μήνυμα Server:<br />"
+
+msgid "image_list_title"
+msgstr "Λίστα Εικόνων"
+
+msgid "image_list_instructions"
+msgstr "Κάνετε κλικ στους επόμενους Συνδέσμους για να δείτε τις εικόνες.<br /><br />Για την εισαγωγή μιας εικόνας στην Εγγραφή:<br />1) Control-click ένα σύνδεσμο και επιλέξτε 'Αντιγραφή Συνδέσμου στο Clipboard'.<br />2) Επιστρέψτε στην σελίδα Εισαγωγή Εγγραφής ή στην Επεξεργασία Εγγραφής.<br />3) Κάντε κλικ στο πλήκτρο 'img' και επικολλήστε το URL στο παράθυρο."
+
+msgid "info_title"
+msgstr "Μeta-data"
+
+msgid "info_instructions"
+msgstr "Η επόμενη πληροφορία χρησιμοποιείται για &quot;meta-data&quot;, τα οποία βοηθούν τις μηχανές αναζήτησης για να αναζητήσουν και να καταχωρήσουν το site σας. Αυτή η πληροφορία μπορεί επίσης να χρησιμοποιηθεί και από RSS feeds."
+
+msgid "info_keywords"
+msgstr "Λέξεις Κλειδιά: (Λίστα από λέξεις-κλειδιά διαχωρισμένα από κόμματα.)"
+
+msgid "info_description"
+msgstr "Περιγραφή: (Απόσπασμα ή μια ελεύθερη περιγραφή του site σας.)"
+
+msgid "info_copyright"
+msgstr "Δικαιώματα: (Δήλωση δικαιωμάτων (copyright), ή σύνδεσμος στο κείμενο που περιέχει πληροφορίες.)"
+
+msgid "info_error"
+msgstr "<h2>Σφάλμα !</h2>Τα δεδομένα δεν καταχωρήθηκαν.<br /><br />Μήνυμα Server:<br />"
+
+msgid "info_form_error"
+msgstr "Παρακαλώ συμπληρώστε τα πεδία Τίτλος και Συγγραφέας."
+
+msgid "rating_error"
+msgstr "<h2>Σφάλμα !</h2>Οι πληροφορίες δεν αποθηκεύτηκαν. Υπήρξε πρόβλημα κατά την αποθήκευση των πληροφοριών σας.<br /><br />Μήνυμα Server:<br />"
+
+msgid "upgrade"
+msgstr "<h2>Αναβάθμιση</h2>"
+
+msgid "upgrade_count"
+msgstr "%n αρχεία σχολίων χρειάζεται να αναβαθμιστούν:"
+
+msgid "upgrade_url"
+msgstr "Σχόλια Αναβάθμισης"
+
+msgid "login_title"
+msgstr "Σύνδεση"
+
+msgid "login_instructions"
+msgstr "Παρακαλώ εισάγετε το Όνομα Χρήστη και τον Κωδικό σας"
+
+msgid "username"
+msgstr "Όνομα Χρήστη:"
+
+msgid "password"
+msgstr "Κωδικός"
+
+msgid "login_success"
+msgstr "<h2>Επιτυχές!</h2>Συνδεθήκατε. Καλό blogging!<p />"
+
+msgid "login_wrong_password"
+msgstr "<h2>Σφάλμα !</h2>Σύνδεση ανεπιτυχής. Παρακαλώ επιβεβαιώστε ότι έχετε πληκτρολογήσει σωστά το Όνομα Χρήστη και τον Κωδικό σας και ξαναπροσπαθήστε.<p />"
+
+msgid "login_form_error"
+msgstr "Παρακαλώ συμπληρώστε το Όνομα Χρήστη και τον Κωδικό σας."
+
+msgid "logout_title"
+msgstr "Έξοδος"
+
+msgid "logout_instructions"
+msgstr "<h2>Σφάλμα !</h2>Έξοδος ανεπιτυχής. Αδυναμία διαγραφής cookie. Είστε ακόμη συνδεδεμένος-η;<p />"
+
+msgid "forms_title"
+msgstr ""
+
+msgid "forms_instructions"
+msgstr ""
+
+msgid "forms_error"
+msgstr "<h2>Σφάλμα !</h2>Τα δεδομένα δεν αποθηκεύτηκαν.<br /><br />Μήνυμα Server:<br />"
+
+msgid "set_login_title"
+msgstr "Αλλαγή Ονόματος Χρήστη &amp; Κωδικού"
+
+msgid "set_login_instructions"
+msgstr "Χρησιμοποιήστε την παρακάτω φόρμα για να αλλάξτε το Όνομα Χρήστη ή/και τον Κωδικό σας. Εισάγετε το Όνομα Χρήστη και Κωδικό τα οποία θέλετε να χρησιμοποιήσετε."
+
+msgid "set_login_success"
+msgstr "<h2>Επιτυχές!</h2>Το Όνομα Χρήστη ή/και Κωδικός σας αποθηκεύτηκαν. Καλό blogging!<p />"
+
+msgid "set_login_wrong_password"
+msgstr "<h2>Σφάλμα !</h2>Τα δεδομένα δεν αποθηκεύτηκαν. Υπήρξε ένα πρόβλημα κατά την αποθήκευση του Ονόματος Χρήστη ή/και του Κωδικού.<br /><br />Μήνυμα Server:<br />"
+
+msgid "set_login_form_error"
+msgstr "Παρακαλώ συμπληρώστε τα πεδία Όνομα Χρήστη και Κωδικός."
+
+msgid "explanation"
+msgstr "Στις πρόσφατες εκδόσεις η δομή των κωδικών άλλαξε.  Πλέον, δεν υπάρχει τρόπος να ανανεώνονται οι κωδικοί  					ή και τα ονόματα χρηστών μέσα στον κώδικα του blog.  Για να αλλάξετε κωδικό, διαγράψτε το αρχείο /config/password.php και βεβαιωθείτε ότι το install*.php  					υπάρχει στον server.  Όταν γίνει αυτό, κάντε refresh αυτήν τη σελίδα (ή επιλέξετε Έξοδο). Θα ενεργοποιηθεί το ίδιο script  					δημιουργίας κωδικού, όπως και την πρώτη φορά που δημιουργηθηκε το blog."
+
+msgid "install00_title"
+msgstr "Καλώς Ήλθατε"
+
+msgid "install00_instructions"
+msgstr "Σας ευχαριστούμε που επιλέξατε το Simple PHP Blog!"
+
+msgid "blog_choose_language"
+msgstr "Επιλογή Γλώσσας:"
+
+msgid "install01_title"
+msgstr "Καλώς Ήλθατε"
+
+msgid "install01_instructions"
+msgstr "  				Σας ευχαριστούμε που επιλέξατε το Simple PHP Blog!<br /><br />Το Simple PHP Blog είναι ένα απλό σύστημα blogging. Απαιτεί PHP 4.1 ή νεώτερη, και δικαιώματα εγγραφής στον server. Όλα τα δεδομένα αποθηκεύονται σε απλά αρχεία κειμένου, ήτοι δεν απαιτεί βάση δεδομένων.<br /><br />  				Για να ξεκινήσετε, το Simple PHP Blog χρειάζεται να δημιουργήσετε τρεις φακέλους ('config', 'content', και 'images') στους οποίους αποθηκεύονται τα δεδομένα σας.<br /><br />  				<b>Κάντε κλικ παρακάτω για να ξεκινήσετε την εγκατάσταση:</b>"
+
+msgid "begin"
+msgstr "[ Εκκίνηση Εγκατάστασης ]"
+
+msgid "install02_title"
+msgstr "Εγκατάσταση"
+
+msgid "install02_instructions"
+msgstr "Δημιουργία 'config', 'content', και 'images' φακέλων:"
+
+msgid "folder_exists"
+msgstr "Ok! Ο φάκελος ήδη υπάρχει. Καμία αλλαγή δεν πραγματοποιήθηκε..."
+
+msgid "folder_failed"
+msgstr "Σφάλμα ! Αδυναμία δημιουργίας φακέλου..."
+
+msgid "folder_success"
+msgstr "Επιτυχές! Ο φάκελος δημιουργήθηκε..."
+
+msgid "help"
+msgstr "  				<h2>Ούπς!</h2>  				Αδυναμία δημιουργίας ενός ή περισσοτέρων φακέλων! Πιθανόν επειδή:<br>  				<i>1) Τα <b>Write Permissions</b> δεν έχουν τεθεί σε <b>Read/Write</b>.</i><br>  				<i>2) Το <b>UID</b> (user ID's) πρέπει να είναι το ίδιο σε όλα τα αρχεία και φακέλους.</i><p />  				Ακολουθήστε τις επόμενες οδηγίες και ξαναδοκιμάστε:<p />  				1) Δημιουργήστε τους παρακάτω φακέλους: <b>config</b>, <b>content</b>, και <b>images</b>.<p />  				2) Θέσατε <b>Write Permissions</b> στους φακέλους. Στο FTP πρόγραμμά σας, Owner, User, και World πρέπει να έχουν <b>Read</b> και <b>Write</b> access. <i>(Πιθανόν να χρειάζεται να επικοινωνήστε με τον service provider σας για να τα αλλάξετε...)</i><p />  				3) Βεβαιωθείτε ότι τα UID's σε όλα τα αρχεία και τους φακέλους σας είναι τα ίδια. <i>(Πιθανόν να χρειάζεται να επικοινωνήστε με τον service provider σας για να τα αλλάξετε...)</i>"
+
+msgid "try_again"
+msgstr "[ Ξαναπροσπαθήστε ]"
+
+msgid "install02_success"
+msgstr "<h2>Επιτυχές!</h2>Οι φάκελοι δημιουργήθηκαν επιτυχώς!<p /><b>Κάντε κλικ παρακάτω για να συνεχίσετε:</b>"
+
+msgid "continue"
+msgstr "[ Συνέχεια ]"
+
+msgid "supported"
+msgstr "<b>Ο web server σας υποστηρίζει τους παρακάτω αλγορίθμους κρυπτογράφησης:</b>"
+
+msgid "standard"
+msgstr "Standard DES Encryption: "
+
+msgid "extended"
+msgstr "Extended DES Encryption: "
+
+msgid "MD5"
+msgstr "MD5 Encryption: "
+
+msgid "blowfish"
+msgstr "Blowfish Encryption: "
+
+msgid "enabled"
+msgstr "Ενεργοποιημένο"
+
+msgid "disabled"
+msgstr "Απενεργοποιημένο"
+
+msgid "using_standard"
+msgstr "<b>Γίνεται χρήση του Standard DES Encryption...</b>"
+
+msgid "using_extended"
+msgstr "<b>Γίνεται χρήση του Extended DES Encryption...</b>"
+
+msgid "using_MD5"
+msgstr "<b style='color: green;'>Γίνεται χρήση του MD5 Encryption...</b>"
+
+msgid "using_blowfish"
+msgstr "<b style='color: green;'>Γίνεται χρήση του Blowfish Encryption...</b>"
+
+msgid "using_unknown"
+msgstr "<b>Γίνεται χρήση άγνωστης κρυπτογράφησης...</b>"
+
+msgid "salt_length"
+msgstr " <i>(Salt Length = %string)</i><br />"
+
+msgid "install03_title"
+msgstr "Δημιουργήστε Όνομα Χρήστη &amp; Κωδικό"
+
+msgid "install03_instructions"
+msgstr "Χρησιμοποιήστε την επόμενη φόρμα για να δημιουργήστε ένα Όνομα Χρήστη και Κωδικό."
+
+msgid "install03_success"
+msgstr "<h2>Συγχαρητήρια!</h2>Συνδεθήκατε. Κάντε κλικ παρακάτω για να επισκεφτείτε την Αρχική σελίδα, όπου και μπορείται να ονομάσετε το blog σας. Καλό blogging!<p />"
+
+msgid "btn_setup"
+msgstr "[ Εγκατάσταση ]"
+
+msgid "install03_wrong_password"
+msgstr "<h2>Ούπς!</h2>Τα δεδομένα δεν αποθηκεύτηκαν. Υπήρξε ένα πρόβλημα κατά την αποθήκευση του Ονόματος Χρήστη ή/και Κωδικού.<br /><br />Μήνυμα Server:<br />"
+
+msgid "install03_form_error"
+msgstr "Παρακαλώ συμπληρώστε τα πεδία Όνομα Χρήστη και Κωδικό."
+
+msgid "install04_title"
+msgstr "Δημιουργήστε ένα Αρχείο Κωδικών"
+
+msgid "install04_instructions"
+msgstr "Προσοχή στα παρακάτω:<br />  				<ol>  				<li>Ανοίξτε έναν επεξεργαστή κειμένου. <i>(Note Pad, Word Pad, Word, BBEdit, Pico, VI, etc...)</i></li>  				<li>Δημιουργήστε ένα νέο έγγραφο κειμένου.</li>  				<li>Αντιγράψτε και επικολλήστε τον παρακάτω κώδικα στο έγγραφό σας.</li>  				<li>Αποθηκεύστε το αρχείο και ονομάστε το <b>password.php</b> <i>(Βεβαιωθείτε ότι το αποθηκεύσατε με μορφή <b>κειμένου</b> ή <b>απλού κειμένου</b>.)</i></li>  				<li>Ανοίξτε ένα πρόγραμμα FTP.</li>  				<li>Ανεβάστε το νέο αρχείο <b>password.php</b> στον φάκελο <b>config</b> στο website σας.</li>  				<li>Διαγραψτε το <b>password.php</b> από τον σκληρό σας δίσκο.</li>  				</ol>  				"
+
+msgid "information"
+msgstr "<i>Σημ.: Εάν επιθυμείτε να 'μηδενίσετε' το Όνομα χρήστη και Κωδικό (πιθανότερα επειδή τα ξεχάσατε), διαγράψτε το αρχείο <b>password.php</b> στον φάκελο <b>config</b> στο website σας. Την επόμενη φορά που θα επισκεφθείτε το site, θα εκτελεστεί εκ νέου η ίδια διαδικασία εγκατάστασης...</i>"
+
+msgid "code"
+msgstr "Κώδικας για το <b>password.php</b> file:"
+
+msgid "install05_title"
+msgstr "Έίσοδος"
+
+msgid "install05_instructions"
+msgstr "Παρακαλώ εισάγετε παρακάτω το Όνομα χρήστη και τον Κωδικό σας"
+
+msgid "install05_success"
+msgstr "<h2>Συγχαρητήρια!</h2>Συνδεθήκατε.<p />  				Κάντε κλικ παρακάτω για να επισκεφθείτε τη σελίδα <b>Εγκατάσταση</b>, όπου μπορείτε να δώσετε πνοή στο νέο σας blog !<p />  				<i>Σημ.: Τώρα που ολοκληρώσατε την διαδικασία εγκατάστασης, προτείνεται να σβήσετε τα αρχεία <b>installXX.php</b> από το website σας. (π.χ. install00.php έως και install06.php)</i><p />"
+
+msgid "install05_wrong_password"
+msgstr "<h2>Σφάλμα !</h2>Δεν συνδεθήκατε. Παρακαλώ βεβαιωθείτε οτι πληκτρολογήσατε σωστά το Όνομα χρήστη και τον Κωδικό σας και προσπαθήστε ξανά.<p />"
+
+msgid "install05_form_error"
+msgstr "Παρακαλώ συμπληρώστε τα πεδία Όνομα χρήστη και Κωδικός."
+
+msgid "btn_try_again"
+msgstr "[ Επανάληψη ]"
+
+msgid "install06_title"
+msgstr "Έίσοδος"
+
+msgid "install06_instructions"
+msgstr "Παρακαλώ εισάγετε παρακάτω το Όνομα χρήστη και τον Κωδικό σας"
+
+msgid "install06_success"
+msgstr "<h2>Συγχαρητήρια!</h2>Συνδεθήκατε.<p />  				Κάντε κλικ παρακάτω για να επισκεφθείτε τη σελίδα <b>Εγκατάσταση</b>, όπου μπορείτε να δώσετε πνοή στο νέο σας blog !<p />  				<i>Σημ.: Τώρα που ολοκληρώσατε την διαδικασία εγκατάστασης, προτείνεται να σβήσετε τα αρχεία <b>installXX.php</b> από το website σας. (π.χ. install00.php έως και install06.php)</i><p />"
+
+msgid "install06_wrong_password"
+msgstr "<h2>Σφάλμα !</h2>Δεν συνδεθήκατε. Παρακαλώ βεβαιωθείτε οτι πληκτρολογήσατε σωστά το Όνομα χρήστη και τον Κωδικό σας και προσπαθήστε ξανά.<p />"
+
+msgid "install06_form_error"
+msgstr "Παρακαλώ συμπληρώστε τα πεδία Όνομα χρήστη και Κωδικός."
+
+msgid "setup_title"
+msgstr "Εγκατάσταση"
+
+msgid "setup_instructions"
+msgstr "Μπορείτε να αλλάξετε το όνομα του blog σας, καθώς και τα προσωπικά σας στοιχεία παρακάτω."
+
+msgid "blog_title"
+msgstr "Όνομα Blog:"
+
+msgid "blog_author"
+msgstr "Συγγραφέας:"
+
+msgid "blog_email"
+msgstr "Email:"
+
+msgid "blog_avatar"
+msgstr "Avatar URL: (Leave blank for none)."
+
+msgid "blog_footer"
+msgstr "Υποσέλιδο:"
+
+msgid "blog_enable_comments"
+msgstr "Ενεργοποίηση Εντολών Χρήστη"
+
+msgid "blog_comments_popup"
+msgstr "Άνοιγμα σχολίων σε καινούργιο παράθυρο"
+
+msgid "blog_enable_cache"
+msgstr "Ενεργοποίηση της Cache Εγγραφών (πιθανή επιτάχυνση σε μερικούς servers)"
+
+msgid "blog_enable_voting"
+msgstr "Επιτρέπεται οι χρήστες να βαθμολογούν Εγγραφές"
+
+msgid "blog_email_notification"
+msgstr "Ενημέρωση με email όταν αποστέλλονται σχόλια"
+
+msgid "blog_send_pings"
+msgstr "Αποστολή weblog &quot;pings&quot;"
+
+msgid "blog_trackback_about"
+msgstr "Το Trackback είναι μια μέθοδος αποστολής μηνυμάτων μεταξύ blogs.  				Μπορείτε να γνωστοποιείτε σε κάποιο blog ότι έχετε σύνδεσμο προς αυτό, στέλνοντάς του ένα trackback ping.  				Δείτε ποιός έχει σύνδεσμο προς το δικό σας blog, απλά λαμβάνοντας τα trackback pings.<br />  				Μπορείτε να εισάγετε τα URIs προς τα οποία θα γίνει ping είτε χειροκίνητα, είτε αυτόματα μέσω του   				   Auto-Discovery."
+
+msgid "blog_trackback_enabled"
+msgstr "Ενεργοποίηση του trackback στο blog μου"
+
+msgid "blog_trackback_auto_discovery"
+msgstr "Ενεργοποίηση του Auto-Discovery όταν υποβάλλεται μία εγγραφή που περιέχει URLs"
+
+msgid "blog_ping_urls"
+msgstr "Εισάγετε το πλήρες URL (π.χ.. http://rpc.weblogs.com/RPC2) ή υπηρεσία για &quot;ping&quot;.<br />(Μπορείτε να εισάγετε περισσότερες από μία διευθύνσεις διαχωριζόμενες με κόμματα.)"
+
+msgid "blog_max_entries"
+msgstr "Μέγιστος αριθμός προβολής Εγγραφών:"
+
+msgid "blog_comment_tags"
+msgstr "Tags τα οποία επιτρέπονται σε Σχόλια:"
+
+msgid "blog_enable_lastcomments"
+msgstr "Enable Most Recent Comments Listing"
+
+msgid "blog_enable_lastentries"
+msgstr "Enable Most Recent Entries Listing"
+
+msgid "blog_enable_stats"
+msgstr "Enable Stats Option in Menu"
+
+msgid "blog_gzip_about"
+msgstr "  					Από την PHP 4.0.4, η PHP έχει την δυνατότητα να διαβάζει και να γράφει σε gzip (.gz) αρχεία συμπίεσης,   					και έτσι να εξοικονομεί χώρο στον δίσκο. Μπορεί επίσης να συμπιέζει στο παρασκήνιο σελίδες οι οποίες διαβάζονται από browsers   					οι οποίοι υποστηρίζουν gzip συμπίεση, και έτσι εξοικονομούν bandwidth.<br />  					<br />  					Η υποστήριξη Zlib στην PHP δεν είναι ενεργοποιημένη εξ' ορισμού. Εάν τα checkboxes είναι απενεργοποιημένα, τότε η  					PHP που διαθέτετε δεν υποστηρίζει την συμπίεση Zlib."
+
+msgid "blog_enable_gzip_txt"
+msgstr "Ενεργοποίηση συμπίεσης GZIP για αρχεία Database"
+
+msgid "blog_enable_gzip_output"
+msgstr "Ενεργοποίηση συμπίεσης GZIP για HTTP Output"
+
+msgid "setup_error"
+msgstr "<h2>Σφάλμα !</h2>Τα δεδομένα δεν αποθηκεύτηκαν.<br /><br />Μήνυμα Server:<br />"
+
+msgid "setup_form_error"
+msgstr "Please complete the Title and Author fields."
+
+msgid "label_entry_order"
+msgstr "Διάταξη ΕγγραφώνEntry Order:"
+
+msgid "select_new_to_old"
+msgstr "Διάταξη κατά την νεότερη"
+
+msgid "select_old_to_new"
+msgstr "Διάταξη κατά την παλαιότερη"
+
+msgid "label_comment_order"
+msgstr "Διάταξη σχολίων:"
+
+msgid "cal_sunday"
+msgstr "Κυριακή"
+
+msgid "cal_monday"
+msgstr "Δευτέρα"
+
+msgid "label_calendar_start"
+msgstr "Ημέρα έναρξης Ημερολογίου εβδομάδας"
+
+msgid "blog_enable_calendar"
+msgstr "Ενεργοποίηση Block Ημερολογίου / Αρχείου"
+
+msgid "blog_enable_archives"
+msgstr "Enable Archives Block"
+
+msgid "blog_enable_counter"
+msgstr "Enable Counter in Sidebar"
+
+msgid "blog_counter_hours"
+msgstr "Number of hours to delay before hits are counted again (based on specific ip address):"
+
+msgid "blog_enable_login"
+msgstr "Enable Login Link (Please bookmark 'login.php' first...)"
+
+msgid "blog_enable_title"
+msgstr "Ενεργοποίηση του Block με απλό κειμένου στον τίτλο (Απενεργοποιήστε το checkbox εαν ο τίτλος βρίσκεται μέσα στο γραφικό της κεφαλίδας)"
+
+msgid "blog_enable_permalink"
+msgstr "Ενεργοποίηση Permalink στις Εγγραφές του Blog"
+
+msgid "blog_enable_capcha"
+msgstr "Enable Anti-Spam"
+
+msgid "blog_footer_counter"
+msgstr "Enable Counter in Footer"
+
+msgid "blog_enable_capcha_image"
+msgstr "Anti-Spam Images (GD library only) / Anti-Spam Text Field"
+
+msgid "title_sidebar"
+msgstr "Sidebar"
+
+msgid "title_comments"
+msgstr "Comments"
+
+msgid "title_trackback"
+msgstr "Trackbacks"
+
+msgid "title_compression"
+msgstr "Compression"
+
+msgid "title_entries"
+msgstr "Entries"
+
+msgid "title_general"
+msgstr "General"
+
+msgid "title_language"
+msgstr "Language"
+
+msgid "blog_comment_days_expiry"
+msgstr "Comments Allowed For How Many Days? (0 means no expiry)"
+
+msgid "options_title"
+msgstr "Επιλογές"
+
+msgid "options_instructions"
+msgstr "Χρησιμοποιήστε την επόμενη φόρμα για την προσαρμογή της παρουσίασης της ημερομηνίας και της ώρας για τις εεγραφές του blog και των σχολίων. Μπορείτε να επιλέξετε 12-ωρό ή 24-ωρό ρολόϊ. Βραχύ ή μακροσκελή παρουσίαση της ημερομηνίας. Και η περιοχή <b>Προεπισκόπισης</b> ανανεώνονται αυτόματα για να σας παρουσιάσουν το πως θα φαίνεται στην πραγματικότητα οι επιλογές σας."
+
+msgid "ldate_title"
+msgstr "Μακροσκελή παρουσίαση της ημερομηνίας:"
+
+msgid "weekday"
+msgstr "Καθημερινή"
+
+msgid "none"
+msgstr "None"
+
+msgid "sdate_title"
+msgstr "Βραχύ παρουσίαση της ημερομηνίας:"
+
+msgid "s_month"
+msgstr "Μήνας"
+
+msgid "s_mon"
+msgstr "MMM"
+
+msgid "s_day"
+msgstr "Ημέρα"
+
+msgid "s_year"
+msgstr "Έτος"
+
+msgid "zero_day"
+msgstr "Αρχικό μηδέν για ημέρα"
+
+msgid "show_century"
+msgstr "Παρουσίαση αιώνα"
+
+msgid "time_title"
+msgstr "Παρουσίαση Ώρας:"
+
+msgid "12hour"
+msgstr "12-ωρό ρολόϊ"
+
+msgid "24hour"
+msgstr "24-ωρό ρολόϊ"
+
+msgid "before_noon"
+msgstr "Πρό-μεσημβρία"
+
+msgid "after_noon"
+msgstr "Μέτα-μεσημβρία"
+
+msgid "date_title"
+msgstr "Παρουσίαση Ημερομηνίας:"
+
+msgid "long_date"
+msgstr "Μακροσκελής ημερομηνία"
+
+msgid "short_date"
+msgstr "Βραχύς ημερομηνία"
+
+msgid "time"
+msgstr "Ώρα"
+
+msgid "menu_title"
+msgstr "Παρουσίαση Ημερομηνία Μενού:"
+
+msgid "zero_month"
+msgstr "Αρχικό μηδέν για μήνα"
+
+msgid "zero_hour"
+msgstr "Αρχικό μηδέν για ώρα"
+
+msgid "separator"
+msgstr "Διαχωριστής:"
+
+msgid "preview"
+msgstr "Προεπισκόπηση:"
+
+msgid "server_offset"
+msgstr "Server Offset:"
+
+msgid "options_error"
+msgstr "<h2>Σφάλμα !</h2>Τα δεδομένα δεν αποθηκεύτηκαν.<br /><br />Μήνυμα Server:<br />"
+
+msgid "upload_img_title"
+msgstr "Αποθήκευση Εικόνας"
+
+msgid "upload_img_instructions"
+msgstr "Κάντε κλικ παρακάτω για να επιλέξετε αρχείο."
+
+msgid "select_file"
+msgstr "Επιλογή αρχείου:"
+
+msgid "upload_btn"
+msgstr "Αποθήκευση"
+
+msgid "upload_img_error"
+msgstr "<h2>Σφάλμα !</h2>Αδυναμία αποθύκευσης εικόνας.<br /><br />Μήνυμα Server:<br />"
+
+msgid "themes_title"
+msgstr "Στυλ"
+
+msgid "themes_instructions"
+msgstr "Χρησιμοποιήστε το drop-down μενού για να επιλέξετε διαφορετικό στυλ."
+
+msgid "choose_theme"
+msgstr "Στυλ:"
+
+msgid "themes_error"
+msgstr "<h2>Σφάλμα !</h2>Τα δεδομένα δεν αποθηκεύτηκαν.<br /><br />Μήνυμα Server:<br />"
+
+msgid "search_result_title"
+msgstr "Αποτελέσματα Αναζήτησης"
+
+msgid "search_result_instructions"
+msgstr "Αποτελέσματα αναζήτησης για <b>%string</b>:"
+
+msgid "not_found"
+msgstr "Δεν βρέθηκαν αποτελέσματα"
+
+msgid "contact_title"
+msgstr "Επικοινωνήστε"
+
+msgid "contact_instructions"
+msgstr "Συμπληρώστε την φόρμα:"
+
+msgid "contact_form_error"
+msgstr "Παρακαλώ συμπλητώστε τα πεδία Θέμα και Σχόλιο."
+
+msgid "subject"
+msgstr "Θέμα:"
+
+msgid "contact_success"
+msgstr "<h2>Επιτυχές !</h2>Το μήνυμά σας εστάλη επιτυχώς.<p />"
+
+msgid "contact_capcha"
+msgstr "Anti-Spam: Εισάγετε "
+
+msgid "failure"
+msgstr "<h2>Σφάλμα !</h2>Το μήνυμά σας δεν εστάλη. Κατά πάσα πιθανότητα το Αnti Spam δεν συμπληρώθηκε σωστά.<p />"
+
+msgid "contactsent"
+msgstr "Η επαφή εστάλη μέσω: "
+
+msgid "errorpage-nocookies_title"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "errorline1"
+msgstr "Η σελίδα ή λειτουργία που προσπελάστηκε απαιτεί την χρήση cookies."
+
+msgid "errorline2"
+msgstr "Επαναφέρετε την λειτουργία των cookies στον browser ή το firewall που χρησιμοποιείτε και προσπαθείστε ξανά."
+
+msgid "clientid"
+msgstr "ID Πελάτη: "
+
+msgid "trackbacks_title"
+msgstr "Trackbacks"
+
+msgid "trackbacks_header"
+msgstr "Trackback URL for this entry:"
+
+msgid "trackbacks_error_add"
+msgstr "Error storing trackback data."
+
+msgid "stats_title"
+msgstr "Στατιστικά"
+
+msgid "general"
+msgstr "Γενικά</h3>"
+
+msgid "entry_info"
+msgstr "<b>%s</b> εγγραφές με <b>%s</b> λέξεις αποθηεκευμένες σε <b>%s</b> bytes"
+
+msgid "comment_info"
+msgstr "<b>%s</b> σχόλια με <b>%s</b> λέξεις αποθηεκευμένες σε <b>%s</b> bytes"
+
+msgid "trackback_info"
+msgstr "<b>%s</b> trackbacks αποθηκευμένα σε <b>%s</b> bytes"
+
+msgid "static_info"
+msgstr "<b>%s</b> στατικές σελίδες με <b>%s</b> λέξεις αποθηκευμένες σε <b>%s</b> bytes"
+
+msgid "most_viewed_entries"
+msgstr "10 πιο προβεβλημένες εγγραφές"
+
+msgid "most_commented_entries"
+msgstr "10 πιο προβεβλημένα σχόλια"
+
+msgid "most_trackbacked_entries"
+msgstr "10 πιο trackbacked εγγραφές"
+
+msgid "vote_info"
+msgstr "<b>%s</b> ψήφοι αποθηκευμένες σε <b>%s</b> bytes"
+
+msgid "most_voted_entries"
+msgstr "10 most voted εγγραφές"
+
+msgid "most_rated_entries"
+msgstr "10 most rated εγγραφές"
+
+msgid "403.8"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "404"
+msgstr "HTTP Error 404 - Page/Function Does Not Exist"
+
+msgid "error_404"
+msgstr "Η σελίδα ή λειτουργία που ζητήθηκε δεν υπάρχει."
+
+msgid "error_javascript"
+msgstr "Η σελίδα ή λειτουργία που προσπελάστηκε απαιτεί την χρήση javascript."
+
+msgid "error_emailnotsent"
+msgstr "Το μήνυμα που προσπαθήσατε να στείλετε, απέτυχε."
+
+msgid "error_emailnotsentcapcha"
+msgstr "Το μήνυμα που προσπαθήσατε να στείλετε απέτυχε, επειδή η εγγραφή anti-spam ήταν δεν ήταν σωστή ή έλειπε."
+
+msgid "emoticons_title"
+msgstr "Admin Emoticons"
+
+msgid "emoticons_instructions"
+msgstr "  					Check the emoticons you want to use. Write in the box the Tags you want   					to be replaced by the image. Multiple tags may be used, just separated them   					by spaces.<br /><br />  		  					For instance:<br />  					:) :-) :SMILE: :HAPPY:<br /><br />  					  					<i>(It is highly recommended that you make the Tags longer than 2 characters,   					otherwise unexpected substitutions may occur.)</i>"
+
+msgid "upload_instructions"
+msgstr "Upload New Emoticon:"
+
+msgid "upload_success"
+msgstr "Success! Image uploaded successfully!"
+
+msgid "upload_error"
+msgstr "Error! Image was not uploaded."
+
+msgid "upload_invalid"
+msgstr "Error! Invalid image file. Image must be a png, jpg, or gif."
+
+msgid "save_success"
+msgstr "Emoticon preferences saved successfully!"
+
+msgid "save_error"
+msgstr "Error! Emoticon preferences not saved."
+
+msgid "save_button"
+msgstr "Save Emoticons"
+

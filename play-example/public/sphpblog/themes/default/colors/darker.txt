@@ -1,0 +1,1 @@
+name|Darker - Classic|bg_color|000000|border_color|444444|main_bg_color|000000|menu_bg_color|212121|inner_border_color|444444|link_reg_color|FDEEB3|link_hi_color|FFDD57|link_down_color|FFCC00|header_bg_color|373737|header_txt_color|fdeeb3|footer_bg_color|212121|footer_txt_color|444444|txt_color|ffffff|headline_txt_color|fdeeb3|date_txt_color|444444

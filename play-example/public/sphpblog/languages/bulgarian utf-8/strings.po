@@ -1,0 +1,1263 @@
+msgid "language"
+msgstr "bulgarian"
+
+msgid "locale"
+msgstr "Array"
+
+msgid "rss_locale"
+msgstr "bg-BG"
+
+msgid "html_charset"
+msgstr "utf-8"
+
+msgid "php_charset"
+msgstr "utf-8"
+
+msgid "menu_links"
+msgstr "Връзки"
+
+msgid "menu_home"
+msgstr "Начало"
+
+msgid "menu_contact"
+msgstr "За контакти"
+
+msgid "menu_stats"
+msgstr "Статистики"
+
+msgid "menu_calendar"
+msgstr "Календар"
+
+msgid "menu_archive"
+msgstr "Архив"
+
+msgid "menu_viewarchives"
+msgstr "Виж Архив"
+
+msgid "menu_menu"
+msgstr "Меню"
+
+msgid "menu_add"
+msgstr "Добави новина"
+
+msgid "menu_add_static"
+msgstr "Добави страница"
+
+msgid "menu_upload"
+msgstr "Добави изображение"
+
+msgid "menu_setup"
+msgstr "Настройки"
+
+msgid "menu_categories"
+msgstr "Категории"
+
+msgid "menu_info"
+msgstr "Информация"
+
+msgid "menu_options"
+msgstr "Параметри"
+
+msgid "menu_themes"
+msgstr "Теми"
+
+msgid "menu_colors"
+msgstr "Цветове"
+
+msgid "menu_change_login"
+msgstr "Смени потребителя"
+
+msgid "menu_logout"
+msgstr "Изход"
+
+msgid "menu_login"
+msgstr "Вход"
+
+msgid "menu_most_recent"
+msgstr "Последни коментари"
+
+msgid "menu_most_recent_entries"
+msgstr "Последни новини"
+
+msgid "menu_most_recent_trackback"
+msgstr "Последни препратки"
+
+msgid "menu_add_block"
+msgstr "Блокове"
+
+msgid "menu_emoticons"
+msgstr "Емотикони"
+
+msgid "menu_avatar"
+msgstr "Здравей :)"
+
+msgid "counter_today"
+msgstr "Днес:"
+
+msgid "counter_yesterday"
+msgstr "Вчера:"
+
+msgid "counter_totalsidebar"
+msgstr "Всичко:"
+
+msgid "counter_title"
+msgstr " Посещения"
+
+msgid "home"
+msgstr "Начало"
+
+msgid "nav_next"
+msgstr "Следваща"
+
+msgid "nav_back"
+msgstr "Предишна"
+
+msgid "search_title"
+msgstr "Търсене:"
+
+msgid "search_go"
+msgstr "Търси"
+
+msgid "page_generated_in"
+msgstr " Страницата зареди за %s секунди"
+
+msgid "counter_total"
+msgstr "Посещения "
+
+msgid "read_more"
+msgstr "Още..."
+
+msgid "sb_months"
+msgstr "Array"
+
+msgid "sb_default_title"
+msgstr "Без име"
+
+msgid "sb_default_author"
+msgstr "Без автор"
+
+msgid "sb_default_footer"
+msgstr "Без подтекст"
+
+msgid "sb_edit"
+msgstr "редактирай"
+
+msgid "sb_delete"
+msgstr "изтрий"
+
+msgid "sb_permalink"
+msgstr "линк"
+
+msgid "sb_trackback"
+msgstr "препратки"
+
+msgid "sb_relatedlink"
+msgstr "свързан линк"
+
+msgid "sb_add_comment_btn"
+msgstr "добави коментар"
+
+msgid "sb_comment_btn_number_first"
+msgstr "успех"
+
+msgid "sb_comment_btn"
+msgstr "коментар"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr "успех"
+
+msgid "sb_comments_plural_btn"
+msgstr "коментара"
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_post"
+msgstr " преглед"
+
+msgid "sb_view_counter_plural_pre"
+msgstr "прегледа: "
+
+msgid "sb_view_counter_plural_post"
+msgstr ""
+
+msgid "sb_add_link_btn"
+msgstr "добави връзка"
+
+msgid "sb_rate_entry_btn"
+msgstr "Кликни за оценка"
+
+msgid "label_subject"
+msgstr "Име:"
+
+msgid "label_insert"
+msgstr "Специални възможности:"
+
+msgid "btn_bold"
+msgstr " b "
+
+msgid "btn_italic"
+msgstr " i "
+
+msgid "btn_image"
+msgstr "img"
+
+msgid "btn_url"
+msgstr "url"
+
+msgid "view_images"
+msgstr "Прегледай прикачените изображения"
+
+msgid "label_entry"
+msgstr "Текст:"
+
+msgid "btn_preview"
+msgstr "&nbsp;Преглед&nbsp;"
+
+msgid "btn_post"
+msgstr "&nbsp;Изпрати&nbsp;"
+
+msgid "file_name"
+msgstr "Име на статичния файл (без интервали или файлови разширения):"
+
+msgid "insert_styles"
+msgstr "Въведи стил на текста"
+
+msgid "insert_image"
+msgstr "Въведи пълен URL на изображението"
+
+msgid "insert_url1"
+msgstr "Въведи текста, който ще се изписва при връзката (незадължително)"
+
+msgid "insert_url2"
+msgstr "Въведи пълен URL на връзката"
+
+msgid "insert_url3"
+msgstr "Oтвори URL в нов прозорец (незадължително):"
+
+msgid "add_form_error"
+msgstr "Моля, попълни полетата за тема и съдържание."
+
+msgid "insert_image_optional"
+msgstr "Незадължително:"
+
+msgid "insert_image_width"
+msgstr "Ширина (незадължително):"
+
+msgid "insert_image_height"
+msgstr "Височина (незадължително):"
+
+msgid "insert_image_popup"
+msgstr "Виж в пълен размер в нов прозорец при кликване (незадължително):"
+
+msgid "insert_image_float"
+msgstr "Свободно (незадължително):"
+
+msgid "day"
+msgstr "Ден"
+
+msgid "month"
+msgstr "Месец"
+
+msgid "year"
+msgstr "Година"
+
+msgid "hour"
+msgstr "Час"
+
+msgid "minute"
+msgstr "Минута"
+
+msgid "second"
+msgstr "Секунда"
+
+msgid "add_title"
+msgstr "Добавяне на новина"
+
+msgid "add_instructions"
+msgstr "Попълни формата, след завършване кликни <strong>'Преглед'</strong> за предварителен преглед на новината или <strong>'Изпрати'</strong> за публикуване новината на сайта."
+
+msgid "title_ad"
+msgstr "Потвърди Пингване на Препратка"
+
+msgid "instructions_ad"
+msgstr "These are the Auto-Discovered URIs you're about to ping. If you do not want to ping a certain URI, uncheck it below. Then press the 'OK' button to ping the checked URIs or press 'Cancel' to not ping at all."
+
+msgid "label_tb_ping"
+msgstr "Trackback ping(s) to send (comma separated)"
+
+msgid "label_tb_autodiscovery"
+msgstr "автоматично откриване"
+
+msgid "label_relatedlink"
+msgstr "Свързан Линк"
+
+msgid "label_categories"
+msgstr "Списък на категориите"
+
+msgid "add_instructions_update"
+msgstr "Можеш да промениш новината, използвайки следната форма. Когато завършиш, използвай бутоните <strong>'Преглед'</strong> и '<strong>Изпрати'</strong>."
+
+msgid "ok_btn"
+msgstr "&nbsp;ОК&nbsp;"
+
+msgid "cancel_btn"
+msgstr "&nbsp;Отмени&nbsp;"
+
+msgid "add_error"
+msgstr "<h2>Упс!</h2>Новината не е запазена! При опита за запазване е възникнала грешка.<br /><br />Отговор на сървъра:<br />"
+
+msgid "add_static_form_error"
+msgstr "Моля, попълни полетата Име, Текст, и Име на файл."
+
+msgid "add_static_title"
+msgstr "Добави статична страница"
+
+msgid "add_static_instructions"
+msgstr "Попълни следната форма за създаване на статична страница. За разлика от обичайните, статичните страници се показват в менюто от другата страна. На тях е удобно да се помества информация, която трябва да бъде винаги достъпна: контакти, отговори на често задавани въпроси, график за работа и т.н. Използвай бутона 'Преглед' за предварителен преглед на страницата и 'Изпрати' за запазване на страницата."
+
+msgid "add_static_instructions_update"
+msgstr "Можеш да промениш страницата, използвайки формата по-долу. Когато завършиш редактирането, използвай бутоните 'Преглед' и 'Изпрати'."
+
+msgid "add_static_error"
+msgstr "<h2>Упс!</h2>Страницата не е запазена.<br /><br />Отговор на сървъра: <br />"
+
+msgid "comments_form_error"
+msgstr "Попълни полетата за заглавие и текст на коментара, както и Anti-Spam кода"
+
+msgid "name"
+msgstr "Име:"
+
+msgid "email"
+msgstr "Имейл:"
+
+msgid "homepage"
+msgstr "Сайт:"
+
+msgid "comment"
+msgstr "Коментар:"
+
+msgid "IPAddress"
+msgstr "IP Адрес:"
+
+msgid "useragent"
+msgstr "User Agent:"
+
+msgid "wrote"
+msgstr "<i>В %s, %s написа:</i><br /> <br /> %s"
+
+msgid "comment_capcha"
+msgstr "Въведи Anti-Spam кода: "
+
+msgid "comments_title"
+msgstr "Коментари"
+
+msgid "comments_header"
+msgstr "Добавяне на коментар"
+
+msgid "comments_instructions"
+msgstr "Попълни формата по-долу."
+
+msgid "comment_name"
+msgstr "Заглавие:"
+
+msgid "comment_email"
+msgstr "Имейл:"
+
+msgid "comment_url"
+msgstr "Сайт:"
+
+msgid "commentposted"
+msgstr "Коментарът е изпратен на: "
+
+msgid "comment_remember"
+msgstr "Помни ме:"
+
+msgid "comment_text"
+msgstr "Текст и Името ти:"
+
+msgid "post_btn"
+msgstr "&nbsp;Изпрати&nbsp;"
+
+msgid "delete_btn"
+msgstr "изтрий"
+
+msgid "expired_comment1"
+msgstr "Коментари са разрешени само за новини не по-стари от  "
+
+msgid "expired_comment2"
+msgstr " дена."
+
+msgid "blacklisted"
+msgstr "Този IP е баннат. Коментарите от него са забранени."
+
+msgid "comments_error_add"
+msgstr "<h2>Упс!</h2>Коментарът не е запазен. При опита за запазване е възникнал проблем.<br /><br />Отговор на сървъра:<br />"
+
+msgid "comments_error_delete"
+msgstr "<h2>Упс!</h2>Коментарът не е изтрит. При опита за изтриване е възникнала грешка.<br /><br />Отговор на сървъра:<br />"
+
+msgid "add_block_form_error"
+msgstr "Попълни полето Име"
+
+msgid "add_block_title"
+msgstr "Въведи / Оформи Блок"
+
+msgid "add_block_instructions"
+msgstr "Въведи обичайни Блокове"
+
+msgid "up"
+msgstr "нагоре"
+
+msgid "down"
+msgstr "надолу"
+
+msgid "edit"
+msgstr "редактирай"
+
+msgid "delete"
+msgstr "изтрий"
+
+msgid "block_name"
+msgstr "Име на Блока:"
+
+msgid "block_content"
+msgstr "Съдържание на Блока:"
+
+msgid "add_block_instructions_edit"
+msgstr "В момента редактираш Блок:"
+
+msgid "add_block_instructions_modify"
+msgstr "Кликни по-долу за промени в Блок:"
+
+msgid "add_block_submit_btn_edit"
+msgstr "Изпрати"
+
+msgid "add_block_submit_btn_add"
+msgstr "Въведи Блок"
+
+msgid "static_pages"
+msgstr "Статични Страници:"
+
+msgid "add_link_title"
+msgstr "Добавяне / промяна на връзки"
+
+msgid "add_link_instructions"
+msgstr "Тук можеш да добавиш връзки към други сайтове. Попълни формата и кликни бутона <strong>'Изпрати'</strong>. Кликвай 'нагоре' или 'надолу' за промяна на поредността на връзките. Използвай 'промени' за редактиране на връзката и 'изтрий' - за изтриване."
+
+msgid "link_name"
+msgstr "Име:"
+
+msgid "link_url"
+msgstr "URL:"
+
+msgid "add_link_instructions_edit"
+msgstr "Редактираш връзката:"
+
+msgid "add_link_instructions_modify"
+msgstr "Промени нужната връзка:"
+
+msgid "add_link_submit_btn_edit"
+msgstr "Изпрати"
+
+msgid "add_link_submit_btn_add"
+msgstr "Изпрати"
+
+msgid "add_link_form_error"
+msgstr "Попълни полетата за Име и Адрес на връзката"
+
+msgid "categories_title"
+msgstr "Добавяне / Оформяне на Категории"
+
+msgid "categories_instructions"
+msgstr "Използвай следната форма за да добавиш и редактираш категориите. Всяка категория трябва да бъде в този формат 'име на категорията (id номер)'. Разделяй с интервали за да създадеш йерархии.<br /><br /><b>Пример:</b><br />Обща (1)<br />Новини (3)<br />&nbsp;&nbsp;Съобщения (6)<br />&nbsp;&nbsp;Събития (5)<br />&nbsp;&nbsp;&nbsp;&nbsp;Разни (7)<br />Техника (2)<br />"
+
+msgid "categories_error"
+msgstr "Грешка"
+
+msgid "current_categories"
+msgstr "Настоящи Категории"
+
+msgid "no_categories_found"
+msgstr "Няма Открити Категории"
+
+msgid "category_list"
+msgstr "Списък на Категориите:"
+
+msgid "validate"
+msgstr "Потвърждаване"
+
+msgid "submit_btn"
+msgstr "&nbsp;Изпрати&nbsp;"
+
+msgid "colors_title"
+msgstr "Настройка на цветовата гама"
+
+msgid "colors_instructions"
+msgstr "Можеш да промениш цветовете, използвани на страницата. Използвай палитрата за избор на подходящия цвят, после запиши шестнадесетичното обозначение на цвета в съответното поле."
+
+msgid "bg_color"
+msgstr "Фон на страницата"
+
+msgid "main_bg_color"
+msgstr "Фон на основната област"
+
+msgid "border_color"
+msgstr "Рамка"
+
+msgid "inner_border_color"
+msgstr "Вътрешна рамка"
+
+msgid "header_bg_color"
+msgstr "Фон на шапката"
+
+msgid "header_txt_color"
+msgstr "Текст на шапката"
+
+msgid "menu_bg_color"
+msgstr "Фон на менюто"
+
+msgid "footer_bg_color"
+msgstr "Фон на подтекста"
+
+msgid "txt_color"
+msgstr "Основен текст"
+
+msgid "headline_txt_color"
+msgstr "Заглавие"
+
+msgid "date_txt_color"
+msgstr "Текст на датата"
+
+msgid "footer_txt_color"
+msgstr "Текст на подтекста"
+
+msgid "link_reg_color"
+msgstr "Обичайна връзка"
+
+msgid "link_hi_color"
+msgstr "Активна връзка"
+
+msgid "link_down_color"
+msgstr "Кликната връзка"
+
+msgid "entry_bg"
+msgstr "Фон на новините"
+
+msgid "entry_title_bg"
+msgstr "Фон на заглавие на новините"
+
+msgid "entry_border"
+msgstr "Рамка на новините"
+
+msgid "entry_title_text"
+msgstr "Текст на заглавие на новините"
+
+msgid "entry_text"
+msgstr "Текст на новините"
+
+msgid "menu_bg"
+msgstr "Фон на меню"
+
+msgid "menu_title_bg"
+msgstr "Фон на заглавие на меню"
+
+msgid "menu_border"
+msgstr "Рамка на меню"
+
+msgid "menu_title_text"
+msgstr "Текст на заглавие на меню"
+
+msgid "menu_text"
+msgstr "Текст на меню"
+
+msgid "menu_link_reg_color"
+msgstr "Обичайна връзка в меню"
+
+msgid "menu_link_hi_color"
+msgstr "Активна връзка в меню"
+
+msgid "menu_link_down_color"
+msgstr "Кликната връзка в меню"
+
+msgid "color_preset"
+msgstr "Цветови схеми:"
+
+msgid "scheme_name"
+msgstr "Въведи име на обичайна цветова схема:"
+
+msgid "scheme_file"
+msgstr "Въведи име на файла на цветовата схема (без интервали и файлови разширения):"
+
+msgid "save_btn"
+msgstr "&nbsp;Запази&nbsp;"
+
+msgid "colors_form_error"
+msgstr "Въведи име на избраната цветова схема."
+
+msgid "theme_doesnt_allow_colors"
+msgstr "Избраната тема не позволява промяна на цветовете."
+
+msgid "colors_error"
+msgstr "<h2>Упс!</h2>Информацията не е запазена! При опита за запазване е възникнала грешка.<br /><br />Отговор на сървъра:<br />"
+
+msgid "delete_title"
+msgstr "Изтриване на текст"
+
+msgid "delete_instructions"
+msgstr "Преди да изтриеш текста още веднъж се увери, че искаш да изтриеш точно него, защото след изтриването му, не е възможно да бъде възстановен..."
+
+msgid "delete_error"
+msgstr "<h2>Упм!</h2>Неуспешно изтриване на бележка.<br /><br />Отговор на сървъра:<br />"
+
+msgid "delete_static_title"
+msgstr "Изтриване на статична страница"
+
+msgid "delete_static_instructions"
+msgstr "Преди да изтриеш тази страница още веднъж се увери, че искаш да изтриеш точно нея, защото няма възможност за отменяне."
+
+msgid "delete_static_error"
+msgstr "<h2>Упс!</h2>Страницата не е изтрита.<br /><br />Отговор на сървъра:<br />"
+
+msgid "image_list_title"
+msgstr "Каталог на изображения"
+
+msgid "image_list_instructions"
+msgstr "Кликни съответната връзка за преглеждане на изображенията.<br /><br />За поставяне на изображение в текста:<br />1) Кликни с десен бутон на мишката върху връзката и избери точка от менюто <em>Копиране на връзка</em>.<br />2) Върни се в прозореца за добавяне / промяна.<br />3) Кликни бутон <strong>'img'</strong> и добави в появилото се място връзката от буфера за обмен."
+
+msgid "info_title"
+msgstr "Meta-Data Информация"
+
+msgid "info_instructions"
+msgstr "Тази информация &quot;meta-data&quot;, ще помогне на търсачките точно да идентифицират и намират сайта. Информацията може да бъде използвана и за RSS feeds."
+
+msgid "info_keywords"
+msgstr "Ключови думи (Списък на ключовите думи, разделени със запетайки):"
+
+msgid "info_description"
+msgstr "Описание (Свободен текст с описание на сайта):"
+
+msgid "info_copyright"
+msgstr "Права (Запазени права или линк към документите, съдържащи тази информация):"
+
+msgid "info_error"
+msgstr "<h2>Упс!</h2>Информацията не е запазена. При опита за запазване е възникнал е проблем.<br /><br />Отговор на сървъра:<br />"
+
+msgid "info_form_error"
+msgstr "Попълни полетата Заглавие и Автор."
+
+msgid "rating_error"
+msgstr "<h2>Упс!</h2>Информацията не е запазена. При опита за запазване е възникнал е проблем.<br /><br />Отговор на сървъра:<br />"
+
+msgid "upgrade"
+msgstr "<h2>Upgrade</h2>"
+
+msgid "upgrade_count"
+msgstr "%n comment files need to be upgraded:"
+
+msgid "upgrade_url"
+msgstr "Upgrade Comments"
+
+msgid "login_title"
+msgstr "Вход"
+
+msgid "login_instructions"
+msgstr "Въведи име на потребителя и парола"
+
+msgid "username"
+msgstr "Име на потребител:"
+
+msgid "password"
+msgstr "Парола:"
+
+msgid "login_success"
+msgstr "<h2>Поздравления!</h2>Регистрацията в системата е успешна. Приятно новинарстване! :)<br />"
+
+msgid "login_wrong_password"
+msgstr "<h2>Упс!</h2>Неуспешна регистрация. Провери правилно ли са въведени името на потребителя и паролата.<br />"
+
+msgid "login_form_error"
+msgstr "Попълни полетата за име на потребител и парола."
+
+msgid "logout_title"
+msgstr "Изход"
+
+msgid "logout_instructions"
+msgstr "<h2>Упс!</h2>Неуспешно излизане: не са отстранени cookies. Странно, и как така все още си регистриран?..<br />"
+
+msgid "forms_title"
+msgstr ""
+
+msgid "forms_instructions"
+msgstr ""
+
+msgid "forms_error"
+msgstr "<h2>Упс!</h2>Информацията не е запазена. При опита за запазване е възникнала грешка.<br /><br />Отговор на сървъра:<br />"
+
+msgid "set_login_title"
+msgstr "Смени Потребител &amp; Парола"
+
+msgid "set_login_instructions"
+msgstr "Попълни формата за смяна на Потребител и/или Парола. Въведи новите Потребител и Парола."
+
+msgid "set_login_success"
+msgstr "<h2>Успех!</h2>Потребителят и/или Паролата са активни. Приятно новинарстване! :)<p />"
+
+msgid "set_login_wrong_password"
+msgstr "<h2>Упс!</h2>Информацията не е запазена. При опита за запазване е възникнал проблем.<br /><br />Отговор на сървъра:<br />"
+
+msgid "set_login_form_error"
+msgstr "Попълни полетата Потребител и Парола."
+
+msgid "explanation"
+msgstr "В последните версии начинът на сменяване на паролата е сменен.  Вече няма възможност за смяна на парола  					и/или потребител през блога.  За да промениш паролата и/или потребителя, изтрий /config/password.php и се увери, че install*.php  					съществува на сървъра.  Когато си готов, опресни тази страница (или излез от блога).  Ще бъдеш насочен да генерираш нова парола  					от същия скрипт, който се използва при създаването на блога."
+
+msgid "install00_title"
+msgstr "Welcome"
+
+msgid "install00_instructions"
+msgstr "Thank you for choosing Simple PHP Blog!"
+
+msgid "blog_choose_language"
+msgstr "Choose Language:"
+
+msgid "install01_title"
+msgstr "Welcome"
+
+msgid "install01_instructions"
+msgstr "  				Thank you for choosing Simple PHP Blog!<br /><br />Simple PHP Blog is a light-weight blogging system. It requires PHP 4.1 or greater, and write-permissions on the server. All information is stored in flat-files, so no database is required.<br /><br />  				In order to begin, Simple PHP Blog needs to create three folders (<b>config</b>, <b>content</b>, and <b>images</b>) in which to store your information. After that, you will create your password and then you can start blogging.<br /><br />  				<b>Click below to begin setup:</b>"
+
+msgid "begin"
+msgstr "[ Begin Setup ]"
+
+msgid "install02_title"
+msgstr "Setup"
+
+msgid "install02_instructions"
+msgstr "Trying to create <b>config</b>, <b>content</b>, and <b>images</b> folders:"
+
+msgid "folder_exists"
+msgstr "Okay! Folder already exists. No changes made..."
+
+msgid "folder_failed"
+msgstr "Whoops! Could not create folder..."
+
+msgid "folder_success"
+msgstr "Success! Folder created..."
+
+msgid "help"
+msgstr "  				<h2>Whoops!</h2>  				Could not create one or more folders!<br /><br />This is most likely because:<br />  				<ol>  				<li><b>Write Permissions</b> aren't set to allow <b>Read/Write</b> access.</li>  				<li>The <b>UID</b>'s (user ID's) of all files and folder must match.</li>  				</ol>  				Follow the trouble-shooting instructions below and click <b>Try Again</b>:<br />  				<ol>  				<li>Manually create the following folders: <b>config</b>, <b>content</b>, and <b>images</b>.</li>  				<li>Enabled <b>Write Permissions</b> on the folders: In your FTP program, Owner, User, and World should have <b>Read</b> and <b>Write</b> access. <i>(You may need to contact your service provider to change these...)</i></li>  				<li>Make sure the UID's of all your files and folders are the same. <i>(You may need to contact your service provider to change these...)</i></li>  				</ol>"
+
+msgid "try_again"
+msgstr "[ Try Again ]"
+
+msgid "install02_success"
+msgstr "<h2>Success!</h2>Folders created successfully!<p /><b>Click below to continue:</b>"
+
+msgid "continue"
+msgstr "[ Continue ]"
+
+msgid "supported"
+msgstr "<b>Your web server supports the following encryption schemes:</b>"
+
+msgid "standard"
+msgstr "Standard DES Encryption: "
+
+msgid "extended"
+msgstr "Extended DES Encryption: "
+
+msgid "MD5"
+msgstr "MD5 Encryption: "
+
+msgid "blowfish"
+msgstr "Blowfish Encryption: "
+
+msgid "enabled"
+msgstr "enabled"
+
+msgid "disabled"
+msgstr "disabled"
+
+msgid "using_standard"
+msgstr "<b>Using Standard DES Encryption...</b>"
+
+msgid "using_extended"
+msgstr "<b>Using Extended DES Encryption...</b>"
+
+msgid "using_MD5"
+msgstr "<b style='color: green;'>Using MD5 Encryption...</b>"
+
+msgid "using_blowfish"
+msgstr "<b style='color: green;'>Using Blowfish Encryption...</b>"
+
+msgid "using_unknown"
+msgstr "<b>Using Unknown Encryption...</b>"
+
+msgid "salt_length"
+msgstr " <i>(Salt Length = %string)</i><br />"
+
+msgid "install03_title"
+msgstr "Create Username &amp; Password"
+
+msgid "install03_instructions"
+msgstr "Use the form below to Create a Username and Password."
+
+msgid "install03_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in. Click below to visit the Setup page, where you can name your blog. Happy blogging!<p />"
+
+msgid "btn_setup"
+msgstr "[ Setup ]"
+
+msgid "install03_wrong_password"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your Username and/or Password.<br /><br />Server Reported:<br />"
+
+msgid "install03_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "install04_title"
+msgstr "Create Password File"
+
+msgid "install04_instructions"
+msgstr "Here's the tricky part:<br />  				<ol>  				<li>Open a Text Editor application. <i>(Note Pad, Word Pad, Word, BBEdit, Pico, VI, etc...)</i></li>  				<li>Create a New Text Document.</li>  				<li>Copy and paste the code in the box below into your document.</li>  				<li>Save your file and name it <b>password.php</b> <i>(Be sure to save it in <b>text</b> or <b>plain text</b> format.)</i></li>  				<li>Open a FTP application.</li>  				<li>Upload your new <b>password.php</b> into the <b>config</b> folder on your web site.</li>  				<li>Delete the <b>password.php</b> from your hard drive.</li>  				</ol>  				"
+
+msgid "information"
+msgstr "<i>Note: If you want to reset your username and password (probably because you forgot it), delete the <b>password.php</b> file in the <b>config</b> folder on your web site. The next time you visit your site, it will walk you through this installation process again...</i>"
+
+msgid "code"
+msgstr "Code for <b>password.php</b> file:"
+
+msgid "install05_title"
+msgstr "Login"
+
+msgid "install05_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid "install05_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in.<p />  				Click below to visit the <b>Setup</b> page, where you can personalize your new blog.<p />  				<i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install05_wrong_password"
+msgstr "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your Username and Password correctly and try again.<p />"
+
+msgid "install05_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "btn_try_again"
+msgstr "[ Try Again ]"
+
+msgid "install06_title"
+msgstr "Login"
+
+msgid "install06_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid "install06_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in.<p />  				Click below to visit the <b>Setup</b> page, where you can personalize your new blog.<p />  				<i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install06_wrong_password"
+msgstr "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your Username and Password correctly and try again.<p />"
+
+msgid "install06_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "setup_title"
+msgstr "Настройки"
+
+msgid "setup_instructions"
+msgstr "Оттук можеш да промениш името на сайта и личната информация."
+
+msgid "blog_title"
+msgstr "Име на сайта:"
+
+msgid "blog_author"
+msgstr "Автор:"
+
+msgid "blog_email"
+msgstr "Имейл:"
+
+msgid "blog_avatar"
+msgstr "Адрес на Аватар (Остави празно, ако нямаш):"
+
+msgid "blog_footer"
+msgstr "Подтекст:"
+
+msgid "blog_enable_comments"
+msgstr "Разреши Коментари"
+
+msgid "blog_comments_popup"
+msgstr "Отваряй Коментари в нов прозорец"
+
+msgid "blog_enable_voting"
+msgstr "Разреши Оценка на новини"
+
+msgid "blog_enable_cache"
+msgstr "Разреши Кеш на новините (може да забави скоростта при някои сървъри)"
+
+msgid "blog_enable_calendar"
+msgstr "Разреши блок Календар"
+
+msgid "blog_enable_archives"
+msgstr "Разреши блок Архив"
+
+msgid "blog_enable_counter"
+msgstr "Разреши блок Посещения"
+
+msgid "blog_counter_hours"
+msgstr "След колко часа броячът да отчита посещението за ново (за определен ip адрес):"
+
+msgid "blog_enable_login"
+msgstr "Разреши линк Вход (ако не, входът става невидим за посетители, а ти можеш да влизаш през http://yoursite.com/login.php)"
+
+msgid "blog_enable_title"
+msgstr "Разреши името на сайта като текст (Не маркирай, ако името се съдържа в логото)"
+
+msgid "blog_enable_permalink"
+msgstr "Разреши Линк на новината да се вижда под нея"
+
+msgid "blog_enable_capcha"
+msgstr "Разреши Anti-Spam филтър"
+
+msgid "blog_footer_counter"
+msgstr "Разреши Посещения (общо) в подтекста"
+
+msgid "blog_enable_capcha_image"
+msgstr "Anti-Spam изображение (GD library only) / Anti-Spam текст"
+
+msgid "blog_enable_stats"
+msgstr "Разреши линк Статистики"
+
+msgid "blog_enable_lastcomments"
+msgstr "Разреши блок Последни коментари"
+
+msgid "blog_enable_lastentries"
+msgstr "Разреши блок Последни новини"
+
+msgid "blog_email_notification"
+msgstr "Изпращане на имейл при публикуване на коментар"
+
+msgid "blog_send_pings"
+msgstr "Изпращане на Пинг &quot;pings&quot;"
+
+msgid "blog_ping_urls"
+msgstr "Въведи пълен URL (например http://rpc.weblogs.com/RPC2) на пингващия сървър &quot;ping&quot;.<br />(Можеш да въведеш и повече адреси, разделени от запетайки.)"
+
+msgid "blog_trackback_about"
+msgstr "Проследяването на препратки е начин за известяване между блогове. Позволява на други блогове  					да разберат, че в блога ти има линк към тях, чрез изпращането на проследяващ пинг. Както и да видиш кой е дал линк към твоя блог   					чрез получаването на проследяващ пинг.<br />  				   Можеш или да въведеш ръчно пингващия URIs или да оставиш това на автоматично откриване. "
+
+msgid "blog_trackback_enabled"
+msgstr "Разреши Препратки"
+
+msgid "blog_trackback_auto_discovery"
+msgstr "Разреши автоматично откриване при въвеждане на съобщения, съдържащи URLs"
+
+msgid "blog_max_entries"
+msgstr "Максимум показвани новини:"
+
+msgid "blog_comment_tags"
+msgstr "Позволени тагове в коментарите:"
+
+msgid "blog_gzip_about"
+msgstr "  					От версия PHP 4.0.4, PHP дава възможност за четене и писане на gzip (.gz) компресирани файлове,   					спестявайки място на диска. Може също да компресира страниците, които се изпращат към браузъри,   					поддържащи gzip компрасия, спестявайки трафик.<br />  					<br />  					Zlib не се поддържа от PHP по подразбиране. Ако липсват местата за маркирането на компресията,   					значи твоята инсталация на PHP не поддържа Zlib разширение."
+
+msgid "blog_enable_gzip_txt"
+msgstr "Разреши GZIP компресия за База данни файловете"
+
+msgid "blog_enable_gzip_output"
+msgstr "Разреши GZIP компресия за HTTP изпращане"
+
+msgid "setup_error"
+msgstr "<h2>Упс!</h2>Информацията не може да се запази. При опита за запазване е възникнала грешка.<br /><br />Отговор на сървъра:<br />"
+
+msgid "setup_form_error"
+msgstr "Посочи име и автор."
+
+msgid "label_entry_order"
+msgstr "Ред на показване на новините:"
+
+msgid "select_new_to_old"
+msgstr "Започни от най-новите"
+
+msgid "select_old_to_new"
+msgstr "Започни от най-старите"
+
+msgid "label_comment_order"
+msgstr "Ред на показване на коментарите:"
+
+msgid "cal_sunday"
+msgstr "Неделя"
+
+msgid "cal_monday"
+msgstr "Понеделник"
+
+msgid "label_calendar_start"
+msgstr "Начало на седмицата в календара"
+
+msgid "title_sidebar"
+msgstr "Допълнителни"
+
+msgid "title_comments"
+msgstr "Коментари"
+
+msgid "title_trackback"
+msgstr "Препратки"
+
+msgid "title_compression"
+msgstr "Компресия"
+
+msgid "title_entries"
+msgstr "Новини"
+
+msgid "title_general"
+msgstr "Главни"
+
+msgid "title_language"
+msgstr "Език"
+
+msgid "blog_comment_days_expiry"
+msgstr "Колко дена след публикуване на новина могат да се пишат коментари за нея? (0 означава безсрочно)"
+
+msgid "options_title"
+msgstr "Параметри"
+
+msgid "options_instructions"
+msgstr "Настройки на параметрите за показване на дата и час. Полетата <strong>Предварителен преглед</strong> автоматично се обновяват при промяна на който и да е параметър."
+
+msgid "ldate_title"
+msgstr "Дълъг формат на дата:"
+
+msgid "weekday"
+msgstr "Ден от седмицата"
+
+msgid "none"
+msgstr "празно"
+
+msgid "sdate_title"
+msgstr "Кратък формат на дата:"
+
+msgid "s_month"
+msgstr "Месец"
+
+msgid "s_mon"
+msgstr "МММ"
+
+msgid "s_day"
+msgstr "Ден"
+
+msgid "s_year"
+msgstr "Година"
+
+msgid "zero_day"
+msgstr "01 вместо 1 за ден"
+
+msgid "show_century"
+msgstr "Показвай хилядолетие"
+
+msgid "time_title"
+msgstr "Формат на час:"
+
+msgid "12hour"
+msgstr "12-часов формат"
+
+msgid "24hour"
+msgstr "24-часов формат"
+
+msgid "before_noon"
+msgstr "До обяд"
+
+msgid "after_noon"
+msgstr "След обяд"
+
+msgid "date_title"
+msgstr "Формат на показване:"
+
+msgid "long_date"
+msgstr "Дълга дата"
+
+msgid "short_date"
+msgstr "Кратка дата"
+
+msgid "time"
+msgstr "Час"
+
+msgid "menu_title"
+msgstr "Меню Формат на показване на дата:"
+
+msgid "zero_month"
+msgstr "01 вместо 1 за месец"
+
+msgid "zero_hour"
+msgstr "01 вместо 1 за час"
+
+msgid "separator"
+msgstr "Разделител:"
+
+msgid "preview"
+msgstr "Предварителен преглед:"
+
+msgid "server_offset"
+msgstr "Разлика от сървъра:"
+
+msgid "options_error"
+msgstr "<h2>Упс!</h2>Параметрите не са запазени. Възникнала грешка при опита за запазване.<br /><br />Отговор на сървъра:<br />"
+
+msgid "upload_img_title"
+msgstr "Прикачване на изображение"
+
+msgid "upload_img_instructions"
+msgstr "Кликни бутон 'Преглед' за да избереш изображение от локалния диск."
+
+msgid "select_file"
+msgstr "Избери файл:"
+
+msgid "upload_btn"
+msgstr "Добави"
+
+msgid "upload_img_error"
+msgstr "<h2>Упс!</h2>При опита за прикачване на изображението е възникнала грешка. Служебна информация:<br /><br />Отговор на сървъра:<br />"
+
+msgid "themes_title"
+msgstr "Теми"
+
+msgid "themes_instructions"
+msgstr "Използвай падащото меню, за да си избереш предпочитана тема."
+
+msgid "choose_theme"
+msgstr "Теми:"
+
+msgid "themes_error"
+msgstr "<h2>Упс!</h2>Информацията не е запазена. Възникнал е проблем при опита за запазване.<br /><br />Отговор на сървъра:<br />"
+
+msgid "search_result_title"
+msgstr "Резултати от Търсенето"
+
+msgid "search_result_instructions"
+msgstr "Резултати от търсенето на <b>%string</b>:"
+
+msgid "not_found"
+msgstr "Няма намерени резултати"
+
+msgid "contact_capcha"
+msgstr "Въведи Anti-Spam кода:"
+
+msgid "contact_title"
+msgstr "За контакти"
+
+msgid "contact_instructions"
+msgstr "Попълни формата:"
+
+msgid "contact_form_error"
+msgstr "Попълни полетата Заглавие и Текст."
+
+msgid "subject"
+msgstr "Заглавие:"
+
+msgid "contact_success"
+msgstr "<h2>Успех!</h2>Съобщението беше изпратено.<p />"
+
+msgid "failure"
+msgstr "<h2>Грешка!</h2>Съобщението не беше изпратено. Най-вероятно кодът за Anti Spam не е бил въведен правилно.<p />"
+
+msgid "contactsent"
+msgstr "Контактната форма е изпратена от: "
+
+msgid "errorpage-nocookies_title"
+msgstr "HTTP Error 403.8 - Страницата / Функцията е недостъпна"
+
+msgid "errorline1"
+msgstr "Страницата или функцията, която искаш да ползваш, се нуждаят от cookies."
+
+msgid "errorline2"
+msgstr "Поправи в браузъра си или в друг активиран защитен софтуер настройките за cookies и опитай отново."
+
+msgid "clientid"
+msgstr "Клиентско ID: "
+
+msgid "trackbacks_title"
+msgstr "Препратки"
+
+msgid "trackbacks_header"
+msgstr "Адрес за препратка:"
+
+msgid "trackbacks_error_add"
+msgstr "Грешка при запазването на данните за препратката."
+
+msgid "stats_title"
+msgstr "Статистики"
+
+msgid "general"
+msgstr "Общо"
+
+msgid "entry_info"
+msgstr "<b>%s</b> новини, използвани са <b>%s</b> думи или <b>%s</b> байта"
+
+msgid "comment_info"
+msgstr "<b>%s</b> коментара, използвани са <b>%s</b> думи или <b>%s</b> байта"
+
+msgid "trackback_info"
+msgstr "<b>%s</b> препратки или <b>%s</b> байта"
+
+msgid "static_info"
+msgstr "<b>%s</b> статични страници, използвани са <b>%s</b> думи или <b>%s</b> байта"
+
+msgid "most_viewed_entries"
+msgstr "10-те най-преглеждани новини"
+
+msgid "most_commented_entries"
+msgstr "10-те най-коментирани новини"
+
+msgid "most_trackbacked_entries"
+msgstr "10-те най-препращани новини"
+
+msgid "vote_info"
+msgstr "<b>%s</b> гласа или <b>%s</b> байта"
+
+msgid "most_voted_entries"
+msgstr "10-те най-често оценявани новини"
+
+msgid "most_rated_entries"
+msgstr "10-те най-високо оценени новини"
+
+msgid "403.8"
+msgstr "HTTP Error 403.8 - Страницата / Функцията е недостъпна"
+
+msgid "404"
+msgstr "HTTP Error 404 - Страницата / Функцията не съществува"
+
+msgid "error_404"
+msgstr "Страницата или функцията, която се опитваш да намериш, не съществува."
+
+msgid "error_javascript"
+msgstr "Страницата или функцията, която се опитваш да намериш, изисква javascript за да работи."
+
+msgid "error_emailnotsent"
+msgstr "Неуспешно изпращане на съобщението."
+
+msgid "error_emailnotsentcapcha"
+msgstr "Неуспешно изпращане на съобщението, поради празно или неточно попълнено поле на Anti Spam код."
+
+msgid "emoticons_title"
+msgstr "Админ Емотикони"
+
+msgid "emoticons_instructions"
+msgstr "  					Отбележи емотиконите, които искаш да използваш. Срещу тях напиши таговете, които искаш   					да заместват картинките. Могат да се изпозват множество тагове, но трябва да се   					разделят с празно място.<br /><br />  		  					Например:<br />  					:) :-) :SMILE: :HAPPY:<br /><br />  					  					<i>(В този случай е задължително да използваш тагове с повече от 2 знака,   					иначе може да се получи неочаквано заместване.)</i>"
+
+msgid "upload_instructions"
+msgstr "Качи нови емотикони:"
+
+msgid "upload_success"
+msgstr "Успех! Изображенията са качени успешно!"
+
+msgid "upload_error"
+msgstr "Грешка! Изображенията не са качени."
+
+msgid "upload_invalid"
+msgstr "Грешка! Невалиден файл на изображение. Изображенията трябва да са с разширение png, jpg, или gif."
+
+msgid "save_success"
+msgstr "Предпочитаните емотикони са успешно запазени!"
+
+msgid "save_error"
+msgstr "Грешка! Предпочитаните емотикони не са запазени."
+
+msgid "save_button"
+msgstr "Изпрати"
+

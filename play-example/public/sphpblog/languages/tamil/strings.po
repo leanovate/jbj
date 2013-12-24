@@ -1,0 +1,1266 @@
+msgid "language"
+msgstr "tamil"
+
+msgid "locale"
+msgstr "Array"
+
+msgid "rss_locale"
+msgstr "ta-IN"
+
+msgid "html_charset"
+msgstr "UTF-8"
+
+msgid "php_charset"
+msgstr "UTF-8"
+
+msgid "menu_links"
+msgstr "இணைப்புகள்"
+
+msgid "menu_home"
+msgstr "முகப்பு"
+
+msgid "menu_contact"
+msgstr "Contact Me"
+
+msgid "menu_stats"
+msgstr "Stats"
+
+msgid "menu_calendar"
+msgstr "Calendar"
+
+msgid "menu_archive"
+msgstr "பழையவை"
+
+msgid "menu_viewarchives"
+msgstr "View Archives"
+
+msgid "menu_menu"
+msgstr "பட்டி"
+
+msgid "menu_add"
+msgstr "பதிவிடு"
+
+msgid "menu_add_static"
+msgstr "நிலைப்பக்கம் சேர்"
+
+msgid "menu_upload"
+msgstr "உருவம் ஏற்று"
+
+msgid "menu_setup"
+msgstr "அமைப்புகள்"
+
+msgid "menu_categories"
+msgstr "Categories"
+
+msgid "menu_info"
+msgstr "தகவல்"
+
+msgid "menu_options"
+msgstr "விருப்பங்கள்"
+
+msgid "menu_themes"
+msgstr "காட்சிக் கரு"
+
+msgid "menu_colors"
+msgstr "வண்ணங்கள்"
+
+msgid "menu_change_login"
+msgstr "நுழைபெயர் மாற்று"
+
+msgid "menu_logout"
+msgstr "வெளியேறு"
+
+msgid "menu_login"
+msgstr "உள்ளேறு"
+
+msgid "menu_most_recent"
+msgstr "புதிய மறுமொழிகள்"
+
+msgid "menu_most_recent_entries"
+msgstr "Most Recent Entries"
+
+msgid "menu_most_recent_trackback"
+msgstr "Most Recent Trackbacks"
+
+msgid "menu_add_block"
+msgstr "Blocks"
+
+msgid "menu_emoticons"
+msgstr "Emoticons"
+
+msgid "menu_avatar"
+msgstr "Avatar"
+
+msgid "counter_today"
+msgstr "Today:"
+
+msgid "counter_yesterday"
+msgstr "Yesterday:"
+
+msgid "counter_totalsidebar"
+msgstr "Total:"
+
+msgid "counter_title"
+msgstr "Counter Totals"
+
+msgid "home"
+msgstr "முகப்புக்கு செல்"
+
+msgid "nav_next"
+msgstr "அடுத்து"
+
+msgid "nav_back"
+msgstr "பின்னே"
+
+msgid "search_title"
+msgstr "தேடு:"
+
+msgid "search_go"
+msgstr "செல்"
+
+msgid "page_generated_in"
+msgstr "பக்கம் %s நொடிகளில் உருவாக்கப்பட்டது"
+
+msgid "counter_total"
+msgstr "Site Views: "
+
+msgid "read_more"
+msgstr "More..."
+
+msgid "sb_months"
+msgstr "Array"
+
+msgid "sb_default_title"
+msgstr "தலைப்பு இல்லை"
+
+msgid "sb_default_author"
+msgstr "ஆசிரியர் பெயர் இல்லை"
+
+msgid "sb_default_footer"
+msgstr "அடிக்குறிப்பு இல்லை"
+
+msgid "sb_edit"
+msgstr "தொகு"
+
+msgid "sb_delete"
+msgstr "அழி"
+
+msgid "sb_permalink"
+msgstr "permalink"
+
+msgid "sb_trackback"
+msgstr "trackbacks"
+
+msgid "sb_relatedlink"
+msgstr "related link"
+
+msgid "sb_add_comment_btn"
+msgstr "மறுமொழியிடு"
+
+msgid "sb_comment_btn_number_first"
+msgstr "1"
+
+msgid "sb_comment_btn"
+msgstr "மறுமொழி"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr "1"
+
+msgid "sb_comments_plural_btn"
+msgstr "மறுமொழிகள்"
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_post"
+msgstr " காட்சி"
+
+msgid "sb_view_counter_plural_pre"
+msgstr ""
+
+msgid "sb_view_counter_plural_post"
+msgstr " காட்சிகள்"
+
+msgid "sb_add_link_btn"
+msgstr "+ இணைப்பு"
+
+msgid "sb_rate_entry_btn"
+msgstr "Click to Rate Entry"
+
+msgid "label_subject"
+msgstr "பொருள்:"
+
+msgid "label_insert"
+msgstr "சிறப்பு குறிகளை நுழை:"
+
+msgid "btn_bold"
+msgstr " b "
+
+msgid "btn_italic"
+msgstr " i "
+
+msgid "btn_image"
+msgstr "img"
+
+msgid "btn_url"
+msgstr "url"
+
+msgid "btn_readmore"
+msgstr "read more"
+
+msgid "view_images"
+msgstr "ஏற்றிய உருவம் காட்டு"
+
+msgid "label_entry"
+msgstr "பதிவு:"
+
+msgid "btn_preview"
+msgstr "&nbsp;முன் காட்சி&nbsp;"
+
+msgid "btn_post"
+msgstr "&nbsp;ஏற்று&nbsp;"
+
+msgid "file_name"
+msgstr "Static File Name: (no spaces or file extensions)"
+
+msgid "insert_styles"
+msgstr "உருமாற்ற வேண்டிய உரை:"
+
+msgid "insert_image"
+msgstr "உருவத்தின் URL:"
+
+msgid "insert_url1"
+msgstr "இணைப்புக்கான உரை (விருப்ப):"
+
+msgid "insert_url2"
+msgstr "இணைப்பின் முழு URL:"
+
+msgid "insert_url3"
+msgstr "புதிய சாளரத்தில் URLஐ திற (விருப்ப):"
+
+msgid "add_form_error"
+msgstr "பொருளையும் பதிவையும் நிரப்புக."
+
+msgid "insert_image_optional"
+msgstr "விருப்பமானவை:"
+
+msgid "insert_image_width"
+msgstr "அகலம் (விருப்ப):"
+
+msgid "insert_image_height"
+msgstr "உயரம் (விருப்ப):"
+
+msgid "insert_image_popup"
+msgstr "முழு உயரத்தில் காட்டு (விருப்ப):"
+
+msgid "insert_image_float"
+msgstr "மிதப்பு (விருப்ப):"
+
+msgid "day"
+msgstr "Day"
+
+msgid "month"
+msgstr "Month"
+
+msgid "year"
+msgstr "Year"
+
+msgid "hour"
+msgstr "Hour"
+
+msgid "minute"
+msgstr "Minute"
+
+msgid "second"
+msgstr "Second"
+
+msgid "add_title"
+msgstr "பதிவை சேர்"
+
+msgid "add_instructions"
+msgstr "வலைப்பதிவு செய்ய தயாரா? கீழேயுள்ள படிவத்தை நிரப்புக.  'முன்காட்சி'யை அழுத்தினால் உங்கள் பதிவு எப்படி தோன்றும் என்பதை காணலாம்.  'ஏற்று' உங்கள் பதிவை சேமிக்கும்."
+
+msgid "title_ad"
+msgstr "Confirm Trackback Pings"
+
+msgid "instructions_ad"
+msgstr "These are the Auto-Discovered URIs you're about to ping. If you do not want to ping a certain URI, uncheck it below. Then press the 'OK' button to ping the checked URIs or press 'Cancel' to not ping at all."
+
+msgid "label_tb_ping"
+msgstr "Trackback ping(s) to send (comma separated)"
+
+msgid "label_tb_autodiscovery"
+msgstr "autodiscovery"
+
+msgid "label_relatedlink"
+msgstr "Related Link"
+
+msgid "label_categories"
+msgstr "Category List"
+
+msgid "add_instructions_update"
+msgstr "கீழுள்ள படிவத்தை கொண்டு உங்கள் பதிவை மாற்றலாம்.  முடித்தபின் 'முன்காட்சி' அல்லது 'ஏற்று' அழுத்துக."
+
+msgid "ok_btn"
+msgstr "&nbsp;OK&nbsp;"
+
+msgid "cancel_btn"
+msgstr "&nbsp;Cancel&nbsp;"
+
+msgid "add_error"
+msgstr "<h2>அடடா!</h2>பதிவு சேமிக்கப்படவில்லை.  உங்கள் பதிவை சேமிக்கும்போது ஒரு சிக்கல் தோன்றியது.<br /><br />சேவையகம் இவ்வாறாக கூறியது:<br />"
+
+msgid "add_static_form_error"
+msgstr "Please complete the Subject, Entry, and File Name fields."
+
+msgid "add_static_title"
+msgstr "நிலைப்பக்கம் சேர்"
+
+msgid "add_static_instructions"
+msgstr "நிலைப்பக்கத்தை சேர்க்க கீழுள்ள படிவத்தை நிரப்பவும்.  வலைப்பதிவுகளை போலில்லாமல், நிலைப்பக்கங்கள் வலது பட்டியில் இணைப்புகளாக தோன்றும்.  'என்னைப் பற்றி', 'தொடர்பு கொள்ள', 'கால அட்டவணை' போன்ற எப்போதும் காட்டப்பட வேண்டிய தகவல் பக்கங்களுக்காகவே இது.  'முன்காட்சி'யை அழுத்தினால் உங்கள் பதிவு எப்படி தோன்றும் என்பதை காணலாம்.  'ஏற்று' உங்கள் பதிவை சேமிக்கும்."
+
+msgid "add_static_instructions_update"
+msgstr "கீழுள்ள படிவத்தை கொண்டு உங்கள் நிலைப்பக்கத்தை மாற்றலாம்.  முடித்தபின் 'முன்காட்சி' அல்லது 'ஏற்று' அழுத்துக."
+
+msgid "add_static_error"
+msgstr "<h2>அடடா!</h2>பதிவு சேமிக்கப்படவில்லை.  உங்கள் பதிவை சேமிக்கும்போது ஒரு சிக்கல் தோன்றியது.<br /><br />சேவையகம் இவ்வாறாக கூறியது:<br />"
+
+msgid "comments_form_error"
+msgstr "உங்கள் பெயரையும் மறுமொழியையும் நிரப்பவும்."
+
+msgid "name"
+msgstr "Name:"
+
+msgid "email"
+msgstr "Email:"
+
+msgid "homepage"
+msgstr "Homepage:"
+
+msgid "comment"
+msgstr "Comment:"
+
+msgid "IPAddress"
+msgstr "IP Address:"
+
+msgid "useragent"
+msgstr "User Agent:"
+
+msgid "wrote"
+msgstr "<i>On %s, %s wrote:</i><br /> <br /> %s"
+
+msgid "commentposted"
+msgstr "New comment posted at: "
+
+msgid "comment_capcha"
+msgstr "Anti-Spam: Enter "
+
+msgid "comments_title"
+msgstr "மறுமொழிகள்"
+
+msgid "comments_header"
+msgstr "மறுமொழி சேர்"
+
+msgid "comments_instructions"
+msgstr "மறுமொழி சேர்க்க கீழுள்ள படிவத்தை நிரப்பவும்."
+
+msgid "comment_name"
+msgstr "உங்கள் பெயர்:"
+
+msgid "comment_email"
+msgstr "Email:"
+
+msgid "comment_url"
+msgstr "URL:"
+
+msgid "comment_remember"
+msgstr "Remember me:"
+
+msgid "comment_text"
+msgstr "மறுமொழி:"
+
+msgid "post_btn"
+msgstr "&nbsp;மறுமொழி ஏற்று&nbsp;"
+
+msgid "delete_btn"
+msgstr "அழி"
+
+msgid "expired_comment1"
+msgstr "We are sorry. New comments are not allowed after "
+
+msgid "expired_comment2"
+msgstr " days."
+
+msgid "blacklisted"
+msgstr "Sorry, your IP address has been banned. Comments not allowed."
+
+msgid "comments_error_add"
+msgstr "<h2>அடடா!</h2>மறுமொழி சேமிக்கப்படவில்லை.  உங்கள் உள்ளீட்டை சேமிக்கும்போது ஒரு சிக்கல் தோன்றியது.<br /><br />சேவையகம் கூறியதாவது:<br />"
+
+msgid "comments_error_delete"
+msgstr "<h2>அடடா!</h2>மறுமொழி அழிக்கப்படவில்லை.  உங்கள் உள்ளீட்டை சேமிக்கும்போது ஒரு சிக்கல் தோன்றியது.<br /><br />சேவையகம் கூறியதாவது:<br />"
+
+msgid "add_block_form_error"
+msgstr "Please complete the Name field."
+
+msgid "add_block_title"
+msgstr "Add / Manage Links"
+
+msgid "add_block_instructions"
+msgstr "Add custom Blocks"
+
+msgid "up"
+msgstr "up"
+
+msgid "down"
+msgstr "down"
+
+msgid "edit"
+msgstr "edit"
+
+msgid "delete"
+msgstr "delete"
+
+msgid "block_name"
+msgstr "Block Name:"
+
+msgid "block_content"
+msgstr "Block content:"
+
+msgid "add_block_instructions_edit"
+msgstr "You are currently editing block:"
+
+msgid "add_block_instructions_modify"
+msgstr "Click below to modify a block:"
+
+msgid "add_block_submit_btn_edit"
+msgstr "Edit Block"
+
+msgid "add_block_submit_btn_add"
+msgstr "Add Block"
+
+msgid "static_pages"
+msgstr "Static Pages:"
+
+msgid "add_link_title"
+msgstr "இணைப்புகள் சேர்ப்பு / மேலாண்மை"
+
+msgid "add_link_instructions"
+msgstr "வெளிப் பக்கங்களுக்கான இணைப்புகளை சேர்.  கீழே உள்ள படிவத்தை நிரப்பி 'இணைப்பை சேர்' என்பதனை சொடுக்கவும்.  மேல், கீழ் பொத்தான்களை சொடுக்கினால் இணைப்புகளின் வரிசை மாறும்.  இணைப்பை மாற்ற 'மாற்று' பொத்தானை அழுத்தவும்.  'அழி'யைக் கொண்டு இணைப்பை அழிக்கலாம்."
+
+msgid "link_name"
+msgstr "இணைப்பின் பெயர்:"
+
+msgid "link_url"
+msgstr "இணைப்பு URL: (பிரிப்பானை சேர்க்க இதனை நிரப்பாமல் விடவும்.)"
+
+msgid "add_link_instructions_edit"
+msgstr "நீங்கள் மாற்றிக் கொண்டிருக்கும் இணைப்பு:"
+
+msgid "add_link_instructions_modify"
+msgstr "இணைப்பை மாற்ற கீழே சொடுக்கவும்:"
+
+msgid "add_link_submit_btn_edit"
+msgstr "இணைப்பை மாற்று"
+
+msgid "add_link_submit_btn_add"
+msgstr "இணைப்பு சேர்"
+
+msgid "add_link_form_error"
+msgstr "'பெயர்' புலத்தை நிரப்பு."
+
+msgid "categories_title"
+msgstr "Add / Manage Categories"
+
+msgid "categories_instructions"
+msgstr "Use the form below to add and edit your categories. Each category item should be in this format 'category name (id number)'. Indent items with spaces to create heirarchies.<br /><br /><b>Example:</b><br />General (1)<br />News (3)<br />&nbsp;&nbsp;Announcements (6)<br />&nbsp;&nbsp;Events (5)<br />&nbsp;&nbsp;&nbsp;&nbsp;Misc (7)<br />Technology (2)<br />"
+
+msgid "categories_error"
+msgstr "Error"
+
+msgid "current_categories"
+msgstr "Current Categories"
+
+msgid "no_categories_found"
+msgstr "No Categories Found"
+
+msgid "category_list"
+msgstr "Category List:"
+
+msgid "validate"
+msgstr "Validate"
+
+msgid "submit_btn"
+msgstr "&nbsp;Submit&nbsp;"
+
+msgid "colors_title"
+msgstr "வண்ணங்களை மாற்று"
+
+msgid "colors_instructions"
+msgstr "உங்கள் வலைப்பதிவில் உரை மற்றும் பின்னணி வண்ணங்களை மாற்றலாம்.  முதலில் கீழுள்ள புலத்தை தெரிந்தெடுத்து பின் வண்ணத் தெரிவியில் வண்ணத்தை கலக்கவும்.  மதிப்பு தானாக மாறும்."
+
+msgid "bg_color"
+msgstr "பக்க பின்னணி"
+
+msgid "main_bg_color"
+msgstr "மூலப் பக்க பின்னணி"
+
+msgid "border_color"
+msgstr "பக்க கரை"
+
+msgid "inner_border_color"
+msgstr "உள் கரை"
+
+msgid "header_bg_color"
+msgstr "தலைப்பு பின்னணி"
+
+msgid "header_txt_color"
+msgstr "தலைப்பு உரை"
+
+msgid "menu_bg_color"
+msgstr "பட்டி பின்னணி"
+
+msgid "footer_bg_color"
+msgstr "அடிக் குறிப்பு பின்னணி"
+
+msgid "txt_color"
+msgstr "மூல உரை"
+
+msgid "headline_txt_color"
+msgstr "தலைப்பு வரி உரை"
+
+msgid "date_txt_color"
+msgstr "தேதி உரை"
+
+msgid "footer_txt_color"
+msgstr "அடிக் குறிப்பு உரை"
+
+msgid "link_reg_color"
+msgstr "இணைப்பு - கொடாநிலை"
+
+msgid "link_hi_color"
+msgstr "இணைப்பு - மேலோட்டம்"
+
+msgid "link_down_color"
+msgstr "இணைப்பு - நடப்பு"
+
+msgid "entry_bg"
+msgstr "பதிவு பின்னணி"
+
+msgid "entry_title_bg"
+msgstr "பதிவு தலைப்பு பின்னணி"
+
+msgid "entry_border"
+msgstr "பதிவு கரை"
+
+msgid "entry_title_text"
+msgstr "பதிவு தலைப்பு உரை"
+
+msgid "entry_text"
+msgstr "பதிவு உரை"
+
+msgid "menu_bg"
+msgstr "பட்டி பின்னணி"
+
+msgid "menu_title_bg"
+msgstr "பட்டி தலைப்பு பின்னணி"
+
+msgid "menu_border"
+msgstr "பட்டி கரை"
+
+msgid "menu_title_text"
+msgstr "பட்டி தலைப்பு உரை"
+
+msgid "menu_text"
+msgstr "பட்டி உரை"
+
+msgid "menu_link_reg_color"
+msgstr "பட்டி இணைப்பு - கொடாநிலை"
+
+msgid "menu_link_hi_color"
+msgstr "பட்டி இணைப்பு - மேலோட்டம்"
+
+msgid "menu_link_down_color"
+msgstr "பட்டி இணைப்பு - நடப்பு"
+
+msgid "color_preset"
+msgstr "Color Schemes:"
+
+msgid "scheme_name"
+msgstr "Enter a custom color scheme name:"
+
+msgid "scheme_file"
+msgstr "Enter scheme file name: (no spaces or file extensions)"
+
+msgid "save_btn"
+msgstr "&nbsp;Save&nbsp;"
+
+msgid "colors_form_error"
+msgstr "Please enter a name for your custom color scheme."
+
+msgid "theme_doesnt_allow_colors"
+msgstr "The currently selected theme does not allow for custom colors."
+
+msgid "colors_error"
+msgstr "<h2>அடடா!</h2>தகவல் சேமிக்கப்படவில்லை.  உங்கள் உள்ளீட்டை சேமிக்கும்போது ஒரு சிக்கல் தோன்றியது.<br /><br />சேவையகம் கூறியதாவது:<br />"
+
+msgid "delete_title"
+msgstr "பதிவை அழி"
+
+msgid "delete_instructions"
+msgstr "இந்த பதிவை அழிக்க உள்ளீர்கள்.  இதைத்தான் அழிக்க விரும்புகிறீர்களா என உறுதி செய்து கொள்ளுங்கள்.  அழித்ததை மீட்க முடியாது."
+
+msgid "delete_error"
+msgstr "<h2>அடடா!</h2>பதிவை அழிக்க முடியவில்லை.<br /><br />சேவையகம் கூறியதாவது:<br />"
+
+msgid "delete_static_title"
+msgstr "நிலைப்பக்கத்தை அழி"
+
+msgid "delete_static_instructions"
+msgstr "இந்த பதிவை அழிக்க உள்ளீர்கள்.  இதைத்தான் அழிக்க விரும்புகிறீர்களா என உறுதி செய்து கொள்ளுங்கள்.  அழித்ததை மீட்க முடியாது."
+
+msgid "delete_static_error"
+msgstr "<h2>அடடா!</h2>நிலைப் பக்கத்தை அழிக்க முடியவில்லை.<br /><br />சேவையகம் கூறியதாவது:<br />"
+
+msgid "image_list_title"
+msgstr "உருவப் பட்டியல்"
+
+msgid "image_list_instructions"
+msgstr "உருவத்தை பார்க்க கீழுள்ள இணைப்புகளை சொடுக்கவும்.<br /><br />உருவத்தை உங்கள் பதிவில் சேர்க்க:<br />1) Control விசையை அழுத்திக்கொண்டு இணைப்பின் மேல் சொடுக்கி 'Copy Link to Clipboard'ஐ தேர்ந்தெடுக்கவும்.<br />2) பதிவை சேர்க்கும் அல்லது மாற்றும் பக்கத்திற்கு திரும்பவும்.<br />3) 'img' பொத்தானை அழுத்தி URLஐ சாளரத்தில் ஒட்டவும்."
+
+msgid "info_title"
+msgstr "meta-data தகவல்"
+
+msgid "info_instructions"
+msgstr "கீழுள்ள தகவல் &quot;meta-data&quot; புலத்தில் பயன்படுத்தப்படும்.  இது தேடல் இயந்திரங்கள் உங்கள் தளத்தை சரியாக கண்டறியவும், RSS ஓடைகளிலும் பயன்படும்."
+
+msgid "info_keywords"
+msgstr "முக்கிய சொற்கள்: (கமாவால் பிரிக்கப்பட்ட முக்கிய சொற்களின் வரிசை.)"
+
+msgid "info_description"
+msgstr "விளக்கம்: (உங்கள் தளத்தைப் பற்றிய விளக்க உரை.)"
+
+msgid "info_copyright"
+msgstr "உரிமைகள்: (காப்புரிமை அறிவிக்கை, அல்லது அவ்வறிவிக்கை உள்ள ஆவணத்தின் இணைப்பு.)"
+
+msgid "info_error"
+msgstr "<h2>அடடா!</h2>தகவலை சேமிக்க முடியவில்லை.<br /><br />சேவையகம் கூறியதாவது:<br />"
+
+msgid "info_form_error"
+msgstr "தலைப்பு, ஆசிரியர் புலங்களை நிரப்பவும்."
+
+msgid "rating_error"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your information.<br /><br />Server Reported:<br />"
+
+msgid "upgrade"
+msgstr "<h2>Upgrade</h2>"
+
+msgid "upgrade_count"
+msgstr "%n comment files need to be upgraded:"
+
+msgid "upgrade_url"
+msgstr "Upgrade Comments"
+
+msgid "login_title"
+msgstr "உள்ளேறு"
+
+msgid "login_instructions"
+msgstr "உங்கள் பயனர் பெயரையும் கடவுச்சொல்லையும் உள்ளிடவும்."
+
+msgid "username"
+msgstr "பயனர் பெயர்:"
+
+msgid "password"
+msgstr "கடவுச்சொல்:"
+
+msgid "login_success"
+msgstr "<h2>வெற்றி!</h2>நீங்கள் உள்ளேறி விட்டீர்கள்.<p />"
+
+msgid "login_wrong_password"
+msgstr "<h2>அடடா!</h2>நீங்கள் உள்ளேறவில்லை.  பயனர் பெயரையும் கடவுச்சொல்லையும் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.<p />"
+
+msgid "login_form_error"
+msgstr "பயனர் பெயரையும் கடவுச்சொல்லையும் நிரப்பவும்."
+
+msgid "logout_title"
+msgstr "வெளியேறு"
+
+msgid "logout_instructions"
+msgstr "<h2>அடடா!</h2>வெளியேற முடியவில்லை.  குக்கியை அழிக்க முடியவில்லை.  ஏன் இன்னும் உள்ளேறியுள்ளீர்?<p />"
+
+msgid "forms_title"
+msgstr ""
+
+msgid "forms_instructions"
+msgstr ""
+
+msgid "forms_error"
+msgstr "<h2>அடடா!</h2>தகவலை சேமிக்க முடியவில்லை.  உங்கள் உள்ளீட்டை சேமிக்கும்போது ஒரு சிக்கல் தோன்றியது.<br /><br />சேவையகம் கூறியதாவது:<br />"
+
+msgid "set_login_title"
+msgstr "பயனர் பெயரையும் கடவுச்சொல்லையும் மாற்று"
+
+msgid "set_login_instructions"
+msgstr "இந்த படிவத்தைக் கொண்டு பயனர் பெயரையும் கடவுச்சொல்லையும் மாற்றலாம்.  நீங்கள் விரும்பும் பயனர் பெயரையும் கடவுச்சொல்லையும் உள்ளிடவும்."
+
+msgid "set_login_success"
+msgstr "<h2>வெற்றி!</h2>உங்கள் பயனர் பெயரும் கடவுச்சொல்லும் நடப்பில் உள்ளது.<p />"
+
+msgid "set_login_wrong_password"
+msgstr "<h2>அடடா!</h2>தகவலை சேமிக்க முடியவில்லை.  உங்கள் பயனர் பெயரையும் கடவுச்சொல்லையும் சேமிக்கும்போது ஒரு சிக்கல் தோன்றியது.<br /><br />சேவையகம் கூறியதாவது:<br />"
+
+msgid "set_login_form_error"
+msgstr "பயனர் பெயரையும் கடவுச்சொல்லையும் நிரப்பவும்."
+
+msgid "explanation"
+msgstr "In recent versions, our password structure has changed.  There is no longer a way to update passwords  					and/or logins from inside the blog code.  In order to change your password, delete /config/password.php and make sure install*.php  					exists on the local server.  Once that is done, refresh this page (or logout).  You will be presented with the same script  					to generate your password as you did when originally creating the blog site."
+
+msgid "install00_title"
+msgstr "வணக்கம்."
+
+msgid "install00_instructions"
+msgstr "Simple PHP Blogஐ தேர்ந்தெடுத்ததற்கு நன்றி!"
+
+msgid "blog_choose_language"
+msgstr "மொழி:"
+
+msgid "install01_title"
+msgstr "வணக்கம்"
+
+msgid "install01_instructions"
+msgstr "  				Simple PHP Blogஐ தேர்ந்தெடுத்ததற்கு நன்றி!<br /><br />Simple PHP Blog ஒரு எளிய, சிறிய வலைப்பதிவு அமைப்பாகும்.  இதனை இயக்க PHP 4.1 அல்லது அதற்கு பிந்தைய பதிப்பும், சேவையகத்தில் எழுதும் உரிமையும் தேவைப்படும்.  தகவல்கள் அனைத்தும் கிடைக்கோப்புகளாகவே சேமிக்கப்படுகின்றன.  எனவே தகவல்தளங்கள் ஏதும் தேவையில்லை.<br /><br />  				துவங்கும் பொருட்டு தகவல்களை சேமிப்பதற்காக மூன்று அடைவுகளை ('config', 'content', மற்றும் 'images') உருவாக்க வேண்டியுள்ளது.<br /><br />  				<b>துவங்க கீழே சொடுக்கவும்.</b>"
+
+msgid "begin"
+msgstr "[ அமைப்பை துவக்கு ]"
+
+msgid "install02_title"
+msgstr "அமைப்பு"
+
+msgid "install02_instructions"
+msgstr "'config', 'content', மற்றும் 'images' ஆகிய மூன்று அடைவுகளை உருவாக்க முயற்சிக்கிறேன்:"
+
+msgid "folder_exists"
+msgstr "அடைவுகள் ஏற்கனவே உள்ளன.  மாற்றங்கள் ஏதும் செய்யப்பதவில்லை..."
+
+msgid "folder_failed"
+msgstr "அடடா! அடைவை உருவாக்க முடியவில்லை..."
+
+msgid "folder_success"
+msgstr "வெற்றி! அடைவுகள் உருவாக்கப் பட்டன..."
+
+msgid "help"
+msgstr "  				<h2>அடடா!</h2>  				அடைவுகள் சிலதை உருவாக்க முடியவில்லை! அநேகமாக:<br>  				<i>1) <b>எழுதும் அனுமதி</b> இல்லை.</i><br>  				<i>2) கோப்புகளிலும் அடைவுகளிலும் <b>UID</b> (பயனர் அடையாள எண்) தவறாக உள்ளது.</i><p />  				  				கீழ்க்கண்ட வழிகளை பின்பற்றிய்பின் மீண்டும் முயற்சிக்கவும்:<p />				  				1) <b>config</b>, <b>content</b>, மற்றும் <b>images</b> ஆகிய அடைவுகளை கையால் உருவாக்கவும்.<p />  				2) எல்லா அடைவுகளிலும் <b>எழுதும் அனுமதி</b> அமைக்கவும்.  உங்கள் FTP நிரலில், உரியர், பயனர், மற்றும் பிறருக்கு  <b>படிக்க</b>வும் <b>எழுத</b>வும் அனுமதி தேவை. <i>(உங்கள் சேவையக காப்பாளரை தொடர்பு கொள்ள வேண்டியிருக்கலாம்)</i><p />  				3) எல்லா கோப்புகளிலும் அடைவுகளிலும் UID ஒன்றாக உள்ளதா என சரி பார்க்கவும். <i>(உங்கள் சேவையக காப்பாளரை தொடர்பு கொள்ள வேண்டியிருக்கலாம்)</i>"
+
+msgid "try_again"
+msgstr "[ மீண்டும் முயற்சிக்க ]"
+
+msgid "install02_success"
+msgstr "<h2>வெற்றி!</h2>அடைவுகள் உருவாக்கப்பட்டுவிட்டன!<p /><b>தொடர கீழே சொடுக்கவும்:</b>"
+
+msgid "continue"
+msgstr "[ தொடருக ]"
+
+msgid "supported"
+msgstr "<b>Your web server supports the following encryption schemes:</b>"
+
+msgid "standard"
+msgstr "Standard DES Encryption: "
+
+msgid "extended"
+msgstr "Extended DES Encryption: "
+
+msgid "MD5"
+msgstr "MD5 Encryption: "
+
+msgid "blowfish"
+msgstr "Blowfish Encryption: "
+
+msgid "enabled"
+msgstr "enabled"
+
+msgid "disabled"
+msgstr "disabled"
+
+msgid "using_standard"
+msgstr "<b>Using Standard DES Encryption...</b>"
+
+msgid "using_extended"
+msgstr "<b>Using Extended DES Encryption...</b>"
+
+msgid "using_MD5"
+msgstr "<b style='color: green;'>Using MD5 Encryption...</b>"
+
+msgid "using_blowfish"
+msgstr "<b style='color: green;'>Using Blowfish Encryption...</b>"
+
+msgid "using_unknown"
+msgstr "<b>Using Unknown Encryption...</b>"
+
+msgid "salt_length"
+msgstr " <i>(Salt Length = %string)</i><br />"
+
+msgid "install03_title"
+msgstr "பயனர் பெயர், கடவுச்சொல் உருவாக்கம்"
+
+msgid "install03_instructions"
+msgstr "இந்த படிவத்தை கொண்டு பயனர் பெயரும் கடவுச்சொல்லும் உருவாக்கலாம்."
+
+msgid "install03_success"
+msgstr "<h2>வாழ்த்துக்கள்!</h2>நீங்கள் உள்ளேறி விட்டீர்கள்.  அமைப்புகள் பக்கத்தை அடைய கீழே சொடுக்கவும.  அங்கே உங்கள் வலைப்பதிவிற்கு பெயரிடலாம்.<p />"
+
+msgid "btn_setup"
+msgstr "[ அமைப்புகள் ]"
+
+msgid "install03_wrong_password"
+msgstr "<h2>அடடா!</h2>தகவலை சேமிக்க முடியவில்லை.  உங்கள் பயனர் பெயரையும் கடவுச்சொல்லையும் சேமிக்கும்போது ஒரு சிக்கல் தோன்றியது.<br /><br />சேவையகம் கூறியதாவது:<br />"
+
+msgid "install03_form_error"
+msgstr "பயனர் பெயரையும் கடவுச்சொல்லையும் நிரப்பவும்."
+
+msgid "install04_title"
+msgstr "Create Password File"
+
+msgid "install04_instructions"
+msgstr "Here's the tricky part:<br />  				<ol>  				<li>Open a Text Editor application. <i>(Note Pad, Word Pad, Word, BBEdit, Pico, VI, etc...)</i></li>  				<li>Create a New Text Document.</li>  				<li>Copy and paste the code in the box below into your document.</li>  				<li>Save your file and name it <b>password.php</b> <i>(Be sure to save it in <b>text</b> or <b>plain text</b> format.)</i></li>  				<li>Open a FTP application.</li>  				<li>Upload your new <b>password.php</b> into the <b>config</b> folder on your web site.</li>  				<li>Delete the <b>password.php</b> from your hard drive.</li>  				</ol>  				"
+
+msgid "information"
+msgstr "<i>Note: If you want to reset your username and password (probably because you forgot it), delete the <b>password.php</b> file in the <b>config</b> folder on your web site. The next time you visit your site, it will walk you through this installation process again...</i>"
+
+msgid "code"
+msgstr "Code for <b>password.php</b> file:"
+
+msgid "install05_title"
+msgstr "Login"
+
+msgid "install05_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid "install05_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in.<p />  				Click below to visit the <b>Setup</b> page, where you can personalize your new blog.<p />  				<i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install05_wrong_password"
+msgstr "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your Username and Password correctly and try again.<p />"
+
+msgid "install05_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "btn_try_again"
+msgstr "[ Try Again ]"
+
+msgid "install06_title"
+msgstr "Login"
+
+msgid "install06_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid "install06_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in.<p />  				Click below to visit the <b>Setup</b> page, where you can personalize your new blog.<p />  				<i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install06_wrong_password"
+msgstr "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your Username and Password correctly and try again.<p />"
+
+msgid "install06_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "setup_title"
+msgstr "அமைப்புகள்"
+
+msgid "setup_instructions"
+msgstr "உங்கள் வலைப்பதிவின் பெயரையும் மற்றும் பிற சொந்த தகவல்களையும் இங்கு மாற்றலாம்."
+
+msgid "blog_title"
+msgstr "வலைப்பதிவின் பெயர்:"
+
+msgid "blog_author"
+msgstr "ஆசிரியர்:"
+
+msgid "blog_email"
+msgstr "மின்னஞ்சல்:"
+
+msgid "blog_avatar"
+msgstr "Avatar URL: (Leave blank for none)."
+
+msgid "blog_footer"
+msgstr "அடிக்குறிப்பு:"
+
+msgid "blog_enable_comments"
+msgstr "மறுமொழிகளை செயலாக்கு"
+
+msgid "blog_comments_popup"
+msgstr "மறுமொழிகளை தனி சாளரத்தில் காட்டு"
+
+msgid "blog_enable_cache"
+msgstr "Enable Blog Entry Cache (may provide speed increase on some servers)"
+
+msgid "blog_enable_voting"
+msgstr "Enable Users to Rate Entries"
+
+msgid "blog_email_notification"
+msgstr "மறுமொழிகள் இடப்படும்போது மின்னஞ்சல் அனுப்பவும்."
+
+msgid "blog_send_pings"
+msgstr "வலைப்பதிவு &quot;ping&quot; அனுப்பவும்"
+
+msgid "blog_ping_urls"
+msgstr "&quot;ping&quot; செய்யப்பட வேண்டிய சேவையின் முழு URLஐ (i.e. http://rpc.weblogs.com/RPC2) நிரப்பவும்.<br />(கமாவால் பிரிக்கப்பட்ட ஒன்றுக்கு மேற்பட்ட முகவரிகளையும் நிரப்பலாம்.)"
+
+msgid "blog_trackback_about"
+msgstr "Trackback provides a method of notification between blogs. Let another  					blog know that you are linking to them by sending them a trackback ping. See who is linking to   					your blog by receiving trackback pings.<br />  				   You can either enter the URIs to ping manually, or try to do it automatically through   				   Auto-Discovery."
+
+msgid "blog_trackback_enabled"
+msgstr "Enable trackback in my blog"
+
+msgid "blog_trackback_auto_discovery"
+msgstr "Enable Auto-Discovery when submitting a post containing URLs"
+
+msgid "blog_max_entries"
+msgstr "காட்டவேண்டிய அதிகபட்ச அடைவுகள்:"
+
+msgid "blog_comment_tags"
+msgstr "மறுமொழிகளில் அடைகுறிகள்:"
+
+msgid "blog_gzip_about"
+msgstr "PHP 4.0.4 பதிப்பிலிருந்து, PHP நிரலில் gzip (.gz) மூலம் அமுக்கப்பட்ட கோப்புகளை படிக்கவும் எழுதவும், இதனால் பதிவகத்தில் இடத்தேவையை குறைக்கவும் முடியும்.  மேலும், உலவிகளுக்கு அனுப்பும் கோப்புகளையும் தானாகவே அமுக்கி அனுப்பவும் இயலும்.<br /><br />Zlib ஆதரவு PHP இன் கொடாநிலையில் நடப்பில் இருக்காது.  இந்த தெரிசதுரங்கள் செயலிலந்திருந்தால் உங்கள் PHP நிறுவலில் Zlib ஆதரவு இல்லை என்று பொருள்."
+
+msgid "blog_enable_gzip_txt"
+msgstr "தகவல்தள கோப்புகளுக்கு GZIP அமுக்கத்தை செயலாக்கு"
+
+msgid "blog_enable_gzip_output"
+msgstr "HTTP வெளிப்பாட்டிற்கு GZIP அமுக்கத்தை செயலாக்கு"
+
+msgid "setup_error"
+msgstr "<h2>அடடா!</h2>தகவலை சேமிக்க முடியவில்லை.  உங்கள் உள்ளீட்டை சேமிக்கும்போது ஒரு சிக்கல் தோன்றியது.<br /><br />சேவையகம் கூறியதாவது:<br />"
+
+msgid "setup_form_error"
+msgstr "தலைப்பையும் ஆசிரியர் பெயரையும் நிரப்பவும்."
+
+msgid "label_entry_order"
+msgstr "பதிவு வரிசை:"
+
+msgid "select_new_to_old"
+msgstr "புதியது முதலில்"
+
+msgid "select_old_to_new"
+msgstr "பழையது முதலில்"
+
+msgid "label_comment_order"
+msgstr "மறுமொழி வரிசை:"
+
+msgid "cal_sunday"
+msgstr "Sunday"
+
+msgid "cal_monday"
+msgstr "Monday"
+
+msgid "label_calendar_start"
+msgstr "Calendar Week Start Day"
+
+msgid "title_sidebar"
+msgstr "Sidebar"
+
+msgid "title_comments"
+msgstr "Comments"
+
+msgid "title_trackback"
+msgstr "Trackbacks"
+
+msgid "title_compression"
+msgstr "Compression"
+
+msgid "title_entries"
+msgstr "Entries"
+
+msgid "title_general"
+msgstr "General"
+
+msgid "title_language"
+msgstr "Language"
+
+msgid "blog_comment_days_expiry"
+msgstr "Comments Allowed For How Many Days? (0 means no expiry)"
+
+msgid "blog_enable_calendar"
+msgstr "Enable Calendar / Archives Block"
+
+msgid "blog_enable_archives"
+msgstr "Enable Archives Block"
+
+msgid "blog_enable_counter"
+msgstr "Enable Counter in Sidebar"
+
+msgid "blog_counter_hours"
+msgstr "Number of hours to delay before hits are counted again (based on specific ip address):"
+
+msgid "blog_enable_login"
+msgstr "Enable Login Link (Please bookmark 'login.php' first...)"
+
+msgid "blog_enable_title"
+msgstr "Enable Plain Text Title Block (Clear checkbox if the title is in the header graphic)"
+
+msgid "blog_enable_permalink"
+msgstr "Enable Permalink on Blog Entries"
+
+msgid "blog_enable_capcha"
+msgstr "Enable Anti-Spam"
+
+msgid "blog_footer_counter"
+msgstr "Enable Counter in Footer"
+
+msgid "blog_enable_capcha_image"
+msgstr "Anti-Spam Images (GD library only) / Anti-Spam Text Field"
+
+msgid "blog_enable_stats"
+msgstr "Enable Stats Option in Menu"
+
+msgid "blog_enable_lastcomments"
+msgstr "Enable Most Recent Comments Listing"
+
+msgid "blog_enable_lastentries"
+msgstr "Enable Most Recent Entries Listing"
+
+msgid "options_title"
+msgstr "விருப்பங்கள்"
+
+msgid "options_instructions"
+msgstr "இந்த படிவத்தை கொண்டு உங்கள் பதிவுகளிலும் மறுமொழிகளிலும் தேதி, நேர தோற்றங்களை மாற்றலாம்.  12 அல்லது 24 மணி நேர தோற்றங்களையும், குறுகிய, நீண்ட தேதி அமைப்புகளையும் மாற்றலாம்.  உங்கள் உள்ளீட்டுக்கேற்ப <b>முன்காட்சி</b>கள் தானாகவே மாறும்"
+
+msgid "ldate_title"
+msgstr "நீண்ட தேதி:"
+
+msgid "weekday"
+msgstr "வாரநாள்"
+
+msgid "none"
+msgstr "ஏதுமில்லை"
+
+msgid "sdate_title"
+msgstr "குறுகிய தேதி:"
+
+msgid "s_month"
+msgstr "மாதம்"
+
+msgid "s_mon"
+msgstr "MMM"
+
+msgid "s_day"
+msgstr "தேதி"
+
+msgid "s_year"
+msgstr "வருடம்"
+
+msgid "zero_day"
+msgstr "தேதி முன் சுழி"
+
+msgid "show_century"
+msgstr "நூற்றாண்டை காட்டு"
+
+msgid "time_title"
+msgstr "நேர அமைப்பு:"
+
+msgid "12hour"
+msgstr "12 மணி முறை"
+
+msgid "24hour"
+msgstr "24 மணி முறை"
+
+msgid "before_noon"
+msgstr "முற்பகலுக்கு முன்"
+
+msgid "after_noon"
+msgstr "முற்பகலுக்கு பின்"
+
+msgid "date_title"
+msgstr "தேதி தோற்றம்:"
+
+msgid "long_date"
+msgstr "நீண்ட தேதி"
+
+msgid "short_date"
+msgstr "குறுகிய தேதி"
+
+msgid "time"
+msgstr "நேரம்"
+
+msgid "menu_title"
+msgstr "பட்டியில் தேதி அமைப்பு:"
+
+msgid "zero_month"
+msgstr "மாதம் முன் சுழி"
+
+msgid "zero_hour"
+msgstr "மணி முன் சுழி"
+
+msgid "separator"
+msgstr "பிரிப்பான்:"
+
+msgid "preview"
+msgstr "முன்காட்சி:"
+
+msgid "server_offset"
+msgstr "சேவையக தள்ளுமை:"
+
+msgid "options_error"
+msgstr "<h2>அடடா!</h2>தகவலை சேமிக்க முடியவில்லை.  உங்கள் உள்ளீட்டை சேமிக்கும்போது ஒரு சிக்கல் தோன்றியது.<br /><br />சேவையகம் கூறியதாவது:<br />"
+
+msgid "upload_img_title"
+msgstr "உருவத்தை ஏற்று"
+
+msgid "upload_img_instructions"
+msgstr "கோப்பினை ஏற்ற கீழுள்ள பொத்தானை சொடுக்கவும்."
+
+msgid "select_file"
+msgstr "கோப்பினை தேர்ந்தெடு:"
+
+msgid "upload_btn"
+msgstr "ஏற்று"
+
+msgid "upload_img_error"
+msgstr "<h2>அடடா!</h2>கோப்பை மேலேற்ற முடியவில்லை.<br /><br />சேவையகம் கூறியதாவது:<br />"
+
+msgid "themes_title"
+msgstr "காட்சிக்கரு"
+
+msgid "themes_instructions"
+msgstr "கீழிழு பட்டியைக் கொண்டு வேறு காட்சிக்கருவை தேர்ந்தெடுக்கவும்."
+
+msgid "choose_theme"
+msgstr "காட்சிக்கரு:"
+
+msgid "themes_error"
+msgstr "<h2>அடடா!</h2>தகவலை சேமிக்க முடியவில்லை.  உங்கள் உள்ளீட்டை சேமிக்கும்போது ஒரு சிக்கல் தோன்றியது.<br /><br />சேவையகம் கூறியதாவது:<br />"
+
+msgid "search_result_title"
+msgstr "தேடல் முடிவுகள்"
+
+msgid "search_result_instructions"
+msgstr "<b>%string</b> க்கு தேடல் முடிவுகள்:"
+
+msgid "not_found"
+msgstr "தேடலுக்கு முடிவுகள் கிடைக்கவில்லை"
+
+msgid "contact_title"
+msgstr "Contact Me"
+
+msgid "contact_instructions"
+msgstr "Fill in the form:"
+
+msgid "contact_form_error"
+msgstr "Please complete the Subject and Comment fields."
+
+msgid "subject"
+msgstr "Subject:"
+
+msgid "contact_success"
+msgstr "<h2>Success!</h2>Your message has been sent.<p />"
+
+msgid "failure"
+msgstr "<h2>Error!</h2>Your message has not been sent. Most likely the Anti Spam was not entered properly.<p />"
+
+msgid "contact_capcha"
+msgstr "Anti-Spam: Enter "
+
+msgid "contactsent"
+msgstr "Contact sent through: "
+
+msgid "errorpage-nocookies_title"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "errorline1"
+msgstr "The page or function you attempted to process requires the use of cookies."
+
+msgid "errorline2"
+msgstr "Restore cookie functionality within your browser or protection software and attempt your request again."
+
+msgid "clientid"
+msgstr "Client ID: "
+
+msgid "trackbacks_title"
+msgstr "Trackbacks"
+
+msgid "trackbacks_header"
+msgstr "Trackback URL for this entry:"
+
+msgid "trackbacks_error_add"
+msgstr "Error storing trackback data."
+
+msgid "stats_title"
+msgstr "Statistics"
+
+msgid "general"
+msgstr "General"
+
+msgid "entry_info"
+msgstr "<b>%s</b> entries using <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "comment_info"
+msgstr "<b>%s</b> comments using <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "trackback_info"
+msgstr "<b>%s</b> trackbacks stored in <b>%s</b> bytes"
+
+msgid "static_info"
+msgstr "<b>%s</b> static pages using <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "most_viewed_entries"
+msgstr "10 Most viewed entries"
+
+msgid "most_commented_entries"
+msgstr "10 Most commented entries"
+
+msgid "most_trackbacked_entries"
+msgstr "10 Most trackbacked entries"
+
+msgid "vote_info"
+msgstr "<b>%s</b> votes stored in <b>%s</b> bytes"
+
+msgid "most_voted_entries"
+msgstr "10 Most voted entries"
+
+msgid "most_rated_entries"
+msgstr "10 Most rated entries"
+
+msgid "403.8"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "404"
+msgstr "HTTP Error 404 - Page/Function Does Not Exist"
+
+msgid "error_404"
+msgstr "The page or function you attempted to process does not exist."
+
+msgid "error_javascript"
+msgstr "The page or function you attempted requires javascript in order to properly function."
+
+msgid "error_emailnotsent"
+msgstr "The message you attempted to send has failed."
+
+msgid "error_emailnotsentcapcha"
+msgstr "The message you attempted to send has failed because the anti-spam entry was incorrect or missing."
+
+msgid "emoticons_title"
+msgstr "Admin Emoticons"
+
+msgid "emoticons_instructions"
+msgstr "  					Check the emoticons you want to use. Write in the box the Tags you want   					to be replaced by the image. Multiple tags may be used, just separated them   					by spaces.<br /><br />  		  					For instance:<br />  					:) :-) :SMILE: :HAPPY:<br /><br />  					  					<i>(It is highly recommended that you make the Tags longer than 2 characters,   					otherwise unexpected substitutions may occur.)</i>"
+
+msgid "upload_instructions"
+msgstr "Upload New Emoticon:"
+
+msgid "upload_success"
+msgstr "Success! Image uploaded successfully!"
+
+msgid "upload_error"
+msgstr "Error! Image was not uploaded."
+
+msgid "upload_invalid"
+msgstr "Error! Invalid image file. Image must be a png, jpg, or gif."
+
+msgid "save_success"
+msgstr "Emoticon preferences saved successfully!"
+
+msgid "save_error"
+msgstr "Error! Emoticon preferences not saved."
+
+msgid "save_button"
+msgstr "Save Emoticons"
+

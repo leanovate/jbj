@@ -1,0 +1,1266 @@
+msgid "language"
+msgstr "finnish"
+
+msgid "locale"
+msgstr "Array"
+
+msgid "rss_locale"
+msgstr "fi-FI"
+
+msgid "html_charset"
+msgstr "ISO-8859-1"
+
+msgid "php_charset"
+msgstr "ISO-8859-1"
+
+msgid "menu_links"
+msgstr "Linkit"
+
+msgid "menu_home"
+msgstr "Etusivu"
+
+msgid "menu_contact"
+msgstr "Ota yhteytt‰"
+
+msgid "menu_stats"
+msgstr "Tilastot"
+
+msgid "menu_calendar"
+msgstr "Calendar"
+
+msgid "menu_viewarchives"
+msgstr "View Archives"
+
+msgid "menu_archive"
+msgstr "Arkisto"
+
+msgid "menu_menu"
+msgstr "Valikko"
+
+msgid "menu_add"
+msgstr "Lis‰‰ teksti"
+
+msgid "menu_add_static"
+msgstr "Lis‰‰ sivu"
+
+msgid "menu_upload"
+msgstr "Lataa kuva"
+
+msgid "menu_setup"
+msgstr "Asetukset"
+
+msgid "menu_categories"
+msgstr "Kategoriat"
+
+msgid "menu_info"
+msgstr "Hakukoneet"
+
+msgid "menu_options"
+msgstr "P‰iv‰ &amp; aika"
+
+msgid "menu_themes"
+msgstr "Teemat"
+
+msgid "menu_colors"
+msgstr "V‰rit"
+
+msgid "menu_change_login"
+msgstr "Vaihda kirjautumisasetuksia"
+
+msgid "menu_logout"
+msgstr "Kirjaudu ulos"
+
+msgid "menu_login"
+msgstr "Kirjaudu"
+
+msgid "menu_most_recent"
+msgstr "Viimeisimm‰t kommentit"
+
+msgid "menu_most_recent_entries"
+msgstr "Viimeisimm‰t tekstit"
+
+msgid "menu_most_recent_trackback"
+msgstr "Most Recent Trackbacks"
+
+msgid "menu_add_block"
+msgstr "Laatikot"
+
+msgid "menu_emoticons"
+msgstr "Hymiˆt"
+
+msgid "menu_avatar"
+msgstr "Avatar"
+
+msgid "counter_today"
+msgstr "Today:"
+
+msgid "counter_yesterday"
+msgstr "Yesterday:"
+
+msgid "counter_totalsidebar"
+msgstr "Total:"
+
+msgid "counter_title"
+msgstr "Counter Totals"
+
+msgid "home"
+msgstr "Palaa etusivulle"
+
+msgid "nav_next"
+msgstr "Seuraava"
+
+msgid "nav_back"
+msgstr "Edellinen"
+
+msgid "search_title"
+msgstr "Etsi:"
+
+msgid "search_go"
+msgstr "Etsi"
+
+msgid "page_generated_in"
+msgstr "Sivu luotu %s sekunnissa"
+
+msgid "counter_total"
+msgstr "Site Views: "
+
+msgid "read_more"
+msgstr "Read More..."
+
+msgid "sb_months"
+msgstr "Array"
+
+msgid "sb_default_title"
+msgstr "Ei otsikkoa"
+
+msgid "sb_default_author"
+msgstr "Ei kirjoittajaa"
+
+msgid "sb_default_footer"
+msgstr "Ei mietelausetta"
+
+msgid "sb_edit"
+msgstr "muokkaa"
+
+msgid "sb_delete"
+msgstr "poista"
+
+msgid "sb_permalink"
+msgstr "permalink"
+
+msgid "sb_trackback"
+msgstr "trackbacks"
+
+msgid "sb_relatedlink"
+msgstr "tekstiin liittyv‰ linkki"
+
+msgid "sb_add_comment_btn"
+msgstr "lis‰‰ kommentti"
+
+msgid "sb_comment_btn_number_first"
+msgstr "1"
+
+msgid "sb_comment_btn"
+msgstr "kommentti"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr "1"
+
+msgid "sb_comments_plural_btn"
+msgstr "comments"
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_post"
+msgstr " view"
+
+msgid "sb_view_counter_plural_pre"
+msgstr ""
+
+msgid "sb_view_counter_plural_post"
+msgstr " views"
+
+msgid "sb_add_link_btn"
+msgstr "lis‰‰ linkki"
+
+msgid "sb_rate_entry_btn"
+msgstr "Paina arvostellaksesi tekstin"
+
+msgid "label_subject"
+msgstr "Aihe:"
+
+msgid "label_insert"
+msgstr "Korostus:"
+
+msgid "btn_bold"
+msgstr " b "
+
+msgid "btn_italic"
+msgstr " i "
+
+msgid "btn_image"
+msgstr "img"
+
+msgid "btn_url"
+msgstr "url"
+
+msgid "btn_readmore"
+msgstr "read more"
+
+msgid "view_images"
+msgstr "Katsele l‰hetettyj‰ kuvia"
+
+msgid "label_entry"
+msgstr "Teksti:"
+
+msgid "btn_preview"
+msgstr "&nbsp;Esikatselu&nbsp;"
+
+msgid "btn_post"
+msgstr "&nbsp;L‰het‰&nbsp;"
+
+msgid "file_name"
+msgstr "Tiedoston nimi: (ei v‰lilyˆntej‰ eik‰ tiedostop‰‰tteit‰)"
+
+msgid "insert_styles"
+msgstr "Enter the text to be formatted:"
+
+msgid "insert_image"
+msgstr "Anna kuvan URL-osoite:"
+
+msgid "insert_url1"
+msgstr "Enter the text to be displayed for the link (Optional):"
+
+msgid "insert_url2"
+msgstr "Enter the full URL for the link:"
+
+msgid "insert_url3"
+msgstr "Open URL in new window (Optional):"
+
+msgid "add_form_error"
+msgstr "Ole hyv‰ ja t‰yt‰ aihe- sek‰ tekstikent‰t."
+
+msgid "insert_image_optional"
+msgstr "Optional:"
+
+msgid "insert_image_width"
+msgstr "Width (Optional):"
+
+msgid "insert_image_height"
+msgstr "Height (Optional):"
+
+msgid "insert_image_popup"
+msgstr "View full-size in pop-up when clicked (Optional):"
+
+msgid "insert_image_float"
+msgstr "Float (Optional):"
+
+msgid "day"
+msgstr "P‰iv‰"
+
+msgid "month"
+msgstr "Kuukausi"
+
+msgid "year"
+msgstr "Vuosi"
+
+msgid "hour"
+msgstr "Tunti"
+
+msgid "minute"
+msgstr "Minuutti"
+
+msgid "second"
+msgstr "Sekunti"
+
+msgid "add_title"
+msgstr "Lis‰‰ teksti"
+
+msgid "add_instructions"
+msgstr "Oletko valmis kirjoittamaan? T‰yt‰ alla oleva tekstilaatikko ja paina 'Esikatselu' n‰hd‰ksesi, milt‰ tekstisi n‰ytt‰‰, tai paina 'L‰het‰' tallentaaksesi tekstin."
+
+msgid "title_ad"
+msgstr "Confirm Trackback Pings"
+
+msgid "instructions_ad"
+msgstr "These are the Auto-Discovered URIs you're about to ping. If you do not want to ping a certain URI, uncheck it below. Then press the 'OK' button to ping the checked URIs or press 'Cancel' to not ping at all."
+
+msgid "label_tb_ping"
+msgstr "Trackback ping(s) to send (comma separated)"
+
+msgid "label_tb_autodiscovery"
+msgstr "autodiscovery"
+
+msgid "label_relatedlink"
+msgstr "Tekstiin liittyv‰ linkki"
+
+msgid "label_categories"
+msgstr "Category List"
+
+msgid "add_instructions_update"
+msgstr "You can change your entry using the form below. Click 'Preview' or 'Post' when you're done."
+
+msgid "ok_btn"
+msgstr "&nbsp;OK&nbsp;"
+
+msgid "cancel_btn"
+msgstr "&nbsp;Cancel&nbsp;"
+
+msgid "add_error"
+msgstr "<h2>Whoops!</h2>Entry not saved. I ran into a problem while saving your entry.<br /><br />Server Reported:<br />"
+
+msgid "add_static_form_error"
+msgstr "Please complete the Subject, Entry, and File Name fields."
+
+msgid "add_static_title"
+msgstr "Lis‰‰ sivu"
+
+msgid "add_static_instructions"
+msgstr "T‰yt‰ alla oleva tekstikentt‰ lis‰‰ksesi sivun vasempaan valikkoon. Kuten tavallinen blogiteksti, sivu ilmestyy linkkin‰ vasempaan valikkoon. N‰m‰ sivut ovat aina n‰kyviss‰, esimerkkej‰: Tietoja minusta, Ota yhteytt‰, Aikataulu, jne. Paina 'Esikatselu' n‰hd‰ksesi, milt‰ sivu n‰ytt‰‰. Paina 'L‰het‰' tallentaaksesi sivun."
+
+msgid "add_static_instructions_update"
+msgstr "You can change your entry using the form below. Click 'Preview' or 'Post' when you're done."
+
+msgid "add_static_error"
+msgstr "<h2>Whoops!</h2>Entry not saved. I ran into a problem while saving your entry.<br /><br />Server Reported:<br />"
+
+msgid "comments_form_error"
+msgstr "Please complete the Name, Comment and Anti-Spam fields."
+
+msgid "name"
+msgstr "Name:"
+
+msgid "email"
+msgstr "Email:"
+
+msgid "homepage"
+msgstr "Homepage:"
+
+msgid "comment"
+msgstr "Kommentti:"
+
+msgid "IPAddress"
+msgstr "IP Address:"
+
+msgid "useragent"
+msgstr "User Agent:"
+
+msgid "wrote"
+msgstr "<i>On %s, %s wrote:</i><br /> <br /> %s"
+
+msgid "comment_capcha"
+msgstr "Anti-Spam: Enter "
+
+msgid "comments_title"
+msgstr "Kommentit"
+
+msgid "comments_header"
+msgstr "Lis‰‰ kommentti"
+
+msgid "comments_instructions"
+msgstr "Fill out the form below to add your own comments."
+
+msgid "comment_name"
+msgstr "Your Name:"
+
+msgid "comment_email"
+msgstr "Email:"
+
+msgid "comment_url"
+msgstr "URL:"
+
+msgid "commentposted"
+msgstr "New comment posted at: "
+
+msgid "comment_remember"
+msgstr "Remember me:"
+
+msgid "comment_text"
+msgstr "Comment:"
+
+msgid "post_btn"
+msgstr "&nbsp;Post Comment&nbsp;"
+
+msgid "delete_btn"
+msgstr "delete"
+
+msgid "expired_comment1"
+msgstr "We are sorry. New comments are not allowed after "
+
+msgid "expired_comment2"
+msgstr " days."
+
+msgid "blacklisted"
+msgstr "Sorry, your IP address has been banned. Comments not allowed."
+
+msgid "comments_error_add"
+msgstr "<h2>Whoops!</h2>Comment not saved. I ran into a problem while saving your comment.<br /><br />Server Reported:<br />"
+
+msgid "comments_error_delete"
+msgstr "<h2>Whoops!</h2>Comment not deleted. I ran into a problem while deleting your comment.<br /><br />Server Reported:<br />"
+
+msgid "add_block_form_error"
+msgstr "T‰yt‰ nimikentt‰."
+
+msgid "add_block_title"
+msgstr "Lis‰‰ / muokkaa laatikoita"
+
+msgid "add_block_instructions"
+msgstr "Lis‰‰ oma laatikko"
+
+msgid "up"
+msgstr "ylˆs"
+
+msgid "down"
+msgstr "alas"
+
+msgid "edit"
+msgstr "muokkaa"
+
+msgid "delete"
+msgstr "poista"
+
+msgid "block_name"
+msgstr "Laatikon nimi:"
+
+msgid "block_content"
+msgstr "Laatikon sis‰ltˆ:"
+
+msgid "add_block_instructions_edit"
+msgstr "Olet muokkaamassa laatikkoa:"
+
+msgid "add_block_instructions_modify"
+msgstr "Olemassa olevat laatikot:"
+
+msgid "add_block_submit_btn_edit"
+msgstr "Muokkaa laatikkoa"
+
+msgid "add_block_submit_btn_add"
+msgstr "Lis‰‰ laatikko"
+
+msgid "static_pages"
+msgstr "Sivut:"
+
+msgid "add_link_title"
+msgstr "Lis‰‰ / muokkaa linkkej‰"
+
+msgid "add_link_instructions"
+msgstr "Lis‰‰ omia linkkej‰ toisille www-sivuille. T‰yt‰ oheinen lomake ja klikkaa 'Lis‰‰ linkki'-painiketta lis‰t‰ksesi linkin. Klikkaa alas- tai ylˆs-painiketta vaihtaaksesi linkkien j‰rjestyst‰. Paina muokkaa painiketta muokataksesi linkki‰. Paina poista painiketta poistaaksesi linkin."
+
+msgid "link_name"
+msgstr "Linkin nimi:"
+
+msgid "link_url"
+msgstr "URL-osoite: (Optional. Leave empty to create separator.)"
+
+msgid "add_link_instructions_edit"
+msgstr "Linkit:"
+
+msgid "add_link_instructions_modify"
+msgstr "Olemassa olevat linkit:"
+
+msgid "add_link_submit_btn_edit"
+msgstr "Muokkaa linkki‰"
+
+msgid "add_link_submit_btn_add"
+msgstr "Lis‰‰ linkki"
+
+msgid "add_link_form_error"
+msgstr "T‰yt‰ nimikentt‰."
+
+msgid "categories_title"
+msgstr "Add / Manage Categories"
+
+msgid "categories_instructions"
+msgstr "Use the form below to add and edit your categories. Each category item should be in this format 'category name (id number)'. Indent items with spaces to create heirarchies.<br /><br /><b>Example:</b><br />General (1)<br />News (3)<br />&nbsp;&nbsp;Announcements (6)<br />&nbsp;&nbsp;Events (5)<br />&nbsp;&nbsp;&nbsp;&nbsp;Misc (7)<br />Technology (2)<br />"
+
+msgid "categories_error"
+msgstr "Error"
+
+msgid "current_categories"
+msgstr "Current Categories"
+
+msgid "no_categories_found"
+msgstr "No Categories Found"
+
+msgid "category_list"
+msgstr "Category List:"
+
+msgid "validate"
+msgstr "Validate"
+
+msgid "submit_btn"
+msgstr "&nbsp;L‰het‰&nbsp;"
+
+msgid "colors_title"
+msgstr "Change Colors"
+
+msgid "colors_instructions"
+msgstr "You can change the text and background colors for your blog. First select the field below, then use the color picker to mix your color. The Value changes automatically."
+
+msgid "bg_color"
+msgstr "BG Page"
+
+msgid "main_bg_color"
+msgstr "BG Main Page"
+
+msgid "border_color"
+msgstr "Page Border"
+
+msgid "inner_border_color"
+msgstr "Inner Border"
+
+msgid "header_bg_color"
+msgstr "BG Header"
+
+msgid "header_txt_color"
+msgstr "Header Text"
+
+msgid "menu_bg_color"
+msgstr "BG Menu"
+
+msgid "footer_bg_color"
+msgstr "BG Footer"
+
+msgid "txt_color"
+msgstr "Main Text"
+
+msgid "headline_txt_color"
+msgstr "Headline Text"
+
+msgid "date_txt_color"
+msgstr "Date Text"
+
+msgid "footer_txt_color"
+msgstr "Mietelauseen teksti"
+
+msgid "link_reg_color"
+msgstr "Link Default"
+
+msgid "link_hi_color"
+msgstr "Link Hover"
+
+msgid "link_down_color"
+msgstr "Link Active"
+
+msgid "entry_bg"
+msgstr "Entry BG"
+
+msgid "entry_title_bg"
+msgstr "Entry Title BG"
+
+msgid "entry_border"
+msgstr "Entry Border"
+
+msgid "entry_title_text"
+msgstr "Entry Title Text"
+
+msgid "entry_text"
+msgstr "Entry Text"
+
+msgid "menu_bg"
+msgstr "Menu BG"
+
+msgid "menu_title_bg"
+msgstr "Menu Title BG"
+
+msgid "menu_border"
+msgstr "Menu Border"
+
+msgid "menu_title_text"
+msgstr "Menu Title Text"
+
+msgid "menu_text"
+msgstr "Menu Text"
+
+msgid "menu_link_reg_color"
+msgstr "Menu Link Default"
+
+msgid "menu_link_hi_color"
+msgstr "Menu Link Hover"
+
+msgid "menu_link_down_color"
+msgstr "Menu Link Active"
+
+msgid "color_preset"
+msgstr "Color Schemes:"
+
+msgid "scheme_name"
+msgstr "Enter a custom color scheme name:"
+
+msgid "scheme_file"
+msgstr "Enter scheme file name: (no spaces or file extensions)"
+
+msgid "save_btn"
+msgstr "&nbsp;Save&nbsp;"
+
+msgid "colors_form_error"
+msgstr "Please enter a name for your custom color scheme."
+
+msgid "theme_doesnt_allow_colors"
+msgstr "The currently selected theme does not allow for custom colors."
+
+msgid "colors_error"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your entry.<br /><br />Server Reported:<br />"
+
+msgid "delete_title"
+msgstr "Poista kirjoitus"
+
+msgid "delete_instructions"
+msgstr "Varmista, ett‰ t‰m‰ on teksti, jonka varmasti haluat poistaa. Jos et ole varma, paina peruuta."
+
+msgid "delete_error"
+msgstr "<h2>Virhe!</h2>Tekstin poistaminen ep‰onnistui.<br /><br />Server Reported:<br />"
+
+msgid "delete_static_title"
+msgstr "Poista sivu"
+
+msgid "delete_static_instructions"
+msgstr "Varmista, ett‰ t‰m‰ on sivu, jonka haluat poisaa. Jos et ole varma, paina peruuta."
+
+msgid "delete_static_error"
+msgstr "<h2>Virhe!</h2>Poistaminen ep‰onnistui.<br /><br />Server Reported:<br />"
+
+msgid "image_list_title"
+msgstr "Image List"
+
+msgid "image_list_instructions"
+msgstr "Click on the links below to view images.<br /><br />To add an image to your entry:<br />1) Control-click a link and choose 'Copy Link to Clipboard'.<br />2) Return to the Add Entry or Edit Entry page.<br />3) Click the 'img' button and paste the URL into the window."
+
+msgid "info_title"
+msgstr "Meta-Data Information"
+
+msgid "info_instructions"
+msgstr "The information below is used for &quot;meta-data&quot;, which helps search engines correctly find and identify your site. Information may also be used in RSS feeds."
+
+msgid "info_keywords"
+msgstr "Keywords: (List of keywords separated by commas.)"
+
+msgid "info_description"
+msgstr "Description: (An abstract or a free-text description of your site.)"
+
+msgid "info_copyright"
+msgstr "Rights: (Copyright statement, or link to document containing information.)"
+
+msgid "info_error"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your information.<br /><br />Server Reported:<br />"
+
+msgid "info_form_error"
+msgstr "Please complete the Title and Author fields."
+
+msgid "rating_error"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your information.<br /><br />Server Reported:<br />"
+
+msgid "upgrade"
+msgstr "<h2>Upgrade</h2>"
+
+msgid "upgrade_count"
+msgstr "%n comment files need to be upgraded:"
+
+msgid "upgrade_url"
+msgstr "Upgrade Comments"
+
+msgid "login_title"
+msgstr "Kirjaudu sis‰‰n"
+
+msgid "login_instructions"
+msgstr "Ole hyv‰ ja anna k‰ytt‰j‰tunnuksesi sek‰ salasanasi."
+
+msgid "username"
+msgstr "K‰ytt‰j‰tunnus:"
+
+msgid "password"
+msgstr "Salasana:"
+
+msgid "login_success"
+msgstr "<h2>Tervetuloa!</h2>Kirjautuminen onnistui.<p />"
+
+msgid "login_wrong_password"
+msgstr "<h2>Virhe!</h2>Kirjautuminen ep‰onnistui. Tarkista k‰ytt‰j‰tunnus ja salasana.<p />"
+
+msgid "login_form_error"
+msgstr "Ole hyv‰ ja t‰yt‰ k‰ytt‰j‰tunnus- sek‰ salasanakent‰t."
+
+msgid "logout_title"
+msgstr "Logout"
+
+msgid "logout_instructions"
+msgstr "<h2>Virhe!</h2>Uloskirjautuminen ep‰onnistui. Ev‰steiden poistaminen ep‰onnistui. Tarkista selaimen asetukset.<p />"
+
+msgid "forms_title"
+msgstr ""
+
+msgid "forms_instructions"
+msgstr ""
+
+msgid "forms_error"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your entry.<br /><br />Server Reported:<br />"
+
+msgid "set_login_title"
+msgstr "Vaihda k‰ytt‰j‰tunnus &amp; salasana:"
+
+msgid "set_login_instructions"
+msgstr "K‰yt‰ kaavakettaa muuttaaksesi k‰ytt‰j‰nimen ja/tai salasanan. Kirjoita k‰ytt‰j‰nimi ja salasana, joita haluat k‰ytt‰‰."
+
+msgid "set_login_success"
+msgstr "<h2>Onnistui!</h2>K‰ytt‰j‰tunnuksesi ja/tai salasanasi on vaihdettu ja k‰ytˆss‰.<p />"
+
+msgid "set_login_wrong_password"
+msgstr "<h2>Virhe!</h2>Muutosta ei tallennettu. Ongelma salasanan ja k‰ytt‰j‰tunnuksen tallennuksessa.<br /><br />Palvelinraportti:<br />"
+
+msgid "set_login_form_error"
+msgstr "T‰yt‰ salana- ja k‰ytt‰j‰tunnuskent‰t."
+
+msgid "explanation"
+msgstr "Salasanatekniikka on muuttunut aikaisemmista versioista. Salasanan ja k‰ytt‰j‰tunnuksen vaihto ei ole en‰‰ mahdollista  					blogin kautta. Muuttaaksesi tunnukset, sinun t‰ytyy poistaa /config/password.php ja varmistaa, ett‰ install*.php  					on olemassa palvelimella.  Kun muutos on tehty, p‰ivit‰ sivu (tai kirjaudu ulos).  T‰m‰n j‰lkeen saat eteesi saman valikon kuin ottaessasi ohjelman k‰yttˆˆn."
+
+msgid "install00_title"
+msgstr "Tervetuloa"
+
+msgid "install00_instructions"
+msgstr "Kiitos, ett‰ valitsit Simple PHP Blogin!"
+
+msgid "blog_choose_language"
+msgstr "Valitse kieli:"
+
+msgid "install01_title"
+msgstr "Tervetuloa!"
+
+msgid "install01_instructions"
+msgstr "  				Kiitos, ett‰ valitsit Simple PHP Blogin!<br /><br />Simple PHP Blog on kevyt blog-j‰rjestelm‰. Se vaatii toimakseen PHP:n version 4.1 tai uudemman ja kirjoitusoikeudet palvelimelle. Kaikki informaatio tallennetaan tiedostoihin, joten tietokantaa ei tarvita.<br /><br />  				Aloittaaksesi, Simple PHP Blog tarvitsee kolme kansiota (<b>config</b>, <b>content</b> ja <b>images</b>). N‰ihin kansioihin ohjelma tallentaa kaiken tarvittavan informaation. Kansion luonnin j‰lkeen siirryt‰‰n salasanan luontiin. Salasana-asioiden ollessa kunnossa, voit aloittaa kirjoittamisen!<br /><br />  				<b>Klikkaa linkki‰ aloittaaksesi asennuksen:</b>"
+
+msgid "begin"
+msgstr "[ Aloita asennus ]"
+
+msgid "install02_title"
+msgstr "Asennus"
+
+msgid "install02_instructions"
+msgstr "Yritet‰‰n luoda <b>config</b>, <b>content</b> ja <b>images</b> -kansiot:"
+
+msgid "folder_exists"
+msgstr "OK! Kansio on jo olemassa. Muutoksia ei tehty..."
+
+msgid "folder_failed"
+msgstr "Virhe! Kansion luonti ep‰onnistui..."
+
+msgid "folder_success"
+msgstr "Onnistui! Kansio luotiin..."
+
+msgid "help"
+msgstr "  				<h2>Virhe!</h2>  Kansion/kansioiden luonti ep‰onnistui!<br /><br />T‰m‰ tapahtui, koska:<br />  				<ol>  				<li><b>Kirjoitusoikeudet puuttuvat</b>, ei ole asetettu <b>Read/Write</b> -oikeuksia (CHMOD).</li>  				<li><b>UID</b>t (k‰ytt‰j‰oikeudet) kaikkiin kansioihin ja tiedostoihin eiv‰t t‰sm‰‰.</li>  				</ol>  				Seuraa ongelmanratkaisuja alapuolelta ja klikkaa <b>Yrit‰ uudelleen</b>:<br />  				<ol>  				<li>Luo manuaalisesti seuraavat kansiot palvelimelle: <b>config</b>, <b>content</b> ja <b>images</b>.</li>  				<li>Anna <b>kirjoitusoikeudet</b> seuraaville kansioille: FTP-ohjelmassa Owner, User ja Group/World -ryhmien tulisi saada <b>luku-</b> ja <b>kirjoitus</b>oikeudet (Chmod 666/777). <i>(Voit joutua ottamaan yhteytt‰ palveluntarjoajaan muuttaaksesi n‰it‰ asetuksia)</i></li>  				<li>Varmista, ett‰ k‰ytt‰j‰oikeudet kaikkiin kansioihin ovat samat. <i>(Voit joutua ottamaan yhteytt‰ palveluntarjoajaan muuttaaksesi n‰it‰ asetuksia)</i></li>  				</ol>"
+
+msgid "try_again"
+msgstr "[ Yrit‰ uudelleen ]"
+
+msgid "install02_success"
+msgstr "<h2>Onnistui!</h2>Kansiot luotiin onnistuneesti!<p /><b>Paina seuraavaa linkki‰ jatkaaksesi:</b>"
+
+msgid "continue"
+msgstr "[ Jatka ]"
+
+msgid "supported"
+msgstr "<b>Palvelimesi tukee seuraavia salaustyyppej‰:</b>"
+
+msgid "standard"
+msgstr "Standard DES Encryption: "
+
+msgid "extended"
+msgstr "Extended DES Encryption: "
+
+msgid "MD5"
+msgstr "MD5 Encryption: "
+
+msgid "blowfish"
+msgstr "Blowfish Encryption: "
+
+msgid "enabled"
+msgstr "tukee"
+
+msgid "disabled"
+msgstr "ei tue"
+
+msgid "using_standard"
+msgstr "<b>K‰ytet‰‰n Standard DES Encryption -salausta...</b>"
+
+msgid "using_extended"
+msgstr "<b>K‰ytet‰‰n Extended DES Encryption -salausta...</b>"
+
+msgid "using_MD5"
+msgstr "<b style='color: green;'>K‰ytet‰‰n MD5 Encryption -salausta...</b>"
+
+msgid "using_blowfish"
+msgstr "<b style='color: green;'>K‰ytet‰‰n Blowfish Encryption -salausta...</b>"
+
+msgid "using_unknown"
+msgstr "<b>K‰ytet‰‰n tuntematonta salausta...</b>"
+
+msgid "salt_length"
+msgstr " <i>(Salt Length = %string)</i><br />"
+
+msgid "install03_title"
+msgstr "Luo k‰ytt‰j‰tunnus &amp; salasana"
+
+msgid "install03_instructions"
+msgstr "K‰yt‰ alla olevaa kaavaketta luodaksesi k‰ytt‰j‰tunnuksen ja salasanan."
+
+msgid "install03_success"
+msgstr "<h2>Onnittelut!</h2>Olet kirjautunut sis‰‰n. Paina alla olevaa painiketta siirty‰ksesi asetuksiin, jossa voit nimet‰ blogin.<p />"
+
+msgid "btn_setup"
+msgstr "[ Asetukset ]"
+
+msgid "install03_wrong_password"
+msgstr "<h2>Virhe!</h2>Asetuksia ei tallennettu. Onglma tallennettaessa salasanaa ja k‰ytt‰j‰tunnusta.<br /><br />Palvelimen raportti:<br />"
+
+msgid "install03_form_error"
+msgstr "T‰yt‰ k‰ytt‰j‰tunnus- ja salasanakentt‰."
+
+msgid "install04_title"
+msgstr "Luo salasanatiedosto"
+
+msgid "install04_instructions"
+msgstr "T‰ss‰ ohjeet salasanatiedoston luontiin:<br />  				<ol>  				<li>Avaa tekstieditori. <i>(Note Pad, Word Pad, Word, BBEdit, Pico, VI, jne.)</i></li>  				<li>Luo uusi tekstidokumentti.</li>  				<li>Kopioi ja liit‰ oheinen koodi dokumenttiin.</li>  				<li>Tallenna tiedosto nimell‰ <b>password.php</b> <i>(Varmista, ett‰ tallennat sen <b>teksti-</b> tai <b>puhdasteksti</b>muotoon.)</i></li>  				<li>Avaa FTP-ohjelma.</li>  				<li>L‰het‰ <b>password.php</b> <b>config</b> -kansioon www-sivullesi.</li>  				<li>Poista <b>password.php</b> kovalevylt‰si.</li>  				</ol>  				"
+
+msgid "information"
+msgstr "<i>Huomautus: Jos haluat muuttaa k‰ytt‰j‰tunnusta ja salasanaa (esimerkiksi unohtaessasi ne), poista <b>password.php</b>-tiedosto <b>config</b>-kansiosta www-palvelimelta. Seuraavan kerran menness‰si kotisivullesi, joudut k‰ym‰‰n t‰m‰n asennusprosessin uudelleen...</i>"
+
+msgid "code"
+msgstr "Teksti <b>password.php</b>-tiedostoon:"
+
+msgid "install05_title"
+msgstr "Kirjaudu sis‰‰n"
+
+msgid "install05_instructions"
+msgstr "Anna k‰ytt‰j‰tunnuksesi ja salasanasi"
+
+msgid "install05_success"
+msgstr "<h2>Onnittelut!</h2>Olet kirjautunut sis‰‰n.<p />  				Paina seuraavaa linkki‰ p‰‰st‰ksesi <b>Asetukset</b>-sivulle, jossa voit muokata blogiasi.<p />  				<i>Huomautus: Kun olet nyt suorittanut asennusprosessin, on suositeltavaa poistaa <b>installXX.php</b>-tiedostot www-palvelimelta (esim. install00.php - install06.php -tiedostot). Tee varmuuskopiot kovalevyllesi.</i><p />"
+
+msgid "install05_wrong_password"
+msgstr "<h2>Varoitus!</h2>Kirjautuminen ep‰onnistui. varmista, ett‰ kirjoitit k‰ytt‰j‰tunnuksen ja salasanan oikein.<p />"
+
+msgid "install05_form_error"
+msgstr "T‰yt‰ k‰ytt‰j‰tunnus- ja salasanakent‰t."
+
+msgid "btn_try_again"
+msgstr "[ Yrit‰ uudelleen ]"
+
+msgid "install06_title"
+msgstr "Kirjaudu sis‰‰n"
+
+msgid "install06_instructions"
+msgstr "Anna k‰ytt‰j‰tunnuksesi ja salasanasi"
+
+msgid "install06_success"
+msgstr "<h2>Onnittelut!</h2>Olet kirjautunut sis‰‰n.<p />  				Paina seuraavaa linkki‰ p‰‰st‰ksesi <b>Asetukset</b>-sivulle, jossa voit muokata blogiasi.<p />  				<i>Huomautus: Kun olet nyt suorittanut asennusprosessin, on suositeltavaa poistaa <b>installXX.php</b>-tiedostot www-palvelimelta (esim. install00.php - install06.php -tiedostot). Tee varmuuskopiot kovalevyllesi.</i><p />"
+
+msgid "install06_wrong_password"
+msgstr "<h2>Varoitus!</h2>Kirjautuminen ep‰onnistui. varmista, ett‰ kirjoitit k‰ytt‰j‰tunnuksen ja salasanan oikein.<p />"
+
+msgid "install06_form_error"
+msgstr "T‰yt‰ k‰ytt‰j‰tunnus- ja salasanakent‰t."
+
+msgid "setup_title"
+msgstr "Asetukset"
+
+msgid "setup_instructions"
+msgstr "Voit muuttaa blogin nimen ja muut henkilˆkohtaiset asetukset."
+
+msgid "blog_title"
+msgstr "Blogin nimi:"
+
+msgid "blog_author"
+msgstr "Omistaja:"
+
+msgid "blog_email"
+msgstr "Email: (Separate email address should be separated by a , comma - blank disables Contact Me option)"
+
+msgid "blog_avatar"
+msgstr "Avatarin URL: (J‰t‰ tyhj‰ksi, jos ei ole)."
+
+msgid "blog_footer"
+msgstr "Mietelause:"
+
+msgid "blog_enable_comments"
+msgstr "Salli kommentit"
+
+msgid "blog_comments_popup"
+msgstr "Avaa kommentit popup-ikkunassa"
+
+msgid "blog_enable_voting"
+msgstr "Salli k‰ytt‰jien arvostella tekstej‰"
+
+msgid "blog_enable_cache"
+msgstr "Enable Blog Entry Cache (may provide speed increase on some servers)"
+
+msgid "blog_enable_calendar"
+msgstr "Kalenteri/arkisto k‰ytˆss‰"
+
+msgid "blog_enable_archives"
+msgstr "Enable Archives Block"
+
+msgid "blog_enable_counter"
+msgstr "Enable Counter in Sidebar"
+
+msgid "blog_counter_hours"
+msgstr "Number of hours to delay before hits are counted again (based on specific ip address):"
+
+msgid "blog_enable_login"
+msgstr "Enable Login Link (Please bookmark 'login.php' first...)"
+
+msgid "blog_enable_title"
+msgstr "Tekstirivi kuvan alla (Ota ruksi pois, jos haluat, ett‰ blogin nimi ei n‰y yl‰kuvan alla)"
+
+msgid "blog_enable_permalink"
+msgstr "Enable Permalink on Blog Entries"
+
+msgid "blog_enable_capcha"
+msgstr "Enable Anti-Spam"
+
+msgid "blog_footer_counter"
+msgstr "Enable Counter in Footer"
+
+msgid "blog_enable_capcha_image"
+msgstr "Anti-Spam Images (GD library only) / Anti-Spam Text Field"
+
+msgid "blog_enable_stats"
+msgstr "N‰yt‰ tilastot valikossa"
+
+msgid "blog_enable_lastcomments"
+msgstr "N‰yt‰ uusimmat kommentit -lista"
+
+msgid "blog_enable_lastentries"
+msgstr "N‰yt‰ uusimmat tekstit -lista"
+
+msgid "blog_email_notification"
+msgstr "L‰het‰ s‰hkˆposti-ilmoitus aina uuden kommentin ilmestyess‰."
+
+msgid "blog_send_pings"
+msgstr "Send weblog &quot;pings&quot;"
+
+msgid "blog_ping_urls"
+msgstr "Enter full URL (i.e. http://rpc.weblogs.com/RPC2) of service to &quot;ping&quot;.<br />(You can enter more than one address separated by commas.)"
+
+msgid "blog_trackback_about"
+msgstr "Trackback provides a method of notification between blogs. Let another  					blog know that you are linking to them by sending them a trackback ping. See who is linking to   					your blog by receiving trackback pings.<br />  				   You can either enter the URIs to ping manually, or try to do it automatically through   				   Auto-Discovery."
+
+msgid "blog_trackback_enabled"
+msgstr "Enable trackback in my blog"
+
+msgid "blog_trackback_auto_discovery"
+msgstr "Enable Auto-Discovery when submitting a post containing URLs"
+
+msgid "blog_max_entries"
+msgstr "Maximum Entries to Display:"
+
+msgid "blog_comment_tags"
+msgstr "Merkit, jotka ovat sallittuja kommenteissa:"
+
+msgid "blog_gzip_about"
+msgstr "  					PHP:n versiosta 4.0.4, PHP ohjelmat ovat voineet tallentaa ja avaata GZIP-muotoon (.gz) pakattuja tiedostoja, jotka s‰‰st‰v‰t levytilaa. PHP voi myˆs hetkellisesti pakata sivut, jotka l‰hetet‰‰n selaimelle, mik‰li selain tukee gzip-pakkausta verkon yli.<br />  					<br />  					Zlib-tukea ei oteta k‰yttˆˆn automaattisesti. Jos valintalaatikot ovat harmaana, PHP-versiosi ei tue Zlib-laajennusta."
+
+msgid "blog_enable_gzip_txt"
+msgstr "K‰yt‰ GZIP-pakkausta tietokantatiedostoille"
+
+msgid "blog_enable_gzip_output"
+msgstr "K‰yt‰ GZIP-pakkausta HTTP-tiedostoille (vaatii selaimen tuen)"
+
+msgid "setup_error"
+msgstr "<h2>Virhe!</h2>Muutoksia ei tallennettu. Ongelma tallennuksessa.<br /><br />Palvelinraportti:<br />"
+
+msgid "setup_form_error"
+msgstr "T‰yt‰ blogin nimi- ja omistajakent‰t."
+
+msgid "label_entry_order"
+msgstr "Tekstien j‰rjestys:"
+
+msgid "select_new_to_old"
+msgstr "Listaa uusin ensin"
+
+msgid "select_old_to_new"
+msgstr "Listaa vanhin ensin"
+
+msgid "label_comment_order"
+msgstr "Kommenttien j‰rjestys:"
+
+msgid "cal_sunday"
+msgstr "Sunnuntai"
+
+msgid "cal_monday"
+msgstr "Maanantai"
+
+msgid "label_calendar_start"
+msgstr "Kalenteriviikon ensimm‰inen p‰iv‰"
+
+msgid "title_sidebar"
+msgstr "Sivupalkki"
+
+msgid "title_comments"
+msgstr "Kommentit"
+
+msgid "title_trackback"
+msgstr "Trackbacks"
+
+msgid "title_compression"
+msgstr "Pakkaus"
+
+msgid "title_entries"
+msgstr "Tekstit"
+
+msgid "title_general"
+msgstr "Yleiset"
+
+msgid "title_language"
+msgstr "Kieli"
+
+msgid "blog_comment_days_expiry"
+msgstr "Comments Allowed For How Many Days? (0 means no expiry)"
+
+msgid "options_title"
+msgstr "Ajan asetukset"
+
+msgid "options_instructions"
+msgstr "K‰yt‰ alla olevaa kaavaketta muuttaaksesi p‰iv‰m‰‰r‰merkint‰‰ tekstien ja kommenttien yhteydess‰. Voit valita 12- tai 24-tuntisen kellon sek‰ lyhyen tai pitk‰n p‰iv‰m‰‰r‰merkinn‰n. <b>Esikatselu</b>-ikkuna p‰ivittyy automaattisesti n‰ytt‰en, millaisessa muodossa aika n‰kyy jatkossa (p‰iv‰m‰‰r‰ voi olla v‰‰r‰)."
+
+msgid "ldate_title"
+msgstr "Pitk‰ p‰iv‰m‰‰r‰formaatti:"
+
+msgid "weekday"
+msgstr "Viikonp‰iv‰"
+
+msgid "none"
+msgstr "Ei mit‰‰n"
+
+msgid "sdate_title"
+msgstr "Lyhyt p‰iv‰m‰‰r‰formaatti:"
+
+msgid "s_month"
+msgstr "Kuukausi"
+
+msgid "s_mon"
+msgstr "MMM"
+
+msgid "s_day"
+msgstr "P‰iv‰"
+
+msgid "s_year"
+msgstr "Vuosi"
+
+msgid "zero_day"
+msgstr "Nolla p‰iv‰m‰‰r‰n edess‰"
+
+msgid "show_century"
+msgstr "N‰yt‰ vuosisata"
+
+msgid "time_title"
+msgstr "Aikaformaatti:"
+
+msgid "12hour"
+msgstr "12-tuntinen kello"
+
+msgid "24hour"
+msgstr "24-tuntinen kello"
+
+msgid "before_noon"
+msgstr "Ennen puoltap‰iv‰‰"
+
+msgid "after_noon"
+msgstr "Puolen p‰iv‰n j‰lkeen"
+
+msgid "date_title"
+msgstr "P‰iv‰m‰‰r‰n n‰yttˆ:"
+
+msgid "long_date"
+msgstr "Pitk‰ p‰iv‰m‰‰r‰"
+
+msgid "short_date"
+msgstr "Lyhyt p‰iv‰m‰‰r‰"
+
+msgid "time"
+msgstr "Aika"
+
+msgid "menu_title"
+msgstr "Valikoissa k‰ytett‰v‰ p‰iv‰m‰‰r‰formaatti:"
+
+msgid "zero_month"
+msgstr "Nolla kuukauden edess‰"
+
+msgid "zero_hour"
+msgstr "Nolla tunnin edess‰"
+
+msgid "separator"
+msgstr "Erottaja:"
+
+msgid "preview"
+msgstr "Esikatselu:"
+
+msgid "server_offset"
+msgstr "Palvelimen aikaerotus:"
+
+msgid "options_error"
+msgstr "<h2>Virhe!</h2>Tietoja ei tallennettu. Ongelma tiedon tallennuksessa.<br /><br />Palvelinraportti:<br />"
+
+msgid "upload_img_title"
+msgstr "Lis‰‰ kuva"
+
+msgid "upload_img_instructions"
+msgstr "Paina oheista painiketta lis‰‰ksesi kuvan."
+
+msgid "select_file"
+msgstr "Valitse tiedosto:"
+
+msgid "upload_btn"
+msgstr "Lataa"
+
+msgid "upload_img_error"
+msgstr "<h2>Virhe!</h2>Kuvan lataus ep‰onnistui. Ohessa virheilmoitus:<br /><br />Palvelinraportti:<br />"
+
+msgid "themes_title"
+msgstr "Teemat"
+
+msgid "themes_instructions"
+msgstr "Use the drop-down menu to select a different theme."
+
+msgid "choose_theme"
+msgstr "Themes:"
+
+msgid "themes_error"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your information.<br /><br />Server Reported:<br />"
+
+msgid "search_result_title"
+msgstr "Etsinn‰n tulokset"
+
+msgid "search_result_instructions"
+msgstr "Etsinn‰n tulos <b>%string</b>:"
+
+msgid "not_found"
+msgstr "Ei lˆytynyt"
+
+msgid "contact_capcha"
+msgstr "Anti-Spam: Kirjoita alla oleva numerosarja tyhj‰‰n tekstilaatikkoon "
+
+msgid "contact_title"
+msgstr "Ota yhteytt‰"
+
+msgid "contact_instructions"
+msgstr "T‰yt‰ seuraava kaavake:"
+
+msgid "contact_form_error"
+msgstr "Ole hyv‰, t‰yt‰ aihe- ja kommenttiosiot."
+
+msgid "subject"
+msgstr "Aihe:"
+
+msgid "contact_success"
+msgstr "<h2>Onnistui!</h2>Viestisi on l‰hetetty.<p />"
+
+msgid "failure"
+msgstr "<h2>Virhe!</h2>Viesti‰si ei l‰hetetty, koska Anti Spam -kohta j‰i t‰ytt‰m‰tt‰.<p />"
+
+msgid "contactsent"
+msgstr "Contact sent through: "
+
+msgid "errorpage-nocookies_title"
+msgstr "HTTP Error 403.8 - Sivun/toiminnon suoritus estetty"
+
+msgid "errorline1"
+msgstr "The page or function you attempted to process requires the use of cookies."
+
+msgid "errorline2"
+msgstr "Restore cookie functionality within your browser or protection software and attempt your request again."
+
+msgid "clientid"
+msgstr "Client ID: "
+
+msgid "trackbacks_title"
+msgstr "Trackbacks"
+
+msgid "trackbacks_header"
+msgstr "Trackback URL for this entry:"
+
+msgid "trackbacks_error_add"
+msgstr "Error storing trackback data."
+
+msgid "stats_title"
+msgstr "Tilastot"
+
+msgid "general"
+msgstr "Yleisesti"
+
+msgid "entry_info"
+msgstr "<b>%s</b> teksti‰, joissa <b>%s</b> sanaa tallennettuna <b>%s</b> tavuun"
+
+msgid "comment_info"
+msgstr "<b>%s</b> kommenttia, joissa <b>%s</b> sanaa tallennettuna <b>%s</b> tavuun"
+
+msgid "trackback_info"
+msgstr "<b>%s</b> trackbacks stored in <b>%s</b> bytes"
+
+msgid "static_info"
+msgstr "<b>%s</b> sivua, joissa <b>%s</b> sanaa tallennettuna <b>%s</b> tavuun"
+
+msgid "most_viewed_entries"
+msgstr "10 luetuinta teksti‰"
+
+msgid "most_commented_entries"
+msgstr "10 eniten kommentteja ker‰nnytt‰ teksti‰"
+
+msgid "most_trackbacked_entries"
+msgstr "10 Most trackbacked entries"
+
+msgid "vote_info"
+msgstr "<b>%s</b> ‰‰nt‰ tallennettuna <b>%s</b> tavuun"
+
+msgid "most_voted_entries"
+msgstr "10 ‰‰netetyint‰ teksti‰"
+
+msgid "most_rated_entries"
+msgstr "10 arvioiduinta teksti‰"
+
+msgid "403.8"
+msgstr "HTTP Error 403.8 - Sivun/toiminnon lataus estetty"
+
+msgid "404"
+msgstr "HTTP Error 404 - Sivua/toimintoa ei ole"
+
+msgid "error_404"
+msgstr "Sivua tai toimintoa, jota yritit suorittaa, ei ole."
+
+msgid "error_javascript"
+msgstr "Sivu tai toiminto, jota yritit suorittaa, tarvitsee javascript-komponentin toimiakseen."
+
+msgid "error_emailnotsent"
+msgstr "Viestin l‰hetys ep‰onnistui."
+
+msgid "error_emailnotsentcapcha"
+msgstr "Viesti, jonka yritit l‰hett‰‰ ei l‰htenyt, koska anti-spam-toiminto esti sen. Sinun olisi pit‰nyt t‰ytt‰‰ kaavakkeen anti-spam-kohta."
+
+msgid "emoticons_title"
+msgstr "Muokkaa hymiˆit‰"
+
+msgid "emoticons_instructions"
+msgstr "  					Valitse hymiˆt, joita haluat k‰ytett‰v‰n. Kirjoita laatikkoon merkit, jotka haluat hymiˆill‰ korvattavan. Mik‰li haluat lis‰t‰ useamman merkkijonon, erottele ne v‰lilyˆnnell‰.<br /><br />  		  					Esimerkiksi:<br />  					:) :-) :SMILE: :HAPPY:<br /><br />  					  					<i>(On suositeltavaa, ett‰ luot merkkijonot pidemmiksi kuin kaksi (2) merkki‰,   					n‰in v‰ltyt‰‰n sekaannuksilta.)</i>"
+
+msgid "upload_instructions"
+msgstr "Lis‰‰ uusi hymiˆ:"
+
+msgid "upload_success"
+msgstr "Onnistui! Kuva lis‰ttiin onnistuneesti!"
+
+msgid "upload_error"
+msgstr "Virhe! Kuvaa ei lis‰tty."
+
+msgid "upload_invalid"
+msgstr "Virhe! V‰‰r‰nmuotoinen kuvatiedosto. Kuvan tulee olla png-, jpg- tai gif-muotoinen."
+
+msgid "save_success"
+msgstr "Hymiˆasetukset tallennettu onnistuneesti!"
+
+msgid "save_error"
+msgstr "Virhe! Hymiˆasetuksia ei tallennettu."
+
+msgid "save_button"
+msgstr "Tallenna hymiˆt"
+

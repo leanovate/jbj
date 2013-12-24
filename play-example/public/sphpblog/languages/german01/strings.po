@@ -1,0 +1,1266 @@
+msgid "language"
+msgstr "german"
+
+msgid "locale"
+msgstr "Array"
+
+msgid "rss_locale"
+msgstr "de-DE"
+
+msgid "html_charset"
+msgstr "ISO-8859-1"
+
+msgid "php_charset"
+msgstr "ISO-8859-1"
+
+msgid "menu_links"
+msgstr "Links"
+
+msgid "menu_home"
+msgstr "Startseite"
+
+msgid "menu_contact"
+msgstr "Kontakt"
+
+msgid "menu_stats"
+msgstr "Statistik"
+
+msgid "menu_calendar"
+msgstr "Calendar"
+
+msgid "menu_archive"
+msgstr "Archiv"
+
+msgid "menu_viewarchives"
+msgstr "View Archives"
+
+msgid "menu_menu"
+msgstr "Menü"
+
+msgid "menu_add"
+msgstr "Eintrag hinzufügen"
+
+msgid "menu_add_static"
+msgstr "Statische Seite hinzufügen"
+
+msgid "menu_upload"
+msgstr "Bild hochladen"
+
+msgid "menu_setup"
+msgstr "Einstellungen"
+
+msgid "menu_categories"
+msgstr "Kategorien"
+
+msgid "menu_info"
+msgstr "Informationen"
+
+msgid "menu_options"
+msgstr "Optionen"
+
+msgid "menu_themes"
+msgstr "Theme"
+
+msgid "menu_colors"
+msgstr "Farben"
+
+msgid "menu_change_login"
+msgstr "Benutzerdaten"
+
+msgid "menu_logout"
+msgstr "[ Abmelden ]"
+
+msgid "menu_login"
+msgstr "[ Anmelden ]"
+
+msgid "menu_most_recent"
+msgstr "Die neuesten Kommentare"
+
+msgid "menu_most_recent_entries"
+msgstr "Die neuesten Einträge"
+
+msgid "menu_most_recent_trackback"
+msgstr "Die neuesten Trackbacks"
+
+msgid "menu_add_block"
+msgstr "Blöcke"
+
+msgid "menu_emoticons"
+msgstr "Emoticons"
+
+msgid "menu_avatar"
+msgstr "Avatar"
+
+msgid "counter_today"
+msgstr "Today:"
+
+msgid "counter_yesterday"
+msgstr "Yesterday:"
+
+msgid "counter_totalsidebar"
+msgstr "Total:"
+
+msgid "counter_title"
+msgstr "Counter Totals"
+
+msgid "home"
+msgstr "Zurück zur Startseite"
+
+msgid "nav_next"
+msgstr "Weiter"
+
+msgid "nav_back"
+msgstr "Zurück"
+
+msgid "search_title"
+msgstr "Suche:"
+
+msgid "search_go"
+msgstr "Los!"
+
+msgid "page_generated_in"
+msgstr "Seite in %s Sekunden generiert"
+
+msgid "counter_total"
+msgstr "Site Views: "
+
+msgid "read_more"
+msgstr "Read More..."
+
+msgid "sb_months"
+msgstr "Array"
+
+msgid "sb_default_title"
+msgstr "Kein Titel"
+
+msgid "sb_default_author"
+msgstr "Kein Autor"
+
+msgid "sb_default_footer"
+msgstr "Keine Fußzeile"
+
+msgid "sb_edit"
+msgstr "Ändern"
+
+msgid "sb_delete"
+msgstr "Löschen"
+
+msgid "sb_permalink"
+msgstr "Permalink"
+
+msgid "sb_trackback"
+msgstr "Trackbacks"
+
+msgid "sb_relatedlink"
+msgstr "Related Link"
+
+msgid "sb_add_comment_btn"
+msgstr "Kommentar hinzufügen"
+
+msgid "sb_comment_btn_number_first"
+msgstr "1"
+
+msgid "sb_comment_btn"
+msgstr "Kommentar"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr "1"
+
+msgid "sb_comments_plural_btn"
+msgstr "Kommentare"
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_post"
+msgstr " mal angeschaut"
+
+msgid "sb_view_counter_plural_pre"
+msgstr ""
+
+msgid "sb_view_counter_plural_post"
+msgstr " mal angeschaut"
+
+msgid "sb_add_link_btn"
+msgstr "+ Link"
+
+msgid "sb_rate_entry_btn"
+msgstr "Hier klicken um Eintrag zu bewerten"
+
+msgid "label_subject"
+msgstr "Titel:"
+
+msgid "label_insert"
+msgstr "Spezial-Code einfügen:"
+
+msgid "btn_bold"
+msgstr " b "
+
+msgid "btn_italic"
+msgstr " i "
+
+msgid "btn_image"
+msgstr "img"
+
+msgid "btn_url"
+msgstr "url"
+
+msgid "btn_readmore"
+msgstr "read more"
+
+msgid "view_images"
+msgstr "Vorschau der hochgeladenen Bilder (Bilderliste)"
+
+msgid "label_entry"
+msgstr "Eintrag:"
+
+msgid "btn_preview"
+msgstr "Vorschau"
+
+msgid "btn_post"
+msgstr "Eintrag speichern"
+
+msgid "file_name"
+msgstr "Statischer Dateiname: (keine Leerzeichen / ohne Dateiendung)"
+
+msgid "insert_styles"
+msgstr "Den zu formatierenden Text eingeben."
+
+msgid "insert_image"
+msgstr "Die URL für das Bild eingeben."
+
+msgid "insert_url1"
+msgstr "Den anzuzeigenden Text für den Link eingeben (optional)."
+
+msgid "insert_url2"
+msgstr "Die vollständige URL für den Link eingeben."
+
+msgid "insert_url3"
+msgstr "Öffne URL in einem neuen Fenster (optional):"
+
+msgid "add_form_error"
+msgstr "Bitte die Felder Betreff und Eintrag vervollständigen."
+
+msgid "insert_image_optional"
+msgstr "Optional:"
+
+msgid "insert_image_width"
+msgstr "Breite (optional):"
+
+msgid "insert_image_height"
+msgstr "Höhe (optional):"
+
+msgid "insert_image_popup"
+msgstr "Beim Anklicken Bild in voller Größe als Pop-Up anzeigen (optional):"
+
+msgid "insert_image_float"
+msgstr "Schwebend (optional):"
+
+msgid "day"
+msgstr "Day"
+
+msgid "month"
+msgstr "Month"
+
+msgid "year"
+msgstr "Year"
+
+msgid "hour"
+msgstr "Hour"
+
+msgid "minute"
+msgstr "Minute"
+
+msgid "second"
+msgstr "Second"
+
+msgid "add_title"
+msgstr "Eintrag hinzufügen"
+
+msgid "add_instructions"
+msgstr "<p>Bereit zum Bloggen? Formular ausfüllen und auf 'Vorschau' klicken um zu sehen, wie der Eintrag aussehen wird; Oder auf 'Eintrag speichern', um den Eintrag zu veröffentlichen.</p>"
+
+msgid "title_ad"
+msgstr "Trackback Pings bestätigen"
+
+msgid "instructions_ad"
+msgstr "<p>Dies sind die automatisch erkannten URLs, welche angepingt werden sollen. Unerwünschte URLs müssen unten abgewählt werden. Danach 'OK' drücken, um die angewählten URLs anzupingen oder 'Abbruch', um überhaupt keine anzupingen.</p>"
+
+msgid "label_tb_ping"
+msgstr "Zu sendende Trackback Pings (durch Komma getrennt)"
+
+msgid "label_tb_autodiscovery"
+msgstr "Auto-Erkennung"
+
+msgid "label_relatedlink"
+msgstr "Related Link"
+
+msgid "label_categories"
+msgstr "Category List"
+
+msgid "add_instructions_update"
+msgstr "<p>Der Eintrag kann in dem unteren Formular geändert werden. Zum Abschluß auf 'Vorschau' oder 'Abschicken' drücken.</p>"
+
+msgid "ok_btn"
+msgstr "OK"
+
+msgid "cancel_btn"
+msgstr "Abbruch"
+
+msgid "add_error"
+msgstr "<h2>Hoppla!</h2><p>Eintrag nicht gespeichert. Es gab ein Problem beim Speichern dieses Eintrags.</p>Server meldet:<br />"
+
+msgid "add_static_form_error"
+msgstr "Bitte Titel, Eintrag und Dateinamen vervollständigen."
+
+msgid "add_static_title"
+msgstr "Statische Seite hinzufügen"
+
+msgid "add_static_instructions"
+msgstr "<p>Das Formular ausfüllen, um eine statische Seite zu erzeugen. Anders als bei einem Blog Eintrag, erscheinen statische Seiten als Links im Menü. Sie sind für Seiten gedacht, die immmer verfügbar sein sollen, wie etwa: Über mich, Kontakt, Termine, etc.</p>  				<p>Auf 'Vorschau' klicken, um zu sehen, wie der Eintrag aussehen wird, oder auf 'speichern' klicken, um den Eintrag zu speichern.</p>"
+
+msgid "add_static_instructions_update"
+msgstr "<p>Die statische Seite kann in dem unteren Formular geändert werden. Zum Abschluß auf 'Vorschau' oder 'Abschicken' drücken.</p>"
+
+msgid "add_static_error"
+msgstr "<h2>Hoppla!</h2><p>Eintrag nicht gespeichert. Es gab ein Problem beim Speichern dieses Eintrags.</p>Server meldet:<br />"
+
+msgid "comments_form_error"
+msgstr "Bitte Namens- und Kommentarfeld vervollständigen."
+
+msgid "name"
+msgstr "Name:"
+
+msgid "email"
+msgstr "Email:"
+
+msgid "homepage"
+msgstr "Homepage:"
+
+msgid "comment"
+msgstr "Comment:"
+
+msgid "IPAddress"
+msgstr "IP Address:"
+
+msgid "useragent"
+msgstr "User Agent:"
+
+msgid "wrote"
+msgstr "<i>On %s, %s wrote:</i><br /> <br /> %s"
+
+msgid "commentposted"
+msgstr "New comment posted at: "
+
+msgid "comment_capcha"
+msgstr "Anti-Spam: Enter "
+
+msgid "comments_title"
+msgstr "Kommentare"
+
+msgid "comments_header"
+msgstr "Kommentar hinzufügen"
+
+msgid "comments_instructions"
+msgstr "<p>Bitte das Formular ausfüllen, um Deinen Kommentar hinzuzufügen.</p>"
+
+msgid "comment_name"
+msgstr "Dein Name:"
+
+msgid "comment_email"
+msgstr "E-Mail:"
+
+msgid "comment_url"
+msgstr "URL:"
+
+msgid "comment_remember"
+msgstr "Meine Daten merken:"
+
+msgid "comment_text"
+msgstr "Kommentar:"
+
+msgid "post_btn"
+msgstr "Kommentar speichern"
+
+msgid "delete_btn"
+msgstr "löschen"
+
+msgid "expired_comment1"
+msgstr "We are sorry. New comments are not allowed after "
+
+msgid "expired_comment2"
+msgstr " days."
+
+msgid "blacklisted"
+msgstr "Sorry, your IP address has been banned. Comments not allowed."
+
+msgid "comments_error_add"
+msgstr "<h2>Hoppla!</h2><p>Kommentar nicht gespeichert. Es gab ein Problem beim Speichern dieses Eintrags.</p>Server meldet:<br />"
+
+msgid "comments_error_delete"
+msgstr "<h2>Hoppla!</h2><p>Kommentar nicht gelöscht. Es gab ein Problem beim Löschen dieses Kommentars.</p>Server meldet:<br />"
+
+msgid "add_block_form_error"
+msgstr "Bitte das Namensfeld vervollständigen."
+
+msgid "add_block_title"
+msgstr "Blöcke hinzufügen / verwalten"
+
+msgid "add_block_instructions"
+msgstr "<p>Eigenen Block hinzufügen.</p>"
+
+msgid "up"
+msgstr "hoch"
+
+msgid "down"
+msgstr "runter"
+
+msgid "edit"
+msgstr "ändern"
+
+msgid "delete"
+msgstr "löschen"
+
+msgid "block_name"
+msgstr "Block Name:"
+
+msgid "block_content"
+msgstr "Block Inhalt:"
+
+msgid "add_block_instructions_edit"
+msgstr "<p>Momentan editierter Block:</p>"
+
+msgid "add_block_instructions_modify"
+msgstr "<p>Unten klicken, um den Block zu ändern:</p>"
+
+msgid "add_block_submit_btn_edit"
+msgstr "Block ändern"
+
+msgid "add_block_submit_btn_add"
+msgstr "Block hinzufügen"
+
+msgid "static_pages"
+msgstr "Statische Seiten:"
+
+msgid "add_link_title"
+msgstr "Links hinzufügen / verwalten"
+
+msgid "add_link_instructions"
+msgstr "<p>Hier lassen sich Links auf andere Seiten hinzufügen. Formular unten ausfüllen und auf 'Link hinzufügen' klicken. Mit 'hoch' und 'runter' kann man die Reihenfolge der Links ändern. Einträge lassen sich mit dem 'ändern' bearbeiten oder mit 'löschen' entfernen.</p>"
+
+msgid "link_name"
+msgstr "Link Name:"
+
+msgid "link_url"
+msgstr "Link URL (optional). Um eine Unterteilung zu erzeugen keinen Text eingeben."
+
+msgid "add_link_instructions_edit"
+msgstr "Folgender Link wird gerade bearbeitet:"
+
+msgid "add_link_instructions_modify"
+msgstr "Unten klicken, um den Link zu ändern:"
+
+msgid "add_link_submit_btn_edit"
+msgstr "Link ändern"
+
+msgid "add_link_submit_btn_add"
+msgstr "Link hinzufügen"
+
+msgid "add_link_form_error"
+msgstr "Namensfeld bitte vervollständigen."
+
+msgid "categories_title"
+msgstr "Kategorien hinzufügen / verwalten"
+
+msgid "categories_instructions"
+msgstr "<p>In dem unteren Formular lassen sich die Kategories ändern und hinzufügen. Jeder Eintrag sollte in dem Format 'Kategoriename (eindeutige Nummer)' sein. Um Hierarchien zu erstellen, die entsprechenden Einträge mit Leerzeichen einrücken.</p>  				<p><b>Beispiel:</b><br />Allgemein (1)<br />Neuigkeit (3)<br />&nbsp;&nbsp;Ankündigung (6)<br />&nbsp;&nbsp;Veranstaltung (5)<br />&nbsp;&nbsp;&nbsp;&nbsp;Verschiedenes (7)<br />Technologie (2)</p>"
+
+msgid "categories_error"
+msgstr "Fehler"
+
+msgid "current_categories"
+msgstr "Aktuelle Kategorien"
+
+msgid "no_categories_found"
+msgstr "Keine Kategorien gefunden"
+
+msgid "category_list"
+msgstr "Liste der Kategorien:"
+
+msgid "validate"
+msgstr "Überprüfen"
+
+msgid "submit_btn"
+msgstr "Speichern"
+
+msgid "colors_title"
+msgstr "Farben ändern"
+
+msgid "colors_instructions"
+msgstr "<p>Hier können Text- und Hintergrundfarbe des Blogs geändert werden.</p>  				<p>Zuerst das zu ändernde Feld wählen und danach die gewünschte Farbe auswählen. Es lassen sich auch fertige Farbschemata laden und neue speichern.</p>"
+
+msgid "bg_color"
+msgstr "Seiten Hintergrund"
+
+msgid "main_bg_color"
+msgstr "Hauptseite Hintergrund"
+
+msgid "border_color"
+msgstr "Seitenrand"
+
+msgid "inner_border_color"
+msgstr "Innerer Rand"
+
+msgid "header_bg_color"
+msgstr "Kopfzeile Hintergrund"
+
+msgid "header_txt_color"
+msgstr "Kopfzeile Text"
+
+msgid "menu_bg_color"
+msgstr "Menü Hintergrund"
+
+msgid "footer_bg_color"
+msgstr "Fußzeile Hintergrund"
+
+msgid "txt_color"
+msgstr "Text"
+
+msgid "headline_txt_color"
+msgstr "Kopfzeile Text"
+
+msgid "date_txt_color"
+msgstr "Datum Text"
+
+msgid "footer_txt_color"
+msgstr "Fußzeile Text"
+
+msgid "link_reg_color"
+msgstr "Link Standard"
+
+msgid "link_hi_color"
+msgstr "Link Hervorgehoben"
+
+msgid "link_down_color"
+msgstr "Link Aktiv"
+
+msgid "entry_bg"
+msgstr "Eintrag Hintergrund"
+
+msgid "entry_title_bg"
+msgstr "Eintrag Titel Hintergrund"
+
+msgid "entry_border"
+msgstr "Eintrag Rand"
+
+msgid "entry_title_text"
+msgstr "Eintrag Titel Text"
+
+msgid "entry_text"
+msgstr "Eintrag Text"
+
+msgid "menu_bg"
+msgstr "Menü Hintergrund"
+
+msgid "menu_title_bg"
+msgstr "Menü Titel Hintergrund"
+
+msgid "menu_border"
+msgstr "Menü Rand"
+
+msgid "menu_title_text"
+msgstr "Menü Titel Text"
+
+msgid "menu_text"
+msgstr "Menü Text"
+
+msgid "menu_link_reg_color"
+msgstr "Menü Link Standard"
+
+msgid "menu_link_hi_color"
+msgstr "Menü Link Hervorgehoben"
+
+msgid "menu_link_down_color"
+msgstr "Menü Link Aktiv"
+
+msgid "theme_doesnt_allow_colors"
+msgstr "The currently selected theme does not allow for custom colors."
+
+msgid "color_preset"
+msgstr "Farbschema laden:"
+
+msgid "scheme_name"
+msgstr "Name für das Farbschema:"
+
+msgid "scheme_file"
+msgstr "Dateiname für das Farbschema (keine Leerzeichen / ohne Dateiendung):"
+
+msgid "save_btn"
+msgstr "Farbschema speichern"
+
+msgid "colors_form_error"
+msgstr "Bitte Namen für das Farbschema eingeben."
+
+msgid "colors_error"
+msgstr "<h2>Hoppla!</h2><p>Eintrag nicht gespeichert. Es gab ein Problem beim Speichern der Farbwahl.</p>Server meldet:<br />"
+
+msgid "delete_title"
+msgstr "Eintrag löschen"
+
+msgid "delete_instructions"
+msgstr "<p>Dieser Eintrag soll gelöscht werden. Bitte sicherstellen, daß dies wirklich der Eintrag ist, den man loswerden will.</p><p>Es gibt keine Möglichkeit das Löschen rückgängig zu machen...</p>"
+
+msgid "delete_error"
+msgstr "<h2>Hoppla!</h2><p>Eintrag nicht gelöscht. Es gab ein Problem beim Löschen dieses Eintrags.</p>Server meldet:<br />"
+
+msgid "delete_static_title"
+msgstr "Statische Seite löschen"
+
+msgid "delete_static_instructions"
+msgstr "Diese statische Seite soll gelöscht werden. Bitte sicherstellen, daß dies wirklich die Seite ist, die man loswerden will. Es gibt keine Möglichkeit das Löschen rückgängig zu machen..."
+
+msgid "delete_static_error"
+msgstr "<h2>Hoppla!</h2><p>Statische Seite nicht gelöscht. Es gab ein Problem beim Löschen dieser statischen Seite.</p>Server meldet:<br />"
+
+msgid "image_list_title"
+msgstr "Bilderliste"
+
+msgid "image_list_instructions"
+msgstr "<p>Um die Bilder anzuschauen auf die unteren Links klicken.</p>  				<p>So wird ein Bild zum Eintrag hinzugefügt:  				<ol>  					<li>Rechte Maustaste auf einem Link und 'Link-Adresse kopieren' auswählen.</li>  					<li>Zurück zur &quot;Eintrag hinzufügen&quot; oder &quot;Eintrag ändern&quot; Seite.</li>  					<li>Auf den 'img' Knopf drücken und die URL im Fenster einfügen.</li>  				</ol></p>"
+
+msgid "info_title"
+msgstr "Meta-Daten Informationen"
+
+msgid "info_instructions"
+msgstr "<p>Die folgenden Informationen werden für die &quot;Meta-Daten&quot; benutzt. Sie helfen den Suchmaschinen die Seite korrekt zu erkennen. Informationen können auch für die RSS Feeds benutzt werden.</p>"
+
+msgid "info_keywords"
+msgstr "Stichwörter: (Liste der Stichwörter mit Komma getrennt.)"
+
+msgid "info_description"
+msgstr "Beschreibung: (Eine Zusammenfassung oder ein freie Beschreibung der Seite.)"
+
+msgid "info_copyright"
+msgstr "Rechte: (Copyright Erklärung oder ein Link zu einem Dokument mit solchen Informationen.)"
+
+msgid "info_error"
+msgstr "<h2>Hoppla!</h2><p>Information nicht gespeichert. Es gab ein Problem beim Speichern der Information.</p>Server meldet:<br />"
+
+msgid "info_form_error"
+msgstr "Bitte Feld für Titel und Autor vervollständigen."
+
+msgid "rating_error"
+msgstr "<h2>Hoppla!</h2><p>Information nicht gespeichert. Es gab ein Problem beim Speichern der Information.</p>Server meldet:<br />"
+
+msgid "upgrade"
+msgstr "<h2>Aktualisierung</h2>"
+
+msgid "upgrade_count"
+msgstr "%n Kommentardateien benötigen ein Aktualisierung:"
+
+msgid "upgrade_url"
+msgstr "Aktualisiere Kommentera"
+
+msgid "login_title"
+msgstr "Anmeldung"
+
+msgid "login_instructions"
+msgstr "<p>Benutzername and Paßwort eingeben</p>"
+
+msgid "username"
+msgstr "Benutzername:"
+
+msgid "password"
+msgstr "Paßwort"
+
+msgid "login_success"
+msgstr "<h2>Anmeldung erfolgreich!</h2><p>Fröhliches bloggen!</p>"
+
+msgid "login_wrong_password"
+msgstr "<h2>Hoppla!</h2><p>Anmeldung fehlgeschlagen. Benutzername und Paßwort auf korrekte Schreibweise überprüfen und es nochmal probieren.</p>"
+
+msgid "login_form_error"
+msgstr "Benutzername und Paßwort vervollständigen."
+
+msgid "logout_title"
+msgstr "Abmelden"
+
+msgid "logout_instructions"
+msgstr "<h2>Hoppla!</h2><p>Abmelden fehlgeschlagen. Cookie konnte nicht gelöscht werden. Immer noch eingeloggt?</p>"
+
+msgid "forms_title"
+msgstr ""
+
+msgid "forms_instructions"
+msgstr ""
+
+msgid "forms_error"
+msgstr "<h2>Hoppla!</h2><p>Information nicht gespeichert. Es gab ein Problem beim Speichern der Information.</p>Server meldet:<br />"
+
+msgid "set_login_title"
+msgstr "Benutzernamen und Paßwort ändern"
+
+msgid "set_login_instructions"
+msgstr "<p>Im unteren Formular kann man den neuen Benutzernamen und das neue Paßwort setzen.</p>"
+
+msgid "set_login_success"
+msgstr "<h2>Erfolgreich!</h2><p>Dein neuer Benutzername und Paßwort sind aktiv. Fröhliches bloggen!</p>"
+
+msgid "set_login_wrong_password"
+msgstr "<h2>Hoppla!</h2><p>Information nicht gesichert. Es gab ein Problem beim Speichern des Benutzernamens und/oder Paßworts.</p>Server meldet:<br />"
+
+msgid "set_login_form_error"
+msgstr "Bitte vervollständige das Benutzernamen- und Paßwort-Feld."
+
+msgid "explanation"
+msgstr "In recent versions, our password structure has changed.  There is no longer a way to update passwords  					and/or logins from inside the blog code.  In order to change your password, delete /config/password.php and make sure install*.php  					exists on the local server.  Once that is done, refresh this page (or logout).  You will be presented with the same script  					to generate your password as you did when originally creating the blog site."
+
+msgid "install00_title"
+msgstr "Willkommen"
+
+msgid "install00_instructions"
+msgstr "<p>Danke für die Wahl von Simple PHP Blog!</p>"
+
+msgid "blog_choose_language"
+msgstr "Bitte die Sprache für die Installation auswählen:"
+
+msgid "install01_title"
+msgstr "Herzlich Willkommen"
+
+msgid "install01_instructions"
+msgstr "<p>Vielen Dank für die Wahl von Simple PHP Blog!</p>  				<p>Simple PHP Blog ist ein schlankes Blogging System. Es benötigt PHP 4.1 oder neuer und Schreibberechtigung auf dem Server. Alle Informationen sind in Textdateien gespeichert, so daß keine Datenbank benötigt wird.</p>  				<p>Zum Beginn muß Simple PHP Blog drei Verzeichisse ('config', 'content' und 'images') erstellen, in denen die Informationen gespeichert werden.</p>"
+
+msgid "begin"
+msgstr "[ Mit der Installation beginnen ]"
+
+msgid "install02_title"
+msgstr "Installation"
+
+msgid "install02_instructions"
+msgstr "<p>Versuche die Verzeichnisse 'config', 'content' und 'images' zu erstellen:</p>"
+
+msgid "folder_exists"
+msgstr "OK! Verzeichnis existiert schon. Keine Änderung gemacht..."
+
+msgid "folder_failed"
+msgstr "Hoppla! Verzeichnis konnte nicht erstellt werden..."
+
+msgid "folder_success"
+msgstr "Erfolg! Verzeichnis wurde erstellt..."
+
+msgid "help"
+msgstr "<h2>Hoppla!</h2>  				<p>Konnte ein odere mehrere Verzeichnisse nicht erstellen! Dies geschah wahrscheinlich aus einem der folgenden Gründen:  				<ol>  					<li><i><b>Schreibberechtigung</b> erlaubt keine <b>Lese-/Schreib-</b>Zugriffe.</i></li>  					<li><i>Die <b>UID</b>s (Benutzer IDs) aller Dateien und Verzeichnisse stimmen nicht überein.</i></li>  				</ol>  				</p>  				<p>Bitte diese Hinweise zur Fehlerbehebung befolgen und erneut versuchen:</p>  				<ol>  					<li>Folgende Verzeichnisse von Hand erzeugen: <b>config</b>, <b>content</b> und <b>images</b>.</li>  					<li><b>Schreibberechtigung</b> für die Verzeichnisse einschalten. Im FTP Programm sollten Owner, User und World <b>Lese-</b> und <b>Schreib-</b>Zugriff haben. <i>(Vielleicht muß man hierfür seinen Provider kontaktieren...)</i></li>  					<li>Sicherstellen, ob die <b>UID</b>s aller Dateien und Verzeichnisse gleich sind. <i>(Vielleicht muß man hierfür seinen Provider kontaktieren...)</i></li>  				</ol>  				</p>"
+
+msgid "try_again"
+msgstr "[ Nochmals versuchen ]"
+
+msgid "install02_success"
+msgstr "<h2>Erfolg!</h2><p>Verzeichnis wurden erstellt!</p>"
+
+msgid "continue"
+msgstr "[ Weiter ]"
+
+msgid "supported"
+msgstr "<b>Your web server supports the following encryption schemes:</b>"
+
+msgid "standard"
+msgstr "Standard DES Encryption: "
+
+msgid "extended"
+msgstr "Extended DES Encryption: "
+
+msgid "MD5"
+msgstr "MD5 Encryption: "
+
+msgid "blowfish"
+msgstr "Blowfish Encryption: "
+
+msgid "enabled"
+msgstr "enabled"
+
+msgid "disabled"
+msgstr "disabled"
+
+msgid "using_standard"
+msgstr "<b>Using Standard DES Encryption...</b>"
+
+msgid "using_extended"
+msgstr "<b>Using Extended DES Encryption...</b>"
+
+msgid "using_MD5"
+msgstr "<b style='color: green;'>Using MD5 Encryption...</b>"
+
+msgid "using_blowfish"
+msgstr "<b style='color: green;'>Using Blowfish Encryption...</b>"
+
+msgid "using_unknown"
+msgstr "<b>Using Unknown Encryption...</b>"
+
+msgid "salt_length"
+msgstr " <i>(Salt Length = %string)</i><br />"
+
+msgid "install03_title"
+msgstr "Benutzernamen und Paßwort erzeugen"
+
+msgid "install03_instructions"
+msgstr "<p>In dem Formular bitte Benutzernamen und Paßwort eingeben. Dieser Benutzer ist berechtigt, Einstellungen im Blog vorzunehmen und Nachrichten einzustellen.</p>"
+
+msgid "install03_success"
+msgstr "<h2>Glückwunsch!</h2><p>Anmeldung erfolgreich. Nun können die Einstellungen vorgenommen werden. Fröhliches bloggen!</p>"
+
+msgid "btn_setup"
+msgstr "[ Zu den Einstellungen ]"
+
+msgid "install03_wrong_password"
+msgstr "<h2>Hoppla!</h2><p>Informationen nicht gespeichert. Es gab ein Problem beim Speichern des Benutzernamens und/oder Paßworts.</p>Server meldet:<br />"
+
+msgid "install03_form_error"
+msgstr "Bitte Benutzernamen- und Paßwort-Feld vervollständigen."
+
+msgid "install04_title"
+msgstr "Create Password File"
+
+msgid "install04_instructions"
+msgstr "Here's the tricky part:<br />  				<ol>  				<li>Open a Text Editor application. <i>(Note Pad, Word Pad, Word, BBEdit, Pico, VI, etc...)</i></li>  				<li>Create a New Text Document.</li>  				<li>Copy and paste the code in the box below into your document.</li>  				<li>Save your file and name it <b>password.php</b> <i>(Be sure to save it in <b>text</b> or <b>plain text</b> format.)</i></li>  				<li>Open a FTP application.</li>  				<li>Upload your new <b>password.php</b> into the <b>config</b> folder on your web site.</li>  				<li>Delete the <b>password.php</b> from your hard drive.</li>  				</ol>  				"
+
+msgid "information"
+msgstr "<i>Note: If you want to reset your username and password (probably because you forgot it), delete the <b>password.php</b> file in the <b>config</b> folder on your web site. The next time you visit your site, it will walk you through this installation process again...</i>"
+
+msgid "code"
+msgstr "Code for <b>password.php</b> file:"
+
+msgid "install05_title"
+msgstr "Login"
+
+msgid "install05_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid "install05_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in.<p />  				Click below to visit the <b>Setup</b> page, where you can personalize your new blog.<p />  				<i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install05_wrong_password"
+msgstr "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your Username and Password correctly and try again.<p />"
+
+msgid "install05_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "btn_try_again"
+msgstr "[ Try Again ]"
+
+msgid "install06_title"
+msgstr "Login"
+
+msgid "install06_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid "install06_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in.<p />  				Click below to visit the <b>Setup</b> page, where you can personalize your new blog.<p />  				<i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install06_wrong_password"
+msgstr "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your Username and Password correctly and try again.<p />"
+
+msgid "install06_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "setup_title"
+msgstr "Einstellungen"
+
+msgid "setup_instructions"
+msgstr "<p>Hier können der Name des Blogs und die persönlichen Informationen geändert werden.</p>  				<p>Desweiteren werden hier die grundlegenden Einstellungen für das Blog vorgenommen.</p>"
+
+msgid "blog_title"
+msgstr "Blog Name:"
+
+msgid "blog_author"
+msgstr "Autor:"
+
+msgid "blog_email"
+msgstr "E-Mail:"
+
+msgid "blog_avatar"
+msgstr "Avatar URL: (Leave blank for none)."
+
+msgid "blog_footer"
+msgstr "Fußzeile:"
+
+msgid "blog_enable_comments"
+msgstr "Besucher können Kommentare schreiben"
+
+msgid "blog_comments_popup"
+msgstr "Kommentare in einem Popup Fenster darstellen"
+
+msgid "blog_enable_cache"
+msgstr "Enable Blog Entry Cache (may provide speed increase on some servers)"
+
+msgid "blog_enable_voting"
+msgstr "Besucher können die Einträge benoten"
+
+msgid "blog_email_notification"
+msgstr "Bei neuen Kommentaren E-Mail Benachrichtigung senden"
+
+msgid "blog_send_pings"
+msgstr "Weblog &quot;pings&quot; senden"
+
+msgid "blog_ping_urls"
+msgstr "Eingabe der vollständigen URL (z.B. http://rpc.weblogs.com/RPC2), die man &quot;anpingen&quot; möchte.<br />(Es könnnen mit Komma getrennt mehrere Adressen eingegeben werden.)"
+
+msgid "blog_trackback_about"
+msgstr "<p>Trackback bietet eine Methode, wie Blogs sich gegenseitig benachrichtigen können.  				Mit einem Trackback Ping wird ein anderes Blog benachrichtigt, daß es von hier verlinkt wird.  				Durch die empfangenen Trackback Pings kann man sehen, wer auf das eigene Blog verweist.</p>  				<p>Man kann die URL von Hand eingeben oder versuchen, es automatisch erkennen lassen.</p>"
+
+msgid "blog_trackback_enabled"
+msgstr "Trackback aktivieren"
+
+msgid "blog_trackback_auto_discovery"
+msgstr "Auto-Erkennung von URLs in Einträgen aktivieren"
+
+msgid "blog_max_entries"
+msgstr "Maximalanzahl der angezeigten Einträge:"
+
+msgid "blog_comment_tags"
+msgstr "In Kommentaren erlaubte Tags:"
+
+msgid "blog_gzip_about"
+msgstr "<p>Seit der Version 4.0.4 von PHP gibt es die Möglichkeit gzip (.gz) komprimierte Dateien zu lesen und zu schreiben.   				Hiermit läßt sich Plattenplatz sparen. Um Bandbreite (Traffic) zu sparen, kann PHP außerdem die HTML Seiten  				automatisch komprimieren. Dies geschieht für die Browser, welche die gzip Komprimierung unterstützen.</p>  				<p>Zlib Unterstützung ist nicht standardmäßig bei PHP aktiviert. Wenn die Ankreuzfelder deaktiviert sind,  				dann unterstützt diese PHP Installation keine Zlib Erweiterung.</p>"
+
+msgid "blog_enable_gzip_txt"
+msgstr "GZIP Kompression für Datenbank Dateien einschalten"
+
+msgid "blog_enable_gzip_output"
+msgstr "GZIP Kompression für HTTP Ausgabe einschalten"
+
+msgid "setup_error"
+msgstr "<h2>Hoppla!</h2>Information nicht gespeichert. Es gab ein Problem beim Speichern der Information.<br /><br />Server meldet:<br />"
+
+msgid "setup_form_error"
+msgstr "Blog Name und Autor vervollständigen."
+
+msgid "label_entry_order"
+msgstr "Reihenfolge der Einträge:"
+
+msgid "select_new_to_old"
+msgstr "Neue Einträge zuerst"
+
+msgid "select_old_to_new"
+msgstr "Alte Einträge zuerst"
+
+msgid "label_comment_order"
+msgstr "Kommentar Reihenfolge:"
+
+msgid "cal_sunday"
+msgstr "Sunday"
+
+msgid "cal_monday"
+msgstr "Monday"
+
+msgid "label_calendar_start"
+msgstr "Calendar Week Start Day"
+
+msgid "blog_enable_calendar"
+msgstr "Enable Calendar / Archives Block"
+
+msgid "blog_enable_archives"
+msgstr "Enable Archives Block"
+
+msgid "blog_enable_counter"
+msgstr "Enable Counter in Sidebar"
+
+msgid "blog_counter_hours"
+msgstr "Number of hours to delay before hits are counted again (based on specific ip address):"
+
+msgid "blog_enable_login"
+msgstr "Enable Login Link (Please bookmark 'login.php' first...)"
+
+msgid "blog_enable_title"
+msgstr "Enable Plain Text Title Block (Clear checkbox if the title is in the header graphic)"
+
+msgid "blog_enable_permalink"
+msgstr "Enable Permalink on Blog Entries"
+
+msgid "blog_enable_capcha"
+msgstr "Enable Anti-Spam"
+
+msgid "blog_footer_counter"
+msgstr "Enable Counter in Footer"
+
+msgid "blog_enable_capcha_image"
+msgstr "Anti-Spam Images (GD library only) / Anti-Spam Text Field"
+
+msgid "blog_enable_stats"
+msgstr "Enable Stats Option in Menu"
+
+msgid "blog_enable_lastcomments"
+msgstr "Enable Most Recent Comments Listing"
+
+msgid "blog_enable_lastentries"
+msgstr "Enable Most Recent Entries Listing"
+
+msgid "title_sidebar"
+msgstr "Sidebar"
+
+msgid "title_comments"
+msgstr "Comments"
+
+msgid "title_trackback"
+msgstr "Trackbacks"
+
+msgid "title_compression"
+msgstr "Compression"
+
+msgid "title_entries"
+msgstr "Entries"
+
+msgid "title_general"
+msgstr "General"
+
+msgid "title_language"
+msgstr "Language"
+
+msgid "blog_comment_days_expiry"
+msgstr "Comments Allowed For How Many Days? (0 means no expiry)"
+
+msgid "options_title"
+msgstr "Optionen"
+
+msgid "options_instructions"
+msgstr "<p>In dem unteren Formular kann man die Datums- und Zeitanzeige für die Blog Einträge und Kommentare ändern. Man kann 12 und 24 Stunden Zeitformat, kurzes oder langes Daum auswählen. Die <b>Vorschau</b> Felder aktualisieren automatisch, um die zukünfitge Formatierung anzuzeigen.</p>"
+
+msgid "ldate_title"
+msgstr "Langes Datum:"
+
+msgid "weekday"
+msgstr "Wochentag"
+
+msgid "none"
+msgstr "Keines davon"
+
+msgid "sdate_title"
+msgstr "Kurzes Datum:"
+
+msgid "s_month"
+msgstr "Monat"
+
+msgid "s_mon"
+msgstr "MMM"
+
+msgid "s_day"
+msgstr "Tag"
+
+msgid "s_year"
+msgstr "Jahr"
+
+msgid "zero_day"
+msgstr "Führende Null für Tag"
+
+msgid "show_century"
+msgstr "Jahrhundert anzeigen"
+
+msgid "time_title"
+msgstr "Zeitformat:"
+
+msgid "12hour"
+msgstr "12-Stunden Format"
+
+msgid "24hour"
+msgstr "24-Stunden Format"
+
+msgid "before_noon"
+msgstr "Vormittag"
+
+msgid "after_noon"
+msgstr "Nachmittag"
+
+msgid "date_title"
+msgstr "Datumsanzeige:"
+
+msgid "long_date"
+msgstr "Langes Datum"
+
+msgid "short_date"
+msgstr "Kurzes Datum"
+
+msgid "time"
+msgstr "Zeit"
+
+msgid "menu_title"
+msgstr "Datumsanzeige im Menü:"
+
+msgid "zero_month"
+msgstr "Führende Null für Monat"
+
+msgid "zero_hour"
+msgstr "Führende Null für Stunde"
+
+msgid "separator"
+msgstr "Trennzeichen:"
+
+msgid "preview"
+msgstr "Vorschau:"
+
+msgid "server_offset"
+msgstr "Zeitabweichung des Servers:"
+
+msgid "options_error"
+msgstr "<h2>Hoppla!</h2>Information nicht gespeichert. Es gab ein Problem beim Speichern der Information.<br /><br />Server meldet:<br />"
+
+msgid "upload_img_title"
+msgstr "Bild hochladen"
+
+msgid "upload_img_instructions"
+msgstr "<p>Auf den unteren Knopf klicken, um ein Bild hochzuladen.</p>"
+
+msgid "select_file"
+msgstr "Datei auswählen:"
+
+msgid "upload_btn"
+msgstr "Bild hochladen"
+
+msgid "upload_img_error"
+msgstr "<h2>Hoppla!</h2><p>Bild konnte nicht hochgeladen werden.</p>Server meldet:<br />"
+
+msgid "themes_title"
+msgstr "Standard Theme ändern"
+
+msgid "themes_instructions"
+msgstr "<p>Benutze das Auswahlmenü um ein anderes Theme zu aktivieren.</p>"
+
+msgid "choose_theme"
+msgstr "Verfügbare Themes:"
+
+msgid "themes_error"
+msgstr "<h2>Hoppla!</h2><p>Information nicht gespeichert. Es gab ein Problem beim Speichern der Information.</p>Server meldet:<br />"
+
+msgid "search_result_title"
+msgstr "Suchergebnisse"
+
+msgid "search_result_instructions"
+msgstr "<p>Suchergebnisse für <b>%string</b>:</p>"
+
+msgid "not_found"
+msgstr "Nichts gefunden"
+
+msgid "contact_title"
+msgstr "Kontakt"
+
+msgid "contact_instructions"
+msgstr "<p>Bitte das Formular ausfüllen:</p>"
+
+msgid "contact_form_error"
+msgstr "Bitte Betreff- und Kommentar-Felder vervollständigen."
+
+msgid "subject"
+msgstr "Betreff:"
+
+msgid "contact_success"
+msgstr "<h2>Erfolg!</h2><p>Die Nachricht wurde versandt.</p>"
+
+msgid "failure"
+msgstr "<h2>Störung!</h2>Ihre Anzeige ist nicht gesendet worden. Am wahrscheinlichsten wurde das Anti- Spam nicht richtig eingetragen.<p />"
+
+msgid "contact_capcha"
+msgstr "Anti-Spam: Kommen Sie herein "
+
+msgid "contactsent"
+msgstr "Contact sent through: "
+
+msgid "errorpage-nocookies_title"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "errorline1"
+msgstr "The page or function you attempted to process requires the use of cookies."
+
+msgid "errorline2"
+msgstr "Restore cookie functionality within your browser or protection software and attempt your request again."
+
+msgid "clientid"
+msgstr "Client ID: "
+
+msgid "trackbacks_title"
+msgstr "Trackbacks"
+
+msgid "trackbacks_header"
+msgstr "Trackback URL für diesen Eintrag:"
+
+msgid "trackbacks_error_add"
+msgstr "Problem beim Speichern der Trackback Daten."
+
+msgid "stats_title"
+msgstr "Statistik"
+
+msgid "general"
+msgstr "Allgemein"
+
+msgid "entry_info"
+msgstr "<b>%s</b> Einträge mit <b>%s</b> Wörtern verbrauchen <b>%s</b> Bytes"
+
+msgid "comment_info"
+msgstr "<b>%s</b> Kommentare mit <b>%s</b> Wörtern verbrauchen <b>%s</b> Bytes"
+
+msgid "trackback_info"
+msgstr "<b>%s</b> Trackbacks verbrauchen <b>%s</b> Bytes"
+
+msgid "static_info"
+msgstr "<b>%s</b> Statische Seiten mit <b>%s</b> Wörtern verbrauchen <b>%s</b> Bytes"
+
+msgid "most_viewed_entries"
+msgstr "Die 10 meist betrachteten Einträge"
+
+msgid "most_commented_entries"
+msgstr "Die 10 meist kommentierten Einträge"
+
+msgid "most_trackbacked_entries"
+msgstr "Die 10 meist verlinkten Eintrage (durch Trackbacks)"
+
+msgid "vote_info"
+msgstr "<b>%s</b> votes stored in <b>%s</b> bytes"
+
+msgid "most_voted_entries"
+msgstr "10 Most voted entries"
+
+msgid "most_rated_entries"
+msgstr "10 Most rated entries"
+
+msgid "403.8"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "404"
+msgstr "HTTP Error 404 - Page/Function Does Not Exist"
+
+msgid "error_404"
+msgstr "The page or function you attempted to process does not exist."
+
+msgid "error_javascript"
+msgstr "The page or function you attempted requires javascript in order to properly function."
+
+msgid "error_emailnotsent"
+msgstr "The message you attempted to send has failed."
+
+msgid "error_emailnotsentcapcha"
+msgstr "The message you attempted to send has failed because the anti-spam entry was incorrect or missing."
+
+msgid "emoticons_title"
+msgstr "Admin Emoticons"
+
+msgid "emoticons_instructions"
+msgstr "  					Check the emoticons you want to use. Write in the box the Tags you want   					to be replaced by the image. Multiple tags may be used, just separated them   					by spaces.<br /><br />  		  					For instance:<br />  					:) :-) :SMILE: :HAPPY:<br /><br />  					  					<i>(It is highly recommended that you make the Tags longer than 2 characters,   					otherwise unexpected substitutions may occur.)</i>"
+
+msgid "upload_instructions"
+msgstr "Upload New Emoticon:"
+
+msgid "upload_success"
+msgstr "Success! Image uploaded successfully!"
+
+msgid "upload_error"
+msgstr "Error! Image was not uploaded."
+
+msgid "upload_invalid"
+msgstr "Error! Invalid image file. Image must be a png, jpg, or gif."
+
+msgid "save_success"
+msgstr "Emoticon preferences saved successfully!"
+
+msgid "save_error"
+msgstr "Error! Emoticon preferences not saved."
+
+msgid "save_button"
+msgstr "Save Emoticons"
+

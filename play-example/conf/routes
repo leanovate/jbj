@@ -10,3 +10,6 @@ GET         /assets/*file                           controllers.Assets.at(path="
 
 GET         /php/$file<.*\.php>$pathInfo<(/.*)?>    controllers.JbjPhp.get(path="/public/php", file, pathInfo)
 POST        /php/$file<.*\.php>$pathInfo<(/.*)?>    controllers.JbjPhp.post(path="/public/php", file, pathInfo)
+
+GET         /sphpblog/$file<.*\.php>$pathInfo<(/.*)?>    controllers.JbjPhp.get(path="/public/sphpblog", file, pathInfo)
+POST        /sphpblog/$file<.*\.php>$pathInfo<(/.*)?>    controllers.JbjPhp.post(path="/public/sphpblog", file, pathInfo)

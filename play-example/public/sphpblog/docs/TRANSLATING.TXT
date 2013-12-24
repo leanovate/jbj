@@ -1,0 +1,16 @@
+I am working on a new system for translations.  Here are the steps to translate to your language of choice:
+
+1. Create the directory in "languages."  You can call it whatever you want.
+2. Create a plain text file called id.txt that will show the user a description of your language.  
+Please include the language code, for example, en-US.
+3. (optional) Update the languages/strings.pot template by running pot.php in the languages directory.
+4. From here you can use any GNU gettext compatible tools to generate your .po file.  For example:
+
+  msginit -l en -o languages/english/strings.po -i languages/strings.pot
+
+For those simply updating an existing translation, you can use existing GNU gettext compatible tools:
+
+  msgmerge -U -N languages/english/strings.po languages/strings.pot
+
+5. Create your translated strings in the .po file.
+6. Note that compilation to a .mo file is not necessary for sphpblog.

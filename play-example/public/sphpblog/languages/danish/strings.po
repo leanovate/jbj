@@ -1,0 +1,1266 @@
+msgid "language"
+msgstr "dansk"
+
+msgid "locale"
+msgstr "Array"
+
+msgid "rss_locale"
+msgstr "da-DK"
+
+msgid "html_charset"
+msgstr "ISO-8859-15"
+
+msgid "php_charset"
+msgstr "ISO-8859-15"
+
+msgid "menu_links"
+msgstr "Links"
+
+msgid "menu_home"
+msgstr "Forside"
+
+msgid "menu_contact"
+msgstr "Kontakt mig"
+
+msgid "menu_stats"
+msgstr "Statistik"
+
+msgid "menu_calendar"
+msgstr "Kalender"
+
+msgid "menu_viewarchives"
+msgstr "Vis arkiv"
+
+msgid "menu_archive"
+msgstr "Arkiv"
+
+msgid "menu_menu"
+msgstr "Menu"
+
+msgid "menu_add"
+msgstr "Opret meddelelse"
+
+msgid "menu_add_static"
+msgstr "Opret statisk side"
+
+msgid "menu_upload"
+msgstr "Upload billede"
+
+msgid "menu_setup"
+msgstr "Indstillinger"
+
+msgid "menu_categories"
+msgstr "Kategorier"
+
+msgid "menu_info"
+msgstr "Meta-tags"
+
+msgid "menu_options"
+msgstr "Dato &amp; tid"
+
+msgid "menu_themes"
+msgstr "Temaer"
+
+msgid "menu_colors"
+msgstr "Farver"
+
+msgid "menu_change_login"
+msgstr "Skift login"
+
+msgid "menu_logout"
+msgstr "Log af"
+
+msgid "menu_login"
+msgstr "Log på"
+
+msgid "menu_most_recent"
+msgstr "Nyeste kommentarer"
+
+msgid "menu_most_recent_entries"
+msgstr "Nyeste meddelelser"
+
+msgid "menu_most_recent_trackback"
+msgstr "Nyeste trackbacks"
+
+msgid "menu_add_block"
+msgstr "Blokke"
+
+msgid "menu_emoticons"
+msgstr "Humørikoner"
+
+msgid "menu_avatar"
+msgstr "Displaybillede"
+
+msgid "counter_today"
+msgstr "I dag:"
+
+msgid "counter_yesterday"
+msgstr "I går:"
+
+msgid "counter_totalsidebar"
+msgstr "I alt:"
+
+msgid "counter_title"
+msgstr "Totaler for tæller"
+
+msgid "home"
+msgstr "Tilbage til forside"
+
+msgid "nav_next"
+msgstr "Næste"
+
+msgid "nav_back"
+msgstr "Forrige"
+
+msgid "search_title"
+msgstr "Søg:"
+
+msgid "search_go"
+msgstr "Søg"
+
+msgid "page_generated_in"
+msgstr "Side genereret på %s sekunder"
+
+msgid "counter_total"
+msgstr "Sidevisninger: "
+
+msgid "read_more"
+msgstr "Læs mere..."
+
+msgid "sb_months"
+msgstr "Array"
+
+msgid "sb_default_title"
+msgstr "Ingen titel"
+
+msgid "sb_default_author"
+msgstr "Ingen forfatter"
+
+msgid "sb_default_footer"
+msgstr "Ingen sidefod"
+
+msgid "sb_edit"
+msgstr "rediger"
+
+msgid "sb_delete"
+msgstr "slet"
+
+msgid "sb_permalink"
+msgstr "permalink"
+
+msgid "sb_trackback"
+msgstr "trackbacks"
+
+msgid "sb_relatedlink"
+msgstr "relateret link"
+
+msgid "sb_add_comment_btn"
+msgstr "tilføj kommentar"
+
+msgid "sb_comment_btn_number_first"
+msgstr "1"
+
+msgid "sb_comment_btn"
+msgstr "kommentar"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr "1"
+
+msgid "sb_comments_plural_btn"
+msgstr "kommentarer"
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_post"
+msgstr " visning"
+
+msgid "sb_view_counter_plural_pre"
+msgstr ""
+
+msgid "sb_view_counter_plural_post"
+msgstr " visninger"
+
+msgid "sb_add_link_btn"
+msgstr "+ link"
+
+msgid "sb_rate_entry_btn"
+msgstr "Klik for at vurdere meddelelsen"
+
+msgid "label_subject"
+msgstr "Emne:"
+
+msgid "label_insert"
+msgstr "Indsæt speciel:"
+
+msgid "btn_bold"
+msgstr " f "
+
+msgid "btn_italic"
+msgstr " k "
+
+msgid "btn_image"
+msgstr "bil"
+
+msgid "btn_url"
+msgstr "url"
+
+msgid "btn_readmore"
+msgstr "læs mere"
+
+msgid "view_images"
+msgstr "Vis uploadede billeder"
+
+msgid "label_entry"
+msgstr "Meddelelse:"
+
+msgid "btn_preview"
+msgstr "&nbsp;Vis&nbsp;"
+
+msgid "btn_post"
+msgstr "&nbsp;Gem&nbsp;"
+
+msgid "file_name"
+msgstr "Statisk filnavn: (ingen mellemrum eller filendelse)"
+
+msgid "insert_styles"
+msgstr "Indtast tekst, der skal formateres:"
+
+msgid "insert_image"
+msgstr "Indtast URL til billedet:"
+
+msgid "insert_url1"
+msgstr "Indtast tekst til linket:"
+
+msgid "insert_url2"
+msgstr "Indtast den fulde URL til linket:"
+
+msgid "insert_url3"
+msgstr "Åbn URL i nyt vindue (valgfrit):"
+
+msgid "add_form_error"
+msgstr "Udfyld venligst emne- og meddelelse-felterne."
+
+msgid "insert_image_optional"
+msgstr "Valgfrit:"
+
+msgid "insert_image_width"
+msgstr "Bredde (valgfrit):"
+
+msgid "insert_image_height"
+msgstr "Højde (valgfrit):"
+
+msgid "insert_image_popup"
+msgstr "Vis fuld størrelse i pop-up-vindue ved klik (valgfrit):"
+
+msgid "insert_image_float"
+msgstr "Flydende (valgfrit):"
+
+msgid "day"
+msgstr "Dag"
+
+msgid "month"
+msgstr "Måned"
+
+msgid "year"
+msgstr "År"
+
+msgid "hour"
+msgstr "Time"
+
+msgid "minute"
+msgstr "Minut"
+
+msgid "second"
+msgstr "Sekund"
+
+msgid "add_title"
+msgstr "Tilføj meddelelse"
+
+msgid "add_instructions"
+msgstr "Er du klar til at blogge? Udfyld formularen herunder og klik 'Vis' for at se, hvordan din meddelelse ser ud, eller klik 'Ok' for at gemme meddelelsen."
+
+msgid "title_ad"
+msgstr "Godkend trackback-pings"
+
+msgid "instructions_ad"
+msgstr "Dette er de auto-opdagede URI'er, som vil blive pinget. Hvis du ikke ønsker at pinge en bestemt URI, så fravælg den herunder. Klik på knappen 'Ok' for at pinge de valgte URI'er, eller klik på 'Annuller' for ikke at pinge noget."
+
+msgid "label_tb_ping"
+msgstr "Trackback-ping(s), der skal sendes (adskilt af komma)"
+
+msgid "label_tb_autodiscovery"
+msgstr "auto-opdagelse"
+
+msgid "label_relatedlink"
+msgstr "Relateret link"
+
+msgid "label_categories"
+msgstr "Kategori-liste"
+
+msgid "add_instructions_update"
+msgstr "Du kan ændre din meddelelse ved at udfylde formularen herunder. Klik på 'Vis' eller 'Ok', når du er færdig."
+
+msgid "ok_btn"
+msgstr "&nbsp;Ok&nbsp;"
+
+msgid "cancel_btn"
+msgstr "&nbsp;Annuller&nbsp;"
+
+msgid "add_error"
+msgstr "<h2>Ups!</h2>Meddelelsen blev ikke gemt. Der opstod et problem med at gemme.<br /><br />Serveren sagde:<br />"
+
+msgid "add_static_form_error"
+msgstr "Udfyld venligst emne-, meddelelses- og filnavn-felterne."
+
+msgid "add_static_title"
+msgstr "Tilføj statisk side"
+
+msgid "add_static_instructions"
+msgstr "Udfyld formularen herunder for at lave en statisk side. I modsætning til en normal blog-meddelelse optræder statiske sider som links i menuen til højre og bruges som sider, der altid skal være tilgængelige, fx Om Mig, Kontakt Os, Kalender osv. Klik på 'Vis' for at se, hvordan din side ser ud eller klik på 'Godkend' for at gemme siden."
+
+msgid "add_static_instructions_update"
+msgstr "Du kan ændre din statiske side ved af udfylde formularen herunder. Klik på 'Vis' eller 'Godkend', når du er færdig."
+
+msgid "add_static_error"
+msgstr "<h2>Ups!</h2>Siden blev ikke gemt. Der opstod et problem med at gemme.<br /><br />Serveren sagde:<br />"
+
+msgid "comments_form_error"
+msgstr "Udfyld venligst navn-, kommentar- og anti-spam-felterne."
+
+msgid "name"
+msgstr "Navn:"
+
+msgid "email"
+msgstr "E-mail:"
+
+msgid "homepage"
+msgstr "Hjemmeside:"
+
+msgid "comment"
+msgstr "Kommentar:"
+
+msgid "IPAddress"
+msgstr "IP-adresse:"
+
+msgid "useragent"
+msgstr "Browser:"
+
+msgid "wrote"
+msgstr "<i>Den %s skrev %s:</i><br /> <br /> %s"
+
+msgid "comment_capcha"
+msgstr "Anti-spam: Indtast "
+
+msgid "comments_title"
+msgstr "Kommentarer"
+
+msgid "comments_header"
+msgstr "Tilføj kommentar"
+
+msgid "comments_instructions"
+msgstr "Udfyld formularen herunder for at tilføje dine egne kommentarer."
+
+msgid "comment_name"
+msgstr "Dit navn:"
+
+msgid "comment_email"
+msgstr "E-mail:"
+
+msgid "comment_url"
+msgstr "URL:"
+
+msgid "commentposted"
+msgstr "Ny kommentar skrevet på: "
+
+msgid "comment_remember"
+msgstr "Husk mig:"
+
+msgid "comment_text"
+msgstr "Kommentar:"
+
+msgid "post_btn"
+msgstr "&nbsp;Gem kommentar&nbsp;"
+
+msgid "delete_btn"
+msgstr "slet"
+
+msgid "expired_comment1"
+msgstr "Beklager, men nye kommentarer kan ikke skriver efter "
+
+msgid "expired_comment2"
+msgstr " dage."
+
+msgid "blacklisted"
+msgstr "Beklager, men din IP-adresse er blevet bandlyst. Kommentarer er ikke tilladt."
+
+msgid "comments_error_add"
+msgstr "<h2>Ups!</h2>Kommentaren blev ikke gemt. Der opstod et problem med at gemme.<br /><br />Serveren sagde:<br />"
+
+msgid "comments_error_delete"
+msgstr "<h2>Ups!</h2>Kommentaren blev ikke slettet. Der opstod et problem med at slette.<br /><br />Serveren sagde:<br />"
+
+msgid "add_block_form_error"
+msgstr "Udfyld venligst navn-feltet."
+
+msgid "add_block_title"
+msgstr "Tilføj/rediger blokke"
+
+msgid "add_block_instructions"
+msgstr "Tilføj specielle blokke"
+
+msgid "up"
+msgstr "op"
+
+msgid "down"
+msgstr "ned"
+
+msgid "edit"
+msgstr "rediger"
+
+msgid "delete"
+msgstr "slet"
+
+msgid "block_name"
+msgstr "Navn på blok:"
+
+msgid "block_content"
+msgstr "Indhold af blok:"
+
+msgid "add_block_instructions_edit"
+msgstr "Du redigerer lige nu blokken:"
+
+msgid "add_block_instructions_modify"
+msgstr "Klik herunder for at redigere en blok:"
+
+msgid "add_block_submit_btn_edit"
+msgstr "Rediger blok"
+
+msgid "add_block_submit_btn_add"
+msgstr "Tilføj blok"
+
+msgid "static_pages"
+msgstr "Statiske sider:"
+
+msgid "add_link_title"
+msgstr "Tilføj/rediger links"
+
+msgid "add_link_instructions"
+msgstr "Her kan du tilføje links til andre sites. Udfyld formularen herunder og klik 'Tilføj link' for at tilføje et link. Klik på knapperne 'op' eller 'ned' for at ændre rækkefølgen. Klik på knappen 'rediger' for at redigere et link. Klik på knappen 'slet' for at slette et link."
+
+msgid "link_name"
+msgstr "Link-navn:"
+
+msgid "link_url"
+msgstr "Link-URL: (valgfrit - efterlad tom for at lave en adskilning.)"
+
+msgid "add_link_instructions_edit"
+msgstr "Du er ved at redigere linket:"
+
+msgid "add_link_instructions_modify"
+msgstr "Klik herunder for at redigere et link:"
+
+msgid "add_link_submit_btn_edit"
+msgstr "Rediger link"
+
+msgid "add_link_submit_btn_add"
+msgstr "Tilføj link"
+
+msgid "add_link_form_error"
+msgstr "Udfyld venligst navn-feltet."
+
+msgid "categories_title"
+msgstr "Tilføj/rediger kategorier"
+
+msgid "categories_instructions"
+msgstr "Udfyld formularen herunder for at tilføje og redigere dine kategorier. Hver kategori skal være på følgende format: 'kategorinavn (id-nummer)'. Brug indrykning med mellemrum og til at lave hierarkier med.<br /><br /><b>Eksempel:</b><br />Generelt (1)<br />Nyheder (3)<br />&nbsp;&nbsp;Opslag (6)<br />&nbsp;&nbsp;Events (5)<br />&nbsp;&nbsp;&nbsp;&nbsp;Forskelligt (7)<br />Teknologi(2)<br />"
+
+msgid "categories_error"
+msgstr "Fejl"
+
+msgid "current_categories"
+msgstr "Nuværende kategorier"
+
+msgid "no_categories_found"
+msgstr "Der er ingen kategorier"
+
+msgid "category_list"
+msgstr "Liste over kategorier:"
+
+msgid "validate"
+msgstr "Check"
+
+msgid "submit_btn"
+msgstr "&nbsp;Godkend&nbsp;"
+
+msgid "colors_title"
+msgstr "Skift farver"
+
+msgid "colors_instructions"
+msgstr "Du kan ændre tekst- og baggrundsfarverne for din blog. Vælg et felt herunder, og brug så farvevælgeren til at blande farven. Værdien ændres automatisk."
+
+msgid "bg_color"
+msgstr "Side-baggrund"
+
+msgid "main_bg_color"
+msgstr "Hovedside-baggrund"
+
+msgid "border_color"
+msgstr "Sidekant"
+
+msgid "inner_border_color"
+msgstr "Indvendig kant"
+
+msgid "header_bg_color"
+msgstr "Sidehoved-baggrund"
+
+msgid "header_txt_color"
+msgstr "Sidehoved-tekst"
+
+msgid "menu_bg_color"
+msgstr "Menu-baggrund"
+
+msgid "footer_bg_color"
+msgstr "Sidefod-baggrund"
+
+msgid "txt_color"
+msgstr "Brødtekst"
+
+msgid "headline_txt_color"
+msgstr "Overskrift-tekst"
+
+msgid "date_txt_color"
+msgstr "Dato-tekst"
+
+msgid "footer_txt_color"
+msgstr "Sidefod-tekst"
+
+msgid "link_reg_color"
+msgstr "Link (standard)"
+
+msgid "link_hi_color"
+msgstr "Link (valgt)"
+
+msgid "link_down_color"
+msgstr "Link (aktivt)"
+
+msgid "entry_bg"
+msgstr "Meddelelse-baggrund"
+
+msgid "entry_title_bg"
+msgstr "Meddelelsestitel-baggrund"
+
+msgid "entry_border"
+msgstr "Meddelelse-kant"
+
+msgid "entry_title_text"
+msgstr "Meddelelsestitel-tekst"
+
+msgid "entry_text"
+msgstr "Meddelelse-tekst"
+
+msgid "menu_bg"
+msgstr "Menu-baggrund"
+
+msgid "menu_title_bg"
+msgstr "Menu-titel-baggrund"
+
+msgid "menu_border"
+msgstr "Menu-kant"
+
+msgid "menu_title_text"
+msgstr "Menutitel-tekst"
+
+msgid "menu_text"
+msgstr "Menu-tekst"
+
+msgid "menu_link_reg_color"
+msgstr "Menu-link (standard)"
+
+msgid "menu_link_hi_color"
+msgstr "Menu-link (valgt)"
+
+msgid "menu_link_down_color"
+msgstr "Menu-link (aktivt)"
+
+msgid "color_preset"
+msgstr "Farveskemaer:"
+
+msgid "scheme_name"
+msgstr "Indtast et navn til farveskemaet:"
+
+msgid "scheme_file"
+msgstr "Indtast filnavnet for farveskemaet: (ingen mellemrum eller filendelse)"
+
+msgid "save_btn"
+msgstr "&nbsp;Gem&nbsp;"
+
+msgid "colors_form_error"
+msgstr "Indtast venligst et navn til dit farveskema."
+
+msgid "theme_doesnt_allow_colors"
+msgstr "Det valgte tema tillader ikke brugerdefinerede farver."
+
+msgid "colors_error"
+msgstr "<h2>Ups!</h2>Informationerne blev ikke gemt. Der opstod et problem med at gemme.<br /><br />Serveren sagde:<br />"
+
+msgid "delete_title"
+msgstr "Slet meddelelse"
+
+msgid "delete_instructions"
+msgstr "Dette er den meddelelse, du er ved at slette. Er du helt sikker på at du vil slette den? Du kan ikke fortryde..."
+
+msgid "delete_error"
+msgstr "<h2>Ups!</h2>Meddelelsen blev ikke slettet.<br /><br />Serveren sagde:<br />"
+
+msgid "delete_static_title"
+msgstr "Slet statisk side"
+
+msgid "delete_static_instructions"
+msgstr "Dette er den statiske side, du er ved at slette. Er du helt sikker på at du vil slette den? Du kan ikke fortryde..."
+
+msgid "delete_static_error"
+msgstr "<h2>Ups!</h2>Siden blev ikke slettet.<br /><br />Serveren sagde:<br />"
+
+msgid "image_list_title"
+msgstr "Liste over billeder"
+
+msgid "image_list_instructions"
+msgstr "Klik på links herunder for at se billederne.<br /><br />For at tilføje et billede til din meddelelse skal du:<br />1) Højreklik på et link og vælg 'Kopier genvej'.<br />2) Gå tilbage til siden 'Tilføj meddelelse' eller 'Rediger meddelelse'.<br />3) Klik på knappen 'bil' og indsæt URL'en i vinduet."
+
+msgid "info_title"
+msgstr "Informationer om meta-data"
+
+msgid "info_instructions"
+msgstr "Informationerne herunder benyttes til &quot;meta-data&quot;, som hjælper søgemaskiner med at finde og identificere dit site. Informationerne kan også bruges i RSS-feeds."
+
+msgid "info_keywords"
+msgstr "Nøgleord: (Adskil flere nøgleord af kommaer.)"
+
+msgid "info_description"
+msgstr "Beskrivelse: (En opsummering eller beskrivelse af dit site i fritekst.)"
+
+msgid "info_copyright"
+msgstr "Rettigheder: (Copyright eller link til document, der indeholder den pågældende information.)"
+
+msgid "info_error"
+msgstr "<h2>Ups!</h2>Informationerne blev ikke gemt. Der opstod et problem med at gemme.<br /><br />Serveren sagde:<br />"
+
+msgid "info_form_error"
+msgstr "Udfyld venligst nøgleord-, beskrivelse- og rettigheder-felterne."
+
+msgid "rating_error"
+msgstr "<h2>Ups!</h2>Informationerne blev ikke gemt. Der opstod et problem med at gemme.<br /><br />Serveren sagde:<br />"
+
+msgid "upgrade"
+msgstr "<h2>Opgrader</h2>"
+
+msgid "upgrade_count"
+msgstr "%n kommentarfiler skal opgraderes:"
+
+msgid "upgrade_url"
+msgstr "Opgrader kommentarer"
+
+msgid "login_title"
+msgstr "Log på"
+
+msgid "login_instructions"
+msgstr "Indtast brugernavn og adgangskode herunder"
+
+msgid "username"
+msgstr "Brugernavn:"
+
+msgid "password"
+msgstr "Adgangskode"
+
+msgid "login_success"
+msgstr "<h2>Login lykkedes!</h2>Du er nu logget på. Held og lykke med din blogging!<p />"
+
+msgid "login_wrong_password"
+msgstr "<h2>Ups!</h2>Du er ikke logget ind. Undersøg venligst, at du har skrevet brugernavn og adgangskode rigtigt, og prøv så igen.<p />"
+
+msgid "login_form_error"
+msgstr "Udfyld venligst brugernavn- og adgangskode-felterne."
+
+msgid "logout_title"
+msgstr "Log af"
+
+msgid "logout_instructions"
+msgstr "<h2>Ups!</h2>Det lykkedes ikke at logge af. Cookie kunne ikke slettes. Hvorfor er du stadig logget på?<p />"
+
+msgid "forms_title"
+msgstr ""
+
+msgid "forms_instructions"
+msgstr ""
+
+msgid "forms_error"
+msgstr "<h2>Ups!</h2>Informationerne blev ikke gemt. Der opstod et problem med at gemme.<br /><br />Serveren sagde:<br />"
+
+msgid "set_login_title"
+msgstr "Skift brugernavn og adgangskode"
+
+msgid "set_login_instructions"
+msgstr "Udfyld formularen herunder for at ændre brugernavn og adgangskode. Indtast brugernavn og adgangskode, som du ønsker at benytte."
+
+msgid "set_login_success"
+msgstr "<h2>Brugernavn/adgangskode ændret!</h2>Dit nye brugernavn og/eller adgangskode er nu aktivt. Held og lykke med din blogging!<p />"
+
+msgid "set_login_wrong_password"
+msgstr "<h2>Ups!</h2>Informationerne blev ikke gemt. Der opstod et problem med at gemme dit brugernavn og/eller din adgangskode.<br /><br />Serveren sagde:<br />"
+
+msgid "set_login_form_error"
+msgstr "Udfyld venligst brugernavn- og adgangskode-felterne."
+
+msgid "explanation"
+msgstr "I nyere version er strukturen for adgangskoder ændret. Det er ikke længere muligt at opdatere adgangskoder   					og/eller logins fra blog-koden. For at ændre din adgangskode, skal du slette filen /config/password.php og sørge for, at filerne  					install*.php findes på din lokale server. Så snart det er gjort, skal du opdatere denne side (eller logge ud). Du vil blive  					præsenteret med den samme side til generering af adgangskode, som oprindeligt blev brugt til at oprette blog-siden."
+
+msgid "install00_title"
+msgstr "Velkommen"
+
+msgid "install00_instructions"
+msgstr "Tak fordi du har valgt Simple PHP Blog!"
+
+msgid "blog_choose_language"
+msgstr "Vælg sprog:"
+
+msgid "install01_title"
+msgstr "Velkommen"
+
+msgid "install01_instructions"
+msgstr "  				Tak fordi du valgte Simple PHP Blog!<br /><br />Simple PHP Blog er et letvægts-blogging-system. Det kræver PHP 4.1 eller højere og skriverettigheder på serveren. Alle informationer lagres i flade filer, så der kræves ingen database.<br /><br />  				For at komme i gang skal Simple PHP Blog oprette tre mapper ('<b>config</b>', '<b>content</b>' og '<b>images</b>'), hvor dine informationer gemmes. Derefter skal du oprette din adgangskode og kan så starte med at blogge.<br /><br />  				<b>Klik herunder for at begynde installationen:</b>"
+
+msgid "begin"
+msgstr "[ Begynd installation ]"
+
+msgid "install02_title"
+msgstr "Installation"
+
+msgid "install02_instructions"
+msgstr "Forsøger at oprettet mapperne '<b>config</b>', '<b>content</b>', and '<b>images</b>':"
+
+msgid "folder_exists"
+msgstr "Okay! Mappen findes allerede. Der er ikke foretaget nogen ændringer..."
+
+msgid "folder_failed"
+msgstr "Ups! Mappen kunne ikke oprettes..."
+
+msgid "folder_success"
+msgstr "Mappen er nu blevet oprettet..."
+
+msgid "help"
+msgstr "  				<h2>Ups!</h2>  				Én eller flere mapper kunne ikke oprettes!<br /><br />Dette skyldes formodentlig:<br />  				<ol>  				<li><b>Skriverettigheder</b> er ikke sat til at tillade <b>Læse/skrive</b>-adgang.</li>  				<li><b>UID</b>'erne (bruger-ID'er) skal stemme overens for alle filer og mapper.</li>  				</ol>  				Følg instruktionerne herunder og <b>prøv igen</b>:<br />  				<ol>  				<li>Opret manuelt de tre mapper: <b>config</b>, <b>content</b>, and <b>images</b>.</li>  				<li>Giv <b>skriverettigheder</b> på mapperne. I dit FTP-program skal Owner, User og World have <b>Read</b> (læse-) og <b>Write</b> (skrive-)adgang. <i>(Du skal måske kontakte din udbyder for at ændre dette...)</i></li>  				<li>Sørg for, at alle UID'er på alle dine mapper og filer er den samme. <i>(Du skal måske kontakte din udbyder for at ændre dette...)</i></li>  				</ol>"
+
+msgid "try_again"
+msgstr "[ Prøv igen ]"
+
+msgid "install02_success"
+msgstr "<h2>Mapper oprettet!</h2>Mapperne er nu blevet oprettet!<p /><b>Klik herunder for at fortsætte:</b>"
+
+msgid "continue"
+msgstr "[ Fortsæt ]"
+
+msgid "supported"
+msgstr "<b>Din webserver understøtter følgende typer kryptering:</b>"
+
+msgid "standard"
+msgstr "Standard DES-kryptering: "
+
+msgid "extended"
+msgstr "Udvidet DES-kryptering: "
+
+msgid "MD5"
+msgstr "MD5-kryptering: "
+
+msgid "blowfish"
+msgstr "Blowfish-kryptering: "
+
+msgid "enabled"
+msgstr "slået til"
+
+msgid "disabled"
+msgstr "slået fra"
+
+msgid "using_standard"
+msgstr "<b>Benytter standard DES-kryptering...</b>"
+
+msgid "using_extended"
+msgstr "<b>Benytter udvidet DES-kryptering...</b>"
+
+msgid "using_MD5"
+msgstr "<b style='color: green;'>Benytter MD5-kryptering...</b>"
+
+msgid "using_blowfish"
+msgstr "<b style='color: green;'>Benytter Blowfish-kryptering...</b>"
+
+msgid "using_unknown"
+msgstr "<b>Benytter ukendt kryptering...</b>"
+
+msgid "salt_length"
+msgstr " <i>(Salt-længde = %string)</i><br />"
+
+msgid "install03_title"
+msgstr "Opret brugernavn og adgangskode"
+
+msgid "install03_instructions"
+msgstr "Udfyld formularen herunder for at oprette brugernavn og adgangskode."
+
+msgid "install03_success"
+msgstr "<h2>Til lykke!</h2>Du er nu logget på. Klik herunder for at gå til opsætning, hvor du kan navngive din blog. Held og lykke med din blogging!<p />"
+
+msgid "btn_setup"
+msgstr "[ Opsætning ]"
+
+msgid "install03_wrong_password"
+msgstr "<h2>Ups!</h2>Informationerne blev ikke gemt. Der opstod et problem med at gemme dit brugernavn og/eller adgangskode.<br /><br />Serveren sagde:<br />"
+
+msgid "install03_form_error"
+msgstr "Udfyld venligst brugernavn- og adgangskode-felterne."
+
+msgid "install04_title"
+msgstr "Opret adgangskodefil"
+
+msgid "install04_instructions"
+msgstr "Her er den svære del:<br />  				<ol>  				<li>Åbn et tekstredigerings-program. <i>(Notesblok, Word Pad, Word, BBEdit, Pico, VI osv...)</i></li>  				<li>Opret et nyt tekstdokument.</li>  				<li>Kopier og indsæt indholdet af boksen nedenfor i dokumentet.</li>  				<li>Gem din fil under navnet <b>password.php</b> <i>(Sørg for at gemme den i <b>tekst-</b> eller <b>'almindelig tekst'</b>-format.)</i></li>  				<li>Åbn et FTP-program.</li>  				<li>Upload din nye fil <b>password.php</b> til <b>config</b>-mappen hørende til din hjemmeside.</li>  				<li>Fjern filen <b>password.php</b> fra din harddisk.</li>  				</ol>  				"
+
+msgid "information"
+msgstr "<i>Bemærk: Hvis vil nulstille brugernavn og adgangskode (for eksempel hvis du har glemt informationerne), skal du slette filen <b>password.php</b> i din mappe <b>config</b> hørende til din hjemmeside. Næste gang du besøger din hjemmeside, vil du skulle gennemføre denne installationsproces igen...</i>"
+
+msgid "code"
+msgstr "Indhold til filen <b>password.php</b>:"
+
+msgid "install05_title"
+msgstr "Log på"
+
+msgid "install05_instructions"
+msgstr "Indtast dit brugernavn og adgangskode nedenfor"
+
+msgid "install05_success"
+msgstr "<h2>Til lykke!</h2>Du er nu logget på.<p />  				Klik nedenfor for at gå til siden <b>Opsætning</b>, hvor du kan gøre din blog personlig.<p />  				<i>Bemærk: Da du nu har gennemgået installationsprocessen, anbefales det, at du sletter filerne <b>installXX.php</b> fra din hjemmeside. (dvs. filerne fra install00.php til install06.php)</i><p />"
+
+msgid "install05_wrong_password"
+msgstr "<h2>Ups!</h2>Du er ikke logget på. Undersøg venligst, at du har skrevet dit brugernavn og adgangskode korrekt og prøv igen.<p />"
+
+msgid "install05_form_error"
+msgstr "Udfyld venligst brugernavn- og adgangskode-felterne."
+
+msgid "btn_try_again"
+msgstr "[ Prøv igen ]"
+
+msgid "install06_title"
+msgstr "Log på"
+
+msgid "install06_instructions"
+msgstr "Indtast dit brugernavn og adgangskode nedenfor"
+
+msgid "install06_success"
+msgstr "<h2>Til lykke!</h2>Du er nu logget på.<p />  				Klik nedenfor for at gå til siden <b>Opsætning</b>, hvor du kan gøre din blog personlig.<p />  				<i>Bemærk: Da du nu har gennemgået installationsprocessen, anbefales det, at du sletter filerne <b>installXX.php</b> fra din hjemmeside. (dvs. filerne fra install00.php til install06.php)</i><p />"
+
+msgid "install06_wrong_password"
+msgstr "<h2>Ups!</h2>Du er ikke logget på. Undersøg venligst, at du har skrevet dit brugernavn og adgangskode korrekt og prøv igen.<p />"
+
+msgid "install06_form_error"
+msgstr "Udfyld venligst brugernavn- og adgangskode-felterne."
+
+msgid "setup_title"
+msgstr "Opsætning"
+
+msgid "setup_instructions"
+msgstr "Du kan ændre navnet på din blog og dine personlige informationer herunder."
+
+msgid "blog_title"
+msgstr "Blog-navn:"
+
+msgid "blog_author"
+msgstr "Forfatter:"
+
+msgid "blog_email"
+msgstr "E-mail (Flere e-mail-adresser skal adskilles af komma, og med tomt indhold slås funktionen 'Kontakt mig' fra):"
+
+msgid "blog_avatar"
+msgstr "URL til displaybillede: (Tomt indhold for intet billede)"
+
+msgid "blog_footer"
+msgstr "Sidefod:"
+
+msgid "blog_enable_comments"
+msgstr "Tillad brugerkommentarer"
+
+msgid "blog_comments_popup"
+msgstr "Åbn kommentarer i pop-up-vindue"
+
+msgid "blog_enable_voting"
+msgstr "Tillad brugere at vurdere meddelelser"
+
+msgid "blog_enable_cache"
+msgstr "Slå blog-meddelses-cache til (kan give forøget hastighed på nogen servere)"
+
+msgid "blog_enable_calendar"
+msgstr "Slå kalender/arkiv-blok til"
+
+msgid "blog_enable_archives"
+msgstr "Slå arkiv-blok til"
+
+msgid "blog_enable_counter"
+msgstr "Slå tæller i side-bar til"
+
+msgid "blog_counter_hours"
+msgstr "Antal timer, der skal gå, før sidevisninger tælles igen (baseret på IP-adressen):"
+
+msgid "blog_enable_login"
+msgstr "Slå login-link til (Husk at gemme et bogmærke til 'login.php' først...)"
+
+msgid "blog_enable_title"
+msgstr "Slå klartekst-titel-blok til (Fjern krydset, hvis titlen er i titel-grafikken)"
+
+msgid "blog_enable_permalink"
+msgstr "Slå permalink for blog-meddelelser til"
+
+msgid "blog_enable_capcha"
+msgstr "Slå anti-spam til"
+
+msgid "blog_footer_counter"
+msgstr "Slå tæller i sidefod til"
+
+msgid "blog_enable_capcha_image"
+msgstr "Billeder til anti-spam (kun GD-bibliokteket) / Tekstfelt til anti-spam"
+
+msgid "blog_enable_stats"
+msgstr "Slå statistik til i menuen"
+
+msgid "blog_enable_lastcomments"
+msgstr "Slå liste med mest kommenterede indlæg til"
+
+msgid "blog_enable_lastentries"
+msgstr "Slå liste med nyeste indlæg til"
+
+msgid "blog_email_notification"
+msgstr "Send e-mail, når der skrives kommentarer"
+
+msgid "blog_send_pings"
+msgstr "Send weblog-&quot;pings&quot;"
+
+msgid "blog_ping_urls"
+msgstr "Indtast den fulde URL (fx http://rpc.weblogs.com/RPC2) på den service, der skal &quot;pinges&quot;.<br />(Du kan indtaste mere end én adresse ved at adskille med kommaer.)"
+
+msgid "blog_trackback_about"
+msgstr "Trackback sender beskeder mellem blogs. Du kan lade en anden   					blog vide, at du linker til den, ved at sende dem et trackback-ping, og du kan se hvem der linker til  					din blog ved at modtage trackback-pings.<br />  				   Du kan enten manuelt indtaste URI'erne, der skal pinges, eller gøre det automatisk ved  				   auto-opdagelse."
+
+msgid "blog_trackback_enabled"
+msgstr "Slå trackback i min blog til"
+
+msgid "blog_trackback_auto_discovery"
+msgstr "Slå auto-opdagelse ved oprettelse af meddelelse indeholdende URL'er til"
+
+msgid "blog_max_entries"
+msgstr "Det maksimale antal meddelelser, der skal vises:"
+
+msgid "blog_comment_tags"
+msgstr "Tags, der tillades i kommentarer:"
+
+msgid "blog_gzip_about"
+msgstr "  					Siden PHP 4.0.4 har PHP kunnet læse og skrive gzip-komprimerede filer (.gz),  					så der spares diskplads. PHP kan også komprimere sider, der sendes til browsere,  					som understøtter gzip-kompression og derved spare båndbredde.<br />  					<br />  					Understøttelse af Zlib i PHP er ikke slået til som standard. Hvis nedenstående afkrydsningsfelter ikke virker,  					understøtter din PHP-installation ikke Zlib-udvidelsen"
+
+msgid "blog_enable_gzip_txt"
+msgstr "Tillad GZIP-kompression af databasefiler"
+
+msgid "blog_enable_gzip_output"
+msgstr "Tillad GZIP-kompression af HTTP-output"
+
+msgid "setup_error"
+msgstr "<h2>Ups!</h2>Informationerne blev ikke gemt. Der opstod et problem med at gemme.<br /><br />Serveren sagde:<br />"
+
+msgid "setup_form_error"
+msgstr "Udfyld venligst titel- og forfatter-felterne."
+
+msgid "label_entry_order"
+msgstr "Rækkefølge for meddelelser:"
+
+msgid "select_new_to_old"
+msgstr "Vis nyeste først"
+
+msgid "select_old_to_new"
+msgstr "Vis ældste først"
+
+msgid "label_comment_order"
+msgstr "Rækkefølge for kommentarer:"
+
+msgid "cal_sunday"
+msgstr "Søndag"
+
+msgid "cal_monday"
+msgstr "Mandag"
+
+msgid "label_calendar_start"
+msgstr "Kalenderens første ugedag"
+
+msgid "title_sidebar"
+msgstr "Side-bar"
+
+msgid "title_comments"
+msgstr "Kommentarer"
+
+msgid "title_trackback"
+msgstr "Trackbacks"
+
+msgid "title_compression"
+msgstr "Kompression"
+
+msgid "title_entries"
+msgstr "Indlæg"
+
+msgid "title_general"
+msgstr "Generelt"
+
+msgid "title_language"
+msgstr "Sprog"
+
+msgid "blog_comment_days_expiry"
+msgstr "Kommentarer tilladt i hvor mange dage? (0 giver ingen begrænsning)"
+
+msgid "options_title"
+msgstr "Indstillinger"
+
+msgid "options_instructions"
+msgstr "Udfyld formularen herunder for at indstille visning af dato og tidspunkter for meddelelser og kommentarer. Du kan vælge 12- eller 24-timers ur og kort eller langt datoformat. <b>Eksempel</b>-områderne opdateres automatisk for at vise, hvordan formateringen ser ud."
+
+msgid "ldate_title"
+msgstr "Langt datoformat:"
+
+msgid "weekday"
+msgstr "Ugedag"
+
+msgid "none"
+msgstr "Ingen"
+
+msgid "sdate_title"
+msgstr "Kort datoformat:"
+
+msgid "s_month"
+msgstr "Måned"
+
+msgid "s_mon"
+msgstr "MMM"
+
+msgid "s_day"
+msgstr "Dag"
+
+msgid "s_year"
+msgstr "År"
+
+msgid "zero_day"
+msgstr "Foranstillet nul for dag"
+
+msgid "show_century"
+msgstr "Vis århundrede"
+
+msgid "time_title"
+msgstr "Tidsformat:"
+
+msgid "12hour"
+msgstr "12-times ur"
+
+msgid "24hour"
+msgstr "24-times ur"
+
+msgid "before_noon"
+msgstr "Før middag"
+
+msgid "after_noon"
+msgstr "Efter middag"
+
+msgid "date_title"
+msgstr "Format for datoer:"
+
+msgid "long_date"
+msgstr "Lang dato"
+
+msgid "short_date"
+msgstr "Kort dato"
+
+msgid "time"
+msgstr "Tid"
+
+msgid "menu_title"
+msgstr "Format for menu-datoer:"
+
+msgid "zero_month"
+msgstr "Foranstillet nul for måned"
+
+msgid "zero_hour"
+msgstr "Foranstillet nul for time"
+
+msgid "separator"
+msgstr "Adskiller:"
+
+msgid "preview"
+msgstr "Eksempel:"
+
+msgid "server_offset"
+msgstr "Tidsforskel på server:"
+
+msgid "options_error"
+msgstr "<h2>Ups!</h2>Informationerne blev ikke gemt. Der opstod et problem med at gemme.<br /><br />Serveren sagde:<br />"
+
+msgid "upload_img_title"
+msgstr "Upload billede"
+
+msgid "upload_img_instructions"
+msgstr "Klik på knappen herunder for at vælge den fil, der skal uploades."
+
+msgid "select_file"
+msgstr "Vælg fil:"
+
+msgid "upload_btn"
+msgstr "Upload"
+
+msgid "upload_img_error"
+msgstr "<h2>Ups!</h2>Billedet kunne ikke uploades. Her er mere information:<br /><br />Serveren sagde:<br />"
+
+msgid "themes_title"
+msgstr "Temaer"
+
+msgid "themes_instructions"
+msgstr "Brug listen til at vælge andet tema."
+
+msgid "choose_theme"
+msgstr "Temaer:"
+
+msgid "themes_error"
+msgstr "<h2>Ups!</h2>Informationerne blev ikke gemt. Der opstod et problem med at gemme.<br /><br />Serveren sagde:<br />"
+
+msgid "search_result_title"
+msgstr "Søgeresultat"
+
+msgid "search_result_instructions"
+msgstr "Resultat af søgning efter <b>%string</b>:"
+
+msgid "not_found"
+msgstr "Ingen resultater"
+
+msgid "contact_capcha"
+msgstr "Anti-spam: Indtast "
+
+msgid "contact_title"
+msgstr "Kontakt mig"
+
+msgid "contact_instructions"
+msgstr "Udfyld formularen:"
+
+msgid "contact_form_error"
+msgstr "Udfyld venligst emne- og kommentar-felterne."
+
+msgid "subject"
+msgstr "Emne:"
+
+msgid "contact_success"
+msgstr "<h2>Afsendt!</h2>Din kommentar er nu blevet sendt.<p />"
+
+msgid "failure"
+msgstr "<h2>Fejl!</h2>Din meddelelse er ikke blevet sendt. Det er mest sandsynligt, at Anti-spam-koden ikke blev indtastet korrekt.<p />"
+
+msgid "contactsent"
+msgstr "Kontakt sendt gennem: "
+
+msgid "errorpage-nocookies_title"
+msgstr "HTTP-fejl 403.8 - Adgang nægtet til side/funktion"
+
+msgid "errorline1"
+msgstr "Siden eller funktionen, du har ønsket, kræver brug af cookies."
+
+msgid "errorline2"
+msgstr "Du skal slå cookies til i din browser eller beskyttelses-software og forsøge igen."
+
+msgid "clientid"
+msgstr "Klient-ID: "
+
+msgid "trackbacks_title"
+msgstr "Trackbacks"
+
+msgid "trackbacks_header"
+msgstr "Trackback-URL for denne meddelelse:"
+
+msgid "trackbacks_error_add"
+msgstr "Trackback-data kunne ikke gemmes."
+
+msgid "stats_title"
+msgstr "Statistikker"
+
+msgid "general"
+msgstr "Generelt"
+
+msgid "entry_info"
+msgstr "<b>%s</b> meddelelser med <b>%s</b> ord gemt i <b>%s</b> bytes"
+
+msgid "comment_info"
+msgstr "<b>%s</b> kommentarer med <b>%s</b> ord gemt i <b>%s</b> bytes"
+
+msgid "trackback_info"
+msgstr "<b>%s</b> trackbacks gemt i <b>%s</b> bytes"
+
+msgid "static_info"
+msgstr "<b>%s</b> statiske sider med <b>%s</b> ord gemt i <b>%s</b> bytes"
+
+msgid "most_viewed_entries"
+msgstr "10 mest viste meddelelser"
+
+msgid "most_commented_entries"
+msgstr "10 mest kommenterede meddelelser"
+
+msgid "most_trackbacked_entries"
+msgstr "10 mest trackback'ede meddelelser"
+
+msgid "vote_info"
+msgstr "<b>%s</b> stemmer gemt i  <b>%s</b> bytes"
+
+msgid "most_voted_entries"
+msgstr "10 meddelelser med flest stemmer"
+
+msgid "most_rated_entries"
+msgstr "10 meddelelser med højeste stemmer"
+
+msgid "403.8"
+msgstr "HTTP-fejl 403.8 - Adgang nægtet til side/funktion"
+
+msgid "404"
+msgstr "HTTP-fejl 404 - Side/funktion findes ikke"
+
+msgid "error_404"
+msgstr "Den efterspurgte side findes ikke."
+
+msgid "error_javascript"
+msgstr "Den efterspurgte side eller funktion kræver javascript for at virke korrekt."
+
+msgid "error_emailnotsent"
+msgstr "Afsendelse af meddelelsen mislykkedes."
+
+msgid "error_emailnotsentcapcha"
+msgstr "Afsendelse af meddelelser mislykkedes fordi anti-spam-koden ikke var korrekt eller manglede."
+
+msgid "emoticons_title"
+msgstr "Administration af humørikoner"
+
+msgid "emoticons_instructions"
+msgstr "  					Afkryds de humørikoner, du ønsker at bruge. Skriv i tekstboksen de tags,  					som du ønsker skal erstattes af billedet. Du kan benytte flere tags, de  					skal blot adskilles af mellemrum.<br /><br />  		  					For eksempel:<br />  					:) :-) :SMILE: :HAPPY:<br /><br />  					  					<i>(Det anbefales kraftigt, at du laver tags længere end 2 tegn, ellers kan der  					opstå uventede udskiftninger i teksten.)</i>"
+
+msgid "upload_instructions"
+msgstr "Upload ny humørikon:"
+
+msgid "upload_success"
+msgstr "Upload lykkedes. Billedet blev uploadet korrekt."
+
+msgid "upload_error"
+msgstr "Fejl! Billedet blev ikke uploadet."
+
+msgid "upload_invalid"
+msgstr "Fejl! Ugyldig billedfil. Billedet skal være PNG, JPG eller GIF."
+
+msgid "save_success"
+msgstr "Indstillinger for humørikoner blev gemt."
+
+msgid "save_error"
+msgstr "Fejl! Indstillinger for humørikoner blev ikke gemt."
+
+msgid "save_button"
+msgstr "Gem humørikoner"
+

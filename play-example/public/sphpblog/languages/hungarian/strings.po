@@ -1,0 +1,1215 @@
+msgid "language"
+msgstr "magyar"
+
+msgid "locale"
+msgstr "Array"
+
+msgid "rss_locale"
+msgstr "hu-HU"
+
+msgid "html_charset"
+msgstr "ISO-8859-2"
+
+msgid "php_charset"
+msgstr "ISO-8859-1"
+
+msgid "menu_links"
+msgstr "Linkek"
+
+msgid "menu_home"
+msgstr "Fõoldal"
+
+msgid "menu_contact"
+msgstr "Kapcsolat"
+
+msgid "menu_stats"
+msgstr "Statisztika"
+
+msgid "menu_archive"
+msgstr "Arhívum"
+
+msgid "menu_viewarchives"
+msgstr "Arhívum megtekintése"
+
+msgid "menu_menu"
+msgstr "Menü"
+
+msgid "menu_add"
+msgstr "Hozzáad"
+
+msgid "menu_add_static"
+msgstr "Statikus oldal hozzáadása"
+
+msgid "menu_upload"
+msgstr "Kép feltöltése"
+
+msgid "menu_setup"
+msgstr "Beállítások"
+
+msgid "menu_categories"
+msgstr "Kategóriák"
+
+msgid "menu_info"
+msgstr "Meta elemek"
+
+msgid "menu_options"
+msgstr "Dátum &amp; Idõ"
+
+msgid "menu_themes"
+msgstr "Témák"
+
+msgid "menu_colors"
+msgstr "Színek"
+
+msgid "menu_change_login"
+msgstr "Bejelentkezés változtatása"
+
+msgid "menu_logout"
+msgstr "Kijelentkezés"
+
+msgid "menu_login"
+msgstr "Admin Bejelentkezés"
+
+msgid "menu_most_recent"
+msgstr "Legújabb hozzászólások"
+
+msgid "menu_most_recent_entries"
+msgstr "Legújabb bejegyzések"
+
+msgid "menu_most_recent_trackback"
+msgstr "Most Recent Trackbacks"
+
+msgid "menu_add_block"
+msgstr "Blokkok"
+
+msgid "menu_emoticons"
+msgstr "Emotikonok"
+
+msgid "menu_avatar"
+msgstr "Avatar"
+
+msgid "menu_name"
+msgstr "Név: "
+
+msgid "menu_pass"
+msgstr "Jelszó: "
+
+msgid "home"
+msgstr "Vissza a fõoldalra"
+
+msgid "nav_next"
+msgstr "Következõ"
+
+msgid "nav_back"
+msgstr "Elõzõ"
+
+msgid "search_title"
+msgstr "Keresés"
+
+msgid "search_go"
+msgstr "Mehet"
+
+msgid "page_generated_in"
+msgstr "Az oldal %s másodperc alatt generálódott"
+
+msgid "sb_months"
+msgstr "Array"
+
+msgid "sb_default_title"
+msgstr "Nincs cím"
+
+msgid "sb_default_author"
+msgstr "Nincs szerzõ"
+
+msgid "sb_default_footer"
+msgstr "Nincs lábjegyzet"
+
+msgid "sb_edit"
+msgstr "szerkeszt"
+
+msgid "sb_delete"
+msgstr "töröl"
+
+msgid "sb_permalink"
+msgstr "permalink"
+
+msgid "sb_trackback"
+msgstr "trackbackek"
+
+msgid "sb_relatedlink"
+msgstr "kapcsolódó link"
+
+msgid "sb_add_comment_btn"
+msgstr "hozzászólás"
+
+msgid "sb_comment_btn_number_first"
+msgstr "1"
+
+msgid "sb_comment_btn"
+msgstr "hozzászólás"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr "1"
+
+msgid "sb_comments_plural_btn"
+msgstr "hozzászólás"
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_post"
+msgstr " megtekintés"
+
+msgid "sb_view_counter_plural_pre"
+msgstr ""
+
+msgid "sb_view_counter_plural_post"
+msgstr " megtekintés"
+
+msgid "sb_add_link_btn"
+msgstr "Linkek módosítása"
+
+msgid "sb_rate_entry_btn"
+msgstr "Bejegyzés osztályzása"
+
+msgid "label_subject"
+msgstr "Tárgy:"
+
+msgid "label_insert"
+msgstr "Speciális karakter:"
+
+msgid "btn_bold"
+msgstr " b "
+
+msgid "btn_italic"
+msgstr " i "
+
+msgid "btn_image"
+msgstr "img"
+
+msgid "btn_url"
+msgstr "url"
+
+msgid "view_images"
+msgstr "Feltöltött képek beillesztése"
+
+msgid "label_entry"
+msgstr "Bejegyzés:"
+
+msgid "btn_preview"
+msgstr "&nbsp;Megtekintés&nbsp;"
+
+msgid "btn_post"
+msgstr "&nbsp;Küldés&nbsp;"
+
+msgid "file_name"
+msgstr "Statikus File Neve: (szóközök és kiterjesztés nélkül)"
+
+msgid "insert_styles"
+msgstr "Írd be a formázandó szöveget:"
+
+msgid "insert_image"
+msgstr "Írd be a kép URL-ét:"
+
+msgid "insert_url1"
+msgstr "Írd be a linknak szolgáló szöveget (Opcionális):"
+
+msgid "insert_url2"
+msgstr "Írd be a kép teljes URL-ét:"
+
+msgid "insert_url3"
+msgstr "URL-t új ablakban nyit (Opcionális):"
+
+msgid "add_form_error"
+msgstr "Töltsd ki a Tárgy és Bevitel mezõket."
+
+msgid "insert_image_Opcionális"
+msgstr "Optionális:"
+
+msgid "insert_image_width"
+msgstr "Szélesség (Opcionális):"
+
+msgid "insert_image_height"
+msgstr "Magasság (Opcionális):"
+
+msgid "insert_image_popup"
+msgstr "Teljes méretben mutassa, ha új ablakban nyílik (Opcionális):"
+
+msgid "insert_image_float"
+msgstr "Lebegõ (Opcionális):"
+
+msgid "day"
+msgstr "Nap"
+
+msgid "month"
+msgstr "Hónap"
+
+msgid "year"
+msgstr "Év"
+
+msgid "hour"
+msgstr "Óra"
+
+msgid "minute"
+msgstr "Perc"
+
+msgid "second"
+msgstr "Másodperc"
+
+msgid "add_title"
+msgstr "Szöveg bevitele"
+
+msgid "add_instructions"
+msgstr "Kész vagy a blogolásra? Töltsd ki az ívet és kattints az 'Elõnézetre', hogy meglásd, hogy néznek ki a bevitt adatok, vagy kattints a 'Küldésre', hogy mentsd a bevitt adatokat."
+
+msgid "title_ad"
+msgstr "Trackback Pingek jóváhagyása"
+
+msgid "instructions_ad"
+msgstr "These are the Auto-Discovered URIs you're about to ping. If you do not want to ping a certain URI, uncheck it below. Then press the 'OK' button to ping the checked URIs or press 'Cancel' to not ping at all."
+
+msgid "label_tb_ping"
+msgstr "Trackback ping(ek) küldése (vesszõvel elválasztva)"
+
+msgid "label_tb_autodiscovery"
+msgstr "önfeltárás"
+
+msgid "label_relatedlink"
+msgstr "Kapcsolódó link"
+
+msgid "label_categories"
+msgstr "Kategória lista"
+
+msgid "add_instructions_update"
+msgstr "Az alábbi kérdõív segítségével változtathatod a bejegyzésedet. Kattints az 'Elõnézetre' vagy a 'Küldésre', ha készen vagy."
+
+msgid "ok_btn"
+msgstr "&nbsp;OK&nbsp;"
+
+msgid "cancel_btn"
+msgstr "&nbsp;Mégsem&nbsp;"
+
+msgid "add_error"
+msgstr "<h2>Hoppá, vazze!</h2>A bejegyzés nincs elmentve. Probléma adódott a mentéskor.<br /><br />A szerver üzenete:<br />"
+
+msgid "add_static_form_error"
+msgstr "Töltsd ki a Tárgy, Bejegyzés és Filenév mezõket!"
+
+msgid "add_static_title"
+msgstr "Statikus oldal hozzáadása"
+
+msgid "add_static_instructions"
+msgstr "Töltsd ki a kérdõívet a statikus oldal hozzáadásához. A többi blogbejegyzéstõl eltérõen, a statikus bejegyzések a jobb oldali menüben jelennek meg."
+
+msgid "add_static_instructions_update"
+msgstr "Itt javíthatod a bejegyzésedet. Kattints az 'Elõnézetre' vagy a 'Küldésre', ha készen vagy."
+
+msgid "add_static_error"
+msgstr "<h2>Hoppá, vazze!</h2>A bejegyzés nincs elmentve. Probléma adódott a mentéskor.<br /><br />A szerver üzenete:<br />"
+
+msgid "comments_form_error"
+msgstr "Töltsd ki a Név, Megjegyzés és Anti-Spam mezõket."
+
+msgid "name"
+msgstr "Név:"
+
+msgid "email"
+msgstr "Email:"
+
+msgid "homepage"
+msgstr "Honlap:"
+
+msgid "comment"
+msgstr "Megjegyzés:"
+
+msgid "IPAddress"
+msgstr "IP cím:"
+
+msgid "useragent"
+msgstr "A felhasználó programa:"
+
+msgid "wrote"
+msgstr "<i>%s -kor, %s ezt írta:</i><br /> <br /> %s"
+
+msgid "comment_capcha"
+msgstr "Anti-Spam: Írd be ezt a számot: "
+
+msgid "comments_title"
+msgstr "Megjegyzések"
+
+msgid "comments_header"
+msgstr "Megjegyzés hozzáadása"
+
+msgid "comments_instructions"
+msgstr "Töltsd ki az alábbi kérdõívet a megjegyzés hozzáadásához."
+
+msgid "comment_name"
+msgstr "Neved:"
+
+msgid "comment_email"
+msgstr "Email:"
+
+msgid "comment_url"
+msgstr "URL:"
+
+msgid "commentposted"
+msgstr "Új megjegyzés küldése ekkor: "
+
+msgid "comment_remember"
+msgstr "Jegyezz meg:"
+
+msgid "comment_text"
+msgstr "Megjegyzés:"
+
+msgid "post_btn"
+msgstr "&nbsp;Megjegyzés küldése&nbsp;"
+
+msgid "delete_btn"
+msgstr "töröl"
+
+msgid "comments_error_add"
+msgstr "<h2>Hoppá, vazze!</h2>A megjegyzés nincs elmentve. Probléma adódott a megjegyzés mentése közben.<br /><br />A szerver üzenete:<br />"
+
+msgid "comments_error_delete"
+msgstr "<h2>Hoppá, vazze!</h2>A megjegyzés nincs törölve. Probléma adódott a megjegyzés törlése közben.<br /><br />A szerver üzenete:<br />"
+
+msgid "add_block_form_error"
+msgstr "Töltsd ki a Név mezõt."
+
+msgid "add_block_title"
+msgstr "Blokkok hozzáadása / kezelése"
+
+msgid "add_block_instructions"
+msgstr "Saját blokkok hozzáadása"
+
+msgid "up"
+msgstr "fel"
+
+msgid "down"
+msgstr "le"
+
+msgid "edit"
+msgstr "szerkeszt"
+
+msgid "delete"
+msgstr "töröl"
+
+msgid "block_name"
+msgstr "Blokk neve:"
+
+msgid "block_content"
+msgstr "Blokk tartalma:"
+
+msgid "add_block_instructions_edit"
+msgstr "Pillanatnyilag ezt a blokkot szerkeszted:"
+
+msgid "add_block_instructions_modify"
+msgstr "Kattints ide a blokk szerkesztéséhez:"
+
+msgid "add_block_submit_btn_edit"
+msgstr "Blokk szerkesztése"
+
+msgid "add_block_submit_btn_add"
+msgstr "Blokk hozzáadása"
+
+msgid "static_pages"
+msgstr "Statikus oldalak:"
+
+msgid "add_link_title"
+msgstr "Linkek hozzáadása / kezelése"
+
+msgid "add_link_instructions"
+msgstr "Saját linkek hozzáadása más oldalakhoz. Töltsd ki az alábbi kérdõívet, és kattints a 'Link hozzáadására'. Kattints a 'Fel' vagy 'Le' gombokra, hogy megváltoztasd a linkok sorrendjét. Kattints a 'Szerkesztés' gombra a link szerkesztéséhez. Kattints a 'Törlés' gombra a link törléséhez."
+
+msgid "link_name"
+msgstr "A link neve:"
+
+msgid "link_url"
+msgstr "A link címe: (Opcionális. Hagyd üresen, hogy megjelenjen egy elválasztó.)"
+
+msgid "add_link_instructions_edit"
+msgstr "Pillanatnyilag ezt a linket szerkeszted:"
+
+msgid "add_link_instructions_modify"
+msgstr "Kattints a link szerkesztéséhez:"
+
+msgid "add_link_submit_btn_edit"
+msgstr "Link szerkesztése"
+
+msgid "add_link_submit_btn_add"
+msgstr "Link hozzáadása"
+
+msgid "add_link_form_error"
+msgstr "Töltsd ki a Név mezõt."
+
+msgid "categories_title"
+msgstr "Kategóriák hozzáadása / kezelése"
+
+msgid "categories_instructions"
+msgstr "Kategóriák hozzáadásához és szerkesztéséhez használd az alábbi kérdõívet. Mindegyik kategóriaelemnek 'kategórianév (szám)' formában kell lennie. Szóközökkel készíthetsz hierarchikus listát.<br /><br /><b>Például:</b><br />Általános (1)<br />Hírek (3)<br />&nbsp;&nbsp;Ünnepek (6)<br />&nbsp;&nbsp;Események (5)<br />&nbsp;&nbsp;&nbsp;&nbsp;Különféle (7)<br />Tehnológia (2)<br />"
+
+msgid "categories_error"
+msgstr "Hiba"
+
+msgid "current_categories"
+msgstr "Jelenlegi kategóriák"
+
+msgid "no_categories_found"
+msgstr "Nincsenek kategóriák"
+
+msgid "category_list"
+msgstr "Kategórialista:"
+
+msgid "validate"
+msgstr "Érvényesít"
+
+msgid "submit_btn"
+msgstr "Mehet"
+
+msgid "colors_title"
+msgstr "Színek cseréje"
+
+msgid "colors_instructions"
+msgstr "Itt cserélheted a szövegek és hátterek színeit. Elõször válaszd ki a mezõt, majd használd a színpalettát a színek keveréséhez. Az érték automatikusan változik kattintáskor."
+
+msgid "bg_color"
+msgstr "Az oldal háttere"
+
+msgid "main_bg_color"
+msgstr "A fõoldal háttere"
+
+msgid "border_color"
+msgstr "Az oldal szegélye"
+
+msgid "inner_border_color"
+msgstr "Belsõ szegély"
+
+msgid "header_bg_color"
+msgstr "A fejléc háttere"
+
+msgid "header_txt_color"
+msgstr "A fejléc szövege"
+
+msgid "menu_bg_color"
+msgstr "A menü háttere"
+
+msgid "footer_bg_color"
+msgstr "A lábléc háttere"
+
+msgid "txt_color"
+msgstr "Fõszöveg"
+
+msgid "headline_txt_color"
+msgstr "A címsor szövege"
+
+msgid "date_txt_color"
+msgstr "A dátum szövege"
+
+msgid "footer_txt_color"
+msgstr "A lábléc szövege"
+
+msgid "link_reg_color"
+msgstr "Alapértelmezett link"
+
+msgid "link_hi_color"
+msgstr "Fedett link"
+
+msgid "link_down_color"
+msgstr "Aktív link"
+
+msgid "entry_bg"
+msgstr "A bejegyzés háttere"
+
+msgid "entry_title_bg"
+msgstr "A bejegyzés címének háttere"
+
+msgid "entry_border"
+msgstr "A bejegyzés szegélye"
+
+msgid "entry_title_text"
+msgstr "A bejegyzés címének szövege"
+
+msgid "entry_text"
+msgstr "A bejegyzés szövege"
+
+msgid "menu_bg"
+msgstr "A menü háttere"
+
+msgid "menu_title_bg"
+msgstr "A menü címének háttere"
+
+msgid "menu_border"
+msgstr "A menü szegélye"
+
+msgid "menu_title_text"
+msgstr "A menü címének szövege"
+
+msgid "menu_text"
+msgstr "A menü szövege"
+
+msgid "menu_link_reg_color"
+msgstr "Alapértelmezett menülink"
+
+msgid "menu_link_hi_color"
+msgstr "Fedett menülink"
+
+msgid "menu_link_down_color"
+msgstr "Aktív menülink"
+
+msgid "color_preset"
+msgstr "Színsémák:"
+
+msgid "scheme_name"
+msgstr "Írj be saját sémanevet:"
+
+msgid "scheme_file"
+msgstr "Írd be a séma nevét: (helyek és kiterjesztések nélkül)"
+
+msgid "save_btn"
+msgstr "&nbsp;Mentés&nbsp;"
+
+msgid "colors_form_error"
+msgstr "Írj be saját sémanevet."
+
+msgid "theme_doesnt_allow_colors"
+msgstr "A jelenleg kiválasztott téma nem engedélyez saját színeket."
+
+msgid "colors_error"
+msgstr "<h2>Hoppá, vazze!</h2>Az információ nincs elmentve. Probléma adódott a mentéskor.<br /><br />A szerver üzenete:<br />"
+
+msgid "delete_title"
+msgstr "Bejegyzés törlése"
+
+msgid "delete_instructions"
+msgstr "Ezt a bejegyzést akarod törölni. Gondold meg, biztos vagy-e benne!"
+
+msgid "delete_error"
+msgstr "<h2>Hoppá, vazze!</h2>A bejegyzés nem lett törölve.<br /><br />A szerver üzenete:<br />"
+
+msgid "delete_static_title"
+msgstr "Statikus oldal törlése"
+
+msgid "delete_static_instructions"
+msgstr "Ezt a statikus oldalt akarod törölni. Gondold meg, biztos vagy-e benne!"
+
+msgid "delete_static_error"
+msgstr "<h2>Hoppá, vazze!</h2>A bejegyzés nem lett törölve.<br /><br />A szerver üzenete:<br />"
+
+msgid "image_list_title"
+msgstr "Képlista"
+
+msgid "image_list_instructions"
+msgstr "Kattints az alábbi linkre a képek megtekintéséhez.<br /><br />Kép hozzáadásához a bejegyzéshez:<br />1) CTRL-kattintás a linkre és válaszd a 'Link vágólapra másolását'.<br />2) Térj vissza a bejegyzéshez vagy a szerkesztéshez.<br />3) Kattints a 'Kép' gombra, és illeszd be az URL az ablakba."
+
+msgid "info_title"
+msgstr "Meta-információ"
+
+msgid "info_instructions"
+msgstr "Az alábbi adatok metainformációk, amelyek a keresõmotorokat segítik, hogy megtalálják az oldalt."
+
+msgid "info_keywords"
+msgstr "Kulcsszavak: (vesszõvel elválasztva)"
+
+msgid "info_description"
+msgstr "Leírás: (Az oldalad körülírása.)"
+
+msgid "info_copyright"
+msgstr "Jogok: (Másolásvédelem, stb.)"
+
+msgid "info_error"
+msgstr "<h2>Hoppá, vazze!</h2>Az információ nincs mentve. Probléma adódott az információ mentése közben.<br /><br />A szerver üzenete:<br />"
+
+msgid "info_form_error"
+msgstr "Töltsd ki a Cím és Feladó mezõket."
+
+msgid "rating_error"
+msgstr "<h2>Hoppá, vazze!</h2>Az információ nincs mentve. Probléma adódott az információ mentése közben.<br /><br />A szerver üzenete:<br />"
+
+msgid "upgrade"
+msgstr "<h2>Frissítés</h2>"
+
+msgid "upgrade_count"
+msgstr "%n megjegyzést kell frissíteni:"
+
+msgid "upgrade_url"
+msgstr "Megjegyzések frissítése"
+
+msgid "login_title"
+msgstr "Admin Bejelentkezés"
+
+msgid "login_instructions"
+msgstr "Írd be a felhasználónevedet és a jelszót."
+
+msgid "username"
+msgstr "Felhasználónév:"
+
+msgid "password"
+msgstr "Jelszó"
+
+msgid "login_success"
+msgstr "<h2>Siker!</h2>Be vagy jelentkezve! Élvezd a blogodat!<p />"
+
+msgid "login_wrong_password"
+msgstr "<h2>Hoppá, vazze!</h2>Nem vagy bejelentkezve! Ellenõrizd, hogy helyesen írtad-e be a felhasználónevedet és a jelszavadat!<p />"
+
+msgid "login_form_error"
+msgstr "Írd be a felhasználónevedet és a jelszót."
+
+msgid "logout_title"
+msgstr "Kijelentkezés"
+
+msgid "logout_instructions"
+msgstr "<h2>Hoppá, vazze!</h2>A kijelentkezés nem sikerült. A cookiet nem lehet törölni. Miért vagy még mindig bejelentkezve?<p />"
+
+msgid "forms_title"
+msgstr ""
+
+msgid "forms_instructions"
+msgstr ""
+
+msgid "forms_error"
+msgstr "<h2>Hoppá, vazze!</h2>Az információ nincs mentve. Probléma adódott a bejegyzés mentése közben.<br /><br />A szerver üzenete:<br />"
+
+msgid "set_login_title"
+msgstr "Felhasználónév és jelszó cseréje"
+
+msgid "set_login_instructions"
+msgstr "Az alábbi kérdõív segítségével változtathatod a felhasználónevedet és jelszavadat. Írd be a felhasználónevet és a jelszót, amit használni szeretnél."
+
+msgid "set_login_success"
+msgstr "<h2>Siker!</h2>A felhasználóneved és jelszavad aktív! Élvezd a blogodat!<p />"
+
+msgid "set_login_wrong_password"
+msgstr "<h2>Hoppá, vazze!</h2>Az információ nincs mentve. Probléma adódott a felhasználónév és/vagy jelszó mentése közben.<br /><br />A szerver üzenete:<br />"
+
+msgid "set_login_form_error"
+msgstr "Írd be a felhasználónevedet és a jelszót."
+
+msgid "explanation"
+msgstr "Az utóbbi verziókban a jelszóstruktúránk megváltozott. Ezentúl nincs mód a jelszavak frissítésére a blog kódján belül. Ha változtatni akarod a jelszót, töröld a /config/password.php file-t, és ellenõrizd, hogy az install*.php fájlok léteznek a szerveren. Amint ez kész, frissítsd ezt az oldalt, vagy jelentkezz ki. Azt az oldalt fogod kapni, amit elõször is kaptál, mikor megadtad az eredeti jelszót."
+
+msgid "install00_title"
+msgstr "Isten hozott"
+
+msgid "install00_instructions"
+msgstr "Köszönjük, hogy a Simple PHP Blogot használod!"
+
+msgid "blog_choose_language"
+msgstr "Válassz nyelvet:"
+
+msgid "install01_title"
+msgstr "Isten hozott"
+
+msgid "install01_instructions"
+msgstr "  				Köszönjük, hogy a Simple PHP Blogot választottad!<br /><br />A Simple PHP Blog egy egyszerû blogrendszer. PHP 4.1-et vagy jobbat, valamint írásjogot igényel a szerveren. Minden információ egyszerû fájlokban tárolódik, tehát nincs szükség adatbázisra.<br /><br />  				Elsõ lépésként a Simple PHP Blog 3 könyvtárat fog készíteni (<b>config</b>, <b>content</b>, és <b>images</b>), amelyekben az információkat tárolja majd. Utána megadhatod a felhasználónevet és a jelszót, majd kezdheted a blogolást!<br /><br />  				<b>Kattints alább a telepítés elkezdéséhez:</b>"
+
+msgid "begin"
+msgstr "[ A telepítés kezdése ]"
+
+msgid "install02_title"
+msgstr "Telepítés"
+
+msgid "install02_instructions"
+msgstr "A <b>config</b>, <b>content</b>, és <b>images</b> könyvtárak létrehozása:"
+
+msgid "folder_exists"
+msgstr "OK! A könyvtár már létezik. Nem történt változtatás."
+
+msgid "folder_failed"
+msgstr "Hoppá, vazze! Nem jött létre a könyvtár..."
+
+msgid "folder_success"
+msgstr "Siker! A könyvtár létrejött..."
+
+msgid "help"
+msgstr "  				<h2>Hoppá, vazze!</h2>  				Egy vagy több könyvtár nem jött létre!<br /><br />Talán ezek miatt van:<br />  				<ol>  				<li><b>Nincsenek engedélyezve az <b>olvasási/írási</b> jogok.</li>  				<li>Minden file és könyvtár <b>felhasználói azonosítója</b> meg kell, hogy egyezzen.</li>  				</ol>  				Kövesd az alábbi hibaelhárítási tanácsokat, és <b>próbáld újra</b>:<br />  				<ol>  				<li>Manuálisan hozd létre ezeket a könyvtárakat: <b>config</b>, <b>content</b>, and <b>images</b>.</li>  				<li>Engedélyezett <b>írásjogok</b> a könyvtárakon: az FTP programodban, a tulajdonosnak, a felhasználónak, és a világnak is legyenek <b>olvasási</b> és <b>írási</b> jogai. <i>(Esetleg lépj kapcsolatba a rendszeradminisztrátorral...)</i></li>  				<li>Ellenõrizd, hogy minden file és könyvtár felhasználói azonosítója megegyezik. <i>(Esetleg lépj kapcsolatba a rendszeradminisztrátorral...)</i></li>  				</ol>"
+
+msgid "try_again"
+msgstr "[ Próbáld újra ]"
+
+msgid "install02_success"
+msgstr "<h2>Siker!</h2>A könyvtárak sikeresen létrejöttek!<p /><b>Kattints alább a folytatáshoz:</b>"
+
+msgid "continue"
+msgstr "[ Folytatás ]"
+
+msgid "supported"
+msgstr "<b>A webszervered az alább titkosításokat ismeri:</b>"
+
+msgid "standard"
+msgstr "Standard DES Titkosítás: "
+
+msgid "extended"
+msgstr "Bõvített DES Titkosítás: "
+
+msgid "MD5"
+msgstr "MD5 Titkosítás: "
+
+msgid "blowfish"
+msgstr "Blowfish Titkosítás: "
+
+msgid "enabled"
+msgstr "engedélyezve"
+
+msgid "disabled"
+msgstr "tiltva"
+
+msgid "using_standard"
+msgstr "<b>Standard DES Titkosítás használata...</b>"
+
+msgid "using_extended"
+msgstr "<b>Extended DES Titkosítás használata...</b>"
+
+msgid "using_MD5"
+msgstr "<b style='color: green;'>MD5 Titkosítás... használata</b>"
+
+msgid "using_blowfish"
+msgstr "<b style='color: green;'>Blowfish Titkosítás használata...</b>"
+
+msgid "using_unknown"
+msgstr "<b>Ismeretlen Titkosítás használata...</b>"
+
+msgid "salt_length"
+msgstr " <i>(Salt hossz = %string)</i><br />"
+
+msgid "install03_title"
+msgstr "Felhasználónév és jelszó létrehozása"
+
+msgid "install03_instructions"
+msgstr "Az alábbi kérdõívvel hozz létre felhasználónevet és jelszót."
+
+msgid "install03_success"
+msgstr "<h2>Gratula!</h2>Be vagy jelentkezve. Kattints alább a Telepítéshez, ahol elnevezheted a blogot. Élvezd a blogodat!<p />"
+
+msgid "btn_setup"
+msgstr "[ Telepítés ]"
+
+msgid "install03_wrong_password"
+msgstr "<h2>Hoppá, vazze!</h2>Az információ nincs mentve. Probléma adódott a felhasználónév és/vagy a jelszó mentése közben.<br /><br />A szerver üzenete:<br />"
+
+msgid "install03_form_error"
+msgstr "Írd be a felhasználónevedet és a jelszót."
+
+msgid "install04_title"
+msgstr "A jelszót tartalmazó file létrehozása"
+
+msgid "install04_instructions"
+msgstr "Itt a trükkös része:<br />  				<ol>  				<li>Nyiss meg egy szövegszerkesztõ-alkalmazást: <i>(NotePad, WordPad, Word, BBEdit, Pico, VI, stb...)</i></li>  				<li>Hozz létre egy új üres dokumentumot.</li>  				<li>Másold és illeszd be az alábbi kódot a dokumentumba.</li>  				<li>Mentsd el a file-t <b>password.php</b> néven. <i>(Figyelj oda, hogy sima szövegként mentsd el!)</i></li>  				<li>Nyisd meg az FTP programodat.</li>  				<li>Töltsd fel a <b>password.php</b>-t a <b>config</b> könyvtárba.</li>  				<li>Töröld a <b>password.php</b>-t a merevlemezedrõl.</li>  				</ol>  				"
+
+msgid "code"
+msgstr "A <b>password.php</b> kódja:"
+
+msgid "information"
+msgstr "<i>Megjegyzés: Ha ki akarod cserélni a felhasználóneved és a jelszavad, töröld a <b>password.php</b> file-t a <b>config</b> könyvtárból. Amikor legközelebb látogatsz az oldalra, újra végigmehetsz a telepítési folyamaton.</i>"
+
+msgid "install05_title"
+msgstr "Admin Bejelentkezés"
+
+msgid "install05_instructions"
+msgstr "Írd be a felhasználóneved és a jelszavad:"
+
+msgid "install05_success"
+msgstr "<h2>Gratula!</h2>Be vagy jelentkezve.<p />  				Kattints <b>IDE</b>, hogy személyre szabd a blogot.<p />  				<i>Megjegyzés: Most, hogy a telepítés befejezõdött, ajánlott törölni a <b>installXX.php</b> file-okat a weboldalról. (install00.php -> install06.php)</i><p />"
+
+msgid "install05_wrong_password"
+msgstr "<h2>Hoppá, vazze!</h2>Nem vagy bejelentkezve. Ellenõrizd, hogy helyesen írtad-e be a felhasználónevedet és a jelszavadat, majd próbáld újra.<p />"
+
+msgid "install05_form_error"
+msgstr "Írd be a felhasználónevedet és a jelszót."
+
+msgid "btn_try_again"
+msgstr "[ Próbáld újra ]"
+
+msgid "install06_title"
+msgstr "Admin Bejelentkezés"
+
+msgid "install06_instructions"
+msgstr "Írd be a felhasználóneved és a jelszavad:"
+
+msgid "install06_success"
+msgstr "<h2>Gratula!</h2>Be vagy jelentkezve.<p />  				Kattints <b>IDE</b>, hogy személyre szabd a blogot.<p />  				<i>Megjegyzés: Most, hogy a telepítés befejezõdött, ajánlott törölni a <b>installXX.php</b> file-okat a weboldalról. (install00.php -> install06.php)</i><p />"
+
+msgid "install06_wrong_password"
+msgstr "<h2>Hoppá, vazze!</h2>Nem vagy bejelentkezve. Ellenõrizd, hogy helyesen írtad-e be a felhasználónevedet és a jelszavadat, majd próbáld újra.<p />"
+
+msgid "install06_form_error"
+msgstr "Írd be a felhasználónevedet és a jelszót."
+
+msgid "setup_title"
+msgstr "Telepítés"
+
+msgid "setup_instructions"
+msgstr "Alább cserélheted a blogod nevét és a személyes információkat."
+
+msgid "blog_title"
+msgstr "A blog neve:"
+
+msgid "blog_author"
+msgstr "Szerzõ:"
+
+msgid "blog_email"
+msgstr "Email: (Vesszõvel válaszd el az email-címeket - ha üresen hagyod, a Kapcsolat opció hatását veszti)"
+
+msgid "blog_avatar"
+msgstr "Avatar URL: (Hagyd üresen, ha nincs)."
+
+msgid "blog_footer"
+msgstr "Lábléc:"
+
+msgid "blog_enable_comments"
+msgstr "Kommentárok engedélyezése"
+
+msgid "blog_comments_popup"
+msgstr "Kommentárok új ablak való megnyitása"
+
+msgid "blog_enable_voting"
+msgstr "A bejegyzések értékelésének engedélyezése"
+
+msgid "blog_enable_cache"
+msgstr "Blog-gyorsítótár engedélyezése)"
+
+msgid "blog_enable_calendar"
+msgstr "Naptár / Archívum blokkok engedélyezése"
+
+msgid "blog_enable_title"
+msgstr "Sima szöveges cím engedélyezése (Töröld a bejelölést, ha a cím a fejléc grafikájában van)"
+
+msgid "blog_enable_permalink"
+msgstr "Permalink engedélyezése bejegyzéseknél"
+
+msgid "blog_enable_stats"
+msgstr "Statisztika engedélyezése a menüben"
+
+msgid "blog_enable_lastcomments"
+msgstr "Legújabb kommentárok listázásának engedélyezése"
+
+msgid "blog_enable_lastentries"
+msgstr "Legújabb bejegyzések listázásának engedélyezése"
+
+msgid "blog_email_notification"
+msgstr "Email-figyelmeztetés küldése új beíráskor"
+
+msgid "blog_send_pings"
+msgstr "Webnapló &quot;pingek&quot; küldése"
+
+msgid "blog_ping_urls"
+msgstr "Írd be a teljes URL-t (pl. http://rpc.weblogs.com/RPC2) &quot;pingeléshez&quot;.<br />(Több címet is beírhatsz vesszõkkel elválasztva.)"
+
+msgid "blog_trackback_about"
+msgstr "A trackback blogok közötti értesítést biztosít. A trackpack ping által a blog megtudja, hogy linkelsz rá. Általuk megláthatod, ki linkel a blogodra.<br />  				   A pingelési URI-t megadhatod magad is, vagy automatikusan kiderítheted."
+
+msgid "blog_trackback_enabled"
+msgstr "Trackback engedélyezése a blogban"
+
+msgid "blog_trackback_auto_discovery"
+msgstr "Auto-Discovery engedélyezése URL-t tartalmazó küldéskor"
+
+msgid "blog_max_entries"
+msgstr "Maximum kijelzendõ bejegyzések száma:"
+
+msgid "blog_comment_tags"
+msgstr "Megjegyzésekben engedélyezett jelölõelemek:"
+
+msgid "blog_gzip_about"
+msgstr "  					A PHP 4.0.4 óta, a PHP-nek lehetõsége van a gzip (.gz) tömörített fájlok írására és olvasására, a helyspórolás érdekében.  					 Láthatatlanul tömörítheti a böngészõbe küldött oldalakat is, amelyek támogatják a gzip-tömörítést, a sebességnövelés érdekében.<br />  					<br />  					A Zlib-támogatás a PHP-ben alapértelmezettként nincs bekapcsolva. Ha a jelölõnégyzet nincs bepipálva, akkor a PHP nem támogatja a Zlibet."
+
+msgid "blog_enable_gzip_txt"
+msgstr "GZIP tömörítés engedélyezése az adatbázisban levõ fileok számára"
+
+msgid "blog_enable_gzip_output"
+msgstr "GZIP tömörítés engedélyezése a HTTP kimenet számára"
+
+msgid "setup_error"
+msgstr "<h2>Hoppá, vazze!</h2>Az információ nincs mentve. Probléma adódott az információ mentése közben.<br /><br />A szerver üzenete:<br />"
+
+msgid "setup_form_error"
+msgstr "Sziveskedj a Cím és a Szerzõ mezõket kitölteni."
+
+msgid "label_entry_order"
+msgstr "Bejegyzés Sorrend:"
+
+msgid "select_new_to_old"
+msgstr "Újat elõre"
+
+msgid "select_old_to_new"
+msgstr "Régit elõre"
+
+msgid "label_comment_order"
+msgstr "Megjegyzés Sorrend:"
+
+msgid "cal_sunday"
+msgstr "Vasárnap"
+
+msgid "cal_monday"
+msgstr "Hétfõ"
+
+msgid "label_calendar_start"
+msgstr "Naptári Hét Kezdõ Napja"
+
+msgid "title_sidebar"
+msgstr "Oldalsáv"
+
+msgid "title_comments"
+msgstr "Megjegyzések"
+
+msgid "title_trackback"
+msgstr "Trackbackek"
+
+msgid "title_compression"
+msgstr "Tömörítés"
+
+msgid "title_entries"
+msgstr "Bejegyzések"
+
+msgid "title_general"
+msgstr "Általános"
+
+msgid "title_language"
+msgstr "Nyelv"
+
+msgid "options_title"
+msgstr "Opciók"
+
+msgid "options_instructions"
+msgstr "Használd a lejjebb található ûrlapot a blogban és a bejegyzésekben található dátum és idõ kijelzésének testreszabásához. Választhatsz 12 és 24 órás idõkijelzést. Rövid és hosszú dátumkijelzést.  És a  <b>Megtekintés</b> részben megnézheted hogy fog megjelenni a formázásod."
+
+msgid "ldate_title"
+msgstr "Hosszú dátumformátum:"
+
+msgid "weekday"
+msgstr "Hétköznap"
+
+msgid "none"
+msgstr "Semmi"
+
+msgid "sdate_title"
+msgstr "Rövid dátumformátum:"
+
+msgid "s_month"
+msgstr "Hónap"
+
+msgid "s_mon"
+msgstr "HHH"
+
+msgid "s_day"
+msgstr "Nap"
+
+msgid "s_year"
+msgstr "Év"
+
+msgid "zero_day"
+msgstr "Kezdeti nulla a napokhoz"
+
+msgid "show_century"
+msgstr "Évszázad mutatása"
+
+msgid "time_title"
+msgstr "Idõformátum:"
+
+msgid "12hour"
+msgstr "12-órás nézet"
+
+msgid "24hour"
+msgstr "24-órás nézet"
+
+msgid "before_noon"
+msgstr "Délelõtt"
+
+msgid "after_noon"
+msgstr "Délután"
+
+msgid "date_title"
+msgstr "Dátum kijelzésének módja:"
+
+msgid "long_date"
+msgstr "Hosszú dátum"
+
+msgid "short_date"
+msgstr "Rövid dátum"
+
+msgid "time"
+msgstr "Idõ"
+
+msgid "menu_title"
+msgstr "Menü dátumának kijelzési módja:"
+
+msgid "zero_month"
+msgstr "Kezdeti nulla a hónapokhoz"
+
+msgid "zero_hour"
+msgstr "Kezdeti nulla az órákhoz"
+
+msgid "separator"
+msgstr "Elválasztó:"
+
+msgid "preview"
+msgstr "Megtekintés:"
+
+msgid "server_offset"
+msgstr "Szerver-üzemszünet:"
+
+msgid "options_error"
+msgstr "<h2>Hoppá, vazze!</h2>Az információ nincs mentve. Probléma adódott az információ mentése közben.<br /><br />A szerver üzenete:<br />"
+
+msgid "upload_img_title"
+msgstr "Kép feltöltése"
+
+msgid "upload_img_instructions"
+msgstr "Kattints a gombra képek feltöltéséhez."
+
+msgid "select_file"
+msgstr "Válassz file-t:"
+
+msgid "upload_btn"
+msgstr "Feltöltés"
+
+msgid "upload_img_error"
+msgstr "<h2>Hoppá, vazze!</h2>A kép nem lett feltöltve. További információk:<br /><br />A szerver üzenete:<br />"
+
+msgid "themes_title"
+msgstr "Témák"
+
+msgid "themes_instructions"
+msgstr "Használd a lenyíló menüt különbözõ témák kiválasztásához."
+
+msgid "choose_theme"
+msgstr "Témák:"
+
+msgid "themes_error"
+msgstr "<h2>Hoppá, vazze!</h2>Az információ nincs mentve. Probléma adódott az információ mentése közben.<br /><br />A szerver üzenete:<br />"
+
+msgid "search_result_title"
+msgstr "A keresés eredménye"
+
+msgid "search_result_instructions"
+msgstr "A keresés eredménye ehhez: <b>%string</b>:"
+
+msgid "not_found"
+msgstr "Nincs eredmény!"
+
+msgid "contact_capcha"
+msgstr "Anti-Spam: Írd be ezt a számot: "
+
+msgid "contact_title"
+msgstr "Kapcsolat"
+
+msgid "contact_instructions"
+msgstr "Töltsd ki a kérdõívet:"
+
+msgid "contact_form_error"
+msgstr "Töltsd ki a tárgy és megjegyzés mezõket."
+
+msgid "subject"
+msgstr "Tárgy:"
+
+msgid "contact_success"
+msgstr "<h2>Siker!</h2>Az üzenet el lett küldve.<p />"
+
+msgid "failure"
+msgstr "<h2>Hiba!</h2>Az üzenet nem lett elküldve. Valószínûleg az Anti Spam rosszul lett beírva.<p />"
+
+msgid "contactsent"
+msgstr "Kontakt keresztülküldve ezen: "
+
+msgid "errorpage-nocookies_title"
+msgstr "HTTP Hiba 403.8 - Oldal/Funkció Belépés Megtagadva"
+
+msgid "errorline1"
+msgstr "Az oldal vagy funkció amelyet megpróbált lekérni, cookie-k használatát igényli!"
+
+msgid "errorline2"
+msgstr "Cookie-k használatát visszaállítása a böngészõben vagy a védelmi software-ben, vagy próbáld meg mégeszer."
+
+msgid "clientid"
+msgstr "Kliens ID: "
+
+msgid "trackbacks_title"
+msgstr "Trackbackek"
+
+msgid "trackbacks_header"
+msgstr "Trackback cím ehhez a bejegyzéshez:"
+
+msgid "trackbacks_error_add"
+msgstr "Hiba a trackback elmentése közben."
+
+msgid "stats_title"
+msgstr "Statisztika"
+
+msgid "general"
+msgstr "Általános"
+
+msgid "entry_info"
+msgstr "<b>%s</b> bejegyzés, melyben <b>%s</b> szó található, <b>%s</b> byte méretû."
+
+msgid "comment_info"
+msgstr "<b>%s</b> bejegyzés, melyben <b>%s</b> szó található, <b>%s</b> byte méretû."
+
+msgid "trackback_info"
+msgstr "<b>%s</b> trackbackek nagysága <b>%s</b> byte."
+
+msgid "static_info"
+msgstr "<b>%s</b> statikus oldal, melyben <b>%s</b> szó található, <b>%s</b> byte méretû"
+
+msgid "most_viewed_entries"
+msgstr "10 Legtöbbször megtekintett bejegyzés"
+
+msgid "most_commented_entries"
+msgstr "10 Legtöbb megjegyzést kapott bejegyzés"
+
+msgid "most_trackbacked_entries"
+msgstr "10 Legtöbb trackback-et kapott bejegyzés"
+
+msgid "vote_info"
+msgstr "<b>%s</b> szavazatok mérete <b>%s</b> byte."
+
+msgid "most_voted_entries"
+msgstr "10 Legtöbb szavazatot kapott bejegyzés"
+
+msgid "most_rated_entries"
+msgstr "10 Legtöbbre értékelt bejegyzés"
+
+msgid "403.8"
+msgstr "HTTP Hiba 403.8 - Oldal/Funkció Belépés Megtagadva"
+
+msgid "404"
+msgstr "HTTP Hiba 404 - Oldal/Funkció Nem Létezik"
+
+msgid "error_404"
+msgstr "Az oldal vagy funkció amelyet megpróbáltál lekérni nem létezik!"
+
+msgid "error_javascript"
+msgstr "Az oldal vagy funkció amelley próbálkoztál java szkriptet követel a helyes mûködéshez!"
+
+msgid "error_emailnotsent"
+msgstr "Az üzenet elküldése sikertelen!"
+
+msgid "error_emailnotsentcapcha"
+msgstr "Az üzenet elküldése sikertelen, mert a spam védelmi mezõ üres vagy hibásan lett kitöltve!"
+
+msgid "emoticons_title"
+msgstr "Admin Emotikonok"
+
+msgid "emoticons_instructions"
+msgstr "  					Pipáld be az emotikonokat, amelyeket használni akarsz.  					Írd be a hozzá tartozó mezõbe azt a kifejezést, amelyet   					majd helyettesít az emotikon. Több kifejezés is használható  					üres hellyel szétválasztva.<br /><br />  		  					Például:<br />  					:) :-) :MOSOLY: :BOLDOG:<br /><br />  					  					<i>(Ajánlott hogy a kifejezések 2 karakternél hosszabbak legyenek,  					különben váratlan helyettesítések következhetnek be.)</i>"
+
+msgid "upload_instructions"
+msgstr "Új emotikon feltöltése:"
+
+msgid "upload_success"
+msgstr "Siker! A kép sikeresen fel lett töltve!"
+
+msgid "upload_error"
+msgstr "Hiba! A kép nem lett feltöltve!"
+
+msgid "upload_invalid"
+msgstr "Hiba! Érvénytelen képfile. A kiterjesztés png, jpg vagy gif kell hogy legyen."
+
+msgid "save_success"
+msgstr "Az emotikonok beállításai sikeresen el lettek mentve!"
+
+msgid "save_error"
+msgstr "Hiba! Az emotikonok beállításai nem lettek elmentve!"
+
+msgid "save_button"
+msgstr "Emotikonok mentése"
+

@@ -1,0 +1,1266 @@
+msgid "language"
+msgstr "chinese"
+
+msgid "locale"
+msgstr "Array"
+
+msgid "rss_locale"
+msgstr "zh-CN"
+
+msgid "html_charset"
+msgstr "UTF-8"
+
+msgid "php_charset"
+msgstr "UTF-8"
+
+msgid "menu_links"
+msgstr "链接"
+
+msgid "menu_home"
+msgstr "首页"
+
+msgid "menu_contact"
+msgstr "联系我"
+
+msgid "menu_stats"
+msgstr "统计"
+
+msgid "menu_calendar"
+msgstr "Calendar"
+
+msgid "menu_archive"
+msgstr "归档"
+
+msgid "menu_viewarchives"
+msgstr "View Archives"
+
+msgid "menu_menu"
+msgstr "菜单"
+
+msgid "menu_add"
+msgstr "添加条目"
+
+msgid "menu_add_static"
+msgstr "添加静态页面"
+
+msgid "menu_upload"
+msgstr "上传图片"
+
+msgid "menu_setup"
+msgstr "设置"
+
+msgid "menu_categories"
+msgstr "分类"
+
+msgid "menu_info"
+msgstr "信息"
+
+msgid "menu_options"
+msgstr "选项"
+
+msgid "menu_themes"
+msgstr "页面主题"
+
+msgid "menu_colors"
+msgstr "调色"
+
+msgid "menu_change_login"
+msgstr "更改登录"
+
+msgid "menu_logout"
+msgstr "登出"
+
+msgid "menu_login"
+msgstr "登录"
+
+msgid "menu_most_recent"
+msgstr "最新评论"
+
+msgid "menu_most_recent_entries"
+msgstr "最新日志"
+
+msgid "menu_most_recent_trackback"
+msgstr "最新引用"
+
+msgid "menu_add_block"
+msgstr "展台"
+
+msgid "menu_emoticons"
+msgstr "Emoticons"
+
+msgid "menu_avatar"
+msgstr "Avatar"
+
+msgid "counter_today"
+msgstr "Today:"
+
+msgid "counter_yesterday"
+msgstr "Yesterday:"
+
+msgid "counter_totalsidebar"
+msgstr "Total:"
+
+msgid "counter_title"
+msgstr "Counter Totals"
+
+msgid "home"
+msgstr "返回首页"
+
+msgid "nav_next"
+msgstr "下一页"
+
+msgid "nav_back"
+msgstr "上一页"
+
+msgid "search_title"
+msgstr "搜索："
+
+msgid "search_go"
+msgstr "Go"
+
+msgid "page_generated_in"
+msgstr "页面生成时间: %s 秒"
+
+msgid "counter_total"
+msgstr "Site Views: "
+
+msgid "read_more"
+msgstr "Read More..."
+
+msgid "sb_months"
+msgstr "Array"
+
+msgid "sb_default_title"
+msgstr "没有标题"
+
+msgid "sb_default_author"
+msgstr "没有作者"
+
+msgid "sb_default_footer"
+msgstr "没有页脚"
+
+msgid "sb_edit"
+msgstr "编辑"
+
+msgid "sb_delete"
+msgstr "删除"
+
+msgid "sb_permalink"
+msgstr "永久链接"
+
+msgid "sb_trackback"
+msgstr "引用"
+
+msgid "sb_relatedlink"
+msgstr "related link"
+
+msgid "sb_add_comment_btn"
+msgstr "发表评论"
+
+msgid "sb_comment_btn_number_first"
+msgstr "1"
+
+msgid "sb_comment_btn"
+msgstr "评论"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr "1"
+
+msgid "sb_comments_plural_btn"
+msgstr "评论"
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_post"
+msgstr " 次浏览"
+
+msgid "sb_view_counter_plural_pre"
+msgstr ""
+
+msgid "sb_view_counter_plural_post"
+msgstr " 次浏览"
+
+msgid "sb_add_link_btn"
+msgstr "添加/管理链接"
+
+msgid "sb_rate_entry_btn"
+msgstr "点击给日志打分"
+
+msgid "label_subject"
+msgstr "题目："
+
+msgid "label_insert"
+msgstr "插入标签："
+
+msgid "btn_bold"
+msgstr "粗"
+
+msgid "btn_italic"
+msgstr "斜"
+
+msgid "btn_image"
+msgstr "图"
+
+msgid "btn_url"
+msgstr "链"
+
+msgid "btn_readmore"
+msgstr "read more"
+
+msgid "view_images"
+msgstr "浏览上传的图片"
+
+msgid "label_entry"
+msgstr "内容："
+
+msgid "btn_preview"
+msgstr "&nbsp;预览&nbsp;"
+
+msgid "btn_post"
+msgstr "&nbsp;发表&nbsp;"
+
+msgid "file_name"
+msgstr "静态文件名：(不包含空格及文件扩展名)"
+
+msgid "insert_styles"
+msgstr "输入要格式化的文字"
+
+msgid "insert_image"
+msgstr "输入图片的地址"
+
+msgid "insert_url1"
+msgstr "输入链接的说明文字(可选)"
+
+msgid "insert_url2"
+msgstr "输入链接的完整地址"
+
+msgid "insert_url3"
+msgstr "在新窗口中打开链接(可选)："
+
+msgid "add_form_error"
+msgstr "请完整填写条目的题目和内容。"
+
+msgid "insert_image_optional"
+msgstr "可选："
+
+msgid "insert_image_width"
+msgstr "宽度(可选)："
+
+msgid "insert_image_height"
+msgstr "高度(可选)："
+
+msgid "insert_image_popup"
+msgstr "点击后在弹出窗口浏览全图(可选)："
+
+msgid "insert_image_float"
+msgstr "浮动(可选)："
+
+msgid "day"
+msgstr "Day"
+
+msgid "month"
+msgstr "Month"
+
+msgid "year"
+msgstr "Year"
+
+msgid "hour"
+msgstr "Hour"
+
+msgid "minute"
+msgstr "Minute"
+
+msgid "second"
+msgstr "Second"
+
+msgid "add_title"
+msgstr "添加条目"
+
+msgid "title_ad"
+msgstr "确认发送引用通告"
+
+msgid "add_instructions"
+msgstr "您准备好了么? 填写下面的表单然后按“预览”来查看条目的样子，或者按“发表”以保存条目。"
+
+msgid "instructions_ad"
+msgstr "这些是程序自动挖掘的将要发送引用通告的网址。如果您不想对每个网址发送通告，就取消对它的选择。按“确定”以发送通告，按“取消”则不发送通告。"
+
+msgid "label_tb_ping"
+msgstr "将要发送的通告（以英文逗号分开）"
+
+msgid "label_tb_autodiscovery"
+msgstr "自动挖掘"
+
+msgid "label_relatedlink"
+msgstr "Related Link"
+
+msgid "label_categories"
+msgstr "Category List"
+
+msgid "add_instructions_update"
+msgstr "您可以使用下面的表单更新您的条目。准备好了就按“预览”或“发表”。"
+
+msgid "ok_btn"
+msgstr "&nbsp;确定&nbsp;"
+
+msgid "cancel_btn"
+msgstr "&nbsp;取消&nbsp;"
+
+msgid "add_error"
+msgstr "<h2>哇！</h2>条目没有保存。在保存条目时遇到了一个问题。<br /><br />服务器报告：<br />"
+
+msgid "add_static_form_error"
+msgstr "请完整填写标题、内容和文件名。"
+
+msgid "add_static_title"
+msgstr "添加静态页面"
+
+msgid "add_static_instructions"
+msgstr "填写下面的表单来生成一个静态页面。和标准的日志条目不同的是，静态条目的链接直接显示在页面右侧的菜单。这些用于常用的内容，比如：关于我、联系我们、工作计划等。按“预览”来查看条目的样子，或者按“发表”以保存条目。"
+
+msgid "add_static_instructions_update"
+msgstr "您可以使用下面的表单更新您的条目。准备好了就按“预览”或“发表”。"
+
+msgid "add_static_error"
+msgstr "<h2>哇！</h2>条目没有保存。在保存条目时遇到了一个问题。<br /><br />服务器报告：<br />"
+
+msgid "comments_form_error"
+msgstr "请完整填写名字和评论项目。"
+
+msgid "name"
+msgstr "Name:"
+
+msgid "email"
+msgstr "Email:"
+
+msgid "homepage"
+msgstr "Homepage:"
+
+msgid "comment"
+msgstr "Comment:"
+
+msgid "IPAddress"
+msgstr "IP Address:"
+
+msgid "useragent"
+msgstr "User Agent:"
+
+msgid "wrote"
+msgstr "<i>On %s, %s wrote:</i><br /> <br /> %s"
+
+msgid "comment_capcha"
+msgstr "反垃圾(Anti-Spam): 输入 "
+
+msgid "comments_title"
+msgstr "评论"
+
+msgid "comments_header"
+msgstr "发表评论"
+
+msgid "comments_instructions"
+msgstr "填写下面的表单来发表您的评论。"
+
+msgid "comment_name"
+msgstr "您的名字："
+
+msgid "comment_email"
+msgstr "电子邮箱："
+
+msgid "comment_url"
+msgstr "网址："
+
+msgid "commentposted"
+msgstr "New comment posted at: "
+
+msgid "comment_remember"
+msgstr "记住我："
+
+msgid "comment_text"
+msgstr "评论："
+
+msgid "post_btn"
+msgstr "&nbsp;发表评论&nbsp;"
+
+msgid "delete_btn"
+msgstr "删除"
+
+msgid "expired_comment1"
+msgstr "We are sorry. New comments are not allowed after "
+
+msgid "expired_comment2"
+msgstr " days."
+
+msgid "blacklisted"
+msgstr "Sorry, your IP address has been banned. Comments not allowed."
+
+msgid "comments_error_add"
+msgstr "<h2>哇！</h2>评论没有保存。在保存评论时遇到了一个问题。<br /><br />服务器报告：<br />"
+
+msgid "comments_error_delete"
+msgstr "<h2>哇！</h2>评论没有删除。在删除评论时遇到了一个问题。<br /><br />服务器报告：<br />"
+
+msgid "add_block_form_error"
+msgstr "请输入名称。"
+
+msgid "add_block_title"
+msgstr "添加 / 管理展台"
+
+msgid "add_block_instructions"
+msgstr "添加自定义的展台。展台(blocks)是页面菜单栏上的区块，您添加一个试试看就明白了。"
+
+msgid "up"
+msgstr "向上"
+
+msgid "down"
+msgstr "向下"
+
+msgid "edit"
+msgstr "编辑"
+
+msgid "delete"
+msgstr "删除"
+
+msgid "block_name"
+msgstr "Block Name:"
+
+msgid "block_content"
+msgstr "Block content:"
+
+msgid "add_block_instructions_edit"
+msgstr "您正在编辑一个展台："
+
+msgid "add_block_instructions_modify"
+msgstr "点击以修改一个展台："
+
+msgid "add_block_submit_btn_edit"
+msgstr "编辑展台"
+
+msgid "add_block_submit_btn_add"
+msgstr "添加展台"
+
+msgid "static_pages"
+msgstr "静态页面："
+
+msgid "add_link_title"
+msgstr "添加/管理链接"
+
+msgid "add_link_instructions"
+msgstr "添加自定义的指向其他站点的链接。填写下面的表单然后按“添加链接”来添加一个链接。按向上向下的按钮来改变链接的次序。按编辑按钮来改动链接。按删除按钮来移除一个链接。"
+
+msgid "link_name"
+msgstr "链接名称："
+
+msgid "link_url"
+msgstr "链接地址：(可选。留空来生成一个分隔符。)"
+
+msgid "add_link_instructions_edit"
+msgstr "您正在编辑链接："
+
+msgid "add_link_instructions_modify"
+msgstr "按下面的按钮来改动一个链接："
+
+msgid "add_link_submit_btn_edit"
+msgstr "编辑链接"
+
+msgid "add_link_submit_btn_add"
+msgstr "添加链接"
+
+msgid "add_link_form_error"
+msgstr "请填写链接名称。"
+
+msgid "categories_title"
+msgstr "添加 / 管理分类"
+
+msgid "categories_instructions"
+msgstr "使用下面的表单来添加和编辑分类。每个类别的格式应该为“分类名(数字编号)'。可以用空格缩进来制造多层分类。<br /><br /><b>例如：</b><br />第一大类(1)<br />第二大类(3)<br />&nbsp;&nbsp;第1小类(6)<br />&nbsp;&nbsp;第2小类(5)<br />&nbsp;&nbsp;&nbsp;&nbsp;小小类(7)<br />第三大类(2)<br />"
+
+msgid "categories_error"
+msgstr "错误"
+
+msgid "current_categories"
+msgstr "当前分类"
+
+msgid "no_categories_found"
+msgstr "没有分类"
+
+msgid "category_list"
+msgstr "分类列表："
+
+msgid "validate"
+msgstr "验证"
+
+msgid "submit_btn"
+msgstr "&nbsp;提交&nbsp;"
+
+msgid "colors_title"
+msgstr "调色"
+
+msgid "colors_instructions"
+msgstr "您可以改变日志的文字和背景的颜色。先在下面选择项目，然后使用调色板来获得颜色。色值是自动改变的。"
+
+msgid "bg_color"
+msgstr "日志页面"
+
+msgid "main_bg_color"
+msgstr "日志主体"
+
+msgid "border_color"
+msgstr "页面边框"
+
+msgid "inner_border_color"
+msgstr "内边框"
+
+msgid "header_bg_color"
+msgstr "日志页眉"
+
+msgid "header_txt_color"
+msgstr "页眉文字"
+
+msgid "menu_bg_color"
+msgstr "日志菜单"
+
+msgid "footer_bg_color"
+msgstr "日志页脚"
+
+msgid "txt_color"
+msgstr "主体文字"
+
+msgid "headline_txt_color"
+msgstr "标题文字"
+
+msgid "date_txt_color"
+msgstr "日期文字"
+
+msgid "footer_txt_color"
+msgstr "页脚文字"
+
+msgid "link_reg_color"
+msgstr "链接缺省"
+
+msgid "link_hi_color"
+msgstr "链接悬浮"
+
+msgid "link_down_color"
+msgstr "链接激活"
+
+msgid "entry_bg"
+msgstr "条目背景"
+
+msgid "entry_title_bg"
+msgstr "条目标题背景"
+
+msgid "entry_border"
+msgstr "条目边框"
+
+msgid "entry_title_text"
+msgstr "条目标题文字"
+
+msgid "entry_text"
+msgstr "条目文字"
+
+msgid "menu_bg"
+msgstr "菜单背景"
+
+msgid "menu_title_bg"
+msgstr "菜单标题背景"
+
+msgid "menu_border"
+msgstr "菜单边框"
+
+msgid "menu_title_text"
+msgstr "菜单标题文字"
+
+msgid "menu_text"
+msgstr "菜单文字"
+
+msgid "menu_link_reg_color"
+msgstr "菜单链接缺省"
+
+msgid "menu_link_hi_color"
+msgstr "菜单链接悬浮"
+
+msgid "menu_link_down_color"
+msgstr "菜单链接激活"
+
+msgid "color_preset"
+msgstr "配色方案："
+
+msgid "scheme_name"
+msgstr "输入配色方案的名称："
+
+msgid "scheme_file"
+msgstr "输入配色方案的文件名：(不包含空格和扩展名)"
+
+msgid "save_btn"
+msgstr "&nbsp;保存&nbsp;"
+
+msgid "colors_form_error"
+msgstr "请输入您定制的配色方案的名称。"
+
+msgid "theme_doesnt_allow_colors"
+msgstr "The currently selected theme does not allow for custom colors."
+
+msgid "colors_error"
+msgstr "<h2>哇！</h2>信息没有保存。在保存信息时遇到了一个问题。<br /><br />服务器报告：<br />"
+
+msgid "delete_title"
+msgstr "删除条目"
+
+msgid "delete_instructions"
+msgstr "这是您准备删除的条目。请确定您真的想干掉它，这个操作是无法挽回的……"
+
+msgid "delete_error"
+msgstr "<h2>哇！</h2>条目没有删除。<br /><br />服务器报告：<br />"
+
+msgid "delete_static_title"
+msgstr "删除静态页面"
+
+msgid "delete_static_instructions"
+msgstr "这是您准备删除的静态页面。请确定您真的想干掉它，这个操作是无法挽回的……"
+
+msgid "delete_static_error"
+msgstr "<h2>哇！</h2>条目没有删除。<br /><br />服务器报告：<br />"
+
+msgid "image_list_title"
+msgstr "图片列表"
+
+msgid "image_list_instructions"
+msgstr "点击下面的链接来浏览图片。<br /><br />要把图片添加到条目：<br />1) 右击一个链接然后选择“拷贝链接到剪切板”。<br />2) 回到添加条目或编辑条目的页面。<br />3) 点击“图”按钮然后复制链接地址。"
+
+msgid "info_title"
+msgstr "Meta-Data信息"
+
+msgid "info_instructions"
+msgstr "下面的信息用来设置&quot;meta-data&quot;，它有助于搜索引擎正确地找到和识别您的站点。信息也可用于RSS。"
+
+msgid "info_keywords"
+msgstr "关键词：(以英文逗号分隔。)"
+
+msgid "info_description"
+msgstr "描述：(您的站点的简介。)"
+
+msgid "info_copyright"
+msgstr "权利：(版权声明或相关信息的链接。)"
+
+msgid "info_error"
+msgstr "<h2>哇！</h2>信息没有保存。在保存信息时遇到了一个问题。<br /><br />服务器报告：<br />"
+
+msgid "info_form_error"
+msgstr "请完整填写标题和作者字段。"
+
+msgid "rating_error"
+msgstr "<h2>哇！</h2>信息没有保存。在保存信息时遇到了一个问题。<br /><br />服务器报告：<br />"
+
+msgid "upgrade"
+msgstr "<h2>升级</h2>"
+
+msgid "upgrade_count"
+msgstr "%n 个评论文件需要升级："
+
+msgid "upgrade_url"
+msgstr "升级评论文件"
+
+msgid "login_title"
+msgstr "登录"
+
+msgid "login_instructions"
+msgstr "请输入您的用户名和密码"
+
+msgid "username"
+msgstr "用户名："
+
+msgid "password"
+msgstr "密码："
+
+msgid "login_success"
+msgstr "<h2>成功！</h2>您已经登入。呵呵^_^<p />"
+
+msgid "login_wrong_password"
+msgstr "<h2>哇！</h2>您没有登入。请检查您输入的用户名和密码是否正确并再试一次。<p />"
+
+msgid "login_form_error"
+msgstr "请完整填写您的用户名和密码。"
+
+msgid "logout_title"
+msgstr "登出"
+
+msgid "logout_instructions"
+msgstr "<h2>哇！</h2>登出失败。不能删除cookie。您怎么还在登入状态呢?<p />"
+
+msgid "forms_title"
+msgstr ""
+
+msgid "forms_instructions"
+msgstr ""
+
+msgid "forms_error"
+msgstr "<h2>哇！</h2>信息没有保存。在保存信息时遇到了一个问题。<br /><br />服务器报告：<br />"
+
+msgid "set_login_title"
+msgstr "改变用户名 &amp; 密码"
+
+msgid "set_login_instructions"
+msgstr "使用下面的表单来改变您的用户名和(或)密码。输入您要使用的用户名和密码。"
+
+msgid "set_login_success"
+msgstr "<h2>成功！</h2>您的用户名和密码已经改变。呵呵^_^<p />"
+
+msgid "set_login_wrong_password"
+msgstr "<h2>哇！</h2>信息没有保存。在保存用户名和密码时遇到了一个问题。<br /><br />服务器报告：<br />"
+
+msgid "set_login_form_error"
+msgstr "请完整填写您的用户名和密码。"
+
+msgid "explanation"
+msgstr "In recent versions, our password structure has changed.  There is no longer a way to update passwords  					and/or logins from inside the blog code.  In order to change your password, delete /config/password.php and make sure install*.php  					exists on the local server.  Once that is done, refresh this page (or logout).  You will be presented with the same script  					to generate your password as you did when originally creating the blog site."
+
+msgid "install00_title"
+msgstr "欢迎"
+
+msgid "install00_instructions"
+msgstr "感谢您选用 Simple PHP Blog！"
+
+msgid "blog_choose_language"
+msgstr "请选择语言："
+
+msgid "install01_title"
+msgstr "欢迎"
+
+msgid "install01_instructions"
+msgstr "  				感谢您选用 Simple PHP Blog！<br /><br />Simple PHP Blog是一个轻便的blog系统。它需要PHP 4.1或更高版本，以及服务器段的写权限。所有信息保存在文件里，所以不需要数据库。<br /><br />  				在开始时， Simple PHP Blog需要创建三个目录('config'、'content'、'images')来存放信息。<br /><br />  				<b>按下面的按钮来开始安装：</b>"
+
+msgid "begin"
+msgstr "[ 开始安装 ]"
+
+msgid "install02_title"
+msgstr "安装"
+
+msgid "install02_instructions"
+msgstr "尝试创建'config'、'content'和'images'目录："
+
+msgid "folder_exists"
+msgstr "太好了！目录已经存在了。不需要作什么改动……"
+
+msgid "folder_failed"
+msgstr "哇！不能创建目录……"
+
+msgid "folder_success"
+msgstr "成功了！目录已创建……"
+
+msgid "help"
+msgstr "  				<h2>哇！</h2>  				不能创建一个或更多目录！这很可能是因为：<br>  				<i>1) <b>写权限</b>不被允许。</i><br>  				<i>2)文件和目录的<b>UID</b>不匹配。</i><p />  				  				请按照下面的疑难解答再试一次：<p />  				1) 手工创建目录：<b>config</b>、<b>content</b>、<b>images</b>。<p />  				2) 允许目录的<b>写权限</b>。在FTP程序里Owner、User和World应该允许<b>读</b>和<b>写</b>访问。<i>(您可能需要联系您的服务提供商来做这些改动……)</i><p />  				3) 确认您的文件和目录的UID都相同。<i>(您可能需要联系您的服务提供商来做这些改动……)</i>"
+
+msgid "try_again"
+msgstr "[ 再试一次 ]"
+
+msgid "install02_success"
+msgstr "<h2>成功了！</h2>目录创建成功！<p /><b>点击下面的按钮继续：</b>"
+
+msgid "continue"
+msgstr "[ 继续 ]"
+
+msgid "supported"
+msgstr "<b>Your web server supports the following encryption schemes:</b>"
+
+msgid "standard"
+msgstr "Standard DES Encryption: "
+
+msgid "extended"
+msgstr "Extended DES Encryption: "
+
+msgid "MD5"
+msgstr "MD5 Encryption: "
+
+msgid "blowfish"
+msgstr "Blowfish Encryption: "
+
+msgid "enabled"
+msgstr "enabled"
+
+msgid "disabled"
+msgstr "disabled"
+
+msgid "using_standard"
+msgstr "<b>Using Standard DES Encryption...</b>"
+
+msgid "using_extended"
+msgstr "<b>Using Extended DES Encryption...</b>"
+
+msgid "using_MD5"
+msgstr "<b style='color: green;'>Using MD5 Encryption...</b>"
+
+msgid "using_blowfish"
+msgstr "<b style='color: green;'>Using Blowfish Encryption...</b>"
+
+msgid "using_unknown"
+msgstr "<b>Using Unknown Encryption...</b>"
+
+msgid "salt_length"
+msgstr " <i>(Salt Length = %string)</i><br />"
+
+msgid "install03_title"
+msgstr "创建用户名 &amp; 密码"
+
+msgid "install03_instructions"
+msgstr "使用下面的表单来创建一个用户名和密码。"
+
+msgid "install03_success"
+msgstr "<h2>祝贺！</h2>您已经登入。点击下面的按钮来访问设置页面，在那里您可以给您的blog命名。呵呵^_^<p />"
+
+msgid "btn_setup"
+msgstr "[ 设置 ]"
+
+msgid "install03_wrong_password"
+msgstr "<h2>哇！</h2>信息没有保存。在保存用户名和密码时遇到了一个问题。<br /><br />服务器报告：<br />"
+
+msgid "install03_form_error"
+msgstr "请完整填写您的用户名和密码。"
+
+msgid "install04_title"
+msgstr "Create Password File"
+
+msgid "install04_instructions"
+msgstr "Here's the tricky part:<br />  				<ol>  				<li>Open a Text Editor application. <i>(Note Pad, Word Pad, Word, BBEdit, Pico, VI, etc...)</i></li>  				<li>Create a New Text Document.</li>  				<li>Copy and paste the code in the box below into your document.</li>  				<li>Save your file and name it <b>password.php</b> <i>(Be sure to save it in <b>text</b> or <b>plain text</b> format.)</i></li>  				<li>Open a FTP application.</li>  				<li>Upload your new <b>password.php</b> into the <b>config</b> folder on your web site.</li>  				<li>Delete the <b>password.php</b> from your hard drive.</li>  				</ol>  				"
+
+msgid "information"
+msgstr "<i>Note: If you want to reset your username and password (probably because you forgot it), delete the <b>password.php</b> file in the <b>config</b> folder on your web site. The next time you visit your site, it will walk you through this installation process again...</i>"
+
+msgid "code"
+msgstr "Code for <b>password.php</b> file:"
+
+msgid "install05_title"
+msgstr "Login"
+
+msgid "install05_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid "install05_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in.<p />  				Click below to visit the <b>Setup</b> page, where you can personalize your new blog.<p />  				<i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install05_wrong_password"
+msgstr "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your Username and Password correctly and try again.<p />"
+
+msgid "install05_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "btn_try_again"
+msgstr "[ Try Again ]"
+
+msgid "install06_title"
+msgstr "Login"
+
+msgid "install06_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid "install06_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in.<p />  				Click below to visit the <b>Setup</b> page, where you can personalize your new blog.<p />  				<i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install06_wrong_password"
+msgstr "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your Username and Password correctly and try again.<p />"
+
+msgid "install06_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "setup_title"
+msgstr "设置"
+
+msgid "setup_instructions"
+msgstr "您可以在下面改变您的blog的名字，以及您的个人信息。"
+
+msgid "blog_title"
+msgstr "网志标题："
+
+msgid "blog_author"
+msgstr "作者："
+
+msgid "blog_email"
+msgstr "电子邮箱："
+
+msgid "blog_avatar"
+msgstr "Avatar URL: (Leave blank for none)."
+
+msgid "blog_footer"
+msgstr "页脚："
+
+msgid "blog_enable_comments"
+msgstr "允许访客评论"
+
+msgid "blog_comments_popup"
+msgstr "在弹出窗口打开评论"
+
+msgid "blog_enable_voting"
+msgstr "允许访客对日志打分"
+
+msgid "blog_enable_cache"
+msgstr "Enable Blog Entry Cache (may provide speed increase on some servers)"
+
+msgid "blog_enable_calendar"
+msgstr "Enable Calendar / Archives Block"
+
+msgid "blog_enable_archives"
+msgstr "Enable Archives Block"
+
+msgid "blog_enable_counter"
+msgstr "Enable Counter in Sidebar"
+
+msgid "blog_counter_hours"
+msgstr "Number of hours to delay before hits are counted again (based on specific ip address):"
+
+msgid "blog_enable_login"
+msgstr "Enable Login Link (Please bookmark 'login.php' first...)"
+
+msgid "blog_enable_title"
+msgstr "Enable Plain Text Title Block (Clear checkbox if the title is in the header graphic)"
+
+msgid "blog_enable_permalink"
+msgstr "Enable Permalink on Blog Entries"
+
+msgid "blog_enable_capcha"
+msgstr "Enable Anti-Spam"
+
+msgid "blog_footer_counter"
+msgstr "Enable Counter in Footer"
+
+msgid "blog_enable_capcha_image"
+msgstr "Anti-Spam Images (GD library only) / Anti-Spam Text Field"
+
+msgid "blog_enable_stats"
+msgstr "Enable Stats Option in Menu"
+
+msgid "blog_enable_lastcomments"
+msgstr "Enable Most Recent Comments Listing"
+
+msgid "blog_enable_lastentries"
+msgstr "Enable Most Recent Entries Listing"
+
+msgid "blog_email_notification"
+msgstr "当收到评论时发送电子邮件通知"
+
+msgid "blog_send_pings"
+msgstr "发送引用通告"
+
+msgid "blog_ping_urls"
+msgstr "输入完整的引用通告的超链接(比如 http://rpc.weblogs.com/RPC2)。<br />(您可以以英文逗号分隔输入多个网址。)"
+
+msgid "blog_trackback_about"
+msgstr "引用通告(trackback)提供了不同网志(blog)之间互相沟通的一条途径。通过  					向别的网志发送引用通告可以让别人知道您链接了他的网志。而您  					可以通过接收引用通告来知晓谁在链接您的网志。<br />  						您可以手工填写要发送引用通告的网址，也可以把它交给  						自动挖掘程序来完成。"
+
+msgid "blog_trackback_enabled"
+msgstr "在我的网志中启用引用通告"
+
+msgid "blog_trackback_auto_discovery"
+msgstr "提交包含超链接的内容时启用自动挖掘"
+
+msgid "blog_max_entries"
+msgstr "最多显示条目数："
+
+msgid "blog_comment_tags"
+msgstr "在评论中允许使用标签："
+
+msgid "blog_gzip_about"
+msgstr "  					从PHP 4.0.4版开始，PHP支持对gzip(.gz)压缩文件的读写，  					这可以节省磁盘空间。它也可以把压缩的页面传送给  					支持gzip的浏览器，这样可以节省带宽。<br />  					<br />  					PHP中对Zlib的支持不是缺省的。如果选取框无法选中  					意味着您使用的PHP系统不支持Zlib。"
+
+msgid "blog_enable_gzip_txt"
+msgstr "对数据文件使用GZIP压缩"
+
+msgid "blog_enable_gzip_output"
+msgstr "对HTTP输出使用GZIP压缩"
+
+msgid "setup_error"
+msgstr "<h2>哇！</h2>信息没有保存。在保存信息时遇到了一个问题。<br /><br />服务器报告：<br />"
+
+msgid "setup_form_error"
+msgstr "请完整填写标题和作者。"
+
+msgid "label_entry_order"
+msgstr "条目次序："
+
+msgid "select_new_to_old"
+msgstr "新的在前"
+
+msgid "select_old_to_new"
+msgstr "旧的在前"
+
+msgid "label_comment_order"
+msgstr "评论次序："
+
+msgid "cal_sunday"
+msgstr "Sunday"
+
+msgid "cal_monday"
+msgstr "Monday"
+
+msgid "label_calendar_start"
+msgstr "Calendar Week Start Day"
+
+msgid "title_sidebar"
+msgstr "Sidebar"
+
+msgid "title_comments"
+msgstr "Comments"
+
+msgid "title_trackback"
+msgstr "Trackbacks"
+
+msgid "title_compression"
+msgstr "Compression"
+
+msgid "title_entries"
+msgstr "Entries"
+
+msgid "title_general"
+msgstr "General"
+
+msgid "title_language"
+msgstr "Language"
+
+msgid "blog_comment_days_expiry"
+msgstr "Comments Allowed For How Many Days? (0 means no expiry)"
+
+msgid "options_title"
+msgstr "选项"
+
+msgid "options_instructions"
+msgstr "使用下面的表单来自定义条目和评论的日期和时间的显示。您可以选择12或24小时计时。长日期或短日期格式。<b>预览</b>区域会自动更新以显示您定义的格式的样子。"
+
+msgid "ldate_title"
+msgstr "长日期格式："
+
+msgid "weekday"
+msgstr "星期"
+
+msgid "none"
+msgstr "无"
+
+msgid "sdate_title"
+msgstr "短日期格式"
+
+msgid "s_month"
+msgstr "月"
+
+msgid "s_mon"
+msgstr "MMM"
+
+msgid "s_day"
+msgstr "日"
+
+msgid "s_year"
+msgstr "年"
+
+msgid "zero_day"
+msgstr "个位日期前加零"
+
+msgid "show_century"
+msgstr "显示世纪"
+
+msgid "time_title"
+msgstr "时间格式："
+
+msgid "12hour"
+msgstr "12小时计时"
+
+msgid "24hour"
+msgstr "24小时计时"
+
+msgid "before_noon"
+msgstr "上午"
+
+msgid "after_noon"
+msgstr "下午"
+
+msgid "date_title"
+msgstr "日期显示格式"
+
+msgid "long_date"
+msgstr "长日期"
+
+msgid "short_date"
+msgstr "短日期"
+
+msgid "time"
+msgstr "时间"
+
+msgid "menu_title"
+msgstr "菜单日期显示格式："
+
+msgid "zero_month"
+msgstr "个位月份前加零"
+
+msgid "zero_hour"
+msgstr "个位小时前加零"
+
+msgid "separator"
+msgstr "分隔符"
+
+msgid "preview"
+msgstr "预览："
+
+msgid "server_offset"
+msgstr "服务器时差："
+
+msgid "options_error"
+msgstr "<h2>哇！</h2>信息没有保存。在保存信息时遇到了一个问题。<br /><br />服务器报告：<br />"
+
+msgid "upload_img_title"
+msgstr "上传图片"
+
+msgid "upload_img_instructions"
+msgstr "点击按钮选择要上传的文件。"
+
+msgid "select_file"
+msgstr "选择文件："
+
+msgid "upload_btn"
+msgstr "上传"
+
+msgid "upload_img_error"
+msgstr "<h2>哇！</h2>不能上传图片。请看更多信息：<br /><br />服务器报告：<br />"
+
+msgid "themes_title"
+msgstr "页面主题"
+
+msgid "themes_instructions"
+msgstr "使用下拉菜单选择不同的页面主题"
+
+msgid "choose_theme"
+msgstr "页面主题："
+
+msgid "themes_error"
+msgstr "<h2>哇！</h2>信息没有保存。在保存信息时遇到了一个问题。<br /><br />服务器报告：<br />"
+
+msgid "search_result_title"
+msgstr "搜索结果"
+
+msgid "search_result_instructions"
+msgstr "搜索 <b>%string</b> 的结果："
+
+msgid "not_found"
+msgstr "没有找到。"
+
+msgid "contact_capcha"
+msgstr "反垃圾：输入 <b>%s</b>"
+
+msgid "contact_title"
+msgstr "联系我"
+
+msgid "contact_instructions"
+msgstr "填写以下表单："
+
+msgid "contact_form_error"
+msgstr "请完整填写标题和内容。"
+
+msgid "subject"
+msgstr "标题："
+
+msgid "contact_success"
+msgstr "<h2>成功！</h2>您的信息已发送！<p />"
+
+msgid "failure"
+msgstr "<h2>Error!</h2>Your message has not been sent. Most likely the Anti Spam was not entered properly.<p />"
+
+msgid "contactsent"
+msgstr "Contact sent through: "
+
+msgid "errorpage-nocookies_title"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "errorline1"
+msgstr "The page or function you attempted to process requires the use of cookies."
+
+msgid "errorline2"
+msgstr "Restore cookie functionality within your browser or protection software and attempt your request again."
+
+msgid "clientid"
+msgstr "Client ID: "
+
+msgid "trackbacks_title"
+msgstr "引用"
+
+msgid "trackbacks_header"
+msgstr "这篇日志的引用地址："
+
+msgid "trackbacks_error_add"
+msgstr "存储引用信息时出错。"
+
+msgid "stats_title"
+msgstr "<h2>统计</h2>"
+
+msgid "general"
+msgstr "<h3>总览</h3>"
+
+msgid "entry_info"
+msgstr "<b>%s</b> 篇日志共计 <b>%s</b> 文字, 占用磁盘空间 <b>%s</b> 字节"
+
+msgid "comment_info"
+msgstr "<b>%s</b> 篇评论共计 <b>%s</b> 文字, 占用磁盘空间 <b>%s</b> 字节"
+
+msgid "trackback_info"
+msgstr "<b>%s</b> 篇引用占用磁盘空间 <b>%s</b> 字节"
+
+msgid "static_info"
+msgstr "<b>%s</b> 篇静态页面共计 <b>%s</b> 文字, 占用磁盘空间 <b>%s</b> 字节"
+
+msgid "most_viewed_entries"
+msgstr "<h3>10 篇浏览最多的日志</h3>"
+
+msgid "most_commented_entries"
+msgstr "<h3>10 篇评论最多的日志</h3>"
+
+msgid "most_trackbacked_entries"
+msgstr "<h3>10 篇引用最多的日志</h3>"
+
+msgid "vote_info"
+msgstr "<b>%s</b> 条投票占用磁盘空间 <b>%s</b> 字节"
+
+msgid "most_voted_entries"
+msgstr "<h3>10 篇投票最多的日志</h3>"
+
+msgid "most_rated_entries"
+msgstr "<h3>10 篇打分最多的日志</h3>"
+
+msgid "403.8"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "404"
+msgstr "HTTP Error 404 - Page/Function Does Not Exist"
+
+msgid "error_404"
+msgstr "The page or function you attempted to process does not exist."
+
+msgid "error_javascript"
+msgstr "The page or function you attempted requires javascript in order to properly function."
+
+msgid "error_emailnotsent"
+msgstr "The message you attempted to send has failed."
+
+msgid "error_emailnotsentcapcha"
+msgstr "The message you attempted to send has failed because the anti-spam entry was incorrect or missing."
+
+msgid "emoticons_title"
+msgstr "Admin Emoticons"
+
+msgid "emoticons_instructions"
+msgstr "  					Check the emoticons you want to use. Write in the box the Tags you want   					to be replaced by the image. Multiple tags may be used, just separated them   					by spaces.<br /><br />  		  					For instance:<br />  					:) :-) :SMILE: :HAPPY:<br /><br />  					  					<i>(It is highly recommended that you make the Tags longer than 2 characters,   					otherwise unexpected substitutions may occur.)</i>"
+
+msgid "upload_instructions"
+msgstr "Upload New Emoticon:"
+
+msgid "upload_success"
+msgstr "Success! Image uploaded successfully!"
+
+msgid "upload_error"
+msgstr "Error! Image was not uploaded."
+
+msgid "upload_invalid"
+msgstr "Error! Invalid image file. Image must be a png, jpg, or gif."
+
+msgid "save_success"
+msgstr "Emoticon preferences saved successfully!"
+
+msgid "save_error"
+msgstr "Error! Emoticon preferences not saved."
+
+msgid "save_button"
+msgstr "Save Emoticons"
+

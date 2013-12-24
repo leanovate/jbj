@@ -1,0 +1,1 @@
+name|Ghost - Classic|bg_color|F7F7F7|border_color|CCCCCC|main_bg_color|FFFFFF|menu_bg_color|FFFFFF|inner_border_color|E6E6E6|link_reg_color|5977B3|link_hi_color|829FD9|link_down_color|829FD9|header_bg_color|F2F2F2|header_txt_color|999999|footer_bg_color|F2F2F2|footer_txt_color|999999|txt_color|4D4D4D|headline_txt_color|999999|date_txt_color|999999

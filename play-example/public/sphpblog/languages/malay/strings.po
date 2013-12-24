@@ -1,0 +1,1266 @@
+msgid "language"
+msgstr "malay"
+
+msgid "locale"
+msgstr "Array"
+
+msgid "rss_locale"
+msgstr "ms-MY"
+
+msgid "html_charset"
+msgstr "ISO-8859-1"
+
+msgid "php_charset"
+msgstr "ISO-8859-1"
+
+msgid "menu_links"
+msgstr "Pautan"
+
+msgid "menu_home"
+msgstr "Utama"
+
+msgid "menu_contact"
+msgstr "Contact Me"
+
+msgid "menu_stats"
+msgstr "Stats"
+
+msgid "menu_calendar"
+msgstr "Calendar"
+
+msgid "menu_archive"
+msgstr "Arkib"
+
+msgid "menu_viewarchives"
+msgstr "View Archives"
+
+msgid "menu_menu"
+msgstr "Menu"
+
+msgid "menu_add"
+msgstr "Tambah Entri"
+
+msgid "menu_add_static"
+msgstr "Tambah Laman Statik"
+
+msgid "menu_upload"
+msgstr "Uplod Imej"
+
+msgid "menu_setup"
+msgstr "Setup"
+
+msgid "menu_categories"
+msgstr "Categories"
+
+msgid "menu_info"
+msgstr "Information"
+
+msgid "menu_options"
+msgstr "Option"
+
+msgid "menu_themes"
+msgstr "Tema"
+
+msgid "menu_colors"
+msgstr "Warna"
+
+msgid "menu_change_login"
+msgstr "Tukar Log Masuk"
+
+msgid "menu_logout"
+msgstr "Log Keluar"
+
+msgid "menu_login"
+msgstr "Log Masuk"
+
+msgid "menu_most_recent"
+msgstr "Komen Terbaru"
+
+msgid "menu_most_recent_entries"
+msgstr "Most Recent Entries"
+
+msgid "menu_most_recent_trackback"
+msgstr "Most Recent Trackbacks"
+
+msgid "menu_add_block"
+msgstr "Blocks"
+
+msgid "menu_emoticons"
+msgstr "Emoticons"
+
+msgid "menu_avatar"
+msgstr "Avatar"
+
+msgid "counter_today"
+msgstr "Today:"
+
+msgid "counter_yesterday"
+msgstr "Yesterday:"
+
+msgid "counter_totalsidebar"
+msgstr "Total:"
+
+msgid "counter_title"
+msgstr "Counter Totals"
+
+msgid "home"
+msgstr "Kembali ke Laman Utama"
+
+msgid "nav_next"
+msgstr "Next"
+
+msgid "nav_back"
+msgstr "Back"
+
+msgid "search_title"
+msgstr "Search:"
+
+msgid "search_go"
+msgstr "Go"
+
+msgid "page_generated_in"
+msgstr "Page Generated in %s seconds"
+
+msgid "counter_total"
+msgstr "Site Views: "
+
+msgid "read_more"
+msgstr "Read More..."
+
+msgid "sb_months"
+msgstr "Array"
+
+msgid "sb_default_title"
+msgstr "Tiada Tajuk"
+
+msgid "sb_default_author"
+msgstr "Tiada Penulis"
+
+msgid "sb_default_footer"
+msgstr "Tiada Nota Kaki"
+
+msgid "sb_edit"
+msgstr "kemas kini"
+
+msgid "sb_delete"
+msgstr "buang"
+
+msgid "sb_permalink"
+msgstr "permalink"
+
+msgid "sb_trackback"
+msgstr "trackbacks"
+
+msgid "sb_relatedlink"
+msgstr "related link"
+
+msgid "sb_add_comment_btn"
+msgstr "Tambah Komen"
+
+msgid "sb_comment_btn_number_first"
+msgstr "1"
+
+msgid "sb_comment_btn"
+msgstr "Komen"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr "1"
+
+msgid "sb_comments_plural_btn"
+msgstr "Komen"
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_post"
+msgstr " lihat"
+
+msgid "sb_view_counter_plural_pre"
+msgstr ""
+
+msgid "sb_view_counter_plural_post"
+msgstr " lihat"
+
+msgid "sb_add_link_btn"
+msgstr "+ pautan"
+
+msgid "sb_rate_entry_btn"
+msgstr "Click to Rate Entry"
+
+msgid "label_subject"
+msgstr "Tajuk:"
+
+msgid "label_insert"
+msgstr "Masukkan Special:"
+
+msgid "btn_bold"
+msgstr " b "
+
+msgid "btn_italic"
+msgstr " i "
+
+msgid "btn_image"
+msgstr "imj"
+
+msgid "btn_url"
+msgstr "url"
+
+msgid "btn_readmore"
+msgstr "read more"
+
+msgid "view_images"
+msgstr "Lihat Imej Uplod"
+
+msgid "label_entry"
+msgstr "Entri:"
+
+msgid "btn_preview"
+msgstr "&nbsp;Previu&nbsp;"
+
+msgid "btn_post"
+msgstr "&nbsp;Hantar&nbsp;"
+
+msgid "file_name"
+msgstr "Static File Name: (no spaces or file extensions)"
+
+msgid "insert_styles"
+msgstr "Masukkan teks untuk diformat"
+
+msgid "insert_image"
+msgstr "Masukkan URL imej"
+
+msgid "insert_url1"
+msgstr "Masukkan teks untuk dipaparkan sebagai Pautan (pilihan)"
+
+msgid "insert_url2"
+msgstr "Masukkan URL penuh pautan"
+
+msgid "insert_url3"
+msgstr "Open URL in new window (Optional):"
+
+msgid "add_form_error"
+msgstr "Sila penuhkan ruang Tajuk dan Entri."
+
+msgid "insert_image_optional"
+msgstr "Optional:"
+
+msgid "insert_image_width"
+msgstr "Width (Optional):"
+
+msgid "insert_image_height"
+msgstr "Height (Optional):"
+
+msgid "insert_image_popup"
+msgstr "View full-size in pop-up when clicked (Optional):"
+
+msgid "insert_image_float"
+msgstr "Float (Optional):"
+
+msgid "day"
+msgstr "Day"
+
+msgid "month"
+msgstr "Month"
+
+msgid "year"
+msgstr "Year"
+
+msgid "hour"
+msgstr "Hour"
+
+msgid "minute"
+msgstr "Minute"
+
+msgid "second"
+msgstr "Second"
+
+msgid "add_title"
+msgstr "Tambah Entri"
+
+msgid "add_instructions"
+msgstr "Anda bersedia untuk memulakan blog? Penuhkan ruang dibawah dan klik 'Previu' untuk melihat rupa sebenar entri anda, atau klik 'Hantar' untuk menyimpan entrinya."
+
+msgid "title_ad"
+msgstr "Confirm Trackback Pings"
+
+msgid "instructions_ad"
+msgstr "These are the Auto-Discovered URIs you're about to ping. If you do not want to ping a certain URI, uncheck it below. Then press the 'OK' button to ping the checked URIs or press 'Cancel' to not ping at all."
+
+msgid "label_tb_ping"
+msgstr "Trackback ping(s) to send (comma separated)"
+
+msgid "label_tb_autodiscovery"
+msgstr "autodiscovery"
+
+msgid "label_relatedlink"
+msgstr "Related Link"
+
+msgid "label_categories"
+msgstr "Category List"
+
+msgid "add_instructions_update"
+msgstr "Anda boleh mengubah entri menggunakan form dibawah. Klik 'Previu' atau 'Hantar' apabila sudah selesai."
+
+msgid "ok_btn"
+msgstr "&nbsp;OK&nbsp;"
+
+msgid "cancel_btn"
+msgstr "&nbsp;Cancel&nbsp;"
+
+msgid "add_error"
+msgstr "<h2>Alamak!</h2>Entri tidak dapat disimpan. Saya menghadapi masalah ketika ingin menyimpan entri anda.<br /><br />Pelayan Melaporkan:<br />"
+
+msgid "add_static_form_error"
+msgstr "Please complete the Subject, Entry, and File Name fields."
+
+msgid "add_static_title"
+msgstr "Tambah Laman Statik"
+
+msgid "add_static_instructions"
+msgstr "Isi form dibawah untuk membuat Halaman Statik. Tidak seperti Entri Blog biasa, Entri Statik muncul sebagai pautan dimenu sebelah kanan. Ia adalah untuk laman yang anda ingin anda perlihatkan setiap masa seperti: Tentang Saya, Kontek Kami, Jadual, dan lain-lain. Klik 'Previu' untuk melihat bagaimana rupa sebenar entri anda, atau klik 'Hantar' untuk menyimpannya."
+
+msgid "add_static_instructions_update"
+msgstr "Anda boleh mengubah entri menggunakan form dibawah. Klik 'Previu' atau 'Hantar' apabila sudah selesai."
+
+msgid "add_static_error"
+msgstr "<h2>Alamak!</h2>Entri tidak dapat disimpan. Saya menghadapi masalah ketika ingin menyimpan entri anda.<br /><br />Pelayan Melaporkan:<br />"
+
+msgid "comments_form_error"
+msgstr "Sila penuhkan ruang Nama dan Komen."
+
+msgid "name"
+msgstr "Name:"
+
+msgid "email"
+msgstr "Email:"
+
+msgid "homepage"
+msgstr "Homepage:"
+
+msgid "comment"
+msgstr "Comment:"
+
+msgid "IPAddress"
+msgstr "IP Address:"
+
+msgid "useragent"
+msgstr "User Agent:"
+
+msgid "wrote"
+msgstr "<i>On %s, %s wrote:</i><br /> <br /> %s"
+
+msgid "commentposted"
+msgstr "New comment posted at: "
+
+msgid "comment_capcha"
+msgstr "Anti-Spam: Enter "
+
+msgid "comments_title"
+msgstr "Komen"
+
+msgid "comments_header"
+msgstr "Tambah Komen"
+
+msgid "comments_instructions"
+msgstr "Isi form dibawah untuk menambah komen anda."
+
+msgid "comment_name"
+msgstr "Nama Anda:"
+
+msgid "comment_email"
+msgstr "Email:"
+
+msgid "comment_url"
+msgstr "URL:"
+
+msgid "comment_remember"
+msgstr "Remember me:"
+
+msgid "comment_text"
+msgstr "Komen:"
+
+msgid "post_btn"
+msgstr "&nbsp;Hantar Komen&nbsp;"
+
+msgid "delete_btn"
+msgstr "buang"
+
+msgid "expired_comment1"
+msgstr "We are sorry. New comments are not allowed after "
+
+msgid "expired_comment2"
+msgstr " days."
+
+msgid "blacklisted"
+msgstr "Sorry, your IP address has been banned. Comments not allowed."
+
+msgid "comments_error_add"
+msgstr "<h2>Alamak!</h2>Komen tidak dapat disimpan. Saya menghadapi masalah ketika ingin menyimpan komen anda.<br /><br />Pelayan Melaporkan:<br />"
+
+msgid "comments_error_delete"
+msgstr "<h2>Alamak!</h2>Komen tidak dapat dibuang. Saya menghadapi masalah ketika ingin membuang komen anda.<br /><br />Pelayan Melaporkan:<br />"
+
+msgid "add_block_form_error"
+msgstr "Please complete the Name field."
+
+msgid "add_block_title"
+msgstr "Add / Manage Links"
+
+msgid "add_block_instructions"
+msgstr "Add custom Blocks"
+
+msgid "up"
+msgstr "up"
+
+msgid "down"
+msgstr "down"
+
+msgid "edit"
+msgstr "edit"
+
+msgid "delete"
+msgstr "delete"
+
+msgid "block_name"
+msgstr "Block Name:"
+
+msgid "block_content"
+msgstr "Block content:"
+
+msgid "add_block_instructions_edit"
+msgstr "You are currently editing block:"
+
+msgid "add_block_instructions_modify"
+msgstr "Click below to modify a block:"
+
+msgid "add_block_submit_btn_edit"
+msgstr "Edit Block"
+
+msgid "add_block_submit_btn_add"
+msgstr "Add Block"
+
+msgid "static_pages"
+msgstr "Static Pages:"
+
+msgid "add_link_title"
+msgstr "Tambah / Kemas Kini Pautan"
+
+msgid "add_link_instructions"
+msgstr "Tambah pautan kehalaman lain. Isi form dibawah dan klik 'Tambah Pautan' untuk menambah senarai pautan. Klik butang atas dan bawah untuk mengubah susun atur pautan. Klik butang 'Kemas Kini' untuk mengubah pautan. Klik butang 'Buang' untuk membuang pautan"
+
+msgid "link_name"
+msgstr "Nama Pautan:"
+
+msgid "link_url"
+msgstr "URL Pautan: (Pilihan. Biar kosong untuk dijadikan pemisah.)"
+
+msgid "add_link_instructions_edit"
+msgstr "Anda sedang mengemas kini pautan:"
+
+msgid "add_link_instructions_modify"
+msgstr "Klik dibawah untuk kemas kini pautan:"
+
+msgid "add_link_submit_btn_edit"
+msgstr "Kemas Kini Pautan"
+
+msgid "add_link_submit_btn_add"
+msgstr "Tambah Pautan"
+
+msgid "add_link_form_error"
+msgstr "Sila penuhkan ruang Name."
+
+msgid "categories_title"
+msgstr "Add / Manage Categories"
+
+msgid "categories_instructions"
+msgstr "Use the form below to add and edit your categories. Each category item should be in this format 'category name (id number)'. Indent items with spaces to create heirarchies.<br /><br /><b>Example:</b><br />General (1)<br />News (3)<br />&nbsp;&nbsp;Announcements (6)<br />&nbsp;&nbsp;Events (5)<br />&nbsp;&nbsp;&nbsp;&nbsp;Misc (7)<br />Technology (2)<br />"
+
+msgid "categories_error"
+msgstr "Error"
+
+msgid "current_categories"
+msgstr "Current Categories"
+
+msgid "no_categories_found"
+msgstr "No Categories Found"
+
+msgid "category_list"
+msgstr "Category List:"
+
+msgid "validate"
+msgstr "Validate"
+
+msgid "submit_btn"
+msgstr "&nbsp;Submit&nbsp;"
+
+msgid "colors_title"
+msgstr "Ubah Warna"
+
+msgid "colors_instructions"
+msgstr "Anda boleh mengubah warna teks dan latar belakang blog anda. Pilih ruang dibawah, dan gunakan pemilih warna untuk mencampur warna anda. Nilai akan berubah secara automatik."
+
+msgid "bg_color"
+msgstr "LB Laman"
+
+msgid "main_bg_color"
+msgstr "LB Laman Utama"
+
+msgid "border_color"
+msgstr "Sempadan Laman"
+
+msgid "inner_border_color"
+msgstr "Sempadan Dalam"
+
+msgid "header_bg_color"
+msgstr "Kepala LB"
+
+msgid "header_txt_color"
+msgstr "Teks Kepala"
+
+msgid "menu_bg_color"
+msgstr "LB Menu"
+
+msgid "footer_bg_color"
+msgstr "LB Nota Kaki"
+
+msgid "txt_color"
+msgstr "Teks Utama"
+
+msgid "headline_txt_color"
+msgstr "Teks Hedline"
+
+msgid "date_txt_color"
+msgstr "Teks Tarikh"
+
+msgid "footer_txt_color"
+msgstr "Teks Nota Kaki"
+
+msgid "link_reg_color"
+msgstr "Pautan Biasa"
+
+msgid "link_hi_color"
+msgstr "Hover Pautan"
+
+msgid "link_down_color"
+msgstr "Pautan Aktif"
+
+msgid "entry_bg"
+msgstr "LB Entri"
+
+msgid "entry_title_bg"
+msgstr "LB Tajuk Entri"
+
+msgid "entry_border"
+msgstr "Sempadan Entri"
+
+msgid "entry_title_text"
+msgstr "Teks Tajuk Entri"
+
+msgid "entry_text"
+msgstr "Teks Entri"
+
+msgid "menu_bg"
+msgstr "LB Menu"
+
+msgid "menu_title_bg"
+msgstr "LB Tajuk Menu"
+
+msgid "menu_border"
+msgstr "Sempadan Menu"
+
+msgid "menu_title_text"
+msgstr "Teks Tajuk Menu"
+
+msgid "menu_text"
+msgstr "Teks Menu"
+
+msgid "menu_link_reg_color"
+msgstr "Menu Pautan Biasa"
+
+msgid "menu_link_hi_color"
+msgstr "Menu Pautan Hover"
+
+msgid "menu_link_down_color"
+msgstr "Menu Pautan Aktif"
+
+msgid "color_preset"
+msgstr "Color Schemes:"
+
+msgid "scheme_name"
+msgstr "Enter a custom color scheme name:"
+
+msgid "scheme_file"
+msgstr "Enter scheme file name: (no spaces or file extensions)"
+
+msgid "save_btn"
+msgstr "&nbsp;Save&nbsp;"
+
+msgid "colors_form_error"
+msgstr "Please enter a name for your custom color scheme."
+
+msgid "theme_doesnt_allow_colors"
+msgstr "The currently selected theme does not allow for custom colors."
+
+msgid "colors_error"
+msgstr "<h2>Alamak!</h2>Informasi tidak dapat disimpan. Saya menghadapi masalah ketika ingin menyimpan maklumat anda.<br /><br />Pelayan Melaporkan:<br />"
+
+msgid "delete_title"
+msgstr "Buang Entri"
+
+msgid "delete_instructions"
+msgstr "Entri ini adalah untuk dibuang. Sila pastikan anda benar-benar mahu membuangnya, atau ia akan hilang selamanya..."
+
+msgid "delete_error"
+msgstr "<h2>Alamak!</h2>Entri tidak dapat dibuang.<br /><br />Pelayan Melaporkan:<br />"
+
+msgid "delete_static_title"
+msgstr "Buang Laman Statik"
+
+msgid "delete_static_instructions"
+msgstr "Laman statik ini adalah untuk dibuang. Sila pastikan anda benar-benar mahu membuangnya, atau ia akan hilang selamanya..."
+
+msgid "delete_static_error"
+msgstr "<h2>Alamak!</h2>Tidak dapat membuang laman tersebut.<br /><br />Pelayan Melaporkan:<br />"
+
+msgid "image_list_title"
+msgstr "List Imej"
+
+msgid "image_list_instructions"
+msgstr "Klik pautan dibawah untuk memaparkan imej.<br /><br />Untuk menambah imej pada entri:<br />1) Kontrol+klik pada pautan dan pilih option 'Copy Link to Clipboard'.<br />2) Kembali ke ruangan Tambah Entri atau Kemas Kini Entri.<br />3) Klik butang 'imj' dan tampal URL pada tetingkap anda."
+
+msgid "info_title"
+msgstr "Meta-Data Information"
+
+msgid "info_instructions"
+msgstr "The information below is used for &quot;meta-data&quot;, which helps search engines correctly find and identify your site. Information may also be used in RSS feeds."
+
+msgid "info_keywords"
+msgstr "Keywords: (List of keywords separated by commas.)"
+
+msgid "info_description"
+msgstr "Description: (An abstract or a free-text description of your site.)"
+
+msgid "info_copyright"
+msgstr "Rights: (Copyright statement, or link to document containing information.)"
+
+msgid "info_error"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your information.<br /><br />Server Reported:<br />"
+
+msgid "info_form_error"
+msgstr "Please complete the Title and Author fields."
+
+msgid "rating_error"
+msgstr "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving your information.<br /><br />Server Reported:<br />"
+
+msgid "upgrade"
+msgstr "<h2>Upgrade</h2>"
+
+msgid "upgrade_count"
+msgstr "%n comment files need to be upgraded:"
+
+msgid "upgrade_url"
+msgstr "Upgrade Comments"
+
+msgid "login_title"
+msgstr "Log Masuk"
+
+msgid "login_instructions"
+msgstr "Sila masukkan Nama Pengguna dan Kata Laluan"
+
+msgid "username"
+msgstr "Nama Pengguna:"
+
+msgid "password"
+msgstr "Kata Laluan:"
+
+msgid "login_success"
+msgstr "<h2>Alamak!</h2>Anda sudah log masuk sekarang. Selamat memblog!<p />"
+
+msgid "login_wrong_password"
+msgstr "<h2>Alamak!</h2>Anda tidak dapat log masuk. Sila pastikan Nama Pengguna dan Kata Laluan anda betul dan sila cuba lagi.<p />"
+
+msgid "login_form_error"
+msgstr "Sila penuhkan ruangan Nama Pengguna dan Kata Laluan."
+
+msgid "logout_title"
+msgstr "Log Keluar"
+
+msgid "logout_instructions"
+msgstr "<h2>Alamak!</h2>Gagal untuk log keluar. Tidak dapat buang cookie. Kenapa anda masih log lagi?<p />"
+
+msgid "forms_title"
+msgstr ""
+
+msgid "forms_instructions"
+msgstr ""
+
+msgid "forms_error"
+msgstr "<h2>Alamak!</h2>Informasi tidak dapat disimpan. Saya menghadapi masalah ketika ingin menyimpan entri anda.<br /><br />Pelayan Melaporkan:<br />"
+
+msgid "set_login_title"
+msgstr "Ubah Nama Pengguna &amp; Kata Laluan"
+
+msgid "set_login_instructions"
+msgstr "Guna form dibawah untuk mengubah Nama Pengguna dan/atau Kata Laluan. Masukkan Nama Pengguna dan Kata Laluan yang henda digunakan."
+
+msgid "set_login_success"
+msgstr "<h2>Berjaya!</h2>Nama Pengguna dan/atau Kata Laluan anda berjaya di aktifkan. Selamah memblog!<p />"
+
+msgid "set_login_wrong_password"
+msgstr "<h2>Alamak!</h2>Informasi tidak dapat disimpan. Saya menghadapi masalah ketika ingin menyimpan Nama Pengguna dan/atau Kata Laluan anda.<br /><br />Pelayan Melaporkan:<br />"
+
+msgid "set_login_form_error"
+msgstr "Sila penuhkan ruang Nama Pengguna dan Kata Laluan."
+
+msgid "explanation"
+msgstr "In recent versions, our password structure has changed.  There is no longer a way to update passwords  					and/or logins from inside the blog code.  In order to change your password, delete /config/password.php and make sure install*.php  					exists on the local server.  Once that is done, refresh this page (or logout).  You will be presented with the same script  					to generate your password as you did when originally creating the blog site."
+
+msgid "install00_title"
+msgstr "Selamat Datang"
+
+msgid "install00_instructions"
+msgstr "Terima kasih kerana memilih Simple PHP Blog!"
+
+msgid "blog_choose_language"
+msgstr "Pilih Bahasa:"
+
+msgid "install01_title"
+msgstr "Selamat Datang"
+
+msgid "install01_instructions"
+msgstr "  				Terima kasih kerana memilih Simple PHP Blog!<br /><br />  				Simple PHP Blog adalah blog sistem ter-ringan. Ia memerlukan PHP 4.1 atau terkini, dan keizinan menulis (write-permissions) pada server. Kesemua informasi disimpan didalam fail, jadi tiada pengkalan data (database) diperlukan.<br /><br />  				Untuk memulakannya, Simple PHP Blog memerlukan 3 folder ('config', 'content', dan 'images') dimana ia digunakan untuk menyimpan informasi anda.<br /><br /><b>  				Klik dibawah untuk memulakan setup:</b>"
+
+msgid "begin"
+msgstr "[ Mulakan Setup ]"
+
+msgid "install02_title"
+msgstr "Setup"
+
+msgid "install02_instructions"
+msgstr "Cuba membuat folder 'config', 'content', dan 'images':"
+
+msgid "folder_exists"
+msgstr "Baiklah! Folder sudah ujud. Tiada perubahan dibuat..."
+
+msgid "folder_failed"
+msgstr "Alamak! Tak dapat membuat folder..."
+
+msgid "folder_success"
+msgstr "Berjaya! Folder siap..."
+
+msgid "help"
+msgstr "  				<h2>Alamak!</h2>  				Tidak dapat membuat satu atau banyak folder! Ini berkemungkinan kerana:<br>  				<i>1) <b>Keizinan Menulis</b> tidak diset kepada membenarkan akses <b>Baca/Tulis</b>.</i><br>  				<i>2) <b>UID</b>'s (user ID) kesemua fail dan folder tidak sama.</i><p />  				  				Sila ikut cara penyelesaian masalah dan cuba lagi:<p />  				1) Buat folder tersebut : <b>config</b>, <b>content</b>, and <b>images</b> secara manual.<p />  				2) Benarkan <b>Keizinan Menulis</b> pada folder. Pada program FTP anda, Owner, User, dan World perlu diset kepada akses <b>Read</b> dan <b>Write</b>. <i>(Anda mungkin perlu menghubungi provider servis anda untuk mengubah setting ini...)</i><p />  				3) Sila pastikan UID kesemua fail dan folder anda adalah sama. <i>(Anda mungkin perlu menghubungi provider servis anda untuk mengubah setting ini...)</i>"
+
+msgid "try_again"
+msgstr "[ Cuba Lagi ]"
+
+msgid "install02_success"
+msgstr "<h2>Berjaya!</h2>Folder berjaya dibuat!<p /><b>Klik untuk sambung:</b>"
+
+msgid "continue"
+msgstr "[ Sambung ]"
+
+msgid "supported"
+msgstr "<b>Your web server supports the following encryption schemes:</b>"
+
+msgid "standard"
+msgstr "Standard DES Encryption: "
+
+msgid "extended"
+msgstr "Extended DES Encryption: "
+
+msgid "MD5"
+msgstr "MD5 Encryption: "
+
+msgid "blowfish"
+msgstr "Blowfish Encryption: "
+
+msgid "enabled"
+msgstr "enabled"
+
+msgid "disabled"
+msgstr "disabled"
+
+msgid "using_standard"
+msgstr "<b>Using Standard DES Encryption...</b>"
+
+msgid "using_extended"
+msgstr "<b>Using Extended DES Encryption...</b>"
+
+msgid "using_MD5"
+msgstr "<b style='color: green;'>Using MD5 Encryption...</b>"
+
+msgid "using_blowfish"
+msgstr "<b style='color: green;'>Using Blowfish Encryption...</b>"
+
+msgid "using_unknown"
+msgstr "<b>Using Unknown Encryption...</b>"
+
+msgid "salt_length"
+msgstr " <i>(Salt Length = %string)</i><br />"
+
+msgid "install03_title"
+msgstr "Cipta Nama Pengguna &amp; Kata Laluan"
+
+msgid "install03_instructions"
+msgstr "Guna form dibawah untuk mencipta Nama Pengguna dan Kata Laluan."
+
+msgid "install03_success"
+msgstr "<h2>Tahniah!</h2>Anda sudah log masuk. Klik untuk mengunjung laman Setup, dimana anda boleh menamakan blog anda. Selamat memblog!<p />"
+
+msgid "btn_setup"
+msgstr "[ Setup ]"
+
+msgid "install03_wrong_password"
+msgstr "<h2>Alamak!</h2>Informasi tidak dapat disimpan. Saya menghadapi masalah ketika ingin menyimpan Nama Pengguna dan/atau Kata Laluan.<br /><br />Pelayan Melaporkan:<br />"
+
+msgid "install03_form_error"
+msgstr "Sila lengkapkan ruang Nama Pengguna dan Kata Laluan."
+
+msgid "install04_title"
+msgstr "Create Password File"
+
+msgid "install04_instructions"
+msgstr "Here's the tricky part:<br />  				<ol>  				<li>Open a Text Editor application. <i>(Note Pad, Word Pad, Word, BBEdit, Pico, VI, etc...)</i></li>  				<li>Create a New Text Document.</li>  				<li>Copy and paste the code in the box below into your document.</li>  				<li>Save your file and name it <b>password.php</b> <i>(Be sure to save it in <b>text</b> or <b>plain text</b> format.)</i></li>  				<li>Open a FTP application.</li>  				<li>Upload your new <b>password.php</b> into the <b>config</b> folder on your web site.</li>  				<li>Delete the <b>password.php</b> from your hard drive.</li>  				</ol>  				"
+
+msgid "information"
+msgstr "<i>Note: If you want to reset your username and password (probably because you forgot it), delete the <b>password.php</b> file in the <b>config</b> folder on your web site. The next time you visit your site, it will walk you through this installation process again...</i>"
+
+msgid "code"
+msgstr "Code for <b>password.php</b> file:"
+
+msgid "install05_title"
+msgstr "Login"
+
+msgid "install05_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid "install05_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in.<p />  				Click below to visit the <b>Setup</b> page, where you can personalize your new blog.<p />  				<i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install05_wrong_password"
+msgstr "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your Username and Password correctly and try again.<p />"
+
+msgid "install05_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "btn_try_again"
+msgstr "[ Try Again ]"
+
+msgid "install06_title"
+msgstr "Login"
+
+msgid "install06_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid "install06_success"
+msgstr "<h2>Congratulations!</h2>You are now logged in.<p />  				Click below to visit the <b>Setup</b> page, where you can personalize your new blog.<p />  				<i>Note: Now that you've completed the installation process, it is recommended that you delete the <b>installXX.php</b> files from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "install06_wrong_password"
+msgstr "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your Username and Password correctly and try again.<p />"
+
+msgid "install06_form_error"
+msgstr "Please complete the Username and Password fields."
+
+msgid "setup_title"
+msgstr "Setup"
+
+msgid "setup_instructions"
+msgstr "Anda boleh mengubah nama blog anda, dan informasi diri anda dibawah ini."
+
+msgid "blog_title"
+msgstr "Nama Blog:"
+
+msgid "blog_author"
+msgstr "Penulis:"
+
+msgid "blog_email"
+msgstr "Email:"
+
+msgid "blog_avatar"
+msgstr "Avatar URL: (Leave blank for none)."
+
+msgid "blog_footer"
+msgstr "Nota Kaki:"
+
+msgid "blog_enable_comments"
+msgstr "Enable User Comments"
+
+msgid "blog_comments_popup"
+msgstr "Open Comments in Popup Window"
+
+msgid "blog_enable_voting"
+msgstr "Enable Users to Rate Entries"
+
+msgid "blog_email_notification"
+msgstr "Send email notification when comments are posted"
+
+msgid "blog_enable_cache"
+msgstr "Enable Blog Entry Cache (may provide speed increase on some servers)"
+
+msgid "blog_send_pings"
+msgstr "Send weblog &quot;pings&quot;"
+
+msgid "blog_ping_urls"
+msgstr "Enter full URL (i.e. http://rpc.weblogs.com/RPC2) of service to &quot;ping&quot;.<br />(You can enter more than one address separated by commas.)"
+
+msgid "blog_trackback_about"
+msgstr "Trackback provides a method of notification between blogs. Let another  					blog know that you are linking to them by sending them a trackback ping. See who is linking to   					your blog by receiving trackback pings.<br />  				   You can either enter the URIs to ping manually, or try to do it automatically through   				   Auto-Discovery."
+
+msgid "blog_trackback_enabled"
+msgstr "Enable trackback in my blog"
+
+msgid "blog_trackback_auto_discovery"
+msgstr "Enable Auto-Discovery when submitting a post containing URLs"
+
+msgid "blog_max_entries"
+msgstr "Maximum Entries to Display:"
+
+msgid "blog_comment_tags"
+msgstr "Tags to Allow in Comments:"
+
+msgid "blog_gzip_about"
+msgstr "  					Since PHP 4.0.4, PHP has had the ability to read and write gzip (.gz) compressed files,   					thus saving disk-space. It can also transparently compress pages that are sent to browsers   					which support gzip compression, thus saving bandwidth.<br />  					<br />  					Zlib support in PHP is not enabled by default. If the checkboxes are disabled, then your   					installation of PHP does not support the Zlib extension."
+
+msgid "blog_enable_gzip_txt"
+msgstr "Enable GZIP Compression for Database Files"
+
+msgid "blog_enable_gzip_output"
+msgstr "Enable GZIP Compression for HTTP Output"
+
+msgid "setup_error"
+msgstr "<h2>Alamak!</h2>Informasi tidak dapat disimpan. Saya menghadapi masalah ketika ingin menyimpan informasi diri anda.<br /><br />Pelayan Melaporkan:<br />"
+
+msgid "setup_form_error"
+msgstr "Sila penuhkan ruangan Tajuk dan Penulis."
+
+msgid "label_entry_order"
+msgstr "Susunan Entri:"
+
+msgid "select_new_to_old"
+msgstr "Utamakan List Terbaru"
+
+msgid "select_old_to_new"
+msgstr "Utamakan List Terlama"
+
+msgid "label_comment_order"
+msgstr "Susunan Komen:"
+
+msgid "cal_sunday"
+msgstr "Sunday"
+
+msgid "cal_monday"
+msgstr "Monday"
+
+msgid "label_calendar_start"
+msgstr "Calendar Week Start Day"
+
+msgid "blog_enable_calendar"
+msgstr "Enable Calendar / Archives Block"
+
+msgid "blog_enable_archives"
+msgstr "Enable Archives Block"
+
+msgid "blog_enable_counter"
+msgstr "Enable Counter in Sidebar"
+
+msgid "blog_counter_hours"
+msgstr "Number of hours to delay before hits are counted again (based on specific ip address):"
+
+msgid "blog_enable_login"
+msgstr "Enable Login Link (Please bookmark 'login.php' first...)"
+
+msgid "blog_enable_title"
+msgstr "Enable Plain Text Title Block (Clear checkbox if the title is in the header graphic)"
+
+msgid "blog_enable_permalink"
+msgstr "Enable Permalink on Blog Entries"
+
+msgid "blog_enable_capcha"
+msgstr "Enable Anti-Spam"
+
+msgid "blog_footer_counter"
+msgstr "Enable Counter in Footer"
+
+msgid "blog_enable_capcha_image"
+msgstr "Anti-Spam Images (GD library only) / Anti-Spam Text Field"
+
+msgid "blog_enable_stats"
+msgstr "Enable Stats Option in Menu"
+
+msgid "blog_enable_lastcomments"
+msgstr "Enable Most Recent Comments Listing"
+
+msgid "blog_enable_lastentries"
+msgstr "Enable Most Recent Entries Listing"
+
+msgid "title_sidebar"
+msgstr "Sidebar"
+
+msgid "title_comments"
+msgstr "Comments"
+
+msgid "title_trackback"
+msgstr "Trackbacks"
+
+msgid "title_compression"
+msgstr "Compression"
+
+msgid "title_entries"
+msgstr "Entries"
+
+msgid "title_general"
+msgstr "General"
+
+msgid "title_language"
+msgstr "Language"
+
+msgid "blog_comment_days_expiry"
+msgstr "Comments Allowed For How Many Days? (0 means no expiry)"
+
+msgid "options_title"
+msgstr "Option"
+
+msgid "options_instructions"
+msgstr "Guna form dibawah untuk membetulkan tarikh dan masa entri blog dan komen anda. Anda boleh memilih jenis waktu 12 atau 24. Format tarikh pendek atau panjang. Ruangan <b>Previu</b> akan dikemas kini secara automatik untuk menunjukkan bagaimana format akan dipaparkan."
+
+msgid "ldate_title"
+msgstr "Format Tarikh Panjang:"
+
+msgid "weekday"
+msgstr "Awal Minggu"
+
+msgid "none"
+msgstr "Tiada"
+
+msgid "sdate_title"
+msgstr "Format Tarih Pendek:"
+
+msgid "s_month"
+msgstr "Bulan"
+
+msgid "s_mon"
+msgstr "MMM"
+
+msgid "s_day"
+msgstr "Hari"
+
+msgid "s_year"
+msgstr "Tahun"
+
+msgid "zero_day"
+msgstr "Sifar dihadapan hari"
+
+msgid "show_century"
+msgstr "Papar abad"
+
+msgid "time_title"
+msgstr "Format Masa:"
+
+msgid "12hour"
+msgstr "Waktu 12-jam"
+
+msgid "24hour"
+msgstr "Waktu 24-jam"
+
+msgid "before_noon"
+msgstr "Sebelum Tengahari"
+
+msgid "after_noon"
+msgstr "Selepas Tengahari"
+
+msgid "date_title"
+msgstr "Format Paparan Tarikh:"
+
+msgid "long_date"
+msgstr "Tarikh Panjang"
+
+msgid "short_date"
+msgstr "Tarikh Pendek"
+
+msgid "time"
+msgstr "Masa"
+
+msgid "menu_title"
+msgstr "Menu Format Paparan Tarikh:"
+
+msgid "zero_month"
+msgstr "Sifar dihadapan bulan"
+
+msgid "zero_hour"
+msgstr "Sifar dihadapan jam"
+
+msgid "separator"
+msgstr "Sempadan:"
+
+msgid "preview"
+msgstr "Previu:"
+
+msgid "server_offset"
+msgstr "Ofset Pelayan:"
+
+msgid "options_error"
+msgstr "<h2>Alamak!</h2>Informasi tidak dapat disimpan. Saya menghadapi masalah ketika ingin menyimpan informasi anda.<br /><br />Pelayan Melaporkan:<br />"
+
+msgid "upload_img_title"
+msgstr "Uplod Imej"
+
+msgid "upload_img_instructions"
+msgstr "Klik pada butang dibawah untuk memilih fail yang hendak di uplod."
+
+msgid "select_file"
+msgstr "Pilih fail:"
+
+msgid "upload_btn"
+msgstr "Uplod"
+
+msgid "upload_img_error"
+msgstr "<h2>Alamak!</h2>Uplod imej tidak berjaya. Informasi lanjut:<br /><br />Pelayan Melaporkan:<br />"
+
+msgid "themes_title"
+msgstr "Tema"
+
+msgid "themes_instructions"
+msgstr "Guna menu drop-down untuk memilih tema lain."
+
+msgid "choose_theme"
+msgstr "Tema:"
+
+msgid "themes_error"
+msgstr "<h2>Alamak!</h2>Informasi tidak dapat disimpan. Saya menghadapi masalah ketika ingin meyimpan informasi anda.<br /><br />Pelayan Melaporkan:<br />"
+
+msgid "search_result_title"
+msgstr "Search Results"
+
+msgid "search_result_instructions"
+msgstr "Search results for <b>%string</b>:"
+
+msgid "not_found"
+msgstr "No results found"
+
+msgid "contact_title"
+msgstr "Contact Me"
+
+msgid "contact_instructions"
+msgstr "Fill in the form:"
+
+msgid "contact_form_error"
+msgstr "Please complete the Subject and Comment fields."
+
+msgid "subject"
+msgstr "Subject:"
+
+msgid "contact_success"
+msgstr "<h2>Success!</h2>Your message has been sent.<p />"
+
+msgid "failure"
+msgstr "<h2>Error!</h2>Your message has not been sent. Most likely the Anti Spam was not entered properly.<p />"
+
+msgid "contact_capcha"
+msgstr "Anti-Spam: Enter "
+
+msgid "contactsent"
+msgstr "Contact sent through: "
+
+msgid "errorpage-nocookies_title"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "errorline1"
+msgstr "The page or function you attempted to process requires the use of cookies."
+
+msgid "errorline2"
+msgstr "Restore cookie functionality within your browser or protection software and attempt your request again."
+
+msgid "clientid"
+msgstr "Client ID: "
+
+msgid "trackbacks_title"
+msgstr "Trackbacks"
+
+msgid "trackbacks_header"
+msgstr "Trackback URL for this entry:"
+
+msgid "trackbacks_error_add"
+msgstr "Error storing trackback data."
+
+msgid "stats_title"
+msgstr "Statistics"
+
+msgid "general"
+msgstr "General"
+
+msgid "entry_info"
+msgstr "<b>%s</b> entries using <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "comment_info"
+msgstr "<b>%s</b> comments using <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "trackback_info"
+msgstr "<b>%s</b> trackbacks stored in <b>%s</b> bytes"
+
+msgid "static_info"
+msgstr "<b>%s</b> static pages using <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "most_viewed_entries"
+msgstr "10 Most viewed entries"
+
+msgid "most_commented_entries"
+msgstr "10 Most commented entries"
+
+msgid "most_trackbacked_entries"
+msgstr "10 Most trackbacked entries"
+
+msgid "vote_info"
+msgstr "<b>%s</b> votes stored in <b>%s</b> bytes"
+
+msgid "most_voted_entries"
+msgstr "10 Most voted entries"
+
+msgid "most_rated_entries"
+msgstr "10 Most rated entries"
+
+msgid "403.8"
+msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+msgid "404"
+msgstr "HTTP Error 404 - Page/Function Does Not Exist"
+
+msgid "error_404"
+msgstr "The page or function you attempted to process does not exist."
+
+msgid "error_javascript"
+msgstr "The page or function you attempted requires javascript in order to properly function."
+
+msgid "error_emailnotsent"
+msgstr "The message you attempted to send has failed."
+
+msgid "error_emailnotsentcapcha"
+msgstr "The message you attempted to send has failed because the anti-spam entry was incorrect or missing."
+
+msgid "emoticons_title"
+msgstr "Admin Emoticons"
+
+msgid "emoticons_instructions"
+msgstr "  					Check the emoticons you want to use. Write in the box the Tags you want   					to be replaced by the image. Multiple tags may be used, just separated them   					by spaces.<br /><br />  		  					For instance:<br />  					:) :-) :SMILE: :HAPPY:<br /><br />  					  					<i>(It is highly recommended that you make the Tags longer than 2 characters,   					otherwise unexpected substitutions may occur.)</i>"
+
+msgid "upload_instructions"
+msgstr "Upload New Emoticon:"
+
+msgid "upload_success"
+msgstr "Success! Image uploaded successfully!"
+
+msgid "upload_error"
+msgstr "Error! Image was not uploaded."
+
+msgid "upload_invalid"
+msgstr "Error! Invalid image file. Image must be a png, jpg, or gif."
+
+msgid "save_success"
+msgstr "Emoticon preferences saved successfully!"
+
+msgid "save_error"
+msgstr "Error! Emoticon preferences not saved."
+
+msgid "save_button"
+msgstr "Save Emoticons"
+

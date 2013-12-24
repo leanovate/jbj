@@ -1,0 +1,1935 @@
+msgid "add_title"
+msgstr "Edit Entry"
+
+msgid "add_error"
+msgstr ""
+"<h2>Whoops!</h2>Entry not saved. I ran into a problem while saving your "
+"entry.<br /><br />Server Reported:<br />"
+
+msgid "add_success"
+msgstr "<h2>Entry Saved!</h2>Your entry has been successfully saved."
+
+msgid "home"
+msgstr "Return to Home"
+
+msgid "add_instructions"
+msgstr ""
+"Are you ready to blog? If you're using text styles or including images, "
+"remember to 'close' all your 'tags'. Fill out the form below and click "
+"'Preview' to see how your entry will look, or click 'Post' to save your "
+"entry."
+
+msgid "add_block_title"
+msgstr "Add / Manage Blocks"
+
+msgid "up"
+msgstr "up"
+
+msgid "down"
+msgstr "down"
+
+msgid "edit"
+msgstr "edit"
+
+msgid "delete"
+msgstr "delete"
+
+msgid "add_block_instructions_edit"
+msgstr "You are currently editing a Block."
+
+msgid "add_block_instructions_modify"
+msgstr ""
+"Use the form below to add or modify the custom 'Blocks' which appear in the "
+"sidebar menu."
+
+msgid "block_name"
+msgstr "Block Name:"
+
+msgid "block_content"
+msgstr "Block Content:"
+
+msgid "add_block_submit_btn_edit"
+msgstr "Edit Block"
+
+msgid "add_link_title"
+msgstr "Add / Manage Links"
+
+msgid "add_link_instructions"
+msgstr ""
+"Add custom links to other sites. Fill out the form below and click 'Add "
+"Link' to add a link. Click the up or down buttons to change the order of the "
+"links. Click the edit button to modify a link. Click the delete button to "
+"remove a link"
+
+msgid "add_link_instructions_edit"
+msgstr "You are currently editing link:"
+
+msgid "static_pages"
+msgstr "Static Pages:"
+
+msgid "link_name"
+msgstr "Link Name:"
+
+msgid "link_url"
+msgstr "Link URL: (Optional. Leave empty to create separator.)"
+
+msgid "add_link_submit_btn_edit"
+msgstr "Edit Link"
+
+msgid "add_static_title"
+msgstr "Edit Static Page"
+
+msgid "add_static_error"
+msgstr ""
+"<h2>Whoops!</h2>Entry not saved. I ran into a problem while saving your "
+"entry.<br /><br />Server Reported:<br />"
+
+msgid "add_static_instructions"
+msgstr ""
+"Fill out the form below to create a Static Page. Unlike a regular Blog "
+"Entry, Static Entries appear in the Links menu. They are for pages that you "
+"always want available such as: About Me, Contact Us, Schedule, etc. If "
+"you're using text styles or including images, remember to 'close' all your "
+"'tags'. Click 'Preview' to see how your entry will look, or click 'Post' to "
+"save your entry."
+
+msgid "archives_title"
+msgstr "Archives"
+
+msgid "showall"
+msgstr "Show All"
+
+msgid "categories_title"
+msgstr "Add / Manage Categories"
+
+msgid "categories_instructions"
+msgstr ""
+"Use the form below to add and edit your categories. Each category item "
+"should be in this format 'category name (id number)'. Indent items with "
+"spaces to create heirarchies.<br /><br /><b>Example:</b><br />General (1)"
+"<br />News (3)<br />&nbsp;&nbsp;Announcements (6)<br />&nbsp;&nbsp;Events (5)"
+"<br />&nbsp;&nbsp;&nbsp;&nbsp;Misc (7)<br />Technology (2)<br />"
+
+msgid "current_categories"
+msgstr "Current Categories"
+
+msgid "no_categories_found"
+msgstr "No Categories Found"
+
+msgid "category_list"
+msgstr "Category List:"
+
+msgid "validate"
+msgstr "Validate"
+
+msgid "submit_btn"
+msgstr "Submit"
+
+msgid "colors_title"
+msgstr "Change Colors"
+
+msgid "colors_error"
+msgstr ""
+"<h2>Whoops!</h2>Information not saved. I ran into a problem while saving "
+"your entry.<br /><br />Server Reported:<br />"
+
+msgid "colors_success"
+msgstr "<h2>Colors Saved!</h2>Information has been successfully saved."
+
+msgid "colors_instructions"
+msgstr ""
+"You can change the text and background colors for your blog. First select "
+"the field below, then use the color picker to mix your color. The Value "
+"changes automatically."
+
+msgid "color_preset"
+msgstr "Color Schemes:"
+
+msgid "scheme_name"
+msgstr "Enter a custom color scheme name:"
+
+msgid "scheme_file"
+msgstr "Enter scheme file name: (no spaces or file extensions)"
+
+msgid "save_btn"
+msgstr "Save"
+
+msgid "theme_doesnt_allow_colors"
+msgstr "The currently selected theme does not allow for custom colors."
+
+msgid "comments_title"
+msgstr "Comments"
+
+msgid "error_comments_disabled"
+msgstr ""
+"<h2>Error!</h2>Hey! Comments are disabled on this blog. Are you a spambot?"
+
+msgid "error_fields_missing"
+msgstr "<h2>Error!</h2>Missing the following fields: "
+
+msgid "error_spambot"
+msgstr "<h2>Error!</h2>Capcha data is missing. Are you a spambot?"
+
+msgid "error_capcha"
+msgstr "<h2>Error!</h2>The capcha you entered is incorrect."
+
+msgid "bannedword"
+msgstr ""
+"Your comment, url, name or email contained word(s) that have been banned by "
+"the administrator. Your comment has NOT been posted."
+
+msgid "error_entry_missing"
+msgstr ""
+"<h2>Error!</h2>You are trying to comment on an entry that doesn't exist"
+
+msgid "error_empty_text"
+msgstr "<h2>Error!</h2>You didn't enter any comments or your name."
+
+msgid "expired_comment1"
+msgstr "We are sorry. New comments are not allowed after "
+
+msgid "comments_error_add"
+msgstr ""
+"<h2>Whoops!</h2>Comment not saved. I ran into a problem while saving your "
+"comment.<br /><br />Server Reported:<br />"
+
+msgid "success_add"
+msgstr "<h2>Comment Added!</h2>Your comment has been successfully saved."
+
+msgid "user_notice_mod"
+msgstr ""
+"Moderation is turned on for this blog. Your comment will require the "
+"administrators approval before it will be visible."
+
+msgid "return_to_comments"
+msgstr "Return to Comments"
+
+msgid "Error! Comment cannot be approved. Unknown error."
+msgstr "Error! Comment cannot be approved. Unknown error."
+
+msgid "error_ban"
+msgstr ""
+"<h2>Whoops!</h2>IP not added to banned ip listing.<br /><br />Server "
+"Reported:<br />"
+
+msgid "success_ban1"
+msgstr "<h2>IP Banned!"
+
+msgid "error_noip"
+msgstr "No IP Provided for Blacklist Request."
+
+msgid "comments_error_delete"
+msgstr ""
+"<h2>Whoops!</h2>Comment not deleted. I ran into a problem while deleting "
+"your comment.<br /><br />Server Reported:<br />"
+
+msgid "comments_success_delete"
+msgstr "<h2>Comment Deleted!</h2>The comment has been deleted."
+
+msgid "comments_header"
+msgstr "Add Comment"
+
+msgid "comments_instructions"
+msgstr "Fill out the form below to add your own comments."
+
+msgid "comment_name"
+msgstr "Your Name:"
+
+msgid "comment_email"
+msgstr "Email:"
+
+msgid "comment_url"
+msgstr "URL:"
+
+msgid "comment_remember"
+msgstr "Remember me:"
+
+msgid "label_insert"
+msgstr "Insert Special:"
+
+msgid "btn_bold"
+msgstr " b "
+
+msgid "btn_italic"
+msgstr " i "
+
+msgid "btn_url"
+msgstr "url"
+
+msgid "btn_image"
+msgstr "img"
+
+msgid "view_images"
+msgstr "View Uploaded Images"
+
+msgid "comment_text"
+msgstr "Comment:"
+
+msgid "comment_capcha"
+msgstr "Anti-Spam: Enter "
+
+msgid "post_btn"
+msgstr "Post Comment"
+
+msgid "blacklisted"
+msgstr "Sorry, your IP address has been banned. Comments not allowed."
+
+msgid "nocomments"
+msgstr "Comments are not available for this entry."
+
+msgid "comment_moderation_title"
+msgstr "Unmodded Comments"
+
+msgid "comment_moderation_instructions"
+msgstr ""
+"This is a list of all comments not available to users that are not logged "
+"into the            blog because they have not been approved by a moderator."
+
+msgid "contact_title"
+msgstr "Contact"
+
+msgid "contact_instructions"
+msgstr "Fill in the form:"
+
+msgid "name"
+msgstr "Name:"
+
+msgid "email"
+msgstr "Email:"
+
+msgid "subject"
+msgstr "Subject:"
+
+msgid "comment"
+msgstr "Comment:"
+
+msgid "contact_capcha"
+msgstr "Anti-Spam: Enter "
+
+msgid "contactsent"
+msgstr "Contact sent through: "
+
+msgid "IPAddress"
+msgstr "IP Address:"
+
+msgid "useragent"
+msgstr "User Agent:"
+
+msgid "wrote"
+msgstr "<i>On %s, %s wrote:</i><br /> <br /> %s"
+
+msgid "error_emailnotsentcapcha"
+msgstr ""
+"The message you attempted to send has failed because the anti-spam entry was "
+"incorrect or missing."
+
+msgid "contact_success"
+msgstr "<h2>Success!</h2>Your message has been sent.<p />"
+
+msgid "error_emailnotsent"
+msgstr "The message you attempted to send has failed."
+
+msgid "delete_title"
+msgstr "Delete Entry"
+
+msgid "delete_error"
+msgstr ""
+"<h2>Whoops!</h2>Couldn't delete entry.<br /><br />Server Reported:<br />"
+
+msgid "delete_success"
+msgstr "<h2>Entry Deleted!</h2>The entry has been deleted."
+
+msgid "delete_instructions"
+msgstr ""
+"This is the entry you are about to delete. Please make sure you really want "
+"to get rid of it, there's no undo..."
+
+msgid "ok_btn"
+msgstr "OK"
+
+msgid "cancel_btn"
+msgstr "Cancel"
+
+msgid "delete_static_title"
+msgstr "Delete Static Page"
+
+msgid "delete_static_error"
+msgstr ""
+"<h2>Whoops!</h2>Couldn't delete entry.<br /><br />Server Reported:<br />"
+
+msgid "delete_static_success"
+msgstr "<h2>Static Page Deleted!</h2>The static page has been deleted."
+
+msgid "delete_static_instructions"
+msgstr ""
+"This is the static page you are about to delete. Please make sure you really "
+"want to get rid of it, there's no undo..."
+
+msgid "emoticons_title"
+msgstr "Admin Emoticons"
+
+msgid "save_button"
+msgstr "Save Emoticons"
+
+msgid "emoticons_instructions"
+msgstr ""
+"            Check the emoticons you want to use. Write in the box the Tags "
+"you want            to be replaced by the image. Multiple tags may be used, "
+"just separated them            by spaces.<br /><br />              For "
+"instance:<br />            :) :-) :SMILE: :HAPPY:<br /><br />              "
+"<i>(It is highly recommended that you make the Tags longer than 2 "
+"characters,            otherwise unexpected substitutions may occur.)</i>"
+
+msgid "upload_instructions"
+msgstr "Upload New Emoticon:"
+
+msgid "upload_success"
+msgstr "Success! Image uploaded successfully!"
+
+msgid "upload_error"
+msgstr "Error! Image was not uploaded."
+
+msgid "upload_invalid"
+msgstr "Error! Invalid image file. Image must be a png, jpg, or gif."
+
+msgid "save_success"
+msgstr "Emoticon preferences saved successfully!"
+
+msgid "save_error"
+msgstr "Error! Emoticon preferences not saved."
+
+msgid "errorpage_title"
+msgstr "Error"
+
+msgid "errorline1"
+msgstr ""
+"The page or function you attempted to process requires the use of cookies."
+
+msgid "errorline2"
+msgstr ""
+"Restore cookie functionality within your browser or protection software and "
+"attempt your request again."
+
+msgid "clientid"
+msgstr "Client ID: "
+
+msgid "moderation_title"
+msgstr "Moderation Preferences"
+
+msgid "image_list_title"
+msgstr "Image List"
+
+msgid "image_list_instructions"
+msgstr ""
+"Click on the links below to view images.<br /><br />To add an image to your "
+"entry:<br />1) Control-click a link and choose 'Copy Link to Clipboard'.<br /"
+">2) Return to the Add Entry or Edit Entry page.<br />3) Click the 'img' "
+"button and paste the URL into the window."
+
+msgid "info_title"
+msgstr "Meta-Data Information"
+
+msgid "php_charset"
+msgstr "UTF-8"
+
+msgid "info_error"
+msgstr ""
+"<h2>Whoops!</h2>Information not saved. I ran into a problem while saving "
+"your information.<br /><br />Server Reported:<br />"
+
+msgid "info_success"
+msgstr "<h2>Meta-Data Saved!</h2>Information has been successfully saved."
+
+msgid "info_instructions"
+msgstr ""
+"The information below is used for &quot;meta-data&quot;, which helps search "
+"engines correctly find and identify your site. Information may also be used "
+"in RSS feeds."
+
+msgid "info_keywords"
+msgstr "Keywords: (List of keywords separated by commas.)"
+
+msgid "info_description"
+msgstr "Description: (An abstract or a free-text description of your site.)"
+
+msgid "info_copyright"
+msgstr ""
+"Rights: (Copyright statement, or link to document containing information.)"
+
+msgid "tracking_code"
+msgstr ""
+"External Tracking Code: (HTML code that needs to be run on the main page (in "
+"the header tags for safety) only for every user that comes to the page i.e. "
+"Google Analytics)"
+
+msgid "install00_title"
+msgstr "Welcome"
+
+msgid "install00_instructions"
+msgstr "Thank you for choosing Simple PHP Blog!"
+
+msgid "blog_choose_language"
+msgstr "Choose Language:"
+
+msgid "install01_title"
+msgstr "Welcome"
+
+msgid "install01_instructions"
+msgstr ""
+"          Thank you for choosing Simple PHP Blog!<br /><br />Simple PHP Blog "
+"is a light-weight blogging system. It requires PHP 5.0 or greater, and write-"
+"permissions on the server. All information is stored in flat-files, so no "
+"database is required.<br /><br />          In order to begin, Simple PHP "
+"Blog needs to create three folders (<b>config</b>, <b>content</b>, and "
+"<b>images</b>) in which to store your information. After that, you will "
+"create your password and then you can start blogging.<br /><br />          "
+"<b>Click below to begin setup:</b>"
+
+msgid "begin"
+msgstr "Begin Setup"
+
+msgid "We think your blog is at %s."
+msgstr "We think your blog is at %s."
+
+msgid "If not, set BASEURL correctly in scripts/config.php"
+msgstr "If not, set BASEURL correctly in scripts/config.php"
+
+msgid "install02_title"
+msgstr "Setup"
+
+msgid "folder_failed"
+msgstr "Whoops! Could not create folder..."
+
+msgid "folder_success"
+msgstr "Success! Folder created..."
+
+msgid "folder_exists"
+msgstr "Okay! Folder already exists. No changes made..."
+
+msgid "install02_instructions"
+msgstr ""
+"Trying to create <b>config</b>, <b>content</b>, and <b>images</b> folders:"
+
+msgid "help"
+msgstr ""
+"          <h2>Whoops!</h2>          Could not create one or more folders!"
+"<br /><br />This is most likely because:<br />          <ol>          "
+"<li><b>Write Permissions</b> aren't set to allow <b>Read/Write</b> access.</"
+"li>          <li>The <b>UID</b>'s (user ID's) of all files and folder must "
+"match.</li>          </ol>          Follow the trouble-shooting instructions "
+"below and click <b>Try Again</b>:<br />          <ol>          <li>Manually "
+"create the following folders: <b>config</b>, <b>content</b>, and <b>images</"
+"b>.</li>          <li>Enabled <b>Write Permissions</b> on the folders: In "
+"your FTP program, 'User' and 'Group' should have <b>Read</b> and <b>Write</"
+"b> access. In some cases you might need to enable 'Other' as well. <i>(You "
+"may need to contact your service provider to change these...)</i></"
+"li>          <li>Make sure the UID's of all your files and folders are the "
+"same. <i>(You may need to contact your service provider to change these...)</"
+"i></li>          <li>In scripts/config.php set BLOG_MASK to 0777.</"
+"li>          </ol>"
+
+msgid "try_again"
+msgstr "Try Again"
+
+msgid "install02_success"
+msgstr ""
+"<h2>Success!</h2>Folders created successfully!<p /><b>Click below to "
+"continue:</b>"
+
+msgid "continue"
+msgstr "Continue"
+
+msgid "install03_title"
+msgstr "Create Username &amp; Password"
+
+msgid "install03_instructions"
+msgstr "Use the form below to Create a Username and Password."
+
+msgid "supported"
+msgstr "<b>Your web server supports the following encryption schemes:</b>"
+
+msgid "standard"
+msgstr "Standard DES Encryption: "
+
+msgid "extended"
+msgstr "Extended DES Encryption: "
+
+msgid "MD5"
+msgstr "MD5 Encryption: "
+
+msgid "blowfish"
+msgstr "Blowfish Encryption: "
+
+msgid "using_standard"
+msgstr "Using Standard DES Encryption..."
+
+msgid "using_extended"
+msgstr "Using Extended DES Encryption..."
+
+msgid "using_MD5"
+msgstr "Using MD5 Encryption..."
+
+msgid "using_blowfish"
+msgstr "Using Blowfish Encryption..."
+
+msgid "using_unknown"
+msgstr "Using Unknown Encryption..."
+
+msgid "salt_length"
+msgstr "(Salt Length = %string)<br />"
+
+msgid "username"
+msgstr "Username:"
+
+msgid "password"
+msgstr "Password"
+
+msgid "install04_title"
+msgstr "Create Password File"
+
+msgid "install04_instructions"
+msgstr ""
+"Here's the tricky part:<br />          <ol>          <li>Open a Text Editor "
+"application. <i>(Note Pad, Word Pad, Word, BBEdit, Pico, VI, etc...)</i></"
+"li>          <li>Create a New Text Document.</li>          <li>Copy and "
+"paste the code in the box below into your document.</li>          <li>Save "
+"your file and name it <b>password.php</b> <i>(Be sure to save it in <b>text</"
+"b> or <b>plain text</b> format.)</i></li>          <li>Open a FTP "
+"application.</li>          <li>Upload your new <b>password.php</b> into the "
+"<b>config</b> folder on your web site.</li>          <li>Delete the "
+"<b>password.php</b> from your hard drive.</li>          </ol>          "
+
+msgid "code"
+msgstr "Code for <b>password.php</b> file:"
+
+msgid "information"
+msgstr ""
+"<i>Note: If you want to reset your username and password (probably because "
+"you forgot it), delete the <b>password.php</b> file in the <b>config</b> "
+"folder on your web site. The next time you visit your site, it will walk you "
+"through this installation process again...</i>"
+
+msgid "install05_title"
+msgstr "Login"
+
+msgid "install05_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid "install06_title"
+msgstr "Login"
+
+msgid "install06_success"
+msgstr ""
+"<h2>Congratulations!</h2>You are now logged in.<p />          Click below to "
+"visit the <b>Setup</b> page, where you can personalize your new blog.<p /"
+">          <i>Note: Now that you've completed the installation process, it "
+"is recommended that you delete the <b>installXX.php</b> files from your web "
+"site. (i.e. install00.php through install06.php)</i><p />"
+
+msgid "btn_setup"
+msgstr "Setup"
+
+msgid "btn_try_again"
+msgstr "Try Again"
+
+msgid "login_title"
+msgstr "Login"
+
+msgid "WARNING: Password will be sent unencrypted!"
+msgstr "WARNING: Password will be sent unencrypted!"
+
+msgid "login_instructions"
+msgstr "Please enter your Username and Password below"
+
+msgid ""
+"Do not worry!  Your draft has been saved, login to restore your last draft."
+msgstr ""
+"Do not worry!  Your draft has been saved, login to restore your last draft."
+
+msgid "login_success"
+msgstr "<h2>Success!</h2>You are now logged in. Happy blogging!<p />"
+
+msgid "login_wrong_password"
+msgstr ""
+"<h2>Whoops!</h2>You are not logged in. Please verify that you typed your "
+"Username and Password correctly and try again.<p />"
+
+msgid "inactive_account"
+msgstr ""
+"<h2>Whoops!</h2>You are not logged in. Your account has been disabled by the "
+"administrator for some reason.<p />"
+
+msgid "Restore your last draft."
+msgstr "Restore your last draft."
+
+msgid "upgrade"
+msgstr "<h2>Upgrade</h2>"
+
+msgid "upgrade_count"
+msgstr "%n comment files need to be upgraded:"
+
+msgid "upgrade_url"
+msgstr "Upgrade Comments"
+
+msgid "logout_title"
+msgstr "Logout"
+
+msgid "logout_error"
+msgstr ""
+"<h2>Goodbye!</h2>You are now logged out. (You weren't logged in anyway!)<p />"
+
+msgid "logout_success"
+msgstr ""
+"<h2>Goodbye!</h2>You are now logged out.<p />(Redirecting to Home in 5 "
+"seconds.)<p />"
+
+msgid "error_no_cookie"
+msgstr ""
+"<h2>Goodbye!</h2>You are now logged out. (No cookie was found. You weren't "
+"logged in anyway!)<p />"
+
+msgid "manage_users_title"
+msgstr "Manage Editing Users"
+
+msgid "fulladminerror"
+msgstr "You must be a full administrator to do this!"
+
+msgid "header_user"
+msgstr "User: "
+
+msgid "header_property"
+msgstr "Property"
+
+msgid "prop_username"
+msgstr "Username:"
+
+msgid "prop_fullname"
+msgstr "Display Name:"
+
+msgid "prop_password"
+msgstr "Password:"
+
+msgid "prop_email"
+msgstr "Email:"
+
+msgid "prop_avatar"
+msgstr "Avatar URL:"
+
+msgid "prop_state"
+msgstr "Active?"
+
+msgid "prop_sec_Moderate"
+msgstr "Moderate Comments?"
+
+msgid "prop_sec_Delete"
+msgstr "Delete Blog Entries?"
+
+msgid "prop_sec_Edit"
+msgstr "Edit Any Entry?"
+
+msgid "btn_SaveChanges"
+msgstr "Save Changes"
+
+msgid "btn_CreateUser"
+msgstr "Create User"
+
+msgid "btn_Cancel"
+msgstr "Cancel"
+
+msgid "create_user"
+msgstr "Create New User"
+
+msgid "grid_header"
+msgstr "User Listing"
+
+msgid "grid_login"
+msgstr "Login"
+
+msgid "btn_modify"
+msgstr "Modify"
+
+msgid "moderation_instructions"
+msgstr "You can modify the auto moderation lists here."
+
+msgid "banned_address_list_title"
+msgstr "<h2>Banned IP Addresses</h2>"
+
+msgid "banned_address_list"
+msgstr ""
+"Below is a list of numerical ip addresses that have been banned from "
+"entering comments. Each ip is on a separate line and must be numbers (not "
+"DNS names). When logged in, IP's can be banned directly from the comments "
+"view."
+
+msgid "banned_word_list_title"
+msgstr "<h2>Banned Words</h2>"
+
+msgid "banned_word_list"
+msgstr ""
+"Below is a list of words that are not allowed to be in the url or the text. "
+"Each word or group of words is on a separate line. The comments will attempt "
+"to match each line exactly in order to enact the ban."
+
+msgid "options_title"
+msgstr "Options"
+
+msgid "options_instructions"
+msgstr ""
+"Use the form below to customize the date and time display for blog and "
+"comment entries. You can select 12 or 24 hour clocks. Short or long date "
+"format. And the <b>Preview</b> areas update automatically to show you how "
+"you formatting will appear."
+
+msgid "ldate_title"
+msgstr "Long Date Format:"
+
+msgid "weekday"
+msgstr "Weekday"
+
+msgid "month"
+msgstr "Month"
+
+msgid "day"
+msgstr "Day"
+
+msgid "year"
+msgstr "Year"
+
+msgid "none"
+msgstr "None"
+
+msgid "zero_day"
+msgstr "Leading zero for day"
+
+msgid "preview"
+msgstr "Preview:"
+
+msgid "sdate_title"
+msgstr "Short Date Format:"
+
+msgid "s_month"
+msgstr "Month"
+
+msgid "s_day"
+msgstr "Day"
+
+msgid "s_year"
+msgstr "Year"
+
+msgid "separator"
+msgstr "Separator:"
+
+msgid "zero_month"
+msgstr "Leading zero for Month"
+
+msgid "show_century"
+msgstr "Show century"
+
+msgid "time_title"
+msgstr "Time Format:"
+
+msgid "24hour"
+msgstr "24-hour clock"
+
+msgid "12hour"
+msgstr "12-hour clock"
+
+msgid "zero_hour"
+msgstr "Leading zero for Hour"
+
+msgid "before_noon"
+msgstr "Before Noon"
+
+msgid "after_noon"
+msgstr "After Noon"
+
+msgid "date_title"
+msgstr "Date Display Format:"
+
+msgid "long_date"
+msgstr "Long Date"
+
+msgid "short_date"
+msgstr "Short Date"
+
+msgid "time"
+msgstr "Time"
+
+msgid "menu_title"
+msgstr "Menu Date Display Format:"
+
+msgid "server_offset"
+msgstr "Server Offset:"
+
+msgid "options_error"
+msgstr ""
+"<h2>Whoops!</h2>Information not saved. I ran into a problem while saving "
+"your information.<br /><br />Server Reported:<br />"
+
+msgid "options_success"
+msgstr "<h2>Options Saved!</h2>Information has been successfully saved."
+
+msgid "View PHP Info Full Screen"
+msgstr "View PHP Info Full Screen"
+
+msgid "Sidebar Plugins"
+msgstr "Sidebar Plugins"
+
+msgid "rating_title"
+msgstr "Rating"
+
+msgid "rating_error"
+msgstr ""
+"<h2>Whoops!</h2>Information not saved. I ran into a problem while saving "
+"your information.<br /><br />Server Reported:<br />"
+
+msgid "rating_success"
+msgstr "<h2>Vote Saved!</h2>Your rating has been successfully saved."
+
+msgid "search_result_title"
+msgstr "Search Results"
+
+msgid "not_found"
+msgstr "No results found"
+
+msgid "set_login_title"
+msgstr "Change Username &amp; Password"
+
+msgid "explanation"
+msgstr ""
+"In recent versions, our password structure has changed.  There is no longer "
+"a way to update passwords            and/or logins from inside the blog "
+"code.  In order to change your password, delete /config/password.php and "
+"make sure install*.php            exists on the local server.  Once that is "
+"done, refresh this page (or logout).  You will be presented with the same "
+"script            to generate your password as you did when originally "
+"creating the blog site."
+
+msgid "set_login_success"
+msgstr ""
+"<h2>Success!</h2>Your Username and/or Password is active. Happy blogging!<p /"
+">"
+
+msgid "set_login_wrong_password"
+msgstr ""
+"<h2>Whoops!</h2>Information not saved. I ran into a problem while saving "
+"your Username and/or Password.<br /><br />Server Reported:<br />"
+
+msgid "setup_title"
+msgstr "Preferences"
+
+msgid "setup_instructions"
+msgstr ""
+"You can change the name of your blog, and your personal information below."
+
+msgid "title_language"
+msgstr "Language"
+
+msgid "title_general"
+msgstr "General"
+
+msgid "blog_enable_title"
+msgstr ""
+"Enable Plain Text Title Block (Clear checkbox if the title is in the header "
+"graphic)"
+
+msgid "blog_header"
+msgstr ""
+"Header Graphic URL: images/blogheader.jpg (Leave blank for default theme "
+"graphic)."
+
+msgid "blog_title"
+msgstr "Blog Name:"
+
+msgid "blog_author"
+msgstr "Author:"
+
+msgid "blog_email"
+msgstr ""
+"Email: (Separate email address should be separated by a , comma - blank "
+"disables Contact Me option)"
+
+msgid "blog_avatar"
+msgstr "Avatar URL: images/avatar.jpg (Leave blank for none)."
+
+msgid "blog_footer"
+msgstr "Footer:"
+
+msgid "Enable Emoticons"
+msgstr "Enable Emoticons"
+
+msgid "Enable Advanced Editor"
+msgstr "Enable Advanced Editor"
+
+msgid "title_entries"
+msgstr "Entries"
+
+msgid "blog_enable_voting"
+msgstr "Enable Users to Rate Entries"
+
+msgid "blog_enable_permalink"
+msgstr "Enable Permalink on Blog Entries"
+
+msgid "blog_enable_print"
+msgstr "Enable Print Article link on Blog Entries"
+
+msgid "blog_enable_capcha"
+msgstr "Enable Anti-Spam"
+
+msgid "blog_enable_capcha_image"
+msgstr "Anti-Spam Images (GD library only) / Anti-Spam Text Field"
+
+msgid "blog_enable_cache"
+msgstr "Enable Blog Entry Cache (may provide speed increase on some servers)"
+
+msgid "blog_send_pings"
+msgstr "Send weblog &quot;pings&quot;"
+
+msgid "blog_ping_urls"
+msgstr ""
+"Enter full URL (i.e. http://rpc.weblogs.com/RPC2) of service to &quot;"
+"ping&quot;.<br />(You can enter more than one address separated by commas.)"
+
+msgid "blog_max_entries"
+msgstr "Maximum Entries to Display:"
+
+msgid "rss_max_entries"
+msgstr "Maximum Entries to Display in Feeds:"
+
+msgid ""
+"Allowed number of years to go back.  WARNING: You may get unexpected "
+"behavior when using years before 2000."
+msgstr ""
+"Allowed number of years to go back.  WARNING: You may get unexpected "
+"behavior when using years before 2000."
+
+msgid "select_new_to_old"
+msgstr "List Newest First"
+
+msgid "select_old_to_new"
+msgstr "List Oldest First"
+
+msgid "label_entry_order"
+msgstr "Entry Order:"
+
+msgid "label_comment_order"
+msgstr "Comment Order:"
+
+msgid "blog_enable_start_category"
+msgstr "Use specific category for first page of entries: "
+
+msgid "Use static page for first page:"
+msgstr "Use static page for first page:"
+
+msgid "title_sidebar"
+msgstr "Sidebar"
+
+msgid "blog_enable_login"
+msgstr "Enable Login Link (Please bookmark 'login.php' first...)"
+
+msgid "blog_enable_stats"
+msgstr "Enable Stats Option in Menu"
+
+msgid "blog_enable_lastcomments"
+msgstr "Enable Most Recent Comments Listing"
+
+msgid "blog_enable_lastentries"
+msgstr "Enable Most Recent Entries Listing"
+
+msgid "blog_enable_archives"
+msgstr "Enable Archives Block"
+
+msgid "blog_footer_counter"
+msgstr "Enable Counter in Footer"
+
+msgid "blog_enable_counter"
+msgstr "Enable Counter in Sidebar"
+
+msgid "blog_counter_hours"
+msgstr ""
+"Number of hours to delay before hits are counted again (based on specific ip "
+"address):"
+
+msgid "blog_enable_calendar"
+msgstr "Enable Calendar"
+
+msgid "label_calendar_start"
+msgstr "Calendar Week Start Day"
+
+msgid "cal_sunday"
+msgstr "Sunday"
+
+msgid "cal_monday"
+msgstr "Monday"
+
+msgid "blog_search_top"
+msgstr "Show Search In Entries (instead of in sidebar)"
+
+msgid "blog_enable_static_block"
+msgstr "Show a defined block as the first entry of blog entries: "
+
+msgid "static_block_border"
+msgstr "Show Border"
+
+msgid "static_block_noborder"
+msgstr "No Border"
+
+msgid "title_comments"
+msgstr "Comments"
+
+msgid "blog_enable_comments"
+msgstr "Enable User Comments"
+
+msgid "blog_email_notification"
+msgstr "Send email notification when comments are posted"
+
+msgid "blog_comment_days_expiry"
+msgstr "Comments Allowed For How Many Days? (0 means no expiry)"
+
+msgid "blog_comment_tags"
+msgstr "Tags to Allow in Comments:"
+
+msgid "comment_moderation"
+msgstr "Moderation Options"
+
+msgid "blog_comments_moderation"
+msgstr ""
+"Require comment entries to be approved by logged in user before "
+"public            (always visible to logged in user)"
+
+msgid "title_compression"
+msgstr "Compression"
+
+msgid "blog_gzip_about"
+msgstr ""
+"            PHP has the ability to transparently compress pages that are "
+"sent to browsers            which support gzip compression, thus saving "
+"bandwidth.<br />            <br />            Zlib support in PHP is not "
+"enabled by default. If the checkbox is disabled, then your            "
+"installation of PHP does not support the Zlib extension."
+
+msgid "blog_enable_gzip_txt"
+msgstr "Enable GZIP Compression for Database Files"
+
+msgid "blog_enable_gzip_output"
+msgstr "Enable GZIP Compression for HTTP Output"
+
+msgid "setup_error"
+msgstr ""
+"<h2>Whoops!</h2>Information not saved. I ran into a problem while saving "
+"your information.<br /><br />Server Reported:<br />"
+
+msgid "setup_success"
+msgstr "<h2>Preferences Saved!</h2>Information has been successfully saved."
+
+msgid "stats_title"
+msgstr "Statistics"
+
+msgid "entry_info"
+msgstr "<b>%s</b> entries using <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "comment_info"
+msgstr "<b>%s</b> comments using <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "trackback_info"
+msgstr "<b>%s</b> trackbacks stored in <b>%s</b> bytes"
+
+msgid "static_info"
+msgstr "<b>%s</b> static pages using <b>%s</b> words stored in <b>%s</b> bytes"
+
+msgid "vote_info"
+msgstr "<b>%s</b> votes stored in <b>%s</b> bytes"
+
+msgid "most_rated_entries"
+msgstr "10 Most rated entries"
+
+msgid "most_voted_entries"
+msgstr "10 Most voted entries"
+
+msgid "most_viewed_entries"
+msgstr "10 Most viewed entries"
+
+msgid "most_commented_entries"
+msgstr "10 Most commented entries"
+
+msgid "themes_title"
+msgstr "Themes"
+
+msgid "upload_img_error"
+msgstr ""
+"<h2>Whoops!</h2>Couldn't upload image. Here's some more information:<br /"
+"><br />Server Reported:<br />"
+
+msgid "upload_img_success"
+msgstr "<h2>Image Uploaded!</h2>The image has been successfully saved."
+
+msgid "themes_instructions"
+msgstr "Use the drop-down menu to select a different theme."
+
+msgid "choose_theme"
+msgstr "Themes:"
+
+msgid "trackbacks_title"
+msgstr "Trackbacks"
+
+msgid "trackbacks_error_delete"
+msgstr ""
+"<h2>Whoops!</h2>Trackback not deleted. I ran into a problem while deleting "
+"the trackback.<br /><br />Server Reported:<br />"
+
+msgid "trackbacks_success_delete"
+msgstr "<h2>Trackback Deleted!</h2>The trackback link has been deleted."
+
+msgid "Upgrade"
+msgstr "Upgrade"
+
+msgid "upload_img_title"
+msgstr "Upload Image"
+
+msgid "howmany"
+msgstr "How many images do you wish to upload?"
+
+msgid "upload_img_instructions"
+msgstr "Click on the button below to select a file to upload."
+
+msgid "select_file"
+msgstr "Select file:"
+
+msgid "upload_btn"
+msgstr "Upload"
+
+msgid "There is no error, the file uploaded with success."
+msgstr "There is no error, the file uploaded with success."
+
+msgid ""
+"Value: 1; The uploaded file exceeds the upload_max_filesize directive in php."
+"ini."
+msgstr ""
+"Value: 1; The uploaded file exceeds the upload_max_filesize directive in php."
+"ini."
+
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form."
+msgstr ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form."
+
+msgid "The uploaded file was only partially uploaded."
+msgstr "The uploaded file was only partially uploaded."
+
+msgid "No file was uploaded."
+msgstr "No file was uploaded."
+
+msgid "Missing a temporary folder. Introduced in PHP 4.3.10 and PHP 5.0.3."
+msgstr "Missing a temporary folder. Introduced in PHP 4.3.10 and PHP 5.0.3."
+
+msgid "Failed to write file to disk. Introduced in PHP 5.1.0."
+msgstr "Failed to write file to disk. Introduced in PHP 5.1.0."
+
+msgid "File upload stopped by extension. Introduced in PHP 5.2.0."
+msgstr "File upload stopped by extension. Introduced in PHP 5.2.0."
+
+msgid "The reason of error is unknown."
+msgstr "The reason of error is unknown."
+
+msgid "Add User"
+msgstr "Add User"
+
+msgid "delete_btn"
+msgstr "delete"
+
+msgid "ban_btn"
+msgstr "ban ip"
+
+msgid "enteredby"
+msgstr "Entered By: "
+
+msgid "entrydate"
+msgstr "Entry Date: "
+
+msgid "blogentrytitle"
+msgstr "Blog Entry Title: "
+
+msgid "enteredcontent"
+msgstr "Content: "
+
+msgid "mod_approve"
+msgstr "Approve"
+
+msgid "mod_delete"
+msgstr "Delete"
+
+msgid "totalunmodded"
+msgstr " total item(s) waiting for moderator update."
+
+msgid "commentposted"
+msgstr "New comment posted at: "
+
+msgid "homepage"
+msgstr "Homepage:"
+
+msgid "email_moderator"
+msgstr ""
+"Comments are currently moderated. This comment needs approval before it will "
+"be seen by the public."
+
+msgid "counter_totalsidebar"
+msgstr "Total:"
+
+msgid "sb_relatedlink"
+msgstr "related link"
+
+msgid "sb_edit"
+msgstr "edit"
+
+msgid "sb_delete"
+msgstr "delete"
+
+msgid "sb_permalink"
+msgstr "permalink"
+
+msgid "sb_rate_entry_btn"
+msgstr "Click to Rate Entry"
+
+msgid "sb_comment_btn"
+msgstr "comment"
+
+msgid "sb_comments_plural_btn"
+msgstr "comments"
+
+msgid "sb_add_comment_btn"
+msgstr "add comment"
+
+msgid "sb_comment_view"
+msgstr "view"
+
+msgid "sb_comments_plural_view"
+msgstr "views"
+
+msgid "sb_read_entry_btn"
+msgstr "view entry"
+
+msgid "sb_comment_btn_number_first"
+msgstr "1"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr "1"
+
+msgid "sb_view_counter_pre"
+msgstr " "
+
+msgid "sb_view_counter_plural_pre"
+msgstr " "
+
+msgid "sb_postedby"
+msgstr "Posted by"
+
+msgid "nav_first"
+msgstr "First"
+
+msgid "nav_back"
+msgstr "Back"
+
+msgid "nav_next"
+msgstr "Next"
+
+msgid "nav_last"
+msgstr "Last"
+
+msgid "sb_admin"
+msgstr "Administrator"
+
+msgid "rss_locale"
+msgstr "en-US"
+
+msgid "read_more"
+msgstr "Read More..."
+
+msgid "html_charset"
+msgstr "UTF-8"
+
+msgid "locale"
+msgstr "Array"
+
+msgid "sb_add_link_btn"
+msgstr "+ link"
+
+msgid "label_subject"
+msgstr "Subject:"
+
+msgid "chk_visiblemenu"
+msgstr "Visible (Show in menu)"
+
+msgid "label_entry"
+msgstr "Entry:"
+
+msgid "label_relatedlink"
+msgstr "Related Link"
+
+msgid "btn_preview"
+msgstr "Preview"
+
+msgid "btn_post"
+msgstr "Post"
+
+msgid "file_name"
+msgstr "Static File Name: (no spaces or file extensions)"
+
+msgid "hour"
+msgstr "Hour"
+
+msgid "minute"
+msgstr "Minute"
+
+msgid "second"
+msgstr "Second"
+
+msgid "label_categories"
+msgstr "Category List"
+
+msgid "insert_styles"
+msgstr "Enter the text to be formatted:"
+
+msgid "insert_url2"
+msgstr "Enter the full URL for the link:"
+
+msgid "insert_url1"
+msgstr "Enter the text to be displayed for the link (Optional):"
+
+msgid "insert_image"
+msgstr "Enter the URL for the image:"
+
+msgid "insert_image_width"
+msgstr "Width (Optional):"
+
+msgid "insert_image_height"
+msgstr "Height (Optional):"
+
+msgid "insert_image_popup"
+msgstr "View full-size in pop-up when clicked (Optional):"
+
+msgid "insert_image_float"
+msgstr "Float (Optional):"
+
+msgid "form_error"
+msgstr "Form Error."
+
+msgid "page_generated_in"
+msgstr "Page Generated in %s seconds"
+
+msgid "counter_total"
+msgstr "Site Views: "
+
+msgid "bg_color"
+msgstr "BG Page"
+
+msgid "header_bg_color"
+msgstr "BG Header"
+
+msgid "footer_bg_color"
+msgstr "BG Footer"
+
+msgid "main_bg_color"
+msgstr "BG Main Page"
+
+msgid "menu_bg_color"
+msgstr "BG Menu"
+
+msgid "border_color"
+msgstr "Page Border"
+
+msgid "inner_border_color"
+msgstr "Inner Border"
+
+msgid "header_txt_color"
+msgstr "Header Text"
+
+msgid "footer_txt_color"
+msgstr "Footer Text"
+
+msgid "txt_color"
+msgstr "Main Text"
+
+msgid "headline_txt_color"
+msgstr "Headline Text"
+
+msgid "date_txt_color"
+msgstr "Date Text"
+
+msgid "entry_bg"
+msgstr "Entry BG"
+
+msgid "entry_title_bg"
+msgstr "Entry Title BG"
+
+msgid "entry_border"
+msgstr "Entry Border"
+
+msgid "entry_title_text"
+msgstr "Entry Title Text"
+
+msgid "entry_text"
+msgstr "Entry Text"
+
+msgid "menu_bg"
+msgstr "Menu BG"
+
+msgid "menu_title_bg"
+msgstr "Menu Title BG"
+
+msgid "menu_border"
+msgstr "Menu Border"
+
+msgid "menu_title_text"
+msgstr "Menu Title Text"
+
+msgid "menu_text"
+msgstr "Menu Text"
+
+msgid "link_reg_color"
+msgstr "Link Default"
+
+msgid "link_hi_color"
+msgstr "Link Hover"
+
+msgid "link_down_color"
+msgstr "Link Active"
+
+msgid "menu_link_reg_color"
+msgstr "Menu Link Default"
+
+msgid "menu_link_hi_color"
+msgstr "Menu Link Hover"
+
+msgid "menu_link_down_color"
+msgstr "Menu Link Active"
+
+msgid "static_bg"
+msgstr "Static BG"
+
+msgid "static_title_bg"
+msgstr "Static Title BG"
+
+msgid "static_border"
+msgstr "Static Border"
+
+msgid "static_title_text"
+msgstr "Static Title Text"
+
+msgid "static_text"
+msgstr "Static Text"
+
+msgid "comment_bg"
+msgstr "Comment BG"
+
+msgid "comment_title_bg"
+msgstr "Comment Title BG"
+
+msgid "comment_border"
+msgstr "Comment Border"
+
+msgid "comment_title_text"
+msgstr "Comment Title Text"
+
+msgid "menu_archive"
+msgstr "Archives"
+
+msgid "menu_viewarchives"
+msgstr "View Archives"
+
+msgid "menu_menu"
+msgstr "Menu"
+
+msgid "menu_add"
+msgstr "Add Entry"
+
+msgid "menu_add_static"
+msgstr "Add Static Page"
+
+msgid "menu_upload"
+msgstr "Upload Image"
+
+msgid "menu_avatar"
+msgstr "Avatar"
+
+msgid "Bookmark Sharing"
+msgstr "Bookmark Sharing"
+
+msgid "menu_calendar"
+msgstr "Calendar"
+
+msgid "menu_categories"
+msgstr "Categories"
+
+msgid "counter_title"
+msgstr "Counter Totals"
+
+msgid "menu_links"
+msgstr "Links"
+
+msgid "notice_loggedin"
+msgstr "You are currently logged in."
+
+msgid "notice_moderator1"
+msgstr "You have "
+
+msgid "menu_home"
+msgstr "Home"
+
+msgid "menu_contact"
+msgstr "Contact"
+
+msgid "menu_stats"
+msgstr "Stats"
+
+msgid "menu_logout"
+msgstr "Logout"
+
+msgid "menu_login"
+msgstr "Login"
+
+msgid "menu_setup"
+msgstr "Preferences"
+
+msgid "menu_add_block"
+msgstr "Blocks"
+
+msgid "menu_plugins"
+msgstr "Plugins"
+
+msgid "menu_emoticons"
+msgstr "Emoticons"
+
+msgid "menu_themes"
+msgstr "Themes"
+
+msgid "menu_colors"
+msgstr "Colors"
+
+msgid "menu_options"
+msgstr "Date &amp; Time"
+
+msgid "menu_info"
+msgstr "Meta Tags"
+
+msgid "manage_users"
+msgstr "User Manager"
+
+msgid "manage_php_config"
+msgstr "View PHP Configuration"
+
+msgid "zip_backup"
+msgstr "Download Data Backup"
+
+msgid "image_backup"
+msgstr "Download Image Backup"
+
+msgid "menu_moderation"
+msgstr "Word/IP Moderation"
+
+msgid "menu_random_entry"
+msgstr "Random Entry"
+
+msgid "menu_most_recent"
+msgstr "Most Recent Comments"
+
+msgid "menu_most_recent_entries"
+msgstr "Most Recent Entries"
+
+msgid "search_title"
+msgstr "Search"
+
+#~ msgid "add_link_form_error"
+#~ msgstr "Please complete the Name field."
+
+#~ msgid "comments_form_error"
+#~ msgstr "Please complete the Name, Comment and Anti-Spam fields."
+
+#~ msgid "contact_form_error"
+#~ msgstr "Please complete the Subject and Comment fields."
+
+#~ msgid "info_form_error"
+#~ msgstr "Please complete the Title and Author fields."
+
+#~ msgid "install03_form_error"
+#~ msgstr "Please complete the Username and Password fields."
+
+#~ msgid "install05_form_error"
+#~ msgstr "Please complete the Username and Password fields."
+
+#~ msgid "login_form_error"
+#~ msgstr "Please complete the Username and Password fields."
+
+#~ msgid "set_login_form_error"
+#~ msgstr "Please complete the Username and Password fields."
+
+#~ msgid "setup_form_error"
+#~ msgstr "Please complete the Title and Author fields."
+
+#~ msgid "title_trackback"
+#~ msgstr "Trackbacks"
+
+#~ msgid "blog_trackback_about"
+#~ msgstr ""
+#~ "Trackback provides a method of notification between blogs. Let "
+#~ "another            blog know that you are linking to them by sending them "
+#~ "a trackback ping. See who is linking to            your blog by receiving "
+#~ "trackback pings.<br />             You can either enter the URIs to ping "
+#~ "manually, or try to do it automatically through             Auto-"
+#~ "Discovery."
+
+#~ msgid "blog_trackback_enabled"
+#~ msgstr "Enable trackback in my blog"
+
+#~ msgid "blog_trackback_auto_discovery"
+#~ msgstr "Enable Auto-Discovery when submitting a post containing URLs"
+
+#~ msgid "blog_comments_popup"
+#~ msgstr "Open Comments in Popup Window"
+
+#~ msgid "language"
+#~ msgstr "english"
+
+#~ msgid "menu_change_login"
+#~ msgstr "Change Login"
+
+#~ msgid "menu_most_recent_trackback"
+#~ msgstr "Most Recent Trackbacks"
+
+#~ msgid "menu_commentmoderation"
+#~ msgstr "Unmodded Comments"
+
+#~ msgid "notice_moderator2"
+#~ msgstr " comment(s) that require approval."
+
+#~ msgid "counter_today"
+#~ msgstr "Today:"
+
+#~ msgid "counter_yesterday"
+#~ msgstr "Yesterday:"
+
+#~ msgid "search_go"
+#~ msgstr "Go"
+
+#~ msgid "randomquote"
+#~ msgstr "Random Quote"
+
+#~ msgid "sb_months"
+#~ msgstr "Array"
+
+#~ msgid "sb_default_title"
+#~ msgstr "No Title"
+
+#~ msgid "sb_default_author"
+#~ msgstr "No Author"
+
+#~ msgid "sb_default_footer"
+#~ msgstr "No Footer"
+
+#~ msgid "sb_trackback"
+#~ msgstr "trackbacks"
+
+#~ msgid "print_article"
+#~ msgstr "print article"
+
+#~ msgid "sb_view_counter_post"
+#~ msgstr " view"
+
+#~ msgid "sb_view_counter_plural_post"
+#~ msgstr " views"
+
+#~ msgid "btn_readmore"
+#~ msgstr "read more"
+
+#~ msgid "insert_url3"
+#~ msgstr "Open URL in new window (Optional):"
+
+#~ msgid "add_form_error"
+#~ msgstr "Please complete the Subject and Entry fields."
+
+#~ msgid "insert_image_optional"
+#~ msgstr "Optional:"
+
+#~ msgid "title_ad"
+#~ msgstr "Confirm Trackback Pings"
+
+#~ msgid "instructions_ad"
+#~ msgstr ""
+#~ "These are the Auto-Discovered URIs you're about to ping. If you do not "
+#~ "want to ping a certain URI, uncheck it below. Then press the 'OK' button "
+#~ "to ping the checked URIs or press 'Cancel' to not ping at all."
+
+#~ msgid "label_tb_ping"
+#~ msgstr "Trackback ping(s) to send (comma separated)"
+
+#~ msgid "label_tb_autodiscovery"
+#~ msgstr "autodiscovery"
+
+#~ msgid "add_static_form_error"
+#~ msgstr "Please complete the Subject, Entry, and File Name fields."
+
+#~ msgid "expired_comment2"
+#~ msgstr " days."
+
+#~ msgid "success_ban2"
+#~ msgstr ""
+#~ "</h2>To remove this ban in the future, use the Moderation option in the "
+#~ "preferences menu."
+
+#~ msgid "error_no_match"
+#~ msgstr ""
+#~ "<h2>Error!</h2>Your IP address doesn't match posted IP address. Are you a "
+#~ "spambot?"
+
+#~ msgid "error_bad_data"
+#~ msgstr "<h2>Error!</h2>Post data is not valid. Are you a hacker?"
+
+#~ msgid "add_block_form_error"
+#~ msgstr "Please complete the Name field."
+
+#~ msgid "add_block_instructions"
+#~ msgstr ""
+#~ "Use the form below to add custom 'Blocks' which will appear in the "
+#~ "sidebar menu."
+
+#~ msgid "add_block_submit_btn_add"
+#~ msgstr "Add Block"
+
+#~ msgid "add_link_instructions_modify"
+#~ msgstr "Click below to modify a link:"
+
+#~ msgid "add_link_submit_btn_add"
+#~ msgstr "Add Link"
+
+#~ msgid "categories_error"
+#~ msgstr "Error"
+
+#~ msgid "colors_form_error"
+#~ msgstr "Please enter a name for your custom color scheme."
+
+#~ msgid "forms_error"
+#~ msgstr ""
+#~ "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving "
+#~ "your entry.<br /><br />Server Reported:<br />"
+
+#~ msgid "set_login_instructions"
+#~ msgstr ""
+#~ "Use the form below to change your Username and/or Password. Enter the "
+#~ "Username and Password that you want to use."
+
+#~ msgid "enabled"
+#~ msgstr "enabled"
+
+#~ msgid "disabled"
+#~ msgstr "disabled"
+
+#~ msgid "install03_success"
+#~ msgstr ""
+#~ "<h2>Congratulations!</h2>You are now logged in. Click below to visit the "
+#~ "Setup page, where you can name your blog. Happy blogging!<p />"
+
+#~ msgid "install03_wrong_password"
+#~ msgstr ""
+#~ "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving "
+#~ "your Username and/or Password.<br /><br />Server Reported:<br />"
+
+#~ msgid "install05_success"
+#~ msgstr ""
+#~ "<h2>Congratulations!</h2>You are now logged in.<p />          Click below "
+#~ "to visit the <b>Setup</b> page, where you can personalize your new blog."
+#~ "<p />          <i>Note: Now that you've completed the installation "
+#~ "process, it is recommended that you delete the <b>installXX.php</b> files "
+#~ "from your web site. (i.e. install00.php through install06.php)</i><p />"
+
+#~ msgid "install05_wrong_password"
+#~ msgstr ""
+#~ "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your "
+#~ "Username and Password correctly and try again.<p />"
+
+#~ msgid "install06_instructions"
+#~ msgstr "Please enter your Username and Password below"
+
+#~ msgid "install06_wrong_password"
+#~ msgstr ""
+#~ "<h2>Whoops!</h2>You are not logged in. Please verify that you typed your "
+#~ "Username and Password correctly and try again.<p />"
+
+#~ msgid "install06_form_error"
+#~ msgstr "Please complete the Username and Password fields."
+
+#~ msgid "comment_moderation_header"
+#~ msgstr "Moderation Listing"
+
+#~ msgid "moderation_error"
+#~ msgstr ""
+#~ "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving "
+#~ "your information.<br /><br />Server Reported:<br />"
+
+#~ msgid "moderation_success"
+#~ msgstr "<h2>Preferences Saved!</h2>Information has been successfully saved."
+
+#~ msgid "s_mon"
+#~ msgstr "MMM"
+
+#~ msgid "themes_error"
+#~ msgstr ""
+#~ "<h2>Whoops!</h2>Information not saved. I ran into a problem while saving "
+#~ "your information.<br /><br />Server Reported:<br />"
+
+#~ msgid "themes_success"
+#~ msgstr "<h2>Theme Selected!</h2>Information has been successfully saved."
+
+#~ msgid "search_result_instructions"
+#~ msgstr "Search results for <b>%string</b>:"
+
+#~ msgid "failure"
+#~ msgstr ""
+#~ "<h2>Error!</h2>Your message has not been sent. Most likely the Anti Spam "
+#~ "was not entered properly.<p />"
+
+#~ msgid "trackbacks_header"
+#~ msgstr "Trackback URL for this entry:"
+
+#~ msgid "trackbacks_error_add"
+#~ msgstr "Error storing trackback data."
+
+#~ msgid "general"
+#~ msgstr "General"
+
+#~ msgid "most_trackbacked_entries"
+#~ msgstr "10 Most trackbacked entries"
+
+#~ msgid "403.8"
+#~ msgstr "HTTP Error 403.8 - Page/Function Access Denied"
+
+#~ msgid "404"
+#~ msgstr "HTTP Error 404 - Page/Function Does Not Exist"
+
+#~ msgid "error_404"
+#~ msgstr "The page or function you attempted to process does not exist."
+
+#~ msgid "error_javascript"
+#~ msgstr ""
+#~ "The page or function you attempted requires javascript in order to "
+#~ "properly function."
+
+#~ msgid "manage_users_instructions"
+#~ msgstr ""
+#~ "Add, Modify, or Delete users that are not administrators but have the "
+#~ "ability to create blog entries and/or moderate the comments."
+
+#~ msgid "header_value"
+#~ msgstr "Value"
+
+#~ msgid "grid_email"
+#~ msgstr "Email"
+
+#~ msgid "grid_avatar"
+#~ msgstr "Avatar"
+
+#~ msgid "grid_state"
+#~ msgstr "Active?"
+
+#~ msgid "btn_delete"
+#~ msgstr "Delete"

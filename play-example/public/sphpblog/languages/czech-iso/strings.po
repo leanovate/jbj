@@ -1,0 +1,1620 @@
+msgid "language"
+msgstr "czech"
+
+msgid "locale"
+msgstr "Array"
+
+msgid "rss_locale"
+msgstr "cs-CZ"
+
+msgid "html_charset"
+msgstr "iso-8859-2"
+
+msgid "php_charset"
+msgstr "iso-8859-2 "
+
+msgid "menu_links"
+msgstr "Odkazy"
+
+msgid "menu_home"
+msgstr "Hlavní stránka"
+
+msgid "menu_contact"
+msgstr "Kontakt"
+
+msgid "menu_stats"
+msgstr "Statistiky"
+
+msgid "menu_calendar"
+msgstr "Kalendáø"
+
+msgid "menu_archive"
+msgstr "Archivy"
+
+msgid "menu_viewarchives"
+msgstr "Ukázat archivy"
+
+msgid "menu_menu"
+msgstr "Menu"
+
+msgid "menu_add"
+msgstr "Pøidat záznam"
+
+msgid "menu_add_static"
+msgstr "Pøidat stránku"
+
+msgid "menu_upload"
+msgstr "Nahrát obrázek"
+
+msgid "menu_setup"
+msgstr "Nastavení"
+
+msgid "menu_categories"
+msgstr "Kategorie"
+
+msgid "menu_info"
+msgstr "Meta data"
+
+msgid "manage_users"
+msgstr "Správa u¾ivatelù"
+
+msgid "manage_php_config"
+msgstr "zobrazit PHP nastavení"
+
+msgid "menu_options"
+msgstr "Datum a èas"
+
+msgid "menu_themes"
+msgstr "Vzhledy"
+
+msgid "menu_colors"
+msgstr "Barvy"
+
+msgid "menu_change_login"
+msgstr "Zmìnit pøihlá¹ení"
+
+msgid "menu_logout"
+msgstr "Odhlá¹ení"
+
+msgid "menu_login"
+msgstr "Pøihlá¹ení"
+
+msgid "menu_most_recent"
+msgstr "Nejnovìj¹í komentáøe"
+
+msgid "menu_most_recent_entries"
+msgstr "Nejnovìj¹í záznamy"
+
+msgid "menu_most_recent_trackback"
+msgstr "Nejnovìj¹í odezvy"
+
+msgid "menu_add_block"
+msgstr "Bloky"
+
+msgid "menu_emoticons"
+msgstr "Smajlíky"
+
+msgid "menu_avatar"
+msgstr "Avatar"
+
+msgid "menu_moderation"
+msgstr "Práva/IP nastavení"
+
+msgid "menu_commentmoderation"
+msgstr "Neschválené komentáøe"
+
+msgid "menu_random_entry"
+msgstr "Náhodný záznam"
+
+msgid "menu_plugins"
+msgstr "Pluginy"
+
+msgid "notice_moderator1"
+msgstr "Máte "
+
+msgid "notice_moderator2"
+msgstr " komentáø(e/ù), které èekají na schválení."
+
+msgid "notice_loggedin"
+msgstr "Nyní jste pøihlá¹eni!"
+
+msgid "counter_today"
+msgstr "Dnes:"
+
+msgid "counter_yesterday"
+msgstr "Vèera:"
+
+msgid "counter_totalsidebar"
+msgstr "Celkem:"
+
+msgid "counter_title"
+msgstr "Náv¹tìvy"
+
+msgid "home"
+msgstr "Zpìt na hlavní stránku"
+
+msgid "nav_next"
+msgstr "Dal¹í"
+
+msgid "nav_back"
+msgstr "Zpìt"
+
+msgid "nav_first"
+msgstr "První"
+
+msgid "nav_last"
+msgstr "Poslední"
+
+msgid "search_title"
+msgstr "Hledej"
+
+msgid "search_go"
+msgstr "Jdi"
+
+msgid "page_generated_in"
+msgstr "Stránka generována %s sekund"
+
+msgid "counter_total"
+msgstr "Zobrazení webu: "
+
+msgid "read_more"
+msgstr "Èíst dále..."
+
+msgid "randomentry"
+msgstr "Náhodný záznam"
+
+msgid "randomquote"
+msgstr "Náhodný záznam"
+
+msgid "sb_months"
+msgstr "Array"
+
+msgid "sb_default_title"
+msgstr "Bez názvu"
+
+msgid "sb_default_author"
+msgstr "Bez autora"
+
+msgid "sb_default_footer"
+msgstr "Bez patky"
+
+msgid "sb_edit"
+msgstr "editovat"
+
+msgid "sb_delete"
+msgstr "vymazat"
+
+msgid "sb_permalink"
+msgstr "trvalý odkaz"
+
+msgid "sb_trackback"
+msgstr "zpìtné sledování"
+
+msgid "sb_postedby"
+msgstr "Napsal"
+
+msgid "sb_admin"
+msgstr "Administrator"
+
+msgid "sb_relatedlink"
+msgstr "související odkaz"
+
+msgid "sb_add_comment_btn"
+msgstr "pøidat komentáø"
+
+msgid "sb_read_entry_btn"
+msgstr "ukázat záznam"
+
+msgid "sb_comment_btn_number_first"
+msgstr "1"
+
+msgid "sb_comment_btn"
+msgstr " komentáø"
+
+msgid "sb_comment_view"
+msgstr "zobrazení"
+
+msgid "sb_comments_plural_btn_number_first"
+msgstr ""
+
+msgid "sb_comments_plural_btn"
+msgstr "komentáøe:"
+
+msgid "sb_comments_plural_view"
+msgstr "zobrazení"
+
+msgid "sb_view_counter_pre"
+msgstr ""
+
+msgid "sb_view_counter_post"
+msgstr " zobrazení"
+
+msgid "sb_view_counter_plural_pre"
+msgstr ""
+
+msgid "sb_view_counter_plural_post"
+msgstr " zobrazení"
+
+msgid "sb_add_link_btn"
+msgstr "pøidat odkaz"
+
+msgid "sb_rate_entry_btn"
+msgstr "Kliknìte a ohodno»te záznam"
+
+msgid "label_subject"
+msgstr "Název:"
+
+msgid "label_insert"
+msgstr "Vlo¾it:"
+
+msgid "btn_bold"
+msgstr " b "
+
+msgid "btn_italic"
+msgstr " i "
+
+msgid "btn_image"
+msgstr "img"
+
+msgid "btn_url"
+msgstr "url"
+
+msgid "btn_readmore"
+msgstr "Dále..."
+
+msgid "view_images"
+msgstr "Ukázat obrázky"
+
+msgid "label_entry"
+msgstr "Záznam:"
+
+msgid "btn_preview"
+msgstr "&nbsp;Ukázat&nbsp;"
+
+msgid "btn_post"
+msgstr "&nbsp;Odeslat&nbsp;"
+
+msgid "chk_visiblemenu"
+msgstr "Viditelné (zobrazeno v menu)"
+
+msgid "file_name"
+msgstr "Název souboru (bez mezer a pøípony):"
+
+msgid "insert_styles"
+msgstr "Vlo¾te text, který bude formátován:"
+
+msgid "insert_image"
+msgstr "Vlo¾te URL obrázku:"
+
+msgid "insert_url1"
+msgstr "Vlo¾te text, zobrazovaný pod odkazem (      volitelnì):"
+
+msgid "insert_url2"
+msgstr "Vlo¾te úplnou URL odkazu:"
+
+msgid "insert_url3"
+msgstr "Otevøít odkaz v novém oknì (volitelnì):"
+
+msgid "add_form_error"
+msgstr "Vyplòte pole s názvem a záznamem."
+
+msgid "insert_image_optional"
+msgstr "Volby:"
+
+msgid "insert_image_width"
+msgstr "©íøka (volitelnì):"
+
+msgid "insert_image_height"
+msgstr "Vý¹ka (volitelnì):"
+
+msgid "insert_image_popup"
+msgstr "Po kliknutí zobrazit celý obrázek v novém oknì (volitelnì):"
+
+msgid "insert_image_float"
+msgstr "Umístìní (volitelnì):"
+
+msgid "day"
+msgstr "Den"
+
+msgid "month"
+msgstr "Mìs."
+
+msgid "year"
+msgstr "Rok"
+
+msgid "hour"
+msgstr "Hod."
+
+msgid "minute"
+msgstr "Min."
+
+msgid "second"
+msgstr "Sek."
+
+msgid "add_title"
+msgstr "Pøidat záznam"
+
+msgid "add_instructions"
+msgstr "Chcet pøidat záznam do stránek? Vyplòte formuláø ní¾e a kliknìte na 'Ukázat' pro náhled nebo na 'Odeslat' pro ulo¾ení záznamu."
+
+msgid "title_ad"
+msgstr "Potvrzení pingù o odezvách"
+
+msgid "instructions_ad"
+msgstr "Toto jsou automaticky rozpoznané URL, kam mohou být odesílány pingy. Jestli¾e na urèitou URI ping posílat nechcete, odznaète ji. Kliknìte na 'OK' pro odesílání pingù na oznaèené URI, nebo kliknìte na 'Zru¹it' a pingy nebudou odesílány."
+
+msgid "label_tb_ping"
+msgstr "Pingy o odezvách odesílat na (oddìlit èárkami):"
+
+msgid "label_tb_autodiscovery"
+msgstr "Autorozpoznání"
+
+msgid "label_relatedlink"
+msgstr "Související odkaz"
+
+msgid "label_categories"
+msgstr "Seznam kategorií"
+
+msgid "add_instructions_update"
+msgstr "Vá¹ záznam mù¾ete upravit ve formuláøi ní¾e. Po dokonèení kliknìte na 'Ukázat' nebo 'Odeslat'."
+
+msgid "ok_btn"
+msgstr "&nbsp;OK&nbsp;"
+
+msgid "cancel_btn"
+msgstr "&nbsp;Zru¹it&nbsp;"
+
+msgid "add_error"
+msgstr "<h2>Ouha!</h2>Záznam nebyl ulo¾en. Bìhem ukládání se objevil problém.<br/><br/>Server ohlásil:<br/>"
+
+msgid "add_success"
+msgstr "<h2>Záznam ulo¾en!!</h2>Vá¹ záznam byl v poøádku ulo¾en."
+
+msgid "add_static_form_error"
+msgstr "Vyplòte  pole s názvem, textem a názvem souboru."
+
+msgid "add_static_title"
+msgstr "Pøidat stránku"
+
+msgid "add_static_instructions"
+msgstr "Vyplòte formuláø ní¾e a pøidejte novou statickou stránku. Na rozdíl od záznamù se statické stránky objeví jako polo¾ky v menu. To je vhodné pro stránky, které chcete mít stále k dispozici, jako napø. Informace, Kontakty, Plány a pod. Kliknìte na 'Ukázat' pro náhled nebo na 'Odeslat' pro ulo¾ení stránky."
+
+msgid "add_static_instructions_update"
+msgstr "Va¹i stránku mù¾ete upravit ve formuláøi ní¾e. Po dokonèení kliknìte na 'Ukázat' nebo 'Odeslat'."
+
+msgid "add_static_error"
+msgstr "<h2>Ouha!</h2>Záznam nebyl ulo¾en. Bìhem ukládání se objevil problém.<br/><br/>Server ohlásil:<br/>"
+
+msgid "comments_form_error"
+msgstr "Vyplòte pole se jménem, textem komentáøe a Antispamem."
+
+msgid "name"
+msgstr "Jméno:"
+
+msgid "email"
+msgstr "E-mail:"
+
+msgid "homepage"
+msgstr "Stránky:"
+
+msgid "komentáø"
+msgstr "Komentáø:"
+
+msgid "IPAddress"
+msgstr "IP adresa:"
+
+msgid "useragent"
+msgstr "Pou¾íváte:"
+
+msgid "wrote"
+msgstr "<i>Na %s, %s napsal:</i><br/> <br/> %s"
+
+msgid "comment_capcha"
+msgstr "Antispam: Vlo¾te øetìzec "
+
+msgid "comments_title"
+msgstr "Komentáøe"
+
+msgid "comments_header"
+msgstr "Vlo¾it komentáø"
+
+msgid "comments_instructions"
+msgstr "Vyplòte formuláø ní¾e a pøidejte vá¹ vlastní komentáø."
+
+msgid "comment_name"
+msgstr "Va¹e jméno:"
+
+msgid "comment_email"
+msgstr "E-mail:"
+
+msgid "comment_url"
+msgstr "URL:"
+
+msgid "commentposted"
+msgstr "Nový komentáø odeslán: "
+
+msgid "comment_remember"
+msgstr "Zapamatovat:"
+
+msgid "comment_text"
+msgstr "Text komentáøe:"
+
+msgid "post_btn"
+msgstr "&nbsp;Odeslat komentáø&nbsp;"
+
+msgid "delete_btn"
+msgstr "vymazat"
+
+msgid "ban_btn"
+msgstr "Zakázat IP"
+
+msgid "expired_comment1"
+msgstr "Litujeme. Komentáøe byly umo¾nìny po dobu "
+
+msgid "expired_comment2"
+msgstr " dní."
+
+msgid "blacklisted"
+msgstr "Promiòte, va¹e IP adresa byla zablokována. Nemù¾ete vkládat ¾ádné komentáøe."
+
+msgid "bannedword"
+msgstr "Vá¹ komentáø, url, jméno nebo email obsahují slova, které byly zakázány administrátorem. Vá¹ komentáø proto NEBYL ulo¾en!."
+
+msgid "nocomments"
+msgstr "Komentáøe jsou pro tento záznam zakázány."
+
+msgid "email_moderator"
+msgstr "Komentáøe jsou nyní schvalovány. Tento komentáø bude zkontrolován pøedtím, ne¾ se zveøejní."
+
+msgid "user_notice_mod"
+msgstr "Schvalování je na tomto blogu aktivní. Vá¹ záznam potøebuje kontrolu administrátora pøedtím, ne¾ se zveøejní."
+
+msgid "return_to_comments"
+msgstr "Návrat ke komentáøùm"
+
+msgid "comments_error_add"
+msgstr "<h2>Ouha!</h2>Komentáø nebyl ulo¾en. Bìhem ukládání se objevil problém.<br/><br/>Server ohlásil:<br/>"
+
+msgid "comments_error_delete"
+msgstr "<h2>Ouha!</h2>Komentáø nebyl vymazán. Bìhem mazání se objevil problém.<br/><br/>Server ohlásil:<br/>"
+
+msgid "error_ban"
+msgstr "<h2>Ouha!</h2>IP nebyla pøidána do seznamu zakázaných IP adres.<br/><br/>Server Reported:<br/>"
+
+msgid "success_add"
+msgstr "<h2>Komentáø pøidán!</h2>Vá¹ komentáø byl úspì¹nì ulo¾en."
+
+msgid "comments_success_delete"
+msgstr "<h2>Komentáø smazán!</h2>Komentáø byl definitivnì smazán."
+
+msgid "success_ban1"
+msgstr "<h2>IP adresa zakázána!"
+
+msgid "success_ban2"
+msgstr "</h2>Pro budoucí odebrání tohoto banu, pou¾ijte mo¾nosti správy v zálo¾ce nastavení."
+
+msgid "error_noip"
+msgstr "®ádná IP adresa není zadána v blacklistu."
+
+msgid "error_comments_disabled"
+msgstr "<h2>Chyba!</h2>Pozor! Komentáøe jsou na tomto blogu zakázány. Chcete snad spamovat?"
+
+msgid "error_no_match"
+msgstr "<h2>Chyba!</h2>Va¹e IP adresa nesedí se zadanými IP adresami. Chcete snad spamovat?"
+
+msgid "error_fields_missing"
+msgstr "<h2>Chyba!</h2>Chybí následující pole: "
+
+msgid "error_spambot"
+msgstr "<h2>Chyba!</h2>Nejsou zadané symboly. Chcete snad spamovat?"
+
+msgid "error_capcha"
+msgstr "<h2>Chyba!</h2>Symboly, které jste zadali nejsou správné."
+
+msgid "error_bad_data"
+msgstr "<h2>Chyba!</h2>Data pro zápis nejsou správná. Jste hacker?"
+
+msgid "error_entry_missing"
+msgstr "<h2>Chyba!</h2>Sna¾íte se komentovat an záznamu, který neexistuje."
+
+msgid "error_empty_text"
+msgstr "<h2>Chyba!</h2>Nenapsali jste ¾ádný záznam nebo jméno."
+
+msgid "add_block_form_error"
+msgstr "Vyplòte pole s názvem bloku."
+
+msgid "add_block_title"
+msgstr "Pøidat/upravit bloky"
+
+msgid "add_block_instructions"
+msgstr "Pøidání vlastních blokù. Vyplòte formuláø ní¾e a kliknìte na 'Pøidat blok'. Kliknutím na tlaèítka vý¹ a ní¾ upravíte umístìní bloku v postranním sloupci. Kliknutím na tlaèítko editovat blok upravíte. Kliknutím na tlaèítko vymazat blok zru¹íte"
+
+msgid "up"
+msgstr "vý¹"
+
+msgid "down"
+msgstr "ní¾"
+
+msgid "edit"
+msgstr "editovat"
+
+msgid "delete"
+msgstr "vymazat"
+
+msgid "block_name"
+msgstr "Název bloku:"
+
+msgid "block_content"
+msgstr "Obsah bloku:"
+
+msgid "add_block_instructions_edit"
+msgstr "Právì editujete blok:"
+
+msgid "add_block_instructions_modify"
+msgstr "Kliknìte ní¾e a editujte blok:"
+
+msgid "add_block_submit_btn_edit"
+msgstr "Editovat blok"
+
+msgid "add_block_submit_btn_add"
+msgstr "Pøidat blok"
+
+msgid "static_pages"
+msgstr "Statické stránky:"
+
+msgid "add_link_title"
+msgstr "Pøidat/upravit odkazy"
+
+msgid "add_link_instructions"
+msgstr "Pøidání vlastních odkazù na jiné weby. Vyplòte formuláø ní¾e a kliknìte na 'Pøidat odkaz'. Kliknutím na tlaèítka vý¹ a ní¾ upravíte umístìní odkazu v menu. Kliknutím na tlaèítko editovat odkaz upravíte. Kliknutím na tlaèítko vymazat odkaz zru¹íte"
+
+msgid "link_name"
+msgstr "Název odkazu:"
+
+msgid "link_url"
+msgstr "URL odkazu (Volitelnì. Nevyplnìním vytvoøíte oddìlovaè):"
+
+msgid "add_link_instructions_edit"
+msgstr "Právì editujete odkaz:"
+
+msgid "add_link_instructions_modify"
+msgstr "Kliknìte ní¾e a upravte odkaz:"
+
+msgid "add_link_submit_btn_edit"
+msgstr "Editovat odkaz"
+
+msgid "add_link_submit_btn_add"
+msgstr "Pøidat odkaz"
+
+msgid "add_link_form_error"
+msgstr "Vyplòte pole s názvem odkazu."
+
+msgid "categories_title"
+msgstr "Pøidat/upravit kategorie"
+
+msgid "categories_instructions"
+msgstr "Pou¾ijte formuláø ní¾e pro vytvoøení kategorií. Ka¾dou kategorii zadejte ve formátu 'Název kategorie (id èíslo)'. Hierarchii vytvoøíte odsazením polo¾ek mezerami.<br/><br/><b>Pøíklad:</b><br/>Hlavní (1)<br/>Novinky (3)<br/>&nbsp;&nbsp;Nabídky (6)<br/>&nbsp;&nbsp;Události (5)<br/>&nbsp;&nbsp;&nbsp;&nbsp;Rùzné (7)<br/>Technologie (2)<br/>"
+
+msgid "categories_error"
+msgstr "Chyba"
+
+msgid "current_categories"
+msgstr "Vytvoøené kategorie"
+
+msgid "no_categories_found"
+msgstr "Nejsou ¾ádné kategorie"
+
+msgid "category_list"
+msgstr "Seznam kategorií:"
+
+msgid "validate"
+msgstr "Ovìøení"
+
+msgid "submit_btn"
+msgstr "&nbsp;Odeslat&nbsp;"
+
+msgid "colors_title"
+msgstr "Zmìna barev"
+
+msgid "colors_instructions"
+msgstr "Zde mù¾ete zmìnit barvy textù a pozadí stránek. Nejprve vyberte pole ní¾e a pak pou¾ijte nabídku barev. Pøíslu¹né hodnoty se zmìní automaticky."
+
+msgid "bg_color"
+msgstr "Pozadí stránky"
+
+msgid "main_bg_color"
+msgstr "Pozadí hlavní stránky"
+
+msgid "border_color"
+msgstr "Okraj stránky"
+
+msgid "inner_border_color"
+msgstr "Vnitøní okraj"
+
+msgid "header_bg_color"
+msgstr "Pozadí záhlaví"
+
+msgid "header_txt_color"
+msgstr "Text záhlaví"
+
+msgid "menu_bg_color"
+msgstr "Pozadí menu"
+
+msgid "footer_bg_color"
+msgstr "Pozadí zápatí"
+
+msgid "txt_color"
+msgstr "Hlavní text"
+
+msgid "headline_txt_color"
+msgstr "Text nadpisu"
+
+msgid "date_txt_color"
+msgstr "Text data"
+
+msgid "footer_txt_color"
+msgstr "Text zápatí"
+
+msgid "link_reg_color"
+msgstr "Klidový odkaz"
+
+msgid "link_hi_color"
+msgstr "Zvolený odkaz"
+
+msgid "link_down_color"
+msgstr "Aktivní odkaz"
+
+msgid "entry_bg"
+msgstr "Pozadí záznamu"
+
+msgid "entry_title_bg"
+msgstr "Pozadí názvu záznamu"
+
+msgid "entry_border"
+msgstr "Okraj záznamu"
+
+msgid "entry_title_text"
+msgstr "Text názvu záznamu"
+
+msgid "entry_text"
+msgstr "Text záznamu"
+
+msgid "static_bg"
+msgstr "Pozadí statické stránky"
+
+msgid "static_title_bg"
+msgstr "Pozadí názvu statické stránky"
+
+msgid "static_border"
+msgstr "Okraj statické stránky"
+
+msgid "static_title_text"
+msgstr "Text názvu statické stránky"
+
+msgid "static_text"
+msgstr "Text statické stránky"
+
+msgid "comment_bg"
+msgstr "Pozadí komentáøe"
+
+msgid "comment_title_bg"
+msgstr "Pozadí názvu komentáøe"
+
+msgid "comment_border"
+msgstr "Okraj komentáøe"
+
+msgid "comment_title_text"
+msgstr "Text názvu komentáøe"
+
+msgid "menu_bg"
+msgstr "Pozadí menu"
+
+msgid "menu_title_bg"
+msgstr "Pozadí názvu menu"
+
+msgid "menu_border"
+msgstr "Okraj menu"
+
+msgid "menu_title_text"
+msgstr "Text názvu menu"
+
+msgid "menu_text"
+msgstr "Text menu"
+
+msgid "menu_link_reg_color"
+msgstr "Klidový odkaz menu"
+
+msgid "menu_link_hi_color"
+msgstr "Zvolený odkaz menu"
+
+msgid "menu_link_down_color"
+msgstr "Aktivní odkaz menu"
+
+msgid "color_preset"
+msgstr "Barevné schéma:"
+
+msgid "scheme_name"
+msgstr "Vlo¾te název vlastního barevného schéma:"
+
+msgid "scheme_file"
+msgstr "Vlo¾te název souboru (bez mezer a pøípony):"
+
+msgid "save_btn"
+msgstr "&nbsp;Ulo¾it&nbsp;"
+
+msgid "colors_form_error"
+msgstr "Vlo¾te název va¹eho barevného schéma."
+
+msgid "theme_doesnt_allow_colors"
+msgstr "Vybraný vzhled neumo¾òuje volbu vlastního barevného schéma."
+
+msgid "colors_error"
+msgstr "<h2>Ouha!</h2>Informace nebyly ulo¾eny. Bìhem ukládání se objevil problém.<br/><br/>Server ohlásil:<br/>"
+
+msgid "colors_success"
+msgstr "<h2>Barvy ulo¾eny!</h2>Informace byla v poøádku ulo¾ena."
+
+msgid "delete_title"
+msgstr "Vymazat záznam"
+
+msgid "delete_instructions"
+msgstr "Chcete vymazat tento záznam? Ujistìte se, ¾e to opravdu chcete provést, akci nelze vrátit..."
+
+msgid "delete_error"
+msgstr "<h2>Ouha!</h2>Nelze vymazat záznam.<br/><br/>Server ohlásil:<br/>"
+
+msgid "delete_success"
+msgstr "<h2>Záznam smazán!</h2>Tento záznam byl ji¾ smazán."
+
+msgid "delete_static_title"
+msgstr "Vymazat stránku"
+
+msgid "delete_static_instructions"
+msgstr "Chcete vymazat tuto stránku? Ujistìte se, ¾e to opravdu chcete provést, akci nelze vrátit......"
+
+msgid "delete_static_error"
+msgstr "<h2>Ouha!</h2>Nelze vymazat stránku.<br/><br/>Server ohlásil:<br/>"
+
+msgid "delete_static_success"
+msgstr "<h2>Statická stránka byla smazána!</h2>Tato statická stránka byla ji¾ smazána."
+
+msgid "image_list_title"
+msgstr "Seznam obrázkù"
+
+msgid "image_list_instructions"
+msgstr "Kliknutím na odkazy ní¾e zobrazíte obrázky.<br/><br/>Pøidání obrázku do záznamu:<br/>1) Ctrl (nebo pravý) klik na odkaz, vyberte 'Kopírovat odkaz do schránky'.<br/>2) Vra»te se na pøidání nebo editaci záznamu.<br/>3) Kliknìte na tlaèítko 'img' a vlo¾te adresu obrázku do formuláøe."
+
+msgid "info_title"
+msgstr "Meta data"
+
+msgid "info_instructions"
+msgstr "Informace ní¾e jsou pou¾ity jako &quot;meta data&quot;, která pomáhají vyhledávaèùm v nalezení správných informací o va¹ich stránkách. Informace mohou být vyu¾ívány také v RSS kanálech."
+
+msgid "info_keywords"
+msgstr "Klíèová slova (seznam klíèových slov, oddìlených èárkami):"
+
+msgid "info_description"
+msgstr "Popis (obsah nebo volný textový popis va¹ich stránek):"
+
+msgid "info_copyright"
+msgstr "Práva (copyright nebo odkaz na pøíslu¹ný dokument):"
+
+msgid "tracking_code"
+msgstr "Externí Kéd: (HTML kód, který je tøeba spustit na hlavní stránce (v tagu hlavièky kvùli bezpeènosti) pro ka¾dého náv¹tìvníka stránky napø.: Google Analytics)"
+
+msgid "info_error"
+msgstr "<h2>Ouha!</h2>Informace nebyly ulo¾eny. Bìhem ukládání informací se objevil problém.<br/><br/>Server ohlásil:<br/>"
+
+msgid "info_success"
+msgstr "<h2>Metadata ulo¾ena!</h2>Informace byla v poøádku ulo¾ena."
+
+msgid "info_form_error"
+msgstr "Vyplòte pole s názvem a jménem autora."
+
+msgid "rating_error"
+msgstr "<h2>Ouha!</h2>Informace nebyla ulo¾ena. Bìhem ukládání se objevil problém.<br/><br/>Server ohlásil:<br/>"
+
+msgid "rating_success"
+msgstr "<h2>Hlas ulo¾en!</h2>Va¹e hlasování bylo v poøádku ulo¾eno."
+
+msgid "upgrade"
+msgstr "<h2>Obnovení</h2>"
+
+msgid "upgrade_count"
+msgstr "%n komentáøových souborù vy¾aduje obnovení:"
+
+msgid "upgrade_url"
+msgstr "Obnovit komentáøe"
+
+msgid "login_title"
+msgstr "Pøihlá¹ení"
+
+msgid "login_instructions"
+msgstr "Vlo¾te pøihla¹ovací jméno a heslo"
+
+msgid "username"
+msgstr "Pøihla¹ovací jméno:"
+
+msgid "password"
+msgstr "Heslo"
+
+msgid "login_success"
+msgstr "<h2>Úspìch!</h2>Jste pøihlá¹en. Pøíjemnou práci se stránkami!<p />"
+
+msgid "login_wrong_password"
+msgstr "<h2>Ouha!</h2>Nejste pøihlá¹en. Zadejte své pøihla¹ovací jméno a heslo správnì a zkuste to znovu.<p />"
+
+msgid "inactive_account"
+msgstr "<h2>Ouha!</h2>Nejste pøihlá¹eni. Vá¹ úèet byl z nìjakého dùvodu deaktivován administrátorem.<p />"
+
+msgid "login_form_error"
+msgstr "Vyplòte pole se jménem a heslem."
+
+msgid "logout_title"
+msgstr "Odhlá¹ení"
+
+msgid "logout_error"
+msgstr "<h2>Nashledanou!</h2>Jste odhlá¹eni. (Ani jste nebyli pøihlá¹eni!)<p />"
+
+msgid "error_no_cookie"
+msgstr "<h2>Nashledanou!</h2>Jste odhlá¹eni. (Nebyly nalezeny cookies. Ani jste nebyli pøihlá¹eni!)<p />"
+
+msgid "logout_success"
+msgstr "<h2>Nashledanou!</h2>Jste odhlá¹eni.<p />(Budete pøesmìrováni na hlavní stránku za 5 sekund.)<p />"
+
+msgid "forms_title"
+msgstr ""
+
+msgid "forms_instructions"
+msgstr "<h2>Ouha!</h2>Odhlá¹ení neprobìhlo korektnì. Nelze vymazat cookie. Nebo jste stále pøihlá¹en?<p />"
+
+msgid "set_login_title"
+msgstr "Zmìna pøihla¹ovacího jména a hesla"
+
+msgid "set_login_instructions"
+msgstr "Pou¾ijte formuláø ní¾e a zmìòte va¹e pøihla¹ovací jméno a/nebo heslo. Vlo¾te nové pøihla¹ovací jméno a heslo, které chcete pou¾ívat."
+
+msgid "set_login_success"
+msgstr "<h2>Úspìch!</h2>Your Pøihla¹ovací jméno a/nebo heslo je aktivní. Pøíjemnou práci se stránkami!<p />"
+
+msgid "set_login_wrong_password"
+msgstr "<h2>Ouha!</h2>Informace nebyla ulo¾ena. Pøi ukládání va¹eho jména a/nebo hesla se objevil problém.<br/><br/>Server ohlásil:<br/>"
+
+msgid "set_login_form_error"
+msgstr "Vyplòte pole se jménem a heslem."
+
+msgid "explanation"
+msgstr "V aktuální verzi programu byla zmìnìna struktura pøihla¹ování.  Nadále nelze zmìnit hesla a/nebo pøihlá¹ení pøímo na stránkách. Pokud chcete zmìnit heslo, vyma¾te soubor /config/password.php a ujistìte se, ¾e soubory install*.php jsou ulo¾eny na serveru. Poté obnovte tuto stránku nebo se odhla¹te. Skript, pou¾itý pøi vytváøení stránek, se spustí znovu."
+
+msgid "install00_title"
+msgstr "Vítejte"
+
+msgid "install00_instructions"
+msgstr "Dìkujeme, ¾e jste si vybrali Simple PHP Blog!"
+
+msgid "blog_choose_language"
+msgstr "Volba jazyka:"
+
+msgid "install01_title"
+msgstr "Vítejte"
+
+msgid "install01_instructions"
+msgstr " 				Dìkujeme, ¾e jste si vybrali Simple PHP Blog!<br/><br/>Simple PHP Blog je jednoduchý blogovací systém. Vy¾aduje PHP 4.1 nebo vy¹¹í a nastavení práv zápisu na serveru. V¹echny informace jsou ulo¾eny v textových souborech, tak¾e není vy¾adována databáze.<br/><br/> 				Nejprve je potøeba vytvoøit tøi adresáøe (<b>config</b>, <b>content</b> a <b>images</b>) pro ukládání va¹ich informací. Pak zadáte heslo a mù¾ete zaèít pracovat.<br/><br/> 				<b>Kliknìte ní¾e a zahajte nastavení:</b>"
+
+msgid "begin"
+msgstr "[ Zahájit nastavení ]"
+
+msgid "install02_title"
+msgstr "Nastavení"
+
+msgid "install02_instructions"
+msgstr "Vytvoøení adresáøù <b>config</b>, <b>content</b> a <b>images</b>:"
+
+msgid "folder_exists"
+msgstr "OK! Adresáøe existují. Není tøeba ¾ádných úprav..."
+
+msgid "folder_failed"
+msgstr "Ouha! Nelze vytvoøit adresáø..."
+
+msgid "folder_success"
+msgstr "Úspìch! Adresáø vytvoøen..."
+
+msgid "help"
+msgstr " 				<h2>Ouha!</h2> 				Nelze vytvoøit jeden nebo více adresáøù!<br/><br/>To mù¾e být zpùsobeno:<br/> 				<ol> 				<li><b>Práva zápisu</b> nejsou správnì nastavena na pøístup <b>Read/Write</b>.</li> 				<li><b>UID</b> (identifikace u¾ivatele) v¹ech souborù a adresáøù musí být toto¾né.</li> 				</ol> 				Zkuste provést opravy popsané ní¾e a pak kliknìte na <b>Zkusit znovu</b>:<br/> 				<ol> 				<li>Manuálnì vytvoøte následující adresáøe: <b>config</b>, <b>content</b> a <b>images</b>.</li> 				<li>Zajistìte <b>práva zápisu</b> pro tyto adresáøe: Pou¾ijte vá¹ FTP program: vlastník (Owner), u¾ivatel (User) a svìt (World) by mìli mít pøístup <b>Read</b> a <b>Write</b>. <i>(Pøípadnì mù¾ete kontaktovat va¹eho poskytovatele a po¾ádat o zmìnu...)</i></li> 				<li>Ujistìte se, ¾e UID v¹ech va¹ich souborù a adresáøù jsou shodné. <i>(Pøípadnì mù¾ete kontaktovat va¹eho poskytovatele a po¾ádat o zmìnu...)</i></li> 				</ol>"
+
+msgid "try_again"
+msgstr "[ Zkusit znovu ]"
+
+msgid "install02_success"
+msgstr "<h2>Úspìch!</h2>Adresáøe byly úspì¹nì vytvoøeny!<p /><b>Kliknìte ní¾e pro pokraèování:</b>"
+
+msgid "continue"
+msgstr "[ Pokraèovat ]"
+
+msgid "supported"
+msgstr "<b>Vá¹ webový server podporuje následující kryptokódování:</b>"
+
+msgid "standard"
+msgstr "Standardní DES: "
+
+msgid "extended"
+msgstr "Roz¹íøené DES: "
+
+msgid "MD5"
+msgstr "MD5: "
+
+msgid "blowfish"
+msgstr "Blowfish: "
+
+msgid "enabled"
+msgstr "zapnuto"
+
+msgid "disabled"
+msgstr "vypnuto"
+
+msgid "using_standard"
+msgstr "<b>Pou¾ito standardní DES...</b>"
+
+msgid "using_extended"
+msgstr "<b>Pou¾ito roz¹íøené DES...</b>"
+
+msgid "using_MD5"
+msgstr "<b style='color: green;'>Pou¾ito MD5...</b>"
+
+msgid "using_blowfish"
+msgstr "<b style='color: green;'>Pou¾ito Blowfish...</b>"
+
+msgid "using_unknown"
+msgstr "<b>Pou¾ito neznámé kódování...</b>"
+
+msgid "salt_length"
+msgstr " <i>(Salt Length = %string)</i><br/>"
+
+msgid "install03_title"
+msgstr "Zadat pøihla¹ovací jméno a heslo"
+
+msgid "install03_instructions"
+msgstr "Pou¾ijte formuláø ní¾e a zadejte pøihla¹ovací jméno a heslo."
+
+msgid "install03_success"
+msgstr "<h2>Gratulujeme!</h2>Jste pøihlá¹en. Kliknìte ní¾e a pøjdìte na nastavení, kde mù¾ete zadat název va¹ich stránek. Pøíjemnou práci se stránkami!<p />"
+
+msgid "btn_setup"
+msgstr "[ Nastavení ]"
+
+msgid "install03_wrong_password"
+msgstr "<h2>Ouha!</h2>Informace nebyly ulo¾eny. Pøi ukládání va¹eho pøihla¹ovacího jména a/nebo hesla se objevil problém.<br/><br/>Server ohlásil:<br/>"
+
+msgid "install03_form_error"
+msgstr "Vyplòte pole se jménem a heslem."
+
+msgid "install04_title"
+msgstr "Vytvoøení souboru s heslem"
+
+msgid "install04_instructions"
+msgstr "Toto je dùle¾itá èást:<br/> 				<ol> 				<li>Spus»e nìjaký textový editor <i>(Notepad, WordPad, Word, BBEdit, Pico, VI atd...).</i></li> 				<li>Vytvoøte nový textový soubor.</li> 				<li>Zkopírujte a vlo¾te do souboru kód z okna ní¾e.</li> 				<li>Soubor ulo¾te a pojmenujte <b>password.php</b> <i>(soubor ulo¾te jako <b>text</b> nebo <b>èistý (plain) text</b>).</i></li> 				<li>Spus»te FTP program.</li> 				<li>Nahrejte soubor <b>password.php</b> do adresáøe <b>config</b> na va¹em serveru.</li> 				<li>Vyma¾te <b>password.php</b> z va¹eho disku.</li> 				</ol> 				"
+
+msgid "information"
+msgstr "<i>Poznámka: Pokud chcete zmìnit va¹e pøihla¹ovací jméno a heslo (zøejmì zapomenuté), vyma¾te soubor <b>password.php</b> v adresáøi <b>config</b>. Pøi pøí¹tí náv¹tìvì stránek si celý postup zopakujete...</i>"
+
+msgid "code"
+msgstr "Kód pro soubor <b>password.php</b>:"
+
+msgid "install05_title"
+msgstr "Pøihlá¹ení"
+
+msgid "install05_instructions"
+msgstr "Vlo¾te pøihla¹ovací jméno a heslo"
+
+msgid "install05_success"
+msgstr "<h2>Gratulujeme!</h2>Jste pøihlá¹en.<p /> 				Kliknìte ní¾e a pøejdìte na stránku <b>Nastavení</b>, kde mù¾ete upøesnit ostatní vlastnosti stránek.<p /> 				<i>Poznámka: Nyní je proces nastavení dokonèen. Doporuèujeme vymazat soubory <b>installXX.php</b> z va¹eho webu (tj. install00.php a¾ install06.php).</i><p />"
+
+msgid "install05_wrong_password"
+msgstr "<h2>Ouha!</h2>Nejste pøihlá¹en. Provìøte, zda je zadané pøihla¹ovací jméno a heslo správné a zkuste to znovu.<p />"
+
+msgid "install05_form_error"
+msgstr "Vyplòte pole se jménem a heslem."
+
+msgid "btn_try_again"
+msgstr "[ Zkusit znovu ]"
+
+msgid "install06_title"
+msgstr "Pøihlá¹ení"
+
+msgid "install06_instructions"
+msgstr "Vlo¾te pøihla¹ovací jméno a heslo"
+
+msgid "install06_success"
+msgstr "<h2>Gratulujeme!</h2>Jste pøihlá¹en.<p /> 				Kliknìte ní¾e a pøejdìte na stránku <b>Nastavení</b>, kde mù¾ete upøesnit ostatní vlastnosti stránek.<p /> 				<i>Poznámka: Nyní je proces nastavení dokonèen. Doporuèujeme vymazat soubory <b>installXX.php</b> z va¹eho webu (tj. install00.php a¾ install06.php).</i><p />"
+
+msgid "install06_wrong_password"
+msgstr "<h2>Ouha!</h2>Nejste pøihlá¹en. Provìøte, zda je zadané pøihla¹ovací jméno a heslo správné a zkuste to znovu.<p />"
+
+msgid "install06_form_error"
+msgstr "Vyplòte pole se jménem a heslem."
+
+msgid "setup_title"
+msgstr "Nastavení"
+
+msgid "setup_instructions"
+msgstr "Ní¾e mù¾ete zmìnit název va¹ich stránek a osobní informace."
+
+msgid "blog_title"
+msgstr "Název stránek:"
+
+msgid "blog_header"
+msgstr "URL pro grafickou hlavièku: images/blogheader.jpg (Nechte prázdné pro základní témata)."
+
+msgid "blog_author"
+msgstr "Autor:"
+
+msgid "blog_email"
+msgstr "E-mail (více e-mailových adres by mìlo být oddìleno èárkami, nevyplnìním vypnete stránku Kontaktujte mne)"
+
+msgid "blog_avatar"
+msgstr "URL avataru (ponechte nevyplnìné pro ¾ádný):"
+
+msgid "blog_footer"
+msgstr "Zápatí:"
+
+msgid "blog_enable_comments"
+msgstr "Povolit komentáøe"
+
+msgid "blog_comments_popup"
+msgstr "Komentáøe otevírat ve vyskakovacím oknì"
+
+msgid "blog_enable_start_category"
+msgstr "Pou¾ít konkrétní kategorii záznamù pro první stranu: "
+
+msgid "blog_search_top"
+msgstr "Zobrazit Hledání v záznamech (místo umístìní v boèní li¹tì)."
+
+msgid "blog_enable_static_block"
+msgstr "Zobrazit konkrétní blok jako první záznam v blogu: "
+
+msgid "static_block_border"
+msgstr "Zobrazit okraj"
+
+msgid "static_block_noborder"
+msgstr "Bez okraje"
+
+msgid "blog_enable_voting"
+msgstr "Povolit ètenáøùm hodnocení záznamù"
+
+msgid "blog_enable_cache"
+msgstr "Povolit ke¹ování záznamù (mù¾e zrychlit naèítání u nìkterých serverù)"
+
+msgid "blog_enable_calendar"
+msgstr "Zobrazit kalendáø"
+
+msgid "blog_enable_archives"
+msgstr "Zobrazit archivy"
+
+msgid "blog_enable_counter"
+msgstr "Zobrazit èítaè pøístupù v postranním sloupci"
+
+msgid "blog_counter_hours"
+msgstr "Poèet hodin do vynulování pøístupu (pro specifickou IP adresu):"
+
+msgid "blog_enable_login"
+msgstr "Zobrazit pøihlá¹ení (jinak si nejdøíve vytvoøte zálo¾ku 'login.php'...)"
+
+msgid "blog_enable_title"
+msgstr "Povolit textový název blokù (odznaète, pokud chcete pou¾ívat grafiku)"
+
+msgid "blog_enable_permalink"
+msgstr "Povolit pevné odkazy na záznamy"
+
+msgid "blog_enable_capcha"
+msgstr "Povolit antispam"
+
+msgid "blog_footer_counter"
+msgstr "Zobrazit èítaè pøístupù v zápatí"
+
+msgid "blog_enable_capcha_image"
+msgstr "Grafický (musí být instalována GD knihovna) / textový antispam"
+
+msgid "blog_enable_stats"
+msgstr "Zobrazit statistiku v menu"
+
+msgid "blog_enable_lastcomments"
+msgstr "Zobrazit seznam nejnovìj¹ích komentáøù"
+
+msgid "blog_enable_lastentries"
+msgstr "Zobrazit seznam nejnovìj¹ích záznamù"
+
+msgid "blog_email_notification"
+msgstr "Posílat e-mailovou notifikaci komentáøù"
+
+msgid "blog_send_pings"
+msgstr "Posílat &quot;pingy&quot;"
+
+msgid "blog_ping_urls"
+msgstr "Vlo¾te kompletní URL (napø. http://rpc.weblogs.com/RPC2) slu¾by posílání &quot;pingù&quot;.<br/>(Mù¾ete vlo¾it více adres, oddìlených èárkami)"
+
+msgid "blog_trackback_about"
+msgstr "Zpìtné sledování (trackbacks) zaji¹»uje notifikaci mezi weby. Web dostane informaci o tom, ¾e je na nìj odkazováno, pomocí odesílaných pingù. Tak lze zjistit, kdo je pøipojen na va¹e stránky.<br/> URL pingù mù¾ete vlo¾it manuálnì, nebo zkusit automatické rozpoznání."
+
+msgid "blog_trackback_enabled"
+msgstr "Povolit zpìtné sledování odkazù a záznamù"
+
+msgid "blog_trackback_auto_discovery"
+msgstr "Povolit automatické rozpoznávání v záznamech, obsahujících URL adresy"
+
+msgid "blog_max_entries"
+msgstr "Nejvy¹¹í poèet zobrazených záznamù:"
+
+msgid "blog_comment_tags"
+msgstr "Tagy, povolené v komentáøích:"
+
+msgid "blog_gzip_about"
+msgstr "Poèínaje PHP 4.0.4 lze èíst a zapisovat soubory, komprimované metodou GZIP (.gz),	a u¹etøit tak diskový prostor. Také lze komprimovat stránky odesílané prohlí¾eèùm, podporujícím tuto kompresi, a tím u¹etøit objem pøenosu dat.<br/><br/> Podpora knihovny Zlib v PHP není pøedem zapnuta. Pokud jsou volby neaktivní, va¹e instalace PHP neumo¾òuje GZIP kompresi."
+
+msgid "blog_enable_gzip_txt"
+msgstr "Povolit kompresi GZIP pro databázové soubory"
+
+msgid "blog_enable_gzip_output"
+msgstr "Povolit kompresi GZIP pro HTTP výstup"
+
+msgid "setup_error"
+msgstr "<h2>Ouha!</h2>Informace nebyly ulo¾eny. Bìhem ukládání se objevil problém.<br/><br/>Server ohlásil:<br/>"
+
+msgid "setup_success"
+msgstr "<h2>Nastavení ulo¾eno!</h2>Informace byla v poøádku ulo¾ena."
+
+msgid "setup_form_error"
+msgstr "Vyplòte pole s názvem a jménem autora."
+
+msgid "label_entry_order"
+msgstr "Poøadí záznamù:"
+
+msgid "select_new_to_old"
+msgstr "Od nejnovìj¹ího"
+
+msgid "select_old_to_new"
+msgstr "Od nejstar¹ího"
+
+msgid "label_comment_order"
+msgstr "Poøadí komentáøù:"
+
+msgid "cal_sunday"
+msgstr "Nedìle"
+
+msgid "cal_monday"
+msgstr "Pondìlí"
+
+msgid "label_calendar_start"
+msgstr "První den v týdnu"
+
+msgid "title_sidebar"
+msgstr "Postranní sloupec"
+
+msgid "title_comments"
+msgstr "Komentáøe"
+
+msgid "title_trackback"
+msgstr "Zpìtná sledování"
+
+msgid "title_compression"
+msgstr "Komprese"
+
+msgid "title_entries"
+msgstr "Záznamy"
+
+msgid "title_general"
+msgstr "V¹eobecné"
+
+msgid "title_language"
+msgstr "Jazyk"
+
+msgid "blog_comment_days_expiry"
+msgstr "Kolik dní budou umo¾nìny komentáøe? (0 znamená neomezenì)"
+
+msgid "blog_comments_moderation"
+msgstr "Zkontrolování komentáøù pøihlá¹eným u¾ivatelem (v¾dy viditelné pro aktivního u¾ivatele)"
+
+msgid "comment_moderation"
+msgstr "Nastvení moderování komentáøù"
+
+msgid "comment_moderation_title"
+msgstr "Nezkontrolované komentáøe"
+
+msgid "comment_moderation_instructions"
+msgstr "Toto je seznam v¹ech komentáøù které nejsou k dispozici nepøihlá¹eným u¾ivatelùm, proto¾e nejsou schváleni Administrátorem."
+
+msgid "comment_moderation_header"
+msgstr "Seznam moderace"
+
+msgid "enteredby"
+msgstr "Zaznamenal: "
+
+msgid "entrydate"
+msgstr "Datum záznamu: "
+
+msgid "blogentrytitle"
+msgstr "Název Blogu: "
+
+msgid "enteredcontent"
+msgstr "Obsah: "
+
+msgid "totalunmodded"
+msgstr " celkový poèet polo¾ek èekajících na moderaci."
+
+msgid "mod_approve"
+msgstr "[Schválit] "
+
+msgid "mod_delete"
+msgstr "[Smazat]"
+
+msgid "moderation_title"
+msgstr "Nastavení moderace"
+
+msgid "moderation_instructions"
+msgstr "Mù¾ete zmìnit seznam automatické moderace."
+
+msgid "moderation_error"
+msgstr "<h2>Ouha!</h2>Informace nebyla ulo¾ena. Vyskytl se problém s ukládáním informací.<br/><br/>Server Reported:<br/>"
+
+msgid "moderation_success"
+msgstr "<h2>Nastavení ulo¾ena!</h2>Informace byla v poøádku ulo¾ena."
+
+msgid "banned_address_list_title"
+msgstr "<h2>Zakázané IP adresy</h2>"
+
+msgid "banned_address_list"
+msgstr "Zde je list IP adres, které byly zablokovány pro vkládání komentáøù. Ka¾dá IP je na vlastním øádku a musí být èíselná (ne DNS názvy - ne domény). Pokud jste pøihlá¹eni, IP mohou být blokovány pøímo z prohlí¾ení komentáøù."
+
+msgid "banned_word_list_title"
+msgstr "<h2>Zakázaná slova</h2>"
+
+msgid "banned_word_list"
+msgstr "Zde je seznam slov, které nejsou povoleny v adresách nebo v textu. Ka¾dé slovo, nebo skupina slov, musí být jen vlastním øádku. Komentáøe budou testovány vzhledem ke ka¾dé øadce ve stejném poøadí pro udìlení banu."
+
+msgid "options_title"
+msgstr "Volby"
+
+msgid "options_instructions"
+msgstr "Pou¾ijte formuláø ní¾e pro nastavení formátu data a èasu va¹ich záznamù. Mù¾ete zvolit 12 nebo 24 hodinový formát èasu a  krátký nebo dlouhý formát pro datum. <b>Náhled</b> bude upraven automaticky po ka¾dé zmìnì."
+
+msgid "ldate_title"
+msgstr "Dlouhý formát data:"
+
+msgid "weekday"
+msgstr "Den v týdnu"
+
+msgid "none"
+msgstr "®ádný"
+
+msgid "sdate_title"
+msgstr "Krátký formát data:"
+
+msgid "s_month"
+msgstr "Mìsíc"
+
+msgid "s_mon"
+msgstr "MMM"
+
+msgid "s_day"
+msgstr "Den"
+
+msgid "s_year"
+msgstr "Rok"
+
+msgid "zero_day"
+msgstr "Úvodní nula pro den"
+
+msgid "show_century"
+msgstr "Ukázat století"
+
+msgid "time_title"
+msgstr "Formát èasu:"
+
+msgid "12hour"
+msgstr "12 hodinový"
+
+msgid "24hour"
+msgstr "24 hodinový"
+
+msgid "before_noon"
+msgstr "Dopoledne"
+
+msgid "after_noon"
+msgstr "Odpoledne"
+
+msgid "date_title"
+msgstr "Zobrazení data:"
+
+msgid "long_date"
+msgstr "Dlouhé"
+
+msgid "short_date"
+msgstr "Krátké"
+
+msgid "time"
+msgstr "Èas"
+
+msgid "menu_title"
+msgstr "Zobrazení data v menu:"
+
+msgid "zero_month"
+msgstr "Úvodní nula pro mìsíc"
+
+msgid "zero_hour"
+msgstr "Úvodní nula pro hodinu"
+
+msgid "separator"
+msgstr "Oddìlovaè:"
+
+msgid "preview"
+msgstr "Náhled:"
+
+msgid "server_offset"
+msgstr "Posun èasu na serveru:"
+
+msgid "options_error"
+msgstr "<h2>Ouha!</h2>Informace nebyly ulo¾eny. Bìhem ukládání se objevil problém.<br/><br/>Server ohlásil:<br/>"
+
+msgid "options_success"
+msgstr "<h2>Nastavení ulo¾eno!</h2>Informace byla v poøádku ulo¾ena."
+
+msgid "upload_img_title"
+msgstr "Nahrát obrázek"
+
+msgid "upload_img_instructions"
+msgstr "Kliknìte na tlaèítko ní¾e a vyberte soubor k nahrání."
+
+msgid "select_file"
+msgstr "Vybrat soubor:"
+
+msgid "upload_btn"
+msgstr "Nahrát"
+
+msgid "upload_img_error"
+msgstr "<h2>Ouha!</h2>Nelze nahrát obrázek. Zde jsou podrobnìj¹í informace:<br/><br/>Server ohlásil:<br/>"
+
+msgid "upload_img_success"
+msgstr "<h2>Obrázek nahrán!</h2>Obrázek byl nahrán a v poøádku ulo¾en."
+
+msgid "themes_title"
+msgstr "Vzhledy"
+
+msgid "themes_instructions"
+msgstr "Pou¾ijte rozbalovací menu a vyberte vzhled."
+
+msgid "choose_theme"
+msgstr "Vzhledy:"
+
+msgid "themes_error"
+msgstr "<h2>Ouha!</h2>Informace nebyly ulo¾eny. Bìhem ukládání se objevil problém.<br/><br/>Server ohlásil:<br/>"
+
+msgid "themes_success"
+msgstr "<h2>Téma bylo vybráno!</h2>Informace byla v poøádku ulo¾ena."
+
+msgid "search_result_title"
+msgstr "Výsledky hledání"
+
+msgid "search_result_instructions"
+msgstr "Výsledky hledání pro <b>%string</b>:"
+
+msgid "not_found"
+msgstr "Nic nebylo nalezeno"
+
+msgid "contact_capcha"
+msgstr "Antispam: Vlo¾te "
+
+msgid "contact_title"
+msgstr "Kontaktujte mne"
+
+msgid "contact_instructions"
+msgstr "Vyplòte formuláø:"
+
+msgid "contact_form_error"
+msgstr "Vyplòte pole Vìc a Text zprávy."
+
+msgid "subject"
+msgstr "Vìc:"
+
+msgid "comment"
+msgstr "Text zprávy:"
+
+msgid "contact_success"
+msgstr "<h2>Úspìch!</h2>Va¹e zpráva byla odeslána.<p />"
+
+msgid "failure"
+msgstr "<h2>Chyba!</h2>Va¹e zpráva nebyla odeslána. Nejèastìj¹í dùvod je ¹patnì zadaný antispamový øetìzec.<p />"
+
+msgid "contactsent"
+msgstr "Kontakt odeslán ze stránek: "
+
+msgid "errorpage-nocookies_title"
+msgstr "HTTP chyba 403.8 - Pøístup na stránku/funkci zakázán"
+
+msgid "errorline1"
+msgstr "Stránka nebo funkce, kterou jste se pokusili vyvolat vy¾aduje pou¾ití cookies."
+
+msgid "errorline2"
+msgstr "Obnovte funkènost cookie ve va¹em prohlí¾eèi nebo ochranném software a zkuste vá¹ po¾adavek znovu."
+
+msgid "clientid"
+msgstr "ID klienta: "
+
+msgid "trackbacks_title"
+msgstr "Zpìtná sledování (trackbacks)"
+
+msgid "trackbacks_header"
+msgstr "URL tohoto záznamu pro zpìtné sledování:"
+
+msgid "trackbacks_error_add"
+msgstr "Chyba pøi ukládání sledování."
+
+msgid "trackbacks_error_delete"
+msgstr "<h2>Ouha!</h2>Zpìtné sledování nebylo vymazáno. Vyskytla se chyba pøi mazání zpìtného sledování.<br/><br/>Server odpovídá:<br/>"
+
+msgid "trackbacks_success_delete"
+msgstr "<h2>Zpìtné sledování smazáno!</h2>Záznam pro zpìtné sledování byl vymazán."
+
+msgid "stats_title"
+msgstr "Statistiky"
+
+msgid "general"
+msgstr "V¹eobecné"
+
+msgid "entry_info"
+msgstr "<b>%s</b> záznamù obsahuje <b>%s</b> slov, ulo¾ených v <b>%s</b> bajtech"
+
+msgid "comment_info"
+msgstr "<b>%s</b> komentáøù obsahuje <b>%s</b> slov ulo¾ených v <b>%s</b> bajtech"
+
+msgid "trackback_info"
+msgstr "<b>%s</b> zpìtných sledování ulo¾ených v <b>%s</b> bajtech"
+
+msgid "static_info"
+msgstr "<b>%s</b> statických stránek obsahuje <b>%s</b> slov ulo¾ených v <b>%s</b> bajtech"
+
+msgid "most_viewed_entries"
+msgstr "10 nejèastìji zobrazených záznamù"
+
+msgid "most_commented_entries"
+msgstr "10 nejèastìji komentovaných záznamù"
+
+msgid "most_trackbacked_entries"
+msgstr "10 nejvíce zpìtnì sledovaných záznamù"
+
+msgid "vote_info"
+msgstr "<b>%s</b> hodnocení ulo¾ených v <b>%s</b> bajtech"
+
+msgid "most_voted_entries"
+msgstr "10 nejvíce hodnocených záznamù"
+
+msgid "most_rated_entries"
+msgstr "10 nejlépe hodnocených záznamù"
+
+msgid "403.8"
+msgstr "HTTP Chyba 403.8 - Pøístup na stránku/funkci zakázán"
+
+msgid "404"
+msgstr "HTTP Chyba 404 - Stránka/funkce neexistuje"
+
+msgid "error_404"
+msgstr "Stránka nebo funkce, kterou jste se pokusili vyvolat neexistuje."
+
+msgid "error_javascript"
+msgstr "Stránka nebo funkce, kterou jste se pokusili vyvolat vy¾aduje javascript."
+
+msgid "error_emailnotsent"
+msgstr "Zpráva, kterou jste se pokusili odeslat je vadná."
+
+msgid "error_emailnotsentcapcha"
+msgstr "Zpráva, kterou jste se pokusili odeslat, je vadná, proto¾e antispamový øetìzec byl vlo¾en nesprávnì nebo vùbec."
+
+msgid "emoticons_title"
+msgstr "Administrace smajlíkù"
+
+msgid "emoticons_instructions"
+msgstr "Vyberte smajlíky, které chcete pou¾ívat. Do políèek formuláøe zapi¹te øetìzce, které budou nahrazovány smajlíky. Mù¾ete pou¾ít nìkolik rùzných øetìzcù, oddìlených èárkami.<br/><br/>Napøíklad:<br/>:) :-) :SMILE: :HAPPY:<br/><br/><i>(Doporuèujeme pou¾ívat del¹í ne¾ dvouznakové øetìzce, aby nedocházelo k nepøedpokládaným náhradám v bì¾ném textu)</i>"
+
+msgid "upload_instructions"
+msgstr "Nahrát nový smajlík:"
+
+msgid "upload_success"
+msgstr "Úspìch! Obrázek byl úspì¹nì nahrán!"
+
+msgid "upload_error"
+msgstr "Chyba! Obrázek nebyl nahrán."
+
+msgid "upload_invalid"
+msgstr "Chyba! Nesprávný soubor s obrázkem. Obrázek musí být png, jpg nebo gif."
+
+msgid "save_success"
+msgstr "Nastavení smajlíkù bylo úspì¹nì ulo¾eno!"
+
+msgid "save_error"
+msgstr "Chyba! Nastavení smajlíkù nebylo ulo¾eno."
+
+msgid "save_button"
+msgstr "Ulo¾it smajlíky"
+
+msgid "manage_users_title"
+msgstr "Upravit správu u¾ivatelù"
+
+msgid "manage_users_instructions"
+msgstr "Pøidat, upravit, nebo smazat u¾ivatele, kteøí nejsou administrátoøi, ale mají mo¾nost záznamy v blogu a/nebo moderovat komentáøe."
+
+msgid "fulladminerror"
+msgstr "Pro tuto volbu musíte být pøihlá¹en jako administrátor!"
+
+msgid "header_user"
+msgstr "U¾ivatel: "
+
+msgid "header_property"
+msgstr "Vlastnictví"
+
+msgid "header_value"
+msgstr "Hodnota"
+
+msgid "prop_username"
+msgstr "Jméno:"
+
+msgid "prop_fullname"
+msgstr "Zobrazované jmíno:"
+
+msgid "prop_password"
+msgstr "Heslo:"
+
+msgid "prop_email"
+msgstr "Email:"
+
+msgid "prop_avatar"
+msgstr "URL obrázku:"
+
+msgid "prop_state"
+msgstr "Aktivní?"
+
+msgid "prop_sec_Moderate"
+msgstr "Moderace komentáøù?"
+
+msgid "prop_sec_Delete"
+msgstr "Mazání záznamù v blogu?"
+
+msgid "prop_sec_Edit"
+msgstr "Editace jakýchkoliv záznamù?"
+
+msgid "btn_SaveChanges"
+msgstr "Ulo¾it zmìny"
+
+msgid "btn_CreateUser"
+msgstr "Vytvoøit u¾ivatele"
+
+msgid "btn_Cancel"
+msgstr "Cancel"
+
+msgid "grid_header"
+msgstr "Seznam u¾ivatelù"
+
+msgid "grid_login"
+msgstr "Login"
+
+msgid "grid_email"
+msgstr "Email"
+
+msgid "grid_avatar"
+msgstr "Obrázek"
+
+msgid "grid_state"
+msgstr "Aktivní?"
+
+msgid "btn_modify"
+msgstr "Zmìnit"
+
+msgid "btn_delete"
+msgstr "Smazat"
+
+msgid "create_user"
+msgstr "Vytvoøit nového u¾ivatele"
+
+msgid "archives_title"
+msgstr "Archivy"
+
+msgid "showall"
+msgstr "Ukázat v¹e"
+

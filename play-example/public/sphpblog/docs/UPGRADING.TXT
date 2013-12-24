@@ -1,0 +1,31 @@
+Simple PHP Blog:
+----------------
+
+Upgrading
+---------
+There are two recommened ways to upgrade.
+
+Note
+----
+Always make a backup of your "config", "content", and
+"images" folders. It's probably a good idea to download
+them to your hard-drive. (I would recommend making a
+monthly backup.)
+After you have installed to new version, logout and the
+log back in. Click on the "Upgrade Comments" link if it
+appears.
+
+Option 1
+--------
+1) FTP the files to a NEW directory on your web server.
+2) Copy the "config", "content", and "images" folders into
+the NEW directory.
+3) Verify that everything works.
+4) Delete the old installation.
+5) Rename the new installation.
+
+Option 2
+--------
+1) Delete all file and folders EXCEPT "config", "content",
+and "images"
+2) FTP the files to your web server.
