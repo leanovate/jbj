@@ -3,9 +3,9 @@ jbj
 
 # CI
 
-Is hosted by [Travis-CI](https://travis-ci.org/untoldwind/jbj)
+Is hosted by [Travis-CI](https://travis-ci.org/leanovate/jbj)
 
-[![Build Status](https://travis-ci.org/untoldwind/jbj.png?branch=master)](https://travis-ci.org/untoldwind/jbj)
+[![Build Status](https://travis-ci.org/leanovate/jbj.png?branch=master)](https://travis-ci.org/leanovate/jbj)
 
 # Why jbj?
 
