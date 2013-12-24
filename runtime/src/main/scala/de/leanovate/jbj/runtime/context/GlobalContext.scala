@@ -162,9 +162,17 @@ case class GlobalContext(
     namespaceAliases += pClass.name.lastPath -> pClass.name
   }
 
+  def isDefined(pClass: PClass) = {
+    classes.contains(pClass.name.lowercase)
+  }
+
   def defineInterface(pInterface: PInterface) {
     interfaces.put(pInterface.name.lowercase, pInterface)
     namespaceAliases += pInterface.name.lastPath -> pInterface.name
+  }
+
+  def isDefined(pInterface: PInterface) = {
+    interfaces.contains(pInterface.name.lowercase)
   }
 
   def declaredConstants: Seq[(String, PVal)] = {

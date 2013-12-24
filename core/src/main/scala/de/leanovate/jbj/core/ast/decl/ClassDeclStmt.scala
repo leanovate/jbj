@@ -29,7 +29,6 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, declaredName: NamespaceNam
                          decls: List[ClassMemberDecl])
   extends DeclStmt with PClass {
 
-  private var _initialized = false
   private var _name = declaredName
   private var _methodsInitialized = false
   private var _staticInitialized = false
@@ -56,7 +55,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, declaredName: NamespaceNam
   }
 
   override def exec(implicit ctx: Context) = {
-    if (!_initialized)
+    if (!ctx.global.isDefined(this))
       initialize(autoload = true, ignoreErrors = false)
     SuccessExecResult
   }
@@ -300,11 +299,8 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, declaredName: NamespaceNam
               format(name.toString, missingImplementations.size, missingImplementations.mkString(", ")))
         }
       }
-
       ctx.global.defineClass(this)
     }
-
-    _initialized = true
   }
 
 }

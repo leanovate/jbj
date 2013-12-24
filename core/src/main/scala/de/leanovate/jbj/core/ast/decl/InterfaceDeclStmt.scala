@@ -22,7 +22,6 @@ case class InterfaceDeclStmt(declaredName: NamespaceName, superInterfaces: List[
 
   protected[decl] val _interfaceConstants = mutable.Map.empty[String, PVal]
 
-  private var _initialized = false
   private var _name = declaredName
   private var _interfaces: List[PInterface] = Nil
 
@@ -37,7 +36,7 @@ case class InterfaceDeclStmt(declaredName: NamespaceName, superInterfaces: List[
   }
 
   override def exec(implicit ctx: Context) = {
-    if (!_initialized)
+    if (!ctx.global.isDefined(this))
       initialize(autoload = true, ignoreErrors = false)
     SuccessExecResult
   }
@@ -90,10 +89,7 @@ case class InterfaceDeclStmt(declaredName: NamespaceName, superInterfaces: List[
           ctx.currentPosition = method.position
           method.initializeInterface(this)
       }
-
       ctx.global.defineInterface(this)
     }
-    _initialized = true
-
   }
 }
