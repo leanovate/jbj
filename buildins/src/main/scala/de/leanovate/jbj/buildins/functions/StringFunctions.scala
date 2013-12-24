@@ -12,6 +12,7 @@ import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
 import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.runtime.context.Context
 import java.net.URLEncoder
+import de.leanovate.jbj.runtime.types.PParam
 
 object StringFunctions {
   @GlobalFunction
@@ -21,6 +22,48 @@ object StringFunctions {
       val ch = str(i)
       result(i * 2) = Character.forDigit((ch >> 4) & 0xf, 16).toByte
       result(i * 2 + 1) = Character.forDigit(ch & 0xf, 16).toByte
+    }
+    result
+  }
+
+  @GlobalFunction(parameterMode = ParameterMode.STRICT_WARN, warnResult = NullVal)
+  def str_replace(search: PVal, replace: PVal, subject: PVal, count: Option[PVar])(implicit ctx: Context): PVal = {
+    val searchReplaces: Seq[(String, String)] = search.asVal.concrete match {
+      case searchArray: ArrayVal =>
+        replace.asVal.concrete match {
+          case replaceArray: ArrayVal =>
+            searchArray.keyValues.map {
+              case (key, value) => value.asVal.concrete.toStr.asString -> replaceArray.getAt(key).map(_.asVal.concrete.toStr.asString).getOrElse("")
+            }
+          case replaceStr =>
+            searchArray.keyValues.map {
+              case (_, value) => value.asVal.concrete.toStr.asString -> replaceStr.toStr.asString
+            }
+        }
+      case searchStr =>
+        replace.asVal.concrete match {
+          case replaceArray: ArrayVal =>
+            Seq(searchStr.toStr.asString -> replaceArray.getAt(0).map(_.asVal.concrete.toStr.asString).getOrElse(""))
+          case replaceStr =>
+            Seq(searchStr.toStr.asString -> replaceStr.toStr.asString)
+        }
+    }
+    var replaceCounter = 0
+    val result = subject.asVal.concrete match {
+      case subjectStr =>
+        var current = subjectStr.toStr.asString
+
+        searchReplaces.foreach {
+          case (searchStr, replaceStr) =>
+            val result = replaceWithCount(current, searchStr, replaceStr)
+            current = result._1
+            replaceCounter += result._2
+        }
+        StringVal(current)
+    }
+    count.foreach {
+      ref =>
+        ref.value = IntegerVal(replaceCounter)
     }
     result
   }
@@ -129,5 +172,22 @@ object StringFunctions {
   @GlobalFunction
   def urlencode(str: String): String = {
     URLEncoder.encode(str, "UTF-8")
+  }
+
+  private def replaceWithCount(str: String, target: String, replacement: String): (String, Int) = {
+    var counter = 0
+    var start = 0
+    var idx = str.indexOf(target)
+    val result = new StringBuilder
+
+    while (idx >= 0) {
+      result.append(str.substring(start, idx))
+      result.append(replacement)
+      counter += 1
+      start = idx + target.length
+      idx = str.indexOf(target, start)
+    }
+    result.append(str.substring(start))
+    (result.toString(), counter)
   }
 }

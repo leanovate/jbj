@@ -20,6 +20,8 @@ object ParamConverter extends Converter[PParam, PVal] {
 
   override def toScalaWithConversion(param: PParam)(implicit ctx: Context) = param
 
+  override def toScala(param: PParam)(implicit ctx: Context): Option[PParam] = Some(param)
+
   override def toScala(value: PAny)(implicit ctx: Context) = Some(PAnyParam(value))
 
   override def toJbj(param: PParam)(implicit ctx: Context) = param.byVal
