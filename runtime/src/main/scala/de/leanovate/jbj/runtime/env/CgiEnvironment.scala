@@ -26,13 +26,13 @@ object CgiEnvironment {
     val serverArgv = ArrayVal(URLDecoder.decode(request.getRawQuery, "UTF-8").split(" ").map {
       str => None -> StringVal(str)
     }: _*)
-    ctx.defineVariable("_SERVER", PVar(ArrayVal(
-      Some(StringVal("PHP_SELF")) -> StringVal(request.getUri),
-      Some(StringVal("argv")) -> serverArgv,
-      Some(StringVal("argc")) -> serverArgv.count,
-      Some(StringVal("REQUEST_METHOD")) -> StringVal(request.getMethod.toString),
-      Some(StringVal("QUERY_STRING")) -> StringVal(request.getRawQuery)
-    )))
+    ctx.global._SERVER.setAt("PHP_SELF", StringVal(request.getUri.getPath))
+    ctx.global._SERVER.setAt("argv", serverArgv)
+    ctx.global._SERVER.setAt("argc", serverArgv.count)
+    ctx.global._SERVER.setAt("REQUEST_METHOD", StringVal(request.getMethod.toString))
+    ctx.global._SERVER.setAt("QUERY_STRING", StringVal(request.getRawQuery))
+    ctx.global._SERVER.setAt("HTTP_HOST", Option(request.getUri.getHost).map(StringVal(_)).getOrElse(NullVal))
+    ctx.global._SERVER.setAt("SERVER_PORT", IntegerVal(request.getUri.getPort))
 
     val queryKeyValues = request.getQuery.toSeq.flatMap {
       case (key, values) => values.map(key -> _)

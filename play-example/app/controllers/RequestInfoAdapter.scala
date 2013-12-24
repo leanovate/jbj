@@ -5,13 +5,17 @@ import java.util
 import scala.collection.JavaConversions._
 import de.leanovate.jbj.api.http.{CookieInfo, FormRequestBody, RequestInfo}
 import play.api.mvc.AnyContentAsFormUrlEncoded
-import java.net.{URLEncoder, URLDecoder}
+import java.net.{URI, URLEncoder, URLDecoder}
 import java.io.ByteArrayInputStream
+import play.api.http.HeaderNames
 
 case class RequestInfoAdapter(request: Request[AnyContent]) extends RequestInfo {
   def getMethod = RequestInfo.Method.valueOf(request.method.toUpperCase)
 
-  def getUri = request.uri
+  def getUri = request.headers.get(HeaderNames.HOST).map {
+    host =>
+      new URI("http://" + host + request.uri)
+  }.getOrElse(new URI(request.uri))
 
   def getQuery = {
     val result = new util.LinkedHashMap[String, util.List[String]]()

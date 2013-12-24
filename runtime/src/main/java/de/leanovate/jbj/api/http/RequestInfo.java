@@ -9,7 +9,7 @@ package de.leanovate.jbj.api.http;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.io.InputStream;
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +27,7 @@ public interface RequestInfo {
     Method getMethod();
 
     @Nonnull
-    String getUri();
+    URI getUri();
 
     @Nonnull
     Map<String, List<String>> getQuery();

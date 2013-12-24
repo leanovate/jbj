@@ -11,7 +11,7 @@ class TestRequestInfo(method: RequestInfo.Method, uri: String, cookies: Seq[Cook
 
   def getMethod = method
 
-  def getUri = uri
+  def getUri = new URI(uri)
 
   def getQuery = TestRequestInfo.parseFormData(rawQueryString)
 
