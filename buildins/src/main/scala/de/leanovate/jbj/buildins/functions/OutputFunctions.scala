@@ -14,6 +14,11 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 object OutputFunctions {
   @GlobalFunction
+  def flush()(implicit ctx: Context) {
+    ctx.out.flush()
+  }
+
+  @GlobalFunction
   def printf(format: String, args: PVal*)(implicit ctx: Context) {
     ctx.out.print(format.format(args.map {
       case DoubleVal(d) => d

@@ -99,5 +99,9 @@ case class OutputBuffer(out: OutputStream, settings: JbjSettings) {
     _bufferStack.foreach(_.flush())
     out.close()
   }
+
+  def flush() {
+    out.flush()
+  }
 }
 
