@@ -140,6 +140,13 @@
             </dependency>
 
             <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>1.9.5</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>org.specs2</groupId>
                 <artifactId>specs2_${play2-scala.version}</artifactId>
                 <version>2.1.1</version>
@@ -188,5 +195,6 @@
         <module>core</module>
         <module>bcmath</module>
         <module>play-example</module>
+        <module>utils</module>
     </modules>
 </project>
