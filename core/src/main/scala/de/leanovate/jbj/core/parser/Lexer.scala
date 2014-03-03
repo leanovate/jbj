@@ -15,5 +15,5 @@ trait Lexer extends Parsers {
 
   def token: Parser[(Token, Option[LexerMode])]
 
-  val whitespace: Parser[Any] = success(' ')
+  val whitespace: Parser[Any] = success(Unit)
 }

@@ -12,9 +12,9 @@ import scala.util.parsing.input.CharArrayReader.EofCh
 import de.leanovate.jbj.core.parser.JbjTokens.EOF
 import de.leanovate.jbj.core.parser.JbjTokens.StringLit
 
-case class EncapsScriptingLexer(prevMode: LexerMode) extends Lexer with CommonScriptLexerPatterns {
+case class EncapsScriptingLexer(mode: EncapsScriptingLexerMode) extends Lexer with CommonScriptLexerPatterns {
   override def token: Parser[(Token, Option[LexerMode])] =
-    '}' ^^^ Keyword("}") -> Some(prevMode) | commonScriptToken ^^ {
+    '}' ^^^ Keyword("}") -> mode.pop() | commonScriptToken ^^ {
       t => t -> None
     }
 

@@ -23,7 +23,7 @@ class VarOffsetLexer(mode: VarOffsetLexerMode) extends Lexer with CommonScriptLe
   } | digit ~ rep(digit) ^^ {
     case first ~ rest => convertNum(first :: rest mkString "", 10) -> None
   } | ']' ^^^ {
-    Keyword("]") -> Some(mode.prevMode)
+    Keyword("]") -> mode.pop()
   } | delim ^^ {
     d => d -> None
   }

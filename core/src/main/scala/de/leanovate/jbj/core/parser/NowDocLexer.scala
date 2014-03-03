@@ -9,7 +9,7 @@ import de.leanovate.jbj.core.parser.JbjTokens.HereDocEnd
 class NowDocLexer(mode: NowdocLexerMode) extends Lexer with CommonLexerPatterns {
   val token: Parser[(Token, Option[LexerMode])] =
     opt(newLine) ~> str(mode.endMarker) <~ guard(';') ^^ {
-      s => HereDocEnd(s) -> Some(mode.prevMode)
+      s => HereDocEnd(s) -> mode.pop()
     } | nowDocStr ^^ {
       str => EncapsAndWhitespace(str) -> None
     } | newLine ^^ {

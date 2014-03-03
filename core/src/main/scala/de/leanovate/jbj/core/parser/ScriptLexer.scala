@@ -15,9 +15,9 @@ import de.leanovate.jbj.core.parser.JbjTokens.StringLit
 
 case class ScriptLexer(mode: ScriptingLexerMode) extends Lexer with CommonScriptLexerPatterns {
   val token: Parser[(Token, Option[LexerMode])] =
-    str("?>") <~ opt(newLine) ^^^ Keyword(";") -> Some(mode.prevMode) |
-      str("%>") <~ opt(newLine) ^^^ Keyword(";") -> Some(mode.prevMode) |
-      str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> Some(mode.prevMode) |
+    str("?>") <~ opt(newLine) ^^^ Keyword(";") -> mode.pop() |
+      str("%>") <~ opt(newLine) ^^^ Keyword(";") -> mode.pop() |
+      str("</script") ~ rep(whitespaceChar) ~ '>' ~ opt('\n') ^^^ Keyword(";") -> mode.pop() |
       opt('b') ~> str("<<<") ~> '"' ~> rep1(chrExcept('\'', '\r', '\n', '"', EofCh)) <~ '"' <~ newLine ^^ {
         endMarker => HereDocStart(endMarker.mkString("")) -> Some(HeredocLexerMode(endMarker.mkString(""), mode))
       } |
