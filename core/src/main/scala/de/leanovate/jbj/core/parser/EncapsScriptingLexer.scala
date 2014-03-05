@@ -42,19 +42,13 @@ case class EncapsScriptingLexer(mode: EncapsScriptingLexerMode) extends Lexer wi
       case first ~ rest => Variable(first :: rest mkString "")
     } | '\'' ~ singleQuotedStr ~ '\'' ^^ {
       case '\'' ~ str ~ '\'' => StringLit(str)
-    } | '(' ~> tabsOrSpaces ~> (str("int") | str("integer")) <~ tabsOrSpaces <~ ')' ^^ {
-      s => IntegerCast(s)
-    } | '(' ~> tabsOrSpaces ~> (str("real") | str("double") | str("float")) <~ tabsOrSpaces <~ ')' ^^ {
-      s => DoubleCast(s)
-    } | '(' ~> tabsOrSpaces ~> (str("string") | str("binary")) <~ tabsOrSpaces <~ ')' ^^ {
-      s => StringCast(s)
-    } | '(' ~> tabsOrSpaces ~> str("array") <~ tabsOrSpaces <~ ')' ^^ {
-      s => ArrayCast(s)
-    } | '(' ~> tabsOrSpaces ~> (str("bool") | str("boolean")) <~ tabsOrSpaces <~ ')' ^^ {
-      s => BooleanCast(s)
-    } | '(' ~> tabsOrSpaces ~> str("unset") <~ tabsOrSpaces <~ ')' ^^ {
-      s => UnsetCast(s)
-    } | EofCh ^^^ EOF  |
+    } | '(' ~> tabsOrSpaces ~> (str("int") | str("integer")) <~ tabsOrSpaces <~ ')' ^^ IntegerCast |
+      '(' ~> tabsOrSpaces ~> (str("real") | str("double") | str("float")) <~ tabsOrSpaces <~ ')' ^^ DoubleCast |
+      '(' ~> tabsOrSpaces ~> (str("string") | str("binary")) <~ tabsOrSpaces <~ ')' ^^ StringCast |
+      '(' ~> tabsOrSpaces ~> str("array") <~ tabsOrSpaces <~ ')' ^^ ArrayCast |
+      '(' ~> tabsOrSpaces ~> (str("bool") | str("boolean")) <~ tabsOrSpaces <~ ')' ^^ BooleanCast |
+      '(' ~> tabsOrSpaces ~> str("unset") <~ tabsOrSpaces <~ ')' ^^ UnsetCast |
+      EofCh ^^^ EOF  |
       '\'' ~> failure("unclosed string literal") |
       '\"' ~> failure("unclosed string literal") |
       delim ^^ {

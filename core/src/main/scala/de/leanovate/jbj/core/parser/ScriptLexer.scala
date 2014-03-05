@@ -60,19 +60,12 @@ case class ScriptLexer(mode: ScriptingLexerMode) extends Lexer with CommonScript
       case '\'' ~ str ~ '\'' => StringLit(str)
     } | '\"' ~ doubleQuotedStr ~ '\"' ^^ {
       case '\"' ~ str ~ '\"' => str
-    } | '(' ~> tabsOrSpaces ~> (str("int") | str("integer")) <~ tabsOrSpaces <~ ')' ^^ {
-      s => IntegerCast(s)
-    } | '(' ~> tabsOrSpaces ~> (str("real") | str("double") | str("float")) <~ tabsOrSpaces <~ ')' ^^ {
-      s => DoubleCast(s)
-    } | '(' ~> tabsOrSpaces ~> (str("string") | str("binary")) <~ tabsOrSpaces <~ ')' ^^ {
-      s => StringCast(s)
-    } | '(' ~> tabsOrSpaces ~> str("array") <~ tabsOrSpaces <~ ')' ^^ {
-      s => ArrayCast(s)
-    } | '(' ~> tabsOrSpaces ~> str("bool") <~ opt(str("ean")) <~ tabsOrSpaces <~ ')' ^^ {
-      s => BooleanCast(s)
-    } | '(' ~> tabsOrSpaces ~> str("unset") <~ tabsOrSpaces <~ ')' ^^ {
-      s => UnsetCast(s)
-    } | EofCh ^^^ EOF |
+    } | '(' ~> tabsOrSpaces ~> (str("int") | str("integer")) <~ tabsOrSpaces <~ ')' ^^ IntegerCast |
+      '(' ~> tabsOrSpaces ~> (str("real") | str("double") | str("float")) <~ tabsOrSpaces <~ ')' ^^ DoubleCast |
+      '(' ~> tabsOrSpaces ~> (str("string") | str("binary")) <~ tabsOrSpaces <~ ')' ^^ StringCast |
+      '(' ~> tabsOrSpaces ~> str("array") <~ tabsOrSpaces <~ ')' ^^ ArrayCast |
+      '(' ~> tabsOrSpaces ~> str("bool") <~ opt(str("ean")) <~ tabsOrSpaces <~ ')' ^^ BooleanCast |
+      '(' ~> tabsOrSpaces ~> str("unset") <~ tabsOrSpaces <~ ')' ^^ UnsetCast | EofCh ^^^ EOF |
       '\'' ~> failure("unclosed string literal") |
       '\"' ~> failure("unclosed string literal") |
       delim ^^ {

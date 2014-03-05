@@ -67,17 +67,13 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val topStatement: PackratParser[Stmt] =
     statement | functionDeclarationStatement | classDeclarationStatement |
-      "namespace" ~> namespaceName <~ ";" ^^ {
-        name => SetNamespaceDeclStmt(name)
-      } | "namespace" ~> namespaceName ~ "{" ~ topStatementList <~ "}" ^^ {
-      case name ~ _ ~ stmts => NamespaceDeclStmt(name, stmts)
-    } | "namespace" ~> "{" ~> topStatementList <~ "}" ^^ {
+      "namespace" ~> namespaceName <~ ";" ^^ SetNamespaceDeclStmt |
+      "namespace" ~> namespaceName ~ "{" ~ topStatementList <~ "}" ^^ {
+        case name ~ _ ~ stmts => NamespaceDeclStmt(name, stmts)
+      } | "namespace" ~> "{" ~> topStatementList <~ "}" ^^ {
       stmts => NamespaceDeclStmt(NamespaceName(relative = false, prefixed = false), stmts)
-    } | "use" ~> rep1sep(useDeclaration, ",") <~ ";" ^^ {
-      useAsDecls => UseDeclStmt(useAsDecls)
-    } | "__HALT_COMPILER" ^^^ {
-      HaltCompilerStmt()
-    } | constantDeclaration <~ ";"
+    } | "use" ~> rep1sep(useDeclaration, ",") <~ ";" ^^ UseDeclStmt | "__HALT_COMPILER" ^^^ HaltCompilerStmt() |
+      constantDeclaration <~ ";"
 
   lazy val useDeclaration: PackratParser[UseAsDecl] =
     namespaceName ~ opt("as" ~> identLit) ^^ {
@@ -88,25 +84,20 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val constantDeclaration: PackratParser[Stmt] = "const" ~> rep1(identLit ~ "=" ~ staticScalar ^^ {
     case name ~ _ ~ s => StaticAssignment(name, Some(s))
-  }) ^^ {
-    assignments => ConstDeclStmt(assignments)
-  }
+  }) ^^ ConstDeclStmt
 
   lazy val innerStatementList: PackratParser[List[Stmt]] = rep(";") ~> rep(innerStatement)
 
   lazy val innerStatement: PackratParser[Stmt] = statement | functionDeclarationStatement | classDeclarationStatement
 
-  lazy val statement: PackratParser[Stmt] = identLit <~ ":" ^^ {
-    label => LabelStmt(label)
-  } | untickedStatement <~ rep(";")
+  lazy val statement: PackratParser[Stmt] = identLit <~ ":" ^^ LabelStmt | untickedStatement <~ rep(";")
 
   lazy val untickedStatement: PackratParser[Stmt] =
-    "{" ~> innerStatementList <~ "}" ^^ {
-      stmts => BlockStmt(stmts)
-    } | "if" ~> parenthesisExpr ~ statement ~ elseIfList ~ elseSingle ^^ {
-      case cond ~ thenStmt ~ elseIfs ~ elseStmt =>
-        IfStmt(cond, thenStmt :: Nil, elseIfs, elseStmt)
-    } | "if" ~> parenthesisExpr ~ ":" ~ innerStatementList ~ newElseIfList ~ newElseSingle <~ "endif" <~ ";" ^^ {
+    "{" ~> innerStatementList <~ "}" ^^ BlockStmt |
+      "if" ~> parenthesisExpr ~ statement ~ elseIfList ~ elseSingle ^^ {
+        case cond ~ thenStmt ~ elseIfs ~ elseStmt =>
+          IfStmt(cond, thenStmt :: Nil, elseIfs, elseStmt)
+      } | "if" ~> parenthesisExpr ~ ":" ~ innerStatementList ~ newElseIfList ~ newElseSingle <~ "endif" <~ ";" ^^ {
       case cond ~ _ ~ thenStmts ~ elseIfs ~ elseStmts =>
         IfStmt(cond, thenStmts, elseIfs, elseStmts)
     } | "while" ~> parenthesisExpr ~ whileStatement ^^ {
@@ -117,34 +108,25 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       case befores ~ _ ~ conds ~ _ ~ afters ~ _ ~ stmts => ForStmt(befores, conds, afters, stmts)
     } | "switch" ~> parenthesisExpr ~ switchCaseList ^^ {
       case e ~ cases => SwitchStmt(e, cases)
-    } | "break" ~> opt(expr) ^^ {
-      depth => BreakStmt(depth)
-    } | "continue" ~> opt(expr) ^^ {
-      depth => ContinueStmt(depth)
-    } | "return" ~> opt(expr) <~ ";" ^^ {
-      expr => ReturnStmt(expr)
-    } | "global" ~> globalVarList ^^ {
-      vars => GlobalVarDeclAssignStmt(vars)
-    } | "static" ~> staticVarList ^^ {
-      vars => StaticVarDeclStmt(vars)
-    } | "echo" ~> echoExprList <~ ";" ^^ {
-      params => EchoStmt(params)
-    } | inlineHtml | expr <~ ";" ^^ {
-      e => ExprStmt(e)
-    } | "unset" ~> "(" ~> unsetVariables <~ ")" ^^ {
-      case vars => UnsetStmt(vars)
-    } | "foreach" ~> "(" ~> expr ~ "as" ~ foreachVariable ~ foreachOptionalArg ~ ")" ~ foreachStatement ^^ {
-      case array ~ _ ~ valueAssign ~ None ~ _ ~ stmts =>
-        ForeachStmt(array, None, valueAssign, stmts)
-      case array ~ _ ~ keyAssign ~ Some(valueAssign) ~ _ ~ stmts =>
-        ForeachStmt(array, Some(keyAssign), valueAssign, stmts)
-    } | "declare" ~> "(" ~> declareList ~ ")" ~ declareStatement ^^ {
+    } | "break" ~> opt(expr) ^^ BreakStmt |
+      "continue" ~> opt(expr) ^^ ContinueStmt |
+      "return" ~> opt(expr) <~ ";" ^^ ReturnStmt |
+      "global" ~> globalVarList ^^ GlobalVarDeclAssignStmt |
+      "static" ~> staticVarList ^^ StaticVarDeclStmt |
+      "echo" ~> echoExprList <~ ";" ^^ EchoStmt |
+      inlineHtml |
+      expr <~ ";" ^^ ExprStmt |
+      "unset" ~> "(" ~> unsetVariables <~ ")" ^^ UnsetStmt |
+      "foreach" ~> "(" ~> expr ~ "as" ~ foreachVariable ~ foreachOptionalArg ~ ")" ~ foreachStatement ^^ {
+        case array ~ _ ~ valueAssign ~ None ~ _ ~ stmts =>
+          ForeachStmt(array, None, valueAssign, stmts)
+        case array ~ _ ~ keyAssign ~ Some(valueAssign) ~ _ ~ stmts =>
+          ForeachStmt(array, Some(keyAssign), valueAssign, stmts)
+      } | "declare" ~> "(" ~> declareList ~ ")" ~ declareStatement ^^ {
       case declares ~ _ ~ stmts => DeclareDeclStmt(declares, stmts)
     } | "try" ~> "{" ~> innerStatementList ~ "}" ~ catchStatement ~ finallyStatement ^^ {
       case tryStmts ~ _ ~ catchBlocks ~ finallyStmts => TryCatchStmt(tryStmts, catchBlocks, finallyStmts)
-    } | "throw" ~> expr ^^ {
-      e => ThrowStmt(e)
-    }
+    } | "throw" ~> expr ^^ ThrowStmt
 
   lazy val catchStatement: PackratParser[List[CatchBlock]] = rep(
     "catch" ~> "(" ~> fullyQualifiedClassName ~ variableLit ~ ")" ~ "{" ~ innerStatementList <~ "}" ^^ {
@@ -181,26 +163,21 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val extendsFrom: PackratParser[Option[NamespaceName]] = opt("extends" ~> fullyQualifiedClassName)
 
-  lazy val interfaceExtendsList: PackratParser[List[NamespaceName]] = opt("extends" ~> interfaceList) ^^ {
-    optInterfaces => optInterfaces.getOrElse(Nil)
-  }
+  lazy val interfaceExtendsList: PackratParser[List[NamespaceName]] =
+    opt("extends" ~> interfaceList) ^^ (_.getOrElse(Nil))
 
-  lazy val implementsList: PackratParser[List[NamespaceName]] = opt("implements" ~> interfaceList) ^^ {
-    optInterfaces => optInterfaces.getOrElse(Nil)
-  }
+  lazy val implementsList: PackratParser[List[NamespaceName]] =
+    opt("implements" ~> interfaceList) ^^ (_.getOrElse(Nil))
 
   lazy val interfaceList: PackratParser[List[NamespaceName]] = rep1sep(fullyQualifiedClassName, ",")
 
   lazy val foreachOptionalArg: PackratParser[Option[ForeachAssignment]] = opt("=>" ~> foreachVariable)
 
   lazy val foreachVariable: PackratParser[ForeachAssignment] =
-    variable ^^ {
-      ref => ValueForeachAssignment(ref)
-    } | "&" ~> variable ^^ {
-      ref => RefForeachAssignment(ref)
-    } | "list" ~> "(" ~> assignmentList <~ ")" ^^ {
-      refs => ListForeachAssignment(ListRefExpr(refs))
-    }
+    variable ^^ ValueForeachAssignment | "&" ~> variable ^^ RefForeachAssignment |
+      "list" ~> "(" ~> assignmentList <~ ")" ^^ {
+        refs => ListForeachAssignment(ListRefExpr(refs))
+      }
 
   lazy val forStatement: PackratParser[List[Stmt]] =
     ":" ~> innerStatementList <~ "endfor" <~ ";" | statement ^^ (List(_)) | ";" ^^^ Nil
@@ -223,9 +200,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val caseList: PackratParser[List[SwitchCase]] = rep(
     "case" ~> expr ~ caseSeparator ~ innerStatementList ^^ {
       case e ~ _ ~ stmts => CaseBlock(e, stmts)
-    } | "default" ~> caseSeparator ~> innerStatementList ^^ {
-      case stmts => DefaultCaseBlock(stmts)
-    })
+    } | "default" ~> caseSeparator ~> innerStatementList ^^ DefaultCaseBlock)
 
   lazy val caseSeparator: PackratParser[Any] = ":" | ";"
 
@@ -251,17 +226,12 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     }, ",")
 
   lazy val optionalClassType: PackratParser[Option[TypeHint]] = opt("array" ^^^ ArrayTypeHint |
-    "callable" ^^^ CallableTypeHint | fullyQualifiedClassName ^^ (name => ClassTypeHint(name)))
+    "callable" ^^^ CallableTypeHint | fullyQualifiedClassName ^^ ClassTypeHint)
 
   lazy val functionCallParameterList: PackratParser[List[Expr]] = "(" ~> repsep(expr, ",") <~ ")"
 
-  lazy val globalVar: PackratParser[Name] = variableLit ^^ {
-    v => StaticName(v)
-  } | "$" ~> variable ^^ {
-    e => DynamicName(e)
-  } | "$" ~> "{" ~> expr <~ "}" ^^ {
-    e => DynamicName(e)
-  }
+  lazy val globalVar: PackratParser[Name] = variableLit ^^ StaticName | "$" ~> variable ^^ DynamicName |
+    "$" ~> "{" ~> expr <~ "}" ^^ DynamicName
 
   lazy val globalVarList: PackratParser[List[Name]] = rep1sep(globalVar, ",")
 
@@ -273,31 +243,24 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val classStatement: PackratParser[ClassMemberDecl] = variableModifiers ~ classVariableDeclaration <~ ";" ^^ {
     case modifiers ~ assignments => ClassVarDecl(modifiers, assignments)
-  } | classConstantDeclaration <~ ";" ^^ {
-    assignments => ClassConstDecl(assignments)
-  } | traitUseStatement |
+  } | classConstantDeclaration <~ ";" ^^ ClassConstDecl | traitUseStatement |
     methodModifiers ~ "function" ~ opt("&") ~ identLit ~ "(" ~ parameterList ~ ")" ~ methodBody ^^ {
       case modifiers ~ _ ~ isRef ~ name ~ _ ~ params ~ _ ~ stmts =>
         ClassMethodDecl(modifiers, name, isRef.isDefined, params, stmts)
     }
 
-  lazy val traitUseStatement: PackratParser[TraitUseDecl] = "use" ~> traitList <~ ";" ^^ {
-    traits => TraitUseDecl(traits)
-  }
+  lazy val traitUseStatement: PackratParser[TraitUseDecl] = "use" ~> traitList <~ ";" ^^ TraitUseDecl
 
   lazy val traitList: PackratParser[List[NamespaceName]] = rep1(fullyQualifiedClassName)
 
-  lazy val methodBody: PackratParser[Option[List[Stmt]]] = ";" ^^^ None |
-    "{" ~> innerStatementList <~ "}" ^^ Some.apply
+  lazy val methodBody: PackratParser[Option[List[Stmt]]] = ";" ^^^ None | "{" ~> innerStatementList <~ "}" ^^ Some.apply
 
   lazy val variableModifiers: PackratParser[List[MemberModifier.Type]] = nonEmptyMemberModifiers | "var" ^^^ Nil
 
-  lazy val methodModifiers: PackratParser[List[MemberModifier.Type]] = opt(nonEmptyMemberModifiers) ^^ {
-    optModifiers => optModifiers.getOrElse(Nil)
-  }
+  lazy val methodModifiers: PackratParser[List[MemberModifier.Type]] =
+    opt(nonEmptyMemberModifiers) ^^ (_.getOrElse(Nil))
 
-  lazy val nonEmptyMemberModifiers: PackratParser[List[MemberModifier.Type]] =
-    rep1(memberModifier)
+  lazy val nonEmptyMemberModifiers: PackratParser[List[MemberModifier.Type]] = rep1(memberModifier)
 
   lazy val memberModifier: PackratParser[MemberModifier.Type] =
     "public" ^^^ MemberModifier.PUBLIC | "protected" ^^^ MemberModifier.PROTECTED |
@@ -337,11 +300,10 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
         val result = RefAssignRefExpr(v, NewRefExpr(name, args))
         result.deprecated = Some("Assigning the return value of new by reference is deprecated")
         result
-    } | "clone" ~> expr ^^ {
-      e => CloneExpr(e)
-    } | variable ~ "+=" ~ expr ^^ {
-      case v ~ _ ~ e => AddToRefExpr(v, e)
-    } | variable ~ "-=" ~ expr ^^ {
+    } | "clone" ~> expr ^^ CloneExpr |
+      variable ~ "+=" ~ expr ^^ {
+        case v ~ _ ~ e => AddToRefExpr(v, e)
+      } | variable ~ "-=" ~ expr ^^ {
       case v ~ _ ~ e => SubFromRefExpr(v, e)
     } | variable ~ "*=" ~ expr ^^ {
       case v ~ _ ~ e => MulByRefExpr(v, e)
@@ -353,36 +315,20 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   def binaryOp(level: Int): PackratParser[((Expr, Expr) => Expr)] = {
     level match {
-      case 1 => "or" ^^^ ((a: Expr, b: Expr) => BoolOrExpr(a, b))
-      case 2 => "xor" ^^^ ((a: Expr, b: Expr) => BoolXorExpr(a, b))
-      case 3 => "and" ^^^ ((a: Expr, b: Expr) => BoolAndExpr(a, b))
-      case 4 => "||" ^^^ ((a: Expr, b: Expr) => BoolOrExpr(a, b))
-      case 5 => "&&" ^^^ ((a: Expr, b: Expr) => BoolAndExpr(a, b))
-      case 6 => "|" ^^^ ((a: Expr, b: Expr) => BitOrExpr(a, b))
-      case 7 => "^" ^^^ ((a: Expr, b: Expr) => BitXorExpr(a, b))
-      case 8 => "&" ^^^ ((a: Expr, b: Expr) => BitAndExpr(a, b))
+      case 1 => "or" ^^^ BoolOrExpr
+      case 2 => "xor" ^^^ BoolXorExpr
+      case 3 => "and" ^^^ BoolAndExpr
+      case 4 => "||" ^^^ BoolOrExpr
+      case 5 => "&&" ^^^ BoolAndExpr
+      case 6 => "|" ^^^ BitOrExpr
+      case 7 => "^" ^^^ BitXorExpr
+      case 8 => "&" ^^^ BitAndExpr
       case 9 =>
-        "==" ^^^ ((a: Expr, b: Expr) => EqExpr(a, b)) |
-          "!=" ^^^ ((a: Expr, b: Expr) => NotEqExpr(a, b)) |
-          "<>" ^^^ ((a: Expr, b: Expr) => NotEqExpr(a, b)) |
-          "===" ^^^ ((a: Expr, b: Expr) => IdenticalExpr(a, b)) |
-          "!==" ^^^ ((a: Expr, b: Expr) => NotIdenticalExpr(a, b))
-      case 10 =>
-        ">" ^^^ ((a: Expr, b: Expr) => GtExpr(a, b)) |
-          ">=" ^^^ ((a: Expr, b: Expr) => GeExpr(a, b)) |
-          "<" ^^^ ((a: Expr, b: Expr) => LtExpr(a, b)) |
-          "<=" ^^^ ((a: Expr, b: Expr) => LeExpr(a, b))
-      case 11 =>
-        ">>" ^^^ ((a: Expr, b: Expr) => BitShiftRightExpr(a, b)) |
-          "<<" ^^^ ((a: Expr, b: Expr) => BitShiftLeftExpr(a, b))
-      case 12 =>
-        "." ^^^ ((a: Expr, b: Expr) => ConcatExpr(a, b)) |
-          "+" ^^^ ((a: Expr, b: Expr) => AddExpr(a, b)) |
-          "-" ^^^ ((a: Expr, b: Expr) => SubExpr(a, b))
-      case 13 =>
-        "*" ^^^ ((a: Expr, b: Expr) => MulExpr(a, b)) |
-          "/" ^^^ ((a: Expr, b: Expr) => DivExpr(a, b)) |
-          "%" ^^^ ((a: Expr, b: Expr) => ModExpr(a, b))
+        "==" ^^^ EqExpr | "!=" ^^^ NotEqExpr | "<>" ^^^ NotEqExpr | "===" ^^^ IdenticalExpr | "!==" ^^^ NotIdenticalExpr
+      case 10 => ">" ^^^ GtExpr | ">=" ^^^ GeExpr | "<" ^^^ LtExpr | "<=" ^^^ LeExpr
+      case 11 => ">>" ^^^ BitShiftRightExpr | "<<" ^^^ BitShiftLeftExpr
+      case 12 => "." ^^^ ConcatExpr | "+" ^^^ AddExpr | "-" ^^^ SubExpr
+      case 13 => "*" ^^^ MulExpr | "/" ^^^ DivExpr | "%" ^^^ ModExpr
       case _ => throw new RuntimeException("bad precedence level " + level)
     }
   }
@@ -400,55 +346,30 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     }
 
   lazy val term: PackratParser[Expr] =
-    "+" ~> term | "-" ~> term ^^ {
-      expr => NegExpr(expr)
-    } | "!" ~> term ^^ {
-      e => BoolNotExpr(e)
-    } | "~" ~> term ^^ {
-      e => BitNotExpr(e)
-    } | expr ~ "instanceof" ~ classNameReference ^^ {
-      case e ~ _ ~ cname => InstanceOfExpr(e, cname)
-    } | parenthesisExpr | newExpr | internalFunctionsInYacc | integerCastLit ~> term ^^ {
-      e => IntegerCastExpr(e)
-    } | doubleCastLit ~> term ^^ {
-      e => DoubleCastExpr(e)
-    } | stringCastLit ~> term ^^ {
-      e => StringCastExpr(e)
-    } | arrayCastLit ~> term ^^ {
-      e => ArrayCastExpr(e)
-    } | booleanCastLit ~> term ^^ {
-      e => BooleanCastExpr(e)
-    } | "exit" ~> opt(expr) ^^ {
-      e => ExitExpr(e)
-    } | "@" ~> expr ^^ {
-      e => SilentExpr(e)
-    } | variable <~ "++" ^^ {
-      ref => GetAndIncrExpr(ref)
-    } | variable <~ "--" ^^ {
-      ref => GetAndDecrExpr(ref)
-    } | "++" ~> variable ^^ {
-      ref => IncrAndGetExpr(ref)
-    } | "--" ~> variable ^^ {
-      ref => DecrAndGetExpr(ref)
-    } | variable ||| scalar | combinedScalarOffset |
-      "print" ~> expr ^^ {
-        e => PrintExpr(e)
-      } | opt("static") ~ "function" ~ opt("&") ~ "(" ~ parameterList ~ ")" ~ opt(lexicalVars) ~ "{" ~ innerStatementList <~ "}" ^^ {
-      case Some(_) ~ _ ~ optRef ~ _ ~ params ~ _ ~ vars ~ _ ~ stmts => StaticLambdaDeclExpr(optRef.isDefined, params, vars.getOrElse(Seq.empty), stmts)
-      case None ~ _ ~ optRef ~ _ ~ params ~ _ ~ vars ~ _ ~ stmts => LambdaDeclExpr(optRef.isDefined, params, vars.getOrElse(Seq.empty), stmts)
-    } | parenthesisExpr
+    "+" ~> term | "-" ~> term ^^ NegExpr | "!" ~> term ^^ BoolNotExpr | "~" ~> term ^^ BitNotExpr |
+      expr ~ "instanceof" ~ classNameReference ^^ {
+        case e ~ _ ~ cname => InstanceOfExpr(e, cname)
+      } | parenthesisExpr | newExpr | internalFunctionsInYacc | integerCastLit ~> term ^^ IntegerCastExpr |
+      doubleCastLit ~> term ^^ DoubleCastExpr | stringCastLit ~> term ^^ StringCastExpr |
+      arrayCastLit ~> term ^^ ArrayCastExpr | booleanCastLit ~> term ^^ BooleanCastExpr |
+      "exit" ~> opt(expr) ^^ ExitExpr | "@" ~> expr ^^ SilentExpr |
+      variable <~ "++" ^^ GetAndIncrExpr | variable <~ "--" ^^ GetAndDecrExpr |
+      "++" ~> variable ^^ IncrAndGetExpr | "--" ~> variable ^^ DecrAndGetExpr |
+      variable ||| scalar | combinedScalarOffset |
+      "print" ~> expr ^^ PrintExpr |
+      opt("static") ~ "function" ~ opt("&") ~ "(" ~ parameterList ~ ")" ~ opt(lexicalVars) ~ "{" ~ innerStatementList <~ "}" ^^ {
+        case Some(_) ~ _ ~ optRef ~ _ ~ params ~ _ ~ vars ~ _ ~ stmts =>
+          StaticLambdaDeclExpr(optRef.isDefined, params, vars.getOrElse(Seq.empty), stmts)
+        case None ~ _ ~ optRef ~ _ ~ params ~ _ ~ vars ~ _ ~ stmts =>
+          LambdaDeclExpr(optRef.isDefined, params, vars.getOrElse(Seq.empty), stmts)
+      } | parenthesisExpr
 
   lazy val combinedScalarOffset: PackratParser[Expr] = combinedScalar ~ rep("[" ~> dimOffset <~ "]") ^^ {
-    case s ~ dims => dims.foldLeft(s) {
-      (e, dim) => IndexGetExpr(e, dim)
-    }
+    case s ~ dims => dims.foldLeft(s)(IndexGetExpr)
   }
 
-  lazy val combinedScalar: PackratParser[Expr] = "array" ~> "(" ~> arrayPairList <~ ")" ^^ {
-    keyValues => ArrayCreateExpr(keyValues)
-  } | "[" ~> arrayPairList <~ "]" ^^ {
-    keyValues => ArrayCreateExpr(keyValues)
-  }
+  lazy val combinedScalar: PackratParser[Expr] = "array" ~> "(" ~> arrayPairList <~ ")" ^^ ArrayCreateExpr |
+    "[" ~> arrayPairList <~ "]" ^^ ArrayCreateExpr
 
   lazy val lexicalVars: PackratParser[List[LexicalVar]] = "use" ~> "(" ~> rep1sep(
     opt("&") ~ variableLit ^^ {
@@ -465,34 +386,27 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     case cname ~ _ ~ method ~ params => CallStaticMethodRefExpr(cname, method, params)
   } | className ~ "::" ~ variableWithoutObjects ~ functionCallParameterList ^^ {
     case cname ~ _ ~ ((n, dims)) ~ params =>
-      val method = DynamicName(dims.foldLeft(VariableRefExpr(n).asInstanceOf[RefExpr]) {
-        (ref, dim) => DimRefExpr(ref, dim)
-      })
+      val method = DynamicName(dims.foldLeft(VariableRefExpr(n).asInstanceOf[RefExpr])(DimRefExpr))
       CallStaticMethodRefExpr(cname, method, params)
   } | variableClassName ~ "::" ~ variableName ~ functionCallParameterList ^^ {
     case cname ~ _ ~ method ~ params => CallStaticMethodRefExpr(cname, method, params)
   } | variableClassName ~ "::" ~ variableWithoutObjects ~ functionCallParameterList ^^ {
     case cname ~ _ ~ ((n, dims)) ~ params =>
-      val method = DynamicName(dims.foldLeft(VariableRefExpr(n).asInstanceOf[RefExpr]) {
-        (ref, dim) => DimRefExpr(ref, dim)
-      })
+      val method = DynamicName(dims.foldLeft(VariableRefExpr(n).asInstanceOf[RefExpr])(DimRefExpr))
       CallStaticMethodRefExpr(cname, method, params)
   } | variableWithoutObjects ~ functionCallParameterList ^^ {
     case ((n, dims)) ~ params =>
-      val func = dims.foldLeft(VariableRefExpr(n).asInstanceOf[RefExpr]) {
-        (ref, dim) => DimRefExpr(ref, dim)
-      }
+      val func = dims.foldLeft(VariableRefExpr(n).asInstanceOf[RefExpr])(DimRefExpr)
       CallByExprRefExpr(func, params)
   }
 
   lazy val className: PackratParser[Name] =
-    "static" ^^^ {
-      ClassStaticName
-    } | namespaceName ^^ {
-      case NamespaceName("self") => ClassSelfName
-      case NamespaceName("parent") => ClassParentName
-      case name => StaticNamespaceName(name)
-    } | "namespace" ~> "\\" ~> namespaceName ^^ {
+    "static" ^^^ ClassStaticName |
+      namespaceName ^^ {
+        case NamespaceName("self") => ClassSelfName
+        case NamespaceName("parent") => ClassParentName
+        case name => StaticNamespaceName(name)
+      } | "namespace" ~> "\\" ~> namespaceName ^^ {
       n => StaticNamespaceName(NamespaceName(relative = false, prefixed = true, n.path: _*))
     } | "\\" ~> namespaceName ^^ {
       n => StaticNamespaceName(NamespaceName(relative = false, prefixed = false, n.path: _*))
@@ -507,7 +421,6 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     }
 
   lazy val classNameReference: PackratParser[Name] = className | dynamicClassNameReference
-
 
   lazy val dynamicClassNameReference: PackratParser[Name] =
     baseVariable ~ rep("->" ~> objectProperty) ^^ {
@@ -537,37 +450,26 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       }
 
   lazy val staticScalar: PackratParser[Expr] =
-    commonScalar | staticClassNameScalar | staticClassConstant | namespaceName ^^ {
-      name => ConstGetExpr(name)
-    } | "namespace" ~> "\\" ~> namespaceName ^^ {
-      name => ConstGetExpr(NamespaceName(relative = false, prefixed = true, name.path: _*))
-    } | "\\" ~> namespaceName ^^ {
+    commonScalar | staticClassNameScalar | staticClassConstant | namespaceName ^^ ConstGetExpr |
+      "namespace" ~> "\\" ~> namespaceName ^^ {
+        name => ConstGetExpr(NamespaceName(relative = false, prefixed = true, name.path: _*))
+      } | "\\" ~> namespaceName ^^ {
       name => ConstGetExpr(NamespaceName(relative = false, prefixed = false, name.path: _*))
-    } | "+" ~> staticScalar ^^ {
-      s => PosExpr(s)
-    } | "-" ~> staticScalar ^^ {
-      s => NegExpr(s)
-    } | "array" ~> "(" ~> staticArrayPairList <~ ")" ^^ {
-      pairs => ArrayCreateExpr(pairs)
-    } | "[" ~> staticArrayPairList <~ "]" ^^ {
-      pairs => ArrayCreateExpr(pairs)
-    } | "__class__" ^^^ ClassNameConstExpr()
+    } | "+" ~> staticScalar ^^ PosExpr | "-" ~> staticScalar ^^ NegExpr |
+      "array" ~> "(" ~> staticArrayPairList <~ ")" ^^ ArrayCreateExpr |
+      "[" ~> staticArrayPairList <~ "]" ^^ ArrayCreateExpr | "__class__" ^^^ ClassNameConstExpr()
 
   lazy val staticClassConstant: PackratParser[Expr] = className ~ "::" ~ identLit ^^ {
     case cname ~ _ ~ name => ClassConstantExpr(cname, name)
   }
 
-  lazy val scalar: PackratParser[Expr] = classNameScalar | classConstant | namespaceName ^^ {
-    name => ConstGetExpr(name)
-  } | "namespace" ~> "\\" ~> namespaceName ^^ {
-    name => ConstGetExpr(NamespaceName(relative = false, prefixed = true, name.path: _*))
-  } | "\\" ~> namespaceName ^^ {
+  lazy val scalar: PackratParser[Expr] = classNameScalar | classConstant | namespaceName ^^ ConstGetExpr |
+    "namespace" ~> "\\" ~> namespaceName ^^ {
+      name => ConstGetExpr(NamespaceName(relative = false, prefixed = true, name.path: _*))
+    } | "\\" ~> namespaceName ^^ {
     name => ConstGetExpr(NamespaceName(relative = false, prefixed = false, name.path: _*))
-  } | commonScalar | "\"" ~> encapsList <~ "\"" ^^ {
-    interpolated => InterpolatedStringExpr(interpolated)
-  } | hereDocStartLit ~> encapsList <~ hereDocEndLit ^^ {
-    interpolated => InterpolatedStringExpr(interpolated)
-  } | "__class__" ^^^ ClassNameConstExpr()
+  } | commonScalar | "\"" ~> encapsList <~ "\"" ^^ InterpolatedStringExpr |
+    hereDocStartLit ~> encapsList <~ hereDocEndLit ^^ InterpolatedStringExpr | "__class__" ^^^ ClassNameConstExpr()
 
   lazy val staticArrayPairList: PackratParser[List[ArrayKeyValue]] = repsep(
     opt(staticScalar <~ "=>") ~ staticScalar ^^ {
@@ -618,44 +520,32 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val variableWithoutObjects: PackratParser[(Name, List[Option[Expr]])] =
     referenceVariable | simpleIndirectReference ~ referenceVariable ^^ {
       case indirects ~ ((n, dims)) => indirects.foldLeft(n) {
-        (v, indirect) =>
-          indirect(v)
+        (v, indirect) => indirect(v)
       } -> dims
     }
 
   lazy val staticMember: PackratParser[RefExpr] = className ~ "::" ~ variableWithoutObjects ^^ {
     case cname ~ _ ~ ((n, dims)) =>
-      dims.foldLeft(StaticClassVarRefExpr(cname, n).asInstanceOf[RefExpr]) {
-        (ref, dim) => DimRefExpr(ref, dim)
-      }
+      dims.foldLeft(StaticClassVarRefExpr(cname, n).asInstanceOf[RefExpr])(DimRefExpr)
   } | variableClassName ~ "::" ~ variableWithoutObjects ^^ {
     case cname ~ _ ~ ((n, dims)) =>
-      dims.foldLeft(StaticClassVarRefExpr(cname, n).asInstanceOf[RefExpr]) {
-        (ref, dim) => DimRefExpr(ref, dim)
-      }
+      dims.foldLeft(StaticClassVarRefExpr(cname, n).asInstanceOf[RefExpr])(DimRefExpr)
   }
 
   lazy val variableClassName: PackratParser[Name] = referenceVariable ^^ {
-    case (n, dims) => DynamicName(dims.foldLeft(VariableRefExpr(n).asInstanceOf[RefExpr]) {
-      (ref, dim) => DimRefExpr(ref, dim)
-    })
+    case (n, dims) => DynamicName(dims.foldLeft(VariableRefExpr(n).asInstanceOf[RefExpr])(DimRefExpr))
   }
 
   lazy val baseVariableWithFunctionCalls: PackratParser[RefExpr] = functionCall | baseVariable
 
   lazy val baseVariable: PackratParser[RefExpr] = staticMember | referenceVariable ^^ {
-    case (n, dims) => dims.foldLeft(VariableRefExpr(n).asInstanceOf[RefExpr]) {
-      (ref, dim) => DimRefExpr(ref, dim)
-    }
+    case (n, dims) => dims.foldLeft(VariableRefExpr(n).asInstanceOf[RefExpr])(DimRefExpr)
   } | simpleIndirectReference ~ referenceVariable ^^ {
     case indirects ~ ((n, dims)) =>
       val ref: RefExpr = VariableRefExpr(indirects.foldLeft(n) {
-        (v, indirect) =>
-          indirect(v)
+        (v, indirect) => indirect(v)
       })
-      dims.foldLeft(ref) {
-        (ref, dim) => DimRefExpr(ref, dim)
-      }
+      dims.foldLeft(ref)(DimRefExpr)
   }
 
   lazy val referenceVariable: PackratParser[(Name, List[Option[Expr]])] =
@@ -663,20 +553,13 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       case n ~ dims => n -> dims
     }
 
-  lazy val compoundVariable: PackratParser[Name] = variableLit ^^ {
-    v => StaticName(v)
-  } | "$" ~> "{" ~> expr <~ "}" ^^ {
-    expr => DynamicName(expr)
-  }
+  lazy val compoundVariable: PackratParser[Name] = variableLit ^^ StaticName | "$" ~> "{" ~> expr <~ "}" ^^ DynamicName
 
   lazy val dimOffset: PackratParser[Option[Expr]] = opt(expr)
 
   lazy val objectProperty: PackratParser[List[RefExpr => RefExpr]] = objectDimList | variableWithoutObjects ^^ {
     case (n, dims) =>
-      val name = DynamicName(dims.foldLeft(VariableRefExpr(n).asInstanceOf[RefExpr]) {
-        (ref, dim) =>
-          DimRefExpr(ref, dim)
-      })
+      val name = DynamicName(dims.foldLeft(VariableRefExpr(n).asInstanceOf[RefExpr])(DimRefExpr))
       List({
         ref: RefExpr => PropertyRefExpr(ref, name)
       })
@@ -702,9 +585,8 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
 
   lazy val assignmentList: PackratParser[List[Option[RefExpr]]] = rep1sep(opt(assignmentListElement), ",")
 
-  lazy val assignmentListElement: PackratParser[RefExpr] = variable | "list" ~> "(" ~> assignmentList <~ ")" ^^ {
-    refs => ListRefExpr(refs)
-  }
+  lazy val assignmentListElement: PackratParser[RefExpr] = variable |
+    "list" ~> "(" ~> assignmentList <~ ")" ^^ ListRefExpr
 
   lazy val arrayPairList: PackratParser[List[ArrayKeyValue]] = repsep(
     opt(expr <~ "=>") ~ expr ^^ {
@@ -740,21 +622,10 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     idx => ScalarExpr(IntegerVal(idx))
   } | variable
 
-  lazy val internalFunctionsInYacc: PackratParser[Expr] = "isset" ~> "(" ~> issetVariables <~ ")" ^^ {
-    exprs => IsSetExpr(exprs)
-  } | "empty" ~> "(" ~> expr <~ ")" ^^ {
-    expr => EmptyExpr(expr)
-  } | "include" ~> expr ^^ {
-    e => IncludeExpr(e)
-  } | "include_once" ~> expr ^^ {
-    e => IncludeOnceExpr(e)
-  } | "eval" ~> "(" ~> expr <~ ")" ^^ {
-    e => EvalExpr(e)
-  } | "require" ~> expr ^^ {
-    e => RequireExpr(e)
-  } | "require_once" ~> expr ^^ {
-    e => RequireOnceExpr(e)
-  }
+  lazy val internalFunctionsInYacc: PackratParser[Expr] = "isset" ~> "(" ~> issetVariables <~ ")" ^^ IsSetExpr |
+    "empty" ~> "(" ~> expr <~ ")" ^^ EmptyExpr | "include" ~> expr ^^ IncludeExpr |
+    "include_once" ~> expr ^^ IncludeOnceExpr | "eval" ~> "(" ~> expr <~ ")" ^^ EvalExpr |
+    "require" ~> expr ^^ RequireExpr | "require_once" ~> expr ^^ RequireOnceExpr
 
   lazy val issetVariables: PackratParser[List[Expr]] = rep1sep(issetVariable, ",")
 
@@ -766,13 +637,9 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     case cname ~ _ ~ n => ClassConstantExpr(cname, n)
   }
 
-  lazy val staticClassNameScalar: PackratParser[Expr] = className <~ "::" <~ "class" ^^ {
-    cname => ClassNameExpr(cname)
-  }
+  lazy val staticClassNameScalar: PackratParser[Expr] = className <~ "::" <~ "class" ^^ ClassNameExpr
 
-  lazy val classNameScalar: PackratParser[Expr] = className <~ "::" <~ "class" ^^ {
-    cname => ClassNameExpr(cname)
-  }
+  lazy val classNameScalar: PackratParser[Expr] = className <~ "::" <~ "class" ^^ ClassNameExpr
 
   lazy val inlineHtml: PackratParser[InlineStmt] =
     elem("inline", _.isInstanceOf[Inline]) ^^ {

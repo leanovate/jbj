@@ -11,9 +11,10 @@ import scala.util.parsing.input.{CharArrayReader, Reader}
 import de.leanovate.jbj.core.parser.JbjTokens._
 
 class TokenReader(in: Reader[Char], lexer: Lexer) extends Reader[Token] {
+
   import lexer.{Success, NoSuccess, token, whitespace}
 
-  def this(in: String, lexer:Lexer) = this(new CharArrayReader(in.toCharArray), lexer)
+  def this(in: String, lexer: Lexer) = this(new CharArrayReader(in.toCharArray), lexer)
 
   private val (tok: Token, mode: Option[LexerMode], rest1: Reader[Char], rest2: Reader[Char]) = whitespace(in) match {
     case Success(_, in1) =>
