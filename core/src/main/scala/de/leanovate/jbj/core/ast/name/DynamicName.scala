@@ -24,7 +24,7 @@ case class DynamicName(expr: Expr) extends Name {
     case pVal => NamespaceName(pVal.toStr.asString)
   }
 
-  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(expr)
+  override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(expr)
 
   override def phpStr = expr.phpStr
 }

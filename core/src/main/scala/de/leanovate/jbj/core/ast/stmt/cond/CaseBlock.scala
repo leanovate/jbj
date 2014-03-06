@@ -16,5 +16,5 @@ case class CaseBlock(expr: Expr, stmts: List[Stmt]) extends SwitchCase {
 
   override def matches(value: PVal)(implicit ctx: Context) = expr.eval.asVal.compare(value) == 0
 
-  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(expr).thenChildren(stmts)
+  override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(expr).thenChildren(stmts)
 }

@@ -17,15 +17,13 @@ trait StaticInitializer extends HasNodePosition {
 
 object StaticInitializer {
   def collect(nodes: Node*) = {
-    nodes.flatMap(_.visit[StaticInitializer](new NodeVisitor[StaticInitializer] {
-      def apply(node: Node) = {
-        node match {
-          case classDecl: ClassDeclStmt => NextSibling()
-          case funcDecl: FunctionDeclStmt => NextSibling()
-          case methodDecl: ClassMethodDecl => NextSibling()
-          case staticInitializer: StaticInitializer => NextChild(staticInitializer)
-          case _ => NextChild()
-        }
+    nodes.flatMap(_.accept[StaticInitializer](new NodeVisitor[StaticInitializer] {
+      def visit = {
+        case classDecl: ClassDeclStmt => acceptsNextSibling()
+        case funcDecl: FunctionDeclStmt => acceptsNextSibling()
+        case methodDecl: ClassMethodDecl => acceptsNextSibling()
+        case staticInitializer: StaticInitializer => acceptsNextChild(staticInitializer)
+        case _ => acceptsNextChild()
       }
     }).results)
   }

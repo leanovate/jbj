@@ -9,84 +9,82 @@ package de.leanovate.jbj.core.ast
 
 trait NodeVisitor[R] {
 
-  import NodeVisitor.Result
+  import NodeVisitor._
 
-  case class NextChild(results: List[R]) extends Result[R] {
-    def prepend(prevResults: List[R]) = NextChild(prevResults ++ results)
+  def visit: PartialFunction[Node, Action[R]]
 
-    def thenChild(child: Node): Result[R] = {
-      child.visit(NodeVisitor.this).prepend(results)
-    }
+  def apply(node: Node): Action[R] = visit.applyOrElse(node, {
+    _: Node => abort()
+  })
 
-    def thenChild(optChild: Option[Node]): Result[R] =
-      optChild.map(thenChild).getOrElse(this)
+  def acceptsNextChild(results: R*): Action[R] = AcceptsNextChild(this, results.toList)
 
-    def thenChildren(children: Seq[Node]): Result[R] =
-      children.foldLeft(this.asInstanceOf[Result[R]]) {
-        (prev, child) =>
-          prev.thenSibling(child)
-      }
+  def acceptsNextSibling(results: R*): Action[R] = AcceptsNextSibling(this, results.toList)
 
-    def thenSibling(sibling: Node): Result[R] = {
-      sibling.visit(NodeVisitor.this).prepend(results)
-    }
-  }
-
-  object NextChild {
-    def apply(results: R*): NextChild = NextChild(List(results: _*))
-  }
-
-  case class NextSibling(results: List[R]) extends Result[R] {
-    def prepend(prevResults: List[R]) = NextSibling(prevResults ++ results)
-
-    def thenChild(child: Node): Result[R] = this
-
-    def thenChild(optChild: Option[Node]): Result[R] = this
-
-    def thenChildren(children: Seq[Node]): Result[R] = this
-
-    def thenSibling(sibling: Node): Result[R] = {
-      sibling.visit(NodeVisitor.this).prepend(results)
-    }
-  }
-
-  object NextSibling {
-    def apply(results: R*): NextSibling = NextSibling(List(results: _*))
-  }
-
-  case class Abort(results: List[R]) extends Result[R] {
-    def prepend(prevResults: List[R]) = Abort(prevResults ++ results)
-
-    def thenChild(child: Node): Result[R] = this
-
-    def thenChild(optChild: Option[Node]): Result[R] = this
-
-    def thenChildren(children: Seq[Node]): Result[R] = this
-
-    def thenSibling(child: Node): Result[R] = this
-  }
-
-  object Abort {
-    def apply(results: R*): Abort = Abort(List(results: _*))
-  }
-
-  def apply(node: Node): Result[R]
+  def abort(results: R*): Action[R] = Abort(this, results.toList)
 }
 
 object NodeVisitor {
 
-  sealed trait Result[R] {
+  sealed trait Action[R] {
     def results: List[R]
 
-    def prepend(prevResults: List[R]): Result[R]
+    def +:(prevResults: List[R]): Action[R]
 
-    def thenChild(child: Node): Result[R]
+    def thenChild(child: Node): Action[R]
 
-    def thenSibling(child: Node): Result[R]
+    def thenSibling(child: Node): Action[R]
 
-    def thenChild(optChild: Option[Node]): Result[R]
+    def thenChild(optChild: Option[Node]): Action[R]
 
-    def thenChildren(children: Seq[Node]): Result[R]
+    def thenChildren(children: Seq[Node]): Action[R]
+  }
+
+  case class AcceptsNextChild[R](visitor: NodeVisitor[R], results: List[R]) extends Action[R] {
+    def +:(prevResults: List[R]) = AcceptsNextChild(visitor, prevResults ++ results)
+
+    def thenChild(child: Node): Action[R] = {
+      results +: child.accept(visitor)
+    }
+
+    def thenChild(optChild: Option[Node]): Action[R] =
+      optChild.map(thenChild).getOrElse(this)
+
+    def thenChildren(children: Seq[Node]): Action[R] =
+      children.foldLeft(this.asInstanceOf[Action[R]]) {
+        (prev, child) =>
+          prev.thenSibling(child)
+      }
+
+    def thenSibling(sibling: Node): Action[R] = {
+      results +: sibling.accept(visitor)
+    }
+  }
+
+  case class AcceptsNextSibling[R](visitor: NodeVisitor[R], results: List[R]) extends Action[R] {
+    def +:(prevResults: List[R]) = AcceptsNextSibling(visitor, prevResults ++ results)
+
+    def thenChild(child: Node): Action[R] = this
+
+    def thenChild(optChild: Option[Node]): Action[R] = this
+
+    def thenChildren(children: Seq[Node]): Action[R] = this
+
+    def thenSibling(sibling: Node): Action[R] = {
+      results +: sibling.accept(visitor)
+    }
+  }
+
+  case class Abort[R](visitor: NodeVisitor[R], results: List[R]) extends Action[R] {
+    def +:(prevResults: List[R]) = Abort(visitor, prevResults ++ results)
+
+    def thenChild(child: Node): Action[R] = this
+
+    def thenChild(optChild: Option[Node]): Action[R] = this
+
+    def thenChildren(children: Seq[Node]): Action[R] = this
+
+    def thenSibling(child: Node): Action[R] = this
   }
 
 }

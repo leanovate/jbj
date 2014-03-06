@@ -19,5 +19,5 @@ trait Node {
   /**
    * Visit the node with a [[NodeVisitor]].
    */
-  def visit[R](visitor: NodeVisitor[R]): NodeVisitor.Result[R] = visitor(this)
+  def accept[R](visitor: NodeVisitor[R]): NodeVisitor.Action[R] = visitor(this)
 }

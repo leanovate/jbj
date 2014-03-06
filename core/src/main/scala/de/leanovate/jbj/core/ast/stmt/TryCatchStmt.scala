@@ -32,6 +32,6 @@ case class TryCatchStmt(tryStmts: List[Stmt], catchBlocks: List[CatchBlock], fin
     execStmts(finallyStmts)
   }
 
-  override def visit[R](visitor: NodeVisitor[R]) =
+  override def accept[R](visitor: NodeVisitor[R]) =
     visitor(this).thenChildren(tryStmts).thenChildren(catchBlocks).thenChildren(finallyStmts)
 }

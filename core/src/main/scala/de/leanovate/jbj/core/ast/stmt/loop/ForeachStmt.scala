@@ -51,6 +51,6 @@ case class ForeachStmt(valueExpr: Expr,
     }
   }
 
-  override def visit[R](visitor: NodeVisitor[R]) =
+  override def accept[R](visitor: NodeVisitor[R]) =
     visitor(this).thenChild(valueExpr).thenChild(keyAssign).thenChild(valueAssign).thenChildren(stmts)
 }

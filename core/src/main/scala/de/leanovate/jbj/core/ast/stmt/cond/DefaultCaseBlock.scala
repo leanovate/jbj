@@ -16,5 +16,5 @@ case class DefaultCaseBlock(stmts: List[Stmt]) extends SwitchCase {
 
   override def matches(value: PVal)(implicit ctx: Context) = false
 
-  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(stmts)
+  override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(stmts)
 }

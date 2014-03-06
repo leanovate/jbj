@@ -50,5 +50,5 @@ case class NamespaceDeclStmt(name: NamespaceName, stmts: List[Stmt]) extends Dec
     result
   }
 
-  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(stmts)
+  override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(stmts)
 }

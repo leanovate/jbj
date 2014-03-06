@@ -30,5 +30,5 @@ case class WhileStmt(condition: Expr, stmts: List[Stmt]) extends Stmt with Block
     SuccessExecResult
   }
 
-  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(condition).thenChildren(stmts)
+  override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(condition).thenChildren(stmts)
 }

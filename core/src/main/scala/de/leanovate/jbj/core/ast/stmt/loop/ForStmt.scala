@@ -37,6 +37,6 @@ case class ForStmt(befores: List[Expr], conditions: List[Expr], afters: List[Exp
     SuccessExecResult
   }
 
-  override def visit[R](visitor: NodeVisitor[R]) =
+  override def accept[R](visitor: NodeVisitor[R]) =
     visitor(this).thenChildren(befores).thenChildren(conditions).thenChildren(afters).thenChildren(stmts)
 }

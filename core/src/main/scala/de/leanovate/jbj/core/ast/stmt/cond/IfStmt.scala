@@ -25,6 +25,6 @@ case class IfStmt(condition: Expr, thenStmts: List[Stmt], elseIfs: List[ElseIfBl
     }
   }
 
-  override def visit[R](visitor: NodeVisitor[R]) =
+  override def accept[R](visitor: NodeVisitor[R]) =
     visitor(this).thenChild(condition).thenChildren(thenStmts).thenChildren(elseIfs).thenChildren(elseStmts)
 }

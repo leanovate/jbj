@@ -175,7 +175,7 @@ case class ClassDeclStmt(classEntry: ClassEntry.Type, declaredName: NamespaceNam
   private def findDestructor: Option[PMethod] = findMethod("__destruct")
 
 
-  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(decls)
+  override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(decls)
 
   private def initialize(autoload: Boolean, ignoreErrors: Boolean)(implicit ctx: Context) {
     if (ctx.global.namespaceAliases.contains(declaredName.toString))

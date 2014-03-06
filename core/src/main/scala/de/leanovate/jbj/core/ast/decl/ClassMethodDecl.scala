@@ -224,5 +224,5 @@ case class ClassMethodDecl(modifiers: List[MemberModifier.Type], name: String, r
     parameterDecls.foreach(_.initialize(this))
   }
 
-  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(parameterDecls).thenChildren(stmts.getOrElse(Nil))
+  override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(parameterDecls).thenChildren(stmts.getOrElse(Nil))
 }

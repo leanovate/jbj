@@ -45,7 +45,7 @@ case class RefForeachAssignment(reference: RefExpr) extends ForeachAssignment {
     reference.evalRef.assign(value)
   }
 
-  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(reference)
+  override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(reference)
 }
 
 case class ListForeachAssignment(reference: ListRefExpr) extends ForeachAssignment {
@@ -59,5 +59,5 @@ case class ListForeachAssignment(reference: ListRefExpr) extends ForeachAssignme
     reference.evalRef.assign(value)
   }
 
-  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(reference)
+  override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(reference)
 }

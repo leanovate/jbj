@@ -17,7 +17,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike with JbjScript {
   private lazy val staticInitializers = StaticInitializer.collect(this)
 
-  private lazy val deprecatedNodes = visit(new Prog.DeprectatedNodeVisitor).results
+  private lazy val deprecatedNodes = accept(new Prog.DeprectatedNodeVisitor).results
 
   override def exec(implicit ctx: Context): ExecResult = {
     ctx.global.initialize()
@@ -52,7 +52,7 @@ case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike 
     execStmts(stmts.toList)
   }
 
-  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(stmts)
+  override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(stmts)
 
   @tailrec
   private def checkStmtsOutsideNamespace(stmts: List[Stmt])(implicit ctx: Context) {
@@ -89,15 +89,15 @@ object Prog {
   class DeprectatedNodeVisitor extends NodeVisitor[(Node, NodePosition)] {
     var pos: NodePosition = NoNodePosition
 
-    def apply(node: Node) = node match {
+    def visit = {
       case n: Node with HasNodePosition if n.deprecated.isDefined =>
         pos = n.position
-        NextChild((n, pos))
-      case n if n.deprecated.isDefined => NextChild((n, pos))
+        acceptsNextChild((n, pos))
+      case n if n.deprecated.isDefined => acceptsNextChild((n, pos))
       case n: Node with HasNodePosition =>
         pos = n.position
-        NextChild()
-      case _ => NextChild()
+        acceptsNextChild()
+      case _ => acceptsNextChild()
     }
   }
 

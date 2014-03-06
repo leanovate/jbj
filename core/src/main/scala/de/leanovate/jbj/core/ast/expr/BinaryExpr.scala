@@ -14,5 +14,5 @@ trait BinaryExpr extends Expr {
 
   def right: Expr
 
-  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(left).thenChild(right)
+  override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(left).thenChild(right)
 }

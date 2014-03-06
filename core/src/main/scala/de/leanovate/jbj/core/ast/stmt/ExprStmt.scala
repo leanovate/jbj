@@ -17,5 +17,5 @@ case class ExprStmt(expr: Expr) extends Stmt {
     SuccessExecResult
   }
 
-  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(expr)
+  override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(expr)
 }

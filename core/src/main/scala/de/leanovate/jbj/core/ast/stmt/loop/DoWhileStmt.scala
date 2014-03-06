@@ -30,6 +30,6 @@ case class DoWhileStmt(stmts: List[Stmt], condition: Expr) extends Stmt with Blo
     SuccessExecResult
   }
 
-  override def visit[R](visitor: NodeVisitor[R]) =
+  override def accept[R](visitor: NodeVisitor[R]) =
     visitor(this).thenChildren(stmts).thenChild(condition)
 }

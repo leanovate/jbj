@@ -15,5 +15,5 @@ case class BlockStmt(stmts: List[Stmt]) extends Stmt with BlockLike {
     execStmts(stmts)
   }
 
-  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(stmts)
+  override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(stmts)
 }

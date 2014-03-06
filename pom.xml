@@ -196,5 +196,6 @@
         <module>bcmath</module>
         <module>play-example</module>
         <module>utils</module>
+        <module>transcode</module>
     </modules>
 </project>

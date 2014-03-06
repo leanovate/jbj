@@ -20,5 +20,5 @@ case class EchoStmt(parameters: Seq[Expr]) extends Stmt {
     SuccessExecResult
   }
 
-  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(parameters)
+  override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(parameters)
 }

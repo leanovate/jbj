@@ -54,5 +54,5 @@ case class FunctionDeclStmt(declaredName: NamespaceName, returnByRef: Boolean, p
     perform(funcCtx, returnByRef, stmts)
   }
 
-  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(parameterDecls).thenChildren(stmts)
+  override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(parameterDecls).thenChildren(stmts)
 }

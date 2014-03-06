@@ -47,5 +47,5 @@ case class SwitchStmt(expr: Expr, cases: List[SwitchCase]) extends Stmt with Sta
     staticInitializers.foreach(_.initializeStatic(staticCtx))
   }
 
-  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(cases)
+  override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(cases)
 }

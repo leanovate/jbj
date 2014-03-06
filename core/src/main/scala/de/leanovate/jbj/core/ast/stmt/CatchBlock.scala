@@ -11,5 +11,5 @@ import de.leanovate.jbj.core.ast.{NodeVisitor, Stmt, Node}
 import de.leanovate.jbj.runtime.NamespaceName
 
 case class CatchBlock(exceptionName: NamespaceName, variableName: String, stmts: List[Stmt]) extends Node {
-  override def visit[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(stmts)
+  override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(stmts)
 }

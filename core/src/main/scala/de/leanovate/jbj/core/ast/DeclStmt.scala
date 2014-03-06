@@ -15,12 +15,10 @@ trait DeclStmt extends Stmt {
 
 object DeclStmt {
   def collect(nodes: Node*) = {
-    nodes.flatMap(_.visit[DeclStmt](new NodeVisitor[DeclStmt] {
-      def apply(node: Node) = {
-        node match {
-          case decl: DeclStmt => NextSibling(decl)
-          case _ => NextChild()
-        }
+    nodes.flatMap(_.accept[DeclStmt](new NodeVisitor[DeclStmt] {
+      def visit = {
+        case decl: DeclStmt => acceptsNextSibling(decl)
+        case _ => acceptsNextChild()
       }
     }).results)
   }
