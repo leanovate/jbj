@@ -14,9 +14,10 @@ class CodeUnitBuilder(name: String) extends Builder {
 
     "import de.leanovate.jbj.runtime.context.Context" :/:
       s"object $name {" :/:
-      nest(2, statements.result().foldLeft(empty: Document) {
-        (doc, stmt) => doc :/: stmt
-      }) :/:
+      nest(2, empty :/: "def exec(implicit ctx: Context) {" :/:
+        nest(2, statements.result().foldLeft(empty: Document) {
+          (doc, stmt) => doc :/: stmt
+        }) :/: "}" :: empty) :/:
       "}" :/: empty
   }
 }
