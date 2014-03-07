@@ -4,8 +4,8 @@ import de.leanovate.jbj.core.ast.{Stmt, Prog, NodeVisitor}
 import scala.text.Document
 import de.leanovate.jbj.transcode.builders.CodeUnitBuilder
 
-class ProgVisitor(name: String) extends NodeVisitor[Document] {
-  val builder = new CodeUnitBuilder(name)
+class ProgVisitor(name: String, packageName: Option[String]) extends NodeVisitor[Document] {
+  val builder = new CodeUnitBuilder(name, packageName)
 
   def result = builder.build()
 

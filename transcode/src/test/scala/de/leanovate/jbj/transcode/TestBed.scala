@@ -18,7 +18,7 @@ object TestBed {
 
     val out = new StringWriter()
 
-    transcoder.toCodeUnit("test.php", scropt, out)
+    transcoder.toCodeUnit("test.php", scropt, None, out)
 
     println(out.toString)
   }

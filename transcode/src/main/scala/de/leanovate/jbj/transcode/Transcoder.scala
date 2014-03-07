@@ -7,15 +7,15 @@ import scala.text.Document
 import de.leanovate.jbj.transcode.visitor.ProgVisitor
 
 class Transcoder(settings: JbjSettings) {
-  def toCodeUnit(fileName: String, script: String): Document = {
+  def toCodeUnit(fileName: String, script: String, packageName: Option[String]): Document = {
     val parser = new JbjParser(ParseContext(fileName, settings))
     val prog = parser.parse(script)
 
-    prog.foldWith(new ProgVisitor(makeName(fileName)))
+    prog.foldWith(new ProgVisitor(makeName(fileName), packageName))
   }
 
-  def toCodeUnit(fileName: String, script: String, output: Writer) {
-    val document = toCodeUnit(fileName, script)
+  def toCodeUnit(fileName: String, script: String, packageName: Option[String], output: Writer) {
+    val document = toCodeUnit(fileName, script, packageName)
     writeTo(document, output)
   }
 

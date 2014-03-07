@@ -50,6 +50,12 @@
             <groupId>org.specs2</groupId>
             <artifactId>specs2_${play2-scala.version}</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.marschall</groupId>
+            <artifactId>memoryfilesystem</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -109,8 +115,10 @@
                         <configuration>
                             <mainClass>de.leanovate.jbj.transcode.Main</mainClass>
                             <arguments>
+                                <argument>-p</argument>
+                                <argument>testunits</argument>
                                 <argument>-o</argument>
-                                <argument>${project.basedir}/target/transcoded</argument>
+                                <argument>${project.basedir}/target/transcoded/testunits</argument>
                                 <argument>${project.basedir}/src/test/php/hello_world.php</argument>
                             </arguments>
                         </configuration>
