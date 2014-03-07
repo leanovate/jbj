@@ -17,14 +17,20 @@ trait StaticInitializer extends HasNodePosition {
 
 object StaticInitializer {
   def collect(nodes: Node*) = {
-    nodes.flatMap(_.accept[StaticInitializer](new NodeVisitor[StaticInitializer] {
+    nodes.flatMap(_.foldWith(new NodeVisitor[Seq[StaticInitializer]] {
+      val staticInitializers = Seq.newBuilder[StaticInitializer]
+
+      def result = staticInitializers.result()
+
       def visit = {
-        case classDecl: ClassDeclStmt => acceptsNextSibling()
-        case funcDecl: FunctionDeclStmt => acceptsNextSibling()
-        case methodDecl: ClassMethodDecl => acceptsNextSibling()
-        case staticInitializer: StaticInitializer => acceptsNextChild(staticInitializer)
-        case _ => acceptsNextChild()
+        case classDecl: ClassDeclStmt => acceptsNextSibling
+        case funcDecl: FunctionDeclStmt => acceptsNextSibling
+        case methodDecl: ClassMethodDecl => acceptsNextSibling
+        case staticInitializer: StaticInitializer =>
+          staticInitializers += staticInitializer
+          acceptsNextChild
+        case _ => acceptsNextChild
       }
-    }).results)
+    }))
   }
 }

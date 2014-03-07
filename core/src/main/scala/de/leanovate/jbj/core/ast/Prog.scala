@@ -17,7 +17,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike with JbjScript {
   private lazy val staticInitializers = StaticInitializer.collect(this)
 
-  private lazy val deprecatedNodes = accept(new Prog.DeprectatedNodeVisitor).results
+  private lazy val deprecatedNodes = foldWith(new Prog.DeprectatedNodeVisitor)
 
   override def exec(implicit ctx: Context): ExecResult = {
     ctx.global.initialize()
@@ -86,18 +86,24 @@ case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike 
 
 object Prog {
 
-  class DeprectatedNodeVisitor extends NodeVisitor[(Node, NodePosition)] {
+  class DeprectatedNodeVisitor extends NodeVisitor[Seq[(Node, NodePosition)]] {
+    val depricatedNodes = Seq.newBuilder[(Node, NodePosition)]
     var pos: NodePosition = NoNodePosition
+
+    def result = depricatedNodes.result()
 
     def visit = {
       case n: Node with HasNodePosition if n.deprecated.isDefined =>
         pos = n.position
-        acceptsNextChild((n, pos))
-      case n if n.deprecated.isDefined => acceptsNextChild((n, pos))
+        depricatedNodes += ((n, pos))
+        acceptsNextChild
+      case n if n.deprecated.isDefined =>
+        depricatedNodes += ((n, pos))
+        acceptsNextChild
       case n: Node with HasNodePosition =>
         pos = n.position
-        acceptsNextChild()
-      case _ => acceptsNextChild()
+        acceptsNextChild
+      case _ => acceptsNextChild
     }
   }
 

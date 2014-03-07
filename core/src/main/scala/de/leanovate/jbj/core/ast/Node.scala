@@ -20,4 +20,6 @@ trait Node {
    * Visit the node with a [[NodeVisitor]].
    */
   def accept[R](visitor: NodeVisitor[R]): NodeVisitor.Action[R] = visitor(this)
+
+  def foldWith[R](visitor: NodeVisitor[R]) = accept(visitor).result
 }

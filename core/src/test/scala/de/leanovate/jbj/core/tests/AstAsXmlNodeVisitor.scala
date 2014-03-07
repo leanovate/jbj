@@ -24,63 +24,67 @@ import de.leanovate.jbj.core.ast.stmt.ExprStmt
 import de.leanovate.jbj.core.ast.decl.ClassMethodDecl
 import de.leanovate.jbj.core.ast.stmt.EchoStmt
 
-object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
+class AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
+  val nodes = NodeSeq.newBuilder
+
+  def result = nodes.result()
+
   def visit = {
     case assign: AssignRefExpr =>
-      acceptsNextSibling(
+      nodes +=
         <assign>
           <to>
-            {assign.reference.accept(this).results}
+            {assign.reference.foldWith(new AstAsXmlNodeVisitor)}
           </to>
           <value>
-            {assign.expr.accept(this).results}
+            {assign.expr.foldWith(new AstAsXmlNodeVisitor)}
           </value>
         </assign>
-      )
+      acceptsNextSibling
     case block: BlockStmt =>
-      acceptsNextSibling(
+      nodes +=
         <block>
-          {block.stmts.flatMap(_.accept(this).results)}
+          {block.stmts.flatMap(_.foldWith(new AstAsXmlNodeVisitor))}
         </block>
-      )
+      acceptsNextSibling
     case callFunction: CallByNameRefExpr =>
-      acceptsNextSibling(
+      nodes +=
         <call>
           <name>
             {callFunction.functionName.toString}
           </name>
           <parameters>
-            {callFunction.parameters.flatMap(_.accept(this).results)}
+            {callFunction.parameters.flatMap(_.foldWith(new AstAsXmlNodeVisitor))}
           </parameters>
         </call>
-      )
+      acceptsNextSibling
     case callFunction: CallByExprRefExpr =>
-      acceptsNextSibling(
+      nodes +=
         <call>
           <callable>
-            {callFunction.callable.accept(this).results}
+            {callFunction.callable.accept(new AstAsXmlNodeVisitor)}
           </callable>
           <parameters>
-            {callFunction.parameters.flatMap(_.accept(this).results)}
+            {callFunction.parameters.flatMap(_.foldWith(new AstAsXmlNodeVisitor))}
           </parameters>
         </call>
-      )
+      acceptsNextSibling
     case callMethod: CallMethodRefExpr =>
-      acceptsNextSibling(
+      nodes +=
         <call-method>
           <instance>
-            {callMethod.instanceExpr.accept(this).results}
+            {callMethod.instanceExpr.accept(new AstAsXmlNodeVisitor)}
           </instance>
           <name>
-            {callMethod.methodName.accept(this).results}
+            {callMethod.methodName.accept(new AstAsXmlNodeVisitor)}
           </name>
           <parameters>
-            {callMethod.parameters.flatMap(_.accept(this).results)}
+            {callMethod.parameters.flatMap(_.foldWith(new AstAsXmlNodeVisitor))}
           </parameters>
         </call-method>
-      )
+      acceptsNextSibling
     case classDecl: ClassDeclStmt =>
-      acceptsNextSibling(
+      nodes +=
         <class line={classDecl.position.line.toString} file={classDecl.position.fileName}>
           <name>
             {classDecl.name}
@@ -94,54 +98,54 @@ object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
             <implements>
               {implements}
             </implements>
-        }}{classDecl.decls.flatMap(_.accept(this).results)}
+        }}{classDecl.decls.flatMap(_.foldWith(new AstAsXmlNodeVisitor))}
         </class>
-      )
+      acceptsNextSibling
     case classMethodDecl: ClassMethodDecl =>
-      acceptsNextSibling(
+      nodes +=
         <method line={classMethodDecl.position.line.toString} file={classMethodDecl.position.fileName}>
           <name>
             {classMethodDecl.name}
-          </name>{classMethodDecl.parameterDecls.flatMap(_.accept(this).results)}{classMethodDecl.stmts.toSeq.flatMap(_.flatMap(_.accept(this).results))}
+          </name>{classMethodDecl.parameterDecls.flatMap(_.foldWith(new AstAsXmlNodeVisitor))}{classMethodDecl.stmts.toSeq.flatMap(_.flatMap(_.foldWith(new AstAsXmlNodeVisitor)))}
         </method>
-      )
+      acceptsNextSibling
     case dynamicName: DynamicName =>
-      acceptsNextSibling(
+      nodes +=
         <dynamic-name>
-          {dynamicName.expr.accept(this).results}
+          {dynamicName.expr.accept(new AstAsXmlNodeVisitor)}
         </dynamic-name>
-      )
+      acceptsNextSibling
     case echoStmt: EchoStmt =>
-      acceptsNextSibling(
+      nodes +=
         <echo line={echoStmt.position.line.toString} file={echoStmt.position.fileName}>
-          {echoStmt.parameters.flatMap(_.accept(this).results)}
+          {echoStmt.parameters.flatMap(_.foldWith(new AstAsXmlNodeVisitor))}
         </echo>
-      )
+      acceptsNextSibling
     case forStmt: ForStmt =>
-      acceptsNextSibling(
+      nodes +=
         <for line={forStmt.position.line.toString} file={forStmt.position.fileName}>
           <start>
-            {forStmt.befores.flatMap(_.accept(this).results)}
+            {forStmt.befores.flatMap(_.foldWith(new AstAsXmlNodeVisitor))}
           </start>
           <cond>
-            {forStmt.conditions.flatMap(_.accept(this).results)}
+            {forStmt.conditions.flatMap(_.foldWith(new AstAsXmlNodeVisitor))}
           </cond>
           <end>
-            {forStmt.afters.flatMap(_.accept(this).results)}
+            {forStmt.afters.flatMap(_.foldWith(new AstAsXmlNodeVisitor))}
           </end>
           <stmts>
-            {forStmt.stmts.flatMap(_.accept(this).results)}
+            {forStmt.stmts.flatMap(_.foldWith(new AstAsXmlNodeVisitor))}
           </stmts>
         </for>
-      )
+      acceptsNextSibling
     case inline: InlineStmt =>
-      acceptsNextSibling(
+      nodes +=
         <inline line={inline.position.line.toString} file={inline.position.fileName}>
           {PCData(inline.text)}
         </inline>
-      )
+      acceptsNextSibling
     case interfaceDecl: InterfaceDeclStmt =>
-      acceptsNextSibling(
+      nodes +=
         <class line={interfaceDecl.position.line.toString} file={interfaceDecl.position.fileName}>
           <name>
             {interfaceDecl.name}
@@ -150,23 +154,23 @@ object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
             <extends>
               {ext}
             </extends>
-        }}{interfaceDecl.decls.flatMap(_.accept(this).results)}
+        }}{interfaceDecl.decls.flatMap(_.foldWith(new AstAsXmlNodeVisitor))}
         </class>
-      )
+      acceptsNextSibling
     case newRefExpr: NewRefExpr =>
-      acceptsNextSibling(
+      nodes +=
         <new>
-          {newRefExpr.className.accept(this).results}
+          {newRefExpr.className.accept(new AstAsXmlNodeVisitor)}
         </new>
-      )
+      acceptsNextSibling
     case exprStmt: ExprStmt =>
-      acceptsNextSibling(
+      nodes +=
         <expr line={exprStmt.position.line.toString} file={exprStmt.position.fileName}>
-          {exprStmt.expr.accept(this).results}
+          {exprStmt.expr.accept(new AstAsXmlNodeVisitor)}
         </expr>
-      )
+      acceptsNextSibling
     case parameterDecl: ParameterDecl =>
-      acceptsNextSibling(
+      nodes +=
         <parameter>
           <name>
             {parameterDecl.name}
@@ -178,39 +182,42 @@ object AstAsXmlNodeVisitor extends NodeVisitor[NodeSeq] {
         }.getOrElse(NodeSeq.Empty)}{parameterDecl.defaultExpr.map {
           defaultExpr =>
             <default>
-              {defaultExpr.accept(this).results}
+              {defaultExpr.accept(new AstAsXmlNodeVisitor)}
             </default>
         }.getOrElse(NodeSeq.Empty)}
         </parameter>
-      )
+      acceptsNextSibling
     case prog: Prog =>
-      acceptsNextSibling(
+      nodes +=
         <script>
-          {prog.stmts.flatMap(_.accept(this).results)}
+          {prog.stmts.flatMap(_.foldWith(new AstAsXmlNodeVisitor))}
         </script>
-      )
+      acceptsNextSibling
     case staticName: StaticName =>
-      acceptsNextSibling(
+      nodes +=
         Text(staticName.name)
-      )
+      acceptsNextSibling
     case staticNamespaceName: StaticNamespaceName =>
-      acceptsNextSibling(
+      nodes +=
         Text(staticNamespaceName.namespaceName.toString)
-      )
+      acceptsNextSibling
     case variable: VariableRefExpr =>
-      acceptsNextSibling(
+      nodes +=
         <variable>
-          {variable.variableName.accept(this).results}
+          {variable.variableName.accept(new AstAsXmlNodeVisitor)}
         </variable>
-      )
+      acceptsNextSibling
     case node =>
-      acceptsNextChild(<node/>.copy(label = node.getClass.getSimpleName))
+      nodes += <node/>.copy(label = node.getClass.getSimpleName)
+      acceptsNextSibling
   }
+}
 
+object AstAsXmlNodeVisitor {
   def dump(node: Node): String = {
     val pp = new scala.xml.PrettyPrinter(80, 2)
     val nodesBuilder = NodeSeq.newBuilder
-    node.accept(this).results.foreach {
+    node.foldWith(new AstAsXmlNodeVisitor).foreach {
       nodes =>
         nodesBuilder ++= nodes
     }

@@ -15,11 +15,17 @@ trait DeclStmt extends Stmt {
 
 object DeclStmt {
   def collect(nodes: Node*) = {
-    nodes.flatMap(_.accept[DeclStmt](new NodeVisitor[DeclStmt] {
+    nodes.flatMap(_.foldWith(new NodeVisitor[Seq[DeclStmt]] {
+      val declStmts = Seq.newBuilder[DeclStmt]
+
+      def result = declStmts.result()
+
       def visit = {
-        case decl: DeclStmt => acceptsNextSibling(decl)
-        case _ => acceptsNextChild()
+        case decl: DeclStmt =>
+          declStmts += decl
+          acceptsNextSibling
+        case _ => acceptsNextChild
       }
-    }).results)
+    }))
   }
 }

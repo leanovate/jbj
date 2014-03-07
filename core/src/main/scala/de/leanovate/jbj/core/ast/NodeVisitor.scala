@@ -13,23 +13,23 @@ trait NodeVisitor[R] {
 
   def visit: PartialFunction[Node, Action[R]]
 
+  def result: R
+
   def apply(node: Node): Action[R] = visit.applyOrElse(node, {
-    _: Node => abort()
+    _: Node => abort
   })
 
-  def acceptsNextChild(results: R*): Action[R] = AcceptsNextChild(this, results.toList)
+  def acceptsNextChild: Action[R] = AcceptsNextChild(this)
 
-  def acceptsNextSibling(results: R*): Action[R] = AcceptsNextSibling(this, results.toList)
+  def acceptsNextSibling: Action[R] = AcceptsNextSibling(this)
 
-  def abort(results: R*): Action[R] = Abort(this, results.toList)
+  def abort: Action[R] = Abort(this)
 }
 
 object NodeVisitor {
 
   sealed trait Action[R] {
-    def results: List[R]
-
-    def +:(prevResults: List[R]): Action[R]
+    def result: R
 
     def thenChild(child: Node): Action[R]
 
@@ -40,29 +40,23 @@ object NodeVisitor {
     def thenChildren(children: Seq[Node]): Action[R]
   }
 
-  case class AcceptsNextChild[R](visitor: NodeVisitor[R], results: List[R]) extends Action[R] {
-    def +:(prevResults: List[R]) = AcceptsNextChild(visitor, prevResults ++ results)
+  case class AcceptsNextChild[R](visitor: NodeVisitor[R]) extends Action[R] {
+    def result = visitor.result
 
-    def thenChild(child: Node): Action[R] = {
-      results +: child.accept(visitor)
+    def thenChild(child: Node): Action[R] = child.accept(visitor)
+
+    def thenChild(optChild: Option[Node]): Action[R] = optChild.map(thenChild).getOrElse(this)
+
+    def thenChildren(children: Seq[Node]): Action[R] = children.foldLeft(this.asInstanceOf[Action[R]]) {
+      (prev, child) =>
+        prev.thenSibling(child)
     }
 
-    def thenChild(optChild: Option[Node]): Action[R] =
-      optChild.map(thenChild).getOrElse(this)
-
-    def thenChildren(children: Seq[Node]): Action[R] =
-      children.foldLeft(this.asInstanceOf[Action[R]]) {
-        (prev, child) =>
-          prev.thenSibling(child)
-      }
-
-    def thenSibling(sibling: Node): Action[R] = {
-      results +: sibling.accept(visitor)
-    }
+    def thenSibling(sibling: Node): Action[R] = sibling.accept(visitor)
   }
 
-  case class AcceptsNextSibling[R](visitor: NodeVisitor[R], results: List[R]) extends Action[R] {
-    def +:(prevResults: List[R]) = AcceptsNextSibling(visitor, prevResults ++ results)
+  case class AcceptsNextSibling[R](visitor: NodeVisitor[R]) extends Action[R] {
+    def result = visitor.result
 
     def thenChild(child: Node): Action[R] = this
 
@@ -70,13 +64,11 @@ object NodeVisitor {
 
     def thenChildren(children: Seq[Node]): Action[R] = this
 
-    def thenSibling(sibling: Node): Action[R] = {
-      results +: sibling.accept(visitor)
-    }
+    def thenSibling(sibling: Node): Action[R] = sibling.accept(visitor)
   }
 
-  case class Abort[R](visitor: NodeVisitor[R], results: List[R]) extends Action[R] {
-    def +:(prevResults: List[R]) = Abort(visitor, prevResults ++ results)
+  case class Abort[R](visitor: NodeVisitor[R]) extends Action[R] {
+    def result = visitor.result
 
     def thenChild(child: Node): Action[R] = this
 
