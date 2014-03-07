@@ -32,6 +32,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.github.scopt</groupId>
+            <artifactId>scopt_2.10</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-reflect</artifactId>
         </dependency>
@@ -64,6 +69,16 @@
                 <artifactId>scala-maven-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>Add transcoded</id>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <testSourceDir>${project.basedir}/target/transcoded</testSourceDir>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>compile</id>
                         <goals>
                             <goal>compile</goal>
                             <goal>testCompile</goal>
@@ -80,6 +95,27 @@
                         <include>**/*Spec.*</include>
                     </includes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <phase>generate-test-sources</phase>
+                        <configuration>
+                            <mainClass>de.leanovate.jbj.transcode.Main</mainClass>
+                            <arguments>
+                                <argument>-o</argument>
+                                <argument>${project.basedir}/target/transcoded</argument>
+                                <argument>${project.basedir}/src/test/php/hello_world.php</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

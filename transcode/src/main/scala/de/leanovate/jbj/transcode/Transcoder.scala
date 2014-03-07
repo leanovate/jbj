@@ -28,5 +28,7 @@ class Transcoder(settings: JbjSettings) {
 
   def writeTo(document: Document, output: Writer) {
     document.format(1, output)
+    output.flush()
+    output.close()
   }
 }
