@@ -38,8 +38,8 @@ object LiteralBuilder {
   def build(d: Double): Document = text(d.toString)
 
   def build(pVal: PVal): Document = pVal.concrete match {
-    case StringVal(str) => build(str)
-    case IntegerVal(i) => build(i)
-    case DoubleVal(d) => build(d)
+    case StringVal(str) => text("StringVal(") :: build(str) :: text(")")
+    case IntegerVal(i) => text("IntegerVal(") :: build(i) :: text(")")
+    case DoubleVal(d) => text("DoubleVal(") :: build(d) :: text(")")
   }
 }
