@@ -1,5 +1,5 @@
 This is before
 <?php
-  print "Hello" . " world";
+    print "Hello" . " " . "world";
 ?>
 This is after

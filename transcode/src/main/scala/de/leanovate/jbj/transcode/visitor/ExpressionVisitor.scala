@@ -23,7 +23,7 @@ class ExpressionVisitor extends NodeVisitor[Document] {
       acceptsNextSibling
 
     case ConcatExpr(left, right) =>
-      expressions += text("(") :: left.foldWith(new ExpressionVisitor) :: " __ " :: right.foldWith(new ExpressionVisitor) :: text(")")
+      expressions += text("(") :: left.foldWith(new ExpressionVisitor) :: " !! " :: right.foldWith(new ExpressionVisitor) :: text(")")
       acceptsNextSibling
 
     case stmt =>

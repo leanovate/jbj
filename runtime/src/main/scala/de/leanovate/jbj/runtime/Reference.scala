@@ -36,7 +36,7 @@ trait Reference {
 
   def /=(other: PAny)(implicit ctx: Context): PVal = assign(this.byVal.toNum / other.asVal.toNum).asVal
 
-  def __=(other: PAny)(implicit ctx: Context): PVal = assign(this.byVal.toStr __ other.asVal.toStr).asVal
+  def !!=(other: PAny)(implicit ctx: Context): PVal = assign(this.byVal.toStr !! other.asVal.toStr).asVal
 
   def ++()(implicit ctx: Context): PVal = {
     val result = byVal.copy
