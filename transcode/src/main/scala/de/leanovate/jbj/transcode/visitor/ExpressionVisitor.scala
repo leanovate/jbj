@@ -15,7 +15,7 @@ class ExpressionVisitor extends NodeVisitor[Document] {
 
   override def visit = {
     case PrintExpr(expr) =>
-      expressions += text("ctx.out.print(") :: expr.foldWith(new ExpressionVisitor) :: text(".toOutput)")
+      expressions += text("print(") :: expr.foldWith(new ExpressionVisitor) :: text(")")
       acceptsNextSibling
 
     case ScalarExpr(value) =>

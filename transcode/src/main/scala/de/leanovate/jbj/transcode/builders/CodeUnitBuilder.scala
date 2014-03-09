@@ -16,7 +16,7 @@ class CodeUnitBuilder(name: String, packageName: Option[String]) extends Builder
       s"package $name" :: break
     ).getOrElse(empty) :/:
       "import de.leanovate.jbj.runtime.context.Context" :/:
-      "import de.leanovate.jbj.runtime.value._" :/:
+      "import de.leanovate.jbj.runtime.Operators._" :/:
       "import de.leanovate.jbj.runtime.JbjCodeUnit" :/:
       break :/:
       s"object $name extends JbjCodeUnit {" :/:

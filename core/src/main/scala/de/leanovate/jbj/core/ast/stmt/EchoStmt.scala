@@ -10,13 +10,11 @@ package de.leanovate.jbj.core.ast.stmt
 import de.leanovate.jbj.core.ast.{NodeVisitor, Expr, Stmt}
 import de.leanovate.jbj.runtime.SuccessExecResult
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.Operators._
 
 case class EchoStmt(parameters: Seq[Expr]) extends Stmt {
   override def exec(implicit ctx: Context) = {
-    parameters.foreach {
-      expr =>
-        ctx.out.print(expr.eval.toOutput)
-    }
+    echo(parameters.map(_.eval) :_ *)
     SuccessExecResult
   }
 

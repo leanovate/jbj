@@ -8,13 +8,12 @@
 package de.leanovate.jbj.core.ast.expr
 
 import de.leanovate.jbj.core.ast.{NodeVisitor, Expr}
-import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.Operators._
 
 case class PrintExpr(expr: Expr) extends Expr {
   override def eval(implicit ctx: Context) = {
-    ctx.out.print(expr.eval.toOutput)
-    IntegerVal(1)
+    print(expr.eval)
   }
 
   override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(expr)

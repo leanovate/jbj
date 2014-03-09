@@ -5,5 +5,5 @@ import scala.text.Document._
 
 object StatementBuilder {
   def inlineStmt(inlineText: String): Document =
-    text("ctx.out.print(") :: LiteralBuilder.build(inlineText) :: text(")")
+    text("echo(") :: LiteralBuilder.build(inlineText) :: text(")")
 }
