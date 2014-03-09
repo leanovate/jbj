@@ -1,10 +1,10 @@
-package de.leanovate.jbj.transcode
+package de.leanovate.jbj.converter
 
 import de.leanovate.jbj.core.parser.{ParseContext, JbjParser}
 import de.leanovate.jbj.api.http.JbjSettings
 import java.io.{Writer, StringWriter}
 import scala.text.Document
-import de.leanovate.jbj.transcode.visitor.ProgVisitor
+import de.leanovate.jbj.converter.visitor.ProgVisitor
 
 class Transcoder(settings: JbjSettings) {
   def toCodeUnit(fileName: String, script: String, packageName: Option[String]): Document = {

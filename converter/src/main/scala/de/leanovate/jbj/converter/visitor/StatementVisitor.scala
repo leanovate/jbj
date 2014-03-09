@@ -1,10 +1,10 @@
-package de.leanovate.jbj.transcode.visitor
+package de.leanovate.jbj.converter.visitor
 
 import de.leanovate.jbj.core.ast.{Expr, NodeVisitor}
 import scala.text.Document
 import scala.text.Document._
 import de.leanovate.jbj.core.ast.stmt.{InlineStmt, ExprStmt}
-import de.leanovate.jbj.transcode.builders.StatementBuilder
+import de.leanovate.jbj.converter.builders.StatementBuilder
 
 class StatementVisitor extends NodeVisitor[Document] {
   val statements = Seq.newBuilder[Document]

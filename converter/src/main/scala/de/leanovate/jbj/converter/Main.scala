@@ -1,4 +1,4 @@
-package de.leanovate.jbj.transcode
+package de.leanovate.jbj.converter
 
 import java.io.{FileWriter, File}
 import scala.io.Source

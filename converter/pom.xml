@@ -10,8 +10,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jbj-transcode</artifactId>
-    <name>jbj :: transcode</name>
+    <artifactId>jbj-converter</artifactId>
+    <name>jbj :: converter</name>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -75,12 +75,12 @@
                 <artifactId>scala-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>Add transcoded</id>
+                        <id>Add converted</id>
                         <goals>
                             <goal>add-source</goal>
                         </goals>
                         <configuration>
-                            <testSourceDir>${project.basedir}/target/transcoded</testSourceDir>
+                            <testSourceDir>${project.basedir}/target/converted</testSourceDir>
                         </configuration>
                     </execution>
                     <execution>
@@ -113,12 +113,12 @@
                         </goals>
                         <phase>generate-test-sources</phase>
                         <configuration>
-                            <mainClass>de.leanovate.jbj.transcode.Main</mainClass>
+                            <mainClass>de.leanovate.jbj.converter.Main</mainClass>
                             <arguments>
                                 <argument>-p</argument>
                                 <argument>testunits</argument>
                                 <argument>-o</argument>
-                                <argument>${project.basedir}/target/transcoded/testunits</argument>
+                                <argument>${project.basedir}/target/converted/testunits</argument>
                                 <argument>${project.basedir}/src/test/php/hello_world.php</argument>
                             </arguments>
                         </configuration>

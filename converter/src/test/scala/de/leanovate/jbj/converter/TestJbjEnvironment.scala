@@ -1,4 +1,4 @@
-package de.leanovate.jbj.transcode
+package de.leanovate.jbj.converter
 
 import de.leanovate.jbj.runtime.JbjCodeUnit
 import de.leanovate.jbj.core.JbjEnvironmentBuilder

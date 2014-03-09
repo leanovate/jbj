@@ -1,11 +1,11 @@
-package de.leanovate.jbj.transcode.visitor
+package de.leanovate.jbj.converter.visitor
 
 import de.leanovate.jbj.core.ast.{Expr, NodeVisitor}
 import scala.text.Document
 import scala.text.Document._
 import de.leanovate.jbj.core.ast.expr.PrintExpr
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
-import de.leanovate.jbj.transcode.builders.LiteralBuilder
+import de.leanovate.jbj.converter.builders.LiteralBuilder
 import de.leanovate.jbj.core.ast.expr.calc.ConcatExpr
 
 class ExpressionVisitor extends NodeVisitor[Document] {

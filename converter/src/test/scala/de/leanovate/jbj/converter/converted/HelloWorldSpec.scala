@@ -1,7 +1,7 @@
-package de.leanovate.jbj.transcode.transcoded
+package de.leanovate.jbj.converter.converted
 
 import org.specs2.mutable.SpecificationWithJUnit
-import de.leanovate.jbj.transcode.TestJbjEnvironment
+import de.leanovate.jbj.converter.TestJbjEnvironment
 
 class HelloWorldSpec extends SpecificationWithJUnit with TestJbjEnvironment {
   "Hello world" should {

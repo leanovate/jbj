@@ -1,4 +1,4 @@
-package de.leanovate.jbj.transcode.builders
+package de.leanovate.jbj.converter.builders
 
 import scala.text.Document
 import scala.text.Document._

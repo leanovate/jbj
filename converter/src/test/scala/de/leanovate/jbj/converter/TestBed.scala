@@ -1,4 +1,4 @@
-package de.leanovate.jbj.transcode
+package de.leanovate.jbj.converter
 
 import de.leanovate.jbj.api.http.JbjSettings
 import java.io.StringWriter
