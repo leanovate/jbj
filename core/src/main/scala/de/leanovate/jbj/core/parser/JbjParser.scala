@@ -311,38 +311,32 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       case v ~ _ ~ e => DivByRefExpr(v, e)
     } | variable ~ ".=" ~ expr ^^ {
       case v ~ _ ~ e => ConcatWithRefExpr(v, e)
-    } | binary(minPrec) | term
+    } | binary(Precedence(0)) | term
 
-  def binaryOp(level: Int): PackratParser[((Expr, Expr) => Expr)] = {
-    level match {
-      case 1 => "or" ^^^ BoolOrExpr
-      case 2 => "xor" ^^^ BoolXorExpr
-      case 3 => "and" ^^^ BoolAndExpr
-      case 4 => "||" ^^^ BoolOrExpr
-      case 5 => "&&" ^^^ BoolAndExpr
-      case 6 => "|" ^^^ BitOrExpr
-      case 7 => "^" ^^^ BitXorExpr
-      case 8 => "&" ^^^ BitAndExpr
-      case 9 =>
+  def binaryOp(precende: Precedence.Type): PackratParser[((Expr, Expr) => Expr)] = {
+    precende match {
+      case Precedence.BoolOr1 => "or" ^^^ BoolOrExpr
+      case Precedence.BoolXor1 => "xor" ^^^ BoolXorExpr
+      case Precedence.BoolAnd1 => "and" ^^^ BoolAndExpr
+      case Precedence.BoolOr2 => "||" ^^^ BoolOrExpr
+      case Precedence.BoolAnd2 => "&&" ^^^ BoolAndExpr
+      case Precedence.BitOr => "|" ^^^ BitOrExpr
+      case Precedence.BitXor => "^" ^^^ BitXorExpr
+      case Precedence.BitAnd => "&" ^^^ BitAndExpr
+      case Precedence.Eq =>
         "==" ^^^ EqExpr | "!=" ^^^ NotEqExpr | "<>" ^^^ NotEqExpr | "===" ^^^ IdenticalExpr | "!==" ^^^ NotIdenticalExpr
-      case 10 => ">" ^^^ GtExpr | ">=" ^^^ GeExpr | "<" ^^^ LtExpr | "<=" ^^^ LeExpr
-      case 11 => ">>" ^^^ BitShiftRightExpr | "<<" ^^^ BitShiftLeftExpr
-      case 12 => "." ^^^ ConcatExpr | "+" ^^^ AddExpr | "-" ^^^ SubExpr
-      case 13 => "*" ^^^ MulExpr | "/" ^^^ DivExpr | "%" ^^^ ModExpr
-      case _ => throw new RuntimeException("bad precedence level " + level)
+      case Precedence.Compare => ">" ^^^ GtExpr | ">=" ^^^ GeExpr | "<" ^^^ LtExpr | "<=" ^^^ LeExpr
+      case Precedence.BitShift => ">>" ^^^ BitShiftRightExpr | "<<" ^^^ BitShiftLeftExpr
+      case Precedence.AddSub => "." ^^^ ConcatExpr | "+" ^^^ AddExpr | "-" ^^^ SubExpr
+      case Precedence.MulDif => "*" ^^^ MulExpr | "/" ^^^ DivExpr | "%" ^^^ ModExpr
     }
   }
 
-  val minPrec = 1
-
-  val maxPrec = 13
-
-  def binary(level: Int): PackratParser[Expr] =
-    if (level > maxPrec) {
+  def binary(precedence: Precedence.Type): PackratParser[Expr] =
+    if (precedence == Precedence.Term) {
       term
-    }
-    else {
-      binary(level + 1) * binaryOp(level)
+    } else {
+      binary(Precedence(precedence.id + 1)) * binaryOp(precedence)
     }
 
   lazy val term: PackratParser[Expr] =
@@ -664,12 +658,10 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     elem("double number", _.isInstanceOf[DoubleNumLit]) ^^ (_.asInstanceOf[DoubleNumLit].value)
 
   /** A parser which matches a string literal */
-  lazy val stringLit: PackratParser[String] =
-    elem("string literal", _.isInstanceOf[StringLit]) ^^ (_.chars)
+  lazy val stringLit: PackratParser[String] = elem("string literal", _.isInstanceOf[StringLit]) ^^ (_.chars)
 
   /** A parser which matches an identifier */
-  lazy val identLit: PackratParser[String] =
-    elem("identifier", _.isInstanceOf[Identifier]) ^^ (_.chars)
+  lazy val identLit: PackratParser[String] = elem("identifier", _.isInstanceOf[Identifier]) ^^ (_.chars)
 
   lazy val variableLit: PackratParser[String] =
     elem("variable", _.isInstanceOf[Variable]) ^^ (_.asInstanceOf[Variable].name)
@@ -677,26 +669,19 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
   lazy val encapsAndWhitespaceLit: PackratParser[String] =
     elem("encapsAntWhitespace", _.isInstanceOf[EncapsAndWhitespace]) ^^ (_.chars)
 
-  lazy val hereDocStartLit: PackratParser[String] =
-    elem("heredocstart", _.isInstanceOf[HereDocStart]) ^^ (_.chars)
+  lazy val hereDocStartLit: PackratParser[String] = elem("heredocstart", _.isInstanceOf[HereDocStart]) ^^ (_.chars)
 
-  lazy val hereDocEndLit: PackratParser[String] =
-    elem("heredocstart", _.isInstanceOf[HereDocEnd]) ^^ (_.chars)
+  lazy val hereDocEndLit: PackratParser[String] = elem("heredocstart", _.isInstanceOf[HereDocEnd]) ^^ (_.chars)
 
-  lazy val integerCastLit: PackratParser[String] =
-    elem("integerCast", _.isInstanceOf[IntegerCast]) ^^ (_.chars)
+  lazy val integerCastLit: PackratParser[String] = elem("integerCast", _.isInstanceOf[IntegerCast]) ^^ (_.chars)
 
-  lazy val doubleCastLit: PackratParser[String] =
-    elem("doubleCast", _.isInstanceOf[DoubleCast]) ^^ (_.chars)
+  lazy val doubleCastLit: PackratParser[String] = elem("doubleCast", _.isInstanceOf[DoubleCast]) ^^ (_.chars)
 
-  lazy val stringCastLit: PackratParser[String] =
-    elem("stringCast", _.isInstanceOf[StringCast]) ^^ (_.chars)
+  lazy val stringCastLit: PackratParser[String] = elem("stringCast", _.isInstanceOf[StringCast]) ^^ (_.chars)
 
-  lazy val arrayCastLit: PackratParser[String] =
-    elem("arrayCast", _.isInstanceOf[ArrayCast]) ^^ (_.chars)
+  lazy val arrayCastLit: PackratParser[String] = elem("arrayCast", _.isInstanceOf[ArrayCast]) ^^ (_.chars)
 
-  lazy val booleanCastLit: PackratParser[String] =
-    elem("booleanCast", _.isInstanceOf[BooleanCast]) ^^ (_.chars)
+  lazy val booleanCastLit: PackratParser[String] = elem("booleanCast", _.isInstanceOf[BooleanCast]) ^^ (_.chars)
 
   implicit def parser2packrat1[T <: HasNodePosition](p: => super.Parser[T]): PackratParser[T] = {
     lazy val q = p

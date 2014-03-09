@@ -2,7 +2,6 @@ package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.value.{PVal, DoubleVal, IntegerVal, StringVal}
-import de.leanovate.jbj.runtime.value
 
 object Operators {
   def $(name: String)(implicit ctx: Context): Reference = new VariableReference(name)

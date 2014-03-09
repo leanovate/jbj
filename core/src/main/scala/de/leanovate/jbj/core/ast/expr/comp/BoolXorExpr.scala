@@ -9,7 +9,7 @@ package de.leanovate.jbj.core.ast.expr.comp
 
 import de.leanovate.jbj.core.ast.Expr
 import de.leanovate.jbj.runtime.value.BooleanVal
-import de.leanovate.jbj.core.ast.expr.BinaryExpr
+import de.leanovate.jbj.core.ast.expr.{Precedence, BinaryExpr}
 import de.leanovate.jbj.runtime.context.Context
 
 case class BoolXorExpr(left: Expr, right: Expr) extends BinaryExpr {
@@ -21,4 +21,6 @@ case class BoolXorExpr(left: Expr, right: Expr) extends BinaryExpr {
   }
 
   override def phpStr = left.phpStr + " xor " + right.phpStr
+
+  override val precedence = Precedence.BoolXor1
 }
