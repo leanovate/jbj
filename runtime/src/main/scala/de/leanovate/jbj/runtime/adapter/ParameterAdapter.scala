@@ -11,6 +11,8 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 
 trait ParameterAdapter[T] {
+  def parameterIdx: Int
+
   def requiredCount: Int
 
   def adapt(parameters: List[PParam], strict: Boolean,

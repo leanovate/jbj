@@ -12,7 +12,7 @@ import scala.reflect.macros.Context
 import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
 import de.leanovate.jbj.runtime.{context, NamespaceName}
 import de.leanovate.jbj.runtime.value.{PVal, PVar, PAny}
-import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.exception.{WarnWithResultJbjException, FatalErrorJbjException}
 import de.leanovate.jbj.runtime.types.{PParamDef, PParam, PFunction}
 
 object GlobalFunctions {
@@ -43,7 +43,7 @@ object GlobalFunctions {
       val parameters: List[(Tree, ValDef)] = memberParams.zipWithIndex.map {
         case (parameter, idx) =>
           val paramName = newTermName("param" + idx)
-          val (adapter, stared) = mapParameter(parameter.typeSignature)
+          val (adapter, stared) = mapParameter(idx,parameter.typeSignature)
           val (notEnoughHandler, strict, conversionHandler) = parameterMode match {
             case ParameterMode.EXACTLY_WARN =>
               (notEnoughWarn(member.name.encoded, expected, hasOptional, warnResult).tree, false, conversionIgnore.tree)
@@ -96,7 +96,7 @@ object GlobalFunctions {
 
           def parameters = paramDefs.splice
 
-          def call(parameters: List[PParam])(implicit callerCtx: context.Context): PAny = {
+          def doCall(parameters: List[PParam])(implicit callerCtx: context.Context): PAny = {
             val result = impl.splice
             resultConverter.splice.toJbj(result)
           }
@@ -111,43 +111,42 @@ object GlobalFunctions {
       case t => 1
     }
 
-    def mapParameter(_type: Type): (c.Expr[ParameterAdapter[_]], Boolean) = _type match {
-      case TypeRef(_, sym, a) if sym == definitions.RepeatedParamClass => reify {
-        VarargParameterAdapter(converterHelper.converterForType(a.head).splice)
-      } -> true
-      case TypeRef(_, sym, a) if sym == definitions.OptionClass => reify {
-        OptionParameterAdapter(converterHelper.converterForType(a.head).splice)
-      } -> false
-      case TypeRef(_, sym, _) if sym == pVarClass => reify {
-        RefParameterAdapter
-      } -> false
-      case t => reify {
-        StdParamterAdapter(converterHelper.converterForType(t).splice)
-      } -> false
+    def mapParameter(parameterIdx:Int, _type: Type): (c.Expr[ParameterAdapter[_]], Boolean) = {
+      val parameterIdxExpr = c.literal(parameterIdx)
+      _type match {
+        case TypeRef(_, sym, a) if sym == definitions.RepeatedParamClass => reify {
+          VarargParameterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(a.head).splice)
+        } -> true
+        case TypeRef(_, sym, a) if sym == definitions.OptionClass => reify {
+          OptionParameterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(a.head).splice)
+        } -> false
+        case TypeRef(_, sym, _) if sym == pVarClass => reify {
+          RefParameterAdapter(parameterIdxExpr.splice)
+        } -> false
+        case t => reify {
+          StdParamterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(t).splice)
+        } -> false
+      }
     }
 
     def notEnoughWarn(name: String, expected: Int, hasOptional: Boolean, warnResult: c.universe.Tree): c.Expr[Any] = {
       val msg = c.literal("%s() expects %s %s, %%d given".format(name, if (hasOptional) "at least" else "exactly", plural(expected, "parameter")))
       val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
-      val ctx = c.Expr[context.Context](Ident(newTermName("callerCtx")))
-      val ret = c.Expr[Unit](Return(warnResult))
+      val ret = c.Expr[PVal](warnResult)
       reify {
-        ctx.splice.log.warn(msg.splice.format(given.splice))
-        ret.splice
+        throw new WarnWithResultJbjException(msg.splice.format(given.splice), ret.splice)
       }
     }
 
     def tooManyWarn(parameters: Tree, name: String, expected: Int, hasOptional: Boolean, warnResult: c.universe.Tree): c.Expr[Any] = {
       val msg = c.literal("%s() expects %s %s, %%d given".format(name, if (hasOptional) "at most" else "exactly", plural(expected, "parameter")))
       val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
-      val ctx = c.Expr[context.Context](Ident(newTermName("callerCtx")))
       val remainExpr = c.Expr[List[PParam]](parameters)
-      val ret = c.Expr[Unit](Return(warnResult))
+      val ret = c.Expr[PVal](warnResult)
       val expectedExpr = c.literal(expected)
       reify {
         if (remainExpr.splice.size > expectedExpr.splice) {
-          ctx.splice.log.warn(msg.splice.format(given.splice))
-          ret.splice
+          throw new WarnWithResultJbjException(msg.splice.format(given.splice), ret.splice)
         }
       }
     }
@@ -169,14 +168,13 @@ object GlobalFunctions {
 
     def conversionWarn(name: String, idx: Int, warnResult: c.universe.Tree): c.Expr[Any] = {
       val msg = c.literal("%s() expects parameter %d to be %%s, %%s given".format(name, idx + 1))
-      val ctx = c.Expr[context.Context](Ident(newTermName("callerCtx")))
-      val ret = c.Expr[Unit](Return(warnResult))
+      val ret = c.Expr[PVal](warnResult)
       reify {
         (expectedTypeName: String, givenTypeName: String) =>
-          ctx.splice.log.warn(msg.splice.format(expectedTypeName, givenTypeName))
-          ret.splice
+          throw new WarnWithResultJbjException(msg.splice.format(expectedTypeName, givenTypeName), ret.splice)
       }
     }
+
     val exprs = inst.actualType.members.filter {
       member =>
         member.isMethod && member.annotations.exists(_.tpe == typeOf[GlobalFunction])
