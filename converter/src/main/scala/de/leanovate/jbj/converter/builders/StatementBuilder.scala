@@ -5,5 +5,8 @@ import scala.text.Document._
 
 object StatementBuilder {
   def inlineStmt(inlineText: String): Document =
-    text("echo(") :: LiteralBuilder.build(inlineText) :: text(")")
+    if (inlineText.isEmpty)
+      empty
+    else
+      text("inline(") :: LiteralBuilder.build(inlineText) :: text(")")
 }

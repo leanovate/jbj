@@ -12,7 +12,7 @@ object Operators {
 
   def p(value: Double)(implicit ctx: Context) = DoubleVal(value)
 
-  def echo(value: String)(implicit ctx: Context) = ctx.out.print(value)
+  def inline(value: String)(implicit ctx: Context) = ctx.out.print(value)
 
   def echo(values: PVal*)(implicit ctx: Context) = {
     values.foreach {

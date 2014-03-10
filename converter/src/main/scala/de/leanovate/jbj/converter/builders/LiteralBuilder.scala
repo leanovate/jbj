@@ -5,6 +5,9 @@ import scala.text.Document._
 import de.leanovate.jbj.runtime.value.{DoubleVal, IntegerVal, StringVal, PVal}
 
 object LiteralBuilder {
+  def buildSimple(str: String): Document =
+    text("\"") :: text(str) :: text("\"")
+
   def buildSingleLine(str: String): Document =
     text("\"\"\"") :: text(str) :: text("\"\"\"")
 
@@ -26,8 +29,10 @@ object LiteralBuilder {
       text("\"\"")
     } else if (str.contains('\n')) {
       buildMultiLine(str)
-    } else {
+    } else if (str.contains("\"")) {
       buildSingleLine(str)
+    } else {
+      buildSimple(str)
     }
   }
 

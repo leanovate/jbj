@@ -11,7 +11,7 @@ import de.leanovate.jbj.runtime.value.PAny
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 
-case class DefaultParamterAdapter[T, S <: PAny](converter: Converter[T, S]) extends ParameterAdapter[T] {
+case class StdParamterAdapter[T, S <: PAny](converter: Converter[T, S]) extends ParameterAdapter[T] {
   override def requiredCount = 1
 
   override def adapt(parameters: List[PParam], strict: Boolean, missingErrorHandler: => Unit, conversionErrorHandler: (String, String) => Unit)(implicit ctx: Context) = {

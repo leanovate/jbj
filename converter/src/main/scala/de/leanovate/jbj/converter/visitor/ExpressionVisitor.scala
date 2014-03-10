@@ -3,7 +3,7 @@ package de.leanovate.jbj.converter.visitor
 import de.leanovate.jbj.core.ast.{Expr, NodeVisitor}
 import scala.text.Document
 import scala.text.Document._
-import de.leanovate.jbj.core.ast.expr.PrintExpr
+import de.leanovate.jbj.core.ast.expr.{Precedence, BinaryExpr, PrintExpr}
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.converter.builders.LiteralBuilder
 import de.leanovate.jbj.core.ast.expr.calc.ConcatExpr
@@ -23,11 +23,17 @@ class ExpressionVisitor extends NodeVisitor[Document] {
       acceptsNextSibling
 
     case ConcatExpr(left, right) =>
-      expressions += text("(") :: left.foldWith(new ExpressionVisitor) :: " !! " :: right.foldWith(new ExpressionVisitor) :: text(")")
+      expressions += parentesis(Precedence.AddSub)(left) :: " !! " :: parentesis(Precedence.AddSub)(right)
       acceptsNextSibling
 
     case stmt =>
       println("Unhandled node: " + stmt)
       abort
+  }
+
+  def parentesis(threshold: Precedence.Type): PartialFunction[Expr, Document] = {
+    case expr: BinaryExpr if expr.precedence.id < threshold.id =>
+      text("(") :: expr.foldWith(new ExpressionVisitor) :: text(")")
+    case expr: Expr => expr.foldWith(new ExpressionVisitor)
   }
 }

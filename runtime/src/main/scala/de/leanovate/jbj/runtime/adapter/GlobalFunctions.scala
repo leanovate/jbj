@@ -122,7 +122,7 @@ object GlobalFunctions {
         RefParameterAdapter
       } -> false
       case t => reify {
-        DefaultParamterAdapter(converterHelper.converterForType(t).splice)
+        StdParamterAdapter(converterHelper.converterForType(t).splice)
       } -> false
     }
 
