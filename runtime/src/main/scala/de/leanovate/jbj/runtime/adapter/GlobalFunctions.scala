@@ -40,18 +40,18 @@ object GlobalFunctions {
       // with Option[], varargs...
       val expectedMax = memberParams.size
 
+      val (notEnoughHandler, strict, conversionHandler) = parameterMode match {
+        case ParameterMode.EXACTLY_WARN =>
+          (notEnoughWarn(member.name.encoded, expected, hasOptional, warnResult).tree, false, conversionIgnore.tree)
+        case ParameterMode.STRICT_WARN =>
+          (notEnoughWarn(member.name.encoded, expected, hasOptional, warnResult).tree, true, conversionWarn(member.name.encoded, warnResult).tree)
+        case ParameterMode.RELAX_ERROR =>
+          (notEnoughThrowFatal(member.name.encoded, expected).tree, false, conversionIgnore.tree)
+      }
       val parameters: List[(Tree, ValDef)] = memberParams.zipWithIndex.map {
         case (parameter, idx) =>
           val paramName = newTermName("param" + idx)
           val (adapter, stared) = mapParameter(idx, parameter.typeSignature)
-          val (notEnoughHandler, strict, conversionHandler) = parameterMode match {
-            case ParameterMode.EXACTLY_WARN =>
-              (notEnoughWarn(member.name.encoded, expected, hasOptional, warnResult).tree, false, conversionIgnore.tree)
-            case ParameterMode.STRICT_WARN =>
-              (notEnoughWarn(member.name.encoded, expected, hasOptional, warnResult).tree, true, conversionWarn(member.name.encoded, idx, warnResult).tree)
-            case ParameterMode.RELAX_ERROR =>
-              (notEnoughThrowFatal(member.name.encoded, expected).tree, false, conversionIgnore.tree)
-          }
           val adapterCall = Apply(Select(adapter.tree, newTermName("adapt")), List(remain, Literal(Constant(strict)), notEnoughHandler, conversionHandler))
           remain = Select(Ident(paramName), newTermName("_2"))
           if (stared) {
@@ -153,27 +153,26 @@ object GlobalFunctions {
     }
 
     def notEnoughThrowFatal(name: String, expected: Int): c.Expr[Any] = {
-      val msg = c.literal("%s() expects at least %s, %%d given".format(name, plural(expected, "parameter")))
+      val nameExpr = c.literal(name)
+      val expectedExpr = c.literal(expected)
       val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
       val ctx = c.Expr(Ident(newTermName("callerCtx")))
       reify {
-        () =>
-          throw new FatalErrorJbjException(msg.splice.format(given.splice))(ctx.splice)
+        ParameterAdapter.notEnoughThrowFatal(nameExpr.splice, expectedExpr.splice, given.splice)(ctx.splice)
       }
     }
 
     def conversionIgnore: c.Expr[Any] = {
       reify {
-        (expectedTypeName: String, givenTypeName: String, parameterIdx: Int) =>
+        ParameterAdapter.conversionErrorIgnore
       }
     }
 
-    def conversionWarn(name: String, idx: Int, warnResult: c.universe.Tree): c.Expr[Any] = {
-      val msg = c.literal("%s() expects parameter %d to be %%s, %%s given".format(name, idx + 1))
-      val ret = c.Expr[PVal](warnResult)
+    def conversionWarn(name: String, warnResult: c.universe.Tree): c.Expr[Any] = {
+      val nameExpr = c.literal(name)
+      val resultExpr = c.Expr[PVal](warnResult)
       reify {
-        (expectedTypeName: String, givenTypeName: String, parameterIdx: Int) =>
-          throw new WarnWithResultJbjException(msg.splice.format(expectedTypeName, givenTypeName), ret.splice)
+        ParameterAdapter.conversionErrorWarn(nameExpr.splice, resultExpr.splice)
       }
     }
 

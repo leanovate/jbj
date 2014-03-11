@@ -10,7 +10,7 @@ package de.leanovate.jbj.runtime.adapter
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 import de.leanovate.jbj.runtime.value.PVal
-import de.leanovate.jbj.runtime.exception.WarnWithResultJbjException
+import de.leanovate.jbj.runtime.exception.{FatalErrorJbjException, WarnWithResultJbjException}
 
 trait ParameterAdapter[T] {
   def parameterIdx: Int
@@ -27,10 +27,34 @@ object ParameterAdapter {
     (expectedTypeName: String, givenTypeName: String, parameterIdx: Int) =>
   }
 
-  def conversionErrorWarn(name: String, result: PVal)(implicit ctx: String) = {
+  def conversionErrorWarn(name: String, result: PVal) = {
     (expectedTypeName: String, givenTypeName: String, parameterIdx: Int) =>
-      val msg = s"$name expects parameter $parameterIdx to be $expectedTypeName, $givenTypeName given"
+      val msg = s"$name() expects parameter ${parameterIdx + 1} to be $expectedTypeName, $givenTypeName given"
       throw new WarnWithResultJbjException(msg, result)
   }
 
+  def notEnoughWarn(name: String, expected: Int, actual: Int, result: PVal) = {
+    () =>
+      val msg = s"$name() expects at least ${plural(expected, "parameter")}, $actual given"
+      throw new WarnWithResultJbjException(msg, result)
+  }
+
+  def notEnoughExactlyWarn(name: String, expected: Int, actual: Int, result: PVal) = {
+    () =>
+      val msg = s"$name() expects exactly ${plural(expected, "parameter")}, $actual given"
+      throw new WarnWithResultJbjException(msg, result)
+  }
+
+  def notEnoughThrowFatal(name: String, expected: Int, actual: Int)(implicit ctx: Context) = {
+    () =>
+      val msg = s"$name() expects at least ${plural(expected, "parameter")}, $actual given"
+      throw new FatalErrorJbjException(msg)
+  }
+
+  def plural(num: Int, str: String) = {
+    if (num == 0 || num > 1)
+      s"$num ${str}s"
+    else
+      s"$num $str"
+  }
 }
