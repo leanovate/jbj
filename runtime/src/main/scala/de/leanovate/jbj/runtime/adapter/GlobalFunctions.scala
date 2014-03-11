@@ -43,7 +43,7 @@ object GlobalFunctions {
       val parameters: List[(Tree, ValDef)] = memberParams.zipWithIndex.map {
         case (parameter, idx) =>
           val paramName = newTermName("param" + idx)
-          val (adapter, stared) = mapParameter(idx,parameter.typeSignature)
+          val (adapter, stared) = mapParameter(idx, parameter.typeSignature)
           val (notEnoughHandler, strict, conversionHandler) = parameterMode match {
             case ParameterMode.EXACTLY_WARN =>
               (notEnoughWarn(member.name.encoded, expected, hasOptional, warnResult).tree, false, conversionIgnore.tree)
@@ -111,7 +111,7 @@ object GlobalFunctions {
       case t => 1
     }
 
-    def mapParameter(parameterIdx:Int, _type: Type): (c.Expr[ParameterAdapter[_]], Boolean) = {
+    def mapParameter(parameterIdx: Int, _type: Type): (c.Expr[ParameterAdapter[_]], Boolean) = {
       val parameterIdxExpr = c.literal(parameterIdx)
       _type match {
         case TypeRef(_, sym, a) if sym == definitions.RepeatedParamClass => reify {
@@ -129,15 +129,6 @@ object GlobalFunctions {
       }
     }
 
-    def notEnoughWarn(name: String, expected: Int, hasOptional: Boolean, warnResult: c.universe.Tree): c.Expr[Any] = {
-      val msg = c.literal("%s() expects %s %s, %%d given".format(name, if (hasOptional) "at least" else "exactly", plural(expected, "parameter")))
-      val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
-      val ret = c.Expr[PVal](warnResult)
-      reify {
-        throw new WarnWithResultJbjException(msg.splice.format(given.splice), ret.splice)
-      }
-    }
-
     def tooManyWarn(parameters: Tree, name: String, expected: Int, hasOptional: Boolean, warnResult: c.universe.Tree): c.Expr[Any] = {
       val msg = c.literal("%s() expects %s %s, %%d given".format(name, if (hasOptional) "at most" else "exactly", plural(expected, "parameter")))
       val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
@@ -151,18 +142,29 @@ object GlobalFunctions {
       }
     }
 
+    def notEnoughWarn(name: String, expected: Int, hasOptional: Boolean, warnResult: c.universe.Tree): c.Expr[Any] = {
+      val msg = c.literal("%s() expects %s %s, %%d given".format(name, if (hasOptional) "at least" else "exactly", plural(expected, "parameter")))
+      val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
+      val ret = c.Expr[PVal](warnResult)
+      reify {
+        () =>
+          throw new WarnWithResultJbjException(msg.splice.format(given.splice), ret.splice)
+      }
+    }
+
     def notEnoughThrowFatal(name: String, expected: Int): c.Expr[Any] = {
       val msg = c.literal("%s() expects at least %s, %%d given".format(name, plural(expected, "parameter")))
       val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
       val ctx = c.Expr(Ident(newTermName("callerCtx")))
       reify {
-        throw new FatalErrorJbjException(msg.splice.format(given.splice))(ctx.splice)
+        () =>
+          throw new FatalErrorJbjException(msg.splice.format(given.splice))(ctx.splice)
       }
     }
 
     def conversionIgnore: c.Expr[Any] = {
       reify {
-        (expectedTypeName: String, givenTypeName: String) =>
+        (expectedTypeName: String, givenTypeName: String, parameterIdx: Int) =>
       }
     }
 
@@ -170,7 +172,7 @@ object GlobalFunctions {
       val msg = c.literal("%s() expects parameter %d to be %%s, %%s given".format(name, idx + 1))
       val ret = c.Expr[PVal](warnResult)
       reify {
-        (expectedTypeName: String, givenTypeName: String) =>
+        (expectedTypeName: String, givenTypeName: String, parameterIdx: Int) =>
           throw new WarnWithResultJbjException(msg.splice.format(expectedTypeName, givenTypeName), ret.splice)
       }
     }

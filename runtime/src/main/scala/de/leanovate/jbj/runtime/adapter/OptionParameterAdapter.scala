@@ -14,14 +14,16 @@ import de.leanovate.jbj.runtime.types.PParam
 case class OptionParameterAdapter[T, S <: PAny](parameterIdx: Int, converter: Converter[T, S]) extends ParameterAdapter[Option[T]] {
   override def requiredCount = 0
 
-  override def adapt(parameters: List[PParam], strict: Boolean, missingErrorHandler: => Unit, conversionErrorHandler: (String, String) => Unit)(implicit ctx: Context) = {
+  override def adapt(parameters: List[PParam], strict: Boolean,
+                     missingErrorHandler: () => Unit,
+                     conversionErrorHandler: (String, String, Int) => Unit)(implicit ctx: Context) = {
     if (strict) {
       parameters match {
         case head :: tail =>
           converter.toScala(head) match {
             case Some(v) => (Some(v), tail)
             case None =>
-              conversionErrorHandler(converter.typeName, head.byVal.typeName(simple = false))
+              conversionErrorHandler(converter.typeName, head.byVal.typeName(simple = false), parameterIdx)
               (None, tail)
           }
         case Nil => (None, Nil)
