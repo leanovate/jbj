@@ -14,8 +14,7 @@ import de.leanovate.jbj.runtime.types.PParam
 case class StdParamterAdapter[T, S <: PAny](parameterIdx: Int,
                                             converter: Converter[T, S],
                                             strict: Boolean,
-                                            missingErrorHandler: (Int, Context) => Unit,
-                                            conversionErrorHandler: (String, String, Int) => Unit)
+                                            errorHandlers: ParameterAdapter.ErrorHandlers)
   extends ParameterAdapter[T] {
   override def requiredCount = 1
 
@@ -26,18 +25,18 @@ case class StdParamterAdapter[T, S <: PAny](parameterIdx: Int,
           converter.toScala(head) match {
             case Some(v) => (v, tail)
             case None =>
-              conversionErrorHandler(converter.typeName, head.byVal.typeName(simple = false), parameterIdx)
+              errorHandlers.conversionError(converter.typeName, head.byVal.typeName(simple = false), parameterIdx)
               (converter.missingValue, tail)
           }
         case Nil =>
-          missingErrorHandler(parameterIdx, ctx)
+          errorHandlers.parameterMissing(parameterIdx)
           (converter.missingValue, Nil)
       }
     } else {
       parameters match {
         case head :: tail => (converter.toScalaWithConversion(head), tail)
         case Nil =>
-          missingErrorHandler(parameterIdx, ctx)
+          errorHandlers.parameterMissing(parameterIdx)
           (converter.missingValue, Nil)
       }
     }

@@ -25,7 +25,8 @@ object GlobalFunctions {
 
     def function_impl(member: MethodSymbol): c.Expr[PFunction] = {
       val args = member.annotations.find(_.tpe == typeOf[GlobalFunction]).get.scalaArgs
-      val parameterMode: ParameterMode.Type = c.eval(c.Expr[ParameterMode.Type](c.resetAllAttrs(args(0))))
+      val paramaterModeExpr = c.Expr[ParameterMode.Type](c.resetAllAttrs(args(0)))
+      val parameterMode: ParameterMode.Type = c.eval(paramaterModeExpr)
       val warnResult = args(1)
       val memberParams = member.paramss.headOption.getOrElse(Nil)
       var remain: Tree = Ident(newTermName("parameters"))
@@ -40,18 +41,14 @@ object GlobalFunctions {
       // with Option[], varargs...
       val expectedMax = memberParams.size
 
-      val (notEnoughHandler, strict, conversionHandler) = parameterMode match {
-        case ParameterMode.EXACTLY_WARN =>
-          (notEnoughWarn(member.name.encoded, expected, hasOptional, warnResult), false, conversionIgnore)
-        case ParameterMode.STRICT_WARN =>
-          (notEnoughWarn(member.name.encoded, expected, hasOptional, warnResult), true, conversionWarn(member.name.encoded, warnResult))
-        case ParameterMode.RELAX_ERROR =>
-          (notEnoughThrowFatal(member.name.encoded, expected), false, conversionIgnore)
+      val strict = parameterMode match {
+        case ParameterMode.STRICT_WARN => true
+        case _ => false
       }
       val parameters: List[(Tree, ValDef)] = memberParams.zipWithIndex.map {
         case (parameter, idx) =>
           val paramName = newTermName("param" + idx)
-          val (adapter, stared) = mapParameter(idx, parameter.typeSignature, strict, notEnoughHandler, conversionHandler)
+          val (adapter, stared) = mapParameter(idx, parameter.typeSignature, strict)
           val adapterCall = Apply(Select(adapter.tree, newTermName("adapt")), List(remain))
           remain = Select(Ident(paramName), newTermName("_2"))
           if (stared) {
@@ -90,8 +87,13 @@ object GlobalFunctions {
         }
       ))
 
+      val expectedExpr = c.literal(expected)
+      val hasOptionalExpr = c.literal(hasOptional)
+      val warnResultExpr = c.Expr[PVal](warnResult)
       reify {
         new PFunction {
+          val errorHandlers = ParameterAdapter.errorHandlers(functionName.splice, paramaterModeExpr.splice, expectedExpr.splice, hasOptionalExpr.splice, warnResultExpr.splice)
+
           def name = NamespaceName.apply(functionName.splice)
 
           def parameters = paramDefs.splice
@@ -111,21 +113,22 @@ object GlobalFunctions {
       case t => 1
     }
 
-    def mapParameter(parameterIdx: Int, _type: Type, strict: Boolean, missingParameterHandler: c.Expr[(Int, de.leanovate.jbj.runtime.context.Context) => Unit], conversionErrorHandler: c.Expr[(String, String, Int) => Unit]): (c.Expr[ParameterAdapter[_]], Boolean) = {
+    def mapParameter(parameterIdx: Int, _type: Type, strict: Boolean): (c.Expr[ParameterAdapter[_]], Boolean) = {
       val parameterIdxExpr = c.literal(parameterIdx)
+      val errorHandlersExpr = c.Expr[ParameterAdapter.ErrorHandlers](Ident(newTermName("errorHandlers")))
       val strictExpr = c.literal(strict)
       _type match {
         case TypeRef(_, sym, a) if sym == definitions.RepeatedParamClass => reify {
           VarargParameterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(a.head).splice)
         } -> true
         case TypeRef(_, sym, a) if sym == definitions.OptionClass => reify {
-          OptionParameterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(a.head).splice, strictExpr.splice, conversionErrorHandler.splice)
+          OptionParameterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(a.head).splice, strictExpr.splice, errorHandlersExpr.splice)
         } -> false
         case TypeRef(_, sym, _) if sym == pVarClass => reify {
-          RefParameterAdapter(parameterIdxExpr.splice, missingParameterHandler.splice, conversionErrorHandler.splice)
+          RefParameterAdapter(parameterIdxExpr.splice, errorHandlersExpr.splice)
         } -> false
         case t => reify {
-          StdParamterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(t).splice, strictExpr.splice, missingParameterHandler.splice, conversionErrorHandler.splice)
+          StdParamterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(t).splice, strictExpr.splice, errorHandlersExpr.splice)
         } -> false
       }
     }
@@ -140,43 +143,6 @@ object GlobalFunctions {
         if (remainExpr.splice.size > expectedExpr.splice) {
           throw new WarnWithResultJbjException(msg.splice.format(given.splice), ret.splice)
         }
-      }
-    }
-
-    def notEnoughWarn(name: String, expected: Int, hasOptional: Boolean, warnResult: c.universe.Tree): c.Expr[(Int, de.leanovate.jbj.runtime.context.Context) => Unit] = {
-      val nameExpr = c.literal(name)
-      val expectedExpr = c.literal(expected)
-      val ret = c.Expr[PVal](warnResult)
-      if (hasOptional) {
-        reify {
-          ParameterAdapter.notEnoughWarn(nameExpr.splice, expectedExpr.splice, ret.splice)
-        }
-      } else {
-        reify {
-          ParameterAdapter.notEnoughExactlyWarn(nameExpr.splice, expectedExpr.splice, ret.splice)
-        }
-      }
-    }
-
-    def notEnoughThrowFatal(name: String, expected: Int): c.Expr[(Int, de.leanovate.jbj.runtime.context.Context) => Unit] = {
-      val nameExpr = c.literal(name)
-      val expectedExpr = c.literal(expected)
-      reify {
-        ParameterAdapter.notEnoughThrowFatal(nameExpr.splice, expectedExpr.splice)
-      }
-    }
-
-    def conversionIgnore: c.Expr[(String, String, Int) => Unit] = {
-      reify {
-        ParameterAdapter.conversionErrorIgnore
-      }
-    }
-
-    def conversionWarn(name: String, warnResult: c.universe.Tree): c.Expr[(String, String, Int) => Unit] = {
-      val nameExpr = c.literal(name)
-      val resultExpr = c.Expr[PVal](warnResult)
-      reify {
-        ParameterAdapter.conversionErrorWarn(nameExpr.splice, resultExpr.splice)
       }
     }
 
@@ -196,5 +162,15 @@ object GlobalFunctions {
       s"$num ${str}s"
     else
       s"$num $str"
+  }
+
+  def main(args: Array[String]) {
+    import scala.reflect.runtime.{universe => u}
+
+    val expr = u.reify {
+      val a = (1,2,3)
+    }
+    println(u.show(expr))
+    println(u.showRaw(expr))
   }
 }

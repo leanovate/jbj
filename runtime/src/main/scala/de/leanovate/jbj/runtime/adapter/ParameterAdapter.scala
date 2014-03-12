@@ -11,6 +11,7 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 import de.leanovate.jbj.runtime.value.PVal
 import de.leanovate.jbj.runtime.exception.{FatalErrorJbjException, WarnWithResultJbjException}
+import de.leanovate.jbj.runtime.annotations.ParameterMode
 
 trait ParameterAdapter[T] {
   def parameterIdx: Int
@@ -21,6 +22,32 @@ trait ParameterAdapter[T] {
 }
 
 object ParameterAdapter {
+
+  class ErrorHandlers(missingErrorHandler: (Int, Context) => Unit,
+                      conversionErrorHandler: (String, String, Int) => Unit) {
+    def parameterMissing(actual: Int)(implicit ctx: Context) = missingErrorHandler(actual, ctx)
+
+    def conversionError(expectedTypeName: String, givenTypeName: String, parameterIdx: Int) =
+      conversionErrorHandler(expectedTypeName, givenTypeName, parameterIdx)
+  }
+
+  def errorHandlers(methodName: String, parameterMode: ParameterMode.Type, expected: Int, hasOptional: Boolean, warnResult: PVal) = {
+    parameterMode match {
+      case ParameterMode.EXACTLY_WARN if hasOptional =>
+        new ErrorHandlers(notEnoughWarn(methodName, expected, warnResult), conversionErrorIgnore)
+      case ParameterMode.EXACTLY_WARN =>
+        new ErrorHandlers(notEnoughExactlyWarn(methodName, expected, warnResult), conversionErrorIgnore)
+      case ParameterMode.STRICT_WARN if hasOptional =>
+        new ErrorHandlers(notEnoughWarn(methodName, expected, warnResult),
+          conversionErrorWarn(methodName, warnResult))
+      case ParameterMode.STRICT_WARN =>
+        new ErrorHandlers(notEnoughExactlyWarn(methodName, expected, warnResult),
+          conversionErrorWarn(methodName, warnResult))
+      case ParameterMode.RELAX_ERROR =>
+        new ErrorHandlers(notEnoughThrowFatal(methodName, expected), conversionErrorIgnore)
+    }
+  }
+
   val conversionErrorIgnore = {
     (expectedTypeName: String, givenTypeName: String, parameterIdx: Int) =>
   }

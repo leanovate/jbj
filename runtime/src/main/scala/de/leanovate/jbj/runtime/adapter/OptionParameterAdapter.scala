@@ -14,7 +14,7 @@ import de.leanovate.jbj.runtime.types.PParam
 case class OptionParameterAdapter[T, S <: PAny](parameterIdx: Int,
                                                 converter: Converter[T, S],
                                                 strict: Boolean,
-                                                conversionErrorHandler: (String, String, Int) => Unit)
+                                                errorHandlers: ParameterAdapter.ErrorHandlers)
   extends ParameterAdapter[Option[T]] {
   override def requiredCount = 0
 
@@ -25,7 +25,7 @@ case class OptionParameterAdapter[T, S <: PAny](parameterIdx: Int,
           converter.toScala(head) match {
             case Some(v) => (Some(v), tail)
             case None =>
-              conversionErrorHandler(converter.typeName, head.byVal.typeName(simple = false), parameterIdx)
+              errorHandlers.conversionError(converter.typeName, head.byVal.typeName(simple = false), parameterIdx)
               (None, tail)
           }
         case Nil => (None, Nil)

@@ -13,8 +13,7 @@ import de.leanovate.jbj.runtime.types.PParam
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 case class RefParameterAdapter(parameterIdx: Int,
-                               missingErrorHandler: (Int, Context) => Unit,
-                               conversionErrorHandler: (String, String, Int) => Unit) extends ParameterAdapter[PVar] {
+                               errorHandlers: ParameterAdapter.ErrorHandlers) extends ParameterAdapter[PVar] {
   def requiredCount = 1
 
   def adapt(parameters: List[PParam])(implicit ctx: Context) =
@@ -30,7 +29,7 @@ case class RefParameterAdapter(parameterIdx: Int,
         }
         (pVar, tail)
       case Nil =>
-        missingErrorHandler(parameterIdx, ctx)
+        errorHandlers.parameterMissing(parameterIdx)
         (PVar(), Nil)
     }
 }
