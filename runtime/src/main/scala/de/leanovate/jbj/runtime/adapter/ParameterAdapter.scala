@@ -17,9 +17,7 @@ trait ParameterAdapter[T] {
 
   def requiredCount: Int
 
-  def adapt(parameters: List[PParam], strict: Boolean,
-            missingErrorHandler: () => Unit,
-            conversionErrorHandler: (String, String, Int) => Unit)(implicit ctx: Context): (T, List[PParam])
+  def adapt(parameters: List[PParam])(implicit ctx: Context): (T, List[PParam])
 }
 
 object ParameterAdapter {
@@ -33,22 +31,22 @@ object ParameterAdapter {
       throw new WarnWithResultJbjException(msg, result)
   }
 
-  def notEnoughWarn(name: String, expected: Int, actual: Int, result: PVal) = {
-    () =>
+  def notEnoughWarn(name: String, expected: Int, result: PVal): (Int, Context) => Unit = {
+    (actual: Int, ctx: Context) =>
       val msg = s"$name() expects at least ${plural(expected, "parameter")}, $actual given"
       throw new WarnWithResultJbjException(msg, result)
   }
 
-  def notEnoughExactlyWarn(name: String, expected: Int, actual: Int, result: PVal) = {
-    () =>
+  def notEnoughExactlyWarn(name: String, expected: Int, result: PVal): (Int, Context) => Unit = {
+    (actual: Int, ctx: Context) =>
       val msg = s"$name() expects exactly ${plural(expected, "parameter")}, $actual given"
       throw new WarnWithResultJbjException(msg, result)
   }
 
-  def notEnoughThrowFatal(name: String, expected: Int, actual: Int)(implicit ctx: Context) = {
-    () =>
+  def notEnoughThrowFatal(name: String, expected: Int): (Int, Context) => Unit = {
+    (actual: Int, ctx: Context) =>
       val msg = s"$name() expects at least ${plural(expected, "parameter")}, $actual given"
-      throw new FatalErrorJbjException(msg)
+      throw new FatalErrorJbjException(msg)(ctx)
   }
 
   def plural(num: Int, str: String) = {

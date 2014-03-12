@@ -11,12 +11,15 @@ import de.leanovate.jbj.runtime.value.PAny
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 
-case class StdParamterAdapter[T, S <: PAny](parameterIdx:Int, converter: Converter[T, S]) extends ParameterAdapter[T] {
+case class StdParamterAdapter[T, S <: PAny](parameterIdx: Int,
+                                            converter: Converter[T, S],
+                                            strict: Boolean,
+                                            missingErrorHandler: (Int, Context) => Unit,
+                                            conversionErrorHandler: (String, String, Int) => Unit)
+  extends ParameterAdapter[T] {
   override def requiredCount = 1
 
-  override def adapt(parameters: List[PParam], strict: Boolean,
-                     missingErrorHandler: () => Unit,
-                     conversionErrorHandler: (String, String, Int) => Unit)(implicit ctx: Context) = {
+  override def adapt(parameters: List[PParam])(implicit ctx: Context) = {
     if (strict) {
       parameters match {
         case head :: tail =>
@@ -27,14 +30,14 @@ case class StdParamterAdapter[T, S <: PAny](parameterIdx:Int, converter: Convert
               (converter.missingValue, tail)
           }
         case Nil =>
-          missingErrorHandler()
+          missingErrorHandler(parameterIdx, ctx)
           (converter.missingValue, Nil)
       }
     } else {
       parameters match {
         case head :: tail => (converter.toScalaWithConversion(head), tail)
         case Nil =>
-          missingErrorHandler()
+          missingErrorHandler(parameterIdx, ctx)
           (converter.missingValue, Nil)
       }
     }

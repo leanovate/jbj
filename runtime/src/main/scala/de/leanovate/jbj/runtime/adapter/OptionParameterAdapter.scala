@@ -11,12 +11,14 @@ import de.leanovate.jbj.runtime.value.PAny
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 
-case class OptionParameterAdapter[T, S <: PAny](parameterIdx: Int, converter: Converter[T, S]) extends ParameterAdapter[Option[T]] {
+case class OptionParameterAdapter[T, S <: PAny](parameterIdx: Int,
+                                                converter: Converter[T, S],
+                                                strict: Boolean,
+                                                conversionErrorHandler: (String, String, Int) => Unit)
+  extends ParameterAdapter[Option[T]] {
   override def requiredCount = 0
 
-  override def adapt(parameters: List[PParam], strict: Boolean,
-                     missingErrorHandler: () => Unit,
-                     conversionErrorHandler: (String, String, Int) => Unit)(implicit ctx: Context) = {
+  override def adapt(parameters: List[PParam])(implicit ctx: Context) = {
     if (strict) {
       parameters match {
         case head :: tail =>

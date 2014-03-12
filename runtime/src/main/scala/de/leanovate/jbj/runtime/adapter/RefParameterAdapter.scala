@@ -12,12 +12,12 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
-case class RefParameterAdapter(parameterIdx: Int) extends ParameterAdapter[PVar] {
+case class RefParameterAdapter(parameterIdx: Int,
+                               missingErrorHandler: (Int, Context) => Unit,
+                               conversionErrorHandler: (String, String, Int) => Unit) extends ParameterAdapter[PVar] {
   def requiredCount = 1
 
-  def adapt(parameters: List[PParam], strict: Boolean,
-            missingErrorHandler: () => Unit,
-            conversionErrorHandler: (String, String, Int) => Unit)(implicit ctx: Context) =
+  def adapt(parameters: List[PParam])(implicit ctx: Context) =
     parameters match {
       case head :: tail =>
         val pVar = head.byRef match {
@@ -30,7 +30,7 @@ case class RefParameterAdapter(parameterIdx: Int) extends ParameterAdapter[PVar]
         }
         (pVar, tail)
       case Nil =>
-        missingErrorHandler()
+        missingErrorHandler(parameterIdx, ctx)
         (PVar(), Nil)
     }
 }

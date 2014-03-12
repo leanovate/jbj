@@ -42,17 +42,17 @@ object GlobalFunctions {
 
       val (notEnoughHandler, strict, conversionHandler) = parameterMode match {
         case ParameterMode.EXACTLY_WARN =>
-          (notEnoughWarn(member.name.encoded, expected, hasOptional, warnResult).tree, false, conversionIgnore.tree)
+          (notEnoughWarn(member.name.encoded, expected, hasOptional, warnResult), false, conversionIgnore)
         case ParameterMode.STRICT_WARN =>
-          (notEnoughWarn(member.name.encoded, expected, hasOptional, warnResult).tree, true, conversionWarn(member.name.encoded, warnResult).tree)
+          (notEnoughWarn(member.name.encoded, expected, hasOptional, warnResult), true, conversionWarn(member.name.encoded, warnResult))
         case ParameterMode.RELAX_ERROR =>
-          (notEnoughThrowFatal(member.name.encoded, expected).tree, false, conversionIgnore.tree)
+          (notEnoughThrowFatal(member.name.encoded, expected), false, conversionIgnore)
       }
       val parameters: List[(Tree, ValDef)] = memberParams.zipWithIndex.map {
         case (parameter, idx) =>
           val paramName = newTermName("param" + idx)
-          val (adapter, stared) = mapParameter(idx, parameter.typeSignature)
-          val adapterCall = Apply(Select(adapter.tree, newTermName("adapt")), List(remain, Literal(Constant(strict)), notEnoughHandler, conversionHandler))
+          val (adapter, stared) = mapParameter(idx, parameter.typeSignature, strict, notEnoughHandler, conversionHandler)
+          val adapterCall = Apply(Select(adapter.tree, newTermName("adapt")), List(remain))
           remain = Select(Ident(paramName), newTermName("_2"))
           if (stared) {
             Typed(Select(Ident(paramName), newTermName("_1")), Ident(tpnme.WILDCARD_STAR)) ->
@@ -111,20 +111,21 @@ object GlobalFunctions {
       case t => 1
     }
 
-    def mapParameter(parameterIdx: Int, _type: Type): (c.Expr[ParameterAdapter[_]], Boolean) = {
+    def mapParameter(parameterIdx: Int, _type: Type, strict: Boolean, missingParameterHandler: c.Expr[(Int, de.leanovate.jbj.runtime.context.Context) => Unit], conversionErrorHandler: c.Expr[(String, String, Int) => Unit]): (c.Expr[ParameterAdapter[_]], Boolean) = {
       val parameterIdxExpr = c.literal(parameterIdx)
+      val strictExpr = c.literal(strict)
       _type match {
         case TypeRef(_, sym, a) if sym == definitions.RepeatedParamClass => reify {
           VarargParameterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(a.head).splice)
         } -> true
         case TypeRef(_, sym, a) if sym == definitions.OptionClass => reify {
-          OptionParameterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(a.head).splice)
+          OptionParameterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(a.head).splice, strictExpr.splice, conversionErrorHandler.splice)
         } -> false
         case TypeRef(_, sym, _) if sym == pVarClass => reify {
-          RefParameterAdapter(parameterIdxExpr.splice)
+          RefParameterAdapter(parameterIdxExpr.splice, missingParameterHandler.splice, conversionErrorHandler.splice)
         } -> false
         case t => reify {
-          StdParamterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(t).splice)
+          StdParamterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(t).splice, strictExpr.splice, missingParameterHandler.splice, conversionErrorHandler.splice)
         } -> false
       }
     }
@@ -142,33 +143,36 @@ object GlobalFunctions {
       }
     }
 
-    def notEnoughWarn(name: String, expected: Int, hasOptional: Boolean, warnResult: c.universe.Tree): c.Expr[Any] = {
-      val msg = c.literal("%s() expects %s %s, %%d given".format(name, if (hasOptional) "at least" else "exactly", plural(expected, "parameter")))
-      val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
-      val ret = c.Expr[PVal](warnResult)
-      reify {
-        () =>
-          throw new WarnWithResultJbjException(msg.splice.format(given.splice), ret.splice)
-      }
-    }
-
-    def notEnoughThrowFatal(name: String, expected: Int): c.Expr[Any] = {
+    def notEnoughWarn(name: String, expected: Int, hasOptional: Boolean, warnResult: c.universe.Tree): c.Expr[(Int, de.leanovate.jbj.runtime.context.Context) => Unit] = {
       val nameExpr = c.literal(name)
       val expectedExpr = c.literal(expected)
-      val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
-      val ctx = c.Expr(Ident(newTermName("callerCtx")))
-      reify {
-        ParameterAdapter.notEnoughThrowFatal(nameExpr.splice, expectedExpr.splice, given.splice)(ctx.splice)
+      val ret = c.Expr[PVal](warnResult)
+      if (hasOptional) {
+        reify {
+          ParameterAdapter.notEnoughWarn(nameExpr.splice, expectedExpr.splice, ret.splice)
+        }
+      } else {
+        reify {
+          ParameterAdapter.notEnoughExactlyWarn(nameExpr.splice, expectedExpr.splice, ret.splice)
+        }
       }
     }
 
-    def conversionIgnore: c.Expr[Any] = {
+    def notEnoughThrowFatal(name: String, expected: Int): c.Expr[(Int, de.leanovate.jbj.runtime.context.Context) => Unit] = {
+      val nameExpr = c.literal(name)
+      val expectedExpr = c.literal(expected)
+      reify {
+        ParameterAdapter.notEnoughThrowFatal(nameExpr.splice, expectedExpr.splice)
+      }
+    }
+
+    def conversionIgnore: c.Expr[(String, String, Int) => Unit] = {
       reify {
         ParameterAdapter.conversionErrorIgnore
       }
     }
 
-    def conversionWarn(name: String, warnResult: c.universe.Tree): c.Expr[Any] = {
+    def conversionWarn(name: String, warnResult: c.universe.Tree): c.Expr[(String, String, Int) => Unit] = {
       val nameExpr = c.literal(name)
       val resultExpr = c.Expr[PVal](warnResult)
       reify {
