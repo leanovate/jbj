@@ -14,9 +14,13 @@ import de.leanovate.jbj.runtime.types.PParam
 case class VarargParameterAdapter[T, S <: PAny](parameterIdx: Int, converter: Converter[T, S]) extends ParameterAdapter[Seq[T]] {
   override def requiredCount = 0
 
-  override def adapt(parameters: List[PParam])(implicit ctx: Context) =
-    (parameters.map {
+  override def adapt(parameters: Iterator[PParam])(implicit ctx: Context) = {
+    // Do not map here: We need to convert all parameters BEFORE some code of the method is invoked
+    val values = Seq.newBuilder[T]
+    parameters.foreach {
       parameter =>
-        converter.toScalaWithConversion(parameter)
-    }, Nil)
+        values += converter.toScalaWithConversion(parameter)
+    }
+    values.result()
+  }
 }

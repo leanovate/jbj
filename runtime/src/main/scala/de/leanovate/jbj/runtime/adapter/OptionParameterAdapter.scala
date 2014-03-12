@@ -18,22 +18,24 @@ case class OptionParameterAdapter[T, S <: PAny](parameterIdx: Int,
   extends ParameterAdapter[Option[T]] {
   override def requiredCount = 0
 
-  override def adapt(parameters: List[PParam])(implicit ctx: Context) = {
+  override def adapt(parameters: Iterator[PParam])(implicit ctx: Context) = {
     if (strict) {
-      parameters match {
-        case head :: tail =>
-          converter.toScala(head) match {
-            case Some(v) => (Some(v), tail)
-            case None =>
-              errorHandlers.conversionError(converter.typeName, head.byVal.typeName(simple = false), parameterIdx)
-              (None, tail)
-          }
-        case Nil => (None, Nil)
+      if (parameters.hasNext) {
+        val head = parameters.next()
+        converter.toScala(head) match {
+          case Some(v) => Some(v)
+          case None =>
+            errorHandlers.conversionError(converter.typeName, head.byVal.typeName(simple = false), parameterIdx)
+            None
+        }
+      } else {
+        None
       }
     } else {
-      parameters match {
-        case head :: tail => (Some(converter.toScalaWithConversion(head)), tail)
-        case Nil => (None, Nil)
+      if (parameters.hasNext) {
+        Some(converter.toScalaWithConversion(parameters.next()))
+      } else {
+        None
       }
     }
   }

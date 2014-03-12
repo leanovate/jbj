@@ -29,7 +29,6 @@ object GlobalFunctions {
       val parameterMode: ParameterMode.Type = c.eval(paramaterModeExpr)
       val warnResult = args(1)
       val memberParams = member.paramss.headOption.getOrElse(Nil)
-      var remain: Tree = Ident(newTermName("parameters"))
       var hasOptional = false
       val expected = memberParams.foldLeft(0) {
         case (count, parameter) =>
@@ -45,18 +44,19 @@ object GlobalFunctions {
         case ParameterMode.STRICT_WARN => true
         case _ => false
       }
-      val parameters: List[(Tree, ValDef)] = memberParams.zipWithIndex.map {
+      val parameters: List[(c.Expr[_], Tree, ValDef)] = memberParams.zipWithIndex.map {
         case (parameter, idx) =>
-          val paramName = newTermName("param" + idx)
+          val paramName = newTermName(s"param${idx + 1}")
           val (adapter, stared) = mapParameter(idx, parameter.typeSignature, strict)
-          val adapterCall = Apply(Select(adapter.tree, newTermName("adapt")), List(remain))
-          remain = Select(Ident(paramName), newTermName("_2"))
+          val adapterRef = Select(Ident(newTermName("adapters")), newTermName(s"_${idx + 1}"))
+          val adapterCall = Apply(Select(adapterRef, newTermName("adapt")), List(Ident(newTermName("parametersIt"))))
+
           if (stared) {
-            Typed(Select(Ident(paramName), newTermName("_1")), Ident(tpnme.WILDCARD_STAR)) ->
-              ValDef(Modifiers(), paramName, TypeTree(), adapterCall)
+            (adapter, Typed(Ident(paramName), Ident(tpnme.WILDCARD_STAR)),
+              ValDef(Modifiers(), paramName, TypeTree(), adapterCall))
           } else {
-            Select(Ident(paramName), newTermName("_1")) ->
-              ValDef(Modifiers(), paramName, TypeTree(), adapterCall)
+            (adapter, Ident(paramName),
+              ValDef(Modifiers(), paramName, TypeTree(), adapterCall))
           }
       }
       val tooManyHandler: List[Tree] = parameterMode match {
@@ -68,7 +68,7 @@ object GlobalFunctions {
           Nil
       }
       val functionName = c.literal(member.name.encoded)
-      val impl = c.Expr(Block(tooManyHandler ++ parameters.map(_._2), Apply(Select(Ident(inst.actualType.termSymbol), member.name), parameters.map(_._1))))
+      val impl = c.Expr(Block(tooManyHandler ++ parameters.map(_._3), Apply(Select(Ident(inst.actualType.termSymbol), member.name), parameters.map(_._2))))
       val resultConverter = converterHelper.converterForType(member.returnType)
       val paramDefs = c.Expr[Seq[PParamDef]](Apply(Select(Ident(newTermName("Seq")), newTermName("apply")),
         memberParams.map {
@@ -90,15 +90,19 @@ object GlobalFunctions {
       val expectedExpr = c.literal(expected)
       val hasOptionalExpr = c.literal(hasOptional)
       val warnResultExpr = c.Expr[PVal](warnResult)
+      val adaptersExpr = makeTuple(parameters.map(_._1))
       reify {
         new PFunction {
           val errorHandlers = ParameterAdapter.errorHandlers(functionName.splice, paramaterModeExpr.splice, expectedExpr.splice, hasOptionalExpr.splice, warnResultExpr.splice)
+
+          val adapters = adaptersExpr.splice
 
           def name = NamespaceName.apply(functionName.splice)
 
           def parameters = paramDefs.splice
 
           def doCall(parameters: List[PParam])(implicit callerCtx: context.Context): PAny = {
+            val parametersIt = parameters.iterator
             val result = impl.splice
             resultConverter.splice.toJbj(result)
           }
@@ -146,6 +150,13 @@ object GlobalFunctions {
       }
     }
 
+    def makeTuple(elements: Seq[c.Expr[_]]) = {
+      if (elements.isEmpty)
+        c.Expr(Ident(newTermName("Unit")))
+      else
+        c.Expr(Apply(Select(Ident(newTermName(s"Tuple${elements.size}")), newTermName("apply")), elements.map(_.tree).toList))
+    }
+
     val exprs = inst.actualType.members.filter {
       member =>
         member.isMethod && member.annotations.exists(_.tpe == typeOf[GlobalFunction])
@@ -168,7 +179,8 @@ object GlobalFunctions {
     import scala.reflect.runtime.{universe => u}
 
     val expr = u.reify {
-      val a = (1,2,3)
+      val a = (1, 2, 3)
+      a._1
     }
     println(u.show(expr))
     println(u.showRaw(expr))

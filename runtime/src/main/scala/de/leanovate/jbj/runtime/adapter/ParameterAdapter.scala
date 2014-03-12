@@ -18,7 +18,7 @@ trait ParameterAdapter[T] {
 
   def requiredCount: Int
 
-  def adapt(parameters: List[PParam])(implicit ctx: Context): (T, List[PParam])
+  def adapt(parameters: Iterator[PParam])(implicit ctx: Context): T
 }
 
 object ParameterAdapter {

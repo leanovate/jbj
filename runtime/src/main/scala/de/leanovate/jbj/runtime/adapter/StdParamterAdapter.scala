@@ -18,26 +18,26 @@ case class StdParamterAdapter[T, S <: PAny](parameterIdx: Int,
   extends ParameterAdapter[T] {
   override def requiredCount = 1
 
-  override def adapt(parameters: List[PParam])(implicit ctx: Context) = {
+  override def adapt(parameters: Iterator[PParam])(implicit ctx: Context) = {
     if (strict) {
-      parameters match {
-        case head :: tail =>
-          converter.toScala(head) match {
-            case Some(v) => (v, tail)
-            case None =>
-              errorHandlers.conversionError(converter.typeName, head.byVal.typeName(simple = false), parameterIdx)
-              (converter.missingValue, tail)
-          }
-        case Nil =>
-          errorHandlers.parameterMissing(parameterIdx)
-          (converter.missingValue, Nil)
+      if (parameters.hasNext) {
+        val head = parameters.next()
+        converter.toScala(head) match {
+          case Some(v) => v
+          case None =>
+            errorHandlers.conversionError(converter.typeName, head.byVal.typeName(simple = false), parameterIdx)
+            converter.missingValue
+        }
+      } else {
+        errorHandlers.parameterMissing(parameterIdx)
+        converter.missingValue
       }
     } else {
-      parameters match {
-        case head :: tail => (converter.toScalaWithConversion(head), tail)
-        case Nil =>
-          errorHandlers.parameterMissing(parameterIdx)
-          (converter.missingValue, Nil)
+      if (parameters.hasNext) {
+        converter.toScalaWithConversion(parameters.next())
+      } else {
+        errorHandlers.parameterMissing(parameterIdx)
+        converter.missingValue
       }
     }
   }
