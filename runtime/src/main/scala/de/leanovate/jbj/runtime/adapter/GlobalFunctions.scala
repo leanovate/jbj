@@ -114,19 +114,24 @@ object GlobalFunctions {
     def mapParameter(parameterIdx: Int, _type: Type, strict: Boolean): (c.Expr[ParameterAdapter[_]], Boolean) = {
       val parameterIdxExpr = c.literal(parameterIdx)
       val errorHandlersExpr = c.Expr[ParameterAdapter.ErrorHandlers](Ident(newTermName("errorHandlers")))
-      val strictExpr = c.literal(strict)
       _type match {
         case TypeRef(_, sym, a) if sym == definitions.RepeatedParamClass => reify {
           VarargParameterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(a.head).splice)
         } -> true
+        case TypeRef(_, sym, a) if sym == definitions.OptionClass && strict => reify {
+          StrictOptionParameterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(a.head).splice, errorHandlersExpr.splice)
+        } -> false
         case TypeRef(_, sym, a) if sym == definitions.OptionClass => reify {
-          OptionParameterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(a.head).splice, strictExpr.splice, errorHandlersExpr.splice)
+          RelaxedOptionParameterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(a.head).splice)
         } -> false
         case TypeRef(_, sym, _) if sym == pVarClass => reify {
           RefParameterAdapter(parameterIdxExpr.splice, errorHandlersExpr.splice)
         } -> false
+        case t if strict => reify {
+          StrictParameterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(t).splice,  errorHandlersExpr.splice)
+        } -> false
         case t => reify {
-          StdParamterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(t).splice, strictExpr.splice, errorHandlersExpr.splice)
+          RelaxedParamterAdapter(parameterIdxExpr.splice, converterHelper.converterForType(t).splice, errorHandlersExpr.splice)
         } -> false
       }
     }

@@ -11,32 +11,18 @@ import de.leanovate.jbj.runtime.value.PAny
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 
-case class OptionParameterAdapter[T, S <: PAny](parameterIdx: Int,
+case class RelaxedParamterAdapter[T, S <: PAny](parameterIdx: Int,
                                                 converter: Converter[T, S],
-                                                strict: Boolean,
                                                 errorHandlers: ParameterAdapter.ErrorHandlers)
-  extends ParameterAdapter[Option[T]] {
-  override def requiredCount = 0
+  extends ParameterAdapter[T] {
+  override def requiredCount = 1
 
   override def adapt(parameters: Iterator[PParam])(implicit ctx: Context) = {
-    if (strict) {
-      if (parameters.hasNext) {
-        val head = parameters.next()
-        converter.toScala(head) match {
-          case Some(v) => Some(v)
-          case None =>
-            errorHandlers.conversionError(converter.typeName, head.byVal.typeName(simple = false), parameterIdx)
-            None
-        }
-      } else {
-        None
-      }
+    if (parameters.hasNext) {
+      converter.toScalaWithConversion(parameters.next())
     } else {
-      if (parameters.hasNext) {
-        Some(converter.toScalaWithConversion(parameters.next()))
-      } else {
-        None
-      }
+      errorHandlers.parameterMissing(parameterIdx)
+      converter.missingValue
     }
   }
 }
