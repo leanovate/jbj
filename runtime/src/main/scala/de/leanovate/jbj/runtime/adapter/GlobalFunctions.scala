@@ -59,16 +59,9 @@ object GlobalFunctions {
               ValDef(Modifiers(), paramName, TypeTree(), adapterCall))
           }
       }
-      val tooManyHandler: List[Tree] = parameterMode match {
-        case ParameterMode.EXACTLY_WARN =>
-          tooManyWarn(Ident(newTermName("parameters")), member.name.encoded, expectedMax, hasOptional, warnResult).tree :: Nil
-        case ParameterMode.STRICT_WARN =>
-          tooManyWarn(Ident(newTermName("parameters")), member.name.encoded, expectedMax, hasOptional, warnResult).tree :: Nil
-        case _ =>
-          Nil
-      }
+      val tooManyHandler = tooManyWarn(Ident(newTermName("parameters")), expectedMax).tree
       val functionName = c.literal(member.name.encoded)
-      val impl = c.Expr(Block(tooManyHandler ++ parameters.map(_._3), Apply(Select(Ident(inst.actualType.termSymbol), member.name), parameters.map(_._2))))
+      val impl = c.Expr(Block(tooManyHandler :: parameters.map(_._3), Apply(Select(Ident(inst.actualType.termSymbol), member.name), parameters.map(_._2))))
       val resultConverter = converterHelper.converterForType(member.returnType)
       val paramDefs = c.Expr[Seq[PParamDef]](Apply(Select(Ident(newTermName("Seq")), newTermName("apply")),
         memberParams.map {
@@ -88,12 +81,13 @@ object GlobalFunctions {
       ))
 
       val expectedExpr = c.literal(expected)
+      val expectedMaxExpr = c.literal(expectedMax)
       val hasOptionalExpr = c.literal(hasOptional)
       val warnResultExpr = c.Expr[PVal](warnResult)
       val adaptersExpr = makeTuple(parameters.map(_._1))
       reify {
         new PFunction {
-          val errorHandlers = ParameterAdapter.errorHandlers(functionName.splice, paramaterModeExpr.splice, expectedExpr.splice, hasOptionalExpr.splice, warnResultExpr.splice)
+          val errorHandlers = ParameterAdapter.errorHandlers(functionName.splice, paramaterModeExpr.splice, expectedExpr.splice, expectedMaxExpr.splice, hasOptionalExpr.splice, warnResultExpr.splice)
 
           val adapters = adaptersExpr.splice
 
@@ -137,15 +131,13 @@ object GlobalFunctions {
       }
     }
 
-    def tooManyWarn(parameters: Tree, name: String, expected: Int, hasOptional: Boolean, warnResult: c.universe.Tree): c.Expr[Any] = {
-      val msg = c.literal("%s() expects %s %s, %%d given".format(name, if (hasOptional) "at most" else "exactly", plural(expected, "parameter")))
-      val given = c.Expr(Select(Ident(newTermName("parameters")), newTermName("size")))
+    def tooManyWarn(parameters: Tree, expected: Int): c.Expr[Any] = {
       val remainExpr = c.Expr[List[PParam]](parameters)
-      val ret = c.Expr[PVal](warnResult)
       val expectedExpr = c.literal(expected)
+      val errorHandlersExpr = c.Expr[ParameterAdapter.ErrorHandlers](Ident(newTermName("errorHandlers")))
       reify {
         if (remainExpr.splice.size > expectedExpr.splice) {
-          throw new WarnWithResultJbjException(msg.splice.format(given.splice), ret.splice)
+          errorHandlersExpr.splice.tooManyParameters(remainExpr.splice.size)
         }
       }
     }
@@ -166,23 +158,5 @@ object GlobalFunctions {
     }.toList
     c.Expr[Seq[PFunction]](Apply(Select(Ident(newTermName("Seq")), newTermName("apply")),
       exprs))
-  }
-
-  def plural(num: Int, str: String) = {
-    if (num == 0 || num > 1)
-      s"$num ${str}s"
-    else
-      s"$num $str"
-  }
-
-  def main(args: Array[String]) {
-    import scala.reflect.runtime.{universe => u}
-
-    val expr = u.reify {
-      val a = (1, 2, 3)
-      a._1
-    }
-    println(u.show(expr))
-    println(u.showRaw(expr))
   }
 }
