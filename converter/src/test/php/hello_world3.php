@@ -3,7 +3,7 @@
 
     for($i = 0; $i < count($a); $i++) {
         echo $a[$i];
-        $a[$i] = 2 * $i;
+        $a[$i] = ($i + 2) * $i + 1;
         echo "\n";
     }
 

@@ -28,9 +28,9 @@ class HelloWorldSpec extends SpecificationWithJUnit with TestJbjEnvironment {
         """Hello
           |World
           |42
-          |0
-          |2
+          |1
           |4
+          |9
           |""".stripMargin
       )
     }
