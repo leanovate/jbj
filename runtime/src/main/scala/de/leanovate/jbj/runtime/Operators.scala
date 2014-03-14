@@ -1,7 +1,8 @@
 package de.leanovate.jbj.runtime
 
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.value.{PVal, DoubleVal, IntegerVal, StringVal}
+import de.leanovate.jbj.runtime.value._
+import de.leanovate.jbj.runtime.value.IntegerVal
 
 object Operators {
   def $(name: String)(implicit ctx: Context): Reference = new VariableReference(name)
@@ -12,16 +13,25 @@ object Operators {
 
   def p(value: Double)(implicit ctx: Context) = DoubleVal(value)
 
+  def lvar(name: String)(implicit ctx: Context): PVar = {
+    ctx.findVariable(name).getOrElse {
+      val pVar = PVar()
+
+      ctx.defineVariable(name, pVar)
+      pVar
+    }
+  }
+
   def inline(value: String)(implicit ctx: Context) = ctx.out.print(value)
 
-  def echo(values: PVal*)(implicit ctx: Context) = {
+  def echo(values: PAny*)(implicit ctx: Context) = {
     values.foreach {
       value =>
         ctx.out.print(value.toOutput)
     }
   }
 
-  def print(value: PVal)(implicit ctx: Context): PVal = {
+  def print(value: PAny)(implicit ctx: Context): PVal = {
     ctx.out.print(value.toOutput)
     IntegerVal(1)
   }

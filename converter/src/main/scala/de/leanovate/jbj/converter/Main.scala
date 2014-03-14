@@ -3,6 +3,9 @@ package de.leanovate.jbj.converter
 import java.io.{FileWriter, File}
 import scala.io.Source
 import de.leanovate.jbj.api.http.JbjSettings
+import org.apache.commons.io.filefilter.{FalseFileFilter, WildcardFileFilter}
+import org.apache.commons.io.FileUtils
+import scala.collection.JavaConversions._
 
 object Main extends App {
 
@@ -19,9 +22,19 @@ object Main extends App {
         c.copy(packageName = Some(x))
     } text ("package name")
     help("help") text ("prints this usage text")
-    arg[File]("<file>...") unbounded() action {
+    arg[String]("<file>...") unbounded() action {
       (x, c) =>
-        c.copy(files = c.files :+ x)
+        if (!x.contains('*')) {
+          c.copy(files = c.files :+ new File(x))
+        } else {
+          val idx = x.lastIndexOf(File.separator)
+          val (dir, pattern) = if (idx >= 0) {
+            x.substring(0, idx) -> x.substring(idx + 1)
+          } else {
+            "" -> x
+          }
+          c.copy(files = c.files ++ FileUtils.listFiles(new File(dir), new WildcardFileFilter(pattern), FalseFileFilter.FALSE))
+        }
     } text ("Files to convert")
   }
 
@@ -31,7 +44,7 @@ object Main extends App {
       val transcoder = new Transcoder(settings)
       config.outputDir.mkdirs()
       config.files.foreach {
-        file =>
+        case file =>
           println(s"Transcodeing $file")
           val script = Source.fromFile(file, "UTF-8").mkString
           val out = new File(config.outputDir, transcoder.makeName(file.getName) + ".scala")
@@ -39,10 +52,4 @@ object Main extends App {
           transcoder.toCodeUnit(file.getName, script, config.packageName, new FileWriter(out))
       }
   }
-
-  def transcodeFile(file: File, outputDir: File) {
-    val script = Source.fromFile(file, "UTF-8").mkString
-
-  }
-
 }

@@ -9,12 +9,13 @@ object TestBed {
     val transcoder = new Transcoder(settings)
 
     val scropt =
-      """This is before
-        |<?php
-        |print "Hello" . " " . "world";
-        |?>
-        |This is after
-        |""".stripMargin
+      """<?php
+        |    $a = "Hello";
+        |    $b = "world";
+        |    $c = $a . " " . $b;
+        |
+        |    echo $c;
+        |?>""".stripMargin
 
     val out = new StringWriter()
 

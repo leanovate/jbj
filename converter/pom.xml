@@ -42,6 +42,11 @@
         </dependency>
 
         <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
@@ -119,7 +124,7 @@
                                 <argument>testunits</argument>
                                 <argument>-o</argument>
                                 <argument>${project.basedir}/target/converted/testunits</argument>
-                                <argument>${project.basedir}/src/test/php/hello_world.php</argument>
+                                <argument>${project.basedir}/src/test/php/*.php</argument>
                             </arguments>
                         </configuration>
                     </execution>

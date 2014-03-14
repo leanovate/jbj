@@ -5,9 +5,10 @@ import scala.text.Document
 import de.leanovate.jbj.converter.builders.CodeUnitBuilder
 
 class ProgVisitor(name: String, packageName: Option[String]) extends NodeVisitor[Document] {
-  val builder = new CodeUnitBuilder(name, packageName)
+  implicit val builder = new CodeUnitBuilder(name, packageName)
 
   def result = builder.build()
+
 
   def visit = {
     case prop: Prog =>

@@ -3,10 +3,10 @@ package de.leanovate.jbj.converter.visitor
 import de.leanovate.jbj.core.ast.{Expr, NodeVisitor}
 import scala.text.Document
 import scala.text.Document._
-import de.leanovate.jbj.core.ast.stmt.{InlineStmt, ExprStmt}
-import de.leanovate.jbj.converter.builders.StatementBuilder
+import de.leanovate.jbj.core.ast.stmt.{EchoStmt, InlineStmt, ExprStmt}
+import de.leanovate.jbj.converter.builders.{CodeUnitBuilder, StatementBuilder}
 
-class StatementVisitor extends NodeVisitor[Document] {
+class StatementVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[Document] {
   val statements = Seq.newBuilder[Document]
 
   override def result = statements.result().reduceOption(_ :: _).getOrElse(empty)
@@ -18,6 +18,10 @@ class StatementVisitor extends NodeVisitor[Document] {
 
     case InlineStmt(text) =>
       statements += StatementBuilder.inlineStmt(text)
+      acceptsNextSibling
+
+    case EchoStmt(exprs) =>
+      statements += "echo(" :: exprs.map(_.foldWith(new ExpressionVisitor)).reduceOption(_ :: ", " :: _).getOrElse(empty) :: ")" :: empty
       acceptsNextSibling
 
     case stmt =>
