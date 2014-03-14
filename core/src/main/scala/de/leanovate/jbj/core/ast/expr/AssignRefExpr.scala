@@ -43,7 +43,7 @@ case class AssignRefExpr(reference: RefExpr, expr: Expr) extends RefExpr with St
 
     override def assign(pAny: PAny)(implicit ctx: Context) = pAny
 
-    override def unset() {
+    override def unset()(implicit ctx: Context) {
       throw new FatalErrorJbjException("Can't use function return value in write context")
     }
   }

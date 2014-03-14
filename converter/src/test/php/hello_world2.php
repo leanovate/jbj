@@ -1,11 +1,11 @@
 <?php
-    $a = "Hello";
-    $b = "world";
-    $c = $a . " " . $b;
+$a = "Hello";
+$b = "world";
+$c = $a . " " . $b;
 
-    echo $c;
+echo $c;
 
-    $d = $c + 42;
+$d = $c + 42;
 
-    echo $d;
+echo $d;
 ?>

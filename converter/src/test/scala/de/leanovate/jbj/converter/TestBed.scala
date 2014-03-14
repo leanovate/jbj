@@ -10,15 +10,12 @@ object TestBed {
 
     val scropt =
       """<?php
-        |    $a = "Hello";
-        |    $b = "world";
-        |    $c = $a . " " . $b;
+        |    $a = array("Hello", "World", 42);
         |
-        |    echo $c;
-        |
-        |    $d = $c + 42;
-        |
-        |    echo $d;
+        |    for($i = 0; $i < count($a); $i++) {
+        |        echo $a[$i];
+        |        echo "\n";
+        |    }
         |?>""".stripMargin
 
     val out = new StringWriter()

@@ -48,7 +48,7 @@ case class ListRefExpr(references: List[Option[RefExpr]]) extends RefExpr {
       pAny
     }
 
-    override def unset() {
+    override def unset()(implicit ctx: Context) {
       refs.foreach(_.foreach(_.unset()))
     }
   }

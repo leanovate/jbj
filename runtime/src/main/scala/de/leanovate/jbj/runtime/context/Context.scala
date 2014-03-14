@@ -48,7 +48,7 @@ trait Context extends JbjProcessContext {
 
   def stack: Stack[NodePosition]
 
-  def call(name: NamespaceName, params: List[PParam]): PAny = findFunction(name).map {
+  def call(name: NamespaceName, params: Seq[PParam]): PAny = findFunction(name).map {
     func => func.call(params)(this)
   }.getOrElse {
     throw new FatalErrorJbjException("Call to undefined function %s()".format(name.toString))(this)

@@ -43,7 +43,7 @@ trait StaticContext {
       pAny
     }
 
-    override def unset() {
+    override def unset()(implicit ctx: Context) {
       undefineVariable(name)
     }
   }

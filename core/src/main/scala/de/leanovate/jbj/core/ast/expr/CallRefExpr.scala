@@ -17,7 +17,7 @@ trait CallRefExpr extends RefExpr {
   override def eval(implicit ctx: Context) = evalRef.byVal
 
   override def evalRef(implicit ctx: Context) = new ConstantReference(call) {
-    override def unset() {
+    override def unset()(implicit ctx: Context) {
       throw new FatalErrorJbjException("Can't use function return value in write context")
     }
   }

@@ -24,7 +24,7 @@ trait Reference {
 
   def assign(pAny: PAny)(implicit ctx: Context): PAny
 
-  def unset()
+  def unset()(implicit ctx: Context)
 
   def checkIndirect: Boolean = true
 
@@ -52,7 +52,7 @@ trait Reference {
     result
   }
 
-  def dim(key: PVal)(implicit ctx: Context): Reference = dim(Some(key))
+  def dim(key: PAny)(implicit ctx: Context): Reference = dim(Some(key.asVal))
 
   def dim(optKey: Option[PVal] = None)(implicit ctx: Context): Reference = {
     if (isDefined) {

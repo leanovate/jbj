@@ -18,7 +18,7 @@ trait FunctionLikeContext extends Context {
 
   def callerContext: Context
 
-  def setParameters(callerContext: Context, parameterDecls: List[PParamDef], parameters: List[PParam], detailedError: Boolean) {
+  def setParameters(callerContext: Context, parameterDecls: Seq[PParamDef], parameters: Seq[PParam], detailedError: Boolean) {
     val parameterIt = parameters.iterator
     val arguments = Seq.newBuilder[PAny]
     parameterDecls.zipWithIndex.foreach {

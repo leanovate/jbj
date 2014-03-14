@@ -17,7 +17,7 @@ trait PFunction {
 
   def parameters: Seq[PParamDef]
 
-  def call(parameters: List[PParam])(implicit callerCtx: Context): PAny = {
+  def call(parameters: Seq[PParam])(implicit callerCtx: Context): PAny = {
     try {
       doCall(parameters)
     } catch {
@@ -27,5 +27,5 @@ trait PFunction {
     }
   }
 
-  def doCall(parameters: List[PParam])(implicit callerCtx: Context): PAny
+  def doCall(parameters: Seq[PParam])(implicit callerCtx: Context): PAny
 }

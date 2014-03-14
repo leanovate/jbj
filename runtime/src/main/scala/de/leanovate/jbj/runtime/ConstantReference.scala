@@ -23,6 +23,6 @@ class ConstantReference(value: PAny) extends Reference {
     pAny
   }
 
-  override def unset() {
+  override def unset()(implicit ctx: Context) {
   }
 }

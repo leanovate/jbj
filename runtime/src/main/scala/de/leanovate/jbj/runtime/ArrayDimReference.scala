@@ -109,7 +109,7 @@ class ArrayDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implici
     pAny
   }
 
-  override def unset() {
+  override def unset()(implicit ctx: Context) {
     if (optArrayKey.isDefined) {
       optParent.foreach {
         case array: ArrayLike =>

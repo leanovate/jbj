@@ -38,7 +38,7 @@ case class RefAssignRefExpr(reference: RefExpr, otherReferable: RefExpr) extends
 
     override def assign(pAny: PAny)(implicit ctx: Context) = resultRef.assign(pAny)
 
-    override def unset() {
+    override def unset()(implicit ctx: Context) {
       resultRef.unset()
     }
   }

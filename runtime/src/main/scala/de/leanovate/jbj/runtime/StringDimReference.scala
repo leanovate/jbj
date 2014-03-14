@@ -58,7 +58,7 @@ class StringDimReference(parentStr: StringVal, optArrayKey: Option[PVal])(implic
     parentStr.setAt(optArrayKey, pAny)
   }
 
-  override def unset() {
+  override def unset()(implicit ctx: Context) {
     if (optArrayKey.isDefined) {
       parentStr.unsetAt(optArrayKey.get)
     }

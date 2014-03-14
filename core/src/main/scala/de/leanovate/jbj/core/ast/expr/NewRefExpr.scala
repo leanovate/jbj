@@ -39,7 +39,7 @@ case class NewRefExpr(className: Name, parameters: List[Expr]) extends RefExpr {
       throw new FatalErrorJbjException("Can't use new result in write context")
     }
 
-    override def unset() {
+    override def unset()(implicit ctx: Context) {
       throw new FatalErrorJbjException("Can't use new result in write context")
     }
   }

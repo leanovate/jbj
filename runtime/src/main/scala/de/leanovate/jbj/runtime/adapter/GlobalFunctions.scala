@@ -95,7 +95,7 @@ object GlobalFunctions {
 
           def parameters = paramDefs.splice
 
-          def doCall(parameters: List[PParam])(implicit callerCtx: context.Context): PAny = {
+          def doCall(parameters: Seq[PParam])(implicit callerCtx: context.Context): PAny = {
             val parametersIt = parameters.iterator
             val result = impl.splice
             resultConverter.splice.toJbj(result)

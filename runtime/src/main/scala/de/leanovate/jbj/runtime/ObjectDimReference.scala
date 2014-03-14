@@ -49,7 +49,7 @@ class ObjectDimReference(arrayAccess: PArrayAccess, optArrayKey: Option[PVal])(i
     pAny
   }
 
-  override def unset() {
+  override def unset()(implicit ctx: Context) {
     if (optArrayKey.isDefined) {
       arrayAccess.offsetUnset(optArrayKey.get)
     }

@@ -89,7 +89,7 @@ class StaticClassVarReference(pClass: PClass, name: String)(implicit ctx: Contex
             if (!staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).isDefined)
               notFound(pClass, name, Some(pMethod.implementingClass.name.toString))
             staticClassObject.setProperty(name, Some(pMethod.implementingClass.name.toString), pVar)
-          case StaticMethodContext(pMethod, _, _,_) =>
+          case StaticMethodContext(pMethod, _, _, _) =>
             if (!staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).isDefined)
               notFound(pClass, name, Some(pMethod.implementingClass.name.toString))
             staticClassObject.setProperty(name, Some(pMethod.implementingClass.name.toString), pVar)
@@ -135,7 +135,7 @@ class StaticClassVarReference(pClass: PClass, name: String)(implicit ctx: Contex
     pAny
   }
 
-  override def unset() {
+  override def unset()(implicit ctx: Context) {
     ctx match {
       case MethodContext(_, pMethod, _) =>
         staticClassObject.unsetProperty(name, Some(pMethod.implementingClass.name.toString))

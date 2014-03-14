@@ -64,7 +64,7 @@ class UndefDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implici
     pAny
   }
 
-  override def unset() {
+  override def unset()(implicit ctx: Context) {
     if (optArrayKey.isDefined) {
       createParent.unsetAt(optArrayKey.get)
     }

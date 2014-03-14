@@ -9,8 +9,9 @@ package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
+import de.leanovate.jbj.runtime.Reference
 
-class PVar(private var current: Option[PConcreteVal] = None) extends PAny {
+class PVar(private var current: Option[PConcreteVal] = None) extends PAny with Reference {
   current.foreach(_.retain())
 
   private var _refCount = 0
@@ -19,19 +20,16 @@ class PVar(private var current: Option[PConcreteVal] = None) extends PAny {
 
   def toOutput(implicit ctx: Context): String = current.map(_.toOutput).getOrElse("")
 
-  protected def set(pVal: Option[PConcreteVal]) {
-    current = pVal
-  }
-
   def value = current.getOrElse(NullVal)
 
-  def value_=(v: PVal)(implicit ctx: Context) {
+  def value_=(v: PVal)(implicit ctx: Context): PAny = {
     v.retain()
     current.foreach(_.release())
     current = Some(v.concrete)
+    this
   }
 
-  def unset(implicit ctx: Context) {
+  def unset()(implicit ctx: Context) {
     current.foreach(_.release())
     current = None
   }
@@ -70,6 +68,19 @@ class PVar(private var current: Option[PConcreteVal] = None) extends PAny {
     builder.append(")")
     builder.result()
   }
+
+  override def assign(pAny: PAny)(implicit ctx: Context) = {
+    value_=(pAny.asVal)
+    this
+  }
+
+  override def byVar = this
+
+  override def byVal = value
+
+  override def isDefined = current.isDefined
+
+  override def isConstant = false
 }
 
 object PVar {

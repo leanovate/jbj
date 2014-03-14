@@ -190,7 +190,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
     pAny
   }
 
-  override def unset() {
+  override def unset()(implicit ctx: Context) {
     optParent(withWarn = false) match {
       case Some(obj) =>
         checkShadowedStatic(obj.pClass, name)

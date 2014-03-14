@@ -47,7 +47,7 @@ case class VariableReference(name: String)(implicit ctx: Context) extends Refere
     pAny
   }
 
-  override def unset() {
+  override def unset()(implicit ctx: Context) {
     ctx.undefineVariable(name)
   }
 }
