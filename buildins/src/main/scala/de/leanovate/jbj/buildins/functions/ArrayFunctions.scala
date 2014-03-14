@@ -147,7 +147,7 @@ trait ArrayFunctions {
               builder += key -> value
           }
         }
-        ref.value = new ArrayVal(builder)
+        ref := new ArrayVal(builder)
         keyValues.headOption.map(_._2.asVal).getOrElse(NullVal)
       case v =>
         ctx.log.warn(s"array_shift() expects parameter 1 to be array, ${v.typeName(simple = true)} given")

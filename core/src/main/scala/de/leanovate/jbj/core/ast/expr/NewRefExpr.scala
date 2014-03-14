@@ -35,7 +35,7 @@ case class NewRefExpr(className: Name, parameters: List[Expr]) extends RefExpr {
 
     override def asVar = result.asVar
 
-    override def value_=(pAny: PAny)(implicit ctx: Context) = {
+    override def :=(pAny: PAny)(implicit ctx: Context) = {
       throw new FatalErrorJbjException("Can't use new result in write context")
     }
 

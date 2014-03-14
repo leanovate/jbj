@@ -31,7 +31,7 @@ case class AssignRefExpr(reference: RefExpr, expr: Expr) extends RefExpr with St
 
   override def evalRef(implicit ctx: Context) = new Reference {
     val assignedRef = reference.evalRef
-    val result = assignedRef.value_=(expr.eval.asVal.copy)
+    val result = assignedRef := expr.eval.asVal.copy
 
     override def isConstant = assignedRef.asVar.refCount == 1
 
@@ -41,7 +41,7 @@ case class AssignRefExpr(reference: RefExpr, expr: Expr) extends RefExpr with St
 
     override def asVar = result.asVar
 
-    override def value_=(pAny: PAny)(implicit ctx: Context) = pAny
+    override def :=(pAny: PAny)(implicit ctx: Context) = pAny
 
     override def unset()(implicit ctx: Context) {
       throw new FatalErrorJbjException("Can't use function return value in write context")

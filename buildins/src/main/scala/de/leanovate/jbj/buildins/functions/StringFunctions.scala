@@ -64,7 +64,7 @@ trait StringFunctions {
     }
     count.foreach {
       ref =>
-        ref.value = IntegerVal(replaceCounter)
+        ref := IntegerVal(replaceCounter)
     }
     result
   }

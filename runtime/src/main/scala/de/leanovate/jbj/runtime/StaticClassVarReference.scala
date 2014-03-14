@@ -81,7 +81,7 @@ class StaticClassVarReference(pClass: PClass, name: String)(implicit ctx: Contex
   }
 
 
-  override def value_=(pAny: PAny)(implicit ctx: Context) = {
+  override def :=(pAny: PAny)(implicit ctx: Context) = {
     pAny match {
       case pVar: PVar =>
         ctx match {
@@ -104,7 +104,7 @@ class StaticClassVarReference(pClass: PClass, name: String)(implicit ctx: Contex
             if (!staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).isDefined)
               notFound(pClass, name, Some(pMethod.implementingClass.name.toString))
             staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).map {
-              case pVar: PVar => pVar.value = pVal
+              case pVar: PVar => pVar := pVal
               case _ =>
                 staticClassObject.setProperty(name, Some(pMethod.implementingClass.name.toString), pVal)
             }.getOrElse {
@@ -114,7 +114,7 @@ class StaticClassVarReference(pClass: PClass, name: String)(implicit ctx: Contex
             if (!staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).isDefined)
               notFound(pClass, name, Some(pMethod.implementingClass.name.toString))
             staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).map {
-              case pVar: PVar => pVar.value = pVal
+              case pVar: PVar => pVar := pVal
               case _ =>
                 staticClassObject.setProperty(name, Some(pMethod.implementingClass.name.toString), pVal)
             }.getOrElse {
@@ -124,7 +124,7 @@ class StaticClassVarReference(pClass: PClass, name: String)(implicit ctx: Contex
             if (!staticClassObject.getProperty(name, None).isDefined)
               notFound(pClass, name, None)
             staticClassObject.getProperty(name, None).map {
-              case pVar: PVar => pVar.value = pVal
+              case pVar: PVar => pVar := pVal
               case _ =>
                 staticClassObject.setProperty(name, None, pVal)
             }.getOrElse {

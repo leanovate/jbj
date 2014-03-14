@@ -33,12 +33,12 @@ trait StaticContext {
 
     override def asVar = findOrDefineVariable(name)
 
-    override def value_=(pAny: PAny)(implicit ctx: Context): PAny = {
+    override def :=(pAny: PAny)(implicit ctx: Context): PAny = {
       pAny match {
         case pVar: PVar =>
           defineVariable(name, pVar)
         case pVal: PVal =>
-          findOrDefineVariable(name).value = pVal
+          findOrDefineVariable(name) := pVal
       }
       pAny
     }

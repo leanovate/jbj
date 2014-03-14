@@ -18,14 +18,13 @@ import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.core.ast.expr.AssignRefExpr
 import de.leanovate.jbj.core.ast.expr.PrintExpr
 import de.leanovate.jbj.core.ast.name.StaticName
-import de.leanovate.jbj.core.ast.expr.comp.LtExpr
+import de.leanovate.jbj.core.ast.expr.comp._
 import de.leanovate.jbj.core.ast.expr.VariableRefExpr
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.core.ast.expr.AssignRefExpr
 import de.leanovate.jbj.core.ast.expr.calc.AddExpr
 import de.leanovate.jbj.core.ast.expr.calc.MulExpr
 import de.leanovate.jbj.core.ast.name.StaticName
-import de.leanovate.jbj.core.ast.expr.comp.LtExpr
 import de.leanovate.jbj.core.ast.expr.ArrayCreateExpr
 import de.leanovate.jbj.core.ast.expr.ArrayKeyValue
 import de.leanovate.jbj.core.ast.expr.calc.SubExpr
@@ -35,6 +34,27 @@ import de.leanovate.jbj.core.ast.expr.DimRefExpr
 import de.leanovate.jbj.core.ast.expr.PrintExpr
 import scala.Some
 import de.leanovate.jbj.core.ast.expr.GetAndIncrExpr
+import de.leanovate.jbj.core.ast.expr.VariableRefExpr
+import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
+import de.leanovate.jbj.core.ast.expr.calc.AddExpr
+import de.leanovate.jbj.core.ast.expr.calc.MulExpr
+import de.leanovate.jbj.core.ast.name.StaticName
+import de.leanovate.jbj.core.ast.expr.ArrayKeyValue
+import de.leanovate.jbj.core.ast.expr.calc.SubExpr
+import de.leanovate.jbj.core.ast.expr.CallByNameRefExpr
+import de.leanovate.jbj.core.ast.expr.DimRefExpr
+import de.leanovate.jbj.core.ast.expr.PrintExpr
+import de.leanovate.jbj.core.ast.expr.comp.LeExpr
+import scala.Some
+import de.leanovate.jbj.core.ast.expr.GetAndDecrExpr
+import de.leanovate.jbj.core.ast.expr.AssignRefExpr
+import de.leanovate.jbj.core.ast.expr.comp.LtExpr
+import de.leanovate.jbj.core.ast.expr.comp.GeExpr
+import de.leanovate.jbj.core.ast.expr.ArrayCreateExpr
+import de.leanovate.jbj.core.ast.expr.calc.ConcatExpr
+import de.leanovate.jbj.core.ast.expr.comp.GtExpr
+import de.leanovate.jbj.core.ast.expr.GetAndIncrExpr
+import de.leanovate.jbj.core.ast.expr.calc.DivExpr
 
 class ExpressionVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[Document] {
   val expressions = Seq.newBuilder[Document]
@@ -61,7 +81,7 @@ class ExpressionVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[D
       acceptsNextSibling
 
     case AssignRefExpr(refExpr, expr) =>
-      expressions += refExpr.foldWith(new ExpressionVisitor) :: ".value = " :: expr.foldWith(new ExpressionVisitor)
+      expressions += refExpr.foldWith(new ExpressionVisitor) :: " := " :: expr.foldWith(new ExpressionVisitor)
       acceptsNextSibling
 
     case CallByNameRefExpr(name, parameters) =>
@@ -80,12 +100,28 @@ class ExpressionVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[D
       expressions += parentesis(Precedence.MulDiv)(left) :: " / " :: parentesis(Precedence.AddSub)(right)
       acceptsNextSibling
 
+    case EqExpr(left, right) =>
+      expressions += parentesis(Precedence.Eq)(left) :: " :== " :: parentesis(Precedence.AddSub)(right)
+      acceptsNextSibling
+
     case GetAndDecrExpr(expr) =>
       expressions += parentesis(Precedence.Term)(expr) :: ".--" :: empty
       acceptsNextSibling
 
     case GetAndIncrExpr(expr) =>
       expressions += parentesis(Precedence.Term)(expr) :: ".++" :: empty
+      acceptsNextSibling
+
+    case GeExpr(left, right) =>
+      expressions += parentesis(Precedence.Compare)(left) :: " >= " :: parentesis(Precedence.AddSub)(right)
+      acceptsNextSibling
+
+    case GtExpr(left, right) =>
+      expressions += parentesis(Precedence.Compare)(left) :: " > " :: parentesis(Precedence.AddSub)(right)
+      acceptsNextSibling
+
+    case LeExpr(left, right) =>
+      expressions += parentesis(Precedence.Compare)(left) :: " <= " :: parentesis(Precedence.AddSub)(right)
       acceptsNextSibling
 
     case LtExpr(left, right) =>

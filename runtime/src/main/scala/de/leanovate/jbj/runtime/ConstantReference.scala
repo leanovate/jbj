@@ -19,7 +19,7 @@ class ConstantReference(value: PAny) extends Reference {
 
   override def asVar = value.asVar
 
-  override def value_=(pAny: PAny)(implicit ctx: Context) = {
+  override def :=(pAny: PAny)(implicit ctx: Context) = {
     pAny
   }
 

@@ -25,13 +25,12 @@ case class ValueForeachAssignment(reference: RefExpr) extends ForeachAssignment 
   override def hasValueRef = false
 
   override def assignKey(key: PVal)(implicit ctx: Context) {
-    reference.evalRef.value_=(key)
+    reference.evalRef := key
   }
 
   override def assignValue(value: PAny)(implicit ctx: Context) {
-    reference.evalRef.value_=(value.asVal)
+    reference.evalRef := value.asVal
   }
-
 }
 
 case class RefForeachAssignment(reference: RefExpr) extends ForeachAssignment {
@@ -42,7 +41,7 @@ case class RefForeachAssignment(reference: RefExpr) extends ForeachAssignment {
   }
 
   override def assignValue(value: PAny)(implicit ctx: Context) {
-    reference.evalRef.value_=(value)
+    reference.evalRef := value
   }
 
   override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(reference)
@@ -56,7 +55,7 @@ case class ListForeachAssignment(reference: ListRefExpr) extends ForeachAssignme
   }
 
   override def assignValue(value: PAny)(implicit ctx: Context) {
-    reference.evalRef.value_=(value)
+    reference.evalRef := value
   }
 
   override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChild(reference)

@@ -22,9 +22,9 @@ case class RefAssignRefExpr(reference: RefExpr, otherReferable: RefExpr) extends
       val otherRef = otherReferable.evalRef
       if (otherRef.isConstant) {
         ctx.log.strict("Only variables should be assigned by reference")
-        resultRef.value_=(otherRef.asVal)
+        resultRef := otherRef.asVal
       } else {
-        resultRef.value_=(otherRef.asVar)
+        resultRef := otherRef.asVar
       }
     }
 
@@ -36,7 +36,7 @@ case class RefAssignRefExpr(reference: RefExpr, otherReferable: RefExpr) extends
 
     override def asVar = result.asVar
 
-    override def value_=(pAny: PAny)(implicit ctx: Context) = resultRef.value_=(pAny)
+    override def :=(pAny: PAny)(implicit ctx: Context) = resultRef := pAny
 
     override def unset()(implicit ctx: Context) {
       resultRef.unset()

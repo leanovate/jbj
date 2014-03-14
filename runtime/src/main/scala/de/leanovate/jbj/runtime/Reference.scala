@@ -18,35 +18,33 @@ trait Reference extends PAny {
 
   def isDefined: Boolean
 
-  def value: PVal = asVal
-
-  def value_=(v: PAny)(implicit ctx: Context): PAny
+  def :=(v: PAny)(implicit ctx: Context): PAny
 
   def unset()(implicit ctx: Context)
 
   def checkIndirect: Boolean = true
 
-  def +=(other: PAny)(implicit ctx: Context): PVal = value_=(this.asVal.toNum + other.asVal.toNum).asVal
+  def +=(other: PAny)(implicit ctx: Context): PVal = :=(this.asVal.toNum + other.asVal.toNum).asVal
 
-  def -=(other: PAny)(implicit ctx: Context): PVal = value_=(this.asVal.toNum - other.asVal.toNum).asVal
+  def -=(other: PAny)(implicit ctx: Context): PVal = :=(this.asVal.toNum - other.asVal.toNum).asVal
 
-  def *=(other: PAny)(implicit ctx: Context): PVal = value_=(this.asVal.toNum * other.asVal.toNum).asVal
+  def *=(other: PAny)(implicit ctx: Context): PVal = :=(this.asVal.toNum * other.asVal.toNum).asVal
 
-  def /=(other: PAny)(implicit ctx: Context): PVal = value_=(this.asVal.toNum / other.asVal.toNum).asVal
+  def /=(other: PAny)(implicit ctx: Context): PVal = :=(this.asVal.toNum / other.asVal.toNum).asVal
 
-  def !!=(other: PAny)(implicit ctx: Context): PVal = value_=(this.asVal.toStr !! other.asVal.toStr).asVal
+  def !!=(other: PAny)(implicit ctx: Context): PVal = :=(this.asVal.toStr !! other.asVal.toStr).asVal
 
   def ++()(implicit ctx: Context): PVal = {
     val result = asVal.copy
     if (checkIndirect)
-      value_=(result.incr)
+      :=(result.incr)
     result
   }
 
   def --(implicit ctx: Context): PVal = {
     val result = asVal.copy
     if (checkIndirect)
-      value_=(result.decr)
+      :=(result.decr)
     result
   }
 
@@ -136,9 +134,9 @@ trait Reference extends PAny {
 
 object Reference {
   def ++(ref: Reference)(implicit ctx: Context): PVal =
-    if (ref.checkIndirect) ref.value_=(ref.asVal.incr).asVal else ref.asVal.incr
+    if (ref.checkIndirect) ref.:=(ref.asVal.incr).asVal else ref.asVal.incr
 
   def --(ref: Reference)(implicit ctx: Context): PVal =
-    if (ref.checkIndirect) ref.value_=(ref.asVal.decr).asVal else ref.asVal.decr
+    if (ref.checkIndirect) ref.:=(ref.asVal.decr).asVal else ref.asVal.decr
 
 }

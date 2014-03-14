@@ -33,7 +33,7 @@ class ObjectDimReference(arrayAccess: PArrayAccess, optArrayKey: Option[PVal])(i
     arrayAccess.offsetGet(optArrayKey.get).asVar
   }
 
-  override def value_=(pAny: PAny)(implicit ctx: Context) = {
+  override def :=(pAny: PAny)(implicit ctx: Context) = {
     pAny match {
       case pVar: PVar =>
         checkIndirect

@@ -86,7 +86,7 @@ class ArrayDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implici
     }
   }
 
-  override def value_=(pAny: PAny)(implicit ctx: Context) = {
+  override def :=(pAny: PAny)(implicit ctx: Context) = {
     optParent.map {
       array =>
         optArrayKey match {
@@ -96,7 +96,7 @@ class ArrayDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implici
           case Some(arrayKey) =>
             array.getAt(arrayKey) match {
               case Some(pVar: PVar) if pAny.isInstanceOf[PVal] =>
-                pVar.value = pAny.asInstanceOf[PVal]
+                pVar := pAny.asInstanceOf[PVal]
               case _ =>
                 array.setAt(optArrayKey, pAny)
             }
@@ -124,7 +124,7 @@ class ArrayDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implici
         case array: ArrayLike => Some(array)
         case NullVal =>
           val array = ArrayVal()
-          parentRef.asVar.value = array
+          parentRef.asVar := array
           Some(array)
         case _ =>
           None

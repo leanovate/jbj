@@ -139,7 +139,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
     }
   }
 
-  override def value_=(pAny: PAny)(implicit ctx: Context) = {
+  override def :=(pAny: PAny)(implicit ctx: Context) = {
     optParent(withWarn = !pAny.isInstanceOf[PVar]) match {
       case Some(obj) =>
         checkShadowedStatic(obj.pClass, name)
@@ -147,7 +147,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
           case MethodContext(inst, pMethod, _) =>
             obj.getProperty(name, Some(pMethod.implementingClass.name.toString)) match {
               case Some(pVar: PVar) if pAny.isInstanceOf[PVal] =>
-                pVar.value = pAny.asInstanceOf[PVal]
+                pVar := pAny.asInstanceOf[PVal]
               case Some(_) =>
                 obj.setProperty(name, Some(pMethod.implementingClass.name.toString), pAny)
               case None =>
@@ -162,7 +162,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
           case StaticMethodContext(pMethod, _, _, _) =>
             obj.getProperty(name, Some(pMethod.implementingClass.name.toString)) match {
               case Some(pVar: PVar) if pAny.isInstanceOf[PVal] =>
-                pVar.value = pAny.asInstanceOf[PVal]
+                pVar := pAny.asInstanceOf[PVal]
               case Some(_) =>
                 obj.setProperty(name, Some(pMethod.implementingClass.name.toString), pAny)
               case None =>
@@ -173,7 +173,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
           case _ =>
             obj.getProperty(name, None) match {
               case Some(pVar: PVar) if pAny.isInstanceOf[PVal] =>
-                pVar.value = pAny.asInstanceOf[PVal]
+                pVar := pAny.asInstanceOf[PVal]
               case Some(_) =>
                 obj.setProperty(name, None, pAny)
               case None =>
@@ -209,7 +209,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
   private def optParent(withWarn: Boolean) =
     if (!parentRef.isDefined) {
       val obj = PStdClass.newInstance(Nil)(ctx)
-      parentRef.asVar.value = obj
+      parentRef.asVar := obj
       if (withWarn)
         ctx.log.warn("Creating default object from empty value")
       Some(obj)
@@ -221,7 +221,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
           if (withWarn)
             ctx.log.warn("Creating default object from empty value")
           val obj = PStdClass.newInstance(Nil)(ctx)
-          parentRef.asVar.value = obj
+          parentRef.asVar := obj
           Some(obj)
         case _ =>
           None
