@@ -18,6 +18,8 @@ trait Reference extends PAny {
 
   def isDefined: Boolean
 
+  def value: PVal = asVal
+
   def value_=(v: PAny)(implicit ctx: Context): PAny
 
   def unset()(implicit ctx: Context)

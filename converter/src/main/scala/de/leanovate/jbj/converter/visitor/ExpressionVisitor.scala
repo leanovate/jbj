@@ -1,3 +1,10 @@
+/*    _ _     _                                        *\
+**   (_) |__ (_)  License: MIT  (2013)                 **
+**   | |  _ \| |    http://opensource.org/licenses/MIT **
+**   | | |_) | |                                       **
+**  _/ |____// |  Author: Bodo Junglas                 **
+\* |__/    |__/                                        */
+
 package de.leanovate.jbj.converter.visitor
 
 import de.leanovate.jbj.core.ast.{Expr, NodeVisitor}
@@ -6,12 +13,28 @@ import scala.text.Document._
 import de.leanovate.jbj.core.ast.expr._
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.converter.builders.{CodeUnitBuilder, ProgCodeUnitBuilder, LiteralBuilder}
-import de.leanovate.jbj.core.ast.expr.calc.{SubExpr, AddExpr, ConcatExpr}
+import de.leanovate.jbj.core.ast.expr.calc._
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.core.ast.expr.AssignRefExpr
 import de.leanovate.jbj.core.ast.expr.PrintExpr
 import de.leanovate.jbj.core.ast.name.StaticName
 import de.leanovate.jbj.core.ast.expr.comp.LtExpr
+import de.leanovate.jbj.core.ast.expr.VariableRefExpr
+import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
+import de.leanovate.jbj.core.ast.expr.AssignRefExpr
+import de.leanovate.jbj.core.ast.expr.calc.AddExpr
+import de.leanovate.jbj.core.ast.expr.calc.MulExpr
+import de.leanovate.jbj.core.ast.name.StaticName
+import de.leanovate.jbj.core.ast.expr.comp.LtExpr
+import de.leanovate.jbj.core.ast.expr.ArrayCreateExpr
+import de.leanovate.jbj.core.ast.expr.ArrayKeyValue
+import de.leanovate.jbj.core.ast.expr.calc.SubExpr
+import de.leanovate.jbj.core.ast.expr.calc.ConcatExpr
+import de.leanovate.jbj.core.ast.expr.CallByNameRefExpr
+import de.leanovate.jbj.core.ast.expr.DimRefExpr
+import de.leanovate.jbj.core.ast.expr.PrintExpr
+import scala.Some
+import de.leanovate.jbj.core.ast.expr.GetAndIncrExpr
 
 class ExpressionVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[Document] {
   val expressions = Seq.newBuilder[Document]
@@ -53,12 +76,24 @@ class ExpressionVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[D
       expressions += parentesis(Precedence.Term)(ref) :: ".dim(" :: index.map(_.foldWith(new ExpressionVisitor)).getOrElse(empty) :: ")" :: empty
       acceptsNextSibling
 
+    case DivExpr(left, right) =>
+      expressions += parentesis(Precedence.MulDiv)(left) :: " / " :: parentesis(Precedence.AddSub)(right)
+      acceptsNextSibling
+
+    case GetAndDecrExpr(expr) =>
+      expressions += parentesis(Precedence.Term)(expr) :: ".--" :: empty
+      acceptsNextSibling
+
     case GetAndIncrExpr(expr) =>
       expressions += parentesis(Precedence.Term)(expr) :: ".++" :: empty
       acceptsNextSibling
 
     case LtExpr(left, right) =>
       expressions += parentesis(Precedence.Compare)(left) :: " < " :: parentesis(Precedence.AddSub)(right)
+      acceptsNextSibling
+
+    case MulExpr(left, right) =>
+      expressions += parentesis(Precedence.MulDiv)(left) :: " * " :: parentesis(Precedence.AddSub)(right)
       acceptsNextSibling
 
     case PrintExpr(expr) =>

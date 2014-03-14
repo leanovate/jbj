@@ -5,5 +5,5 @@ object Precedence extends Enumeration {
   val BoolOr1, BoolXor1, BoolAnd1,
   BoolOr2, BoolAnd2,
   BitOr, BitXor, BitAnd,
-  Eq, Compare, BitShift, AddSub, MulDif, Term = Value
+  Eq, Compare, BitShift, AddSub, MulDiv, Term = Value
 }

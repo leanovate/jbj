@@ -16,5 +16,5 @@ case class ModExpr(left: Expr, right: Expr) extends BinaryExpr {
 
   override def phpStr = left.phpStr + "%" + right.phpStr
 
-  override val precedence = Precedence.MulDif
+  override val precedence = Precedence.MulDiv
 }

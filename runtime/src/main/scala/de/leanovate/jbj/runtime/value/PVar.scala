@@ -20,7 +20,7 @@ class PVar(private var current: Option[PConcreteVal] = None) extends PAny with R
 
   override def toOutput(implicit ctx: Context): String = current.map(_.toOutput).getOrElse("")
 
-  def value = current.getOrElse(NullVal)
+  override def value: PVal = current.getOrElse(NullVal)
 
   override def value_=(v: PAny)(implicit ctx: Context): PAny = {
     v.retain()

@@ -328,7 +328,7 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       case Precedence.Compare => ">" ^^^ GtExpr | ">=" ^^^ GeExpr | "<" ^^^ LtExpr | "<=" ^^^ LeExpr
       case Precedence.BitShift => ">>" ^^^ BitShiftRightExpr | "<<" ^^^ BitShiftLeftExpr
       case Precedence.AddSub => "." ^^^ ConcatExpr | "+" ^^^ AddExpr | "-" ^^^ SubExpr
-      case Precedence.MulDif => "*" ^^^ MulExpr | "/" ^^^ DivExpr | "%" ^^^ ModExpr
+      case Precedence.MulDiv => "*" ^^^ MulExpr | "/" ^^^ DivExpr | "%" ^^^ ModExpr
     }
   }
 
