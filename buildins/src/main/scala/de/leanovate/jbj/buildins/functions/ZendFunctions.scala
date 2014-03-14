@@ -8,8 +8,13 @@
 package de.leanovate.jbj.buildins.functions
 
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
+import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
-object ZendFunctions {
+trait ZendFunctions {
   @GlobalFunction
   def zend_version(): String = "2.5.0"
+}
+
+object ZendFunctions extends ZendFunctions {
+  val functions = GlobalFunctions.generatePFunctions(this)
 }

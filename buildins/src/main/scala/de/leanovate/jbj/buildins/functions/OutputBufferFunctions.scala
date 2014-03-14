@@ -15,8 +15,9 @@ import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import scala.Some
 import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.runtime.CallbackHelper
+import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
-object OutputBufferFunctions {
+trait OutputBufferFunctions {
   @GlobalFunction
   def ob_start(callback: Option[PVal], size: Option[Int], erase: Option[Boolean])(implicit ctx: Context): Boolean = {
     if (callback.isDefined) {
@@ -148,4 +149,8 @@ object OutputBufferFunctions {
       )
     }
   }
+}
+
+object OutputBufferFunctions extends OutputBufferFunctions {
+  val functions = GlobalFunctions.generatePFunctions(this)
 }

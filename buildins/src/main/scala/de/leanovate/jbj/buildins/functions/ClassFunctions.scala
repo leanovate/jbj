@@ -11,8 +11,9 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
 import de.leanovate.jbj.runtime.context.{StaticMethodContext, MethodContext, Context}
 import de.leanovate.jbj.runtime.NamespaceName
+import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
-object ClassFunctions {
+trait ClassFunctions {
   @GlobalFunction(parameterMode = ParameterMode.STRICT_WARN, warnResult = NullVal)
   def class_exists(name: String, autoload: Option[Boolean])(implicit ctx: Context): Boolean = {
     ctx.global.findClass(NamespaceName(name), autoload.getOrElse(true)).isDefined
@@ -127,4 +128,8 @@ object ClassFunctions {
         NullVal
     }
   }
+}
+
+object ClassFunctions extends ClassFunctions {
+  val functions = GlobalFunctions.generatePFunctions(this)
 }

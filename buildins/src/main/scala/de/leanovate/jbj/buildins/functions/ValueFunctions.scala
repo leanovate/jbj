@@ -10,8 +10,9 @@ package de.leanovate.jbj.buildins.functions
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.value.{DoubleVal, ArrayVal, PVal}
 import de.leanovate.jbj.runtime.context.Context
+import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
-object ValueFunctions {
+trait ValueFunctions {
   @GlobalFunction
   def is_null(value: PVal): Boolean = value.isNull
 
@@ -29,4 +30,8 @@ object ValueFunctions {
 
   @GlobalFunction
   def gettype(value: PVal): String = value.typeName(simple = false)
+}
+
+object ValueFunctions extends ValueFunctions {
+  val functions = GlobalFunctions.generatePFunctions(this)
 }

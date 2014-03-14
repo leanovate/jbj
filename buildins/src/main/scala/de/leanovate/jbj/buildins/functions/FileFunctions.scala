@@ -17,8 +17,9 @@ import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.value.IntegerVal
 import java.nio.file.attribute.BasicFileAttributes
 import scala.collection.JavaConversions._
+import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
-object FileFunctions {
+trait FileFunctions {
   @GlobalFunction
   def basename(fileName: String): String = {
     val idx = fileName.lastIndexOf('/')
@@ -193,4 +194,8 @@ object FileFunctions {
     } else
       false
   }
+}
+
+object FileFunctions extends FileFunctions {
+  val functions = GlobalFunctions.generatePFunctions(this)
 }

@@ -13,8 +13,9 @@ import de.leanovate.jbj.runtime.context.{FunctionLikeContext, Context}
 import de.leanovate.jbj.runtime.exception.{ParseJbjException, FatalErrorJbjException}
 import de.leanovate.jbj.runtime.{CallbackHelper, NamespaceName}
 import de.leanovate.jbj.runtime.types.{PClosure, PParam}
+import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
-object FunctionFunctions {
+trait FunctionFunctions {
   @GlobalFunction
   def create_function(args: String, code: String)(implicit ctx: Context): String = {
     try {
@@ -162,4 +163,8 @@ object FunctionFunctions {
       CallbackHelper.isValidCallback(callable, callableName)
     }
   }
+}
+
+object FunctionFunctions extends FunctionFunctions {
+  val functions = GlobalFunctions.generatePFunctions(this)
 }

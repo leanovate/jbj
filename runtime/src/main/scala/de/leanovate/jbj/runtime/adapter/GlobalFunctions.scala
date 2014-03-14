@@ -16,9 +16,9 @@ import de.leanovate.jbj.runtime.exception.{WarnWithResultJbjException, FatalErro
 import de.leanovate.jbj.runtime.types.{PParamDef, PParam, PFunction}
 
 object GlobalFunctions {
-  def functions(inst: Any): Seq[PFunction] = macro functions_impl
+  def generatePFunctions(inst: Any): Seq[PFunction] = macro generatePFunctions_impl
 
-  def functions_impl(c: Context)(inst: c.Expr[Any]): c.Expr[Seq[PFunction]] = {
+  def generatePFunctions_impl(c: Context)(inst: c.Expr[Any]): c.Expr[Seq[PFunction]] = {
     import c.universe._
     val converterHelper = new ConverterHelper[c.type](c)
     val pVarClass = typeOf[PVar].typeSymbol

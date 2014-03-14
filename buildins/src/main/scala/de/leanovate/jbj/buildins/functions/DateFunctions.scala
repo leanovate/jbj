@@ -13,7 +13,7 @@ import java.util.Calendar
 import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 import de.leanovate.jbj.runtime.value.{DoubleVal, StringVal, PVal}
 
-object DateFunctions {
+trait DateFunctions {
   @GlobalFunction
   def mktime(hour: Option[Int], minute: Option[Int], second: Option[Int],
              month: Option[Int], day: Option[Int], year: Option[Int],
@@ -50,4 +50,8 @@ object DateFunctions {
       StringVal(s"${millis / 1000.0} $seconds")
     }
   }
+}
+
+object DateFunctions extends DateFunctions {
+  val functions = GlobalFunctions.generatePFunctions(this)
 }

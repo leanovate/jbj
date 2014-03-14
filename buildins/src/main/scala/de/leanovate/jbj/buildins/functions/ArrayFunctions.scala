@@ -13,8 +13,9 @@ import de.leanovate.jbj.runtime.annotations.{ParameterMode, GlobalFunction}
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.TypeHint
 import de.leanovate.jbj.runtime.CallbackHelper
+import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
-object ArrayFunctions {
+trait ArrayFunctions {
   @GlobalFunction
   def count(value: PVal): Int = value match {
     case array: ArrayVal => array.size
@@ -342,4 +343,8 @@ object ArrayFunctions {
         }
     }
   }
+}
+
+object ArrayFunctions extends ArrayFunctions {
+  val functions = GlobalFunctions.generatePFunctions(this)
 }

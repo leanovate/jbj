@@ -13,8 +13,9 @@ import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.runtime.context.Context
 import java.net.URLEncoder
 import de.leanovate.jbj.runtime.types.PParam
+import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
-object StringFunctions {
+trait StringFunctions {
   @GlobalFunction
   def bin2hex(str: Array[Byte]): Array[Byte] = {
     val result = new Array[Byte](str.length * 2)
@@ -190,4 +191,8 @@ object StringFunctions {
     result.append(str.substring(start))
     (result.toString(), counter)
   }
+}
+
+object StringFunctions extends StringFunctions {
+  val functions = GlobalFunctions.generatePFunctions(this)
 }

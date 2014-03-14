@@ -16,8 +16,9 @@ import de.leanovate.jbj.runtime.{NamespaceName, CallbackHelper}
 import de.leanovate.jbj.api.http.JbjSettings
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import scala.Some
+import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
-object RuntimeFunctions {
+trait RuntimeFunctions {
   @GlobalFunction(parameterMode = ParameterMode.STRICT_WARN, warnResult = NullVal)
   def constant(name: String)(implicit ctx: Context): PVal = ctx.global.findConstant(NamespaceName(name)).getOrElse {
     ctx.log.warn("constant(): Couldn't find constant %s".format(name))
@@ -143,4 +144,8 @@ object RuntimeFunctions {
         false
     }
   }
+}
+
+object RuntimeFunctions extends RuntimeFunctions {
+  val functions = GlobalFunctions.generatePFunctions(this)
 }

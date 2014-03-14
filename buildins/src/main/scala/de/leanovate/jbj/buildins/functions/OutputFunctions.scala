@@ -11,8 +11,9 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
-object OutputFunctions {
+trait OutputFunctions {
   @GlobalFunction
   def flush()(implicit ctx: Context) {
     ctx.out.flush()
@@ -225,4 +226,8 @@ object OutputFunctions {
       BooleanVal.TRUE
     }
   }
+}
+
+object OutputFunctions extends OutputFunctions {
+  val functions = GlobalFunctions.generatePFunctions(this)
 }

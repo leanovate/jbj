@@ -2,8 +2,9 @@ package de.leanovate.jbj.buildins.functions
 
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
+import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
-object HeadFunctions {
+trait HeadFunctions {
 
   private[this] val httpHeader = """(?i)^HTTP/1.[01] (\d{3}) (.+)$""".r
   private[this] val redirect = """(?i)^Location:(.+)$""".r
@@ -55,4 +56,8 @@ object HeadFunctions {
     }
   }
 
+}
+
+object HeadFunctions extends HeadFunctions {
+  val functions = GlobalFunctions.generatePFunctions(this)
 }
