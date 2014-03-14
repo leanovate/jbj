@@ -139,7 +139,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
     }
   }
 
-  override def assign(pAny: PAny)(implicit ctx: Context) = {
+  override def value_=(pAny: PAny)(implicit ctx: Context) = {
     optParent(withWarn = !pAny.isInstanceOf[PVar]) match {
       case Some(obj) =>
         checkShadowedStatic(obj.pClass, name)

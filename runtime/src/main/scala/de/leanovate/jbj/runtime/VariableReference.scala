@@ -37,7 +37,7 @@ case class VariableReference(name: String)(implicit ctx: Context) extends Refere
     }
   }
 
-  override def assign(pAny: PAny)(implicit ctx: Context): PAny = {
+  override def value_=(pAny: PAny)(implicit ctx: Context): PAny = {
     pAny match {
       case pVar: PVar =>
         ctx.defineVariable(name, pVar)

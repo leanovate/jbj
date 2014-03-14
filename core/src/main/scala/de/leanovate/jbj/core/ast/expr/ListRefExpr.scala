@@ -26,7 +26,7 @@ case class ListRefExpr(references: List[Option[RefExpr]]) extends RefExpr {
 
     override def byVar = throw new RuntimeException("List can only be used in assignment")
 
-    override def assign(pAny: PAny)(implicit ctx: Context) = {
+    override def value_=(pAny: PAny)(implicit ctx: Context) = {
       pAny.asVal match {
         case array: ArrayVal =>
           // this is a bit sub-optimal, but it seems to be the order the original engine likes
@@ -39,11 +39,11 @@ case class ListRefExpr(references: List[Option[RefExpr]]) extends RefExpr {
           }.toList
           refs.foreach {
             ref =>
-              ref.foreach(_.assign(values.last))
+              ref.foreach(_.value_=(values.last))
               values = values.dropRight(1)
           }
         case _ =>
-          refs.foreach(_.foreach(_.assign(NullVal)))
+          refs.foreach(_.foreach(_.value_=(NullVal)))
       }
       pAny
     }

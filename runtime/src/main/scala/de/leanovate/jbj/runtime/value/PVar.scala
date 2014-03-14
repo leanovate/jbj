@@ -22,14 +22,14 @@ class PVar(private var current: Option[PConcreteVal] = None) extends PAny with R
 
   def value = current.getOrElse(NullVal)
 
-  def value_=(v: PVal)(implicit ctx: Context): PAny = {
+  override def value_=(v: PAny)(implicit ctx: Context): PAny = {
     v.retain()
     current.foreach(_.release())
-    current = Some(v.concrete)
+    current = Some(v.asVal.concrete)
     this
   }
 
-  def unset()(implicit ctx: Context) {
+  override def unset()(implicit ctx: Context) {
     current.foreach(_.release())
     current = None
   }
@@ -67,11 +67,6 @@ class PVar(private var current: Option[PConcreteVal] = None) extends PAny with R
     builder.append(refCount)
     builder.append(")")
     builder.result()
-  }
-
-  override def assign(pAny: PAny)(implicit ctx: Context) = {
-    value_=(pAny.asVal)
-    this
   }
 
   override def byVar = this

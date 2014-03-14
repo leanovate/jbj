@@ -12,6 +12,7 @@ import de.leanovate.jbj.runtime.context.Context
 import scala.Some
 import de.leanovate.jbj.runtime.types.{PIterator, PIteratorAggregate, PArrayAccess}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import scala.Some
 
 trait Reference {
   def isConstant: Boolean
@@ -22,33 +23,33 @@ trait Reference {
 
   def byVar: PVar
 
-  def assign(pAny: PAny)(implicit ctx: Context): PAny
+  def value_=(v: PAny)(implicit ctx: Context): PAny
 
   def unset()(implicit ctx: Context)
 
   def checkIndirect: Boolean = true
 
-  def +=(other: PAny)(implicit ctx: Context): PVal = assign(this.byVal.toNum + other.asVal.toNum).asVal
+  def +=(other: PAny)(implicit ctx: Context): PVal = value_=(this.byVal.toNum + other.asVal.toNum).asVal
 
-  def -=(other: PAny)(implicit ctx: Context): PVal = assign(this.byVal.toNum - other.asVal.toNum).asVal
+  def -=(other: PAny)(implicit ctx: Context): PVal = value_=(this.byVal.toNum - other.asVal.toNum).asVal
 
-  def *=(other: PAny)(implicit ctx: Context): PVal = assign(this.byVal.toNum * other.asVal.toNum).asVal
+  def *=(other: PAny)(implicit ctx: Context): PVal = value_=(this.byVal.toNum * other.asVal.toNum).asVal
 
-  def /=(other: PAny)(implicit ctx: Context): PVal = assign(this.byVal.toNum / other.asVal.toNum).asVal
+  def /=(other: PAny)(implicit ctx: Context): PVal = value_=(this.byVal.toNum / other.asVal.toNum).asVal
 
-  def !!=(other: PAny)(implicit ctx: Context): PVal = assign(this.byVal.toStr !! other.asVal.toStr).asVal
+  def !!=(other: PAny)(implicit ctx: Context): PVal = value_=(this.byVal.toStr !! other.asVal.toStr).asVal
 
   def ++()(implicit ctx: Context): PVal = {
     val result = byVal.copy
     if (checkIndirect)
-      assign(result.incr)
+      value_=(result.incr)
     result
   }
 
   def --(implicit ctx: Context): PVal = {
     val result = byVal.copy
     if (checkIndirect)
-      assign(result.decr)
+      value_=(result.decr)
     result
   }
 
@@ -138,9 +139,9 @@ trait Reference {
 
 object Reference {
   def ++(ref: Reference)(implicit ctx: Context): PVal =
-    if (ref.checkIndirect) ref.assign(ref.byVal.incr).asVal else ref.byVal.incr
+    if (ref.checkIndirect) ref.value_=(ref.byVal.incr).asVal else ref.byVal.incr
 
   def --(ref: Reference)(implicit ctx: Context): PVal =
-    if (ref.checkIndirect) ref.assign(ref.byVal.decr).asVal else ref.byVal.decr
+    if (ref.checkIndirect) ref.value_=(ref.byVal.decr).asVal else ref.byVal.decr
 
 }

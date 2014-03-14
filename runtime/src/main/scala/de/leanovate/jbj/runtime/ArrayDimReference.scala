@@ -86,7 +86,7 @@ class ArrayDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implici
     }
   }
 
-  override def assign(pAny: PAny)(implicit ctx: Context) = {
+  override def value_=(pAny: PAny)(implicit ctx: Context) = {
     optParent.map {
       array =>
         optArrayKey match {

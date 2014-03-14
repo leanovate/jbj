@@ -54,7 +54,7 @@ class StringDimReference(parentStr: StringVal, optArrayKey: Option[PVal])(implic
     }
   }
 
-  override def assign(pAny: PAny)(implicit ctx: Context) = {
+  override def value_=(pAny: PAny)(implicit ctx: Context) = {
     parentStr.setAt(optArrayKey, pAny)
   }
 
