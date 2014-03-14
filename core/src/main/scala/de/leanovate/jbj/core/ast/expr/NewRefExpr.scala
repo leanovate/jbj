@@ -29,11 +29,11 @@ case class NewRefExpr(className: Name, parameters: List[Expr]) extends RefExpr {
 
     override def isConstant = false
 
-    override def isDefined = !byVal.isNull
+    override def isDefined = !asVal.isNull
 
-    override def byVal = result.asVal
+    override def asVal = result.asVal
 
-    override def byVar = result.asVar
+    override def asVar = result.asVar
 
     override def value_=(pAny: PAny)(implicit ctx: Context) = {
       throw new FatalErrorJbjException("Can't use new result in write context")

@@ -16,16 +16,16 @@ class UndefDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implici
 
   override def isDefined = false
 
-  override def byVal = {
+  override def asVal = {
     if (optArrayKey.isEmpty)
       throw new FatalErrorJbjException("Cannot use [] for reading")
     else {
-      parentRef.byVal.concrete
+      parentRef.asVal.concrete
       NullVal
     }
   }
 
-  override def byVar = {
+  override def asVar = {
     optArrayKey match {
       case Some(arrayKey) if arrayKey.concrete.isInstanceOf[ObjectVal] =>
         ctx.log.warn("Illegal offset type")
@@ -72,7 +72,7 @@ class UndefDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implici
 
   private def createParent: ArrayVal = {
     val array = ArrayVal()
-    parentRef.byVar.value = array
+    parentRef.asVar.value = array
     array
   }
 }

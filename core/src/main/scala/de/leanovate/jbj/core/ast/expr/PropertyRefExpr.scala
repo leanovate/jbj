@@ -11,7 +11,7 @@ import de.leanovate.jbj.core.ast.{Name, RefExpr}
 import de.leanovate.jbj.runtime.context.Context
 
 case class PropertyRefExpr(reference: RefExpr, propertyName: Name) extends RefExpr {
-  override def eval(implicit ctx: Context) = evalRef.byVal
+  override def eval(implicit ctx: Context) = evalRef.asVal
 
   override def evalRef(implicit ctx: Context) = reference.evalRef.prop(propertyName.evalName)
 

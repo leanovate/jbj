@@ -6,7 +6,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 abstract class ResourceVal[T](var id: Long, var resourceType: String, var payload: T) extends PConcreteVal {
 
-  def toOutput(implicit ctx: Context) = s"resource id #$id"
+  override def toOutput(implicit ctx: Context) = s"resource id #$id"
 
   def toStr(implicit ctx: Context) = StringVal(s"resource id #$id")
 
@@ -36,9 +36,9 @@ abstract class ResourceVal[T](var id: Long, var resourceType: String, var payloa
     StringVal.compare(toStr.chars, other.toStr.chars)
   }
 
-  def isCallable(implicit ctx: Context) = false
+  override def isCallable(implicit ctx: Context) = false
 
-  def call(params: List[PParam])(implicit ctx: Context) =
+  override def call(params: List[PParam])(implicit ctx: Context) =
     throw new FatalErrorJbjException("Function name must be a string")
 
   def isOpen: Boolean

@@ -24,9 +24,9 @@ case class StaticLambdaDeclExpr(returnByRef: Boolean, parameterDecls: List[Param
       lexicalVar =>
         val varRef = VariableReference(lexicalVar.variableName)
         (Some(StringVal(lexicalVar.variableName)), if (lexicalVar.byRef) {
-          varRef.byVar
+          varRef.asVar
         } else {
-          varRef.byVal.concrete
+          varRef.asVal.concrete
         })
     }: _*))
     else

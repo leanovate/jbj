@@ -18,7 +18,7 @@ case class DimRefExpr(reference: RefExpr, indexExpr: Option[Expr]) extends RefEx
       reference.evalRef.dim()
     }
 
-  override def eval(implicit ctx: Context) = evalRef.byVal
+  override def eval(implicit ctx: Context) = evalRef.asVal
 
   override def phpStr = reference.phpStr + indexExpr.map("[" + _.phpStr + "]").getOrElse("[]")
 }

@@ -18,7 +18,7 @@ case class EmptyExpr(expr: Expr) extends Expr {
       if (!ref.isDefined)
         BooleanVal.TRUE
       else
-        !ref.byVal
+        !ref.asVal
     case _ =>
       !expr.eval
   }

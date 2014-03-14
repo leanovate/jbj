@@ -22,7 +22,7 @@ class StringDimReference(parentStr: StringVal, optArrayKey: Option[PVal])(implic
       parentStr.getAt(optArrayKey.get).exists(!_.asVal.isNull)
   }
 
-  override def byVal = {
+  override def asVal = {
     if (optArrayKey.isEmpty)
       throw new FatalErrorJbjException("Cannot use [] for reading")
     else {
@@ -36,7 +36,7 @@ class StringDimReference(parentStr: StringVal, optArrayKey: Option[PVal])(implic
     }
   }
 
-  override def byVar = {
+  override def asVar = {
     optArrayKey match {
       case Some(arrayKey) =>
         parentStr.getAt(arrayKey) match {

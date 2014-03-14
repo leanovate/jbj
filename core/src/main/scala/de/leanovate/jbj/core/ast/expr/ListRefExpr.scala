@@ -22,9 +22,9 @@ case class ListRefExpr(references: List[Option[RefExpr]]) extends RefExpr {
 
     override def isDefined = false
 
-    override def byVal = throw new RuntimeException("List can only be used in assignment")
+    override def asVal = throw new RuntimeException("List can only be used in assignment")
 
-    override def byVar = throw new RuntimeException("List can only be used in assignment")
+    override def asVar = throw new RuntimeException("List can only be used in assignment")
 
     override def value_=(pAny: PAny)(implicit ctx: Context) = {
       pAny.asVal match {

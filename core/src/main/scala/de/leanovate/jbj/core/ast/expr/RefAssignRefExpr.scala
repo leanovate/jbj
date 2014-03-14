@@ -13,7 +13,7 @@ import de.leanovate.jbj.runtime.value.{PAny, PVar}
 import de.leanovate.jbj.runtime.context.Context
 
 case class RefAssignRefExpr(reference: RefExpr, otherReferable: RefExpr) extends RefExpr {
-  override def eval(implicit ctx: Context) = evalRef.byVal
+  override def eval(implicit ctx: Context) = evalRef.asVal
 
   override def evalRef(implicit ctx: Context) = new Reference {
     val resultRef = reference.evalRef
@@ -22,19 +22,19 @@ case class RefAssignRefExpr(reference: RefExpr, otherReferable: RefExpr) extends
       val otherRef = otherReferable.evalRef
       if (otherRef.isConstant) {
         ctx.log.strict("Only variables should be assigned by reference")
-        resultRef.value_=(otherRef.byVal)
+        resultRef.value_=(otherRef.asVal)
       } else {
-        resultRef.value_=(otherRef.byVar)
+        resultRef.value_=(otherRef.asVar)
       }
     }
 
     override def isConstant = !result.isInstanceOf[PVar]
 
-    override def isDefined = !byVal.isNull
+    override def isDefined = !asVal.isNull
 
-    override def byVal = result.asVal
+    override def asVal = result.asVal
 
-    override def byVar = result.asVar
+    override def asVar = result.asVar
 
     override def value_=(pAny: PAny)(implicit ctx: Context) = resultRef.value_=(pAny)
 

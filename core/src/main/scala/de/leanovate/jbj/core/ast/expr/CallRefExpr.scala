@@ -14,7 +14,7 @@ import de.leanovate.jbj.runtime.value.{PVar, PAny}
 import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 trait CallRefExpr extends RefExpr {
-  override def eval(implicit ctx: Context) = evalRef.byVal
+  override def eval(implicit ctx: Context) = evalRef.asVal
 
   override def evalRef(implicit ctx: Context) = new ConstantReference(call) {
     override def unset()(implicit ctx: Context) {

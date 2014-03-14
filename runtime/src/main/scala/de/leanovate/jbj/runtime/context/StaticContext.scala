@@ -29,9 +29,9 @@ trait StaticContext {
 
     override def isDefined = findVariable(name).exists(!_.value.isNull)
 
-    override def byVal = findVariable(name).map(_.value).getOrElse(NullVal)
+    override def asVal = findVariable(name).map(_.value).getOrElse(NullVal)
 
-    override def byVar = findOrDefineVariable(name)
+    override def asVar = findOrDefineVariable(name)
 
     override def value_=(pAny: PAny)(implicit ctx: Context): PAny = {
       pAny match {

@@ -26,7 +26,7 @@ class StaticClassVarReference(pClass: PClass, name: String)(implicit ctx: Contex
       staticClassObject.getProperty(name, None).exists(!_.asVal.isNull)
   }
 
-  override def byVal = ctx match {
+  override def asVal = ctx match {
     case MethodContext(_, pMethod, _) =>
       staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).map(_.asVal).getOrElse {
         notFound(pClass, name, Some(pMethod.implementingClass.name.toString))
@@ -41,7 +41,7 @@ class StaticClassVarReference(pClass: PClass, name: String)(implicit ctx: Contex
       }
   }
 
-  override def byVar = ctx match {
+  override def asVar = ctx match {
     case MethodContext(_, pMethod, _) =>
       staticClassObject.getProperty(name, Some(pMethod.implementingClass.name.toString)).map {
         case pVar: PVar => pVar

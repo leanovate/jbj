@@ -64,8 +64,6 @@ object Operators {
     body(funcCtx)
   }
 
-  implicit def reference2Val(value: Reference): PVal = value.byVal
-
   implicit def pAny2Boolean(value: PAny): Boolean = value.asVal.toBool.asBoolean
 
   implicit def pAny2String(value: PAny)(implicit ctx: Context): String = value.asVal.toStr.asString

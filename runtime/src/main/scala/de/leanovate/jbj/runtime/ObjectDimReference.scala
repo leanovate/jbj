@@ -22,14 +22,14 @@ class ObjectDimReference(arrayAccess: PArrayAccess, optArrayKey: Option[PVal])(i
       arrayAccess.offsetExists(optArrayKey.get)
   }
 
-  override def byVal = {
+  override def asVal = {
     if (optArrayKey.isEmpty)
       throw new FatalErrorJbjException("Cannot use [] for reading")
     else
       arrayAccess.offsetGet(optArrayKey.get).asVal
   }
 
-  override def byVar = {
+  override def asVar = {
     arrayAccess.offsetGet(optArrayKey.get).asVar
   }
 
@@ -64,7 +64,7 @@ class ObjectDimReference(arrayAccess: PArrayAccess, optArrayKey: Option[PVal])(i
     }
   }
 
-  override def dim(optKey: Option[PVal] = None)(implicit ctx: Context) = byVal.concrete match {
+  override def dim(optKey: Option[PVal] = None)(implicit ctx: Context) = asVal.concrete match {
     case obj: ObjectVal if obj.instanceOf(PArrayAccess) =>
       new ObjectDimReference(PArrayAccess.cast(obj), optKey)
     case _ =>

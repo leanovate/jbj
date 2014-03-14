@@ -27,19 +27,19 @@ case class AssignRefExpr(reference: RefExpr, expr: Expr) extends RefExpr with St
     }
   }
 
-  override def eval(implicit ctx: Context) = evalRef.byVal
+  override def eval(implicit ctx: Context) = evalRef.asVal
 
   override def evalRef(implicit ctx: Context) = new Reference {
     val assignedRef = reference.evalRef
     val result = assignedRef.value_=(expr.eval.asVal.copy)
 
-    override def isConstant = assignedRef.byVar.refCount == 1
+    override def isConstant = assignedRef.asVar.refCount == 1
 
-    override def isDefined = !byVal.isNull
+    override def isDefined = !asVal.isNull
 
-    override def byVal = result.asVal
+    override def asVal = result.asVal
 
-    override def byVar = result.asVar
+    override def asVar = result.asVar
 
     override def value_=(pAny: PAny)(implicit ctx: Context) = pAny
 

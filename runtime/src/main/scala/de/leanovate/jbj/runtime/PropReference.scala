@@ -22,7 +22,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
 
   override def isDefined = {
     if (parentRef.isDefined) {
-      parentRef.byVal.concrete match {
+      parentRef.asVal.concrete match {
         case obj: ObjectVal =>
           if ((ctx match {
             case MethodContext(_, pMethod, _) =>
@@ -43,8 +43,8 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
     }
   }
 
-  override def byVal = {
-    parentRef.byVal.concrete match {
+  override def asVal = {
+    parentRef.asVal.concrete match {
       case obj: ObjectVal =>
         checkShadowedStatic(obj.pClass, name)
         ctx match {
@@ -92,7 +92,7 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
     }
   }
 
-  override def byVar = {
+  override def asVar = {
     optParent(withWarn = false) match {
       case Some(obj) =>
         ctx match {
@@ -209,19 +209,19 @@ class PropReference(parentRef: Reference, name: String)(implicit ctx: Context) e
   private def optParent(withWarn: Boolean) =
     if (!parentRef.isDefined) {
       val obj = PStdClass.newInstance(Nil)(ctx)
-      parentRef.byVar.value = obj
+      parentRef.asVar.value = obj
       if (withWarn)
         ctx.log.warn("Creating default object from empty value")
       Some(obj)
     } else {
-      parentRef.byVal.concrete match {
+      parentRef.asVal.concrete match {
         case obj: ObjectVal =>
           Some(obj)
         case NullVal =>
           if (withWarn)
             ctx.log.warn("Creating default object from empty value")
           val obj = PStdClass.newInstance(Nil)(ctx)
-          parentRef.byVar.value = obj
+          parentRef.asVar.value = obj
           Some(obj)
         case _ =>
           None

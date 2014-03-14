@@ -18,7 +18,7 @@ class PVar(private var current: Option[PConcreteVal] = None) extends PAny with R
 
   def refCount = _refCount
 
-  def toOutput(implicit ctx: Context): String = current.map(_.toOutput).getOrElse("")
+  override def toOutput(implicit ctx: Context): String = current.map(_.toOutput).getOrElse("")
 
   def value = current.getOrElse(NullVal)
 
@@ -68,10 +68,6 @@ class PVar(private var current: Option[PConcreteVal] = None) extends PAny with R
     builder.append(")")
     builder.result()
   }
-
-  override def byVar = this
-
-  override def byVal = value
 
   override def isDefined = current.isDefined
 

@@ -19,9 +19,9 @@ class ReferableExprParam(referableExpr: RefExpr)(implicit ctx: Context) extends 
   override def byRef = {
     val ref = referableExpr.evalRef
     if (ref.isConstant)
-      Some(ref.byVal)
+      Some(ref.asVal)
     else
-      Some(ref.byVar)
+      Some(ref.asVar)
   }
 
   override def byVal = referableExpr.eval.asVal

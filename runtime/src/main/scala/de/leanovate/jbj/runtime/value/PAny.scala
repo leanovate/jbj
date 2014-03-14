@@ -11,7 +11,7 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
 
 trait PAny {
-  def toOutput(implicit ctx: Context): String
+  def toOutput(implicit ctx: Context): String = asVal.toOutput
 
   def asVal: PVal
 
@@ -99,7 +99,7 @@ trait PAny {
     case value => ~value.toInteger
   }
 
-  def isCallable(implicit ctx: Context): Boolean
+  def isCallable(implicit ctx: Context): Boolean = asVal.isCallable
 
-  def call(params: List[PParam])(implicit ctx: Context): PAny
+  def call(params: List[PParam])(implicit ctx: Context): PAny = asVal.call(params)
 }

@@ -12,7 +12,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 import de.leanovate.jbj.runtime.context.Context
 
 case class StaticClassVarRefExpr(className: Name, variableName: Name) extends RefExpr {
-  override def eval(implicit ctx: Context) = evalRef.byVal
+  override def eval(implicit ctx: Context) = evalRef.asVal
 
   override def evalRef(implicit ctx: Context) = {
     val cname = className.evalNamespaceName

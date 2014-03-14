@@ -19,7 +19,7 @@ class ArrayDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implici
     if (optArrayKey.isEmpty)
       false
     else
-      parentRef.byVal.concrete match {
+      parentRef.asVal.concrete match {
         case array: ArrayLike =>
           array.getAt(optArrayKey.get).exists(!_.asVal.isNull)
         case _ =>
@@ -27,8 +27,8 @@ class ArrayDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implici
       }
   }
 
-  override def byVal = {
-    parentRef.byVal.concrete match {
+  override def asVal = {
+    parentRef.asVal.concrete match {
       case array: ArrayLike =>
         optArrayKey match {
           case Some(arrayKey) if arrayKey.concrete.isInstanceOf[ObjectVal] =>
@@ -56,7 +56,7 @@ class ArrayDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implici
     }
   }
 
-  override def byVar = {
+  override def asVar = {
     optParent.map {
       array =>
         optArrayKey match {
@@ -120,11 +120,11 @@ class ArrayDimReference(parentRef: Reference, optArrayKey: Option[PVal])(implici
 
   private def optParent: Option[ArrayLike] = {
     if (parentRef.checkIndirect)
-      parentRef.byVal.concrete match {
+      parentRef.asVal.concrete match {
         case array: ArrayLike => Some(array)
         case NullVal =>
           val array = ArrayVal()
-          parentRef.byVar.value = array
+          parentRef.asVar.value = array
           Some(array)
         case _ =>
           None

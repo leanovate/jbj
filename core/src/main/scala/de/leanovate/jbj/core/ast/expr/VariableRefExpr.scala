@@ -12,7 +12,7 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.Operators._
 
 case class VariableRefExpr(variableName: Name) extends RefExpr {
-  override def eval(implicit ctx: Context) = evalRef.byVal
+  override def eval(implicit ctx: Context) = evalRef.asVal
 
   override def evalRef(implicit ctx: Context) = $(variableName.evalName)
 

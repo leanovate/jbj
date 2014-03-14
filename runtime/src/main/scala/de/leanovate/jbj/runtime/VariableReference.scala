@@ -16,7 +16,7 @@ case class VariableReference(name: String)(implicit ctx: Context) extends Refere
 
   override def isDefined = ctx.findVariable(name).exists(!_.value.isNull)
 
-  override def byVal = ctx.findVariable(name).map(_.asLazyVal).getOrElse {
+  override def asVal = ctx.findVariable(name).map(_.asLazyVal).getOrElse {
     ctx match {
       case StaticMethodContext(_, _, _, false) if name == "this" =>
         throw new FatalErrorJbjException("Using $this when not in object context")
@@ -26,7 +26,7 @@ case class VariableReference(name: String)(implicit ctx: Context) extends Refere
     }
   }
 
-  override def byVar = {
+  override def asVar = {
     ctx match {
       case StaticMethodContext(_, _, _, false) if name == "this" =>
         throw new FatalErrorJbjException("Using $this when not in object context")
