@@ -3,6 +3,7 @@ package de.leanovate.jbj.runtime
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.value.IntegerVal
+import scala.language.implicitConversions
 
 object Operators {
   def $(name: String)(implicit ctx: Context): Reference = new VariableReference(name)
@@ -35,4 +36,8 @@ object Operators {
     ctx.out.print(value.toOutput)
     IntegerVal(1)
   }
+
+  implicit def pAny2Boolean(value: PAny): Boolean = value.asVal.toBool.asBoolean
+
+  implicit def pAny2String(value: PAny)(implicit ctx: Context): String = value.asVal.toStr.asString
 }

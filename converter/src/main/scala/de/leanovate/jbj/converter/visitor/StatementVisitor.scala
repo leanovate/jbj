@@ -4,7 +4,7 @@ import de.leanovate.jbj.core.ast.{Expr, NodeVisitor}
 import scala.text.Document
 import scala.text.Document._
 import de.leanovate.jbj.core.ast.stmt.{EchoStmt, InlineStmt, ExprStmt}
-import de.leanovate.jbj.converter.builders.{CodeUnitBuilder, StatementBuilder}
+import de.leanovate.jbj.converter.builders.{CodeUnitBuilder, ProgCodeUnitBuilder, StatementBuilder}
 
 class StatementVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[Document] {
   val statements = Seq.newBuilder[Document]

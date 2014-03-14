@@ -5,11 +5,10 @@ import scala.text.Document
 import scala.text.Document._
 import de.leanovate.jbj.core.ast.expr._
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
-import de.leanovate.jbj.converter.builders.{CodeUnitBuilder, LiteralBuilder}
-import de.leanovate.jbj.core.ast.expr.calc.ConcatExpr
+import de.leanovate.jbj.converter.builders.{CodeUnitBuilder, ProgCodeUnitBuilder, LiteralBuilder}
+import de.leanovate.jbj.core.ast.expr.calc.{SubExpr, AddExpr, ConcatExpr}
 import de.leanovate.jbj.core.ast.expr.value.ScalarExpr
 import de.leanovate.jbj.core.ast.expr.AssignRefExpr
-import de.leanovate.jbj.core.ast.expr.calc.ConcatExpr
 import de.leanovate.jbj.core.ast.expr.PrintExpr
 import de.leanovate.jbj.core.ast.name.StaticName
 
@@ -29,6 +28,14 @@ class ExpressionVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[D
 
     case ConcatExpr(left, right) =>
       expressions += parentesis(Precedence.AddSub)(left) :: " !! " :: parentesis(Precedence.AddSub)(right)
+      acceptsNextSibling
+
+    case AddExpr(left, right) =>
+      expressions += parentesis(Precedence.AddSub)(left) :: " + " :: parentesis(Precedence.AddSub)(right)
+      acceptsNextSibling
+
+    case SubExpr(left, right) =>
+      expressions += parentesis(Precedence.AddSub)(left) :: " - " :: parentesis(Precedence.AddSub)(right)
       acceptsNextSibling
 
     case AssignRefExpr(refExpr, expr) =>

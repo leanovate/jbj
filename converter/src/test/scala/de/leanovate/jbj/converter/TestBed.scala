@@ -15,6 +15,10 @@ object TestBed {
         |    $c = $a . " " . $b;
         |
         |    echo $c;
+        |
+        |    $d = $c + 42;
+        |
+        |    echo $d;
         |?>""".stripMargin
 
     val out = new StringWriter()

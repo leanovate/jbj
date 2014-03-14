@@ -2,10 +2,10 @@ package de.leanovate.jbj.converter.visitor
 
 import de.leanovate.jbj.core.ast.{Stmt, Prog, NodeVisitor}
 import scala.text.Document
-import de.leanovate.jbj.converter.builders.CodeUnitBuilder
+import de.leanovate.jbj.converter.builders.ProgCodeUnitBuilder
 
 class ProgVisitor(name: String, packageName: Option[String]) extends NodeVisitor[Document] {
-  implicit val builder = new CodeUnitBuilder(name, packageName)
+  implicit val builder = new ProgCodeUnitBuilder(name, packageName)
 
   def result = builder.build()
 
