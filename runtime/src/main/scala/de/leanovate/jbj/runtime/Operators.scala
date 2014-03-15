@@ -9,6 +9,8 @@ import scala.language.implicitConversions
 object Operators {
   def $(name: String)(implicit ctx: Context): Reference = new VariableReference(name)
 
+  def p(value: PVal) = value
+
   def p(value: String)(implicit ctx: Context) = StringVal(value)
 
   def p(value: Int)(implicit ctx: Context) = IntegerVal(value)
@@ -63,6 +65,8 @@ object Operators {
 
     body(funcCtx)
   }
+
+  implicit def pAny2PVal(value: PAny): PVal = value.asVal
 
   implicit def pAny2Boolean(value: PAny): Boolean = value.asVal.toBool.asBoolean
 

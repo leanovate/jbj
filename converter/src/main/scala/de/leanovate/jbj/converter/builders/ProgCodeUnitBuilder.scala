@@ -10,17 +10,24 @@ package de.leanovate.jbj.converter.builders
 import scala.text.Document._
 import scala.text.{DocNil, Document}
 import scala.collection.mutable
+import de.leanovate.jbj.buildins.StandardExtension
 
 class ProgCodeUnitBuilder(name: String, packageName: Option[String]) extends CodeUnitBuilder {
   private val statements = Seq.newBuilder[Document]
+
+  private val directFunctions = mutable.Set.empty[String]
 
   private val localVariables = mutable.SortedSet.empty[String]
 
   def defineLocalVar(name: String) = localVariables.add(name)
 
+  def isFunctionDirect(name: String) = directFunctions.contains(name)
+
   def addStatement(statement: Document) {
     statements += statement
   }
+
+  directFunctions ++= StandardExtension.functions.map(_.name.toString)
 
   override def build() = {
 
@@ -30,6 +37,7 @@ class ProgCodeUnitBuilder(name: String, packageName: Option[String]) extends Cod
       "import de.leanovate.jbj.runtime.context.Context" :/:
       "import de.leanovate.jbj.runtime.Operators._" :/:
       "import de.leanovate.jbj.runtime.JbjCodeUnit" :/:
+      "import de.leanovate.jbj.buildins.StandardExtension._" :/:
       break :/:
       s"trait $name extends JbjCodeUnit {" :/:
       nest(2, empty :/: "def exec(implicit ctx: Context) {" ::

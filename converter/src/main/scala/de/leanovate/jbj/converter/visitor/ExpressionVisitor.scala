@@ -84,6 +84,10 @@ class ExpressionVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[D
       expressions += refExpr.foldWith(new ExpressionVisitor) :: " := " :: expr.foldWith(new ExpressionVisitor)
       acceptsNextSibling
 
+    case CallByNameRefExpr(name, parameters) if builder.isFunctionDirect(name.toString) =>
+      expressions += s"""p($name(""" :: parameters.map(_.foldWith(new ExpressionVisitor)).reduceOption(_ :: ", " :: _).getOrElse(empty) :: "))" :: empty
+      acceptsNextSibling
+
     case CallByNameRefExpr(name, parameters) =>
       expressions += s"""f("$name")(""" :: parameters.map(_.foldWith(new ExpressionVisitor)).reduceOption(_ :: ", " :: _).getOrElse(empty) :: ")" :: empty
       acceptsNextSibling

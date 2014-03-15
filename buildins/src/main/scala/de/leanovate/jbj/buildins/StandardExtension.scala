@@ -13,10 +13,23 @@ import de.leanovate.jbj.runtime.value._
 import de.leanovate.jbj.runtime.output.OutputHandler
 import de.leanovate.jbj.api.http.JbjSettings
 import scala.collection.JavaConverters._
-import de.leanovate.jbj.runtime.value.IntegerVal
 import de.leanovate.jbj.buildins.types.{PSplSubject, PSplObserver}
+import de.leanovate.jbj.buildins.functions._
+import de.leanovate.jbj.runtime.value.IntegerVal
 
-object StandardExtension extends JbjExtension {
+object StandardExtension
+  extends JbjExtension
+  with ArrayFunctions
+  with ClassFunctions
+  with DateFunctions
+  with FileFunctions
+  with HeadFunctions
+  with OutputBufferFunctions
+  with OutputFunctions
+  with RuntimeFunctions
+  with SessionFunctions
+  with StringFunctions
+  with ValueFunctions {
   val name = "standard"
 
   override def constants: Seq[(String, PVal)] = Seq(

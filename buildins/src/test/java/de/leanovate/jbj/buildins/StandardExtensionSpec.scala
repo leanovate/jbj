@@ -1,6 +1,7 @@
 package de.leanovate.jbj.buildins
 
 import org.specs2.mutable.SpecificationWithJUnit
+import de.leanovate.jbj.buildins.functions.ArrayFunctions
 
 class StandardExtensionSpec extends SpecificationWithJUnit {
   "BuilinsExtensions" should {
@@ -16,6 +17,7 @@ class StandardExtensionSpec extends SpecificationWithJUnit {
       functionNames must containAllOf(Seq("error_reporting", "set_error_handler", "register_shutdown_function"))
       functionNames must containAllOf(Seq("bin2hex", "sprintf", "strlen"))
       functionNames must containAllOf(Seq("bin2hex", "sprintf", "strlen"))
+
     }
   }
 
