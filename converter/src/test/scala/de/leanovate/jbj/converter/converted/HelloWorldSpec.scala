@@ -35,4 +35,15 @@ class HelloWorldSpec extends SpecificationWithJUnit with TestJbjEnvironment {
       )
     }
   }
+
+  "Hello world4" should {
+    "Producde same output as php" in {
+      exec(testunits.hello_world4).result must haveOutput(
+        """7
+          |19
+          |25
+          |""".stripMargin
+      )
+    }
+  }
 }

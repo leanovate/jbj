@@ -29,6 +29,15 @@ object Operators {
     }
   }
 
+  def lvar(name: String, initial: PVal)(implicit ctx: Context): PVar = {
+    ctx.findVariable(name).getOrElse {
+      val pVar = PVar(initial)
+
+      ctx.defineVariable(name, pVar)
+      pVar
+    }
+  }
+
   def inline(value: String)(implicit ctx: Context) = ctx.out.print(value)
 
   def echo(values: PAny*)(implicit ctx: Context) = {
@@ -55,13 +64,8 @@ object Operators {
     }
   }
 
-  def functionCtx(name: String, ctx: Context, variables: (String, PVar)*)(body: Context => PAny) {
+  def functionCtx(name: String, ctx: Context)(body: Context => PAny): PAny = {
     val funcCtx = FunctionContext(NamespaceName(name), ctx)
-
-    variables.foreach {
-      case (name, v) =>
-        funcCtx.defineVariable(name, v)
-    }
 
     body(funcCtx)
   }

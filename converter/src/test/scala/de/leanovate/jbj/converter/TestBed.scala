@@ -10,8 +10,15 @@ object TestBed {
 
     val scropt =
       """<?php
+        |
+        |function sum2($a, $b) {
+        |   echo "In sum2\n";
+        |   return $a + $b;
+        |}
+        |
         |    $a = array("Hello", "World", 42);
         |
+        |sum2(1,2);
         |    for($i = 0; $i < count($a); $i++) {
         |        echo $a[$i];
         |        echo "\n";

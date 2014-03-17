@@ -10,10 +10,16 @@ package de.leanovate.jbj.converter.visitor
 import de.leanovate.jbj.core.ast.{Expr, NodeVisitor}
 import scala.text.Document
 import scala.text.Document._
-import de.leanovate.jbj.core.ast.stmt.{BlockStmt, EchoStmt, InlineStmt, ExprStmt}
+import de.leanovate.jbj.core.ast.stmt._
 import de.leanovate.jbj.converter.builders.{CodeUnitBuilder, ProgCodeUnitBuilder, StatementBuilder}
 import de.leanovate.jbj.core.ast.stmt.loop.ForStmt
 import de.leanovate.jbj.core.ast.stmt.cond.IfStmt
+import de.leanovate.jbj.core.ast.stmt.BlockStmt
+import de.leanovate.jbj.core.ast.stmt.loop.ForStmt
+import de.leanovate.jbj.core.ast.stmt.cond.IfStmt
+import de.leanovate.jbj.core.ast.stmt.InlineStmt
+import de.leanovate.jbj.core.ast.stmt.ExprStmt
+import de.leanovate.jbj.core.ast.stmt.EchoStmt
 
 class StatementVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[Document] {
   val statements = Seq.newBuilder[Document]
@@ -74,6 +80,15 @@ class StatementVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[Do
     case InlineStmt(text) =>
       statements += StatementBuilder.inlineStmt(text)
       acceptsNextSibling
+
+    case ReturnStmt(None) =>
+      statements += text("return")
+      acceptsNextSibling
+
+    case ReturnStmt(Some(expr)) =>
+      statements += "return " :: expr.foldWith(new ExpressionVisitor)
+      acceptsNextSibling
+
 
     case stmt =>
       println("Unhandled node: " + stmt)

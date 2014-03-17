@@ -7,7 +7,11 @@
 
 package de.leanovate.jbj.converter.builders
 
+import scala.text.Document
+
 trait CodeUnitBuilder extends Builder {
+  def defineFunction(name:String, code: Document)
+
   def defineLocalVar(name: String)
 
   def isFunctionDirect(name: String): Boolean
