@@ -10,13 +10,11 @@ package de.leanovate.jbj.converter.builders
 import scala.text.Document
 import scala.text.Document._
 import de.leanovate.jbj.runtime.value.{DoubleVal, IntegerVal, StringVal, PVal}
+import org.apache.commons.lang3.StringEscapeUtils
 
 object LiteralBuilder {
   def buildSimple(str: String): Document =
-    text("\"") :: text(str) :: text("\"")
-
-  def buildSingleLine(str: String): Document =
-    text("\"\"\"") :: text(str) :: text("\"\"\"")
+    text("\"") :: text(StringEscapeUtils.escapeJava(str)) :: text("\"")
 
   def buildMultiLine(str: String): Document = {
     var result = text("\"\"\"")
@@ -34,10 +32,8 @@ object LiteralBuilder {
   def build(str: String): Document = {
     if (str.isEmpty) {
       text("\"\"")
-    } else if (str.contains('\n')) {
+    } else if (str.contains('\n') && str.length > 40) {
       buildMultiLine(str)
-    } else if (str.contains("\"")) {
-      buildSingleLine(str)
     } else {
       buildSimple(str)
     }

@@ -38,11 +38,10 @@ class FunctionCodeUnitBuilder(parent: CodeUnitBuilder, name: NamespaceName, para
       s"def _$name(" ::
       parameters.map(_.name :: " : Reference" :: empty).reduceOption(_ :: ", " :: _).getOrElse(empty) ::
       """)(implicit ctx: Context) : PAny = {""" ::
-      nest(2, break ::
-        localVariables.foldLeft(empty: Document) {
-          (doc, localVariable) =>
-            doc :/: s"""val $localVariable = lvar("${localVariable}")""" :: empty
-        } :/: statements.result().filter(_ != DocNil).foldLeft(empty: Document) {
+      nest(2, localVariables.foldLeft(empty: Document) {
+        (doc, localVariable) =>
+          doc :/: s"""val $localVariable = lvar("${localVariable}")""" :: empty
+      } :/: statements.result().filter(_ != DocNil).foldLeft(empty: Document) {
         (doc, stmt) => doc :/: stmt
       }) :/: "}" :: empty
   }
