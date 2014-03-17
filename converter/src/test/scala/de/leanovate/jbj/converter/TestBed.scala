@@ -16,6 +16,13 @@ object TestBed {
         |        echo $a[$i];
         |        echo "\n";
         |    }
+        |    if($a) {
+        |       echo "Bla\n";
+        |    } elseif ( 1 ) {
+        |       echo "nix";
+        |    } else {
+        |       echo "Blub\n";
+        |    }
         |?>""".stripMargin
 
     val out = new StringWriter()
