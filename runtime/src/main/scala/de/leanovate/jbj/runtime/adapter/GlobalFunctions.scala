@@ -16,12 +16,15 @@ import de.leanovate.jbj.runtime.exception.{WarnWithResultJbjException, FatalErro
 import de.leanovate.jbj.runtime.types.{PParamDef, PParam, PFunction}
 
 object GlobalFunctions {
-  def generatePFunctions(inst: Any): Seq[PFunction] = macro generatePFunctions_impl
+  def generatePFunctions[T]: Seq[PFunction] = macro generatePFunctions_impl[T]
 
-  def generatePFunctions_impl(c: Context)(inst: c.Expr[Any]): c.Expr[Seq[PFunction]] = {
+  def generatePFunctions_impl[T : c.WeakTypeTag](c: Context): c.Expr[Seq[PFunction]] = {
     import c.universe._
     val converterHelper = new ConverterHelper[c.type](c)
     val pVarClass = typeOf[PVar].typeSymbol
+
+    val companioned = weakTypeOf[T].typeSymbol
+    val companionSymbol = companioned.companionSymbol
 
     def function_impl(member: MethodSymbol): c.Expr[PFunction] = {
       val args = member.annotations.find(_.tpe == typeOf[GlobalFunction]).get.scalaArgs
@@ -61,7 +64,7 @@ object GlobalFunctions {
       }
       val tooManyHandler = tooManyWarn(Ident(newTermName("parameters")), expectedMax).tree
       val functionName = c.literal(member.name.encoded)
-      val impl = c.Expr(Block(tooManyHandler :: parameters.map(_._3), Apply(Select(Ident(inst.actualType.termSymbol), member.name), parameters.map(_._2))))
+      val impl = c.Expr[Any](Block(tooManyHandler :: parameters.map(_._3), Apply(Select(Ident(companionSymbol), member.name.toTermName), parameters.map(_._2))))
       val resultConverter = converterHelper.converterForType(member.returnType)
       val paramDefs = c.Expr[Seq[PParamDef]](Apply(Select(Ident(newTermName("Seq")), newTermName("apply")),
         memberParams.map {
@@ -154,7 +157,7 @@ object GlobalFunctions {
         c.Expr(Apply(Select(Ident(newTermName(s"Tuple${elements.size}")), newTermName("apply")), elements.map(_.tree).toList))
     }
 
-    val exprs = inst.actualType.members.filter {
+    val exprs = companioned.typeSignature.members.filter {
       member =>
         member.isMethod && member.annotations.exists(_.tpe == typeOf[GlobalFunction])
     }.map {

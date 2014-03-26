@@ -166,5 +166,5 @@ trait FunctionFunctions {
 }
 
 object FunctionFunctions extends FunctionFunctions {
-  val functions = GlobalFunctions.generatePFunctions(this)
+  val functions = GlobalFunctions.generatePFunctions[FunctionFunctions]
 }

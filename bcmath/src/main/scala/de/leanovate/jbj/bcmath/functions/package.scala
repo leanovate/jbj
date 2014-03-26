@@ -5,5 +5,5 @@ import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
 package object functions {
   val bcMathFunctions: Seq[PFunction] =
-    GlobalFunctions.generatePFunctions(BcMathFunctions)
+    BcMathFunctions.functions
 }

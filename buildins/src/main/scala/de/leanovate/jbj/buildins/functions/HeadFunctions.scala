@@ -59,5 +59,5 @@ trait HeadFunctions {
 }
 
 object HeadFunctions extends HeadFunctions {
-  val functions = GlobalFunctions.generatePFunctions(this)
+  val functions = GlobalFunctions.generatePFunctions[HeadFunctions]
 }

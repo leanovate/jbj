@@ -152,5 +152,5 @@ trait OutputBufferFunctions {
 }
 
 object OutputBufferFunctions extends OutputBufferFunctions {
-  val functions = GlobalFunctions.generatePFunctions(this)
+  val functions = GlobalFunctions.generatePFunctions[OutputBufferFunctions]
 }

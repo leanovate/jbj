@@ -5,8 +5,9 @@ import de.leanovate.jbj.runtime.context.Context
 import scala.math.BigDecimal.RoundingMode.FLOOR
 import scala.math.BigDecimal.RoundingMode
 import scala.annotation.tailrec
+import de.leanovate.jbj.runtime.adapter.GlobalFunctions
 
-object BcMathFunctions {
+trait BcMathFunctions {
 
   @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN)
   def bcadd(left: String, right: String, scale: Option[Int])(implicit context: Context): String =
@@ -107,4 +108,8 @@ object BcMathFunctions {
     }
 
   }
+}
+
+object BcMathFunctions extends BcMathFunctions {
+  val functions = GlobalFunctions.generatePFunctions[BcMathFunctions]
 }

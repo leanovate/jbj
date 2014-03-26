@@ -53,5 +53,5 @@ trait DateFunctions {
 }
 
 object DateFunctions extends DateFunctions {
-  val functions = GlobalFunctions.generatePFunctions(this)
+  val functions = GlobalFunctions.generatePFunctions[DateFunctions]
 }

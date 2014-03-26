@@ -197,5 +197,5 @@ trait FileFunctions {
 }
 
 object FileFunctions extends FileFunctions {
-  val functions = GlobalFunctions.generatePFunctions(this)
+  val functions = GlobalFunctions.generatePFunctions[FileFunctions]
 }

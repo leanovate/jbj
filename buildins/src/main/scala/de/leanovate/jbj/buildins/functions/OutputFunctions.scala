@@ -229,5 +229,5 @@ trait OutputFunctions {
 }
 
 object OutputFunctions extends OutputFunctions {
-  val functions = GlobalFunctions.generatePFunctions(this)
+  val functions = GlobalFunctions.generatePFunctions[OutputFunctions]
 }

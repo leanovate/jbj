@@ -147,5 +147,5 @@ trait RuntimeFunctions {
 }
 
 object RuntimeFunctions extends RuntimeFunctions {
-  val functions = GlobalFunctions.generatePFunctions(this)
+  val functions = GlobalFunctions.generatePFunctions[RuntimeFunctions]
 }

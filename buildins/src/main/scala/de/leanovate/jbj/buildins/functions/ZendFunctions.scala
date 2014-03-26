@@ -16,5 +16,5 @@ trait ZendFunctions {
 }
 
 object ZendFunctions extends ZendFunctions {
-  val functions = GlobalFunctions.generatePFunctions(this)
+  val functions = GlobalFunctions.generatePFunctions[ZendFunctions]
 }

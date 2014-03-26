@@ -33,5 +33,5 @@ trait ValueFunctions {
 }
 
 object ValueFunctions extends ValueFunctions {
-  val functions = GlobalFunctions.generatePFunctions(this)
+  val functions = GlobalFunctions.generatePFunctions[ValueFunctions]
 }

@@ -39,5 +39,5 @@ trait SessionFunctions {
 }
 
 object SessionFunctions extends SessionFunctions {
-  val functions = GlobalFunctions.generatePFunctions(this)
+  val functions = GlobalFunctions.generatePFunctions[SessionFunctions]
 }

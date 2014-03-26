@@ -346,5 +346,5 @@ trait ArrayFunctions {
 }
 
 object ArrayFunctions extends ArrayFunctions {
-  val functions = GlobalFunctions.generatePFunctions(this)
+  val functions = GlobalFunctions.generatePFunctions[ArrayFunctions]
 }

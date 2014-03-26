@@ -30,14 +30,14 @@ class FunctionCodeUnitBuilder(parent: CodeUnitBuilder, name: NamespaceName, para
 
   override def build() = {
     s"def $name(" ::
-      parameters.map(_.name :: " : PVal" :: empty).reduceOption(_ :: ", " :: _).getOrElse(empty) ::
-      """)(implicit callerCtx: Context) : PAny =""" ::
+      parameters.map(_.name :: ": PVal" :: empty).reduceOption(_ :: ", " :: _).getOrElse(empty) ::
+      """)(implicit callerCtx: Context): PAny =""" ::
       nest(2, break :: s"""functionCtx("$name",callerCtx) {""" ::
-        nest(2, "ctx:Context =>" :/:
-          s"_$name(" :: parameters.map(p => s"""lvar("${p.name}", ${p.name})(ctx)""" :: empty).reduceOption(_ :: ", " :: _).getOrElse(empty) :: ")(ctx)" :: empty) :/: "}" :: empty) :/:
+        nest(2, " ctx:Context =>" :/:
+          s"_$name(" :: parameters.map(p => s"""lvar("${p.name}", ${p.name})(ctx)""" :: empty).reduceOption(_ :: ", " :: _).getOrElse(empty) :: ")(ctx)" :: empty) :/: "}" :: break) :/:
       s"def _$name(" ::
-      parameters.map(_.name :: " : Reference" :: empty).reduceOption(_ :: ", " :: _).getOrElse(empty) ::
-      """)(implicit ctx: Context) : PAny = {""" ::
+      parameters.map(_.name :: ": Reference" :: empty).reduceOption(_ :: ", " :: _).getOrElse(empty) ::
+      """)(implicit ctx: Context): PAny = {""" ::
       nest(2, localVariables.foldLeft(empty: Document) {
         (doc, localVariable) =>
           doc :/: s"""val $localVariable = lvar("${localVariable}")""" :: empty
