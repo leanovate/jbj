@@ -9,7 +9,7 @@ Is hosted by [Travis-CI](https://travis-ci.org/leanovate/jbj)
 
 ... and Cloudbees [BuildHive](https://buildhive.cloudbees.com/job/leanovate/job/jbj)
 
-[![Build Status](https://buildhive.cloudbees.com/job/leanovate/job/jbj/badge/icon)](https://buildhive.cloudbees.com/job/leanovate/job/jbj/)
+[![Build Status](https://buildhive.cloudbees.com/job/leanovate/job/jbj/badge/icon?branch=master)](https://buildhive.cloudbees.com/job/leanovate/job/jbj/)
 
 # Why jbj?
 

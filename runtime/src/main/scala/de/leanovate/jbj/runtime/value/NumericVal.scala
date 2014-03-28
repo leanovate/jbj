@@ -13,7 +13,7 @@ import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 
 trait NumericVal extends PConcreteVal {
-  override def toNum: NumericVal = this
+  override def toNum(implicit ctx: Context): NumericVal = this
 
   override def toArray(implicit ctx: Context) = ArrayVal(None -> this)
 

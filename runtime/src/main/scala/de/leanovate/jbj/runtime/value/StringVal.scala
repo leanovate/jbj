@@ -21,7 +21,7 @@ class StringVal(var chars: Array[Byte]) extends PConcreteVal with ArrayLike {
 
   override def toStr(implicit ctx: Context): StringVal = this
 
-  override def toNum: NumericVal = asUtf8String match {
+  override def toNum(implicit ctx: Context): NumericVal = asUtf8String match {
     case NumericVal.numericPattern(num, null, null) if !num.isEmpty && num != "-" && num != "." =>
       IntegerVal(num.toLong)
     case NumericVal.numericPattern(num, _, _) if !num.isEmpty && num != "-" && num != "." =>
@@ -35,7 +35,7 @@ class StringVal(var chars: Array[Byte]) extends PConcreteVal with ArrayLike {
     case _ => DoubleVal(0.0)
   }
 
-  override def toInteger: IntegerVal = asUtf8String match {
+  override def toInteger(implicit ctx: Context): IntegerVal = asUtf8String match {
     case NumericVal.integerPattern(num) => IntegerVal(num.toLong)
     case _ => IntegerVal(0)
   }
@@ -55,7 +55,7 @@ class StringVal(var chars: Array[Byte]) extends PConcreteVal with ArrayLike {
 
   override def copy = new StringVal(chars.clone())
 
-  override def incr: PVal = {
+  override def incr(implicit ctx: Context): PVal = {
     if (isStrongNumericPattern)
       toNum.incr
     else {
@@ -99,7 +99,7 @@ class StringVal(var chars: Array[Byte]) extends PConcreteVal with ArrayLike {
     }
   }
 
-  override def decr = if (isStrongNumericPattern) toNum.decr else this
+  override def decr(implicit ctx: Context) = if (isStrongNumericPattern) toNum.decr else this
 
   override def typeName(simple: Boolean = false) = "string"
 
@@ -229,7 +229,7 @@ class StringVal(var chars: Array[Byte]) extends PConcreteVal with ArrayLike {
     StringVal(result)
   }
 
-  override def unary_~(): PVal = {
+  override def unary_~()(implicit ctx: Context): PVal = {
     val result = new Array[Byte](chars.length)
     for (i <- Range(0, result.length)) {
       result(i) = (~chars(i)).toByte

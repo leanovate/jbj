@@ -19,7 +19,7 @@ case class DoubleVal(asDouble: Double) extends NumericVal {
 
   override def toDouble = this
 
-  override def toInteger: IntegerVal =
+  override def toInteger(implicit ctx: Context): IntegerVal =
     if (asDouble > Long.MinValue.toDouble && asDouble < Long.MaxValue.toDouble)
       IntegerVal(asDouble.toLong)
     else
@@ -27,9 +27,9 @@ case class DoubleVal(asDouble: Double) extends NumericVal {
 
   override def toBool = BooleanVal(asDouble != 0.0)
 
-  override def incr = DoubleVal(asDouble + 1)
+  override def incr(implicit ctx: Context) = DoubleVal(asDouble + 1)
 
-  override def decr = DoubleVal(asDouble - 1)
+  override def decr(implicit ctx: Context) = DoubleVal(asDouble - 1)
 
   override def typeName(simple: Boolean = false) = "double"
 

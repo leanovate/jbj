@@ -16,11 +16,11 @@ object NullVal extends PConcreteVal {
 
   override def toStr(implicit ctx: Context) = StringVal(Array.empty[Byte])
 
-  override def toNum = toInteger
+  override def toNum(implicit ctx: Context) = toInteger
 
   override def toDouble = DoubleVal(0.0)
 
-  override def toInteger = IntegerVal(0)
+  override def toInteger(implicit ctx: Context) = IntegerVal(0)
 
   override def toBool = BooleanVal.FALSE
 
@@ -32,9 +32,9 @@ object NullVal extends PConcreteVal {
 
   override def copy = this
 
-  override def incr = IntegerVal(1)
+  override def incr(implicit ctx: Context) = IntegerVal(1)
 
-  override def decr = NullVal
+  override def decr(implicit ctx: Context) = NullVal
 
   override def typeName(simple: Boolean = false) = "null"
 

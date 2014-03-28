@@ -18,9 +18,9 @@ abstract class LazyVal extends PVal {
 
   override def toStr(implicit ctx: Context) = value.toStr
 
-  override def toNum = value.toNum
+  override def toNum(implicit ctx: Context) = value.toNum
 
-  override def toInteger = value.toInteger
+  override def toInteger(implicit ctx: Context) = value.toInteger
 
   override def toDouble = value.toDouble
 
@@ -34,9 +34,9 @@ abstract class LazyVal extends PVal {
 
   override def copy = value.copy
 
-  override def incr = value.incr
+  override def incr(implicit ctx: Context) = value.incr
 
-  override def decr = value.decr
+  override def decr(implicit ctx: Context) = value.decr
 
   override def typeName(simple: Boolean = false) = value.typeName(simple)
 

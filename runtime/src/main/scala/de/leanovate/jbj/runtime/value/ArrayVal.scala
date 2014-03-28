@@ -40,11 +40,11 @@ class ArrayVal(private var keyValueMap: ExtendedLinkedHashMap[Any]) extends PCon
 
   override def toStr(implicit ctx: Context) = StringVal("Array".getBytes("UTF-8"))
 
-  override def toNum = toInteger
+  override def toNum(implicit ctx: Context) = toInteger
 
   override def toDouble = DoubleVal(0.0)
 
-  override def toInteger = IntegerVal(keyValueMap.size)
+  override def toInteger(implicit ctx: Context) = IntegerVal(keyValueMap.size)
 
   override def toBool = BooleanVal(!keyValueMap.isEmpty)
 
@@ -56,6 +56,24 @@ class ArrayVal(private var keyValueMap: ExtendedLinkedHashMap[Any]) extends PCon
 
   def isEmpty = keyValueMap.isEmpty
 
+  def +(other: ArrayVal): PVal = {
+
+    val keyValues1 = keyValueMap.foldLeft(new ExtendedLinkedHashMap[Any]) {
+      (builder, keyValue) =>
+        keyValue._2.retain()
+        builder += keyValue
+    }
+    val keyValues2 = other.keyValueMap.foldLeft(keyValues1) {
+      (builder, keyValue) =>
+        if (!builder.contains(keyValue._1)) {
+          keyValue._2.retain()
+          builder += keyValue
+        }
+        builder
+    }
+    new ArrayVal(keyValues2)
+  }
+
   override def copy = {
     iteratorStateHolder.clear()
     new ArrayVal(keyValueMap.mapDirect {
@@ -66,9 +84,9 @@ class ArrayVal(private var keyValueMap: ExtendedLinkedHashMap[Any]) extends PCon
     })
   }
 
-  override def incr = this
+  override def incr(implicit ctx: Context) = this
 
-  override def decr = this
+  override def decr(implicit ctx: Context) = this
 
   override def typeName(simple: Boolean = false): String = "array"
 

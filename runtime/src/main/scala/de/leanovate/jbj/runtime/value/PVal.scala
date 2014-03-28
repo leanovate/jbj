@@ -15,9 +15,9 @@ trait PVal extends PAny {
 
   def toStr(implicit ctx: Context): StringVal
 
-  def toNum: NumericVal
+  def toNum(implicit ctx: Context): NumericVal
 
-  def toInteger: IntegerVal
+  def toInteger(implicit ctx: Context): IntegerVal
 
   def toDouble: DoubleVal
 
@@ -33,9 +33,9 @@ trait PVal extends PAny {
 
   def clone(implicit ctx: Context): PVal = copy
 
-  def incr: PVal
+  def incr(implicit ctx: Context): PVal
 
-  def decr: PVal
+  def decr(implicit ctx: Context): PVal
 
   def typeName(simple: Boolean = false): String
 

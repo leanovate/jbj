@@ -41,25 +41,28 @@ trait ObjectVal extends PConcreteVal {
           case StringVal(str) =>
             str
           case _ =>
-            CatchableFatalError("Method %s::__toString() must return a string value".format(pClass.name.toString))
+            CatchableFatalError(s"Method ${pClass.name}::__toString() must return a string value")
             ""
         }
       } catch {
         case e: JbjException =>
-          throw new FatalErrorJbjException("Method %s::__toString() must not throw an exception".format(pClass.name.toString))
+          throw new FatalErrorJbjException(s"Method ${pClass.name}::__toString() must not throw an exception")
       }
   }.getOrElse {
-    CatchableFatalError("Object of class %s could not be converted to string".format(pClass.name.toString))
+    CatchableFatalError(s"Object of class ${pClass.name} could not be converted to string")
     ""
   }
 
   override def toStr(implicit ctx: Context) = StringVal(toOutput)
 
-  override def toNum = toInteger
+  override def toNum(implicit ctx: Context) = toInteger
 
   override def toDouble = DoubleVal(0.0)
 
-  override def toInteger = IntegerVal(0)
+  override def toInteger(implicit ctx: Context) = {
+    ctx.log.notice(s"Object of class ${pClass.name} could not be converted to int")
+    IntegerVal(0)
+  }
 
   override def toBool = BooleanVal.TRUE
 
@@ -76,9 +79,9 @@ trait ObjectVal extends PConcreteVal {
 
   override def copy = this
 
-  override def incr = this
+  override def incr(implicit ctx: Context) = this
 
-  override def decr = this
+  override def decr(implicit ctx: Context) = this
 
   override def typeName(simple: Boolean = false) = if (simple) "object" else "instance of %s".format(pClass.name.toString)
 
@@ -132,7 +135,7 @@ trait ObjectVal extends PConcreteVal {
     }
   }
 
-  def hasPrivateProperty(name:String) = keyValueMap.keys.exists {
+  def hasPrivateProperty(name: String) = keyValueMap.keys.exists {
     case PrivateKey(n, _) if n == name => true
     case _ => false
   }

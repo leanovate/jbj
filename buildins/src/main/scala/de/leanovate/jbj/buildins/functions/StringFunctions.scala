@@ -17,6 +17,7 @@ import java.security.SecureRandom
 import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import scala.Some
 import de.leanovate.jbj.runtime.value.IntegerVal
+import java.util.concurrent.atomic.{AtomicLong, AtomicReference}
 
 trait StringFunctions {
   @GlobalFunction
@@ -366,9 +367,18 @@ trait StringFunctions {
     URLDecoder.decode(str, "UTF-8")
   }
 
+  private val lastTime = new AtomicLong(0L)
+
   @GlobalFunction
   def uniqid(optPrefix: Option[String], optMoreEntropy: Option[Boolean]): String = {
-    val now = System.currentTimeMillis()
+    var now = System.currentTimeMillis()
+    val last = lastTime.get()
+
+    if (now <= last)
+      now = lastTime.incrementAndGet()
+    else
+      lastTime.compareAndSet(last, now)
+
     val sec = now / 1000
     val usec = now & 0xfffff
 

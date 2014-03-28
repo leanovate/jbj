@@ -8,27 +8,27 @@ abstract class ResourceVal[T](var id: Long, var resourceType: String, var payloa
 
   override def toOutput(implicit ctx: Context) = s"resource id #$id"
 
-  def toStr(implicit ctx: Context) = StringVal(s"resource id #$id")
+  override def toStr(implicit ctx: Context) = StringVal(s"resource id #$id")
 
-  def toNum = IntegerVal(0)
+  override def toNum(implicit ctx: Context) = IntegerVal(0)
 
-  def toInteger = IntegerVal(0)
+  override def toInteger(implicit ctx: Context) = IntegerVal(0)
 
-  def toDouble = DoubleVal(0)
+  override def toDouble = DoubleVal(0)
 
-  def toBool = BooleanVal.FALSE
+  override def toBool = BooleanVal.FALSE
 
-  def toArray(implicit ctx: Context) = ArrayVal(None -> this)
+  override def toArray(implicit ctx: Context) = ArrayVal(None -> this)
 
-  def isScalar = true
+  override def isScalar = true
 
-  def isNull = false
+  override def isNull = false
 
-  def copy = this
+  override def copy = this
 
-  def incr = this
+  override def incr(implicit ctx: Context) = this
 
-  def decr = this
+  override def decr(implicit ctx: Context) = this
 
   def typeName(simple: Boolean) = "resource"
 

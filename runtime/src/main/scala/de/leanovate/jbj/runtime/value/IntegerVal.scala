@@ -17,13 +17,13 @@ case class IntegerVal(asLong: Long) extends NumericVal {
 
   override def toDouble: DoubleVal = DoubleVal(asLong)
 
-  override def toInteger: IntegerVal = this
+  override def toInteger(implicit ctx: Context): IntegerVal = this
 
   override def toBool = BooleanVal(asLong != 0)
 
-  override def incr = if (asLong < Long.MaxValue) IntegerVal(asLong + 1) else DoubleVal(asLong.toDouble + 1)
+  override def incr(implicit ctx: Context) = if (asLong < Long.MaxValue) IntegerVal(asLong + 1) else DoubleVal(asLong.toDouble + 1)
 
-  override def decr = if (asLong > Long.MinValue) IntegerVal(asLong - 1) else DoubleVal(asLong.toDouble - 1)
+  override def decr(implicit ctx: Context) = if (asLong > Long.MinValue) IntegerVal(asLong - 1) else DoubleVal(asLong.toDouble - 1)
 
   override def typeName(simple: Boolean = false) = "integer"
 
@@ -47,7 +47,7 @@ case class IntegerVal(asLong: Long) extends NumericVal {
 
   def >>(other:IntegerVal):PVal = IntegerVal(this.asLong >> other.asLong)
 
-  override def unary_~(): PVal = IntegerVal(~asLong)
+  override def unary_~()(implicit ctx: Context): PVal = IntegerVal(~asLong)
 
   def %(other: PVal): PVal = (this, other) match {
     case (_, IntegerVal(0)) => BooleanVal.FALSE

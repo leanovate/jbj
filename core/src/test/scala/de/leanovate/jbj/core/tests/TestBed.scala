@@ -77,8 +77,16 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
-        |$string = "foobar";
-        |var_dump($string[0][0][0][0]);
+        |
+        |$a = array(1,2,3);
+        |
+        |$o = new stdclass;
+        |$o->prop = "value";
+        |
+        |$c = $o + $a;
+        |var_dump($c);
+        |
+        |echo "Done\n";
         |?>
         |""".stripMargin)
   }

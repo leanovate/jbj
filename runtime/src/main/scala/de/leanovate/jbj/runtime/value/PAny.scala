@@ -9,6 +9,7 @@ package de.leanovate.jbj.runtime.value
 
 import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.runtime.types.PParam
+import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
 
 trait PAny {
   def toOutput(implicit ctx: Context): String = asVal.toOutput
@@ -57,44 +58,53 @@ trait PAny {
 
   def >=(other: PAny)(implicit ctx: Context): PVal = BooleanVal(asVal.compare(other.asVal) >= 0)
 
-  def +(other: PAny): PVal = this.asVal.toNum + other.asVal.toNum
+  def +(other: PAny)(implicit ctx: Context): PVal = (this.asVal, other.asVal) match {
+    case (left: ArrayVal, right: ArrayVal) => left + right
+    case (_: ArrayVal, o) =>
+      o.toNum
+      throw new FatalErrorJbjException("Unsupported operand types")
+    case (o, _: ArrayVal) =>
+      o.toNum
+      throw new FatalErrorJbjException("Unsupported operand types")
+    case (left, right) => left.toNum + right.toNum
+  }
 
-  def -(other: PAny): PVal = this.asVal.toNum - other.asVal.toNum
+  def -(other: PAny)(implicit ctx: Context): PVal = this.asVal.toNum - other.asVal.toNum
 
-  def *(other: PAny): PVal = this.asVal.toNum * other.asVal.toNum
+  def *(other: PAny)(implicit ctx: Context): PVal = this.asVal.toNum * other.asVal.toNum
 
-  def /(other: PAny): PVal = this.asVal.toNum / other.asVal.toNum
+  def /(other: PAny)(implicit ctx: Context): PVal = this.asVal.toNum / other.asVal.toNum
 
-  def %(other: PAny): PVal = this.asVal.toInteger % other.asVal.toInteger
+  def %(other: PAny)(implicit ctx: Context): PVal = this.asVal.toInteger % other.asVal.toInteger
 
   def !!(other: PAny)(implicit ctx: Context): PVal = this.asVal.toStr !! other.asVal.toStr
 
-  def &(other: PAny): PVal = (this.asVal, other.asVal) match {
+  def &(other: PAny)(implicit ctx: Context): PVal = (this.asVal, other.asVal) match {
     case (leftVal: StringVal, rightVal: StringVal) => leftVal & rightVal
     case (leftVal, rightVal) => leftVal.toInteger & rightVal.toInteger
   }
 
-  def |(other: PAny): PVal = (this.asVal, other.asVal) match {
+  def |(other: PAny)(implicit ctx: Context): PVal = (this.asVal, other.asVal) match {
     case (leftVal: StringVal, rightVal: StringVal) => leftVal | rightVal
     case (leftVal, rightVal) => leftVal.toInteger | rightVal.toInteger
   }
 
-  def ^(other: PAny): PVal = (this.asVal, other.asVal) match {
+  def ^(other: PAny)(implicit ctx: Context): PVal = (this.asVal, other.asVal) match {
     case (leftVal: StringVal, rightVal: StringVal) => leftVal ^ rightVal
     case (leftVal, rightVal) => leftVal.toInteger ^ rightVal.toInteger
   }
 
-  def <<(other: PAny): PVal = this.asVal.toInteger << other.asVal.toInteger
+  def <<(other: PAny)(implicit ctx: Context): PVal = this.asVal.toInteger << other.asVal.toInteger
 
-  def >>(other: PAny): PVal = this.asVal.toInteger >> other.asVal.toInteger
+  def >>(other: PAny)(implicit ctx: Context): PVal = this.asVal.toInteger >> other.asVal.toInteger
 
   def unary_!(): BooleanVal = BooleanVal(!asVal.toBool.asBoolean)
 
-  def unary_-(): NumericVal = -asVal.toNum
+  def unary_-()(implicit ctx: Context): NumericVal = -asVal.toNum
 
-  def unary_+(): NumericVal = asVal.toNum
+  def unary_+()(implicit ctx: Context): NumericVal = asVal.toNum
 
-  def unary_~(): PVal = this.asVal match {
+  def unary_~()(implicit ctx: Context): PVal = this.asVal match {
     case value: StringVal => ~value
     case value => ~value.toInteger
   }
