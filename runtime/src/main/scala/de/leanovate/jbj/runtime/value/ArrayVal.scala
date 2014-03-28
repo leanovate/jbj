@@ -44,7 +44,7 @@ class ArrayVal(private var keyValueMap: ExtendedLinkedHashMap[Any]) extends PCon
 
   override def toDouble = DoubleVal(0.0)
 
-  override def toInteger(implicit ctx: Context) = IntegerVal(keyValueMap.size)
+  override def toInteger(implicit ctx: Context) = if(keyValueMap.isEmpty) IntegerVal(0) else IntegerVal(1)
 
   override def toBool = BooleanVal(!keyValueMap.isEmpty)
 

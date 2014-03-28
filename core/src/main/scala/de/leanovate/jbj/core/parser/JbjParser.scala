@@ -302,15 +302,17 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
         result
     } | "clone" ~> expr ^^ CloneExpr |
       variable ~ "+=" ~ expr ^^ {
-        case v ~ _ ~ e => AddToRefExpr(v, e)
+        case v ~ _ ~ e => AddWithRefExpr(v, e)
       } | variable ~ "-=" ~ expr ^^ {
-      case v ~ _ ~ e => SubFromRefExpr(v, e)
+      case v ~ _ ~ e => SubWithRefExpr(v, e)
     } | variable ~ "*=" ~ expr ^^ {
-      case v ~ _ ~ e => MulByRefExpr(v, e)
+      case v ~ _ ~ e => MulWithRefExpr(v, e)
     } | variable ~ "/=" ~ expr ^^ {
-      case v ~ _ ~ e => DivByRefExpr(v, e)
+      case v ~ _ ~ e => DivWithRefExpr(v, e)
     } | variable ~ ".=" ~ expr ^^ {
       case v ~ _ ~ e => ConcatWithRefExpr(v, e)
+    } | variable ~ "^=" ~ expr ^^ {
+case v ~ _ ~ e => BitXorWithRefExpr(v, e)
     } | binary(Precedence(0)) | term
 
   def binaryOp(precende: Precedence.Type): PackratParser[((Expr, Expr) => Expr)] = {

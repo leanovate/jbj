@@ -69,11 +69,28 @@ trait PAny {
     case (left, right) => left.toNum + right.toNum
   }
 
-  def -(other: PAny)(implicit ctx: Context): PVal = this.asVal.toNum - other.asVal.toNum
+  def -(other: PAny)(implicit ctx: Context): PVal = (this.asVal, other.asVal) match {
+    case (_: ArrayVal, o) =>
+      o.toNum
+      throw new FatalErrorJbjException("Unsupported operand types")
+    case (o, _: ArrayVal) =>
+      o.toNum
+      throw new FatalErrorJbjException("Unsupported operand types")
+    case (left, right) => left.toNum - right.toNum
+  }
 
   def *(other: PAny)(implicit ctx: Context): PVal = this.asVal.toNum * other.asVal.toNum
 
-  def /(other: PAny)(implicit ctx: Context): PVal = this.asVal.toNum / other.asVal.toNum
+  def /(other: PAny)(implicit ctx: Context): PVal =
+    (this.asVal, other.asVal) match {
+      case (_: ArrayVal, o) =>
+        o.toNum
+        throw new FatalErrorJbjException("Unsupported operand types")
+      case (o, _: ArrayVal) =>
+        o.toNum
+        throw new FatalErrorJbjException("Unsupported operand types")
+      case (left, right) => this.asVal.toNum / other.asVal.toNum
+    }
 
   def %(other: PAny)(implicit ctx: Context): PVal = this.asVal.toInteger % other.asVal.toInteger
 

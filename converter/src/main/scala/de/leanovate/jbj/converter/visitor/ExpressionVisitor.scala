@@ -67,7 +67,7 @@ class ExpressionVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[D
       expressions += parentesis(Precedence.AddSub)(left) :: " + " :: parentesis(Precedence.AddSub)(right)
       acceptsNextSibling
 
-    case AddToRefExpr(refExpr, expr) =>
+    case AddWithRefExpr(refExpr, expr) =>
       expressions += refExpr.foldWith(new ExpressionVisitor) :: " += " :: expr.foldWith(new ExpressionVisitor)
       acceptsNextSibling
 
@@ -112,7 +112,7 @@ class ExpressionVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[D
       expressions += parentesis(Precedence.MulDiv)(left) :: " / " :: parentesis(Precedence.AddSub)(right)
       acceptsNextSibling
 
-    case DivByRefExpr(refExpr, expr) =>
+    case DivWithRefExpr(refExpr, expr) =>
       expressions += refExpr.foldWith(new ExpressionVisitor) :: " /= " :: expr.foldWith(new ExpressionVisitor)
       acceptsNextSibling
 
@@ -152,7 +152,7 @@ class ExpressionVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[D
       expressions += parentesis(Precedence.MulDiv)(left) :: " * " :: parentesis(Precedence.AddSub)(right)
       acceptsNextSibling
 
-    case MulByRefExpr(refExpr, expr) =>
+    case MulWithRefExpr(refExpr, expr) =>
       expressions += refExpr.foldWith(new ExpressionVisitor) :: " *= " :: expr.foldWith(new ExpressionVisitor)
       acceptsNextSibling
 
@@ -168,7 +168,7 @@ class ExpressionVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[D
       expressions += parentesis(Precedence.AddSub)(left) :: " - " :: parentesis(Precedence.AddSub)(right)
       acceptsNextSibling
 
-    case SubFromRefExpr(refExpr, expr) =>
+    case SubWithRefExpr(refExpr, expr) =>
       expressions += refExpr.foldWith(new ExpressionVisitor) :: " -= " :: expr.foldWith(new ExpressionVisitor)
       acceptsNextSibling
 
