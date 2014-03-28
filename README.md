@@ -7,7 +7,7 @@ Is hosted by [Travis-CI](https://travis-ci.org/leanovate/jbj)
 
 [![Build Status](https://travis-ci.org/leanovate/jbj.png?branch=master)](https://travis-ci.org/leanovate/jbj)
 
-... and Cloudbees [BuildHive](http://buildhive.cloudbees.com/)
+... and Cloudbees [BuildHive](https://buildhive.cloudbees.com/job/leanovate/job/jbj)
 
 [![Build Status](https://buildhive.cloudbees.com/job/leanovate/job/jbj/badge/icon)](https://buildhive.cloudbees.com/job/leanovate/job/jbj/)
 
