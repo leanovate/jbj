@@ -129,7 +129,7 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
     try {
       parse(phpScript) match {
         case Some(Left(prog)) =>
-          prog.exec
+          prog.run
         case Some(Right(exception: JbjException)) =>
           throw exception
         case Some(Right(exception)) =>
@@ -137,9 +137,6 @@ case class JbjEnv(locator: JbjScriptLocator = new DefaultJbjScriptLocator,
         case None =>
           throw new NotFoundJbjException(phpScript)
       }
-    } catch {
-      case e: ExitJbjException =>
-        e.message.foreach(ctx.out.print)
     } finally {
       ctx.cleanup()
     }

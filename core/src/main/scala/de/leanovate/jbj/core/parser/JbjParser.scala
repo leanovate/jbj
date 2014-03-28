@@ -311,8 +311,12 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
       case v ~ _ ~ e => DivWithRefExpr(v, e)
     } | variable ~ ".=" ~ expr ^^ {
       case v ~ _ ~ e => ConcatWithRefExpr(v, e)
+    } | variable ~ "<<=" ~ expr ^^ {
+      case v ~ _ ~ e => BitShiftLeftWithRefExpr(v, e)
+    } | variable ~ ">>=" ~ expr ^^ {
+      case v ~ _ ~ e => BitShiftRightWithRefExpr(v, e)
     } | variable ~ "^=" ~ expr ^^ {
-case v ~ _ ~ e => BitXorWithRefExpr(v, e)
+      case v ~ _ ~ e => BitXorWithRefExpr(v, e)
     } | binary(Precedence(0)) | term
 
   def binaryOp(precende: Precedence.Type): PackratParser[((Expr, Expr) => Expr)] = {
@@ -348,7 +352,7 @@ case v ~ _ ~ e => BitXorWithRefExpr(v, e)
       } | parenthesisExpr | newExpr | internalFunctionsInYacc | integerCastLit ~> term ^^ IntegerCastExpr |
       doubleCastLit ~> term ^^ DoubleCastExpr | stringCastLit ~> term ^^ StringCastExpr |
       arrayCastLit ~> term ^^ ArrayCastExpr | booleanCastLit ~> term ^^ BooleanCastExpr |
-      "exit" ~> opt(expr) ^^ ExitExpr | "@" ~> expr ^^ SilentExpr |
+      "exit" ~> exitExpr ^^ ExitExpr | "die" ~> exitExpr ^^ ExitExpr | "@" ~> expr ^^ SilentExpr |
       variable <~ "++" ^^ GetAndIncrExpr | variable <~ "--" ^^ GetAndDecrExpr |
       "++" ~> variable ^^ IncrAndGetExpr | "--" ~> variable ^^ DecrAndGetExpr |
       variable ||| scalar | combinedScalarOffset |
@@ -425,6 +429,8 @@ case v ~ _ ~ e => BitXorWithRefExpr(v, e)
           prop(ref)
       })
     }
+
+  lazy val exitExpr: PackratParser[Option[Expr]] = opt("(" ~> opt(expr) <~ ")") ^^ (_.flatten)
 
   lazy val ctorArguments: PackratParser[List[Expr]] = opt(functionCallParameterList) ^^ (_.getOrElse(Nil))
 

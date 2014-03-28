@@ -34,6 +34,14 @@ trait Reference extends PAny {
 
   def !!=(other: PAny)(implicit ctx: Context): PVal = :=(this.asVal.toStr !! other.asVal.toStr).asVal
 
+  def &=(other: PAny)(implicit ctx: Context): PVal = :=(this.asVal & other.asVal).asVal
+
+  def |=(other: PAny)(implicit ctx: Context): PVal = :=(this.asVal | other.asVal).asVal
+
+  def <<=(other: PAny)(implicit ctx: Context): PVal = :=(this.asVal << other.asVal).asVal
+
+  def >>=(other: PAny)(implicit ctx: Context): PVal = :=(this.asVal >> other.asVal).asVal
+
   def ^=(other: PAny)(implicit ctx: Context): PVal = :=(this.asVal ^ other.asVal).asVal
 
   def ++()(implicit ctx: Context): PVal = {

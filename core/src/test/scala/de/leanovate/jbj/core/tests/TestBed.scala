@@ -63,11 +63,7 @@ object TestBed {
 
         context.settings.setErrorReporting(JbjSettings.E_ALL)
         context.settings.setSessionAuthStart(true)
-        try {
-          tree.exec(context)
-        } finally {
-          context.cleanup()
-        }
+        tree.run(context)
       case e: parser.NoSuccess =>
         println(e)
     }
@@ -77,32 +73,15 @@ object TestBed {
   def main(args: Array[String]) {
     test(
       """<?php
+        |function foo ($a) {
+        |   try {
+        |     throw new Exception("ex");
+        |   } finally {
+        |     var_dump($a);
+        |   }
+        |}
         |
-        |$s = "123";
-        |$s1 = "234";
-        |var_dump(bin2hex($s ^ $s1));
-        |
-        |$s = "1235";
-        |$s1 = "234";
-        |var_dump(bin2hex($s ^ $s1));
-        |
-        |$s = "some";
-        |$s1 = "test";
-        |var_dump(bin2hex($s ^ $s1));
-        |
-        |$s = "some long";
-        |$s1 = "test";
-        |var_dump(bin2hex($s ^ $s1));
-        |
-        |$s = "some";
-        |$s1 = "test long";
-        |var_dump(bin2hex($s ^ $s1));
-        |
-        |$s = "some";
-        |$s ^= "test long";
-        |var_dump(bin2hex($s));
-        |
-        |echo "Done\n";
+        |foo("finally");
         |?>
         |""".stripMargin)
   }

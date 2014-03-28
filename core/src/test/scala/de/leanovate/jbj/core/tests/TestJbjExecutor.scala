@@ -109,7 +109,7 @@ trait TestJbjExecutor {
       try {
         val prog = JbjParser(pseudoFileName, progString, jbj.settings)
 
-        prog.exec
+        prog.run
       } catch {
         case e: ParseJbjException =>
           context.log.parseError(e.pos, e.msg)

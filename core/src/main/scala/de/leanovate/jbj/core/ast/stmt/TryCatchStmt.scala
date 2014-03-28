@@ -27,7 +27,9 @@ case class TryCatchStmt(tryStmts: List[Stmt], catchBlocks: List[CatchBlock], fin
         catchBlock =>
           ctx.defineVariable(catchBlock.variableName, PVar(e.exception))
           execStmts(catchBlock.stmts)
-      }.getOrElse(SuccessExecResult)
+      }.getOrElse {
+        throw e
+      }
   } finally {
     execStmts(finallyStmts)
   }

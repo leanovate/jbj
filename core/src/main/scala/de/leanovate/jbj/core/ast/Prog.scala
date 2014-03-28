@@ -12,7 +12,7 @@ import de.leanovate.jbj.runtime.context.Context
 import de.leanovate.jbj.core.ast.decl.{NamespaceDeclStmt, SetNamespaceDeclStmt}
 import scala.annotation.tailrec
 import de.leanovate.jbj.core.ast.stmt.{HaltCompilerStmt, DeclareDeclStmt, InlineStmt}
-import de.leanovate.jbj.runtime.exception.FatalErrorJbjException
+import de.leanovate.jbj.runtime.exception.{ExitJbjException, FatalErrorJbjException}
 
 case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike with JbjScript {
   private lazy val staticInitializers = StaticInitializer.collect(this)
@@ -50,6 +50,17 @@ case class Prog(fileName: String, stmts: Seq[Stmt]) extends Stmt with BlockLike 
     registerDecls
     ctx.global.resetCurrentNamepsace()
     execStmts(stmts.toList)
+  }
+
+  def run(implicit ctx: Context): Int = {
+    try {
+      exec
+      0
+    } catch {
+      case e: ExitJbjException =>
+        e.message.foreach(ctx.out.print)
+        e.exitCode
+    }
   }
 
   override def accept[R](visitor: NodeVisitor[R]) = visitor(this).thenChildren(stmts)
