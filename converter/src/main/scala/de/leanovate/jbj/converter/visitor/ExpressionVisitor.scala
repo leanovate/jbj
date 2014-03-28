@@ -67,6 +67,10 @@ class ExpressionVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[D
       expressions += parentesis(Precedence.AddSub)(left) :: " + " :: parentesis(Precedence.AddSub)(right)
       acceptsNextSibling
 
+    case AddToRefExpr(refExpr, expr) =>
+      expressions += refExpr.foldWith(new ExpressionVisitor) :: " += " :: expr.foldWith(new ExpressionVisitor)
+      acceptsNextSibling
+
     case ArrayCreateExpr(keyValues) if keyValues.forall(_.key.isEmpty) =>
       expressions += "array(" :: keyValues.map(_.value.foldWith(new ExpressionVisitor)).reduceOption(_ :: ", " :: _).getOrElse(empty) :: ")" :: empty
       acceptsNextSibling
@@ -96,6 +100,10 @@ class ExpressionVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[D
       expressions += parentesis(Precedence.AddSub)(left) :: " !! " :: parentesis(Precedence.AddSub)(right)
       acceptsNextSibling
 
+    case DecrAndGetExpr(expr) =>
+      expressions += "--(" :: expr.foldWith(new ExpressionVisitor) :: ")" :: empty
+      acceptsNextSibling
+
     case DimRefExpr(ref, index) =>
       expressions += parentesis(Precedence.Term)(ref) :: ".dim(" :: index.map(_.foldWith(new ExpressionVisitor)).getOrElse(empty) :: ")" :: empty
       acceptsNextSibling
@@ -104,8 +112,16 @@ class ExpressionVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[D
       expressions += parentesis(Precedence.MulDiv)(left) :: " / " :: parentesis(Precedence.AddSub)(right)
       acceptsNextSibling
 
+    case DivByRefExpr(refExpr, expr) =>
+      expressions += refExpr.foldWith(new ExpressionVisitor) :: " /= " :: expr.foldWith(new ExpressionVisitor)
+      acceptsNextSibling
+
     case EqExpr(left, right) =>
       expressions += parentesis(Precedence.Eq)(left) :: " :== " :: parentesis(Precedence.AddSub)(right)
+      acceptsNextSibling
+
+    case IncrAndGetExpr(expr) =>
+      expressions += "++(" :: expr.foldWith(new ExpressionVisitor) :: ")" :: empty
       acceptsNextSibling
 
     case GetAndDecrExpr(expr) =>
@@ -136,6 +152,10 @@ class ExpressionVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[D
       expressions += parentesis(Precedence.MulDiv)(left) :: " * " :: parentesis(Precedence.AddSub)(right)
       acceptsNextSibling
 
+    case MulByRefExpr(refExpr, expr) =>
+      expressions += refExpr.foldWith(new ExpressionVisitor) :: " *= " :: expr.foldWith(new ExpressionVisitor)
+      acceptsNextSibling
+
     case PrintExpr(expr) =>
       expressions += text("print(") :: expr.foldWith(new ExpressionVisitor) :: text(")")
       acceptsNextSibling
@@ -146,6 +166,10 @@ class ExpressionVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[D
 
     case SubExpr(left, right) =>
       expressions += parentesis(Precedence.AddSub)(left) :: " - " :: parentesis(Precedence.AddSub)(right)
+      acceptsNextSibling
+
+    case SubFromRefExpr(refExpr, expr) =>
+      expressions += refExpr.foldWith(new ExpressionVisitor) :: " -= " :: expr.foldWith(new ExpressionVisitor)
       acceptsNextSibling
 
     case VariableRefExpr(StaticName(name)) =>

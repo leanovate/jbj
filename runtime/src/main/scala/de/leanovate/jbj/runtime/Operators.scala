@@ -20,6 +20,12 @@ object Operators {
   def f(name: String)(parameters: PAny*)(implicit ctx: Context) =
     ctx.call(NamespaceName(name), parameters.map(PAnyParam.apply))
 
+  def ++(ref: Reference)(implicit ctx: Context): PVal =
+    if (ref.checkIndirect) ref.:=(ref.asVal.incr).asVal else ref.asVal.incr
+
+  def --(ref: Reference)(implicit ctx: Context): PVal =
+    if (ref.checkIndirect) ref.:=(ref.asVal.decr).asVal else ref.asVal.decr
+
   def lvar(name: String)(implicit ctx: Context): PVar = {
     ctx.findVariable(name).getOrElse {
       val pVar = PVar()

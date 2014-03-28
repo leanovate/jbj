@@ -9,7 +9,7 @@ package de.leanovate.jbj.core.ast.expr
 
 import de.leanovate.jbj.core.ast.{RefExpr, Expr}
 import de.leanovate.jbj.runtime.context.Context
-import de.leanovate.jbj.runtime.Reference.++
+import de.leanovate.jbj.runtime.Operators.++
 
 case class IncrAndGetExpr(reference: RefExpr) extends Expr {
   override def eval(implicit ctx: Context) = ++(reference.evalRef)

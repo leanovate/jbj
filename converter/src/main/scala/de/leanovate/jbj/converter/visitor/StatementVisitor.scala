@@ -12,10 +12,9 @@ import scala.text.Document
 import scala.text.Document._
 import de.leanovate.jbj.core.ast.stmt._
 import de.leanovate.jbj.converter.builders.{CodeUnitBuilder, ProgCodeUnitBuilder, StatementBuilder}
-import de.leanovate.jbj.core.ast.stmt.loop.ForStmt
+import de.leanovate.jbj.core.ast.stmt.loop.{WhileStmt, ForStmt}
 import de.leanovate.jbj.core.ast.stmt.cond.IfStmt
 import de.leanovate.jbj.core.ast.stmt.BlockStmt
-import de.leanovate.jbj.core.ast.stmt.loop.ForStmt
 import de.leanovate.jbj.core.ast.stmt.cond.IfStmt
 import de.leanovate.jbj.core.ast.stmt.InlineStmt
 import de.leanovate.jbj.core.ast.stmt.ExprStmt
@@ -89,6 +88,12 @@ class StatementVisitor(implicit builder: CodeUnitBuilder) extends NodeVisitor[Do
       statements += "return " :: expr.foldWith(new ExpressionVisitor)
       acceptsNextSibling
 
+    case WhileStmt(condition, stmts) =>
+      statements += "while(" :: condition.foldWith(new ExpressionVisitor()) :: ") {" ::
+        nest(2, stmts.foldLeft(empty: Document) {
+          (doc, stmt) => doc :/: stmt.foldWith(new StatementVisitor)
+        }) :: "}" :: empty
+      acceptsNextSibling
 
     case stmt =>
       println("Unhandled node: " + stmt)

@@ -11,25 +11,32 @@ object TestBed {
     val scropt =
       """<?php
         |
-        |function sum2($a, $b) {
-        |   echo "In sum2\n";
-        |   return $a + $b;
+        |function specialSum($a, $b) {
+        |    if ($a < 10) {
+        |        return 2 * $a + $b;
+        |    } else {
+        |        return $a + $b;
+        |    }
         |}
         |
-        |    $a = array("Hello", "World", 42);
-        |
-        |sum2(1,2);
-        |    for($i = 0; $i < count($a); $i++) {
-        |        echo $a[$i];
-        |        echo "\n";
+        |function specialLoop($a, $count) {
+        |    $i = 1;
+        |    while($i < $count) {
+        |        $a += $i;
+        |        ++$i;
         |    }
-        |    if($a) {
-        |       echo "Bla\n";
-        |    } elseif ( 1 ) {
-        |       echo "nix";
-        |    } else {
-        |       echo "Blub\n";
-        |    }
+        |    return $a;
+        |}
+        |echo specialSum(2, 3);
+        |echo "\n";
+        |echo specialSum(6, 7);
+        |echo "\n";
+        |echo specialSum(12, 13);
+        |echo "\n";
+        |echo specialLoop(2, 5);
+        |echo "\n";
+        |echo specialLoop(12, 13);
+        |echo "\n";
         |?>""".stripMargin
 
     val out = new StringWriter()

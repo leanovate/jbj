@@ -131,12 +131,3 @@ trait Reference extends PAny {
     result
   }
 }
-
-object Reference {
-  def ++(ref: Reference)(implicit ctx: Context): PVal =
-    if (ref.checkIndirect) ref.:=(ref.asVal.incr).asVal else ref.asVal.incr
-
-  def --(ref: Reference)(implicit ctx: Context): PVal =
-    if (ref.checkIndirect) ref.:=(ref.asVal.decr).asVal else ref.asVal.decr
-
-}
