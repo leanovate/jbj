@@ -7,6 +7,10 @@ Is hosted by [Travis-CI](https://travis-ci.org/leanovate/jbj)
 
 [![Build Status](https://travis-ci.org/leanovate/jbj.png?branch=master)](https://travis-ci.org/leanovate/jbj)
 
+... and Cloudbees [BuildHive](http://buildhive.cloudbees.com/)
+
+[![Build Status](https://buildhive.cloudbees.com/job/leanovate/job/jbj/badge/icon)](https://buildhive.cloudbees.com/job/leanovate/job/jbj/)
+
 # Why jbj?
 
 Well, obviously it is based on a simple progression: jbj - kck - ldl - mem - nfn - ogo - php
