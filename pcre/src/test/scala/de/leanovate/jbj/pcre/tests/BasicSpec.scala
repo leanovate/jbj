@@ -95,5 +95,49 @@ class BasicSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |""".stripMargin
       )
     }
+
+    "preg_* with bogus vals" in {
+      // ../php-src/ext/pcre/tests/002.phpt
+      script(
+        """<?php
+          |
+          |var_dump(preg_match());
+          |var_dump(preg_match_all());
+          |var_dump(preg_match_all('//', '', $dummy, 0xdead));
+          |
+          |var_dump(preg_quote());
+          |var_dump(preg_quote(''));
+          |
+          |var_dump(preg_replace('/(.)/', '${1}${1', 'abc'));
+          |var_dump(preg_replace('/.++\d*+[/', 'for ($', 'abc'));
+          |var_dump(preg_replace('/(.)/e', 'for ($', 'abc'));
+          |
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """
+          |Warning: preg_match() expects at least 2 parameters, 0 given in /BasicSpec.inlinePhp on line 3
+          |bool(false)
+          |
+          |Warning: preg_match_all() expects at least 2 parameters, 0 given in /BasicSpec.inlinePhp on line 4
+          |bool(false)
+          |
+          |Warning: preg_match_all(): Invalid flags specified in /BasicSpec.inlinePhp on line 5
+          |NULL
+          |
+          |Warning: preg_quote() expects at least 1 parameter, 0 given in /BasicSpec.inlinePhp on line 7
+          |NULL
+          |string(0) ""
+          |string(12) "a${1b${1c${1"
+          |
+          |Warning: preg_replace(): Compilation failed: Unclosed character class at offset 7 in /BasicSpec.inlinePhp on line 11
+          |NULL
+          |
+          |Deprecated: preg_replace(): The /e modifier is deprecated, use preg_replace_callback instead in /BasicSpec.inlinePhp on line 12
+          |
+          |Fatal error: preg_replace(): Failed evaluating code: for ($ in /BasicSpec.inlinePhp on line 12
+          |""".stripMargin
+      )
+    }
   }
 }

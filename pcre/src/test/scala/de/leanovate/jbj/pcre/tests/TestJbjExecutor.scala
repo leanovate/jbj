@@ -20,7 +20,7 @@ trait TestJbjExecutor {
       .build()
 
     val pseudoFileName =
-      TestJbjExecutor.this.getClass.getName.replace("de.leanovate.jbj.bcmath.tests", "").replace('.', '/') + ".inlinePhp"
+      TestJbjExecutor.this.getClass.getName.replace("de.leanovate.jbj.pcre.tests", "").replace('.', '/') + ".inlinePhp"
 
     val bOut = new ByteArrayOutputStream()
 
