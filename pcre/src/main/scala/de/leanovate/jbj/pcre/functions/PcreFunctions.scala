@@ -18,13 +18,14 @@ import java.util.regex.PatternSyntaxException
 import de.leanovate.jbj.core.parser.{ParseContext, JbjParser}
 import de.leanovate.jbj.runtime.exception.{FatalErrorJbjException, ParseJbjException}
 import de.leanovate.jbj.pcre.PcreConstants._
+import de.leanovate.jbj.runtime.CallbackHelper
 
 trait PcreFunctions {
   @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN)
   def preg_match(pattern: String, subject: String, optMatches: Option[PVar],
                  optFlags: Option[Int], optOffset: Option[Int])(implicit ctx: Context): PVal = {
     convertPattern("preg_match", pattern) match {
-      case Left((regex, _)) =>
+      case Left((regex, patternFlags)) =>
         regex.findFirstMatchIn(subject).map {
           m =>
             val groupNames = m.groupNames
@@ -64,7 +65,7 @@ trait PcreFunctions {
       NullVal
     } else {
       convertPattern("preg_match_all", pattern) match {
-        case Left((regex, _)) if patternSet =>
+        case Left((regex, patternFlags)) if patternSet =>
           val resultsKeyValues = Seq.newBuilder[(Option[PVal], PAny)]
           regex.findAllMatchIn(subject).foreach {
             m =>
@@ -99,7 +100,7 @@ trait PcreFunctions {
               matches := ArrayVal(resultsKeyValues.result(): _*)
           }
           IntegerVal(resultsKeyValues.result().size)
-        case Left((regex, _)) =>
+        case Left((regex, patternFlags)) =>
           val matchesKeyValues = new ExtendedLinkedHashMap[Any]
           var count = 0
           regex.findAllMatchIn(subject).foreach {
@@ -155,15 +156,24 @@ trait PcreFunctions {
             case v => v
           }
         }
+      case (patterns: ArrayVal, replacement) =>
+        Range(0, patterns.size).foldLeft(StringVal(subject): PVal) {
+          (prev, idx) => prev match {
+            case StringVal(str) =>
+              val pattern = patterns.keyValues.apply(idx)._2.asVal.toStr.asString
+              _preg_replace(pattern, replacement.toStr.asString, str, optLimit, optCount)
+            case v => v
+          }
+        }
       case (pattern, replacement) =>
         _preg_replace(pattern.toStr.asString, replacement.toStr.asString, subject, optLimit, optCount)
     }
   }
 
-  def _preg_replace(pattern: String, replacement: String, subject: String,
-                    optLimit: Option[Int], optCount: Option[Int])(implicit ctx: Context): PVal = {
+  private def _preg_replace(pattern: String, replacement: String, subject: String,
+                            optLimit: Option[Int], optCount: Option[Int])(implicit ctx: Context): PVal = {
     convertPattern("preg_replace", pattern) match {
-      case Left((regex, flags)) if flags.contains('e') =>
+      case Left((regex, patternFlags)) if patternFlags.contains('e') =>
         ctx.log.deprecated(ctx.currentPosition, "preg_replace(): The /e modifier is deprecated, use preg_replace_callback instead")
         val sb = new StringBuilder
         var last = 0
@@ -186,7 +196,7 @@ trait PcreFunctions {
         }
         sb.append(subject.substring(last))
         StringVal(sb.toString())
-      case Left((regex, flags)) =>
+      case Left((regex, patternFlags)) =>
         val sb = new StringBuilder
         var last = 0
         regex.findAllMatchIn(subject).foreach {
@@ -212,13 +222,65 @@ trait PcreFunctions {
   }
 
   @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN)
+  def preg_replace_callback(patternVal: PVal, callback: PVal, subject: String,
+                            optLimit: Option[Int], optCount: Option[Int])(implicit ctx: Context): PVal = {
+    patternVal match {
+      case patterns: ArrayVal =>
+        Range(0, patterns.size).foldLeft(StringVal(subject): PVal) {
+          (prev, idx) => prev match {
+            case StringVal(str) =>
+              val pattern = patterns.keyValues.apply(idx)._2.asVal.toStr.asString
+              _preg_replace_callback(pattern, callback, str, optLimit, optCount)
+            case v => v
+          }
+        }
+      case pattern =>
+        _preg_replace_callback(pattern.toStr.asString, callback, subject, optLimit, optCount)
+    }
+  }
+
+  private def _preg_replace_callback(pattern: String, callback: PVal, subject: String,
+                                     optLimit: Option[Int], optCount: Option[Int])(implicit ctx: Context): PVal = {
+    convertPattern("preg_replace", pattern) match {
+      case Left((regex, patternFlags)) =>
+        val sb = new StringBuilder
+        var last = 0
+        regex.findAllMatchIn(subject).foreach {
+          m =>
+            val groupNames = m.groupNames
+            sb.append(subject.substring(last, m.start))
+            last = m.end
+            val matchesKeyValues = new ExtendedLinkedHashMap[Any]
+            matchesKeyValues += 0L -> StringVal(m.group(0))
+            Range(1, maxNotNullGroup(m)).foreach {
+              idx =>
+                val group = Option(m.group(idx)).getOrElse("")
+                if (idx <= groupNames.length) {
+                  Option(groupNames(idx - 1)).foreach {
+                    groupName =>
+                      matchesKeyValues += groupName -> StringVal(group)
+                  }
+                }
+                matchesKeyValues += idx.toLong -> StringVal(group)
+            }
+            val result = CallbackHelper.callCallback(callback, new ArrayVal(matchesKeyValues))
+            sb.append(result.asVal.toStr.asString)
+        }
+        sb.append(subject.substring(last))
+        StringVal(sb.toString())
+      case Right(v) => v
+    }
+  }
+
+
+  @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN)
   def preg_split(pattern: String, subject: String, optLimit: Option[Int], optFlags: Option[Int])(implicit ctx: Context): PVal = {
     val flags = optFlags.getOrElse(0)
     val delimCapture = (flags & PREG_SPLIT_DELIM_CAPTURE) != 0
     val splitOffsetCapture = (flags & PREG_SPLIT_OFFSET_CAPTURE) != 0
 
     convertPattern("preg_split", pattern) match {
-      case Left((regex, _)) =>
+      case Left((regex, patternFlags)) =>
         val result = Seq.newBuilder[(Option[PVal], PAny)]
         var last = 0
         regex.findAllMatchIn(subject).foreach {
@@ -252,6 +314,15 @@ trait PcreFunctions {
     }
   }
 
+  @GlobalFunction(parameterMode = ParameterMode.EXACTLY_WARN)
+  def preg_last_error()(implicit ctx: Context): Int = {
+    ctx.global.findVariable("__preg_last_error").map(_.asVal.toInteger.asInt).getOrElse(PREG_NO_ERROR)
+  }
+
+  private def set_last_error(errorCode: Int)(implicit ctx: Context) {
+    ctx.global.findOrDefineVariable("__preg_last_error") := IntegerVal(errorCode)
+  }
+
   private def convertPattern(functionName: String, raw: String)(implicit ctx: Context): Either[(Regex, Set[Char]), PVal] = {
     extractPattern(raw.trim).map {
       case (delimiter, pattern, flags) =>
@@ -277,11 +348,10 @@ trait PcreFunctions {
 
   private val groupNamePattern = """(\\)?\((\?([P]?<([^>]+)>)?(\:)?)?""".r
 
-   def extractGroupNames(pattern: String): (String, Seq[String]) = {
+  def extractGroupNames(pattern: String): (String, Seq[String]) = {
     val names = Seq.newBuilder[String]
     val effective = groupNamePattern.replaceAllIn(pattern, {
       m =>
-        println(m.subgroups)
         m.subgroups match {
           case "\\" :: rest :: _ :: _ :: _ :: Nil =>
             "\\\\(" + Option(rest).getOrElse("")

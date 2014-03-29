@@ -1,3 +1,10 @@
+/*    _ _     _                                        *\
+**   (_) |__ (_)  License: MIT  (2013)                 **
+**   | |  _ \| |    http://opensource.org/licenses/MIT **
+**   | | |_) | |                                       **
+**  _/ |____// |  Author: Bodo Junglas                 **
+\* |__/    |__/                                        */
+
 package de.leanovate.jbj.pcre.tests
 
 import org.specs2.mutable.SpecificationWithJUnit
@@ -1241,6 +1248,59 @@ class BasicSpec extends SpecificationWithJUnit with TestJbjExecutor {
           |    string(47) "undefined reference to `Ming_setSWFCompression'"
           |  }
           |}
+          |""".stripMargin
+      )
+    }
+
+    "preg_replace_callback() with callback that modifies subject string" in {
+      // ../php-src/ext/pcre/tests/007.phpt
+      script(
+        """<?php
+          |
+          |function evil($x) {
+          |	global $txt;
+          |	$txt[3] = "\xFF";
+          |	var_dump($x);
+          |	return $x[0];
+          |}
+          |
+          |$txt = "ola123";
+          |var_dump(preg_replace_callback('#.#u', 'evil', $txt));
+          |var_dump($txt);
+          |var_dump(preg_last_error() == PREG_NO_ERROR);
+          |
+          |echo "Done!\n";
+          |?>
+          |""".stripMargin
+      ).result must haveOutput(
+        """array(1) {
+          |  [0]=>
+          |  string(1) "o"
+          |}
+          |array(1) {
+          |  [0]=>
+          |  string(1) "l"
+          |}
+          |array(1) {
+          |  [0]=>
+          |  string(1) "a"
+          |}
+          |array(1) {
+          |  [0]=>
+          |  string(1) "1"
+          |}
+          |array(1) {
+          |  [0]=>
+          |  string(1) "2"
+          |}
+          |array(1) {
+          |  [0]=>
+          |  string(1) "3"
+          |}
+          |string(6) "ola123"
+          |string(6) "ola�23"
+          |bool(true)
+          |Done!
           |""".stripMargin
       )
     }

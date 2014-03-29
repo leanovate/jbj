@@ -6,12 +6,20 @@ import play.api.Logger
 import de.leanovate.jbj.core.JbjEnvironmentBuilder
 import de.leanovate.jbj.runtime.exception.{FatalErrorJbjException, NotFoundJbjException}
 import de.leanovate.jbj.api.http.{JbjException, JbjSettings}
+import de.leanovate.jbj.bcmath.BcMathExtension
+import de.leanovate.jbj.pcre.PcreExtension
 
 object JbjPhp extends Controller {
   private val jbjSettings = new JbjSettings
   jbjSettings.setShortOpenTag(true)
   jbjSettings.setAspTags(true)
-  private val jbj = JbjEnvironmentBuilder().withScriptLocator(PlayJbjScriptLocator).withErrStream(System.err).withSettings(jbjSettings).build()
+  private val jbj = JbjEnvironmentBuilder()
+    .withExtension(BcMathExtension)
+    .withExtension(PcreExtension)
+    .withScriptLocator(PlayJbjScriptLocator)
+    .withErrStream(System.err)
+    .withSettings(jbjSettings)
+    .build()
 
   def get(path: String, file: String, pathInfo: String) = Action {
     request =>
