@@ -16,7 +16,6 @@ import de.leanovate.jbj.runtime.annotations.GlobalFunction
 import de.leanovate.jbj.runtime.value.IntegerVal
 import java.util.regex.PatternSyntaxException
 import de.leanovate.jbj.core.parser.{ParseContext, JbjParser}
-import de.leanovate.jbj.runtime.ReturnExecResult
 import de.leanovate.jbj.runtime.exception.{FatalErrorJbjException, ParseJbjException}
 import de.leanovate.jbj.pcre.PcreConstants._
 
@@ -33,7 +32,7 @@ trait PcreFunctions {
               matches =>
                 val matchesKeyValues = new ExtendedLinkedHashMap[Any]
                 matchesKeyValues += 0L -> StringVal(m.group(0))
-                Range(1, m.groupCount + 1).foreach {
+                Range(1, maxNotNullGroup(m)).foreach {
                   idx =>
                     val group = Option(m.group(idx)).getOrElse("")
                     if (idx <= groupNames.length) {
@@ -77,7 +76,7 @@ trait PcreFunctions {
                   None -> IntegerVal(m.start(0)))
               else
                 matchesKeyValues += 0L -> StringVal(m.group(0))
-              Range(1, m.groupCount + 1).foreach {
+              Range(1, maxNotNullGroup(m)).foreach {
                 idx =>
                   val group = Option(m.group(idx)).getOrElse("")
                   val v = if (offsetCapture) ArrayVal(
@@ -108,7 +107,7 @@ trait PcreFunctions {
               val groupNames = m.groupNames
               matchesKeyValues.getOrElseUpdate(0L, ArrayVal()).asInstanceOf[ArrayVal].append(StringVal(m.group(0)))
               count += 1
-              Range(1, m.groupCount + 1).foreach {
+              Range(1, maxNotNullGroup(m)).foreach {
                 idx =>
                   val group = Option(m.group(idx)).getOrElse("")
                   if (idx <= groupNames.length) {
@@ -261,7 +260,11 @@ trait PcreFunctions {
           effective = effective.replaceAll("[ \n\r\t]", "")
         if (flags.contains('s'))
           effective = "(?s)" + effective
+        if (flags.contains('m'))
+          effective = "(?m)" + effective
         try {
+          println(raw)
+          println(effective)
           Left(effective.r(names: _*) -> flags)
         } catch {
           case e: PatternSyntaxException =>
@@ -274,16 +277,19 @@ trait PcreFunctions {
     }
   }
 
-  private val groupNamePattern = """\((\?([P]?<([^>]+)>)?(\:)?)?""".r
+  private val groupNamePattern = """(\\)?\((\?([P]?<([^>]+)>)?(\:)?)?""".r
 
-  private def extractGroupNames(pattern: String): (String, Seq[String]) = {
+   def extractGroupNames(pattern: String): (String, Seq[String]) = {
     val names = Seq.newBuilder[String]
     val effective = groupNamePattern.replaceAllIn(pattern, {
       m =>
+        println(m.subgroups)
         m.subgroups match {
-          case _ :: _ :: _ :: ":" :: Nil =>
+          case "\\" :: rest :: _ :: _ :: _ :: Nil =>
+            "\\\\(" + Option(rest).getOrElse("")
+          case _ :: _ :: _ :: _ :: ":" :: Nil =>
             "(?:"
-          case _ :: _ :: name :: _ :: Nil =>
+          case null :: _ :: _ :: name :: _ :: Nil =>
             names += name
             "("
           case _ => "("
@@ -321,8 +327,19 @@ trait PcreFunctions {
         throw new FatalErrorJbjException(s"$functionName(): Failed evaluating code: $script")
     }
   }
+
+  private def maxNotNullGroup(m: Regex.Match): Int = {
+    Range(m.groupCount, 0, -1).find(m.group(_) != null).map(_ + 1).getOrElse(1)
+  }
 }
 
 object PcreFunctions extends PcreFunctions {
   val functions = GlobalFunctions.generatePFunctions[PcreFunctions]
+}
+
+object TT {
+  def main(args: Array[String]) {
+    def s = """(?(12)bla)"""
+println(    PcreFunctions.extractGroupNames(s))
+  }
 }
