@@ -25,26 +25,26 @@ trait PcreFunctions {
   def preg_match(pattern: String, subject: String, optMatches: Option[PVar],
                  optFlags: Option[Int], optOffset: Option[Int])(implicit ctx: Context): PVal = {
     convertPattern("preg_match", pattern) match {
-      case Left((regex, flags)) =>
+      case Left((regex, _)) =>
         regex.findFirstMatchIn(subject).map {
           m =>
             val groupNames = m.groupNames
             optMatches.foreach {
               matches =>
-                val matchesKeyValues = Seq.newBuilder[(Option[PVal], PAny)]
-                matchesKeyValues += Some(IntegerVal(0)) -> StringVal(m.group(0))
+                val matchesKeyValues = new ExtendedLinkedHashMap[Any]
+                matchesKeyValues += 0L -> StringVal(m.group(0))
                 Range(1, m.groupCount + 1).foreach {
                   idx =>
                     val group = Option(m.group(idx)).getOrElse("")
                     if (idx <= groupNames.length) {
                       Option(groupNames(idx - 1)).foreach {
                         groupName =>
-                          matchesKeyValues += Some(StringVal(groupName)) -> StringVal(group)
+                          matchesKeyValues += groupName -> StringVal(group)
                       }
                     }
-                    matchesKeyValues += Some(IntegerVal(idx)) -> StringVal(group)
+                    matchesKeyValues += idx.toLong -> StringVal(group)
                 }
-                matches := ArrayVal(matchesKeyValues.result(): _*)
+                matches := new ArrayVal(matchesKeyValues)
             }
             IntegerVal(1)
         }.getOrElse(IntegerVal(0))
@@ -63,7 +63,59 @@ trait PcreFunctions {
       ctx.log.warn("preg_match_all(): Invalid flags specified")
       NullVal
     } else {
-      BooleanVal.FALSE
+      convertPattern("preg_match_all", pattern) match {
+        case Left((regex, _)) if patternSet =>
+          val resultsKeyValues = Seq.newBuilder[(Option[PVal], PAny)]
+          regex.findAllMatchIn(subject).foreach {
+            m =>
+              val groupNames = m.groupNames
+              val matchesKeyValues = new ExtendedLinkedHashMap[Any]
+              matchesKeyValues += 0L -> StringVal(m.group(0))
+              Range(1, m.groupCount + 1).foreach {
+                idx =>
+                  val group = Option(m.group(idx)).getOrElse("")
+                  if (idx <= groupNames.length) {
+                    Option(groupNames(idx - 1)).foreach {
+                      groupName =>
+                        matchesKeyValues += groupName -> StringVal(group)
+                    }
+                  }
+                  matchesKeyValues += idx.toLong -> StringVal(group)
+              }
+              resultsKeyValues += None -> new ArrayVal(matchesKeyValues)
+          }
+          optMatches.foreach {
+            matches =>
+              matches := ArrayVal(resultsKeyValues.result(): _*)
+          }
+          IntegerVal(resultsKeyValues.result().size)
+        case Left((regex, _)) =>
+          val matchesKeyValues = new ExtendedLinkedHashMap[Any]
+          var count = 0
+          regex.findAllMatchIn(subject).foreach {
+            m =>
+              val groupNames = m.groupNames
+              matchesKeyValues.getOrElseUpdate(0L, ArrayVal()).asInstanceOf[ArrayVal].append(StringVal(m.group(0)))
+              count += 1
+              Range(1, m.groupCount + 1).foreach {
+                idx =>
+                  val group = Option(m.group(idx)).getOrElse("")
+                  if (idx <= groupNames.length) {
+                    Option(groupNames(idx - 1)).foreach {
+                      groupName =>
+                        matchesKeyValues.getOrElseUpdate(groupName, ArrayVal()).asInstanceOf[ArrayVal].append(StringVal(group))
+                    }
+                  }
+                  matchesKeyValues.getOrElseUpdate(idx.toLong, ArrayVal()).asInstanceOf[ArrayVal].append(StringVal(group))
+              }
+          }
+          optMatches.foreach {
+            matches =>
+              matches := new ArrayVal(matchesKeyValues)
+          }
+          IntegerVal(count)
+        case Right(v) => v
+      }
     }
   }
 
@@ -186,7 +238,7 @@ trait PcreFunctions {
     }
   }
 
-  private def evalReplace(functionName: String, script: String)(implicit ctx: Context) : PVal = {
+  private def evalReplace(functionName: String, script: String)(implicit ctx: Context): PVal = {
     try {
       val parser = new JbjParser(ParseContext("%s(%d) : eval()'d code".format(ctx.currentPosition.fileName, ctx.currentPosition.line), ctx.settings))
       val prog = parser.parseStmt(script)
