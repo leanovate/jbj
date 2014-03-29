@@ -263,8 +263,6 @@ trait PcreFunctions {
         if (flags.contains('m'))
           effective = "(?m)" + effective
         try {
-          println(raw)
-          println(effective)
           Left(effective.r(names: _*) -> flags)
         } catch {
           case e: PatternSyntaxException =>
@@ -335,11 +333,4 @@ trait PcreFunctions {
 
 object PcreFunctions extends PcreFunctions {
   val functions = GlobalFunctions.generatePFunctions[PcreFunctions]
-}
-
-object TT {
-  def main(args: Array[String]) {
-    def s = """(?(12)bla)"""
-println(    PcreFunctions.extractGroupNames(s))
-  }
 }
