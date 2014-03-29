@@ -5,14 +5,12 @@
 **  _/ |____// |  Author: Bodo Junglas                 **
 \* |__/    |__/                                        */
 
-package de.leanovate.jbj.buildins
+package de.leanovate.jbj.pcre
 
-import de.leanovate.jbj.runtime.JbjExtension
 import de.leanovate.jbj.runtime.types.PFunction
-import de.leanovate.jbj.buildins.functions.ZendFunctions
 
-object ZendExtension extends JbjExtension with ZendFunctions {
-  val name = "zend"
+package object functions {
+  val pcreFunctions: Seq[PFunction] =
+    PcreFunctions.functions
 
-  override def functions: Seq[PFunction] = de.leanovate.jbj.buildins.functions.zendFunctions
 }

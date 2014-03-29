@@ -212,6 +212,7 @@
         <module>buildins</module>
         <module>core</module>
         <module>bcmath</module>
+        <module>pcre</module>
         <module>play-example</module>
         <module>utils</module>
         <module>converter</module>
