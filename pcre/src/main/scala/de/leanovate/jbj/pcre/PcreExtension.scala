@@ -10,17 +10,18 @@ package de.leanovate.jbj.pcre
 import de.leanovate.jbj.runtime.JbjExtension
 import de.leanovate.jbj.runtime.types.PFunction
 import de.leanovate.jbj.runtime.value.{StringVal, IntegerVal, PVal}
+import PcreConstants._
 
 object PcreExtension extends JbjExtension {
   val name = "pcre"
 
   override def constants: Seq[(String, PVal)] = Seq(
-    "PREG_PATTERN_ORDER" -> IntegerVal(1),
-    "PREG_SET_ORDER" -> IntegerVal(2),
-    "PREG_OFFSET_CAPTURE" -> IntegerVal(256),
-    "PREG_SPLIT_NO_EMPTY" -> IntegerVal(1),
-    "PREG_SPLIT_DELIM_CAPTURE" -> IntegerVal(2),
-    "PREG_SPLIT_OFFSET_CAPTURE" -> IntegerVal(4),
+    "PREG_PATTERN_ORDER" -> IntegerVal(PREG_PATTERN_ORDER),
+    "PREG_SET_ORDER" -> IntegerVal(PREG_SET_ORDER),
+    "PREG_OFFSET_CAPTURE" -> IntegerVal(PREG_OFFSET_CAPTURE),
+    "PREG_SPLIT_NO_EMPTY" -> IntegerVal(PREG_SPLIT_NO_EMPTY),
+    "PREG_SPLIT_DELIM_CAPTURE" -> IntegerVal(PREG_SPLIT_DELIM_CAPTURE),
+    "PREG_SPLIT_OFFSET_CAPTURE" -> IntegerVal(PREG_SPLIT_OFFSET_CAPTURE),
     "PREG_NO_ERROR" -> IntegerVal(0),
     "PREG_INTERNAL_ERROR" -> IntegerVal(1),
     "PREG_BACKTRACK_LIMIT_ERROR" -> IntegerVal(2),

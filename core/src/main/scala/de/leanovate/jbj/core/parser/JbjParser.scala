@@ -55,6 +55,15 @@ class JbjParser(parseCtx: ParseContext) extends Parsers with PackratParsers {
     }
   }
 
+  def parseExpr(s: String): Expr = {
+    val tokens = new TokenReader(s, ScriptingLexerMode(InitialLexerMode(parseCtx.settings.isShortOpenTag, parseCtx.settings.isAspTags)).newLexer())
+    phrase(expr)(tokens) match {
+      case Success(result, _) => result
+      case e:NoSuccess =>
+        throw new ParseJbjException(e.msg, FileNodePosition(parseCtx.fileName, e.next.pos.line))
+    }
+  }
+
   lazy val start: PackratParser[Prog] = topStatementList ^^ {
     stmts => Prog(parseCtx.fileName, stmts)
   }
